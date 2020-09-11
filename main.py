@@ -180,4 +180,3 @@ if __name__ == "__main__":
 		print("fHat of solution (computed over all data, D):", fHat(result, X, Y))
 	else:
 		print("No solution found")
-  
