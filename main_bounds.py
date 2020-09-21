@@ -151,8 +151,12 @@ def week3_demo(n=1000, d=100):
     print('Bounds using Hoeffdings')
     print(hoeffdings_bounds(tpr_a, 0.05) / hoeffdings_bounds(tpr, 0.05))
 
-n = 1000
-d = 100
+d = 500
+ns = np.geomspace(10, 1000000, 40)
+t_bounds = []
+h_bounds = []
+for n in ns:
+
 week3_demo(n,d)
 
 week3_demo(n*100, d*10)
