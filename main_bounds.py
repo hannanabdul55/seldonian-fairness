@@ -6,6 +6,7 @@ import numpy as np
 
 from objectives import *
 import pickle
+import matplotlib.pyplot as plt
 
 
 def week2_demo():
@@ -160,14 +161,44 @@ t_bounds = []
 h_bounds = []
 
 # Run experiment for various number of samples
-for n in ns:
-    t_b, h = week3_demo(n, d)
-    t_bounds.append(t_b)
-    h_bounds.append(h)
+# for n in ns:
+#     t_b, h = week3_demo(n, d)
+#     t_bounds.append(t_b)
+#     h_bounds.append(h)
 
-pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
-pickle.dump(t_bounds, open('t_bounds.p', 'wb'))
+# pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
+# pickle.dump(t_bounds, open('t_bounds.p', 'wb'))
+h_bounds = pickle.load(open('h_bounds.p', 'rb'))
+t_bounds = pickle.load(open('t_bounds.p', 'rb'))
 pickle.dump(ns, open('ns.p', 'wb'))
+s = 5
+plt.plot(ns[s:], list(map(lambda x: x.upper, t_bounds))[s:], label='Upper Bound')
+plt.plot(ns[s:], list(map(lambda x: x.lower, t_bounds))[s:], label='Lower Bound')
+plt.plot(ns[s:], list(map(lambda x: x.value, t_bounds))[s:], label='Value')
+plt.title('T-test bound for TPR Rate diff as gHat')
+plt.xlabel('Number of data points')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
+
+plt.plot(ns[s:], list(map(lambda x: x.upper, h_bounds))[s:], label='Upper Bound')
+plt.plot(ns[s:], list(map(lambda x: x.lower, h_bounds))[s:], label='Lower Bound')
+plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Value')
+plt.title('Hoeffdings bound for TPR Rate diff as gHat')
+plt.xlabel('Number of data points')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
+
+plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, h_bounds))[s:], label='delta - Hoeffdings')
+plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, t_bounds))[s:], label='delta - t-test')
+# plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Value')
+plt.title('upper_bound - lower_bound(delta) for TPR Rate diff as gHat')
+plt.xlabel('Number of data points')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
+
 
 # week3_demo(n, d)
 
