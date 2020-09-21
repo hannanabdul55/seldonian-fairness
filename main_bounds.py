@@ -155,14 +155,14 @@ def week3_demo(n=1000, d=100):
 
 
 d = 500
-ns = np.geomspace(10, 100000, 40)
+ns = np.linspace(10, 100000, 40).astype(int)
 t_bounds = []
 h_bounds = []
 
 # Run experiment for various number of samples
 for n in ns:
-    t, h = week3_demo(n, d)
-    t_bounds.append(t)
+    t_b, h = week3_demo(n, d)
+    t_bounds.append(t_b)
     h_bounds.append(h)
 
 pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
