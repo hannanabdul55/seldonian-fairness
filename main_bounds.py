@@ -5,6 +5,7 @@ from bounds import *
 import numpy as np
 
 from objectives import *
+import pickle
 
 
 def week2_demo():
@@ -136,29 +137,40 @@ y_pred = np.array([1, 1, 1, 1, 1])
 
 
 def week3_demo(n=1000, d=100):
-    print(f"Experiment for {n} samples of dimensions {d}")
+    print(f"\nExperiment for {n} samples of dimensions {d}")
     X = np.random.randn(n, d)
     A_idx = np.random.randint(0, d)
     X[:, A_idx] = np.random.binomial(2, 0.2, n)
     y = np.random.binomial(1, 0.7, n)
-    print(np.unique(X[:, A_idx], return_counts=True))
+    # print(np.unique(X[:, A_idx], return_counts=True))
     estimator = LogisticRegression().fit(X, y)
     y_pred = estimator.predict(X)
     tpr_a = tpr_rate(A_idx, 2)(X, y, y_pred)
     tpr = tpr_rate()(X, y, y_pred)
-    print('Bounds using t-test')
-    print(ttest_bounds(tpr_a, 0.05)/ttest_bounds(tpr, 0.05))
-    print('Bounds using Hoeffdings')
-    print(hoeffdings_bounds(tpr_a, 0.05) / hoeffdings_bounds(tpr, 0.05))
+    t_bound = ttest_bounds(tpr_a, 0.05) / ttest_bounds(tpr, 0.05)
+    print(f"Bounds using t-test: {t_bound}\n")
+    h_bound = hoeffdings_bounds(tpr_a, 0.05) / hoeffdings_bounds(tpr, 0.05)
+    print(f"Bounds using Hoeffdings: {h_bound}")
+    return t_bound, h_bound
+
 
 d = 500
-ns = np.geomspace(10, 1000000, 40)
+ns = np.geomspace(10, 100000, 40)
 t_bounds = []
 h_bounds = []
+
+# Run experiment for various number of samples
 for n in ns:
+    t, h = week3_demo(n, d)
+    t_bounds.append(t)
+    h_bounds.append(h)
 
-week3_demo(n,d)
+pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
+pickle.dump(t_bounds, open('t_bounds.p', 'wb'))
+pickle.dump(ns, open('ns.p', 'wb'))
 
-week3_demo(n*100, d*10)
+# week3_demo(n, d)
 
-week3_demo(n*1000, d*20)
+# week3_demo(n * 100, d * 10)
+#
+# week3_demo(n * 1000, d * 20)
