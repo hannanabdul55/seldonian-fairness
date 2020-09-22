@@ -81,7 +81,7 @@ def hoeffdings_bounds(samples, delta):
         raise ValueError(f"`samples` should be a vector (1-D array)")
     n = samples.size
     # print(f"n={n}")
-    dev = 2 * np.sqrt(np.log(1 / delta) / (2 * n))
+    dev = np.sqrt(np.log(1 / delta) / (2 * n))
     sample_mean = samples.mean()
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
 
@@ -134,7 +134,12 @@ X_t = np.array([[0.5, 0, 1, 0],
                 [0.5, 1, 1, 1]
                 ])
 y_t = np.array([1, 1, 1, 0, 1])
-y_pred = np.array([1, 1, 1, 1, 1])
+y_pred = np.array([1, 0, 1, 1, 1])
+print(ttest_bounds(tpr_rate(0, 0.5)(X_t, y_t, y_pred), 0.05))
+print(ttest_bounds(tpr_rate()(X_t, y_t, y_pred), 0.05))
+print()
+print(hoeffdings_bounds(tpr_rate(0, 0.5)(X_t, y_t, y_pred), 0.05))
+print(hoeffdings_bounds(tpr_rate()(X_t, y_t, y_pred), 0.05))
 
 
 def week3_demo(n=1000, d=100):
@@ -156,40 +161,61 @@ def week3_demo(n=1000, d=100):
 
 
 d = 500
-ns = np.linspace(10, 100000, 40).astype(int)
+ns = np.linspace(100, 1000000, 40).astype(int)
 t_bounds = []
 h_bounds = []
 
+only_plot = True
 # Run experiment for various number of samples
-# for n in ns:
-#     t_b, h = week3_demo(n, d)
-#     t_bounds.append(t_b)
-#     h_bounds.append(h)
-
-# pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
-# pickle.dump(t_bounds, open('t_bounds.p', 'wb'))
+if not only_plot:
+    for n in ns:
+        t_b, h = week3_demo(n, d)
+        t_bounds.append(t_b)
+        h_bounds.append(h)
+    pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
+    pickle.dump(t_bounds, open('t_bounds.p', 'wb'))
+    pickle.dump(ns, open('ns.p', 'wb'))
 h_bounds = pickle.load(open('h_bounds.p', 'rb'))
 t_bounds = pickle.load(open('t_bounds.p', 'rb'))
-pickle.dump(ns, open('ns.p', 'wb'))
-s = 5
+
+true_tpr = 0.04
+s = 5  # remove first 5 runs
+
+# T-test plots
 plt.plot(ns[s:], list(map(lambda x: x.upper, t_bounds))[s:], label='Upper Bound')
 plt.plot(ns[s:], list(map(lambda x: x.lower, t_bounds))[s:], label='Lower Bound')
-plt.plot(ns[s:], list(map(lambda x: x.value, t_bounds))[s:], label='Value')
+plt.plot(ns[s:], list(map(lambda x: x.value, t_bounds))[s:], label='Observed TPR')
+plt.plot(ns[s:], [0.04] * (len(ns[s:])), label='True TPR')
 plt.title('T-test bound for TPR Rate diff as gHat')
 plt.xlabel('Number of data points')
 plt.ylabel('Value')
 plt.legend()
 plt.show()
 
+# Hoeffdings plots
 plt.plot(ns[s:], list(map(lambda x: x.upper, h_bounds))[s:], label='Upper Bound')
 plt.plot(ns[s:], list(map(lambda x: x.lower, h_bounds))[s:], label='Lower Bound')
-plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Value')
-plt.title('Hoeffdings bound for TPR Rate diff as gHat')
+plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Observed TPR')
+plt.plot(ns[s:], [0.04] * (len(ns[s:])), label='True TPR')
+plt.title('Hoeffding bound for TPR Rate diff as gHat')
 plt.xlabel('Number of data points')
 plt.ylabel('Value')
 plt.legend()
 plt.show()
 
+plt.plot(ns[s:], list(map(lambda x: x.upper, t_bounds))[s:], label='[t-test]Upper Bound')
+plt.plot(ns[s:], list(map(lambda x: x.lower, t_bounds))[s:], label='[t-test]Lower Bound')
+plt.plot(ns[s:], list(map(lambda x: x.upper, h_bounds))[s:], label='[hoeffdings]Upper Bound')
+plt.plot(ns[s:], list(map(lambda x: x.lower, h_bounds))[s:], label='[hoeffdings]Lower Bound')
+plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Observed TPR')
+plt.plot(ns[s:], [0.04] * (len(ns[s:])), label='True TPR')
+plt.title('Bounds for TPR Rate diff as gHat')
+plt.xlabel('Number of data points')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
+
+# difference between the 2 plots
 plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, h_bounds))[s:], label='delta - Hoeffdings')
 plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, t_bounds))[s:], label='delta - t-test')
 # plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Value')
@@ -198,7 +224,6 @@ plt.xlabel('Number of data points')
 plt.ylabel('Value')
 plt.legend()
 plt.show()
-
 
 # week3_demo(n, d)
 
