@@ -1,10 +1,10 @@
 from seldonian import *
 from bounds import *
 from objectives import *
-
+from sklearn.metrics import *
 method = 'ttest'
 
-
+op_method = 'CG'
 def make_data(n, d, A_id, A_pr):
     X = np.random.randn(n, d)
     X[:, A_id] = np.random.binomial(2, A_pr, n)
@@ -29,18 +29,21 @@ def week5_demo(n=1000, d=100):
             bound = ttest_bounds(tp_a, delta) / ttest_bounds(tp, delta)
         else:
             bound = hoeffdings_bounds(tp_a, delta) / hoeffdings_bounds(tp, delta)
-        return bound.upper - 1
+        return -(bound.upper - 0.04)
 
     ghats.append({
         'fn': tpr_ab,
         'delta': 0.05
     })
     print("Fitting constrained estimator")
-    estimator = LogisticRegressionSeldonianModel(X, y, g_hats=ghats, safety_data=(X_s, y_s)).fit(opt='Powell')
+    estimator = LogisticRegressionSeldonianModel(X, y, g_hats=ghats, safety_data=(X_s, y_s)).fit(opt=op_method)
+    print(f"Accuracy: {balanced_accuracy_score(y_s, estimator.predict(X_s))}\n")
     print("Fitting unconstrained estimator")
-    unconstrained_estimator = LogisticRegressionSeldonianModel(X, y).fit(opt='Powell')
+    unconstrained_estimator = LogisticRegressionSeldonianModel(X, y).fit(opt=op_method)
+    print(f"Accuracy: {balanced_accuracy_score(y_s, unconstrained_estimator.predict(X_s))}\n")
 
-    X_te, y_te = make_data(int(n / 10), d, A_idx, A_pr - 0.1)
+
+    X_te, y_te = make_data(int(n / 10), d, A_idx, A_pr + 0.1)
     print("Using ttest bounds")
     print(f"[Constrained] upperbound of GHAT on test data: {tpr_ab(X_te, y_te, estimator.predict(X_te), 0.05)}")
     print(

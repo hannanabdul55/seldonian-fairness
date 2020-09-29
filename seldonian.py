@@ -20,8 +20,8 @@ class LogisticRegressionSeldonianModel:
             y_preds = (np.random.default_rng().uniform(size=self.X.shape[0]) > self._predict(
                 self.X_s, theta)).astype(int)
             if g_hat['fn'](self.X_s, self.y_s, y_preds, g_hat['delta']) > 0:
-                return False
-        return True
+                return True
+        return False
 
     def get_opt_fn(self):
         def loss_fn(theta):
