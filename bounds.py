@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import numbers
+from scipy.stats import t
 
 
 class RandomVariable:
@@ -82,6 +83,31 @@ class RandomVariable:
         if self.upper is not None:
             hash_val += self.upper.__hash__()
         return hash_val
+
+def ttest_bounds(samples, delta):
+    if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
+        raise ValueError(f"`samples` argument should be a numpy array")
+    samples = np.array(samples)
+    if samples.ndim > 1:
+        raise ValueError(f"`samples` should be a vector (1-D array)")
+    n = samples.size
+    # print(f"n={n}")
+    dev = (samples.std() / np.sqrt(n)) * t.ppf(1 - delta, n - 1)
+    sample_mean = samples.mean()
+    return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
+
+
+def hoeffdings_bounds(samples, delta):
+    if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
+        raise ValueError(f"`samples` argument should be a numpy array")
+    samples = np.array(samples)
+    if samples.ndim > 1:
+        raise ValueError(f"`samples` should be a vector (1-D array)")
+    n = samples.size
+    # print(f"n={n}")
+    dev = np.sqrt(np.log(1 / delta) / (2 * n))
+    sample_mean = samples.mean()
+    return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
 
 
 
