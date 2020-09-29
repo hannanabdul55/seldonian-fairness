@@ -1,5 +1,6 @@
 from scipy.stats import t
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
 
 from bounds import *
 import numpy as np
@@ -7,6 +8,9 @@ import numpy as np
 from objectives import *
 import pickle
 import matplotlib.pyplot as plt
+from algorithm import *
+from time import time
+import datetime
 
 
 def week2_demo():
@@ -58,32 +62,6 @@ def week2_demo():
 
 
 # example with a gHat
-
-
-def ttest_bounds(samples, delta):
-    if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
-        raise ValueError(f"`samples` argument should be a numpy array")
-    samples = np.array(samples)
-    if samples.ndim > 1:
-        raise ValueError(f"`samples` should be a vector (1-D array)")
-    n = samples.size
-    # print(f"n={n}")
-    dev = (samples.std() / np.sqrt(n)) * t.ppf(1 - delta, n - 1)
-    sample_mean = samples.mean()
-    return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
-
-
-def hoeffdings_bounds(samples, delta):
-    if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
-        raise ValueError(f"`samples` argument should be a numpy array")
-    samples = np.array(samples)
-    if samples.ndim > 1:
-        raise ValueError(f"`samples` should be a vector (1-D array)")
-    n = samples.size
-    # print(f"n={n}")
-    dev = np.sqrt(np.log(1 / delta) / (2 * n))
-    sample_mean = samples.mean()
-    return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
 
 
 # Calculate TP rate for X[a_idx] = a_val and also return overall tp
@@ -151,7 +129,7 @@ def week3_demo(n=1000, d=100):
     # print(np.unique(X[:, A_idx], return_counts=True))
     estimator = LogisticRegression().fit(X, y)
     y_pred = estimator.predict(X)
-    tpr_a = tpr_rate(A_idx, 2)(X, y, y_pred)
+    tpr_a = tpr_rate(A_idx, 1)(X, y, y_pred)
     tpr = tpr_rate()(X, y, y_pred)
     t_bound = ttest_bounds(tpr_a, 0.05) / ttest_bounds(tpr, 0.05)
     print(f"Bounds using t-test: {t_bound}\n")
@@ -166,67 +144,130 @@ t_bounds = []
 h_bounds = []
 
 only_plot = True
-# Run experiment for various number of samples
-if not only_plot:
-    for n in ns:
-        t_b, h = week3_demo(n, d)
-        t_bounds.append(t_b)
-        h_bounds.append(h)
-    pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
-    pickle.dump(t_bounds, open('t_bounds.p', 'wb'))
-    pickle.dump(ns, open('ns.p', 'wb'))
-h_bounds = pickle.load(open('h_bounds.p', 'rb'))
-t_bounds = pickle.load(open('t_bounds.p', 'rb'))
 
-true_tpr = 0.04
+
+def run_week3_experiment():
+    global h_bounds, t_bounds
+    if not only_plot:
+        for n in ns:
+            t_b, h = week3_demo(n, d)
+            t_bounds.append(t_b)
+            h_bounds.append(h)
+        pickle.dump(h_bounds, open('h_bounds.p', 'wb'))
+        pickle.dump(t_bounds, open('t_bounds.p', 'wb'))
+        pickle.dump(ns, open('ns.p', 'wb'))
+    h_bounds = pickle.load(open('h_bounds.p', 'rb'))
+    t_bounds = pickle.load(open('t_bounds.p', 'rb'))
+
+
+# Run experiment for various number of samples
+run_week3_experiment()
+
+true_tpr = 0.32
 s = 5  # remove first 5 runs
 
-# T-test plots
-plt.plot(ns[s:], list(map(lambda x: x.upper, t_bounds))[s:], label='Upper Bound')
-plt.plot(ns[s:], list(map(lambda x: x.lower, t_bounds))[s:], label='Lower Bound')
-plt.plot(ns[s:], list(map(lambda x: x.value, t_bounds))[s:], label='Observed TPR')
-plt.plot(ns[s:], [0.04] * (len(ns[s:])), label='True TPR')
-plt.title('T-test bound for TPR Rate diff as gHat')
-plt.xlabel('Number of data points')
-plt.ylabel('Value')
-plt.legend()
-plt.show()
 
-# Hoeffdings plots
-plt.plot(ns[s:], list(map(lambda x: x.upper, h_bounds))[s:], label='Upper Bound')
-plt.plot(ns[s:], list(map(lambda x: x.lower, h_bounds))[s:], label='Lower Bound')
-plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Observed TPR')
-plt.plot(ns[s:], [0.04] * (len(ns[s:])), label='True TPR')
-plt.title('Hoeffding bound for TPR Rate diff as gHat')
-plt.xlabel('Number of data points')
-plt.ylabel('Value')
-plt.legend()
-plt.show()
+def plot_values():
+    # T-test plots
+    plt.plot(ns[s:], list(map(lambda x: x.upper, t_bounds))[s:], label='Upper Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.lower, t_bounds))[s:], label='Lower Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.value, t_bounds))[s:], label='Observed TPR')
+    plt.plot(ns[s:], [true_tpr] * (len(ns[s:])), label='True TPR')
+    plt.title('T-test bound for TPR Rate diff as gHat')
+    plt.xlabel('Number of data points')
+    plt.ylabel('Value')
+    plt.legend()
+    plt.show()
+    # Hoeffdings plots
+    plt.plot(ns[s:], list(map(lambda x: x.upper, h_bounds))[s:], label='Upper Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.lower, h_bounds))[s:], label='Lower Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Observed TPR')
+    plt.plot(ns[s:], [true_tpr] * (len(ns[s:])), label='True TPR')
+    plt.title('Hoeffding bound for TPR Rate diff as gHat')
+    plt.xlabel('Number of data points')
+    plt.ylabel('Value')
+    plt.legend()
+    plt.show()
+    plt.plot(ns[s:], list(map(lambda x: x.upper, t_bounds))[s:], label='[t-test]Upper Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.lower, t_bounds))[s:], label='[t-test]Lower Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.upper, h_bounds))[s:], label='[hoeffdings]Upper Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.lower, h_bounds))[s:], label='[hoeffdings]Lower Bound')
+    plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Observed TPR')
+    plt.plot(ns[s:], [true_tpr] * (len(ns[s:])), label='True TPR')
+    plt.title('Bounds for TPR Rate diff as gHat')
+    plt.xlabel('Number of data points')
+    plt.ylabel('Value')
+    plt.legend()
+    plt.show()
+    # difference between the 2 plots
+    plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, h_bounds))[s:],
+             label='delta - Hoeffdings')
+    plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, t_bounds))[s:], label='delta - t-test')
+    # plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Value')
+    plt.title('upper_bound - lower_bound(delta) for TPR Rate diff as gHat')
+    plt.xlabel('Number of data points')
+    plt.ylabel('Value')
+    plt.legend()
+    plt.show()
 
-plt.plot(ns[s:], list(map(lambda x: x.upper, t_bounds))[s:], label='[t-test]Upper Bound')
-plt.plot(ns[s:], list(map(lambda x: x.lower, t_bounds))[s:], label='[t-test]Lower Bound')
-plt.plot(ns[s:], list(map(lambda x: x.upper, h_bounds))[s:], label='[hoeffdings]Upper Bound')
-plt.plot(ns[s:], list(map(lambda x: x.lower, h_bounds))[s:], label='[hoeffdings]Lower Bound')
-plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Observed TPR')
-plt.plot(ns[s:], [0.04] * (len(ns[s:])), label='True TPR')
-plt.title('Bounds for TPR Rate diff as gHat')
-plt.xlabel('Number of data points')
-plt.ylabel('Value')
-plt.legend()
-plt.show()
 
-# difference between the 2 plots
-plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, h_bounds))[s:], label='delta - Hoeffdings')
-plt.plot(ns[s:], list(map(lambda x: x.upper - x.lower, t_bounds))[s:], label='delta - t-test')
-# plt.plot(ns[s:], list(map(lambda x: x.value, h_bounds))[s:], label='Value')
-plt.title('upper_bound - lower_bound(delta) for TPR Rate diff as gHat')
-plt.xlabel('Number of data points')
-plt.ylabel('Value')
-plt.legend()
-plt.show()
+plot_values()
 
-# week3_demo(n, d)
 
-# week3_demo(n * 100, d * 10)
-#
-# week3_demo(n * 1000, d * 20)
+# week 4
+
+def run_logreg_bbo(X, y, config):
+    print(f"\nRunning Logistic regression model with config: {config}")
+    model = LogisticRegressionCMAES(X, y)
+    # res['model'] = model
+    a = time()
+    model.fit(X, y)
+    config['fit_time'] = time() - a
+    config['accuracy'] = accuracy_score(y, model.predict(X))
+    print(
+        f"Accuracy for this model: {config['accuracy']}\t Time taken to fit: {config['fit_time']} seconds ")
+
+
+# create data
+n = 1000
+d = 100
+X = np.random.randn(n, d)
+A_idx = np.random.randint(0, d)
+X[:, A_idx] = np.random.binomial(2, 0.2, n)
+y = np.random.binomial(1, 0.7, n)
+
+# run config
+conf = {
+    'iter': 1000,
+    'lr': 2,
+    'n_samples': 30
+}
+# run_logreg_bbo(X, y, conf)
+# print(conf)
+
+# iters = np.geomspace(1000, 500000, 10).astype(np.int)
+# lrs = np.linspace(0.2, 2, 10)
+# n_samples_s = [20, 60, 100]
+# results = {}
+# checkpoint = 10
+# print(checkpoint)
+# for iter in iters:
+#     for lr in lrs:
+#         for n_samples in n_samples_s:
+#             res = {
+#                 'lr': lr,
+#                 'max_iters': iter,
+#                 'n_samples': n_samples
+#             }
+#             print(f"\nRunning Logistic regression model with config: {res}")
+#             model = LogisticRegressionModel(X, y, max_iter=iter, step_size=lr, n_samples=n_samples)
+#             # res['model'] = model
+#             a = time()
+#             model.fit(X, y)
+#             res['fit_time'] = time() - a
+#             res['accuracy'] = accuracy_score(y, model.predict(X))
+#             pickle.dump(res, open(f"results_week4/results_{checkpoint}.p", 'wb'))
+#             # checkpoint += 1
+#             print(
+#                 f"Accuracy for this model: {res['accuracy']}\t Time taken to fit: {res['fit_time']} seconds ")
+# week 4
