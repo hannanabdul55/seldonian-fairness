@@ -68,7 +68,7 @@ class CMAESModel(Model, ABC):
         self.X = X
         self.y = y
         self.sigma = 0.3
-        self.stopfitness = 1e-6
+        self.stopfitness = 1e-10
         self.C = None
         self.verbose = verbose
 
@@ -76,15 +76,11 @@ class CMAESModel(Model, ABC):
         return self.X, self.y
 
     def fit(self, X=None, y=None):
-        if X is None:
-            X = self.X
-        if y is None:
-            y = self.y
         stop_iter_count = 0
         last_loss = 0
         N = self.theta.size
-        self.stopeval = 303 * N ** 2
-        self.max_iter_no_change = max(1000, np.sqrt(self.stopeval).astype(np.int))
+        self.stopeval = 1000 * N ** 2
+        self.max_iter_no_change = max(100, np.sqrt(self.stopeval).astype(np.int))
         if self.verbose:
             print(f"Max number of iters: {self.max_iter_no_change}")
         sigma = self.sigma

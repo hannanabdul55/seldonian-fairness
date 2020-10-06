@@ -52,7 +52,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
 
 class LogisticRegressionSeldonianModel:
 
-    def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.35, verbose=True):
+    def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True):
         self.theta = np.random.random((X.shape[1] + 1,))
         self.X = X
         self.y = y
@@ -88,7 +88,7 @@ class LogisticRegressionSeldonianModel:
 
         return loss_fn
 
-    def fit(self, opt='Nelder-Mead'):
+    def fit(self, opt='Powell'):
         res = scipy.optimize.minimize(self.get_opt_fn(), self.theta, method=opt, options={
             'disp': True, 'maxiter': 10000
         })
