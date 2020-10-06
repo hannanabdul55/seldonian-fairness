@@ -1,3 +1,4 @@
+from bounds import *
 
 def tpr_rate(A_idx=None, A_val=None):
 
@@ -8,3 +9,17 @@ def tpr_rate(A_idx=None, A_val=None):
             tpr = ((y_true == 1) & (y_pred == 1)).astype(int)
         return tpr
     return ghat_tpr
+
+
+# true positive rate rate should be equal for X[A=1] or X[A=0]
+def ghat_tpr_diff(A_idx, method='ttest', threshold=0.2):
+    def tpr_ab(X, y_true, y_pred, delta, n=None):
+        tp_a = tpr_rate(A_idx, 1)(X, y_true, y_pred)
+        tp = tpr_rate(A_idx, 0)(X, y_true, y_pred)
+        if method == 'ttest':
+            bound = abs(ttest_bounds(tp, delta, n) - ttest_bounds(tp_a, delta, n))
+        else:
+            bound = abs(hoeffdings_bounds(tp, delta, n) - hoeffdings_bounds(tp_a, delta, n))
+        return bound.upper - threshold
+
+    return tpr_ab

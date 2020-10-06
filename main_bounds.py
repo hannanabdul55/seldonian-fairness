@@ -211,14 +211,27 @@ def plot_values():
     plt.show()
 
 
-plot_values()
+# plot_values()
 
 
 # week 4
 
 def run_logreg_bbo(X, y, config):
     print(f"\nRunning Logistic regression model with config: {config}")
-    model = LogisticRegressionCMAES(X, y)
+    model = LogisticRegressionCMAES(X, y, verbose=True)
+    # res['model'] = model
+    a = time()
+    model.fit(X, y)
+    config['fit_time'] = time() - a
+    config['accuracy'] = accuracy_score(y, model.predict(X))
+    print(
+        f"Accuracy for this model: {config['accuracy']}\t Time taken to fit: {config['fit_time']} seconds ")
+
+
+def run_logreg_sklearn(X, y):
+    config = {}
+    print(f"\nRunning Scikit-learn Logistic regression model with config: {config}")
+    model = LogisticRegression(penalty='none')
     # res['model'] = model
     a = time()
     model.fit(X, y)
@@ -242,7 +255,8 @@ conf = {
     'lr': 2,
     'n_samples': 30
 }
-# run_logreg_bbo(X, y, conf)
+run_logreg_bbo(X, y, conf)
+run_logreg_sklearn(X, y)
 # print(conf)
 
 # iters = np.geomspace(1000, 500000, 10).astype(np.int)

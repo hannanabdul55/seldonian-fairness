@@ -59,10 +59,11 @@ class RandomVariable:
 
         # if 0 not in [other.lower , other.upper]
         if other.lower * other.upper > 0:
-            return self * RandomVariable(1 / other.value, lower=1/other.upper, upper=1/other.lower)
+            return self * RandomVariable(1 / other.value, lower=1 / other.upper,
+                                         upper=1 / other.lower)
         # if other.lower is 0
         elif other.lower == 0:
-            return self * RandomVariable(1 / other.value, lower=1/other.upper, upper=np.inf)
+            return self * RandomVariable(1 / other.value, lower=1 / other.upper, upper=np.inf)
         # if other.upper is 0
         elif other.upper == 0:
             return self * RandomVariable(1 / other.value, upper=1 / other.lower, lower=-np.inf)
@@ -74,7 +75,8 @@ class RandomVariable:
         if self.lower is None or self.upper is None:
             return RandomVariable(abs(self.value))
         # |[lower, upper]| = [0, max(|lower|, |upper|)]
-        return RandomVariable(abs(self.value), lower=0, upper=max(abs(self.lower), abs(self.upper)))
+        return RandomVariable(abs(self.value), lower=0,
+                              upper=max(abs(self.lower), abs(self.upper)))
 
     def __hash__(self):
         hash_val = self.value.__hash__()
@@ -84,35 +86,58 @@ class RandomVariable:
             hash_val += self.upper.__hash__()
         return hash_val
 
-def ttest_bounds(samples, delta):
+
+def min_bounds(*args):
+    min_rv = RandomVariable(np.inf, lower=np.inf, upper=np.inf)
+    for arg in args:
+        if not isinstance(arg, RandomVariable):
+            arg = RandomVariable(value=arg)
+        if arg.value < min_rv.value:
+            min_rv.value = arg.value
+            if arg.lower < min_rv.lower:
+                min_rv.lower = arg.lower
+            if arg.upper < min_rv.upper:
+                min_rv.upper = arg.upper
+    return min_rv
+
+
+def max_bounds(*args):
+    max_rv = RandomVariable(-np.inf, lower=-np.inf, upper=-np.inf)
+    for arg in args:
+        if not isinstance(arg, RandomVariable):
+            arg = RandomVariable(value=arg)
+        if arg.value > max_rv.value:
+            max_rv.value = arg.value
+            if arg.lower > max_rv.lower:
+                max_rv.lower = arg.lower
+            if arg.upper > max_rv.upper:
+                max_rv.upper = arg.upper
+    return max_rv
+
+
+def ttest_bounds(samples, delta, n=None):
     if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
         raise ValueError(f"`samples` argument should be a numpy array")
     samples = np.array(samples)
     if samples.ndim > 1:
-        raise ValueError(f"`samples` should be a vector (1-D array)")
-    n = samples.size
+        raise ValueError(f"`samples` should be a vector (1-D array). Got shape: {samples.shape}")
+    if n is None:
+        n = samples.size
     # print(f"n={n}")
     dev = (samples.std() / np.sqrt(n)) * t.ppf(1 - delta, n - 1)
     sample_mean = samples.mean()
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
 
 
-def hoeffdings_bounds(samples, delta):
+def hoeffdings_bounds(samples, delta, n=None):
     if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
         raise ValueError(f"`samples` argument should be a numpy array")
     samples = np.array(samples)
     if samples.ndim > 1:
         raise ValueError(f"`samples` should be a vector (1-D array)")
-    n = samples.size
+    if n is None:
+        n = samples.size
     # print(f"n={n}")
     dev = np.sqrt(np.log(1 / delta) / (2 * n))
     sample_mean = samples.mean()
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
-
-
-
-
-
-
-
-

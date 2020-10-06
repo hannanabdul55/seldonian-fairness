@@ -45,7 +45,7 @@ class Model:
     def reset(self):
         raise NotImplementedError("reset model and remove all learnt parameters")
 
-    def loss(self, y_pred, y_true):
+    def loss(self, y_pred, y_true, theta):
         raise NotImplementedError("implement loss function")
 
 
@@ -62,21 +62,31 @@ def sigmoid(x):
 
 
 class CMAESModel(Model, ABC):
-    def __init__(self, X, y):
+    def __init__(self, X, y, verbose=False):
         super().__init__()
         self.theta = np.random.default_rng().random((X.shape[1] + 1, 1))
         self.X = X
         self.y = y
         self.sigma = 0.3
-        self.stopfitness = 1e-10
+        self.stopfitness = 1e-6
         self.C = None
+        self.verbose = verbose
 
     def data(self):
         return self.X, self.y
 
-    def fit(self, X, y):
+    def fit(self, X=None, y=None):
+        if X is None:
+            X = self.X
+        if y is None:
+            y = self.y
+        stop_iter_count = 0
+        last_loss = 0
         N = self.theta.size
-        self.stopeval = 100 * N ** 2
+        self.stopeval = 303 * N ** 2
+        self.max_iter_no_change = max(1000, np.sqrt(self.stopeval).astype(np.int))
+        if self.verbose:
+            print(f"Max number of iters: {self.max_iter_no_change}")
         sigma = self.sigma
 
         xmean = np.random.default_rng().random(self.theta.shape)
@@ -101,19 +111,23 @@ class CMAESModel(Model, ABC):
         eigenval = 0
         chiN = np.sqrt(N) * (1 - 1 / (4 * N) + 1 / (21 * N ** 2))
 
-        print(f"max iterations: {self.stopeval}")
+        if self.verbose:
+            print(f"max iterations: {self.stopeval}")
         counteval = 0
         while counteval < self.stopeval:
             arx = np.zeros((self.theta.size, lambda_p))
             arfitness = np.zeros((lambda_p,))
             for k in range(lambda_p):
                 arx[:, k] = (xmean + sigma * B @ (D * np.random.randn(N, 1))).flatten()
-                arfitness[k] = self.loss(y_true=y, y_pred=self._predict(X, arx[:, k]))
+                arfitness[k] = self.loss(y_true=y, y_pred=self._predict(X, arx[:, k]),
+                                         theta=arx[:, k])
                 counteval += 1
             arindex = np.argsort(arfitness)
             arfitness = arfitness[arindex]
-            print(
-                f"Current evaluation: {counteval}\t average loss:{self.loss(y_true=y, y_pred=self._predict(X, arx[:, arindex[0]]))} ")
+            if self.verbose:
+                print(
+                    f"Current evaluation: {counteval}\t average loss:{arfitness[1]} ",
+                    end='\r')
             xold = np.copy(xmean)
             xmean = arx[:, arindex[:mu]] @ weights
 
@@ -139,9 +153,20 @@ class CMAESModel(Model, ABC):
                 invsqrtC = B @ np.diag(D ** -1) @ B.T
                 D = D.reshape((D.size, 1))
 
+            # stopping criterias
             if arfitness[0] <= self.stopfitness or np.max(D) > 1e7 * np.min(D):
                 break
 
+            if abs(arfitness[
+                       0] - last_loss) <= self.stopfitness:
+                if counteval - stop_iter_count > self.max_iter_no_change:
+                    if self.verbose:
+                        print(
+                            f"\n\nStopping early after no change in {counteval - stop_iter_count} iterations !!")
+                    break
+            else:
+                stop_iter_count = counteval
+                last_loss = arfitness[0]
         self.theta = arx[:, arindex[0]]
         self.C = C
 
@@ -155,8 +180,8 @@ class CMAESModel(Model, ABC):
 
 class LogisticRegressionCMAES(CMAESModel):
 
-    def __init__(self, X, y):
-        super(LogisticRegressionCMAES, self).__init__(X, y)
+    def __init__(self, X, y, verbose=False):
+        super().__init__(X, y, verbose)
 
     def _predict(self, X, theta):
         w = theta[:-1]
@@ -164,14 +189,11 @@ class LogisticRegressionCMAES(CMAESModel):
         logit = np.dot(X, w) + b
         return sigmoid(logit)
 
-    def loss(self, y_pred, y_true):
+    def loss(self, y_pred, y_true, theta):
         return log_loss(y_true, y_pred)
 
     def predict(self, X):
         w = self.theta[:-1]
         b = self.theta[-1]
-        return (np.random.default_rng().uniform(size=X.shape[0]) > sigmoid(
-            np.dot(X, w) + b)).astype(np.int)
-
-
-
+        return (sigmoid(
+            np.dot(X, w) + b) > 0.5).astype(np.int)
