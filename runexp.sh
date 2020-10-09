@@ -3,6 +3,8 @@
 #SBATCH --job-name=exp_run_akanji
 #SBATCH --output=stdoutput/res_%j.txt  # output file
 #SBATCH -e stdoutput/res%j.err        # File to which STDERR will be written
+#SBATCH --partition=defq    # Partition to submit to
+
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2

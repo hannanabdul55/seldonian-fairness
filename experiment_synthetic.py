@@ -20,7 +20,7 @@ if args.config:
 else:
     exp_config = {}
     exp_config['N'] = np.linspace(5000, 100000, 20).astype(np.int)
-    exp_config['trials'] = 30
+    exp_config['trials'] = 20
     exp_config['methods'] = ['ttest', 'hoeffdings']
     exp_config['D'] = 20
     exp_config['tprs'] = [0.3, 0.6]
