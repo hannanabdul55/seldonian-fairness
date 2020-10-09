@@ -17,6 +17,6 @@ export OPENBLAS_NUM_THREADS=5
 export OMP_NUM_THREADS=5
 
 
-python experiment_synthetic.py
+srun python experiment_synthetic.py
 
 sleep 1
