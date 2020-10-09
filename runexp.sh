@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=exp_run_akanji
+#SBATCH --job-name=exp_run
 #SBATCH --output=stdoutput/res_%j.txt  # output file
 #SBATCH -e stdoutput/res%j.err        # File to which STDERR will be written
 #SBATCH --partition=defq    # Partition to submit to
@@ -14,11 +14,9 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=akanji@cs.umass.edu
 
-export MKL_NUM_THREADS=5
-export OPENBLAS_NUM_THREADS=5
-export OMP_NUM_THREADS=5
-
-
-srun python experiment_synthetic.py
+export MKL_NUM_THREADS=7
+export OPENBLAS_NUM_THREADS=7
+export OMP_NUM_THREADS=7
+/home/akanji/miniconda3/envs/seldnian-pre/bin/python  experiment_synthetic.py
 
 sleep 1
