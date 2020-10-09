@@ -31,9 +31,9 @@ uc_result = []
 results = {}
 
 if args.checkpoint:
-    checkpoint = f"./{args.checkpoint}.p"
+    checkpoint = f"./results_2/{args.checkpoint}.p"
 else:
-    checkpoint = './results-' + str(time()) + '.p'
+    checkpoint = './results_2/results-' + str(time()) + '.p'
 
 
 def save_res(obj):
