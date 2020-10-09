@@ -83,7 +83,7 @@ class CMAESModel(Model, ABC):
         stop_iter_count = 0
         last_loss = 0
         N = self.theta.size
-        self.stopeval = 20 * N ** 2
+        self.stopeval = 100 * N ** 2
         self.max_iter_no_change = max(100, np.sqrt(self.stopeval).astype(np.int))
         if self.verbose:
             print(f"Max number of iters: {self.max_iter_no_change}")
