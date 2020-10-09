@@ -19,6 +19,6 @@ export OPENBLAS_NUM_THREADS=1
 export OMP_NUM_THREADS=1
 
 
-python experiment_synthetic.py --checkpoint $SLURM_ARRAY_TASK_ID
+python experiment_synthetic.py
 
 sleep 1
