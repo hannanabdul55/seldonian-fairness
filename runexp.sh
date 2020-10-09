@@ -14,9 +14,9 @@
 #
 #SBATCH --array=1-100
 
-export MKL_NUM_THREADS=1
-export OPENBLAS_NUM_THREADS=1
-export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=5
+export OPENBLAS_NUM_THREADS=5
+export OMP_NUM_THREADS=5
 
 
 python experiment_synthetic.py
