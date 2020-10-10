@@ -28,7 +28,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
         for g_hat in self.constraints:
             y_preds = (0.5 < self._predict(
                 X_test, theta)).astype(int)
-            ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0])
+            ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
+                                   predict=predict)
             if ghat_val > 0:
                 return ghat_val
         return 0

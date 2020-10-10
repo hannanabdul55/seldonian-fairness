@@ -115,7 +115,7 @@ def max_bounds(*args):
     return max_rv
 
 
-def ttest_bounds(samples, delta, n=None):
+def ttest_bounds(samples, delta, n=None, predict=False):
     if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
         raise ValueError(f"`samples` argument should be a numpy array")
     samples = np.array(samples)
@@ -124,12 +124,12 @@ def ttest_bounds(samples, delta, n=None):
     if n is None:
         n = samples.size
     # print(f"n={n}")
-    dev = (samples.std() / np.sqrt(n)) * t.ppf(1 - delta, n - 1)
+    dev = ((samples.std(ddof=1) / np.sqrt(n)) * t.ppf(1 - delta, n - 1)) * (1 + (1* predict))
     sample_mean = samples.mean()
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
 
 
-def hoeffdings_bounds(samples, delta, n=None):
+def hoeffdings_bounds(samples, delta, n=None, predict=False):
     if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
         raise ValueError(f"`samples` argument should be a numpy array")
     samples = np.array(samples)
@@ -138,6 +138,6 @@ def hoeffdings_bounds(samples, delta, n=None):
     if n is None:
         n = samples.size
     # print(f"n={n}")
-    dev = np.sqrt(np.log(1 / delta) / (2 * n))
+    dev = np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
     sample_mean = samples.mean()
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
