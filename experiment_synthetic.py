@@ -25,7 +25,7 @@ else:
     exp_config['D'] = 20
     exp_config['tprs'] = [0.3, 0.6]
     exp_config['test_size'] = 0.5
-    exp_config['opt'] = ['Powell', 'CMAES']
+    exp_config['opt'] = ['Powell']
 
 uc_result = []
 results = {}
