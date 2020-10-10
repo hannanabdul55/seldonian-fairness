@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 #SBATCH --job-name=exp_run
-#SBATCH --output=stdoutput/res_%j.txt  # output file
-#SBATCH -e stdoutput/res%j.err        # File to which STDERR will be written
+#SBATCH --output=res_%j.txt  # output file
+#SBATCH -e res%j.err        # File to which STDERR will be written
 #SBATCH --partition=defq    # Partition to submit to
 
 #
