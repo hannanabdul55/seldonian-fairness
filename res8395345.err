@@ -1,0 +1,3 @@
+usage: experiment_synthetic.py [-h] [--config CONFIG]
+                               [--checkpoint CHECKPOINT]
+experiment_synthetic.py: error: unrecognized arguments: powell_only
