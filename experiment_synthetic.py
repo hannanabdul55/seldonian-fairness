@@ -12,7 +12,7 @@ from memory_profiler import profile
 
 parser = argparse.ArgumentParser(description='Process some config values')
 parser.add_argument("--config")
-parser.add_argument("--checkpoint")
+parser.add_argument("checkpoint", nargs='?', default='results-'+str(time()))
 
 args = parser.parse_args()
 if args.config:
@@ -98,4 +98,5 @@ def run_experiment(exp):
 
 
 if __name__ == '__main__':
+    print(f"Running experiment with checkpoint: {checkpoint}")
     run_experiment(exp_config)
