@@ -51,7 +51,7 @@ def run_experiment(exp):
                 ghats = []
                 ghats.append({
                     'fn': ghat_tpr_diff(A_idx,
-                                        threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 4),
+                                        threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2),
                     'delta': 0.05
                 })
                 if opt == 'CMAES':
@@ -65,16 +65,16 @@ def run_experiment(exp):
                 est.fit()
 
                 acc = accuracy_score(y, est.predict(X))
-                safe = est.safetyTest(predict=False)
+                safe = est.safetyTest()
                 mean_ghat.append(safe)
-                failure_rate.append(1 if safe > 0.0 else 0)
+                failure_rate.append(1 if safe > 0 else 0)
                 accuracy.append(acc)
 
                 uc_est = LogisticRegression(penalty='none').fit(X, y)
                 uc_acc = accuracy_score(y, uc_est.predict(X))
                 y_preds = uc_est.predict(X)
-                ghat_val = ghats[0]['fn'](X, y, y_preds, ghats[0]['delta'],predict=False)
-                uc_failure_rate.append(1 if ghat_val > 0.0 else 0)
+                ghat_val = ghats[0]['fn'](X, y, y_preds, ghats[0]['delta'], ub=False)
+                uc_failure_rate.append(1 if ghat_val > 0 else 0)
                 uc_accuracy.append(uc_acc)
                 uc_mean_ghat.append(ghat_val)
             results[opt].append({
