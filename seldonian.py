@@ -19,7 +19,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
     def data(self):
         return self.X, self.y
 
-    def safetyTest(self, theta=None, predict=False):
+    def safetyTest(self, theta=None, predict=False, ub=True):
         if theta is None:
             theta = self.theta
         X_test = self.X if predict else self.X_s
@@ -29,7 +29,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
             y_preds = (0.5 < self._predict(
                 X_test, theta)).astype(int)
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
-                                   predict=predict)
+                                   predict=predict, ub=ub)
             if ghat_val > 0:
                 return ghat_val
         return 0
@@ -68,7 +68,7 @@ class LogisticRegressionSeldonianModel:
     def data(self):
         return self.X, self.y
 
-    def safetyTest(self, theta=None, predict=False):
+    def safetyTest(self, theta=None, predict=False, ub=True):
         if theta is None:
             theta = self.theta
         X_test = self.X if predict else self.X_s
@@ -77,7 +77,8 @@ class LogisticRegressionSeldonianModel:
         for g_hat in self.constraints:
             y_preds = (0.5 < self._predict(
                 X_test, theta)).astype(int)
-            ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0])
+            ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
+                                   predict=predict, ub=ub)
             if ghat_val > 0:
                 return ghat_val
         return 0
@@ -95,7 +96,7 @@ class LogisticRegressionSeldonianModel:
         })
         print("Optimization result: " + res.message)
         self.theta = res.x
-        if self.safetyTest(self.theta) > 0:
+        if self.safetyTest(self.theta, ub=True) > 0:
             return None
         else:
             return self
