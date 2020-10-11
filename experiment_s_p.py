@@ -36,7 +36,7 @@ else:
     checkpoint = args.checkpoint
 
 
-def save_res(obj, filename=f"./results_2/{checkpoint}.p"):
+def save_res(obj, filename=f"./results_2/{checkpoint}_{np.random.randint(1000000)}.p"):
     pickle.dump(obj, open(filename, 'wb'))
 
 
