@@ -1,8 +1,10 @@
+import errno
+
 from synthetic import *
 import numpy as np
 from sklearn.metrics import accuracy_score
 import pickle
-from datetime import datetime
+import os
 from time import time
 
 import argparse
@@ -18,25 +20,32 @@ parser = argparse.ArgumentParser(description='Process some config values')
 parser.add_argument("--config")
 parser.add_argument("checkpoint", nargs='?', default='results-' + str(time()))
 parser.add_argument("--threads")
+parser.add_argument("--dir")
 
 args = parser.parse_args()
+
+if args.dir:
+    dir = args.dir
+else:
+    dir = 'results_7'
+
 if args.config:
     exp_config = json.load(open(args.config, "r"))
 else:
-    exp_config = {'N': np.geomspace(1e3, 1e6, 20).astype(np.int), 'trials': 40,
-                  'methods': ['ttest', 'hoeffdings'], 'D': 20, 'tprs': [0.3, 0.6],
+    exp_config = {'N': np.geomspace(100, 900, 10).astype(np.int), 'trials': 10,
+                  'methods': ['ttest', 'hoeffdings'], 'D': 10, 'tprs': [0.3, 0.9],
                   'test_size': 0.4, 'opt': ['Powell']}
 
 uc_result = []
 results = {}
 
 if args.checkpoint is None:
-    checkpoint = str(time())
+    checkpoint = str(np.random.randint(1e4))
 else:
     checkpoint = args.checkpoint
 
 
-def save_res(obj, filename=f"./results_2/{checkpoint}_{np.random.randint(1000000)}.p"):
+def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p"):
     pickle.dump(obj, open(filename, 'wb'))
 
 
@@ -59,7 +68,7 @@ def run_experiment_p(exp):
         ghats = []
         ghats.append({
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2),
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 4),
             'delta': 0.05
         })
         if opt == 'CMAES':
@@ -119,7 +128,7 @@ def run_experiment_p(exp):
         'uc_ghat': np.mean(uc_mean_ghat)
     })
     print(f"Results for N={n}: \n{results!r}")
-    save_res(results, filename=f"results_2/{checkpoint}_{n}.p")
+    save_res(results, filename=f"{dir}/{checkpoint}_{n}.p")
     return results
 
 
@@ -140,7 +149,7 @@ def run_experiment(exp):
                 ghats = []
                 ghats.append({
                     'fn': ghat_tpr_diff(A_idx,
-                                        threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 4),
+                                        threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2),
                     'delta': 0.05
                 })
                 if opt == 'CMAES':
@@ -184,6 +193,8 @@ def run_experiment(exp):
 if __name__ == '__main__':
     print(f"Running experiment with checkpoint: {checkpoint}")
 
+    os.makedirs(dir, exist_ok=True)
+
     nWorkers = 16
     if args.threads:
         nWorkers = args.threads
@@ -199,6 +210,6 @@ if __name__ == '__main__':
     res = ray.get(futures)
 
     print("saving results")
-    save_res(res, f"./results_2/final_res_p_{checkpoint}.p")
+    save_res(res, f"./{dir}/final_res_{checkpoint}.p")
 
     # run_experiment(exp_config)
