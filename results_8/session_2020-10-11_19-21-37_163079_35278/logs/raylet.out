@@ -1,0 +1,13 @@
+I1011 19:21:37.812911 35290 168009152 redis_client.cc:146] RedisClient connected.
+I1011 19:21:37.816254 35290 168009152 redis_gcs_client.cc:89] RedisGcsClient Connected.
+I1011 19:21:37.818019 35290 168009152 service_based_gcs_client.cc:193] Reconnected to GCS server: 192.168.0.5:56661
+I1011 19:21:37.818681 35290 168009152 service_based_accessor.cc:92] Reestablishing subscription for job info.
+I1011 19:21:37.818717 35290 168009152 service_based_accessor.cc:422] Reestablishing subscription for actor info.
+I1011 19:21:37.818740 35290 168009152 service_based_accessor.cc:797] Reestablishing subscription for node info.
+I1011 19:21:37.818763 35290 168009152 service_based_accessor.cc:1073] Reestablishing subscription for task info.
+I1011 19:21:37.818825 35290 168009152 service_based_accessor.cc:1248] Reestablishing subscription for object locations.
+I1011 19:21:37.818850 35290 168009152 service_based_accessor.cc:1368] Reestablishing subscription for worker failures.
+I1011 19:21:37.818874 35290 168009152 service_based_gcs_client.cc:86] ServiceBasedGcsClient Connected.
+I1011 19:21:37.821184 35290 168009152 io_service_pool.cc:35] IOServicePool is running with 1 io_service.
+I1011 19:21:37.821365 35290 168009152 store_runner.cc:30] Allowing the Plasma store to use up to 2.2949GB of memory.
+I1011 19:21:37.821399 35290 168009152 store_runner.cc:44] Starting object store with directory /tmp and huge page support disabled

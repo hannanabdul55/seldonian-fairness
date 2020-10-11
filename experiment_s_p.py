@@ -31,9 +31,9 @@ else:
 if args.config:
     exp_config = json.load(open(args.config, "r"))
 else:
-    exp_config = {'N': np.geomspace(1e2, 1e6, 15).astype(np.int), 'trials': 20,
+    exp_config = {'N': np.geomspace(1e2, 1e6, 20).astype(np.int), 'trials': 40,
                   'methods': ['ttest', 'hoeffdings'], 'D': 10, 'tprs': [0.3, 0.8],
-                  'test_size': 0.4, 'opt': ['Powell']}
+                  'test_size': 0.4, 'opt': 'Powell'}
 
 uc_result = []
 results = {}
@@ -73,7 +73,7 @@ def run_experiment_p(exp):
         if opt == 'CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
-                                                verbose=True)
+                                                verbose=False)
         else:
             est = LogisticRegressionSeldonianModel(X, y, test_size=exp['test_size'],
                                                    g_hats=ghats,
@@ -191,7 +191,7 @@ def run_experiment(exp):
 
 if __name__ == '__main__':
     print(f"Running experiment with checkpoint: {checkpoint}")
-
+    print(f"Config used: {exp_config!r}")
     os.makedirs(dir, exist_ok=True)
 
     nWorkers = 16

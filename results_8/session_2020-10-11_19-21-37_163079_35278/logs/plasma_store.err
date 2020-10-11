@@ -1,0 +1,9 @@
+*** Aborted at 1602458497 (unix time) try "date -d @1602458497" if you are using GNU date ***
+PC: @                0x0 (unknown)
+*** SIGTERM (@0x7fff678d7756) received by PID 35289 (TID 0x10d7e5dc0) stack trace: ***
+    @     0x7fff6798c5fd _sigtramp
+    @        0x10d71fb8d (unknown)
+    @     0x7fff64a9d6da std::__1::this_thread::sleep_for()
+    @        0x104fb235f main
+    @     0x7fff67793cc9 start
+    @                0x8 (unknown)
