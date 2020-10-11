@@ -11,8 +11,7 @@ import argparse
 import json
 import ray
 import copy
-
-ray.init()
+import timeit
 
 from memory_profiler import profile
 
@@ -27,13 +26,13 @@ args = parser.parse_args()
 if args.dir:
     dir = args.dir
 else:
-    dir = 'results_7'
+    dir = 'results_8'
 
 if args.config:
     exp_config = json.load(open(args.config, "r"))
 else:
     exp_config = {'N': np.geomspace(1e2, 1e6, 15).astype(np.int), 'trials': 20,
-                  'methods': ['ttest', 'hoeffdings'], 'D': 10, 'tprs': [0.3, 0.9],
+                  'methods': ['ttest', 'hoeffdings'], 'D': 10, 'tprs': [0.3, 0.8],
                   'test_size': 0.4, 'opt': ['Powell']}
 
 uc_result = []
@@ -68,7 +67,7 @@ def run_experiment_p(exp):
         ghats = []
         ghats.append({
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 4),
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2),
             'delta': 0.05
         })
         if opt == 'CMAES':
@@ -200,16 +199,19 @@ if __name__ == '__main__':
         nWorkers = args.threads
 
     print(f"Running experiments on {nWorkers} threads")
-
+    ray.init()
     exps = []
     for n in exp_config['N']:
         exps.append(copy.deepcopy(exp_config))
         exps[-1]['N'] = n
 
+    a = time()
     futures = [run_experiment_p.remote(x) for x in exps]
     res = ray.get(futures)
-
+    b = time()
     print("saving results")
     save_res(res, f"./{dir}/final_res_{checkpoint}.p")
+
+    print(f"Time run: {int(b-a)} seconds")
 
     # run_experiment(exp_config)

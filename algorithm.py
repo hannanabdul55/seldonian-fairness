@@ -3,6 +3,7 @@ from abc import ABC
 import numpy as np
 from sklearn.metrics import log_loss
 import scipy.optimize
+from scipy.special import expit
 
 
 class SeldonianAlgorithm:
@@ -58,7 +59,7 @@ def cross_entropy_loss(y_pred, y_true):
 
 
 def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
+    return expit(x)
 
 
 class CMAESModel(Model, ABC):
