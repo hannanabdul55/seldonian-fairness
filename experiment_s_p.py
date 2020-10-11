@@ -31,12 +31,12 @@ uc_result = []
 results = {}
 
 if args.checkpoint is None:
-    checkpoint = './results_2/results-' + str(time()) + '.p'
+    checkpoint = str(time())
 else:
     checkpoint = args.checkpoint
 
 
-def save_res(obj, filename=f"./results_2/{args.checkpoint}.p"):
+def save_res(obj, filename=f"./results_2/{checkpoint}.p"):
     pickle.dump(obj, open(filename, 'wb'))
 
 
@@ -118,6 +118,7 @@ def run_experiment_p(exp):
         'uc_accuracy': np.mean(uc_accuracy),
         'uc_ghat': np.mean(uc_mean_ghat)
     })
+    print(f"Results for N={n}: \n{results!r}")
     save_res(results, filename=f"results_2/{checkpoint}_{n}.p")
     return results
 
@@ -198,6 +199,6 @@ if __name__ == '__main__':
     res = ray.get(futures)
 
     print("saving results")
-    save_res(res, f"./results_2/final_res_p_{str(time())}.p")
+    save_res(res, f"./results_2/final_res_p_{checkpoint}.p")
 
     # run_experiment(exp_config)
