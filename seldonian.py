@@ -30,7 +30,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
                 X_test, theta)).astype(int)
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
                                    predict=predict, ub=ub)
-            if ghat_val > 0:
+            if ghat_val > 0.0:
                 return ghat_val
         return 0
 

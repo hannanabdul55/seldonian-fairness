@@ -9,9 +9,10 @@ import pandas as pd
 import numpy as np
 
 
-def make_synthetic(N, D, tp_a=0.4, tp_b=0.8):
+def make_synthetic(N, D, tp_a=0.4, tp_b=0.8, A_idx=None):
+    if A_idx is None:
+        A_idx = np.random.randint(1, D - 1)
     X = np.random.default_rng(0).random((N, D))
-    A_idx = np.random.randint(1, D - 1)
     X[:, A_idx] = np.random.default_rng(0).binomial(1, 0.5, N)
     y = np.zeros((N,))
     slice_a = X[:, A_idx] == 1
