@@ -114,18 +114,20 @@ def run_experiment_p(exp):
         # Failure rate on Unconstrained estimator
         uc_failure_rate.append(1 if ghat_val > 0.0 else 0)
 
-    results.update({
-        'failure_rate': np.mean(failure_rate),
-        'failure_rate_std': np.std(failure_rate),
-        'sol_found_rate': np.mean(sol_found_rate),
-        'sol_found_rate_std': np.std(sol_found_rate),
-        'accuracy': np.mean(accuracy),
-        'ghat': np.mean(mean_ghat),
-        'uc_failure_rate': np.mean(uc_failure_rate),
-        'uc_failure_rate_std': np.std(uc_failure_rate),
-        'uc_accuracy': np.mean(uc_accuracy),
-        'uc_ghat': np.mean(uc_mean_ghat)
-    })
+        results.update({
+            'trials': t,
+            'failure_rate': np.mean(failure_rate),
+            'failure_rate_std': np.std(failure_rate),
+            'sol_found_rate': np.mean(sol_found_rate),
+            'sol_found_rate_std': np.std(sol_found_rate),
+            'accuracy': np.mean(accuracy),
+            'ghat': np.mean(mean_ghat),
+            'uc_failure_rate': np.mean(uc_failure_rate),
+            'uc_failure_rate_std': np.std(uc_failure_rate),
+            'uc_accuracy': np.mean(uc_accuracy),
+            'uc_ghat': np.mean(uc_mean_ghat)
+        })
+        save_res(results, filename=f"{dir}/{checkpoint}_{n}.p")
     print(f"Results for N={n}: \n{results!r}")
     save_res(results, filename=f"{dir}/{checkpoint}_{n}.p")
     return results
