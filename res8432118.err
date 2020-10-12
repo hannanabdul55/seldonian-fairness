@@ -1,2 +1,0 @@
-2020-10-10 23:23:33,192	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
-slurmstepd: error: *** JOB 8432118 ON swarm013 CANCELLED AT 2020-10-11T11:22:40 DUE TO TIME LIMIT ***
