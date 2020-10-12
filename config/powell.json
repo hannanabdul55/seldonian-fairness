@@ -1,5 +1,5 @@
 {
-  "name": "cmaes_30trials",
+  "name": "powell_30trials",
   "N": [
     200,
     600,
@@ -27,5 +27,5 @@
     0.8
   ],
   "test_size": 0.4,
-  "opt": "CMAES"
+  "opt": "Powell"
 }
