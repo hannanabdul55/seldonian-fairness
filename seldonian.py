@@ -4,7 +4,8 @@ from sklearn.model_selection import train_test_split
 
 
 class SeldonianAlgorithmLogRegCMAES(CMAESModel):
-    def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35):
+    def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
+                 stratify=False):
         self.X = X
         self.y = y
         self.constraints = g_hats
@@ -12,7 +13,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
             self.X_s, self.y_s = safety_data
         else:
             self.X, self.X_s, self.y, self.y_s = train_test_split(
-                self.X, self.y, test_size=test_size, random_state=0
+                self.X, self.y, test_size=test_size, random_state=0,
+                stratify=[0, 1] if stratify else None
             )
         super().__init__(self.X, self.y, verbose)
 
@@ -53,16 +55,19 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
 
 class LogisticRegressionSeldonianModel:
 
-    def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True):
+    def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
+                 hard_barrier=False, stratify=False):
         self.theta = np.random.random((X.shape[1] + 1,))
         self.X = X
         self.y = y
         self.constraints = g_hats
+        self.hard_barrier = hard_barrier
         if safety_data is not None:
             self.X_s, self.y_s = safety_data
         else:
             self.X, self.X_s, self.y, self.y_s = train_test_split(
-                self.X, self.y, test_size=test_size, random_state=0
+                self.X, self.y, test_size=test_size, random_state=0,
+                stratify=[0, 1] if stratify else None
             )
 
     def data(self):
@@ -80,13 +85,16 @@ class LogisticRegressionSeldonianModel:
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
                                    predict=predict, ub=ub)
             if ghat_val > 0:
-                return ghat_val
+                if self.hard_barrier is True and predict is True:
+                    return 1
+                else:
+                    return ghat_val
         return 0
 
     def get_opt_fn(self):
         def loss_fn(theta):
             return log_loss(self.y, self._predict(self.X, theta)) + (10000 * self.safetyTest(theta,
-                                                                                            predict=True))
+                                                                                             predict=True))
 
         return loss_fn
 
@@ -100,7 +108,6 @@ class LogisticRegressionSeldonianModel:
             return None
         else:
             return self
-
 
     def loss(self, y_pred, y_true):
         return log_loss(y_true, y_pred)

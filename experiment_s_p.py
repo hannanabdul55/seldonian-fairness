@@ -75,9 +75,15 @@ def run_experiment_p(exp):
                                                 g_hats=ghats,
                                                 verbose=False)
         else:
+            if 'hard_barrier' in exp:
+                hard_barrier = exp['hard_barrier']
+                print(f"Running with hard_barrier={hard_barrier}")
+            else:
+                hard_barrier = False
             est = LogisticRegressionSeldonianModel(X, y, test_size=exp['test_size'],
                                                    g_hats=ghats,
-                                                   verbose=True)
+                                                   verbose=True,
+                                                   hard_barrier = hard_barrier)
         est.fit()
 
         # Accuracy on seldonian optimizer

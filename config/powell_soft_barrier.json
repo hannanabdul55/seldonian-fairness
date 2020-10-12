@@ -1,0 +1,25 @@
+{
+  "name": "powell_soft_barrier",
+  "N": [
+    200,
+    78000,
+    100000,
+    200000,
+    320000,
+    890000,
+    1000000
+  ],
+  "trials": 5,
+  "methods": [
+    "ttest",
+    "hoeffdings"
+  ],
+  "D": 6,
+  "tprs": [
+    0.3,
+    0.8
+  ],
+  "test_size": 0.4,
+  "opt": "Powell",
+  "hard_barrier": false
+}
