@@ -5,10 +5,11 @@ from sklearn.model_selection import train_test_split
 
 class SeldonianAlgorithmLogRegCMAES(CMAESModel):
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
-                 stratify=False):
+                 stratify=False, hard_barrier=False):
         self.X = X
         self.y = y
         self.constraints = g_hats
+        self.hard_barrier = hard_barrier
         if safety_data is not None:
             self.X_s, self.y_s = safety_data
         else:
@@ -33,12 +34,15 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
                                    predict=predict, ub=ub)
             if ghat_val > 0.0:
-                return ghat_val
+                if self.hard_barrier:
+                    return 1
+                else:
+                    return ghat_val
         return 0
 
     def loss(self, y_pred, y_true, theta):
-        return log_loss(y_true, y_pred) + (10000 * self.safetyTest(theta,
-                                                                   predict=True))
+        return log_loss(y_true, y_pred) + (10000 * (self.safetyTest(theta,
+                                                                    predict=True)))
 
     def _predict(self, X, theta):
         w = theta[:-1]

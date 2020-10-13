@@ -54,7 +54,7 @@ def run_experiment_p(exp):
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
-    X_test, y_test, _ = make_synthetic(n, exp['D'], *exp['tprs'], A_idx=A_idx)
+    X_test, y_test, _ = make_synthetic(n*10, exp['D'], *exp['tprs'], A_idx=A_idx)
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
@@ -83,7 +83,7 @@ def run_experiment_p(exp):
             est = LogisticRegressionSeldonianModel(X, y, test_size=exp['test_size'],
                                                    g_hats=ghats,
                                                    verbose=True,
-                                                   hard_barrier = hard_barrier)
+                                                   hard_barrier=hard_barrier)
         est.fit()
 
         # Accuracy on seldonian optimizer
@@ -163,6 +163,6 @@ if __name__ == '__main__':
     print("saving results")
     save_res(res, f"./{dir}/final_res_{checkpoint}.p")
 
-    print(f"Time run: {int(b-a)} seconds")
+    print(f"Time run: {int(b - a)} seconds")
 
     # run_experiment(exp_config)
