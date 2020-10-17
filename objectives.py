@@ -18,10 +18,14 @@ def ghat_tpr_diff(A_idx, method='ttest', threshold=0.2):
         tp_a = tpr_rate(A_idx, 1)(X, y_true, y_pred)
         tp_b = tpr_rate(A_idx, 0)(X, y_true, y_pred)
 
+        abs_fn = abs
+        if torch.is_tensor(X):
+            abs_fn = torch.abs
+
         if method == 'ttest':
-            bound = abs(ttest_bounds(tp_b, delta, n, predict=predict) - ttest_bounds(tp_a, delta, n, predict=predict))
+            bound = abs_fn(ttest_bounds(tp_b, delta, n, predict=predict) - ttest_bounds(tp_a, delta, n, predict=predict))
         else:
-            bound = abs(hoeffdings_bounds(tp_b, delta, n, predict=predict) - hoeffdings_bounds(tp_a, delta,
+            bound = abs_fn(hoeffdings_bounds(tp_b, delta, n, predict=predict) - hoeffdings_bounds(tp_a, delta,
                                                                             n, predict=predict))
         if ub is True:
             return bound.upper - threshold

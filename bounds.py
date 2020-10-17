@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import torch
 import numbers
 from scipy.stats import t
 
@@ -118,13 +119,19 @@ def max_bounds(*args):
 def ttest_bounds(samples, delta, n=None, predict=False):
     if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
         raise ValueError(f"`samples` argument should be a numpy array")
-    samples = np.array(samples)
+    is_tensor = torch.is_tensor(samples)
+    if not is_tensor:
+        samples = np.array(samples)
+
     if samples.ndim > 1:
         raise ValueError(f"`samples` should be a vector (1-D array). Got shape: {samples.shape}")
     if n is None:
         n = samples.size
     # print(f"n={n}")
-    dev = ((samples.std(ddof=1) / np.sqrt(n)) * t.ppf(1 - delta, n - 1)) * (1 + (1* predict))
+    if not is_tensor:
+        dev = ((samples.std(ddof=1) / np.sqrt(n)) * t.ppf(1 - delta, n - 1)) * (1 + (1* predict))
+    else:
+        dev = ((samples.std() / torch.sqrt(n)) * t.ppf(1 - delta, n - 1)) * (1 + (1 * predict))
     sample_mean = samples.mean()
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
 

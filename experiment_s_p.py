@@ -15,6 +15,8 @@ import timeit
 
 from memory_profiler import profile
 
+parallel = False
+
 parser = argparse.ArgumentParser(description='Process some config values')
 parser.add_argument("--config")
 parser.add_argument("checkpoint", nargs='?', default='results-' + str(time()))
@@ -48,7 +50,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@ray.remote
+# @ray.remote
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
     n = exp['N']
@@ -74,7 +76,7 @@ def run_experiment_p(exp):
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
                                                 verbose=False)
-        else:
+        elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
                 print(f"Running with hard_barrier={hard_barrier}")
@@ -84,6 +86,8 @@ def run_experiment_p(exp):
                                                    g_hats=ghats,
                                                    verbose=True,
                                                    hard_barrier=hard_barrier)
+        else:
+            est = NeuralNetModel(X, y, test_size=exp['test_size'], g_hats=ghats, verbose=False)
         est.fit()
 
         # Accuracy on seldonian optimizer
@@ -147,7 +151,8 @@ if __name__ == '__main__':
         dir = f"result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
 
-    ray.init()
+    if parallel:
+        ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
@@ -157,8 +162,11 @@ if __name__ == '__main__':
 
     pickle.dump(exps, open(f"{dir}/exps.p", "wb"))
     a = time()
-    futures = [run_experiment_p.remote(x) for x in exps]
-    res = ray.get(futures)
+    if parallel:
+        futures = [run_experiment_p.remote(x) for x in exps]
+        res = ray.get(futures)
+    else:
+        res = [run_experiment_p(x) for x in exps]
     b = time()
     print("saving results")
     save_res(res, f"./{dir}/final_res_{checkpoint}.p")

@@ -165,7 +165,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 #         y_pred =
 
 
-class NeuralNetModel(SeldonianAlgorithm, pl.LightningModule):
+class NeuralNetModel(pl.LightningModule):
     def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, hard_barrier=False,
                  stratify=False):
         super().__init__()
@@ -179,23 +179,26 @@ class NeuralNetModel(SeldonianAlgorithm, pl.LightningModule):
             stratify=[0, 1] if stratify else None
         )
         self.verbose = verbose
-        self.model = nn.Sequential(
+        self.mod = nn.Sequential(
             nn.Linear(D, H1),
             nn.ReLU(),
             nn.Linear(H1, 2)
         )
         self.loss_fn = nn.CrossEntropyLoss()
-        self.lagrange = torch.ones(len(self.constraint), requires_grad=True)
+        if len(self.constraint) > 0:
+            self.lagrange = torch.rand((len(self.constraint),), requires_grad=True)
+        else:
+            self.lagrange = None
 
         self.dataset = torch.utils.data.TensorDataset(torch.tensor(X), torch.tensor(y))
-
+        self.loader = DataLoader(self.dataset)
 
     def forward(self, x):
-        return self.model(x)
+        return self.mod(x)
 
     def training_step(self, batch, batch_idx):
         x, y = batch
-        y_pred = self.model(x)
+        y_pred = self.mod(x)
         safety = self.safetyTest(predict=True)
         loss = self.loss_fn(y_pred, y)
         loss += self.lagrange.dot(safety)
@@ -204,10 +207,17 @@ class NeuralNetModel(SeldonianAlgorithm, pl.LightningModule):
     def configure_optimizers(
             self,
     ):
-        optimizer = torch.optim.Adam(torch.cat(self.parameters() + self.lagrange))
+        print(f"Lagrange multipliers: {self.lagrange}")
+        # print(f"Lagrange multipliers: {list(self.parameters())}")
+        if self.lagrange is not None:
+            optimizer = torch.optim.Adam(list(self.parameters()) + list(self.lagrange),
+                                         lr=3e-3)
+        else:
+            optimizer = torch.optim.Adam(self.parameters(), lr=3e-3)
         return optimizer
 
     def safetyTest(self, predict=False, ub=True):
+        print("In safety test")
         X_test = self.X if predict else self.X_s
         y_test = self.y if predict else self.y_s
 
@@ -227,13 +237,13 @@ class NeuralNetModel(SeldonianAlgorithm, pl.LightningModule):
         return ghats
         pass
 
-
     def data(self):
         return self.X, self.y
 
     def fit(self, **kwargs):
-
+        trainer = pl.Trainer()
+        trainer.fit(self, self.loader)
         pass
 
     def predict(self, X):
-        pass
+        return self.__call__(X)
