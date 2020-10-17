@@ -54,7 +54,7 @@ def run_experiment_p(exp):
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
-    X_test, y_test, _ = make_synthetic(n*10, exp['D'], *exp['tprs'], A_idx=A_idx)
+    X_test, y_test, _ = make_synthetic(n*10000, exp['D'], *exp['tprs'], A_idx=A_idx)
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
