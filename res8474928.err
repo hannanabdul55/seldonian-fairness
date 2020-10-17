@@ -1,0 +1,21 @@
+2020-10-17 02:50:40,440	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+[2m[36m(pid=44114)[0m /home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numpy/core/_methods.py:233: RuntimeWarning: Degrees of freedom <= 0 for slice
+[2m[36m(pid=44114)[0m   ret = _var(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+[2m[36m(pid=44114)[0m /home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numpy/core/_methods.py:226: RuntimeWarning: invalid value encountered in double_scalars
+[2m[36m(pid=44114)[0m   ret = ret.dtype.type(ret / rcount)
+Traceback (most recent call last):
+  File "experiment_s_p.py", line 165, in <module>
+    res = ray.get(futures)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 1428, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ValueError): [36mray::run_experiment_p()[39m (pid=44114, ip=10.128.0.58)
+  File "python/ray/_raylet.pyx", line 484, in ray._raylet.execute_task
+  File "experiment_s_p.py", line 86, in run_experiment_p
+    est = LogisticRegressionSeldonianModel(X, y, test_size=exp['test_size'],
+  File "/home/akanji/seldonian-fairness/seldonian.py", line 93, in __init__
+    self.X, self.X_s, self.y, self.y_s = train_test_split(
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/model_selection/_split.py", line 2130, in train_test_split
+    n_train, n_test = _validate_shuffle_split(n_samples, test_size, train_size,
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/model_selection/_split.py", line 1810, in _validate_shuffle_split
+    raise ValueError(
+ValueError: With n_samples=1, test_size=0.4 and train_size=None, the resulting train set will be empty. Adjust any of the aforementioned parameters.
