@@ -2,6 +2,14 @@ from algorithm import *
 import scipy.optimize
 from sklearn.model_selection import train_test_split
 
+import torch.nn as nn
+import torch
+import torch.nn.functional as F
+
+from torch.utils.data import DataLoader
+import pytorch_lightning as pl
+from torch.utils.data import random_split
+
 
 class SeldonianAlgorithmLogRegCMAES(CMAESModel):
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
@@ -57,10 +65,11 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
             np.dot(X, w) + b) > 0.5).astype(np.int)
 
 
-class LogisticRegressionSeldonianModel:
+class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
                  hard_barrier=False, stratify=False):
+        super().__init__()
         self.theta = np.random.random((X.shape[1] + 1,))
         self.X = X
         self.y = y
@@ -135,4 +144,96 @@ class LogisticRegressionSeldonianModel:
 
     def reset(self):
         self.theta = np.zeros_like(self.theta)
+        pass
+
+
+# class NeuralNetModule(pl.LightningModule):
+#     def __init__(self, D, H1):
+#         super(self).__init__()
+#         self.model = nn.Sequential(
+#             nn.Linear(D, H1),
+#             nn.ReLU(),
+#             nn.Linear(H1, 2)
+#         )
+#
+#     def forward(self, X):
+#         return self.model(X)
+#
+#     def training_step(self, batch, batch_idx):
+#         x, y = batch
+#         # x = x.view(x.size(0), -1)
+#         y_pred =
+
+
+class NeuralNetModel(SeldonianAlgorithm, pl.LightningModule):
+    def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, hard_barrier=False,
+                 stratify=False):
+        super().__init__()
+        self.X = X
+        self.y = y
+        D = self.X.shape[1]
+        H1 = int(D * 1.6)
+        self.constraint = g_hats
+        self.X, self.X_s, self.y, self.y_s = train_test_split(
+            self.X, self.y, test_size=test_size, random_state=0,
+            stratify=[0, 1] if stratify else None
+        )
+        self.verbose = verbose
+        self.model = nn.Sequential(
+            nn.Linear(D, H1),
+            nn.ReLU(),
+            nn.Linear(H1, 2)
+        )
+        self.loss_fn = nn.CrossEntropyLoss()
+        self.lagrange = torch.ones(len(self.constraint), requires_grad=True)
+
+        self.dataset = torch.utils.data.TensorDataset(torch.tensor(X), torch.tensor(y))
+
+
+    def forward(self, x):
+        return self.model(x)
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_pred = self.model(x)
+        safety = self.safetyTest(predict=True)
+        loss = self.loss_fn(y_pred, y)
+        loss += self.lagrange.dot(safety)
+        return loss
+
+    def configure_optimizers(
+            self,
+    ):
+        optimizer = torch.optim.Adam(torch.cat(self.parameters() + self.lagrange))
+        return optimizer
+
+    def safetyTest(self, predict=False, ub=True):
+        X_test = self.X if predict else self.X_s
+        y_test = self.y if predict else self.y_s
+
+        ghats = torch.zeros(len(self.constraint), requires_grad=True)
+        i = 0
+        for g_hat in self.constraints:
+            y_preds = self.forward(X_test)
+            ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
+                                   predict=predict, ub=ub)
+            # if ghat_val > 0:
+            #     if self.hard_barrier is True and predict is True:
+            #         return 1
+            #     else:
+            #         return ghat_val
+            ghats[i] += ghat_val
+            i += 1
+        return ghats
+        pass
+
+
+    def data(self):
+        return self.X, self.y
+
+    def fit(self, **kwargs):
+
+        pass
+
+    def predict(self, X):
         pass

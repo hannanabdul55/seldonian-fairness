@@ -1,0 +1,20 @@
+{
+  "name": "cmaes_30trials",
+  "N": [
+    200,
+    600,
+    1000
+  ],
+  "trials": 30,
+  "methods": [
+    "ttest",
+    "hoeffdings"
+  ],
+  "D": 6,
+  "tprs": [
+    0.3,
+    0.8
+  ],
+  "test_size": 0.4,
+  "opt": "Powell"
+}

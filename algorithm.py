@@ -10,16 +10,20 @@ class SeldonianAlgorithm:
     def __init__(self):
         pass
 
-    def model(self):
+    def fit(self, **kwargs):
         raise NotImplementedError("bounds function must be implemented")
+        pass
+
+    def predict(self, X):
+        raise NotImplementedError("predict function must be implemented")
+        pass
+
+    def safetyTest(self, **kwargs):
+        raise NotImplementedError("safetyTest function must be implemented")
         pass
 
     def data(self):
         raise NotImplementedError("subclass must implement data method to return the data")
-        pass
-
-    def bounds(self):
-        raise NotImplementedError("bounds function must be implemented")
         pass
 
 
