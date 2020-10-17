@@ -51,6 +51,9 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
 @ray.remote
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
+    stratify = False
+    if 'stratify' in exp:
+        stratify = exp['stratify']
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
@@ -73,7 +76,7 @@ def run_experiment_p(exp):
         if opt == 'CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
-                                                verbose=False)
+                                                verbose=False, stratify=stratify)
         else:
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
@@ -83,7 +86,8 @@ def run_experiment_p(exp):
             est = LogisticRegressionSeldonianModel(X, y, test_size=exp['test_size'],
                                                    g_hats=ghats,
                                                    verbose=True,
-                                                   hard_barrier=hard_barrier)
+                                                   hard_barrier=hard_barrier,
+                                                   stratify=stratify)
         est.fit()
 
         # Accuracy on seldonian optimizer

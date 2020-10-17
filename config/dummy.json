@@ -15,5 +15,6 @@
   ],
   "test_size": 0.4,
   "opt": "Powell",
-  "hard_barrier": true
+  "hard_barrier": true,
+  "stratify": true
 }
