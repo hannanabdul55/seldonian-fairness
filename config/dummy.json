@@ -3,7 +3,7 @@
   "N": [
     1e3
   ],
-  "trials": 30,
+  "trials": 1,
   "methods": [
     "ttest",
     "hoeffdings"

@@ -9,7 +9,6 @@ from time import time
 
 import argparse
 import json
-import ray
 import copy
 import timeit
 
@@ -48,7 +47,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@ray.remote
+@profile()
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
     stratify = False
@@ -151,7 +150,6 @@ if __name__ == '__main__':
         dir = f"result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
     n_test = 1e6*5
-    ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
@@ -161,12 +159,9 @@ if __name__ == '__main__':
 
     pickle.dump(exps, open(f"{dir}/exps.p", "wb"))
     a = time()
-    futures = [run_experiment_p.remote(x) for x in exps]
-    res = ray.get(futures)
+    res = [run_experiment_p(x) for x in exps]
     b = time()
     print("saving results")
     save_res(res, f"./{dir}/final_res_{checkpoint}.p")
 
     print(f"Time run: {int(b - a)} seconds")
-
-    # run_experiment(exp_config)
