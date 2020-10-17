@@ -1,6 +1,7 @@
 from algorithm import *
 import scipy.optimize
 from sklearn.model_selection import train_test_split
+import copy
 
 
 class SeldonianAlgorithmLogRegCMAES(CMAESModel):
@@ -20,7 +21,11 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
             else:
                 thet = np.random.default_rng().random((X.shape[1] + 1, 1))
                 count = 0
+                self.X_t = self.X
+                self.y_t = self.y
                 while count < 30:
+                    self.X = self.X_t
+                    self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size
                     )
@@ -89,7 +94,11 @@ class LogisticRegressionSeldonianModel:
             else:
                 thet = self.theta
                 count = 0
+                self.X_t = self.X
+                self.y_t = self.y
                 while count < 30:
+                    self.X = self.X_t
+                    self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size
                     )
