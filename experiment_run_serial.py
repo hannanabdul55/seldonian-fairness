@@ -9,7 +9,6 @@ from time import time
 
 import argparse
 import json
-import ray
 import copy
 import timeit
 
@@ -48,7 +47,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-# @ray.remote
+@profile()
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
     stratify = False
@@ -57,7 +56,7 @@ def run_experiment_p(exp):
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
-    X_test, y_test, _ = make_synthetic(n*10, exp['D'], *exp['tprs'], A_idx=A_idx)
+    X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
@@ -77,7 +76,7 @@ def run_experiment_p(exp):
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
                                                 verbose=False, stratify=stratify)
-        elif opt == 'Powell':
+        else:
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
                 print(f"Running with hard_barrier={hard_barrier}")
@@ -88,8 +87,6 @@ def run_experiment_p(exp):
                                                    verbose=True,
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify)
-        else:
-            est = NeuralNetModel(X, y, test_size=exp['test_size'], g_hats=ghats, verbose=False)
         est.fit()
 
         # Accuracy on seldonian optimizer
@@ -152,8 +149,7 @@ if __name__ == '__main__':
     if 'name' in exp_config:
         dir = f"result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
-
-    ray.init()
+    n_test = 1e6*5
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
@@ -163,12 +159,9 @@ if __name__ == '__main__':
 
     pickle.dump(exps, open(f"{dir}/exps.p", "wb"))
     a = time()
-    futures = [run_experiment_p.remote(x) for x in exps]
-    res = ray.get(futures)
+    res = [run_experiment_p(x) for x in exps]
     b = time()
     print("saving results")
     save_res(res, f"./{dir}/final_res_{checkpoint}.p")
 
     print(f"Time run: {int(b - a)} seconds")
-
-    # run_experiment(exp_config)

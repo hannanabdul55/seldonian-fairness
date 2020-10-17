@@ -1,6 +1,7 @@
 from algorithm import *
 import scipy.optimize
 from sklearn.model_selection import train_test_split
+import copy
 
 import torch.nn as nn
 import torch
@@ -21,10 +22,27 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
         if safety_data is not None:
             self.X_s, self.y_s = safety_data
         else:
-            self.X, self.X_s, self.y, self.y_s = train_test_split(
-                self.X, self.y, test_size=test_size, random_state=0,
-                stratify=[0, 1] if stratify else None
-            )
+            if not stratify:
+                self.X, self.X_s, self.y, self.y_s = train_test_split(
+                    self.X, self.y, test_size=test_size, random_state=0
+                )
+            else:
+                thet = np.random.default_rng().random((X.shape[1] + 1, 1))
+                count = 0
+                self.X_t = self.X
+                self.y_t = self.y
+                while count < 30:
+                    self.X = self.X_t
+                    self.y = self.y_t
+                    self.X, self.X_s, self.y, self.y_s = train_test_split(
+                        self.X, self.y, test_size=test_size
+                    )
+                    if abs(self.safetyTest(thet, predict=True, ub=False) -
+                           self.safetyTest(thet, predict=False, ub=False)) < 0.1:
+                        count += 30
+                    else:
+                        count += 1
+
         super().__init__(self.X, self.y, verbose)
 
     def data(self):
@@ -78,10 +96,27 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         if safety_data is not None:
             self.X_s, self.y_s = safety_data
         else:
-            self.X, self.X_s, self.y, self.y_s = train_test_split(
-                self.X, self.y, test_size=test_size, random_state=0,
-                stratify=[0, 1] if stratify else None
-            )
+            if not stratify:
+                self.X, self.X_s, self.y, self.y_s = train_test_split(
+                    self.X, self.y, test_size=test_size, random_state=0
+                )
+            else:
+                thet = self.theta
+                count = 0
+                self.X_t = self.X
+                self.y_t = self.y
+                while count < 30:
+                    self.X = self.X_t
+                    self.y = self.y_t
+                    self.X, self.X_s, self.y, self.y_s = train_test_split(
+                        self.X, self.y, test_size=test_size
+                    )
+                    if abs(self.safetyTest(thet, predict=True, ub=False) -
+                           self.safetyTest(thet, predict=False, ub=False)) < 0.1:
+                        count+=30
+                    else:
+                        count+=1
+
 
     def data(self):
         return self.X, self.y

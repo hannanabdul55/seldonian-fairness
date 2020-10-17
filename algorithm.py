@@ -69,7 +69,7 @@ def sigmoid(x):
 class CMAESModel(Model, ABC):
     def __init__(self, X, y, verbose=False):
         super().__init__()
-        self.theta = np.random.default_rng().random((X.shape[1] + 1, 1))
+        self.theta = np.random.default_rng(0).random((X.shape[1] + 1, 1))
         self.X = X
         self.y = y
         self.sigma = 0.3
