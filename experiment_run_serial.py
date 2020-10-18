@@ -68,7 +68,7 @@ def run_experiment_p(exp):
         ghats = []
         ghats.append({
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / ),
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2),
             'delta': 0.05
         })
         if opt == 'CMAES':

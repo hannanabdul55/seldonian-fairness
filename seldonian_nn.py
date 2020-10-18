@@ -72,8 +72,8 @@ class VanillaNN(SeldonianAlgorithm):
     def predict(self, X):
         if not torch.is_tensor(X):
             X = torch.as_tensor(X, dtype=torch.float)
-        preds = self.mod(X)[:, 1]
-        return torch.gt(preds, 0.5).type(torch.int)
+        preds = torch.argmax(self.mod(X), dim=1)
+        return preds
 
     def safetyTest(self, predict=False, ub=True):
         with torch.no_grad():
