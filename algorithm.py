@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 import numpy as np
 from sklearn.metrics import log_loss
@@ -6,22 +6,23 @@ import scipy.optimize
 from scipy.special import expit
 
 
-class SeldonianAlgorithm:
-    def __init__(self):
-        pass
-
+class SeldonianAlgorithm(ABC):
+    @abstractmethod
     def fit(self, **kwargs):
         raise NotImplementedError("bounds function must be implemented")
         pass
 
+    @abstractmethod
     def predict(self, X):
         raise NotImplementedError("predict function must be implemented")
         pass
 
+    @abstractmethod
     def safetyTest(self, **kwargs):
         raise NotImplementedError("safetyTest function must be implemented")
         pass
 
+    @abstractmethod
     def data(self):
         raise NotImplementedError("subclass must implement data method to return the data")
         pass

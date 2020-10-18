@@ -11,7 +11,7 @@ import argparse
 import json
 import ray
 import copy
-import timeit
+from seldonian_nn import *
 
 from memory_profiler import profile
 
@@ -89,7 +89,7 @@ def run_experiment_p(exp):
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify)
         else:
-            est = NeuralNetModel(X, y, test_size=exp['test_size'], g_hats=ghats, verbose=False)
+            est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, verbose=False)
         est.fit()
 
         # Accuracy on seldonian optimizer

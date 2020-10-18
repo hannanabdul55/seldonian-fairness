@@ -1,9 +1,9 @@
 {
   "name": "cmaes_30trials",
   "N": [
-    1000
+    1e4
   ],
-  "trials": 30,
+  "trials": 5,
   "methods": [
     "ttest",
     "hoeffdings"
