@@ -66,7 +66,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
         w = theta[:-1]
         b = theta[-1]
         logit = np.dot(X, w) + b
-        return sigmoid(logit)
+        return sigmoid(logit).flatten()
 
     def predict(self, X):
         w = self.theta[:-1]

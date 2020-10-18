@@ -27,6 +27,7 @@ if args.dir:
 else:
     dir = 'results_default'
 
+args.config = 'config/dummy_cmaes.json'
 if args.config:
     exp_config = json.load(open(args.config, "r"))
 else:
@@ -47,7 +48,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@profile()
+# @profile()
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
     stratify = False
