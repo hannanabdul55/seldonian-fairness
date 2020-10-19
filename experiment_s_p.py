@@ -48,7 +48,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-# @ray.remote
+@ray.remote
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
     stratify = False
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     print(f"Running experiment with checkpoint: {checkpoint}")
     print(f"Config used: {exp_config!r}")
     if 'name' in exp_config:
-        dir = f"result_{exp_config['name']}"
+        dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
 
     ray.init()
