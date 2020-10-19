@@ -14,6 +14,15 @@ def tpr_rate(A_idx=None, A_val=None):
 
 # true positive rate rate should be equal for X[A=1] or X[A=0]
 def ghat_tpr_diff(A_idx, method='ttest', threshold=0.2):
+    """
+    Create a $\\hat{g}$$ for teh true positive rate difference between :param A_idx subset versus
+    the entire data.
+
+    :param A_idx:
+    :param method:
+    :param threshold: TPR rate should not be greater than this value.
+    :return:
+    """
     def tpr_ab(X, y_true, y_pred, delta, n=None, predict=False, ub=True):
         tp_a = tpr_rate(A_idx, 1)(X, y_true, y_pred)
         tp_b = tpr_rate(A_idx, 0)(X, y_true, y_pred)
