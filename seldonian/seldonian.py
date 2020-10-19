@@ -11,8 +11,7 @@ from seldonian.utils import sigmoid
 
 class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     """
-    Implements a Logistic Regression classifier with `CMA-ES <https://en.wikipedia.org/wiki/CMA-ES>`_
-     as the optimizer using the Seldonian Approach.
+    Implements a Logistic Regression classifier with `CMA-ES <https://en.wikipedia.org/wiki/CMA-ES>`_ as the optimizer using the Seldonian Approach.
     """
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
                  stratify=False, hard_barrier=False):
@@ -22,9 +21,9 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         :param X: Training data to be used by the model.
         :param y: Training labels for the `X`
         :param g_hats: A list of all constraint on the model.
-        :param safety_data: If you have a separate held out data to be used for the safety set, it should be specified here, otherwise, the data :param X: is split according to `test_size` for this.
+        :param safety_data: If you have a separate held out data to be used for the safety set, it should be specified here, otherwise, the data `X` is split according to `test_size` for this.
         :param verbose: Print out extra log statements
-        :param test_size: ratio of the data :param X: to eb used for the safety set.
+        :param test_size: ratio of the data `X` to e used for the safety set.
         :param stratify: Stratify the training data when splitting to train/safety sets.
         :param hard_barrier: Use a hard barrier while training the data using the BBO optimizer.
         """
@@ -98,7 +97,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
 
 class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     """
-    Implements a Logistic Regression classifier using scipy.optimize package as the optimizer
+    Implements a Logistic Regression classifier using ``scipy.optimize`` package as the optimizer
     using the Seldonian Approach for training the model.
     """
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,

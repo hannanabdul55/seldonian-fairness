@@ -29,6 +29,7 @@ author = 'Abdul Hannan Kanji'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'recommonmark',
     'sphinx.ext.autodoc',
     'sphinx_rtd_theme'
 ]

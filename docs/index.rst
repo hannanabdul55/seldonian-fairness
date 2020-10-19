@@ -12,11 +12,21 @@ Welcome to Seldonian FairML's documentation!
 
 This library is an implementation of the paper `Preventing undesirable behavior of intelligent machines <https://doi.org/10.1126/science.aag3311>`_.
 
+.. automodule:: seldonian.algorithm
+      :members:
+      :undoc-members:
+      :show-inheritance:
+
 .. automodule:: seldonian.seldonian
       :members:
       :undoc-members:
       :show-inheritance:
       :special-members:
+
+.. automodule:: seldonian.objectives
+      :members:
+      :undoc-members:
+      :show-inheritance:
 
 
 

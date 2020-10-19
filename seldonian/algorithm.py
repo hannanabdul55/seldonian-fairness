@@ -37,7 +37,7 @@ class SeldonianAlgorithm(ABC):
         """
         Run the safety test on the trained model from the candidate selection part i.e. the
         :func:`fit` function.
-        It is also used to predict the $\\hat{g}$ value used in candidate selection.
+        It is also used to predict the ``g_hat`` value used in candidate selection.
 
         :param kwargs Key value arguments sent to the subclass implementation of safety test.
         :return Depending on the implementation, it will either send a `1` if it passes or
