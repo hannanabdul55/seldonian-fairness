@@ -1,18 +1,14 @@
 from abc import ABC
 
 import scipy
-from sklearn.metrics import log_loss
 
-from seldonian.algorithm import Model
+from seldonian.algorithm import SeldonianAlgorithm
 
 import numpy as np
 
-from seldonian.utils import sigmoid
 
-
-class CMAESModel(Model, ABC):
+class CMAESModel(ABC):
     def __init__(self, X, y, verbose=False):
-        super().__init__()
         self.theta = np.random.default_rng(0).random((X.shape[1] + 1, 1))
         self.X = X
         self.y = y
@@ -125,24 +121,3 @@ class CMAESModel(Model, ABC):
     def reset(self):
         self.theta = np.zeros_like(self.theta)
         pass
-
-
-class LogisticRegressionCMAES(CMAESModel):
-
-    def __init__(self, X, y, verbose=False):
-        super().__init__(X, y, verbose)
-
-    def _predict(self, X, theta):
-        w = theta[:-1]
-        b = theta[-1]
-        logit = np.dot(X, w) + b
-        return sigmoid(logit)
-
-    def loss(self, y_pred, y_true, theta):
-        return log_loss(y_true, y_pred)
-
-    def predict(self, X):
-        w = self.theta[:-1]
-        b = self.theta[-1]
-        return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(np.int)

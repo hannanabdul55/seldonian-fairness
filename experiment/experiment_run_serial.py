@@ -23,7 +23,7 @@ if args.dir:
 else:
     dir = 'result/results_default'
 
-args.config = 'config/dummy_cmaes.json'
+args.config = 'config/dummy.json'
 if args.config:
     exp_config = json.load(open(args.config, "r"))
 else:
@@ -40,7 +40,7 @@ else:
     checkpoint = args.checkpoint
 
 
-def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p"):
+def save_res(obj, filename=f"{dir}/{checkpoint}_{np.random.randint(1000000)}.p"):
     pickle.dump(obj, open(filename, 'wb'))
 
 
@@ -144,7 +144,7 @@ if __name__ == '__main__':
     print(f"Running experiment with checkpoint: {checkpoint}")
     print(f"Config used: {exp_config!r}")
     if 'name' in exp_config:
-        dir = f"result_{exp_config['name']}"
+        dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
     n_test = 1e6 * 5
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))

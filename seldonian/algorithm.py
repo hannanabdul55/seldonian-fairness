@@ -1,17 +1,25 @@
-class SeldonianAlgorithm:
-    def __init__(self):
-        pass
+from abc import ABC, abstractmethod
 
-    def model(self):
+
+class SeldonianAlgorithm(ABC):
+    @abstractmethod
+    def fit(self, **kwargs):
         raise NotImplementedError("bounds function must be implemented")
         pass
 
+    @abstractmethod
+    def predict(self, X):
+        raise NotImplementedError("predict function must be implemented")
+        pass
+
+    @abstractmethod
+    def safetyTest(self, **kwargs):
+        raise NotImplementedError("safetyTest function must be implemented")
+        pass
+
+    @abstractmethod
     def data(self):
         raise NotImplementedError("subclass must implement data method to return the data")
-        pass
-
-    def bounds(self):
-        raise NotImplementedError("bounds function must be implemented")
         pass
 
 

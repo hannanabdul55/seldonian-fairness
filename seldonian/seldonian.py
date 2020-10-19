@@ -4,11 +4,12 @@ import numpy as np
 import scipy.optimize
 from sklearn.model_selection import train_test_split
 
+from seldonian.algorithm import SeldonianAlgorithm
 from seldonian.cmaes import CMAESModel
 from seldonian.utils import sigmoid
 
 
-class SeldonianAlgorithmLogRegCMAES(CMAESModel):
+class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
                  stratify=False, hard_barrier=False):
         self.X = X
@@ -79,7 +80,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel):
             np.dot(X, w) + b) > 0.5).astype(np.int)
 
 
-class LogisticRegressionSeldonianModel:
+class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
                  hard_barrier=False, stratify=False):
