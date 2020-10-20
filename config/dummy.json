@@ -1,7 +1,8 @@
 {
-  "name": "cmaes_30trials",
+  "name": "nn_dummy",
   "N": [
-    1e4
+    1e4,
+    1e5
   ],
   "trials": 5,
   "methods": [

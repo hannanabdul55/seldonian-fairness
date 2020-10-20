@@ -57,7 +57,7 @@ def run_experiment_p(exp):
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
-    X_test, y_test, _ = make_synthetic(n*10, exp['D'], *exp['tprs'], A_idx=A_idx)
+    X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
@@ -90,15 +90,22 @@ def run_experiment_p(exp):
                                                    stratify=stratify)
         else:
             est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, verbose=False)
+
         est.fit()
 
         # Accuracy on seldonian optimizer
-        y_p = est.predict(X_test)
-        acc = accuracy_score(y_test, y_p)
-        accuracy.append(acc)
 
         # safety test on seldonian model
-        safe = est.safetyTest(predict=False)
+        with torch.no_grad():
+            y_p = est.predict(X_test)
+            if torch.is_tensor(y_p):
+                y_p = y_p.numpy()
+            acc = accuracy_score(y_test, y_p)
+            accuracy.append(acc)
+            safe = est.safetyTest(predict=False)
+            if torch.is_tensor(safe):
+                safe = np.sum(safe.detach().double().numpy())
+                print(f"Safety test result: {safe}")
 
         # Rate Solution Found
         sol_found_rate.append(0 if safe > 0 else 1)
@@ -112,8 +119,13 @@ def run_experiment_p(exp):
         failure_rate.append(1 if c_ghat_val > 0.0 else 0)
 
         # Unconstrained optimizer
-        uc_est = LogisticRegression(penalty='none').fit(X, y)
-        y_preds = uc_est.predict(X_test)
+        if opt != 'NN':
+            uc_est = LogisticRegression(penalty='none').fit(X, y)
+            y_preds = uc_est.predict(X_test)
+        else:
+            uc_est = VanillaNN(X, y, test_size=0.01)
+            uc_est.fit()
+            y_preds = uc_est.predict(X_test).numpy()
 
         # Accuracy on Unconstrained estimator
         uc_acc = accuracy_score(y_test, y_preds)
@@ -152,6 +164,8 @@ if __name__ == '__main__':
     if 'name' in exp_config:
         dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
+
+    n_test = 1e6
 
     ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
