@@ -1,4 +1,5 @@
 from seldonian.seldonian import *
+from seldonian.seldonian_nn import VanillaNN
 from seldonian.synthetic import *
 import numpy as np
 from sklearn.metrics import accuracy_score
@@ -23,7 +24,6 @@ if args.dir:
 else:
     dir = 'result/results_default'
 
-args.config = 'config/dummy.json'
 if args.config:
     exp_config = json.load(open(args.config, "r"))
 else:
@@ -50,6 +50,9 @@ def run_experiment_p(exp):
     stratify = False
     if 'stratify' in exp:
         stratify = exp['stratify']
+    if 'method' not in exp:
+        exp['method'] = 'ttest'
+
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
@@ -63,17 +66,17 @@ def run_experiment_p(exp):
     uc_accuracy = []
     uc_mean_ghat = []
     for t in np.arange(exp['trials']):
-        ghats = []
-        ghats.append({
+        ghats = [{
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2),
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                method=exp['method']),
             'delta': 0.05
-        })
+        }]
         if opt == 'CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
                                                 verbose=False, stratify=stratify)
-        else:
+        elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
                 print(f"Running with hard_barrier={hard_barrier}")
@@ -84,10 +87,15 @@ def run_experiment_p(exp):
                                                    verbose=True,
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify)
+        else:
+            est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify)
+
         est.fit()
 
         # Accuracy on seldonian optimizer
         y_p = est.predict(X_test)
+        if torch.is_tensor(y_p):
+            y_p = y_p.detach().numpy()
         acc = accuracy_score(y_test, y_p)
         accuracy.append(acc)
 
@@ -132,7 +140,8 @@ def run_experiment_p(exp):
             'uc_failure_rate': np.mean(uc_failure_rate),
             'uc_failure_rate_std': np.std(uc_failure_rate),
             'uc_accuracy': np.mean(uc_accuracy),
-            'uc_ghat': np.mean(uc_mean_ghat)
+            'uc_ghat': np.mean(uc_mean_ghat),
+            'method': exp['method']
         })
         save_res(results, filename=f"{dir}/{checkpoint}_{n}.p")
     print(f"Results for N={n}: \n{results!r}")

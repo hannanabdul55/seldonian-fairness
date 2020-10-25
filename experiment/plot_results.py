@@ -78,7 +78,7 @@ def plot_results(res, opt):
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         # raise ValueError("Specify the result folder ")
-        folder = 'result_powell_30trials'
+        folder = 'result/result_powell_100tr_30n_stratify'
     else:
         folder = sys.argv[1].strip()
     config = pickle.load(open(folder + "/config.p", "rb"))

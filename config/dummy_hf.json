@@ -4,7 +4,7 @@
     1e3
   ],
   "trials": 1,
-  "method": "ttest",
+  "method": "hoeffdings",
   "D": 5,
   "tprs": [
     0.3,

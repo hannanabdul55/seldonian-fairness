@@ -1,4 +1,5 @@
 from seldonian.seldonian import *
+from seldonian.seldonian_nn import VanillaNN
 from seldonian.synthetic import *
 import numpy as np
 from sklearn.metrics import accuracy_score
@@ -50,6 +51,10 @@ def run_experiment_p(exp):
     stratify = False
     if 'stratify' in exp:
         stratify = exp['stratify']
+    if 'method' in exp:
+        method = exp['method']
+    else:
+        method = 'ttest'
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
@@ -63,17 +68,17 @@ def run_experiment_p(exp):
     uc_accuracy = []
     uc_mean_ghat = []
     for t in np.arange(exp['trials']):
-        ghats = []
-        ghats.append({
+        ghats = [{
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2),
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                method=method),
             'delta': 0.05
-        })
+        }]
         if opt == 'CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
                                                 verbose=False, stratify=stratify)
-        else:
+        elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
                 print(f"Running with hard_barrier={hard_barrier}")
@@ -84,10 +89,15 @@ def run_experiment_p(exp):
                                                    verbose=True,
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify)
+        else:
+            est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify)
+
         est.fit()
 
         # Accuracy on seldonian optimizer
         y_p = est.predict(X_test)
+        if torch.is_tensor(y_p):
+            y_p = y_p.detach().numpy()
         acc = accuracy_score(y_test, y_p)
         accuracy.append(acc)
 
@@ -144,9 +154,9 @@ if __name__ == '__main__':
     print(f"Running experiment with checkpoint: {checkpoint}")
     print(f"Config used: {exp_config!r}")
     if 'name' in exp_config:
-        dir = f"result_{exp_config['name']}"
+        dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
-    n_test = 1e6*5
+    n_test = 1e6 * 5
     ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 

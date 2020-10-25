@@ -1,11 +1,10 @@
 {
   "name": "cmaes_dummy",
-  "N": [1.00000000e+03],
-  "trials": 5,
-  "methods": [
-    "ttest",
-    "hoeffdings"
+  "N": [
+    1.00000000e+03
   ],
+  "trials": 5,
+  "method": "ttest",
   "D": 5,
   "tprs": [
     0.3,
