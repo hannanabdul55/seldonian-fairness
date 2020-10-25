@@ -13,7 +13,7 @@
 #SBATCH --mem-per-cpu=8gb    # Memory in MB per cpu allocated
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=akanji@cs.umass.edu
-
+export PYTHONPATH=/home/akanji/seldonian-fairness:$PYTHONPATH
 export MKL_NUM_THREADS=12
 export OPENBLAS_NUM_THREADS=12
 export OMP_NUM_THREADS=12
