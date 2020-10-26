@@ -1,5 +1,5 @@
 {
-  "name": "cmaes_50tr_stratify_hardbarrier_hf",
+  "name": "cmaes_30tr_stratify_hardbarrier_hf",
   "N": [
     1.00000000e+02,
     1.37382380e+02,
@@ -32,7 +32,7 @@
     7.27895384e+05,
     1.00000000e+06
   ],
-  "trials": 50,
+  "trials": 30,
   "method": "hoeffdings",
   "D": 5,
   "tprs": [
