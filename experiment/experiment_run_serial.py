@@ -102,7 +102,7 @@ def run_experiment_p(exp):
         y_p = est.predict(X_test)
         if torch.is_tensor(y_p):
             y_p = y_p.detach().numpy()
-        acc = accuracy_score(y_test, y_p)
+        acc = accuracy_score(y_test.astype(int), y_p)
         accuracy.append(acc)
 
         # safety test on seldonian model
@@ -110,6 +110,13 @@ def run_experiment_p(exp):
 
         # Rate Solution Found
         sol_found_rate.append(0 if safe > 0 else 1)
+
+        ghats = [{
+            'fn': ghat_tpr_diff(A_idx,
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                method=exp['method']),
+            'delta': 0.05
+        }]
 
         c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'], ub=False)
 
@@ -124,6 +131,9 @@ def run_experiment_p(exp):
             uc_est = LogisticRegression(penalty='none').fit(X, y)
         else:
             uc_est = VanillaNN(X, y, test_size=exp['test_size'], stratify=stratify)
+
+        uc_est.fit()
+
         y_preds = uc_est.predict(X_test)
         if torch.is_tensor(y_preds):
             y_preds = y_preds.detach().numpy()
@@ -131,12 +141,7 @@ def run_experiment_p(exp):
         uc_acc = accuracy_score(y_test, y_preds)
         uc_accuracy.append(uc_acc)
 
-        ghats = [{
-            'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
-                                method=exp['method']),
-            'delta': 0.05
-        }]
+
         # Mean ghat valuye on test data
         ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'], ub=False)
         uc_mean_ghat.append(ghat_val)

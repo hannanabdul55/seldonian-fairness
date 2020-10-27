@@ -77,7 +77,7 @@ class VanillaNN(SeldonianAlgorithm):
         if not pmf:
             preds = torch.argmax(self.mod(X), dim=1)
         else:
-            preds = nn.Softmax(dim=1)(self.mod(X))[:1]
+            preds = nn.Softmax(dim=1)(self.mod(X))[:, 1]
         return preds
 
     def safetyTest(self, predict=False, ub=True):

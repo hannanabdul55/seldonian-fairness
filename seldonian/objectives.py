@@ -31,7 +31,7 @@ def tpr_rate_t(A_idx=None, A_val=None):
                 tpr = nn.Softmax(dim=1)(est(X[(X[:, A_idx] == A_val) * (y_true == 1), :]))[:, 1]
                 # tpr = ((est(X[:, A_idx])) & ((y_true == 1) & (y_pred == 1))).astype(int)
             else:
-                tpr = est(X)
+                tpr = nn.Softmax(dim=1)(est(X) * (y_true == 1))[:, 1]
             return tpr
 
     return ghat_tpr_t

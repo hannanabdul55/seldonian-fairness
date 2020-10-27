@@ -105,7 +105,7 @@ def run_experiment_p(exp):
         safe = est.safetyTest(predict=False)
 
         # Rate Solution Found
-        sol_found_rate.append(0 if safe > 0 else 1)
+        sol_found_rate.append(0 if safe > 0.0 else 1)
 
         c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'], ub=False)
 
@@ -113,7 +113,7 @@ def run_experiment_p(exp):
         mean_ghat.append(c_ghat_val)
 
         # Probability of g(D)<0
-        failure_rate.append(1 if c_ghat_val > 0.0 else 0)
+        failure_rate.append(1 if c_ghat_val > 0.0 and safe <= 0.0 else 0)
 
         # Unconstrained optimizer
         uc_est = LogisticRegression(penalty='none').fit(X, y)
