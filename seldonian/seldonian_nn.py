@@ -71,10 +71,13 @@ class VanillaNN(SeldonianAlgorithm):
         print("Training done.")
         pass
 
-    def predict(self, X):
+    def predict(self, X, pmf=False):
         if not torch.is_tensor(X):
             X = torch.as_tensor(X, dtype=torch.float)
-        preds = torch.argmax(self.mod(X), dim=1)
+        if not pmf:
+            preds = torch.argmax(self.mod(X), dim=1)
+        else:
+            preds = nn.Softmax(dim=1)(self.mod(X))[:1]
         return preds
 
     def safetyTest(self, predict=False, ub=True):
@@ -85,9 +88,9 @@ class VanillaNN(SeldonianAlgorithm):
         ghats = torch.empty(len(self.constraint), requires_grad=True)
         i = 0
         for g_hat in self.constraint:
-            y_preds = self.predict(X_test)
+            y_preds = self.predict(X_test, True)
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
-                                   predict=predict, ub=ub)
+                                   predict=predict, ub=ub, est=self.mod)
             with torch.no_grad():
                 ghats[i] = ghat_val
             i += 1

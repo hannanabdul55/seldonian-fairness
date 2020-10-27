@@ -99,6 +99,9 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     """
     Implements a Logistic Regression classifier using ``scipy.optimize`` package as the optimizer
     using the Seldonian Approach for training the model.
+    Have a look at the [scipy.optimize.minimize reference](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html)
+    for more information. You can use any of the methods listen in the `method` input of this SciPy
+    function as a parameter to the ``fit()`` method call.
     """
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
                  hard_barrier=False, stratify=False):

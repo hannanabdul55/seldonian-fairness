@@ -88,6 +88,12 @@ def run_experiment_p(exp):
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify)
         else:
+            ghats = [{
+                'fn': ghat_tpr_diff_t(A_idx,
+                                    threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                    method=exp['method']),
+                'delta': 0.05
+            }]
             est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify)
 
         est.fit()
@@ -114,13 +120,23 @@ def run_experiment_p(exp):
         failure_rate.append(1 if c_ghat_val > 0.0 else 0)
 
         # Unconstrained optimizer
-        uc_est = LogisticRegression(penalty='none').fit(X, y)
+        if opt != 'NN':
+            uc_est = LogisticRegression(penalty='none').fit(X, y)
+        else:
+            uc_est = VanillaNN(X, y, test_size=exp['test_size'], stratify=stratify)
         y_preds = uc_est.predict(X_test)
-
+        if torch.is_tensor(y_preds):
+            y_preds = y_preds.detach().numpy()
         # Accuracy on Unconstrained estimator
         uc_acc = accuracy_score(y_test, y_preds)
         uc_accuracy.append(uc_acc)
 
+        ghats = [{
+            'fn': ghat_tpr_diff(A_idx,
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                method=exp['method']),
+            'delta': 0.05
+        }]
         # Mean ghat valuye on test data
         ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'], ub=False)
         uc_mean_ghat.append(ghat_val)

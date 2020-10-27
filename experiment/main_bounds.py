@@ -1,10 +1,13 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
+from seldonian.bounds import RandomVariable
 from seldonian.objectives import *
 import pickle
 import matplotlib.pyplot as plt
 from seldonian.algorithm import *
+
+import numpy as np
 from time import time
 
 
