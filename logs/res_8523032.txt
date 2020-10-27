@@ -16595,3 +16595,1512 @@ Config used: {'name': 'powell_hb_30tr_30n_v2', 'N': [100.0, 137.38238, 188.73918
 [2m[36m(pid=1507)[0m          Iterations: 3
 [2m[36m(pid=1507)[0m          Function evaluations: 550
 [2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.847070
+[2m[36m(pid=1565)[0m          Iterations: 2
+[2m[36m(pid=1565)[0m          Function evaluations: 393
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.713882
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 474
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.797702
+[2m[36m(pid=1565)[0m          Iterations: 2
+[2m[36m(pid=1565)[0m          Function evaluations: 317
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.492221
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 60
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.747513
+[2m[36m(pid=1529)[0m          Iterations: 5
+[2m[36m(pid=1529)[0m          Function evaluations: 638
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.802117
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 495
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.743945
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 489
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.755843
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 478
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.774352
+[2m[36m(pid=1507)[0m          Iterations: 2
+[2m[36m(pid=1507)[0m          Function evaluations: 487
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.767269
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 446
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.755858
+[2m[36m(pid=1565)[0m          Iterations: 4
+[2m[36m(pid=1565)[0m          Function evaluations: 764
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.709918
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 501
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.500394
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.488823
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 60
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.749846
+[2m[36m(pid=1565)[0m          Iterations: 7
+[2m[36m(pid=1565)[0m          Function evaluations: 956
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.768145
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 543
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.698937
+[2m[36m(pid=1529)[0m          Iterations: 4
+[2m[36m(pid=1529)[0m          Function evaluations: 820
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.752215
+[2m[36m(pid=1507)[0m          Iterations: 13
+[2m[36m(pid=1507)[0m          Function evaluations: 1999
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.701362
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 529
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.743800
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 577
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.836785
+[2m[36m(pid=1507)[0m          Iterations: 2
+[2m[36m(pid=1507)[0m          Function evaluations: 301
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.744524
+[2m[36m(pid=1544)[0m          Iterations: 5
+[2m[36m(pid=1544)[0m          Function evaluations: 761
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.693939
+[2m[36m(pid=1565)[0m          Iterations: 8
+[2m[36m(pid=1565)[0m          Function evaluations: 1264
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.744375
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 451
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.753630
+[2m[36m(pid=1507)[0m          Iterations: 6
+[2m[36m(pid=1507)[0m          Function evaluations: 891
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.706720
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 518
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.739654
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 510
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.733437
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 505
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.794024
+[2m[36m(pid=1565)[0m          Iterations: 2
+[2m[36m(pid=1565)[0m          Function evaluations: 435
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.736853
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 470
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.716597
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 513
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.787034
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 473
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.725232
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 450
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.479441
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 60
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.756826
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 500
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.497869
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 60
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.727171
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 463
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.766486
+[2m[36m(pid=1507)[0m          Iterations: 9
+[2m[36m(pid=1507)[0m          Function evaluations: 1114
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.501908
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.733239
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 524
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.740773
+[2m[36m(pid=1507)[0m          Iterations: 4
+[2m[36m(pid=1507)[0m          Function evaluations: 757
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.765119
+[2m[36m(pid=1565)[0m          Iterations: 4
+[2m[36m(pid=1565)[0m          Function evaluations: 533
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.697341
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 498
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.741206
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 496
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.741239
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 483
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.761785
+[2m[36m(pid=1565)[0m          Iterations: 10
+[2m[36m(pid=1565)[0m          Function evaluations: 1364
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.748401
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 509
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.719932
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 486
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.744270
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 428
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.764079
+[2m[36m(pid=1529)[0m          Iterations: 6
+[2m[36m(pid=1529)[0m          Function evaluations: 901
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.679071
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 528
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1565)[0m Optimization terminated successfully.
+[2m[36m(pid=1565)[0m          Current function value: 0.758795
+[2m[36m(pid=1565)[0m          Iterations: 3
+[2m[36m(pid=1565)[0m          Function evaluations: 671
+[2m[36m(pid=1565)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1565)[0m Results for N=148735.211: 
+[2m[36m(pid=1565)[0m {'N': 148735.211, 'opt': 'Powell', 'n': 148735.211, 'trials': 99, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 1.0, 'sol_found_rate_std': 0.0, 'accuracy': 0.494128632, 'ghat': -0.01345566536957425, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.7999183999999998, 'uc_ghat': 0.5998491668166996}
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.479971
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.743093
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 490
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.737810
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 479
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.763988
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 485
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.743020
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 493
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.705063
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 570
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.489117
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.484044
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 61
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.761551
+[2m[36m(pid=1507)[0m          Iterations: 11
+[2m[36m(pid=1507)[0m          Function evaluations: 1581
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.482091
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 56
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.745178
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 494
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.721902
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 496
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.735493
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 390
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.768594
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 503
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.722074
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 491
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.763220
+[2m[36m(pid=1507)[0m          Iterations: 2
+[2m[36m(pid=1507)[0m          Function evaluations: 398
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.688401
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 543
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.751027
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 520
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.729540
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 489
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.487394
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.479234
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 57
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.734721
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 533
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.701958
+[2m[36m(pid=1529)[0m          Iterations: 4
+[2m[36m(pid=1529)[0m          Function evaluations: 660
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.755692
+[2m[36m(pid=1507)[0m          Iterations: 8
+[2m[36m(pid=1507)[0m          Function evaluations: 1308
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.477585
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.761960
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 509
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.724692
+[2m[36m(pid=1507)[0m          Iterations: 2
+[2m[36m(pid=1507)[0m          Function evaluations: 497
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.703091
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 490
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.808497
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 461
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.492500
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.506286
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.490164
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.744099
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 456
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.736173
+[2m[36m(pid=1507)[0m          Iterations: 12
+[2m[36m(pid=1507)[0m          Function evaluations: 1875
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.735008
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 488
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.833073
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 491
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.693796
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 532
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.733934
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 499
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.487025
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.484966
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.485795
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.761927
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 513
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.756497
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 493
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.488043
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 60
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.496659
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 60
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.728303
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 493
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.494629
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 59
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.509132
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.718945
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 489
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.746908
+[2m[36m(pid=1507)[0m          Iterations: 2
+[2m[36m(pid=1507)[0m          Function evaluations: 454
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.730080
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 492
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.729200
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 496
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.712866
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 487
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.486575
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.727052
+[2m[36m(pid=1507)[0m          Iterations: 3
+[2m[36m(pid=1507)[0m          Function evaluations: 459
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.751449
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 453
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.776295
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 484
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1507)[0m Optimization terminated successfully.
+[2m[36m(pid=1507)[0m          Current function value: 0.751765
+[2m[36m(pid=1507)[0m          Iterations: 4
+[2m[36m(pid=1507)[0m          Function evaluations: 601
+[2m[36m(pid=1507)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1507)[0m Results for N=204335.972: 
+[2m[36m(pid=1507)[0m {'N': 204335.972, 'opt': 'Powell', 'n': 204335.972, 'trials': 99, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.93, 'sol_found_rate_std': 0.2551470164434615, 'accuracy': 0.49367334599999985, 'ghat': -0.009774700475975548, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.7999183999999998, 'uc_ghat': 0.5998491668166996}
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.728297
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 526
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.480724
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 61
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.751182
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 470
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 10000.481022
+[2m[36m(pid=1527)[0m          Iterations: 1
+[2m[36m(pid=1527)[0m          Function evaluations: 58
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.747129
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 510
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1527)[0m Optimization terminated successfully.
+[2m[36m(pid=1527)[0m          Current function value: 0.703577
+[2m[36m(pid=1527)[0m          Iterations: 3
+[2m[36m(pid=1527)[0m          Function evaluations: 501
+[2m[36m(pid=1527)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1527)[0m Results for N=529831.691: 
+[2m[36m(pid=1527)[0m {'N': 529831.691, 'opt': 'Powell', 'n': 529831.691, 'trials': 99, 'failure_rate': 0.55, 'failure_rate_std': 0.49749371855331, 'sol_found_rate': 0.45, 'sol_found_rate_std': 0.49749371855331004, 'accuracy': 0.6734436359999999, 'ghat': 0.31957761892315667, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.7999183999999998, 'uc_ghat': 0.5998491668166996}
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.721506
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 465
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.751385
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 459
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.745291
+[2m[36m(pid=1529)[0m          Iterations: 7
+[2m[36m(pid=1529)[0m          Function evaluations: 1028
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.754236
+[2m[36m(pid=1544)[0m          Iterations: 6
+[2m[36m(pid=1544)[0m          Function evaluations: 909
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.711973
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 474
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.763559
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 370
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.743886
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 456
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.755960
+[2m[36m(pid=1529)[0m          Iterations: 8
+[2m[36m(pid=1529)[0m          Function evaluations: 1352
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.754127
+[2m[36m(pid=1544)[0m          Iterations: 12
+[2m[36m(pid=1544)[0m          Function evaluations: 1609
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.753289
+[2m[36m(pid=1529)[0m          Iterations: 8
+[2m[36m(pid=1529)[0m          Function evaluations: 1034
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.747039
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 443
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.734958
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 478
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.723911
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 471
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.724947
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 543
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.749080
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 529
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.801060
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 486
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.804775
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 425
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.751735
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 505
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.723335
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 474
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.712004
+[2m[36m(pid=1544)[0m          Iterations: 5
+[2m[36m(pid=1544)[0m          Function evaluations: 831
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.742097
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 512
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.742482
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 475
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.752421
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 480
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.708837
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 488
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.765354
+[2m[36m(pid=1529)[0m          Iterations: 6
+[2m[36m(pid=1529)[0m          Function evaluations: 671
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.737975
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 517
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.707692
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 491
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.740778
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 456
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.739103
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 492
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.746024
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 449
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.743276
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 502
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.771980
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 465
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.756908
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 483
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.762144
+[2m[36m(pid=1544)[0m          Iterations: 6
+[2m[36m(pid=1544)[0m          Function evaluations: 746
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.774095
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 509
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.754408
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 516
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.712497
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 550
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.756174
+[2m[36m(pid=1529)[0m          Iterations: 9
+[2m[36m(pid=1529)[0m          Function evaluations: 1467
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.727259
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 488
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.702087
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 571
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.755735
+[2m[36m(pid=1529)[0m          Iterations: 6
+[2m[36m(pid=1529)[0m          Function evaluations: 996
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.720793
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 466
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.707363
+[2m[36m(pid=1529)[0m          Iterations: 5
+[2m[36m(pid=1529)[0m          Function evaluations: 809
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.774372
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 442
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.709120
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 523
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.745713
+[2m[36m(pid=1544)[0m          Iterations: 8
+[2m[36m(pid=1544)[0m          Function evaluations: 1299
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.751028
+[2m[36m(pid=1529)[0m          Iterations: 7
+[2m[36m(pid=1529)[0m          Function evaluations: 990
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.722673
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 488
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.744110
+[2m[36m(pid=1529)[0m          Iterations: 5
+[2m[36m(pid=1529)[0m          Function evaluations: 715
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.748083
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 485
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.754721
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 501
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.733561
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 461
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.713653
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 551
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.748777
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 475
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.741448
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 493
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.712642
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 504
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.734997
+[2m[36m(pid=1544)[0m          Iterations: 5
+[2m[36m(pid=1544)[0m          Function evaluations: 771
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.737083
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 479
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.763515
+[2m[36m(pid=1529)[0m          Iterations: 5
+[2m[36m(pid=1529)[0m          Function evaluations: 880
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.735127
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 514
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.743678
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 478
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.747990
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 471
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.748774
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 457
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.820833
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 521
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.719903
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 497
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.740336
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 454
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.752362
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 544
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.733740
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 471
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.747078
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 481
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.694581
+[2m[36m(pid=1529)[0m          Iterations: 4
+[2m[36m(pid=1529)[0m          Function evaluations: 730
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.742530
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 471
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.742169
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 474
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.712431
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 473
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.734371
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 509
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.742652
+[2m[36m(pid=1529)[0m          Iterations: 6
+[2m[36m(pid=1529)[0m          Function evaluations: 806
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.721911
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 487
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.747751
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 472
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.735594
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 519
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.759882
+[2m[36m(pid=1529)[0m          Iterations: 6
+[2m[36m(pid=1529)[0m          Function evaluations: 773
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.722860
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 456
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.837733
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 455
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.731621
+[2m[36m(pid=1529)[0m          Iterations: 7
+[2m[36m(pid=1529)[0m          Function evaluations: 996
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.737008
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 461
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.736954
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 487
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.768803
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 482
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.737600
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 444
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.731243
+[2m[36m(pid=1529)[0m          Iterations: 2
+[2m[36m(pid=1529)[0m          Function evaluations: 493
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.757980
+[2m[36m(pid=1544)[0m          Iterations: 6
+[2m[36m(pid=1544)[0m          Function evaluations: 738
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.762435
+[2m[36m(pid=1529)[0m          Iterations: 6
+[2m[36m(pid=1529)[0m          Function evaluations: 772
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.735431
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 471
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.759229
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 457
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m 
+[2m[36m(pid=1529)[0m          Current function value: 0.716748
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 502
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.735802
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 557
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.748426
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 511
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.749784
+[2m[36m(pid=1529)[0m          Iterations: 6
+[2m[36m(pid=1529)[0m          Function evaluations: 847
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.753111
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 444
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.722600
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 539
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.740544
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 501
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.768184
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 443
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.740211
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 504
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.738383
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 463
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.754933
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 478
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.774038
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 545
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.754055
+[2m[36m(pid=1529)[0m          Iterations: 7
+[2m[36m(pid=1529)[0m          Function evaluations: 1072
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.755388
+[2m[36m(pid=1544)[0m          Iterations: 7
+[2m[36m(pid=1544)[0m          Function evaluations: 1031
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.753383
+[2m[36m(pid=1529)[0m          Iterations: 10
+[2m[36m(pid=1529)[0m          Function evaluations: 1373
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.730694
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 563
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.745937
+[2m[36m(pid=1529)[0m          Iterations: 5
+[2m[36m(pid=1529)[0m          Function evaluations: 643
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.735431
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 491
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.756172
+[2m[36m(pid=1529)[0m          Iterations: 5
+[2m[36m(pid=1529)[0m          Function evaluations: 600
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.741979
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 483
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.769998
+[2m[36m(pid=1544)[0m          Iterations: 8
+[2m[36m(pid=1544)[0m          Function evaluations: 977
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1529)[0m Optimization terminated successfully.
+[2m[36m(pid=1529)[0m          Current function value: 0.752056
+[2m[36m(pid=1529)[0m          Iterations: 3
+[2m[36m(pid=1529)[0m          Function evaluations: 504
+[2m[36m(pid=1529)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1529)[0m Results for N=727895.384: 
+[2m[36m(pid=1529)[0m {'N': 727895.384, 'opt': 'Powell', 'n': 727895.384, 'trials': 99, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.95, 'sol_found_rate_std': 0.21794494717703375, 'accuracy': 0.49343824399999986, 'ghat': -0.004645242734189795, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.7999183999999998, 'uc_ghat': 0.5998491668166996}
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.759090
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 514
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.739835
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 526
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.707726
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 549
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.746262
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 481
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.766018
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 460
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.724997
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 518
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.735225
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 495
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.753884
+[2m[36m(pid=1544)[0m          Iterations: 13
+[2m[36m(pid=1544)[0m          Function evaluations: 1785
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.746868
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 476
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.780673
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 450
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.735997
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 443
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.801154
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 515
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.752443
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 468
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.791207
+[2m[36m(pid=1544)[0m          Iterations: 2
+[2m[36m(pid=1544)[0m          Function evaluations: 511
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.766317
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 492
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.711087
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 454
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.720659
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 503
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.726047
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 459
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.738372
+[2m[36m(pid=1544)[0m          Iterations: 4
+[2m[36m(pid=1544)[0m          Function evaluations: 767
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.751724
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 531
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+[2m[36m(pid=1544)[0m Running with hard_barrier=True
+[2m[36m(pid=1544)[0m Optimization terminated successfully.
+[2m[36m(pid=1544)[0m          Current function value: 0.738006
+[2m[36m(pid=1544)[0m          Iterations: 3
+[2m[36m(pid=1544)[0m          Function evaluations: 463
+[2m[36m(pid=1544)[0m Optimization result: Optimization terminated successfully.
+saving results
+[2m[36m(pid=1544)[0m Results for N=1000000.0: 
+[2m[36m(pid=1544)[0m {'N': 1000000.0, 'opt': 'Powell', 'n': 1000000.0, 'trials': 99, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.94, 'sol_found_rate_std': 0.23748684174075835, 'accuracy': 0.4974539079999999, 'ghat': -0.003556091863154892, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.7999183999999998, 'uc_ghat': 0.5998491668166996}
+Time run: 35611 seconds
