@@ -1,0 +1,7 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: osx-64
+
+recommonmark~=0.6.0
+sphinx-rtd-theme==0.5.0
+Sphinx==3.2.1
