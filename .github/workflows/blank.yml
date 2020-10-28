@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:    
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    # Standard drop-in approach that should work for most people.
+    - uses: ammaraskar/sphinx-action@master
+      with:
+        docs-folder: "docs/"
+    # Great extra actions to compose with:
+    # Create an artifact of the html output.
+    - uses: actions/upload-artifact@v1
+      with:
+        name: DocumentationHTML
+        path: docs/_build/html/
+    # Publish built docs to gh-pages branch.
+    # ===============================
+    -
+        name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: docs/_build/html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    # ===============================
