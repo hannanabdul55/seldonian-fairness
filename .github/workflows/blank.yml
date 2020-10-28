@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - run: pip install -r requirements.txt
     - uses: actions/checkout@v1
+    - run: pip install -r requirements.txt
     # Standard drop-in approach that should work for most people.
     - uses: ammaraskar/sphinx-action@master
       with:
