@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      trigger:
+        description: 'Deploy to GitHub Pages'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - uses: actions/checkout@v1
+    - run: pip3 install -r requirements.txt
+    # Standard drop-in approach that should work for most people.
+    - run: cd docs && make html
+    # Great extra actions to compose with:
+    # Create an artifact of the html output.
+    - uses: actions/upload-artifact@v1
+      with:
+        name: DocumentationHTML
+        path: docs/_build/html/
+    # Publish built docs to gh-pages branch.
+    # ===============================
+    -
+        name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: docs/_build/html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # ===============================

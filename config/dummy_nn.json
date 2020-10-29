@@ -1,13 +1,11 @@
 {
   "name": "nn",
   "N": [
-    1e4
+    12500
   ],
   "trials": 1,
-  "methods": [
-    "ttest",
-    "hoeffdings"
-  ],
+  "methods":
+    "hoeffdings",
   "D": 5,
   "tprs": [
     0.3,
