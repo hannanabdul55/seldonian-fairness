@@ -118,21 +118,25 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
                     self.X, self.y, test_size=test_size, random_state=0
                 )
             else:
+                min_diff = np.inf
                 thet = self.theta
                 count = 0
                 self.X_t = self.X
                 self.y_t = self.y
-                while count < 30:
+                while count < 50:
                     self.X = self.X_t
                     self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size
                     )
-                    if abs(self.safetyTest(thet, predict=True, ub=False) -
-                           self.safetyTest(thet, predict=False, ub=False)) < 0.1:
-                        count += 30
+                    diff = abs(self.safetyTest(thet, predict=True, ub=False) -
+                               self.safetyTest(thet, predict=False, ub=False))
+                    if diff < min_diff:
+                        self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
+                        min_diff = diff
                     else:
                         count += 1
+                self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
 
     def data(self):
         return self.X, self.y
