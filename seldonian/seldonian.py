@@ -40,20 +40,24 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                 )
             else:
                 thet = np.random.default_rng().random((X.shape[1] + 1, 1))
+                min_diff = np.inf
                 count = 0
                 self.X_t = self.X
                 self.y_t = self.y
-                while count < 30:
+                while count < 50:
                     self.X = self.X_t
                     self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size
                     )
-                    if abs(self.safetyTest(thet, predict=True, ub=False) -
-                           self.safetyTest(thet, predict=False, ub=False)) < 0.1:
-                        count += 30
+                    diff = abs(self.safetyTest(thet, predict=True, ub=False) -
+                               self.safetyTest(thet, predict=False, ub=False))
+                    if diff < min_diff:
+                        self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
+                        min_diff = diff
                     else:
                         count += 1
+                self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
 
         super().__init__(self.X, self.y, verbose)
 
