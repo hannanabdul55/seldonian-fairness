@@ -1,0 +1,21 @@
+{
+  "name": "week12_cmaes_ttest_dummy_v3",
+  "N": [
+    100,300, 600, 780,
+    9.23670857e+02,
+    1.17210230e+04,
+    1.08263673e+05,
+    1.00000000e+06
+  ],
+  "trials": 5,
+  "method": "ttest",
+  "D": 5,
+  "tprs": [
+    0.1,
+    0.9
+  ],
+  "test_size": 0.4,
+  "opt": "CMAES",
+  "hard_barrier": true,
+  "stratify": false
+}

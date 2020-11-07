@@ -70,7 +70,7 @@ def run_experiment_p(exp):
     for t in np.arange(exp['trials']):
         ghats = [{
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 4,
                                 method=method),
             'delta': 0.05
         }]
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     if 'name' in exp_config:
         dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
-    n_test = 1e6 * 5
+    n_test = 1e7
     ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 

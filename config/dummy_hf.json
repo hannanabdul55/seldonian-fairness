@@ -1,9 +1,10 @@
 {
-  "name": "powell_30trials_hardbarrier_v2",
+  "name": "powell_30trials_hardbarrier_v3_test",
   "N": [
-    1e3
+    1e3,
+    3200,6000,10000,14688,18900,34890,50000
   ],
-  "trials": 1,
+  "trials": 10,
   "method": "hoeffdings",
   "D": 5,
   "tprs": [
