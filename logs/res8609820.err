@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "experiment/experiment_s_p.py", line 160, in <module>
+    ray.init()
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 696, in init
+    _global_node = ray.node.Node(
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/node.py", line 198, in __init__
+    self.start_head_processes()
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/node.py", line 800, in start_head_processes
+    self.start_redis()
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/node.py", line 568, in start_redis
+    process_infos) = ray.services.start_redis(
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/services.py", line 790, in start_redis
+    redis_shard_port, p = _start_redis_instance(
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/services.py", line 937, in _start_redis_instance
+    wait_for_redis_to_start("127.0.0.1", port, password=password)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/services.py", line 552, in wait_for_redis_to_start
+    raise RuntimeError("Unable to connect to Redis. If the Redis instance "
+RuntimeError: Unable to connect to Redis. If the Redis instance is on a different machine, check that your firewall is configured properly.
