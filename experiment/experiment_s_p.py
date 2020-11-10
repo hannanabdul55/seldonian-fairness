@@ -156,7 +156,7 @@ if __name__ == '__main__':
     if 'name' in exp_config:
         dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
-    n_test = 1e7
+    n_test = 1e6 * 6
     ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 

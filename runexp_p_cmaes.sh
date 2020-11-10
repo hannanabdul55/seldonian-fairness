@@ -14,9 +14,9 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=akanji@cs.umass.edu
 export PYTHONPATH=/home/akanji/seldonian-fairness:$PYTHONPATH
-export MKL_NUM_THREADS=12
-export OPENBLAS_NUM_THREADS=12
-export OMP_NUM_THREADS=12
+export MKL_NUM_THREADS=7
+export OPENBLAS_NUM_THREADS=7
+export OMP_NUM_THREADS=7
 /home/akanji/miniconda3/envs/seldnian-pre/bin/python  experiment/experiment_s_p.py "$@"
 
 sleep 1
