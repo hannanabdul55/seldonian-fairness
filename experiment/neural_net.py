@@ -68,7 +68,7 @@ def run_experiment_p(exp):
     for t in np.arange(exp['trials']):
         ghats = [{
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 10,
                                 method=exp['method']),
             'delta': 0.05
         }]
