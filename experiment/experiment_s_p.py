@@ -51,14 +51,14 @@ def run_experiment_p(exp):
     stratify = False
     if 'stratify' in exp:
         stratify = exp['stratify']
-    if 'method' in exp:
-        method = exp['method']
-    else:
-        method = 'ttest'
+    if 'method' not in exp:
+        exp['method'] = 'ttest'
+
     n = exp['N']
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
     X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
+    thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
@@ -70,8 +70,8 @@ def run_experiment_p(exp):
     for t in np.arange(exp['trials']):
         ghats = [{
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 4,
-                                method=method),
+                                threshold=thres,
+                                method=exp['method']),
             'delta': 0.05
         }]
         if opt == 'CMAES':
@@ -90,6 +90,12 @@ def run_experiment_p(exp):
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify)
         else:
+            ghats = [{
+                'fn': ghat_tpr_diff_t(A_idx,
+                                    threshold=thres,
+                                    method=exp['method']),
+                'delta': 0.05
+            }]
             est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify)
 
         est.fit()
@@ -98,14 +104,21 @@ def run_experiment_p(exp):
         y_p = est.predict(X_test)
         if torch.is_tensor(y_p):
             y_p = y_p.detach().numpy()
-        acc = accuracy_score(y_test, y_p)
+        acc = accuracy_score(y_test.astype(int), y_p)
         accuracy.append(acc)
 
         # safety test on seldonian model
         safe = est.safetyTest(predict=False)
 
         # Rate Solution Found
-        sol_found_rate.append(0 if safe > 0.0 else 1)
+        sol_found_rate.append(0 if safe > 0 else 1)
+
+        ghats = [{
+            'fn': ghat_tpr_diff(A_idx,
+                                threshold=thres,
+                                method=exp['method']),
+            'delta': 0.05
+        }]
 
         c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'], ub=False)
 
@@ -113,17 +126,25 @@ def run_experiment_p(exp):
         mean_ghat.append(c_ghat_val)
 
         # Probability of g(D)<0
-        failure_rate.append(1 if c_ghat_val > 0.0 and safe <= 0.0 else 0)
+        failure_rate.append(1 if c_ghat_val > 0.0 else 0)
 
         # Unconstrained optimizer
-        uc_est = LogisticRegression(penalty='none').fit(X, y)
-        y_preds = uc_est.predict(X_test)
+        if opt != 'NN':
+            uc_est = LogisticRegression(penalty='none').fit(X, y)
+        else:
+            uc_est = VanillaNN(X, y, test_size=exp['test_size'], stratify=stratify)
 
+        uc_est.fit()
+
+        y_preds = uc_est.predict(X_test)
+        if torch.is_tensor(y_preds):
+            y_preds = y_preds.detach().numpy()
         # Accuracy on Unconstrained estimator
         uc_acc = accuracy_score(y_test, y_preds)
         uc_accuracy.append(uc_acc)
 
-        # Mean ghat valuye on test data
+
+        # Mean ghat value on test data
         ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'], ub=False)
         uc_mean_ghat.append(ghat_val)
 
@@ -142,7 +163,8 @@ def run_experiment_p(exp):
             'uc_failure_rate': np.mean(uc_failure_rate),
             'uc_failure_rate_std': np.std(uc_failure_rate),
             'uc_accuracy': np.mean(uc_accuracy),
-            'uc_ghat': np.mean(uc_mean_ghat)
+            'uc_ghat': np.mean(uc_mean_ghat),
+            'method': exp['method']
         })
         save_res(results, filename=f"{dir}/{checkpoint}_{n}.p")
     print(f"Results for N={n}: \n{results!r}")

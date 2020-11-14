@@ -1,15 +1,14 @@
 {
   "name": "nn",
   "N": [
-    1000,
-    12500
+    1e6
   ],
-  "trials": 1,
+  "trials": 10,
   "methods":
-    "hoeffdings",
-  "D": 5,
+    "ttest",
+  "D": 10,
   "tprs": [
-    0.1,
+    0.3,
     0.9
   ],
   "test_size": 0.4,

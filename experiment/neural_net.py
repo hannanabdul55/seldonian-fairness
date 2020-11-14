@@ -57,6 +57,7 @@ def run_experiment_p(exp):
     opt = exp['opt']
     X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
     X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
+    thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
@@ -68,7 +69,7 @@ def run_experiment_p(exp):
     for t in np.arange(exp['trials']):
         ghats = [{
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 10,
+                                threshold=thres,
                                 method=exp['method']),
             'delta': 0.05
         }]
@@ -90,7 +91,7 @@ def run_experiment_p(exp):
         else:
             ghats = [{
                 'fn': ghat_tpr_diff_t(A_idx,
-                                    threshold=0,
+                                    threshold=thres,
                                     method=exp['method']),
                 'delta': 0.05
             }]
@@ -113,7 +114,7 @@ def run_experiment_p(exp):
 
         ghats = [{
             'fn': ghat_tpr_diff(A_idx,
-                                threshold=abs(exp['tprs'][0] - exp['tprs'][1]) / 2,
+                                threshold=thres,
                                 method=exp['method']),
             'delta': 0.05
         }]
@@ -142,7 +143,7 @@ def run_experiment_p(exp):
         uc_accuracy.append(uc_acc)
 
 
-        # Mean ghat valuye on test data
+        # Mean ghat value on test data
         ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'], ub=False)
         uc_mean_ghat.append(ghat_val)
 
