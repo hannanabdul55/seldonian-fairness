@@ -9,6 +9,7 @@ import numpy as np
 
 from seldonian.algorithm import SeldonianAlgorithm
 
+
 # torch.autograd.set_detect_anomaly(True)
 
 
@@ -28,7 +29,7 @@ class VanillaNN(SeldonianAlgorithm):
         self.X_s = torch.as_tensor(self.X_s, dtype=torch.float)
         self.y_s = torch.as_tensor(self.y_s, dtype=torch.long)
         self.verbose = verbose
-        self.epochs= epochs
+        self.epochs = epochs
         self.mod = nn.Sequential(
             nn.Linear(D, H1),
             nn.ReLU(),
@@ -39,7 +40,7 @@ class VanillaNN(SeldonianAlgorithm):
         if len(self.constraint) > 0:
             self.lagrange = torch.ones((len(self.constraint),), requires_grad=True)
         else:
-            self.lagrange = None
+            self.lagrange = Nones
 
         self.dataset = torch.utils.data.TensorDataset(self.X, self.y)
         self.loader = DataLoader(self.dataset, batch_size=300)
@@ -64,7 +65,8 @@ class VanillaNN(SeldonianAlgorithm):
                     self.l_optimizer.zero_grad()
                 out = self.mod(x)
                 if self.lagrange is not None:
-                    loss = self.loss_fn(out, y) + (self.lagrange ** 2).dot(self.safetyTest(predict=True))
+                    loss = self.loss_fn(out, y) + (self.lagrange ** 2).dot(
+                        self.safetyTest(predict=True))
                 else:
                     loss = self.loss_fn(out, y)
                 loss.backward(retain_graph=True)
