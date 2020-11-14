@@ -40,7 +40,7 @@ class VanillaNN(SeldonianAlgorithm):
         if len(self.constraint) > 0:
             self.lagrange = torch.ones((len(self.constraint),), requires_grad=True)
         else:
-            self.lagrange = Nones
+            self.lagrange = None
 
         self.dataset = torch.utils.data.TensorDataset(self.X, self.y)
         self.loader = DataLoader(self.dataset, batch_size=300)
