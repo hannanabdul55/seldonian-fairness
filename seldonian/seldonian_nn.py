@@ -36,6 +36,10 @@ class VanillaNN(SeldonianAlgorithm):
             self.X, self.X_s, self.y, self.y_s = train_test_split(
                 self.X, self.y, test_size=test_size, random_state=0
             )
+            self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
+            self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
+            self.X_s = torch.as_tensor(self.X_s, dtype=torch.float, device=device)
+            self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
         else:
             min_diff = np.inf
             count = 0
@@ -61,10 +65,6 @@ class VanillaNN(SeldonianAlgorithm):
                     count += 1
                 else:
                     count += 30
-        # self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
-        # self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
-        # self.X_s = torch.as_tensor(self.X_s, dtype=torch.float, device=device)
-        # self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
         self.loss_fn = nn.CrossEntropyLoss()
         # self.constraint = []
         if len(self.constraint) > 0:
@@ -76,7 +76,7 @@ class VanillaNN(SeldonianAlgorithm):
         self.loader = DataLoader(self.dataset, batch_size=300)
         if self.lagrange is not None:
             params = nn.ParameterList(self.mod.parameters())
-            self.optimizer = torch.optim.Adam(params, lr=3e-3)
+            self.optimizer = torch.optim.Adam(params, lr=3e-4)
             # self.l_optimizer = torch.optim.Adam([self.lagrange], lr=0.1)
             self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-2)
         else:
