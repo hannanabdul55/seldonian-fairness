@@ -63,6 +63,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
 
 @ray.remote(num_gpus=1)
 def run_experiment_p(exp):
+    print("ray.get_gpu_ids(): {}".format(ray.get_gpu_ids()))
     print("CUDA_VISIBLE_DEVICES: {}".format(os.environ["CUDA_VISIBLE_DEVICES"]))
     print(f"Running experiment for exp = {exp!r}")
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
