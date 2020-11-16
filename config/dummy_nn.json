@@ -1,7 +1,7 @@
 {
   "name": "nn",
   "N": [
-    1e6
+    1e4
   ],
   "trials": 10,
   "methods":
@@ -13,5 +13,6 @@
   ],
   "test_size": 0.4,
   "opt": "NN",
-  "hard_barrier": true
+  "hard_barrier": true,
+  "stratify": true
 }

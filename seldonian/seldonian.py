@@ -13,6 +13,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     """
     Implements a Logistic Regression classifier with `CMA-ES <https://en.wikipedia.org/wiki/CMA-ES>`_ as the optimizer using the Seldonian Approach.
     """
+
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
                  stratify=False, hard_barrier=False):
         """
@@ -107,6 +108,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     for more information. You can use any of the methods listen in the `method` input of this SciPy
     function as a parameter to the ``fit()`` method call.
     """
+
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
                  hard_barrier=False, stratify=False):
         self.theta = np.random.random((X.shape[1] + 1,))
@@ -138,8 +140,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
-                    else:
-                        count += 1
+                    count += 1
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
 
     def data(self):

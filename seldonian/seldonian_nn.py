@@ -20,14 +20,6 @@ class VanillaNN(SeldonianAlgorithm):
         D = self.X.shape[1]
         H1 = int(D * 0.5)
         self.constraint = g_hats
-        self.X, self.X_s, self.y, self.y_s = train_test_split(
-            self.X, self.y, test_size=test_size, random_state=0,
-            stratify=[0, 1] if stratify else None
-        )
-        self.X = torch.as_tensor(self.X, dtype=torch.float)
-        self.y = torch.as_tensor(self.y, dtype=torch.long)
-        self.X_s = torch.as_tensor(self.X_s, dtype=torch.float)
-        self.y_s = torch.as_tensor(self.y_s, dtype=torch.long)
         self.verbose = verbose
         self.epochs = epochs
         self.mod = nn.Sequential(
@@ -35,6 +27,39 @@ class VanillaNN(SeldonianAlgorithm):
             nn.ReLU(),
             nn.Linear(H1, 2)
         )
+        if not stratify:
+            self.X, self.X_s, self.y, self.y_s = train_test_split(
+                self.X, self.y, test_size=test_size, random_state=0
+            )
+        else:
+            min_diff = np.inf
+            count = 0
+            self.X_t = self.X
+            self.y_t = self.y
+            while count < 30:
+                self.X = self.X_t
+                self.y = self.y_t
+                self.X, self.X_s, self.y, self.y_s = train_test_split(
+                    self.X, self.y, test_size=test_size
+                )
+                self.X = torch.as_tensor(self.X, dtype=torch.float)
+                self.y = torch.as_tensor(self.y, dtype=torch.long)
+                self.X_s = torch.as_tensor(self.X_s, dtype=torch.float)
+                self.y_s = torch.as_tensor(self.y_s, dtype=torch.long)
+                if len(g_hats) > 0:
+                    diff = abs(self.safetyTest(predict=True, ub=False) -
+                               self.safetyTest(predict=False, ub=False))
+                    if diff < min_diff:
+                        self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
+                        min_diff = diff
+                    self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
+                    count += 1
+                else:
+                    count += 30
+        self.X = torch.as_tensor(self.X, dtype=torch.float)
+        self.y = torch.as_tensor(self.y, dtype=torch.long)
+        self.X_s = torch.as_tensor(self.X_s, dtype=torch.float)
+        self.y_s = torch.as_tensor(self.y_s, dtype=torch.long)
         self.loss_fn = nn.CrossEntropyLoss()
         # self.constraint = []
         if len(self.constraint) > 0:
@@ -48,7 +73,7 @@ class VanillaNN(SeldonianAlgorithm):
             params = nn.ParameterList(self.mod.parameters())
             self.optimizer = torch.optim.Adam(params, lr=3e-3)
             # self.l_optimizer = torch.optim.Adam([self.lagrange], lr=0.1)
-            self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-4)
+            self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-3)
         else:
             self.optimizer = torch.optim.Adam(self.mod.parameters(), lr=3e-3)
             self.l_optimizer = None
@@ -81,6 +106,7 @@ class VanillaNN(SeldonianAlgorithm):
                     loss_f = -1 * (self.loss_fn(self.mod(x), y) + (self.lagrange ** 2).dot(
                         self.safetyTest(predict=True)))
                     loss_f.backward(retain_graph=True)
+                    # l_optimizer is a separate optimizer for the lagrangian.
                     if self.l_optimizer is not None:
                         self.l_optimizer.step()
 
@@ -110,12 +136,15 @@ class VanillaNN(SeldonianAlgorithm):
         ghats = torch.empty(len(self.constraint))
         i = 0
         for g_hat in self.constraint:
-            y_preds = self.predict(X_test, True)
+            y_preds = self.predict(X_test, False)
             ghats[i] = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
                                    predict=predict, ub=ub, est=self.mod)
             # ghats[i] = ghat_val
             i += 1
-        return ghats
+        if predict:
+            return ghats
+        else:
+            return np.clip(np.mean(ghats.detach().numpy()), a_min=0, a_max=None)
 
     def data(self):
         return self.X, self.y

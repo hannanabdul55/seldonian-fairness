@@ -147,11 +147,16 @@ def hoeffdings_bounds(samples, delta, n=None, predict=False):
     if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
         raise ValueError(f"`samples` argument should be a numpy array")
     samples = np.array(samples)
+    is_tensor = torch.is_tensor(samples)
     if samples.ndim > 1:
         raise ValueError(f"`samples` should be a vector (1-D array)")
     if n is None:
         n = samples.size
     # print(f"n={n}")
-    dev = np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
-    sample_mean = samples.mean()
+    if not is_tensor:
+        dev = np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
+        sample_mean = samples.mean()
+    else:
+        dev = torch.sqrt(torch.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
+        sample_mean = torch.mean(samples)
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
