@@ -17,8 +17,13 @@ class VanillaNN(SeldonianAlgorithm):
     def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, stratify=False, epochs=10):
         self.X = X
         self.y = y
+        N = self.X.shape[0]
+        # if N < 1e5:
+        #     epochs*=2
         D = self.X.shape[1]
         H1 = int(D * 0.5)
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        device = self.device
         self.constraint = g_hats
         self.verbose = verbose
         self.epochs = epochs
@@ -42,10 +47,10 @@ class VanillaNN(SeldonianAlgorithm):
                 self.X, self.X_s, self.y, self.y_s = train_test_split(
                     self.X, self.y, test_size=test_size
                 )
-                self.X = torch.as_tensor(self.X, dtype=torch.float)
-                self.y = torch.as_tensor(self.y, dtype=torch.long)
-                self.X_s = torch.as_tensor(self.X_s, dtype=torch.float)
-                self.y_s = torch.as_tensor(self.y_s, dtype=torch.long)
+                self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
+                self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
+                self.X_s = torch.as_tensor(self.X_s, dtype=torch.float, device=device)
+                self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
                 if len(g_hats) > 0:
                     diff = abs(self.safetyTest(predict=True, ub=False) -
                                self.safetyTest(predict=False, ub=False))
@@ -56,14 +61,14 @@ class VanillaNN(SeldonianAlgorithm):
                     count += 1
                 else:
                     count += 30
-        self.X = torch.as_tensor(self.X, dtype=torch.float)
-        self.y = torch.as_tensor(self.y, dtype=torch.long)
-        self.X_s = torch.as_tensor(self.X_s, dtype=torch.float)
-        self.y_s = torch.as_tensor(self.y_s, dtype=torch.long)
+        # self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
+        # self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
+        # self.X_s = torch.as_tensor(self.X_s, dtype=torch.float, device=device)
+        # self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
         self.loss_fn = nn.CrossEntropyLoss()
         # self.constraint = []
         if len(self.constraint) > 0:
-            self.lagrange = torch.ones((len(self.constraint),), requires_grad=True)
+            self.lagrange = torch.ones((len(self.constraint),), requires_grad=True, device=device)
         else:
             self.lagrange = None
 
@@ -73,7 +78,7 @@ class VanillaNN(SeldonianAlgorithm):
             params = nn.ParameterList(self.mod.parameters())
             self.optimizer = torch.optim.Adam(params, lr=3e-3)
             # self.l_optimizer = torch.optim.Adam([self.lagrange], lr=0.1)
-            self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-3)
+            self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-2)
         else:
             self.optimizer = torch.optim.Adam(self.mod.parameters(), lr=3e-3)
             self.l_optimizer = None
@@ -121,7 +126,7 @@ class VanillaNN(SeldonianAlgorithm):
 
     def predict(self, X, pmf=False):
         if not torch.is_tensor(X):
-            X = torch.as_tensor(X, dtype=torch.float)
+            X = torch.as_tensor(X, dtype=torch.float, device=self.device)
         if not pmf:
             preds = torch.argmax(self.mod(X), dim=1)
         else:
@@ -133,7 +138,7 @@ class VanillaNN(SeldonianAlgorithm):
             X_test = self.X if predict else self.X_s
             y_test = self.y if predict else self.y_s
 
-        ghats = torch.empty(len(self.constraint))
+        ghats = torch.empty(len(self.constraint), device=self.device)
         i = 0
         for g_hat in self.constraint:
             y_preds = self.predict(X_test, False)

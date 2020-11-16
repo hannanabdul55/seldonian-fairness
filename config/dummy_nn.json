@@ -3,9 +3,9 @@
   "N": [
     1e4
   ],
-  "trials": 10,
+  "trials": 5,
   "methods":
-    "ttest",
+    "hoeffdings",
   "D": 10,
   "tprs": [
     0.3,
