@@ -9,7 +9,7 @@
   ],
   "trials": 5,
   "methods":
-    "hoeffdings",
+    "ttest",
   "D": 10,
   "tprs": [
     0.3,
