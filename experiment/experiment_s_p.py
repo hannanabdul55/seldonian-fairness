@@ -162,7 +162,7 @@ def run_experiment_p(exp):
 
         y_preds = uc_est.predict(X_test)
         if torch.is_tensor(y_preds):
-            y_preds = y_preds.detach().numpy()
+            y_preds = y_preds.cpu().detach().numpy()
         # Accuracy on Unconstrained estimator
         uc_acc = accuracy_score(y_test, y_preds)
         uc_accuracy.append(uc_acc)
