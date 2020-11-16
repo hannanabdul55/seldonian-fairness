@@ -12,11 +12,17 @@ import json
 import ray
 import copy
 
+import torch
+
+has_gpu = torch.cuda.is_available()
+
 parser = argparse.ArgumentParser(description='Process some config values')
 parser.add_argument("--config")
 parser.add_argument("checkpoint", nargs='?', default='results-' + str(time()))
 parser.add_argument("--threads")
 parser.add_argument("--dir")
+parser.add_argument("--gpus")
+parser.add_argument("--workers")
 
 args = parser.parse_args()
 
@@ -24,6 +30,16 @@ if args.dir:
     dir = args.dir
 else:
     dir = 'results_default'
+
+if args.gpus:
+    n_gpus = int(args.gpus)
+else:
+    n_gpus = 0
+
+if args.workers:
+    workers = int(args.workers)
+else:
+    workers = 5
 
 if args.config:
     exp_config = json.load(open(args.config, "r"))
@@ -45,9 +61,11 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@ray.remote
+@ray.remote(num_gpus=1)
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(f"Running experiment on {device}")
     stratify = False
     if 'stratify' in exp:
         stratify = exp['stratify']
@@ -92,8 +110,8 @@ def run_experiment_p(exp):
         else:
             ghats = [{
                 'fn': ghat_tpr_diff_t(A_idx,
-                                    threshold=thres,
-                                    method=exp['method']),
+                                      threshold=thres,
+                                      method=exp['method']),
                 'delta': 0.05
             }]
             est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify)
@@ -143,7 +161,6 @@ def run_experiment_p(exp):
         uc_acc = accuracy_score(y_test, y_preds)
         uc_accuracy.append(uc_acc)
 
-
         # Mean ghat value on test data
         ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'], ub=False)
         uc_mean_ghat.append(ghat_val)
@@ -164,7 +181,8 @@ def run_experiment_p(exp):
             'uc_failure_rate_std': np.std(uc_failure_rate),
             'uc_accuracy': np.mean(uc_accuracy),
             'uc_ghat': np.mean(uc_mean_ghat),
-            'method': exp['method']
+            'method': exp['method'],
+            "device": device
         })
         save_res(results, filename=f"{dir}/{checkpoint}_{n}.p")
     print(f"Results for N={n}: \n{results!r}")
@@ -179,7 +197,10 @@ if __name__ == '__main__':
         dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
     n_test = 1e6 * 6
-    ray.init()
+    if has_gpu:
+        ray.init(num_gpus=n_gpus)
+    else:
+        ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
