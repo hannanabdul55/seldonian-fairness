@@ -1,7 +1,11 @@
 {
   "name": "nn",
   "N": [
-    1e4
+    1e3,
+    3e3,
+    8e3,
+    1e4,
+    3e4
   ],
   "trials": 5,
   "methods":
