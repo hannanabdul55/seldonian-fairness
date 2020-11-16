@@ -63,10 +63,14 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
 
 @ray.remote(num_gpus=1)
 def run_experiment_p(exp):
-    print("ray.get_gpu_ids(): {}".format(ray.get_gpu_ids()))
-    print("CUDA_VISIBLE_DEVICES: {}".format(os.environ["CUDA_VISIBLE_DEVICES"]))
+    gpu_ids = ray.get_gpu_ids()
+    if len(gpu_ids)>0:
+        print("ray.get_gpu_ids(): {}".format(ray.get_gpu_ids()))
+        gpu_id = gpu_ids[0]
+        print(f"Using GPU: {gpu_id}")
+        print("CUDA_VISIBLE_DEVICES: {}".format(os.environ["CUDA_VISIBLE_DEVICES"]))
     print(f"Running experiment for exp = {exp!r}")
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else "cpu")
     print(f"Running experiment on {device}")
     stratify = False
     if 'stratify' in exp:
@@ -123,7 +127,7 @@ def run_experiment_p(exp):
         # Accuracy on seldonian optimizer
         y_p = est.predict(X_test)
         if torch.is_tensor(y_p):
-            y_p = y_p.detach().numpy()
+            y_p = y_p.cpu().detach().numpy()
         acc = accuracy_score(y_test.astype(int), y_p)
         accuracy.append(acc)
 
