@@ -21,7 +21,8 @@ class VanillaNN(SeldonianAlgorithm):
         #     epochs*=2
         D = self.X.shape[1]
         H1 = int(D * 0.5)
-
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        print(f"Running on {self.device}")
         device = self.device
         self.constraint = g_hats
         self.verbose = verbose
