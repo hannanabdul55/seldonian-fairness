@@ -13,7 +13,8 @@ from seldonian.algorithm import SeldonianAlgorithm
 
 
 class VanillaNN(SeldonianAlgorithm):
-    def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, stratify=False, epochs=10):
+    def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, stratify=False, epochs=10,
+                 gpu=0):
         self.X = X
         self.y = y
         N = self.X.shape[0]
@@ -21,7 +22,7 @@ class VanillaNN(SeldonianAlgorithm):
         #     epochs*=2
         D = self.X.shape[1]
         H1 = int(D * 0.5)
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device(f"cuda:{gpu}" if torch.cuda.is_available() else "cpu")
         print(f"Running on {self.device}")
         device = self.device
         self.constraint = g_hats

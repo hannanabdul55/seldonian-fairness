@@ -120,7 +120,8 @@ def run_experiment_p(exp):
                                       method=exp['method']),
                 'delta': 0.05
             }]
-            est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify)
+            est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify,
+                            gpu=gpu_id)
 
         est.fit()
 
