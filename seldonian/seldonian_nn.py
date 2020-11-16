@@ -72,7 +72,7 @@ class VanillaNN(SeldonianAlgorithm):
             self.lagrange = None
 
         self.dataset = torch.utils.data.TensorDataset(self.X, self.y)
-        self.loader = DataLoader(self.dataset, batch_size=1000)
+        self.loader = DataLoader(self.dataset, batch_size=300)
         if self.lagrange is not None:
             params = nn.ParameterList(self.mod.parameters())
             self.optimizer = torch.optim.Adam(params, lr=6e-4)
