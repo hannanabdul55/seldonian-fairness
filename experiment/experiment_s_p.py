@@ -198,6 +198,8 @@ if __name__ == '__main__':
     os.makedirs(dir, exist_ok=True)
     n_test = 1e6 * 6
     if has_gpu:
+        print(f"Initializing ray with {n_gpus} GPUs")
+        print('Available devices ', torch.cuda.device_count())
         ray.init(num_gpus=n_gpus)
     else:
         ray.init()
