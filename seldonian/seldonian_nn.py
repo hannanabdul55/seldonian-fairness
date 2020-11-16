@@ -22,6 +22,7 @@ class VanillaNN(SeldonianAlgorithm):
         D = self.X.shape[1]
         H1 = int(D * 0.5)
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        print(f"Running on {self.device}")
         device = self.device
         self.constraint = g_hats
         self.verbose = verbose
@@ -75,9 +76,9 @@ class VanillaNN(SeldonianAlgorithm):
         self.loader = DataLoader(self.dataset, batch_size=300)
         if self.lagrange is not None:
             params = nn.ParameterList(self.mod.parameters())
-            self.optimizer = torch.optim.Adam(params, lr=3e-2)
+            self.optimizer = torch.optim.Adam(params, lr=3e-4)
             # self.l_optimizer = torch.optim.Adam([self.lagrange], lr=0.1)
-            self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-1)
+            self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-4)
         else:
             self.optimizer = torch.optim.Adam(self.mod.parameters(), lr=3e-3)
             self.l_optimizer = None
