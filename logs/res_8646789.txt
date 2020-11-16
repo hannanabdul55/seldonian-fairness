@@ -1,0 +1,24 @@
+Running experiment with checkpoint: results-1605379669.216361
+Config used: {'name': 'week13_nn_10tr_ttest', 'N': [100.0, 137.38238, 188.739182, 259.29438, 356.224789, 672.335754, 1268.961, 8531.67852, 11721.023, 16102.6203, 22122.1629, 57361.5251, 78804.6282, 108263.673, 727895.384, 1000000.0], 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24710)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 8531.67852, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24681)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 188.739182, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24645)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 672.335754, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24643)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 108263.673, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24717)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 259.29438, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24637)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 11721.023, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24641)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 16102.6203, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24738)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 1000000.0, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24728)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 78804.6282, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24647)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 57361.5251, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24635)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 1268.961, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24651)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 727895.384, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24733)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 22122.1629, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24709)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 100.0, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24722)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 356.224789, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24706)[0m Running experiment for exp = {'name': 'week13_nn_10tr_ttest', 'N': 137.38238, 'trials': 10, 'method': 'ttest', 'D': 5, 'tprs': [0.1, 0.9], 'test_size': 0.4, 'opt': 'NN', 'hard_barrier': True, 'stratify': False}
+[2m[36m(pid=24681)[0m Training done.
+[2m[36m(pid=24706)[0m Training done.
+[2m[36m(pid=24709)[0m Training done.
+[2m[36m(pid=24717)[0m Training done.
+[2m[36m(pid=24722)[0m Training done.
+[2m[36m(pid=24710)[0m [1,    10] loss: 0.389
