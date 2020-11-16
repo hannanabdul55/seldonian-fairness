@@ -12,6 +12,10 @@ import json
 import ray
 import copy
 
+import torch
+
+has_gpu = torch.cuda.is_available()
+
 parser = argparse.ArgumentParser(description='Process some config values')
 parser.add_argument("--config")
 parser.add_argument("checkpoint", nargs='?', default='results-' + str(time()))
@@ -45,7 +49,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@ray.remotei(num_gpus=1)
+@ray.remote(num_gpus=1)
 def run_experiment_p(exp):
     print(f"Running experiment for exp = {exp!r}")
     stratify = False
@@ -179,7 +183,10 @@ if __name__ == '__main__':
         dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
     n_test = 1e6 * 6
-    ray.init()
+    if has_gpu:
+        ray.init(num_gpus=1)
+    else:
+        ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
