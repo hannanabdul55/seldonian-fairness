@@ -75,7 +75,7 @@ class VanillaNN(SeldonianAlgorithm):
         self.loader = DataLoader(self.dataset, batch_size=300)
         if self.lagrange is not None:
             params = nn.ParameterList(self.mod.parameters())
-            self.optimizer = torch.optim.Adam(params, lr=3e-4)
+            self.optimizer = torch.optim.Adam(params, lr=3e-2)
             # self.l_optimizer = torch.optim.Adam([self.lagrange], lr=0.1)
             self.l_optimizer = torch.optim.Adam([self.lagrange], lr=3e-3)
         else:
