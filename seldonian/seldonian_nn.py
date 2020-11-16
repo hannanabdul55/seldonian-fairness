@@ -125,6 +125,7 @@ class VanillaNN(SeldonianAlgorithm):
         pass
 
     def predict(self, X, pmf=False):
+        print(f"X is on device {X.get_device()}")
         if not torch.is_tensor(X):
             X = torch.as_tensor(X, dtype=torch.float, device=self.device)
         elif X.get_device() is not self.device:
