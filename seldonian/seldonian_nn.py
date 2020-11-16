@@ -31,7 +31,7 @@ class VanillaNN(SeldonianAlgorithm):
             nn.Linear(D, H1),
             nn.ReLU(),
             nn.Linear(H1, 2)
-        )
+        ).to(device)
         if not stratify:
             self.X, self.X_s, self.y, self.y_s = train_test_split(
                 self.X, self.y, test_size=test_size, random_state=0
