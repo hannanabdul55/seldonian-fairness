@@ -153,7 +153,7 @@ class VanillaNN(SeldonianAlgorithm):
         if predict:
             return ghats
         else:
-            return np.clip(np.mean(ghats.detach().numpy()), a_min=0, a_max=None)
+            return np.clip(np.mean(ghats.detach().cpu().numpy()), a_min=0, a_max=None)
 
     def data(self):
         return self.X, self.y
