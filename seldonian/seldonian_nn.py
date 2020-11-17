@@ -13,8 +13,23 @@ from seldonian.algorithm import SeldonianAlgorithm
 
 
 class VanillaNN(SeldonianAlgorithm):
+    """
+    Implement a Seldonian Algorithm on a Neural network
+    """
     def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, stratify=False, epochs=10,
                  gpu=0):
+        """
+        Initialize a model with `g_hats` constraints. This class is an example of training a
+        non-linear model like a neural network based on the Seldonian Approach.
+        :param X: Input data, this also includes the safety set whi
+        :param y: targets for the data `X`
+        :param test_size: the fraction of `X` to be used for the safety test
+        :param g_hats: a list of function callables that correspond to a constriant
+        :param verbose: Set this to `True` to get some debug messages.
+        :param stratify: set this to true if you want to do stratified sampling of safety set.
+        :param epochs: number of epochs to run teh training of the model.
+        :param gpu: Number of GPUs to be used during training.
+        """
         self.X = X
         self.y = y
         N = self.X.shape[0]
@@ -28,11 +43,14 @@ class VanillaNN(SeldonianAlgorithm):
         self.constraint = g_hats
         self.verbose = verbose
         self.epochs = epochs
+        # initialize the torch model using the Sequential API.
         self.mod = nn.Sequential(
             nn.Linear(D, H1),
             nn.ReLU(),
             nn.Linear(H1, 2)
         ).to(device)
+
+        # Stratify the sampling method for safety and candidate set using the `stratify` param.
         if not stratify:
             self.X, self.X_s, self.y, self.y_s = train_test_split(
                 self.X, self.y, test_size=test_size, random_state=0
@@ -78,10 +96,14 @@ class VanillaNN(SeldonianAlgorithm):
         self.loader = DataLoader(self.dataset, batch_size=300)
         if self.lagrange is not None:
             params = nn.ParameterList(self.mod.parameters())
+
+            # optimizer used to train model parameters.
             self.optimizer = torch.optim.Adam(params, lr=6e-4)
-            # self.l_optimizer = torch.optim.Adam([self.lagrange], lr=0.1)
+
+            # optimizer used for adjusting the lagrange multipliers
             self.l_optimizer = torch.optim.Adam([self.lagrange], lr=6e-3)
         else:
+            # if it is an unconstrained problem, just init the model optimizer.
             self.optimizer = torch.optim.Adam(self.mod.parameters(), lr=3e-3)
             self.l_optimizer = None
         pass

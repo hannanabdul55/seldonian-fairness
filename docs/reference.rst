@@ -21,6 +21,12 @@ Use this as a base class to implement your own fair model using the Seldonian ap
       :show-inheritance:
       :special-members:
 
+.. automodule:: seldonian.seldonian_nn
+      :members:
+      :undoc-members:
+      :show-inheritance:
+      :special-members:
+
 ===========================
 Sample constraint functions
 ===========================
