@@ -56,16 +56,17 @@ class VanillaNN(SeldonianAlgorithm):
                 self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
                 self.X_s = torch.as_tensor(self.X_s, dtype=torch.float, device=device)
                 self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
+                self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                 if len(g_hats) > 0:
                     diff = abs(self.safetyTest(predict=True, ub=False) -
                                self.safetyTest(predict=False, ub=False))
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
-                    self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
                     count += 1
                 else:
                     count += 30
+            self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
         self.loss_fn = nn.CrossEntropyLoss()
         # self.constraint = []
         if len(self.constraint) > 0:
