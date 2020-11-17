@@ -3,7 +3,7 @@
 #SBATCH --job-name=exp_run_cm
 #SBATCH --output=logs/res_%j.txt  # output file
 #SBATCH -e logs/res%j.err        # File to which STDERR will be written
-#SBATCH --partition=m40‐long   # Partition to submit to
+#SBATCH --partition=1080ti-long   # Partition to submit to
 
 #
 #SBATCH --ntasks=1
