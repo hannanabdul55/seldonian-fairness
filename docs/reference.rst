@@ -5,9 +5,8 @@ Reference
 Seldonian Algorithm
 ===================
 
-.. automodule:: seldonian.algorithm.SeldonianAlgorithm
+.. automodule:: seldonian.algorithm
       :members:
-      :undoc-members:
       :show-inheritance:
 
 ==========================
@@ -17,13 +16,6 @@ Use this as a base class to implement your own fair model using the Seldonian ap
 
 .. automodule:: seldonian.seldonian
       :members:
-      :undoc-members:
-      :show-inheritance:
-      :special-members:
-
-.. automodule:: seldonian.seldonian_nn
-      :members:
-      :undoc-members:
       :show-inheritance:
       :special-members:
 
@@ -33,7 +25,6 @@ Sample constraint functions
 
 .. automodule:: seldonian.objectives
       :members:
-      :undoc-members:
       :show-inheritance:
 
 ===============================
@@ -41,5 +32,4 @@ CMA-ES optimizer implementation
 ===============================
 .. automodule:: seldonian.cmaes
       :members:
-      :undoc-members:
       :show-inheritance:

@@ -1,5 +1,5 @@
 from seldonian.seldonian import *
-from seldonian.seldonian_nn import VanillaNN
+from seldonian.seldonian import VanillaNN
 from seldonian.synthetic import *
 import numpy as np
 from sklearn.metrics import accuracy_score

@@ -34,7 +34,8 @@ extensions = [
     'sphinx_rtd_theme',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.autosummary',
-    'sphinx.ext.githubpages'
+    'sphinx.ext.githubpages',
+    'sphinx.ext.mathjax',
 ]
 
 source_parsers = {
@@ -64,6 +65,7 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['static']
+
 
 def setup(app):
     app.add_config_value('recommonmark_config', {

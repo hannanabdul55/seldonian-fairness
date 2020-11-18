@@ -37,11 +37,11 @@ class SeldonianAlgorithm(ABC):
         """
         Run the safety test on the trained model from the candidate selection part i.e. the
         :func:`fit` function.
-        It is also used to predict the ``g_hat`` value used in candidate selection.
+        It is also used to predict the :math:`g(\\theta)` value used in candidate selection.
 
         :param kwargs Key value arguments sent to the subclass implementation of safety test.
-        :return Depending on the implementation, it will either send a `1` if it passes or
-        `0` if it doesn't. Based on the implementation, it will also return the $\\hat{g}$ value
+        :return Depending on the implementation, it will either return `0` if it passes or
+        `1` if it doesn't. Based on the implementation, it will also return the :math:`g(\\theta)` value
         if it does not pass the safety test.
         """
         raise NotImplementedError("safetyTest function must be implemented")

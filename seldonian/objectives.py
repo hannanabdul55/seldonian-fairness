@@ -53,13 +53,20 @@ def tpr_rate_t(A_idx=None, A_val=None):
 
 def ghat_tpr_diff_t(A_idx, method='ttest', threshold=0.2):
     """
-    Create a ``g_hat`` for the true positive rate difference between :param A_idx subset versus
+    **Pytorch** version of the true positive rate difference version of :py:meth:`ghat_tpr_diff`.
+
+    Create a :math:`g(\\theta)` for the true positive rate difference between ``A_idx`` subset versus
     the entire data.
 
-    :param A_idx:
-    :param method:
+    :param A_idx: index of the sensitive attribute in the ``X`` passed to the method returned by this function.
+    :param method: The method used to calculate the upper bound. Currently supported values are:
+
+        - `ttest` - Use student `Student's t-distribution <https://en.wikipedia.org/wiki/Student%27s_t-distribution>`_ to calculate the confidence interval.
+
+        - `hoeffdings` - Use the `Hoeffdings inequality <https://en.wikipedia.org/wiki/Hoeffding%27s_inequality>`_ to caluclate the 95% confidence interval.
+
     :param threshold: TPR rate should not be greater than this value.
-    :return: method that is to be sent to the Seldonian Algorithm and is used for calculating teh ``g_hat``
+    :return: method that is to be sent to the Seldonian Algorithm and is used for calculating the :math:`g(\\theta)`
     """
 
     def tpr_ab(X, y_true, y_pred, delta, n=None, predict=False, ub=True, est=None):
@@ -90,13 +97,18 @@ def ghat_tpr_diff_t(A_idx, method='ttest', threshold=0.2):
 # true positive rate rate should be equal for X[A=1] or X[A=0]
 def ghat_tpr_diff(A_idx, method='ttest', threshold=0.2):
     """
-    Create a ``g_hat`` for teh true positive rate difference between :param A_idx subset versus
+    Create a :math:`g(\\theta)` for the true positive rate difference between ``A_idx`` subset versus
     the entire data.
 
-    :param A_idx:
-    :param method:
+    :param A_idx: index of the sensitive attribute in the ``X`` passed to the method returned by this function.
+    :param method: The method used to calculate the upper bound. Currently supported values are:
+
+        - `ttest` - Use student `Student's t-distribution <https://en.wikipedia.org/wiki/Student%27s_t-distribution>`_ to calculate the confidence interval.
+
+        - `hoeffdings` - Use the `Hoeffdings inequality <https://en.wikipedia.org/wiki/Hoeffding%27s_inequality>`_ to caluclate the 95% confidence interval.
+
     :param threshold: TPR rate should not be greater than this value.
-    :return: method that is to be sent to the Seldonian Algorithm and is used for calculating teh ``g_hat``
+    :return: method that is to be sent to the Seldonian Algorithm and is used for calculating the :math:`g(\\theta)`
     """
 
     def tpr_ab(X, y_true, y_pred, delta, n=None, predict=False, ub=True):
@@ -123,6 +135,7 @@ def ghat_tpr_diff(A_idx, method='ttest', threshold=0.2):
 
     return tpr_ab
 
+
 # true positive rate rate should be equal for X[A=1] or X[A=0]
 def ghat_recall_rate(A_idx, method='ttest', threshold=0.2):
     """
@@ -145,13 +158,15 @@ def ghat_recall_rate(A_idx, method='ttest', threshold=0.2):
 
         if method == 'ttest':
             bound = abs_fn(
-                ttest_bounds(recall_b, delta, n, predict=predict) - ttest_bounds(recall_a, delta, n,
-                                                                             predict=predict))
+                ttest_bounds(recall_b, delta, n, predict=predict) - ttest_bounds(recall_a, delta,
+                                                                                 n,
+                                                                                 predict=predict))
         else:
             bound = abs_fn(
-                hoeffdings_bounds(recall_b, delta, n, predict=predict) - hoeffdings_bounds(recall_a, delta,
-                                                                                       n,
-                                                                                       predict=predict))
+                hoeffdings_bounds(recall_b, delta, n, predict=predict) - hoeffdings_bounds(
+                    recall_a, delta,
+                    n,
+                    predict=predict))
         if ub is True:
             return bound.upper - threshold
         else:
@@ -160,11 +175,7 @@ def ghat_recall_rate(A_idx, method='ttest', threshold=0.2):
     return recall_ab
 
 
-
-
 class Constraint(ABC):
     def __call__(self, *args, **kwargs):
-        raise NotImplementedError(f"__call__ must be implemented in all subclasses of `Constraint`")
-
-
-
+        raise NotImplementedError(
+            f"__call__ must be implemented in all subclasses of `Constraint`")
