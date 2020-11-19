@@ -62,7 +62,7 @@ def run_experiment(exp):
                 est.fit()
 
                 acc = accuracy_score(y, est.predict(X))
-                safe = est.safetyTest(predict=False)
+                safe = est._safetyTest(predict=False)
                 mean_ghat.append(safe)
                 failure_rate.append(1 if safe > 0.0 else 0)
                 accuracy.append(acc)

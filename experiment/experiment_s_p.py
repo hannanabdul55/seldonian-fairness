@@ -132,10 +132,10 @@ def run_experiment_p(exp):
         accuracy.append(acc)
 
         # safety test on seldonian model
-        safe = est.safetyTest(predict=False)
+        safe = est._safetyTest(predict=False)
 
         # Rate Solution Found
-        sol_found_rate.append(0 if safe > 0 else 1)
+        sol_found_rate.append(1 if safe else 0)
 
         ghats = [{
             'fn': ghat_tpr_diff(A_idx,

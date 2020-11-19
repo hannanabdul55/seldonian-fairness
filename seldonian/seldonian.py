@@ -26,6 +26,7 @@ class VanillaNN(SeldonianAlgorithm):
     """
     Implement a Seldonian Algorithm on a Neural network.
     """
+
     def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, stratify=False, epochs=10,
                  model=None):
         """
@@ -87,8 +88,8 @@ class VanillaNN(SeldonianAlgorithm):
                 self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
                 self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                 if len(g_hats) > 0:
-                    diff = abs(self.safetyTest(predict=True, ub=False) -
-                               self.safetyTest(predict=False, ub=False))
+                    diff = abs(self._safetyTest(predict=True, ub=False) -
+                               self._safetyTest(predict=False, ub=False))
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
@@ -131,7 +132,7 @@ class VanillaNN(SeldonianAlgorithm):
                 out = self.mod(x)
                 if self.lagrange is not None:
                     loss = self.loss_fn(out, y) + (self.lagrange ** 2).dot(
-                        self.safetyTest(predict=True))
+                        self._safetyTest(predict=True))
                 else:
                     loss = self.loss_fn(out, y)
                 loss.backward(retain_graph=True)
@@ -144,7 +145,7 @@ class VanillaNN(SeldonianAlgorithm):
 
                 if self.lagrange is not None:
                     loss_f = -1 * (self.loss_fn(self.mod(x), y) + (self.lagrange ** 2).dot(
-                        self.safetyTest(predict=True)))
+                        self._safetyTest(predict=True)))
                     loss_f.backward(retain_graph=True)
                     # l_optimizer is a separate optimizer for the lagrangian.
                     if self.l_optimizer is not None:
@@ -172,7 +173,7 @@ class VanillaNN(SeldonianAlgorithm):
             preds = nn.Softmax(dim=1)(self.mod(X))[:, 1]
         return preds
 
-    def safetyTest(self, predict=False, ub=True):
+    def _safetyTest(self, predict=False, ub=True):
         with torch.no_grad():
             X_test = self.X if predict else self.X_s
             y_test = self.y if predict else self.y_s
@@ -192,7 +193,6 @@ class VanillaNN(SeldonianAlgorithm):
 
     def data(self):
         return self.X, self.y
-
 
 
 def grad_check(named_params):
@@ -247,8 +247,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size
                     )
-                    diff = abs(self.safetyTest(thet, predict=True, ub=False) -
-                               self.safetyTest(thet, predict=False, ub=False))
+                    diff = abs(self._safetyTest(thet, predict=True, ub=False) -
+                               self._safetyTest(thet, predict=False, ub=False))
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
@@ -261,7 +261,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     def data(self):
         return self.X, self.y
 
-    def safetyTest(self, theta=None, predict=False, ub=True):
+    def _safetyTest(self, theta=None, predict=False, ub=True):
         if theta is None:
             theta = self.theta
         X_test = self.X if predict else self.X_s
@@ -280,8 +280,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         return 0
 
     def loss(self, y_pred, y_true, theta):
-        return log_loss(y_true, y_pred) + (10000 * (self.safetyTest(theta,
-                                                                    predict=True)))
+        return log_loss(y_true, y_pred) + (10000 * (self._safetyTest(theta,
+                                                                     predict=True)))
 
     def _predict(self, X, theta):
         w = theta[:-1]
@@ -300,7 +300,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     """
     Implements a Logistic Regression classifier using ``scipy.optimize`` package as the optimizer
     using the Seldonian Approach for training the model.
-    Have a look at the [scipy.optimize.minimize reference](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html)
+    Have a look at the `scipy.optimize.minimize reference <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html>`_
     for more information. You can use any of the methods listen in the `method` input of this SciPy
     function as a parameter to the ``fit()`` method call.
     """
@@ -331,8 +331,8 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size
                     )
-                    diff = abs(self.safetyTest(thet, predict=True, ub=False) -
-                               self.safetyTest(thet, predict=False, ub=False))
+                    diff = abs(self._safetyTest(thet, predict=True, ub=False) -
+                               self._safetyTest(thet, predict=False, ub=False))
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
@@ -342,7 +342,14 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     def data(self):
         return self.X, self.y
 
-    def safetyTest(self, theta=None, predict=False, ub=True):
+    def _safetyTest(self, theta=None, predict=False, ub=True):
+        """
+        This
+        :param theta:
+        :param predict:
+        :param ub:
+        :return:
+        """
         if theta is None:
             theta = self.theta
         X_test = self.X if predict else self.X_s
@@ -362,8 +369,9 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
     def get_opt_fn(self):
         def loss_fn(theta):
-            return log_loss(self.y, self._predict(self.X, theta)) + (10000 * self.safetyTest(theta,
-                                                                                             predict=True))
+            return log_loss(self.y, self._predict(self.X, theta)) + (
+                        10000 * self._safetyTest(theta,
+                                                 predict=True))
 
         return loss_fn
 
@@ -373,7 +381,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         })
         print("Optimization result: " + res.message)
         self.theta = res.x
-        if self.safetyTest(self.theta, ub=True) > 0:
+        if self._safetyTest(self.theta, ub=True) > 0:
             return None
         else:
             return self

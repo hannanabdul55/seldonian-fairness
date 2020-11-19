@@ -99,6 +99,6 @@ constraints = [constraint1, constraint2,...] #list of function callables
 seldonian_model = ExampleSeldonianModel(constriants, data, other_args)
 X, y = data
 seldonian_model.fit(X, y)
-return seldonian_model if seldonian_model.safetyTest() else NSF # No solution found
+return seldonian_model if seldonian_model._safetyTest() else NSF # No solution found
 # we now have a trained model you can now do your predictions on this model
 ```  

@@ -9,6 +9,7 @@ class SeldonianAlgorithm(ABC):
     Read more about the Seldonian Approach in
     `Preventing undesirable behavior of intelligent machines <https://doi.org/10.1126/science.aag3311>`_
     """
+
     @abstractmethod
     def fit(self, **kwargs):
         """
@@ -33,7 +34,7 @@ class SeldonianAlgorithm(ABC):
         pass
 
     @abstractmethod
-    def safetyTest(self, **kwargs):
+    def _safetyTest(self, **kwargs):
         """
         Run the safety test on the trained model from the candidate selection part i.e. the
         :func:`fit` function.
@@ -41,11 +42,24 @@ class SeldonianAlgorithm(ABC):
 
         :param kwargs Key value arguments sent to the subclass implementation of safety test.
         :return Depending on the implementation, it will either return `0` if it passes or
-        `1` if it doesn't. Based on the implementation, it will also return the :math:`g(\\theta)` value
+        `1` if it doesn't. Or, it will also return the :math:`g(\\theta)` value
         if it does not pass the safety test.
+
+        Either way, use the ``safetyTest()`` method (with the _) to get a boolean value.
         """
-        raise NotImplementedError("safetyTest function must be implemented")
+        raise NotImplementedError("_safetyTest function must be implemented")
         pass
+
+    def safetyTest(self, **kwargs):
+        """
+        A wrapper for the ``_safetyTest`` method that return a ``Boolean`` indicating whther the
+        model passed the safety test.
+        :param kwargs: Key-value arguments that is passed directly to ``_safetyTest`.
+        :return:
+        - ``True`` if model passed the safety test.
+        - ``False`` if the model fails the safety test.
+        """
+        return self._safetyTest(**kwargs) > 0
 
     @abstractmethod
     def data(self):
@@ -83,4 +97,3 @@ class Model:
 
     def loss(self, y_pred, y_true, theta):
         raise NotImplementedError("implement loss function")
-
