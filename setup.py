@@ -9,7 +9,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='seldonian',
-    version='0.0.2dev',
+    version='0.0.3dev',
     packages=['seldonian'],
     install_requires=req.splitlines(),
     python_requires='>3.5',
