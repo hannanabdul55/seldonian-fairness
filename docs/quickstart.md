@@ -1,5 +1,6 @@
 # Quickstart
-
+The best way is get started is to quickly jump into an example: [Here](https://colab.research.google.com/github/hannanabdul55/seldonian-fairness/blob/master/logistic_regression_seldonian.ipynb) is a Google Colab notebook to train a simple Logistic Regression model on the UCI Adult dataset.  
+And here is a step-by-step tutorial.
 ## Model class creation
 Create a subclass of `seldonian.algorithm.SeldonianAlgorithm` class. 
 ```python
@@ -63,7 +64,7 @@ There are various examples of such constraint optimization problems implemented 
 
 Or using a barrier when optimizing using a Black box optimization technique like `CMA-ES` or `scipy.optimize.minimize` class. You can find them under the `seldonian.seldonian` package.  
 
-- `safetyTest` performs a the safety test using the safety set, or predicts the upper bound of the constraint `g(theta)` during candidate selection (or in this case, `fit`).
+- `_safetyTest` performs a the safety test using the safety set, or predicts the upper bound of the constraint `g(\theta)` during candidate selection (or in this case, `fit`).
 ```python
 from seldonian.algorithm import *
 class ExampleSeldonianModel(SeldonianAlgorithm):
@@ -79,7 +80,7 @@ class ExampleSeldonianModel(SeldonianAlgorithm):
     def fit(self, *args, **kwargs):
         # fit model based under the constraint that g >0. 
         pass
-    def safetyTest(self, predict, **kwargs):
+    def _safetyTest(self, predict, **kwargs):
         if predict:
             # predict the upper bound during candidate selection
             return 1 if passed_is_predicted else 0 
