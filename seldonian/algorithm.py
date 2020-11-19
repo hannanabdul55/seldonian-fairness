@@ -56,7 +56,7 @@ class SeldonianAlgorithm(ABC):
         - ``True`` if model passed the safety test.
         - ``False`` if the model fails the safety test.
         """
-        return self._safetyTest(**kwargs) > 0
+        return self._safetyTest(**kwargs) <= 0.0
 
     @abstractmethod
     def data(self):
