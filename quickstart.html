@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quickstart &mdash; Seldonian FairML  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Seldonian FairML
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#model-class-creation">Model class creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training">Training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Seldonian FairML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Quickstart</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/quickstart.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>The best way is get started is to quickly jump into an example: <a class="reference external" href="https://colab.research.google.com/github/hannanabdul55/seldonian-fairness/blob/master/logistic_regression_seldonian.ipynb">Here</a> is a Google Colab notebook to train a simple Logistic Regression model on the UCI Adult dataset.<br />And here is a step-by-step tutorial.</p>
+<div class="section" id="model-class-creation">
+<h2>Model class creation<a class="headerlink" href="#model-class-creation" title="Permalink to this headline">¶</a></h2>
+<p>Create a subclass of <code class="docutils literal notranslate"><span class="pre">seldonian.algorithm.SeldonianAlgorithm</span></code> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">seldonian.algorithm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">class</span> <span class="nc">ExampleSeldonianModel</span><span class="p">(</span><span class="n">SeldonianAlgorithm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="p">):</span> 
+        <span class="n">example_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+        <span class="c1">#initialize all the model parameters</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Now that we have a basic model setup, we need to implement the abstract method of <code class="docutils literal notranslate"><span class="pre">SeldonianAlgorithm</span></code> class.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">predict</span></code> - This is a basic prediction method that uses the <em>current</em> model parameters to predict the output targets.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">seldonian.algorithm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">class</span> <span class="nc">ExampleSeldonianModel</span><span class="p">(</span><span class="n">SeldonianAlgorithm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="p">):</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+        <span class="c1">#initialize all the model parameters</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># prediction based on teh model</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> returns the complete data and targets as a tuple back. This includes the safety as well as the candidate data.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">seldonian.algorithm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">class</span> <span class="nc">ExampleSeldonianModel</span><span class="p">(</span><span class="n">SeldonianAlgorithm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="p">):</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+        <span class="c1">#initialize all the model parameters</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># prediction based on teh model</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fit</span></code> trains the model with the constraints.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">seldonian.algorithm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">class</span> <span class="nc">ExampleSeldonianModel</span><span class="p">(</span><span class="n">SeldonianAlgorithm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="p">):</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+        <span class="c1">#initialize all the model parameters</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># prediction based on teh model</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># fit model based under the constraint that g &gt;0. </span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>There are various examples of such constraint optimization problems implemented like the Lagrangian 2 player game as implemented in the <code class="docutils literal notranslate"><span class="pre">VanillaNN</span></code> class.</p>
+<p>Or using a barrier when optimizing using a Black box optimization technique like <code class="docutils literal notranslate"><span class="pre">CMA-ES</span></code> or <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code> class. You can find them under the <code class="docutils literal notranslate"><span class="pre">seldonian.seldonian</span></code> package.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_safetyTest</span></code> performs a the safety test using the safety set, or predicts the upper bound of the constraint <code class="docutils literal notranslate"><span class="pre">g(\theta)</span></code> during candidate selection (or in this case, <code class="docutils literal notranslate"><span class="pre">fit</span></code>).</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">seldonian.algorithm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">class</span> <span class="nc">ExampleSeldonianModel</span><span class="p">(</span><span class="n">SeldonianAlgorithm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="p">):</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+        <span class="c1">#initialize all the model parameters</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># prediction based on teh model</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">example_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># fit model based under the constraint that g &gt;0. </span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">_safetyTest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">predict</span><span class="p">:</span>
+            <span class="c1"># predict the upper bound during candidate selection</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">passed_is_predicted</span> <span class="k">else</span> <span class="mi">0</span> 
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># run the actual safety test</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">passed</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">pass</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
+<p>This is <em>all</em> you need to implement a Seldonian model. You also need some constraints that are basically function callables. Some examples of such constraints is present in the <code class="docutils literal notranslate"><span class="pre">seldonian.objectives</span></code> package. A sample run would look something like this -</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span><span class="n">constraint1</span><span class="p">,</span> <span class="n">constraint2</span><span class="p">,</span><span class="o">...</span><span class="p">]</span> <span class="c1">#list of function callables</span>
+<span class="n">seldonian_model</span> <span class="o">=</span> <span class="n">ExampleSeldonianModel</span><span class="p">(</span><span class="n">constriants</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">other_args</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span>
+<span class="n">seldonian_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">seldonian_model</span> <span class="k">if</span> <span class="n">seldonian_model</span><span class="o">.</span><span class="n">_safetyTest</span><span class="p">()</span> <span class="k">else</span> <span class="n">NSF</span> <span class="c1"># No solution found</span>
+<span class="c1"># we now have a trained model you can now do your predictions on this model</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intro.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Abdul Hannan Kanji
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

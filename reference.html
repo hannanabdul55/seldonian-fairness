@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reference &mdash; Seldonian FairML  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Seldonian FairML
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-seldonian.algorithm">Seldonian Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seldonian-abstract-classes">Seldonian Abstract classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-seldonian.objectives">Sample constraint functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-seldonian.cmaes">CMA-ES optimizer implementation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Seldonian FairML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/reference.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-seldonian.algorithm">
+<span id="seldonian-algorithm"></span><h2>Seldonian Algorithm<a class="headerlink" href="#module-seldonian.algorithm" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="seldonian.algorithm.SeldonianAlgorithm">
+<em class="property">class </em><code class="sig-prename descclassname">seldonian.algorithm.</code><code class="sig-name descname">SeldonianAlgorithm</code><a class="headerlink" href="#seldonian.algorithm.SeldonianAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract class which represents the basic functions of a Seldonian Algorithm.
+This class can be considered as a starting point for implementing your own Seldonian algorithm.</p>
+<p>Read more about the Seldonian Approach in
+<a class="reference external" href="https://doi.org/10.1126/science.aag3311">Preventing undesirable behavior of intelligent machines</a></p>
+<dl class="py method">
+<dt id="seldonian.algorithm.SeldonianAlgorithm._safetyTest">
+<em class="property">abstract </em><code class="sig-name descname">_safetyTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.algorithm.SeldonianAlgorithm._safetyTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the safety test on the trained model from the candidate selection part i.e. the <a class="reference internal" href="#seldonian.algorithm.SeldonianAlgorithm.fit" title="seldonian.algorithm.SeldonianAlgorithm.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit()</span></code></a> function. It is also used to predict the <span class="math notranslate nohighlight">\(g(\theta)\)</span> value used in candidate selection.</p>
+<p>:param kwargs Key value arguments sent to the subclass implementation of safety test.
+:return Depending on the implementation, it will either return <cite>0</cite> if it passes or
+<cite>1</cite> if it doesn’t. Or, it will also return the <span class="math notranslate nohighlight">\(g(\theta)\)</span> value
+if it does not pass the safety test. Use the <code class="docutils literal notranslate"><span class="pre">safetyTest()</span></code> method to get a boolean value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.algorithm.SeldonianAlgorithm.data">
+<em class="property">abstract </em><code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.algorithm.SeldonianAlgorithm.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access the training data used by the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tuple (Training data, labels)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.algorithm.SeldonianAlgorithm.fit">
+<em class="property">abstract </em><code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.algorithm.SeldonianAlgorithm.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method that is used to train the model. Also, this is the <strong>candidate selection</strong>
+part of the Seldonian Algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – key value arguments sent to the fit function</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.algorithm.SeldonianAlgorithm.predict">
+<em class="property">abstract </em><code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.algorithm.SeldonianAlgorithm.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the output of the model on the the input X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> – input data to be predicted by the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output predictions for each sample in the input X</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.algorithm.SeldonianAlgorithm.safetyTest">
+<code class="sig-name descname">safetyTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.algorithm.SeldonianAlgorithm.safetyTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for the <code class="docutils literal notranslate"><span class="pre">_safetyTest</span></code> method that return a <code class="docutils literal notranslate"><span class="pre">Boolean</span></code> indicating whether the
+model passed the safety test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Key-value arguments that is passed directly to <code class="docutils literal notranslate"><span class="pre">_safetyTest</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if model passed the safety test.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code> if the model fails the safety test.</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="seldonian-abstract-classes">
+<h2>Seldonian Abstract classes<a class="headerlink" href="#seldonian-abstract-classes" title="Permalink to this headline">¶</a></h2>
+<p>Use this as a base class to implement your own fair model using the Seldonian approach.</p>
+<span class="target" id="module-seldonian.seldonian"></span><dl class="py class">
+<dt id="seldonian.seldonian.LogisticRegressionSeldonianModel">
+<em class="property">class </em><code class="sig-prename descclassname">seldonian.seldonian.</code><code class="sig-name descname">LogisticRegressionSeldonianModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">g_hats</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">safety_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">test_size</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">hard_barrier</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stratify</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.LogisticRegressionSeldonianModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seldonian.algorithm.SeldonianAlgorithm" title="seldonian.algorithm.SeldonianAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">seldonian.algorithm.SeldonianAlgorithm</span></code></a></p>
+<p>Implements a Logistic Regression classifier using <code class="docutils literal notranslate"><span class="pre">scipy.optimize</span></code> package as the optimizer
+using the Seldonian Approach for training the model.
+Have a look at the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html">scipy.optimize.minimize reference</a>
+for more information. You can use any of the methods listen in the <cite>method</cite> input of this SciPy
+function as a parameter to the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method call.</p>
+<dl class="py method">
+<dt id="seldonian.seldonian.LogisticRegressionSeldonianModel.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">g_hats</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">safety_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">test_size</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">hard_barrier</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stratify</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.LogisticRegressionSeldonianModel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.LogisticRegressionSeldonianModel._safetyTest">
+<code class="sig-name descname">_safetyTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">theta</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">predict</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">ub</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.LogisticRegressionSeldonianModel._safetyTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the mehtod that implements the safety test. for this model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> – Model parameters to be used to run the safety test. <strong>Default</strong> - <code class="docutils literal notranslate"><span class="pre">None</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the current model parameters used.</p></li>
+<li><p><strong>predict</strong> – <strong>Default</strong> - <code class="docutils literal notranslate"><span class="pre">False</span></code>. Indicate whether you want to predict the upper bound of <span class="math notranslate nohighlight">\(g(\theta)\)</span> using the candidate set (this is used when running candidate selection).</p></li>
+<li><p><strong>ub</strong> – returns the upper bound if <code class="docutils literal notranslate"><span class="pre">True</span></code>. Else, it returns the calculated value. <strong>Default</strong>- <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the value <span class="math notranslate nohighlight">\(max\{0, g(\theta) | X\}\)</span> if <cite>predict</cite> = <code class="docutils literal notranslate"><span class="pre">False</span></code> ,  else <span class="math notranslate nohighlight">\(max\{0, \hat{g}(\theta) | X\}\)</span>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.LogisticRegressionSeldonianModel.data">
+<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.LogisticRegressionSeldonianModel.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access the training data used by the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tuple (Training data, labels)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.LogisticRegressionSeldonianModel.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span><span class="o">=</span><span class="default_value">'Powell'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.LogisticRegressionSeldonianModel.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method that is used to train the model. Also, this is the <strong>candidate selection</strong>
+part of the Seldonian Algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – key value arguments sent to the fit function</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.LogisticRegressionSeldonianModel.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.LogisticRegressionSeldonianModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the output of the model on the the input X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> – input data to be predicted by the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output predictions for each sample in the input X</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="seldonian.seldonian.SeldonianAlgorithmLogRegCMAES">
+<em class="property">class </em><code class="sig-prename descclassname">seldonian.seldonian.</code><code class="sig-name descname">SeldonianAlgorithmLogRegCMAES</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">g_hats</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">safety_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">test_size</span><span class="o">=</span><span class="default_value">0.35</span></em>, <em class="sig-param"><span class="n">stratify</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hard_barrier</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.SeldonianAlgorithmLogRegCMAES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seldonian.cmaes.CMAESModel" title="seldonian.cmaes.CMAESModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">seldonian.cmaes.CMAESModel</span></code></a>, <a class="reference internal" href="#seldonian.algorithm.SeldonianAlgorithm" title="seldonian.algorithm.SeldonianAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">seldonian.algorithm.SeldonianAlgorithm</span></code></a></p>
+<p>Implements a Logistic Regression classifier with <a class="reference external" href="https://en.wikipedia.org/wiki/CMA-ES">CMA-ES</a> as the optimizer using the Seldonian Approach.</p>
+<dl class="py method">
+<dt id="seldonian.seldonian.SeldonianAlgorithmLogRegCMAES.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">g_hats</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">safety_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">test_size</span><span class="o">=</span><span class="default_value">0.35</span></em>, <em class="sig-param"><span class="n">stratify</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hard_barrier</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.SeldonianAlgorithmLogRegCMAES.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – Training data to be used by the model.</p></li>
+<li><p><strong>y</strong> – Training labels for the <cite>X</cite></p></li>
+<li><p><strong>g_hats</strong> – A list of all constraint on the model.</p></li>
+<li><p><strong>safety_data</strong> – If you have a separate held out data to be used for the safety set, it should be specified here, otherwise, the data <cite>X</cite> is split according to <cite>test_size</cite> for this.</p></li>
+<li><p><strong>verbose</strong> – Print out extra log statements</p></li>
+<li><p><strong>test_size</strong> – ratio of the data <cite>X</cite> to e used for the safety set.</p></li>
+<li><p><strong>stratify</strong> – Stratify the training data when splitting to train/safety sets.</p></li>
+<li><p><strong>hard_barrier</strong> – Use a hard barrier while training the data using the BBO optimizer.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.SeldonianAlgorithmLogRegCMAES._safetyTest">
+<code class="sig-name descname">_safetyTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">theta</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">predict</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">ub</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.SeldonianAlgorithmLogRegCMAES._safetyTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the safety test on the trained model from the candidate selection part i.e. the <code class="xref py py-func docutils literal notranslate"><span class="pre">fit()</span></code> function. It is also used to predict the <span class="math notranslate nohighlight">\(g(\theta)\)</span> value used in candidate selection.</p>
+<p>:param kwargs Key value arguments sent to the subclass implementation of safety test.
+:return Depending on the implementation, it will either return <cite>0</cite> if it passes or
+<cite>1</cite> if it doesn’t. Or, it will also return the <span class="math notranslate nohighlight">\(g(\theta)\)</span> value
+if it does not pass the safety test. Use the <code class="docutils literal notranslate"><span class="pre">safetyTest()</span></code> method to get a boolean value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.SeldonianAlgorithmLogRegCMAES.data">
+<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.SeldonianAlgorithmLogRegCMAES.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access the training data used by the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tuple (Training data, labels)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.SeldonianAlgorithmLogRegCMAES.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.SeldonianAlgorithmLogRegCMAES.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the output of the model on the the input X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> – input data to be predicted by the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output predictions for each sample in the input X</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="seldonian.seldonian.VanillaNN">
+<em class="property">class </em><code class="sig-prename descclassname">seldonian.seldonian.</code><code class="sig-name descname">VanillaNN</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">test_size</span><span class="o">=</span><span class="default_value">0.4</span></em>, <em class="sig-param"><span class="n">g_hats</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stratify</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">epochs</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.VanillaNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seldonian.algorithm.SeldonianAlgorithm" title="seldonian.algorithm.SeldonianAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">seldonian.algorithm.SeldonianAlgorithm</span></code></a></p>
+<p>Implement a Seldonian Algorithm on a Neural network.</p>
+<dl class="py method">
+<dt id="seldonian.seldonian.VanillaNN.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">test_size</span><span class="o">=</span><span class="default_value">0.4</span></em>, <em class="sig-param"><span class="n">g_hats</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stratify</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">epochs</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.VanillaNN.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a model with <cite>g_hats</cite> constraints. This class is an example of training a
+non-linear model like a neural network based on the Seldonian Approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – Input data, this also includes the safety set.</p></li>
+<li><p><strong>y</strong> – targets for the data <code class="docutils literal notranslate"><span class="pre">X</span></code></p></li>
+<li><p><strong>test_size</strong> – the fraction of <code class="docutils literal notranslate"><span class="pre">X</span></code> to be used for the safety test</p></li>
+<li><p><strong>g_hats</strong> – a list of function callables that correspond to a constriant</p></li>
+<li><p><strong>verbose</strong> – Set this to <code class="docutils literal notranslate"><span class="pre">True</span></code> to get some debug messages.</p></li>
+<li><p><strong>stratify</strong> – set this to true if you want to do stratified sampling of safety set.</p></li>
+<li><p><strong>epochs</strong> – number of epochs to run teh training of the model. Default: <code class="docutils literal notranslate"><span class="pre">10</span></code></p></li>
+<li><p><strong>model</strong> – PyTorch model to use. Should be an instance of <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>. Defaults to a 2 layer model with a binary output.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.VanillaNN._safetyTest">
+<code class="sig-name descname">_safetyTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predict</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">ub</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.VanillaNN._safetyTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the safety test on the trained model from the candidate selection part i.e. the <a class="reference internal" href="#seldonian.seldonian.VanillaNN.fit" title="seldonian.seldonian.VanillaNN.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit()</span></code></a> function. It is also used to predict the <span class="math notranslate nohighlight">\(g(\theta)\)</span> value used in candidate selection.</p>
+<p>:param kwargs Key value arguments sent to the subclass implementation of safety test.
+:return Depending on the implementation, it will either return <cite>0</cite> if it passes or
+<cite>1</cite> if it doesn’t. Or, it will also return the <span class="math notranslate nohighlight">\(g(\theta)\)</span> value
+if it does not pass the safety test. Use the <code class="docutils literal notranslate"><span class="pre">safetyTest()</span></code> method to get a boolean value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.VanillaNN.data">
+<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.VanillaNN.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access the training data used by the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tuple (Training data, labels)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.VanillaNN.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.VanillaNN.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method that is used to train the model. Also, this is the <strong>candidate selection</strong>
+part of the Seldonian Algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – key value arguments sent to the fit function</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="seldonian.seldonian.VanillaNN.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">pmf</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.seldonian.VanillaNN.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the output of the model on the the input X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> – input data to be predicted by the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output predictions for each sample in the input X</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-seldonian.objectives">
+<span id="sample-constraint-functions"></span><h2>Sample constraint functions<a class="headerlink" href="#module-seldonian.objectives" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="seldonian.objectives.Constraint">
+<em class="property">class </em><code class="sig-prename descclassname">seldonian.objectives.</code><code class="sig-name descname">Constraint</code><a class="headerlink" href="#seldonian.objectives.Constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="seldonian.objectives.ghat_recall_rate">
+<code class="sig-prename descclassname">seldonian.objectives.</code><code class="sig-name descname">ghat_recall_rate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">A_idx</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'ttest'</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.objectives.ghat_recall_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">g_hat</span></code> for the recall rate difference between :param A_idx subset versus
+the entire data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A_idx</strong> – </p></li>
+<li><p><strong>method</strong> – </p></li>
+<li><p><strong>threshold</strong> – Recall rate should not be greater than this value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>method that is to be sent to the Seldonian Algorithm and is used for calculating teh <code class="docutils literal notranslate"><span class="pre">g_hat</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="seldonian.objectives.ghat_tpr_diff">
+<code class="sig-prename descclassname">seldonian.objectives.</code><code class="sig-name descname">ghat_tpr_diff</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">A_idx</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'ttest'</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.objectives.ghat_tpr_diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <span class="math notranslate nohighlight">\(g(\theta)\)</span> for the true positive rate difference between <code class="docutils literal notranslate"><span class="pre">A_idx</span></code> subset versus
+the entire data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A_idx</strong> – index of the sensitive attribute in the <code class="docutils literal notranslate"><span class="pre">X</span></code> passed to the method returned by this function.</p></li>
+<li><p><strong>method</strong> – <p>The method used to calculate the upper bound. Currently supported values are:</p>
+<ul>
+<li><p><cite>ttest</cite> - Use student <a class="reference external" href="https://en.wikipedia.org/wiki/Student%27s_t-distribution">Student’s t-distribution</a> to calculate the confidence interval.</p></li>
+<li><p><cite>hoeffdings</cite> - Use the <a class="reference external" href="https://en.wikipedia.org/wiki/Hoeffding%27s_inequality">Hoeffdings inequality</a> to caluclate the 95% confidence interval.</p></li>
+</ul>
+</p></li>
+<li><p><strong>threshold</strong> – TPR rate should not be greater than this value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>method that is to be sent to the Seldonian Algorithm and is used for calculating the <span class="math notranslate nohighlight">\(g(\theta)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="seldonian.objectives.ghat_tpr_diff_t">
+<code class="sig-prename descclassname">seldonian.objectives.</code><code class="sig-name descname">ghat_tpr_diff_t</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">A_idx</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'ttest'</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.objectives.ghat_tpr_diff_t" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Pytorch</strong> version of the true positive rate difference version of <a class="reference internal" href="#seldonian.objectives.ghat_tpr_diff" title="seldonian.objectives.ghat_tpr_diff"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ghat_tpr_diff()</span></code></a>.</p>
+<p>Create a <span class="math notranslate nohighlight">\(g(\theta)\)</span> for the true positive rate difference between <code class="docutils literal notranslate"><span class="pre">A_idx</span></code> subset versus
+the entire data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A_idx</strong> – index of the sensitive attribute in the <code class="docutils literal notranslate"><span class="pre">X</span></code> passed to the method returned by this function.</p></li>
+<li><p><strong>method</strong> – <p>The method used to calculate the upper bound. Currently supported values are:</p>
+<ul>
+<li><p><cite>ttest</cite> - Use student <a class="reference external" href="https://en.wikipedia.org/wiki/Student%27s_t-distribution">Student’s t-distribution</a> to calculate the confidence interval.</p></li>
+<li><p><cite>hoeffdings</cite> - Use the <a class="reference external" href="https://en.wikipedia.org/wiki/Hoeffding%27s_inequality">Hoeffdings inequality</a> to caluclate the 95% confidence interval.</p></li>
+</ul>
+</p></li>
+<li><p><strong>threshold</strong> – TPR rate should not be greater than this value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>method that is to be sent to the Seldonian Algorithm and is used for calculating the <span class="math notranslate nohighlight">\(g(\theta)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-seldonian.cmaes">
+<span id="cma-es-optimizer-implementation"></span><h2>CMA-ES optimizer implementation<a class="headerlink" href="#module-seldonian.cmaes" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="seldonian.cmaes.CMAESModel">
+<em class="property">class </em><code class="sig-prename descclassname">seldonian.cmaes.</code><code class="sig-name descname">CMAESModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#seldonian.cmaes.CMAESModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Abdul Hannan Kanji
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
