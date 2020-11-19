@@ -344,11 +344,12 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
     def _safetyTest(self, theta=None, predict=False, ub=True):
         """
-        This
-        :param theta:
-        :param predict:
-        :param ub:
-        :return:
+        This is the mehtod that implements the safety test. for this model.
+
+        :param theta: Model parameters to be used to run the safety test. **Default** - ``None``. If ``None``, the current model parameters used.
+        :param predict: **Default** - ``False``. Indicate whether you want to predict the upper bound of :math:`g(\\theta)` using the candidate set (this is used when running candidate selection).
+        :param ub: returns the upper bound if ``True``. Else, it returns the calculated value. **Default**- ``True``.
+        :return: Returns the value :math:`max\{0, g(\\theta) | X\}` if `predict` = ``False`` ,  else :math:`max\{0, \\hat{g}(\\theta) | X\}`.
         """
         if theta is None:
             theta = self.theta
