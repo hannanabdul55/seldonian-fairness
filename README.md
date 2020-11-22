@@ -1,3 +1,4 @@
+[![Documentation Status](https://readthedocs.org/projects/seldonian-fairml/badge/?version=latest)](https://seldonian-fairml.readthedocs.io/en/latest/?badge=latest)
 # FairML library 
 An easy to use Python Library to train and develop new Machine Learning models within some fairness constraints. This is an implementation of [this Science](https://aisafety.cs.umass.edu/paper.html) paper.   
 Also includes some other handy tools like: 
