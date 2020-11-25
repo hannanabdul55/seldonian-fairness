@@ -1,5 +1,5 @@
 {
-  "name": "cmaes_tight",
+  "name": "cmaes_tight_strat",
   "N": [
     200,
     600,
@@ -17,5 +17,6 @@
     0.9
   ],
   "test_size": 0.4,
+  "stratify": true,
   "opt": "CMAES"
 }
