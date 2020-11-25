@@ -142,7 +142,7 @@ def run_experiment_p(exp):
         safe = est._safetyTest(predict=False)
 
         # Rate Solution Found
-        sol_found_rate.append(1 if safe else 0)
+        sol_found_rate.append(1 if safe <= 0 else 0)
 
         ghats = [{
             'fn': ghat_tpr_diff(A_idx,
