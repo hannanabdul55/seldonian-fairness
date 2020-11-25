@@ -1,0 +1,22 @@
+{
+  "name": "cmaes_double_delta_baseline",
+  "N": [
+    200,
+    600,
+    1000,
+    4000,
+    25000,
+    78000,
+    100000
+  ],
+  "trials": 30,
+  "methods": "ttest",
+  "D": 5,
+  "tprs": [
+    0.3,
+    0.9
+  ],
+  "test_size": 0.4,
+  "stratify": true,
+  "opt": "CMAES"
+}
