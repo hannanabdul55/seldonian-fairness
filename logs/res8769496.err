@@ -1,0 +1,20 @@
+2020-11-25 12:20:22,458	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8266[39m[22m
+E1125 12:20:31.946141  6055  6239 direct_task_transport.cc:331] The worker failed to receive a response from the local raylet. This is most likely because the local raylet has crahsed.
+F1125 12:20:31.956725  6055  6239 direct_task_transport.cc:334] IOError: 14: Socket closed
+*** Check failure stack trace: ***
+    @     0x2aab2dd8d6ed  google::LogMessage::Fail()
+    @     0x2aab2dd8e84c  google::LogMessage::SendToLog()
+    @     0x2aab2dd8d3c9  google::LogMessage::Flush()
+    @     0x2aab2dd8d5e1  google::LogMessage::~LogMessage()
+    @     0x2aab2dd44789  ray::RayLog::~RayLog()
+    @     0x2aab2da23ffc  _ZZN3ray29CoreWorkerDirectTaskSubmitter24RequestNewWorkerIfNeededERKSt5tupleIIiSt6vectorINS_8ObjectIDESaIS3_EENS_7ActorIDEEEPKNS_3rpc7AddressEENKUlRKNS_6StatusERKNSA_23RequestWorkerLeaseReplyEE_clESG_SJ_
+    @     0x2aab2da62965  ray::rpc::ClientCallImpl<>::OnReplyReceived()
+    @     0x2aab2d9c2c30  _ZN5boost4asio6detail18completion_handlerIZN3ray3rpc17ClientCallManager29PollEventsFromCompletionQueueEiEUlvE_E11do_completeEPvPNS1_19scheduler_operationERKNS_6system10error_codeEm
+    @     0x2aab2ddeec3f  boost::asio::detail::scheduler::do_run_one()
+    @     0x2aab2ddefa01  boost::asio::detail::scheduler::run()
+    @     0x2aab2ddf0952  boost::asio::io_context::run()
+    @     0x2aab2d9a4310  ray::CoreWorker::RunIOService()
+    @     0x2aaac4a15421  execute_native_thread_routine_compat
+    @     0x2aaaaacd6ea5  start_thread
+    @     0x2aaaaafe98dd  __clone
+/cm/local/apps/slurm/var/spool/job8769496/slurm_script: line 20:  6055 Aborted                 /home/akanji/miniconda3/envs/seldnian-pre/bin/python experiment/experiment_s_p.py "$@"

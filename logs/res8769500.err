@@ -1,0 +1,13 @@
+2020-11-25 13:22:23,467	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+Traceback (most recent call last):
+  File "experiment/experiment_s_p.py", line 229, in <module>
+    res = ray.get(futures)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 1428, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(FileNotFoundError): [36mray::run_experiment_p()[39m (pid=12491, ip=10.128.0.58)
+  File "python/ray/_raylet.pyx", line 484, in ray._raylet.execute_task
+  File "experiment/experiment_s_p.py", line 199, in run_experiment_p
+    save_res(results, filename=f"{dir}/{checkpoint}_{n}.p")
+  File "experiment/experiment_s_p.py", line 68, in save_res
+    pickle.dump(obj, open(filename, 'wb'))
+FileNotFoundError: [Errno 2] No such file or directory: 'result/result_cmaes_double_delta/results-1606328542.8660886_4000.p'
