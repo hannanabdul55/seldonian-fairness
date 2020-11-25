@@ -22,16 +22,24 @@ parser.add_argument("--threads")
 parser.add_argument("--dir")
 parser.add_argument("--gpus")
 parser.add_argument("--workers")
+parser.add_argument("--local")
 
 args = parser.parse_args()
-
+if args.local:
+    use_local = True
+else:
+    use_local = False
 if args.dir:
     dir = args.dir
 else:
     dir = 'results_default'
 
+kwargs = {
+    'local_mode': use_local
+}
 if args.gpus:
     n_gpus = int(args.gpus)
+    kwargs['num_gpus'] = n_gpus
 else:
     n_gpus = 0
 
@@ -60,17 +68,17 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@ray.remote(num_gpus=1)
+@ray.remote
 def run_experiment_p(exp):
     gpu_ids = ray.get_gpu_ids()
-    if len(gpu_ids)>0:
+    device = torch.device(f"cuda:0" if torch.cuda.is_available() else "cpu")
+    if len(gpu_ids) > 0:
         print("ray.get_gpu_ids(): {}".format(ray.get_gpu_ids()))
         gpu_id = gpu_ids[0]
         print(f"Using GPU: {gpu_id}")
         print("CUDA_VISIBLE_DEVICES: {}".format(os.environ["CUDA_VISIBLE_DEVICES"]))
-    print(f"Running experiment for exp = {exp!r}")
-    device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else "cpu")
-    print(f"Running experiment on {device}")
+        print(f"Running experiment for exp = {exp!r}")
+        print(f"Running experiment on {device}")
     stratify = False
     if 'stratify' in exp:
         stratify = exp['stratify']
@@ -119,8 +127,7 @@ def run_experiment_p(exp):
                                       method=exp['method']),
                 'delta': 0.05
             }]
-            est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify,
-                            gpu=gpu_id)
+            est = VanillaNN(X, y, test_size=exp['test_size'], g_hats=ghats, stratify=stratify)
 
         est.fit()
 
@@ -157,8 +164,7 @@ def run_experiment_p(exp):
             uc_est = LogisticRegression(penalty='none').fit(X, y)
         else:
             uc_est = VanillaNN(X, y, test_size=exp['test_size'], stratify=stratify)
-
-        uc_est.fit()
+            uc_est.fit()
 
         y_preds = uc_est.predict(X_test)
         if torch.is_tensor(y_preds):
@@ -203,12 +209,13 @@ if __name__ == '__main__':
         dir = f"result/result_{exp_config['name']}"
     os.makedirs(dir, exist_ok=True)
     n_test = 1e6 * 6
+    print(has_gpu)
     if has_gpu:
         print(f"Initializing ray with {n_gpus} GPUs")
         print('Available devices ', torch.cuda.device_count())
-        ray.init(num_gpus=n_gpus)
+        ray.init(**kwargs)
     else:
-        ray.init()
+        ray.init(**kwargs)
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
