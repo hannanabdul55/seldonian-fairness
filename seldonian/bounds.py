@@ -7,6 +7,13 @@ import torch
 
 
 class RandomVariable:
+    """
+    Class that works just like any `number` in python, but also calculates the bounds that can be
+    accessed with the ``upper`` and ``lower`` member variables. You can use this class just as any
+    other number in python and then while these operations are done, bounds are also calculated.
+
+    You can access the value using the ``value`` member variable.
+    """
     def __init__(self, value, lower=None, upper=None):
         if not (isinstance(value, numbers.Number) or torch.is_tensor(value)):
             raise ValueError(
@@ -144,6 +151,14 @@ def ttest_bounds(samples, delta, n=None, predict=False):
 
 
 def hoeffdings_bounds(samples, delta, n=None, predict=False):
+    """
+    
+    :param samples:
+    :param delta:
+    :param n:
+    :param predict:
+    :return:
+    """
     if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
         raise ValueError(f"`samples` argument should be a numpy array")
     samples = np.array(samples)
