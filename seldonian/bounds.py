@@ -132,10 +132,9 @@ def ttest_bounds(samples, delta, n=None, predict=False):
         n = samples.size
     # print(f"n={n}")
     if not is_tensor:
-        dev = ((samples.std(ddof=1) / np.sqrt(n)) * t.ppf(1 - delta, n - 1)) * (1 + (1 * predict))
+        dev = ((samples.std(ddof=1) / np.sqrt(n)) * t.ppf(1 - delta, n - 1))
     else:
-        dev = ((torch.std(samples.double()) / np.sqrt(n)) * t.ppf(1 - delta, n - 1)) * (
-                    1 + (1 * predict))
+        dev = ((torch.std(samples.double()) / np.sqrt(n)) * t.ppf(1 - delta, n - 1))
 
     if torch.is_tensor(samples):
         samples = samples.double()
@@ -154,9 +153,9 @@ def hoeffdings_bounds(samples, delta, n=None, predict=False):
         n = samples.size
     # print(f"n={n}")
     if not is_tensor:
-        dev = np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
+        dev = np.sqrt(np.log(1 / delta) / (2 * n))
         sample_mean = samples.mean()
     else:
-        dev = torch.sqrt(torch.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
+        dev = torch.sqrt(torch.log(1 / delta) / (2 * n))
         sample_mean = torch.mean(samples)
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)

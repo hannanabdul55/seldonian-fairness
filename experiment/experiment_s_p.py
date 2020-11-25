@@ -215,7 +215,7 @@ if __name__ == '__main__':
         print('Available devices ', torch.cuda.device_count())
         ray.init(**kwargs)
     else:
-        ray.init(**kwargs)
+        ray.init()
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
