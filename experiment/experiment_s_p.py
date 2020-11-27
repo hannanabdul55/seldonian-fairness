@@ -157,7 +157,7 @@ def run_experiment_p(exp):
         mean_ghat.append(c_ghat_val)
 
         # Probability of g(D)<0
-        failure_rate.append(1 if c_ghat_val > 0.0 else 0)
+        failure_rate.append(1 if c_ghat_val > 0.0 and safe <= 0.0 else 0)
 
         # Unconstrained optimizer
         if opt != 'NN':
