@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=exp_run_cm
+#SBATCH --job-name=exp_run_cmaes
 #SBATCH --output=logs/res_%j.txt  # output file
 #SBATCH -e logs/res%j.err        # File to which STDERR will be written
 #SBATCH --partition=longq    # Partition to submit to
@@ -10,7 +10,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=2-12:59         # Maximum runtime in D-HH:MM
-#SBATCH --mem-per-cpu=6gb    # Memory in MB per cpu allocated
+#SBATCH --mem-per-cpu=4gb    # Memory in MB per cpu allocated
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=akanji@cs.umass.edu
 export PYTHONPATH=/home/akanji/copy_seldonian/seldonian-fairness:$PYTHONPATH
