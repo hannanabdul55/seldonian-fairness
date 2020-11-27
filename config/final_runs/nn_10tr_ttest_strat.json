@@ -1,5 +1,5 @@
 {
-  "name": "final_nn_10tr_ttest",
+  "name": "final_nn_10tr_ttest_strat",
   "N": [
     1.00000000e+02,
     1.37382380e+02,
@@ -28,5 +28,5 @@
   "test_size": 0.1,
   "opt": "NN",
   "hard_barrier": true,
-  "stratify": false
+  "stratify": true
 }
