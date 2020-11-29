@@ -108,7 +108,7 @@ def run_experiment_p(exp):
         if opt == 'CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
-                                                verbose=False, stratify=stratify)
+                                                verbose=False, stratify=stratify, random_seed=t)
         elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
@@ -119,7 +119,8 @@ def run_experiment_p(exp):
                                                    g_hats=ghats,
                                                    verbose=True,
                                                    hard_barrier=hard_barrier,
-                                                   stratify=stratify)
+                                                   stratify=stratify,
+                                                   random_seed=t)
         else:
             ghats = [{
                 'fn': ghat_tpr_diff_t(A_idx,
@@ -161,7 +162,7 @@ def run_experiment_p(exp):
 
         # Unconstrained optimizer
         if opt != 'NN':
-            uc_est = LogisticRegression(penalty='none').fit(X, y)
+            uc_est = LogisticRegression(penalty='none', random_state=t).fit(X, y)
         else:
             uc_est = VanillaNN(X, y, test_size=exp['test_size'], stratify=stratify)
             uc_est.fit()
