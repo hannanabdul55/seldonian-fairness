@@ -1,10 +1,11 @@
+import itertools
+
 from sklearn.metrics import log_loss
 
 import numpy as np
 import scipy.optimize
-from sklearn.model_selection import train_test_split
 
-from seldonian.algorithm import SeldonianAlgorithm
+from seldonian.bounds import ttest_bounds
 from seldonian.cmaes import CMAESModel
 from seldonian.utils import sigmoid
 
@@ -14,9 +15,12 @@ import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from torch.utils.data import random_split, DataLoader
 
-import numpy as np
-
 from seldonian.algorithm import SeldonianAlgorithm
+
+from scipy.optimize import minimize
+from scipy.special import softmax
+
+from time import time
 
 
 # torch.autograd.set_detect_anomaly(True)
@@ -243,7 +247,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                 self.X_t = self.X
                 self.y_t = self.y
                 rand = random_seed
-                while count < 50:
+                while count < 30:
                     self.X = self.X_t
                     self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
@@ -254,7 +258,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
-                    count += 1
+                        count += 1
                     rand += 1
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
 
@@ -415,3 +419,193 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     def reset(self):
         self.theta = np.zeros_like(self.theta)
         pass
+
+
+class PDISSeldonianPolicyCMAES(CMAESModel):
+
+    def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
+                 multiprocessing=False):
+        self.theta = np.random.rand(states * actions, 1)
+        self.gamma = gamma
+        self.D = data
+        self.s = states
+        self.a = actions
+        self.thres = threshold
+        self.use_ray = multiprocessing
+        self.D_c, self.D_s = train_test_split(data, test_size=test_size)
+        super(PDISSeldonianPolicyCMAES, self).__init__(self.D_c, None, theta=self.theta,
+                                                       maxiter=1000, verbose=True)
+
+    def loss(self, y_true, y_pred, theta):
+        est = self.pdis_estimate(theta, self.D_c, minimize=False, sum_red=False, verbose=True)
+        loss = (-1 * np.sum(est) / len(self.D_c)) + (
+            0 if self.safety_test(theta, predict=True, ub=True, est=est) > self.thres else 10000)
+        print(f"Loss: {loss}")
+        return loss
+        pass
+
+    def _predict(self, X, theta):
+        theta = theta.reshape(self.s, self.a)
+        est = self.pdis_estimate(theta, X, minimize=False, verbose=True)
+        return est
+        pass
+
+    def pdis_estimate(self, pi_e, D, gamma=0.95, minimize=True, verbose=False, sum_red=True):
+        if D is None:
+            raise ValueError("Data D is None")
+        n = len(D)
+        if verbose:
+            print(f"Running PDIS estimation for the entire candidate data of {len(D)} samples")
+        a = time()
+        pi_e = pi_e.reshape(self.s, self.a)
+        # est = 0.0
+        # R = []
+        if self.use_ray:
+            import ray
+            @ray.remote
+            def estimate_ray_vec(pi_e, D, n, gamma=0.95, sum_red=True):
+                return estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True)
+            n_work = 12
+            idx = 0
+            works = []
+            for i in range(n_work):
+                start = int(n * i / n_work)
+                end = int(n * (i + 1) / n_work)
+                works.append(estimate_ray_vec.remote(pi_e, D[start:end], n, gamma, sum_red))
+            results = ray.get(works)
+        else:
+            results = estimate_vec(pi_e, D, n, gamma, sum_red)
+        if sum_red:
+            est = sum(results)
+        else:
+            est = list(itertools.chain.from_iterable(results))
+
+        if verbose:
+            print(f"Estimation for one complete run done in {time() - a} seconds")
+        if verbose and sum_red:
+            print(f"Average estimate of return: {est}")
+        if sum_red:
+            return est * (-1 if minimize else 1)
+        else:
+            return est
+
+    def safety_test(self, theta, predict=False, ub=False, est=None):
+        X = self.D_s
+        n = self.D_s.shape[0]
+        if predict:
+            X = self.D_c
+        if est is None:
+            print("Running estimaiton")
+            estimate = self.pdis_estimate(theta, X, minimize=False, sum_red=not ub)
+        else:
+            estimate = est
+        estimate = np.array(estimate)
+        if ub:
+            return ttest_bounds(estimate, 0.05, n=n)
+        else:
+            return np.mean(estimate)
+
+
+class SeldonianCEMPDISPolicy:
+
+    def __init__(self, data, states, actions, gamma, threshold=1.41537, test_size=0.4):
+        self.theta = np.random.rand(states * actions)
+        self.gamma = gamma
+        self.D = data
+        self.s = states
+        self.a = actions
+        self.thres = threshold
+        self.D_c, self.D_s = train_test_split(data, test_size=test_size)
+
+    def loss(self, y_true, y_pred, theta):
+        return y_pred + (
+            0 if self.safety_test(theta, predict=True, ub=True) > self.thres else 10000)
+        pass
+
+    def objective(self, theta, data):
+        obj = (-1 * self._predict(data, theta)) + (
+            10000 if self.safety_test(theta, predict=True, ub=True) < self.thres else 0)
+        print(f"Estimate: {obj}")
+        return obj
+
+    def fit(self, method='Powell'):
+        print(f"Running minimization")
+        a = time()
+        res = minimize(self.objective, self.theta, args=(self.D_c,), method=method,
+                       options={'maxfev': 100})
+        print(f"Optimization result: {res}")
+        print(f"Time takes: {time() - a} seconds")
+        self.theta = res.x
+        pass
+
+    def _predict(self, X, theta, verbose=False):
+        theta = theta.reshape(self.s, self.a)
+        est = self.pdis_estimate(theta, X, minimize=False, verbose=verbose)
+        return est
+        pass
+
+    def pdis_estimate(self, pi_e, D, gamma=0.95, minimize=True, verbose=False, sum_red=True):
+        if D is None:
+            raise ValueError("Data D is None")
+        n = len(D)
+        if verbose:
+            print(f"Running PDIS estimation for the entire candidate data of {len(D)} samples")
+        a = time()
+        pi_e = pi_e.reshape(self.s, self.a)
+        # est = 0.0
+        # R = []
+        if self.use_ray:
+            import ray
+            @ray.remote
+            def estimate_ray_vec(pi_e, D, n, gamma=0.95, sum_red=True):
+                return estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True)
+
+            n_work = 12
+            idx = 0
+            works = []
+            for i in range(n_work):
+                start = int(n * i / n_work)
+                end = int(n * (i + 1) / n_work)
+                works.append(estimate_ray_vec.remote(pi_e, D[start:end], n, gamma, sum_red))
+            results = ray.get(works)
+        else:
+            results = estimate_vec(pi_e, D, n, gamma, sum_red)
+
+        if sum_red:
+            est = sum(results)
+        else:
+            est = list(itertools.chain.from_iterable(results))
+        if verbose and sum_red:
+            print(f"Average estimate of return: {est}")
+        return est * (-1 if minimize else 1)
+
+    def safety_test(self, theta, predict=False, ub=False):
+        X = self.D_s
+        n = self.D_s.shape[0]
+        if predict:
+            X = self.D_c
+        estimate = self.pdis_estimate(theta, X, minimize=False, sum_red=not ub)
+        estimate = np.array(estimate)
+        if ub:
+            return ttest_bounds(estimate, 0.05, n=n)
+        else:
+            return np.mean(estimate)
+
+
+
+def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
+    if sum_red:
+        est = 0.0
+    else:
+        est = []
+    pi_e = softmax(pi_e, axis=1)
+    for ep in D:
+        ep = np.array(ep, dtype=np.float)
+        weights = np.cumprod(
+            pi_e[ep[:, 0].astype(np.int), ep[:, 1].astype(np.int)] * gamma / ep[:,
+                                                                             3]) / gamma
+        if sum_red:
+            est += weights.dot(ep[:, 2])
+        else:
+            est.append(weights.dot(ep[:, 2]))
+    return est / n if sum_red else est

@@ -2,18 +2,20 @@ from abc import ABC
 
 import scipy
 
-from seldonian.algorithm import SeldonianAlgorithm
-
 import numpy as np
 
 
 class CMAESModel(ABC):
-    def __init__(self, X, y, verbose=False, random_seed=0):
-        self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
+    def __init__(self, X, y, verbose=False, random_seed=0, theta=None, maxiter=None):
+        if theta is None:
+            self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
+        else:
+            self.theta = theta
         self.X = X
         self.y = y
         self.sigma = 0.3
         self.stopfitness = 1e-9
+        self.stopeval = maxiter
         self.C = None
         self.verbose = verbose
 
@@ -28,7 +30,8 @@ class CMAESModel(ABC):
         stop_iter_count = 0
         last_loss = 0
         N = self.theta.size
-        self.stopeval = 100 * N ** 2
+        if self.stopeval is None:
+            self.stopeval = 100 * N ** 2
         self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(np.int))
         if self.verbose:
             print(f"Max number of iters: {self.max_iter_no_change}")
