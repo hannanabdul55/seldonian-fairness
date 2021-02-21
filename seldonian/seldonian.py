@@ -22,6 +22,8 @@ from scipy.special import softmax
 
 from time import time
 
+import ray
+
 
 # torch.autograd.set_detect_anomaly(True)
 
@@ -228,6 +230,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         :param stratify: Stratify the training data when splitting to train/safety sets.
         :param hard_barrier: Use a hard barrier while training the data using the BBO optimizer.
         """
+        super().__init__(X, y, verbose=verbose, random_seed=random_seed)
         self.X = X
         self.y = y
         self.seed = random_seed
@@ -258,11 +261,9 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
-                        count += 1
+                    count += 1
                     rand += 1
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
-
-        super().__init__(self.X, self.y, verbose, random_seed=random_seed)
 
     def data(self):
         return self.X, self.y
@@ -285,9 +286,9 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                     return ghat_val
         return 0
 
-    def loss(self, y_pred, y_true, theta):
-        return log_loss(y_true, y_pred) + (10000 * (self._safetyTest(theta,
-                                                                     predict=True)))
+    def loss(self, X, y_true, theta):
+        return log_loss(y_true, self._predict(X, theta)) + (10000 * (self._safetyTest(theta,
+                                                                                      predict=True)))
 
     def _predict(self, X, theta):
         w = theta[:-1]
@@ -421,10 +422,10 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         pass
 
 
-class PDISSeldonianPolicyCMAES(CMAESModel):
+class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
-                 multiprocessing=False):
+                 multiprocessing=True):
         self.theta = np.random.rand(states * actions, 1)
         self.gamma = gamma
         self.D = data
@@ -436,12 +437,16 @@ class PDISSeldonianPolicyCMAES(CMAESModel):
         super(PDISSeldonianPolicyCMAES, self).__init__(self.D_c, None, theta=self.theta,
                                                        maxiter=1000, verbose=True)
 
-    def loss(self, y_true, y_pred, theta):
-        est = self.pdis_estimate(theta, self.D_c, minimize=False, sum_red=False, verbose=True)
-        loss = (-1 * np.sum(est) / len(self.D_c)) + (
-            0 if self.safety_test(theta, predict=True, ub=True, est=est) > self.thres else 10000)
+    def loss(self, X, y_true, theta):
+        est = self.pdis_estimate(theta, X, minimize=False, sum_red=False, verbose=True)
+        loss = (-1 * np.sum(est) / len(X)) + (
+            0 if self._safetyTest(theta, predict=True, ub=True, est=est) < 0 else 10000)
         print(f"Loss: {loss}")
         return loss
+        pass
+
+    def predict(self, X):
+        self._predict(X, self.theta)
         pass
 
     def _predict(self, X, theta):
@@ -458,15 +463,8 @@ class PDISSeldonianPolicyCMAES(CMAESModel):
             print(f"Running PDIS estimation for the entire candidate data of {len(D)} samples")
         a = time()
         pi_e = pi_e.reshape(self.s, self.a)
-        # est = 0.0
-        # R = []
         if self.use_ray:
-            import ray
-            @ray.remote
-            def estimate_ray_vec(pi_e, D, n, gamma=0.95, sum_red=True):
-                return estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True)
-            n_work = 12
-            idx = 0
+            n_work = max(int(n / 1e4 * 5), 1)
             works = []
             for i in range(n_work):
                 start = int(n * i / n_work)
@@ -489,76 +487,84 @@ class PDISSeldonianPolicyCMAES(CMAESModel):
         else:
             return est
 
-    def safety_test(self, theta, predict=False, ub=False, est=None):
+    def _safetyTest(self, theta, predict=False, ub=False, est=None):
         X = self.D_s
         n = self.D_s.shape[0]
         if predict:
             X = self.D_c
         if est is None:
-            print("Running estimaiton")
             estimate = self.pdis_estimate(theta, X, minimize=False, sum_red=not ub)
         else:
             estimate = est
         estimate = np.array(estimate)
         if ub:
-            return ttest_bounds(estimate, 0.05, n=n)
+            return -1 * (ttest_bounds(estimate, 0.05, n=n).upper - self.thres)
         else:
-            return np.mean(estimate)
+            return -1 * (np.mean(estimate) - self.thres)
 
 
-class SeldonianCEMPDISPolicy:
+class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
 
-    def __init__(self, data, states, actions, gamma, threshold=1.41537, test_size=0.4):
+    def __init__(self, data, states, actions, gamma, threshold=1.41537, test_size=0.4,
+                 verbose=False, use_ray=False):
         self.theta = np.random.rand(states * actions)
         self.gamma = gamma
         self.D = data
         self.s = states
         self.a = actions
         self.thres = threshold
+        self.verbose = verbose
+        self.use_ray = use_ray
         self.D_c, self.D_s = train_test_split(data, test_size=test_size)
 
     def loss(self, y_true, y_pred, theta):
         return y_pred + (
-            0 if self.safety_test(theta, predict=True, ub=True) > self.thres else 10000)
+            0 if self._safetyTest(theta, predict=True, ub=True) < 0 else 10000)
         pass
 
     def objective(self, theta, data):
         obj = (-1 * self._predict(data, theta)) + (
-            10000 if self.safety_test(theta, predict=True, ub=True) < self.thres else 0)
-        print(f"Estimate: {obj}")
+            10000 if self._safetyTest(theta, predict=True, ub=True) > 0 else 0)
+        if self.verbose:
+            print(f"Estimate: {obj}")
         return obj
 
     def fit(self, method='Powell'):
-        print(f"Running minimization")
+        if self.verbose:
+            print(f"Running minimization")
         a = time()
         res = minimize(self.objective, self.theta, args=(self.D_c,), method=method,
                        options={'maxfev': 100})
-        print(f"Optimization result: {res}")
-        print(f"Time takes: {time() - a} seconds")
+        if self.verbose:
+            print(f"Optimization result: {res}")
+            print(f"Time takes: {time() - a} seconds")
         self.theta = res.x
         pass
 
-    def _predict(self, X, theta, verbose=False):
+    def _predict(self, X, theta):
         theta = theta.reshape(self.s, self.a)
-        est = self.pdis_estimate(theta, X, minimize=False, verbose=verbose)
+        est = self.pdis_estimate(theta, X, minimize=False)
         return est
         pass
 
-    def pdis_estimate(self, pi_e, D, gamma=0.95, minimize=True, verbose=False, sum_red=True):
+    def predict(self, X):
+        return self._predict(X, self.theta)
+        pass
+
+    def data(self):
+        return self.D
+        pass
+
+    def pdis_estimate(self, pi_e, D, gamma=0.95, minimize=True, sum_red=True):
         if D is None:
             raise ValueError("Data D is None")
         n = len(D)
-        if verbose:
+        if self.verbose:
             print(f"Running PDIS estimation for the entire candidate data of {len(D)} samples")
-        a = time()
         pi_e = pi_e.reshape(self.s, self.a)
         # est = 0.0
         # R = []
         if self.use_ray:
-            import ray
-            @ray.remote
-            def estimate_ray_vec(pi_e, D, n, gamma=0.95, sum_red=True):
-                return estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True)
 
             n_work = 12
             idx = 0
@@ -575,11 +581,11 @@ class SeldonianCEMPDISPolicy:
             est = sum(results)
         else:
             est = list(itertools.chain.from_iterable(results))
-        if verbose and sum_red:
+        if self.verbose and sum_red:
             print(f"Average estimate of return: {est}")
         return est * (-1 if minimize else 1)
 
-    def safety_test(self, theta, predict=False, ub=False):
+    def _safetyTest(self, theta, predict=False, ub=False):
         X = self.D_s
         n = self.D_s.shape[0]
         if predict:
@@ -587,10 +593,9 @@ class SeldonianCEMPDISPolicy:
         estimate = self.pdis_estimate(theta, X, minimize=False, sum_red=not ub)
         estimate = np.array(estimate)
         if ub:
-            return ttest_bounds(estimate, 0.05, n=n)
+            return -1 * (ttest_bounds(estimate, 0.05, n=n, predict=predict).upper - self.thres)
         else:
-            return np.mean(estimate)
-
+            return -1 * (np.mean(estimate) - self.thres)
 
 
 def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
@@ -609,3 +614,8 @@ def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
         else:
             est.append(weights.dot(ep[:, 2]))
     return est / n if sum_red else est
+
+
+@ray.remote
+def estimate_ray_vec(pi_e, D, n, gamma=0.95, sum_red=True):
+    return estimate_vec(pi_e, D, n, gamma=gamma, sum_red=sum_red)

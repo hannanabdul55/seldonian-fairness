@@ -18,6 +18,7 @@ class CMAESModel(ABC):
         self.stopeval = maxiter
         self.C = None
         self.verbose = verbose
+        super().__init__()
 
     def data(self):
         return self.X, self.y
@@ -67,7 +68,7 @@ class CMAESModel(ABC):
             arfitness = np.zeros((lambda_p,))
             for k in range(lambda_p):
                 arx[:, k] = (xmean + sigma * B @ (D * np.random.randn(N, 1))).flatten()
-                arfitness[k] = self.loss(y_true=y, y_pred=self._predict(X, arx[:, k]),
+                arfitness[k] = self.loss(X=X, y_true=y,
                                          theta=arx[:, k])
                 counteval += 1
             arindex = np.argsort(arfitness)
@@ -123,4 +124,9 @@ class CMAESModel(ABC):
 
     def reset(self):
         self.theta = np.zeros_like(self.theta)
+        pass
+
+    def loss(self, X, y_true, theta):
+        raise NotImplementedError(
+            "loss function must be implemented by all subclasses of CMAESModel")
         pass
