@@ -1,10 +1,11 @@
+import itertools
+
 from sklearn.metrics import log_loss
 
 import numpy as np
 import scipy.optimize
-from sklearn.model_selection import train_test_split
 
-from seldonian.algorithm import SeldonianAlgorithm
+from seldonian.bounds import ttest_bounds
 from seldonian.cmaes import CMAESModel
 from seldonian.utils import sigmoid
 
@@ -14,9 +15,14 @@ import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from torch.utils.data import random_split, DataLoader
 
-import numpy as np
-
 from seldonian.algorithm import SeldonianAlgorithm
+
+from scipy.optimize import minimize
+from scipy.special import softmax
+
+from time import time
+
+import ray
 
 
 # torch.autograd.set_detect_anomaly(True)
@@ -211,7 +217,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
-                 stratify=False, hard_barrier=False):
+                 stratify=False, hard_barrier=False, random_seed=0):
         """
         Initialize the model.
 
@@ -224,8 +230,10 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         :param stratify: Stratify the training data when splitting to train/safety sets.
         :param hard_barrier: Use a hard barrier while training the data using the BBO optimizer.
         """
+        super().__init__(X, y, verbose=verbose, random_seed=random_seed)
         self.X = X
         self.y = y
+        self.seed = random_seed
         self.constraints = g_hats
         self.hard_barrier = hard_barrier
         if safety_data is not None:
@@ -233,30 +241,29 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         else:
             if not stratify:
                 self.X, self.X_s, self.y, self.y_s = train_test_split(
-                    self.X, self.y, test_size=test_size, random_state=0
+                    self.X, self.y, test_size=test_size, random_state=random_seed
                 )
             else:
-                thet = np.random.default_rng().random((X.shape[1] + 1, 1))
+                thet = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
                 min_diff = np.inf
                 count = 0
                 self.X_t = self.X
                 self.y_t = self.y
-                while count < 50:
+                rand = random_seed
+                while count < 30:
                     self.X = self.X_t
                     self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
-                        self.X, self.y, test_size=test_size
+                        self.X, self.y, test_size=test_size, random_state=rand
                     )
                     diff = abs(self._safetyTest(thet, predict=True, ub=False) -
                                self._safetyTest(thet, predict=False, ub=False))
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
-                    else:
-                        count += 1
+                    count += 1
+                    rand += 1
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
-
-        super().__init__(self.X, self.y, verbose)
 
     def data(self):
         return self.X, self.y
@@ -279,9 +286,9 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                     return ghat_val
         return 0
 
-    def loss(self, y_pred, y_true, theta):
-        return log_loss(y_true, y_pred) + (10000 * (self._safetyTest(theta,
-                                                                     predict=True)))
+    def loss(self, X, y_true, theta):
+        return log_loss(y_true, self._predict(X, theta)) + (10000 * (self._safetyTest(theta,
+                                                                                      predict=True)))
 
     def _predict(self, X, theta):
         w = theta[:-1]
@@ -306,18 +313,19 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
-                 hard_barrier=False, stratify=False):
+                 hard_barrier=False, stratify=False, random_seed=0):
         self.theta = np.random.random((X.shape[1] + 1,))
         self.X = X
         self.y = y
         self.constraints = g_hats
+        self.seed = random_seed
         self.hard_barrier = hard_barrier
         if safety_data is not None:
             self.X_s, self.y_s = safety_data
         else:
             if not stratify:
                 self.X, self.X_s, self.y, self.y_s = train_test_split(
-                    self.X, self.y, test_size=test_size, random_state=0
+                    self.X, self.y, test_size=test_size, random_state=random_seed
                 )
             else:
                 min_diff = np.inf
@@ -325,11 +333,12 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
                 count = 0
                 self.X_t = self.X
                 self.y_t = self.y
+                rand = random_seed
                 while count < 50:
                     self.X = self.X_t
                     self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
-                        self.X, self.y, test_size=test_size
+                        self.X, self.y, test_size=test_size, random_state=rand
                     )
                     diff = abs(self._safetyTest(thet, predict=True, ub=False) -
                                self._safetyTest(thet, predict=False, ub=False))
@@ -337,6 +346,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
                     count += 1
+                    rand += 1
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
 
     def data(self):
@@ -371,8 +381,8 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     def get_opt_fn(self):
         def loss_fn(theta):
             return log_loss(self.y, self._predict(self.X, theta)) + (
-                        10000 * self._safetyTest(theta,
-                                                 predict=True))
+                    10000 * self._safetyTest(theta,
+                                             predict=True))
 
         return loss_fn
 
@@ -410,3 +420,202 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     def reset(self):
         self.theta = np.zeros_like(self.theta)
         pass
+
+
+class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
+
+    def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
+                 multiprocessing=True):
+        self.theta = np.random.rand(states * actions, 1)
+        self.gamma = gamma
+        self.D = data
+        self.s = states
+        self.a = actions
+        self.thres = threshold
+        self.use_ray = multiprocessing
+        self.D_c, self.D_s = train_test_split(data, test_size=test_size)
+        super(PDISSeldonianPolicyCMAES, self).__init__(self.D_c, None, theta=self.theta,
+                                                       maxiter=1000, verbose=True)
+
+    def loss(self, X, y_true, theta):
+        est = self.pdis_estimate(theta, X, minimize=False, sum_red=False, verbose=True)
+        loss = (-1 * np.sum(est) / len(X)) + (
+            0 if self._safetyTest(theta, predict=True, ub=True, est=est) < 0 else 10000)
+        print(f"Loss: {loss}")
+        return loss
+        pass
+
+    def predict(self, X):
+        self._predict(X, self.theta)
+        pass
+
+    def _predict(self, X, theta):
+        theta = theta.reshape(self.s, self.a)
+        est = self.pdis_estimate(theta, X, minimize=False, verbose=True)
+        return est
+        pass
+
+    def pdis_estimate(self, pi_e, D, gamma=0.95, minimize=True, verbose=False, sum_red=True):
+        if D is None:
+            raise ValueError("Data D is None")
+        n = len(D)
+        if verbose:
+            print(f"Running PDIS estimation for the entire candidate data of {len(D)} samples")
+        a = time()
+        pi_e = pi_e.reshape(self.s, self.a)
+        if self.use_ray:
+            n_work = max(int(n / 1e4 * 5), 1)
+            works = []
+            for i in range(n_work):
+                start = int(n * i / n_work)
+                end = int(n * (i + 1) / n_work)
+                works.append(estimate_ray_vec.remote(pi_e, D[start:end], n, gamma, sum_red))
+            results = ray.get(works)
+        else:
+            results = estimate_vec(pi_e, D, n, gamma, sum_red)
+        if sum_red:
+            est = sum(results)
+        else:
+            est = list(itertools.chain.from_iterable(results))
+
+        if verbose:
+            print(f"Estimation for one complete run done in {time() - a} seconds")
+        if verbose and sum_red:
+            print(f"Average estimate of return: {est}")
+        if sum_red:
+            return est * (-1 if minimize else 1)
+        else:
+            return est
+
+    def _safetyTest(self, theta, predict=False, ub=False, est=None):
+        X = self.D_s
+        n = self.D_s.shape[0]
+        if predict:
+            X = self.D_c
+        if est is None:
+            estimate = self.pdis_estimate(theta, X, minimize=False, sum_red=not ub)
+        else:
+            estimate = est
+        estimate = np.array(estimate)
+        if ub:
+            return -1 * (ttest_bounds(estimate, 0.05, n=n).upper - self.thres)
+        else:
+            return -1 * (np.mean(estimate) - self.thres)
+
+
+class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
+
+    def __init__(self, data, states, actions, gamma, threshold=1.41537, test_size=0.4,
+                 verbose=False, use_ray=False):
+        self.theta = np.random.rand(states * actions)
+        self.gamma = gamma
+        self.D = data
+        self.s = states
+        self.a = actions
+        self.thres = threshold
+        self.verbose = verbose
+        self.use_ray = use_ray
+        self.D_c, self.D_s = train_test_split(data, test_size=test_size)
+
+    def loss(self, y_true, y_pred, theta):
+        return y_pred + (
+            0 if self._safetyTest(theta, predict=True, ub=True) < 0 else 10000)
+        pass
+
+    def objective(self, theta, data):
+        obj = (-1 * self._predict(data, theta)) + (
+            10000 if self._safetyTest(theta, predict=True, ub=True) > 0 else 0)
+        if self.verbose:
+            print(f"Estimate: {obj}")
+        return obj
+
+    def fit(self, method='Powell'):
+        if self.verbose:
+            print(f"Running minimization")
+        a = time()
+        res = minimize(self.objective, self.theta, args=(self.D_c,), method=method,
+                       options={'maxfev': 100})
+        if self.verbose:
+            print(f"Optimization result: {res}")
+            print(f"Time takes: {time() - a} seconds")
+        self.theta = res.x
+        pass
+
+    def _predict(self, X, theta):
+        theta = theta.reshape(self.s, self.a)
+        est = self.pdis_estimate(theta, X, minimize=False)
+        return est
+        pass
+
+    def predict(self, X):
+        return self._predict(X, self.theta)
+        pass
+
+    def data(self):
+        return self.D
+        pass
+
+    def pdis_estimate(self, pi_e, D, gamma=0.95, minimize=True, sum_red=True):
+        if D is None:
+            raise ValueError("Data D is None")
+        n = len(D)
+        if self.verbose:
+            print(f"Running PDIS estimation for the entire candidate data of {len(D)} samples")
+        pi_e = pi_e.reshape(self.s, self.a)
+        # est = 0.0
+        # R = []
+        if self.use_ray:
+
+            n_work = 12
+            idx = 0
+            works = []
+            for i in range(n_work):
+                start = int(n * i / n_work)
+                end = int(n * (i + 1) / n_work)
+                works.append(estimate_ray_vec.remote(pi_e, D[start:end], n, gamma, sum_red))
+            results = ray.get(works)
+        else:
+            results = estimate_vec(pi_e, D, n, gamma, sum_red)
+
+        if sum_red:
+            est = sum(results)
+        else:
+            est = list(itertools.chain.from_iterable(results))
+        if self.verbose and sum_red:
+            print(f"Average estimate of return: {est}")
+        return est * (-1 if minimize else 1)
+
+    def _safetyTest(self, theta, predict=False, ub=False):
+        X = self.D_s
+        n = self.D_s.shape[0]
+        if predict:
+            X = self.D_c
+        estimate = self.pdis_estimate(theta, X, minimize=False, sum_red=not ub)
+        estimate = np.array(estimate)
+        if ub:
+            return -1 * (ttest_bounds(estimate, 0.05, n=n, predict=predict).upper - self.thres)
+        else:
+            return -1 * (np.mean(estimate) - self.thres)
+
+
+def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
+    if sum_red:
+        est = 0.0
+    else:
+        est = []
+    pi_e = softmax(pi_e, axis=1)
+    for ep in D:
+        ep = np.array(ep, dtype=np.float)
+        weights = np.cumprod(
+            pi_e[ep[:, 0].astype(np.int), ep[:, 1].astype(np.int)] * gamma / ep[:,
+                                                                             3]) / gamma
+        if sum_red:
+            est += weights.dot(ep[:, 2])
+        else:
+            est.append(weights.dot(ep[:, 2]))
+    return est / n if sum_red else est
+
+
+@ray.remote
+def estimate_ray_vec(pi_e, D, n, gamma=0.95, sum_red=True):
+    return estimate_vec(pi_e, D, n, gamma=gamma, sum_red=sum_red)

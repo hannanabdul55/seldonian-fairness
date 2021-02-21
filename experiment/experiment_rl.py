@@ -105,10 +105,10 @@ def run_experiment_p(exp):
                                 method=exp['method']),
             'delta': 0.05
         }]
-        if opt == 'CMAES':
+        if opt == 'PDIS_CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
-                                                verbose=True, stratify=stratify, random_seed=t)
+                                                verbose=False, stratify=stratify, random_seed=t)
         elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
@@ -233,3 +233,5 @@ if __name__ == '__main__':
     save_res(res, f"./{dir}/final_res_{checkpoint}.p")
 
     print(f"Time run: {int(b - a)} seconds")
+
+    # run_experiment(exp_config)

@@ -2,20 +2,23 @@ from abc import ABC
 
 import scipy
 
-from seldonian.algorithm import SeldonianAlgorithm
-
 import numpy as np
 
 
 class CMAESModel(ABC):
-    def __init__(self, X, y, verbose=False):
-        self.theta = np.random.default_rng(0).random((X.shape[1] + 1, 1))
+    def __init__(self, X, y, verbose=False, random_seed=0, theta=None, maxiter=None):
+        if theta is None:
+            self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
+        else:
+            self.theta = theta
         self.X = X
         self.y = y
         self.sigma = 0.3
         self.stopfitness = 1e-9
+        self.stopeval = maxiter
         self.C = None
         self.verbose = verbose
+        super().__init__()
 
     def data(self):
         return self.X, self.y
@@ -28,8 +31,9 @@ class CMAESModel(ABC):
         stop_iter_count = 0
         last_loss = 0
         N = self.theta.size
-        self.stopeval = 100 * N ** 2
-        self.max_iter_no_change = max(1000, 15*np.sqrt(self.stopeval).astype(np.int))
+        if self.stopeval is None:
+            self.stopeval = 100 * N ** 2
+        self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(np.int))
         if self.verbose:
             print(f"Max number of iters: {self.max_iter_no_change}")
         sigma = self.sigma
@@ -64,7 +68,7 @@ class CMAESModel(ABC):
             arfitness = np.zeros((lambda_p,))
             for k in range(lambda_p):
                 arx[:, k] = (xmean + sigma * B @ (D * np.random.randn(N, 1))).flatten()
-                arfitness[k] = self.loss(y_true=y, y_pred=self._predict(X, arx[:, k]),
+                arfitness[k] = self.loss(X=X, y_true=y,
                                          theta=arx[:, k])
                 counteval += 1
             arindex = np.argsort(arfitness)
@@ -120,4 +124,9 @@ class CMAESModel(ABC):
 
     def reset(self):
         self.theta = np.zeros_like(self.theta)
+        pass
+
+    def loss(self, X, y_true, theta):
+        raise NotImplementedError(
+            "loss function must be implemented by all subclasses of CMAESModel")
         pass

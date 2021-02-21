@@ -18,7 +18,8 @@ class LogisticRegressionCMAES(CMAESModel):
         logit = np.dot(X, w) + b
         return sigmoid(logit)
 
-    def loss(self, y_pred, y_true, theta):
+    def loss(self, X, y_true, theta):
+        y_pred = self._predict(X, theta)
         return log_loss(y_true, y_pred)
 
     def predict(self, X):
