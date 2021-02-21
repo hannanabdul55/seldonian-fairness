@@ -1,0 +1,11 @@
+35284:C 11 Oct 2020 19:21:37.400 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+35284:C 11 Oct 2020 19:21:37.400 # Redis version=5.0.9, bits=64, commit=00000000, modified=0, pid=35284, just started
+35284:C 11 Oct 2020 19:21:37.400 # Configuration loaded
+35284:M 11 Oct 2020 19:21:37.402 # Could not create server TCP listening socket *:6379: bind: Address already in use
+35285:C 11 Oct 2020 19:21:37.510 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+35285:C 11 Oct 2020 19:21:37.510 # Redis version=5.0.9, bits=64, commit=00000000, modified=0, pid=35285, just started
+35285:C 11 Oct 2020 19:21:37.510 # Configuration loaded
+35285:M 11 Oct 2020 19:21:37.512 # Server initialized
+35285:signal-handler (1602458497) Received SIGTERM scheduling shutdown...
+35285:M 11 Oct 2020 19:21:37.926 # User requested shutdown...
+35285:M 11 Oct 2020 19:21:37.927 # Redis is now ready to exit, bye bye...
