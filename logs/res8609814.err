@@ -1,0 +1,28 @@
+2020-11-07 08:55:50,306	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+Traceback (most recent call last):
+  File "experiment/experiment_s_p.py", line 171, in <module>
+    res = ray.get(futures)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 1428, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(RayOutOfMemoryError): [36mray::run_experiment_p()[39m (pid=33005, ip=10.128.0.58)
+  File "python/ray/_raylet.pyx", line 446, in ray._raylet.execute_task
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/memory_monitor.py", line 138, in raise_if_low_memory
+    raise RayOutOfMemoryError(
+ray.memory_monitor.RayOutOfMemoryError: More than 95% of the memory on node swarm051 is used (251.11 / 251.82 GB). The top 10 memory consumers are:
+
+PID	MEM	COMMAND
+31999	9.22GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+32236	8.93GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+32156	8.24GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+28595	7.14GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+29917	6.75GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+30475	6.46GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+32419	6.13GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+28190	5.98GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+28850	5.74GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+28103	5.69GiB	java -Dorg.slf4j.simpleLogger.defaultLogLevel=warn edu.stanford.nlp.pipeline.StanfordCoreNLP -props
+
+In addition, up to 0.01 GiB of shared memory is currently being used by the Ray object store. You can set the object store size with the `object_store_memory` parameter when starting Ray.
+---
+--- Tip: Use the `ray memory` command to list active objects in the cluster.
+---
