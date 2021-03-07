@@ -8,7 +8,7 @@
     5.29831691e+05,
     1.00000000e+06
   ],
-  "trials": 3,
+  "trials": 10,
   "method": "hoeffdings",
   "D": 5,
   "tprs": [
