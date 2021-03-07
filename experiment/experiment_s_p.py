@@ -109,7 +109,10 @@ def run_experiment_p(exp):
     else:
         X, X_test, y, y_test, A, A_idx = LawschoolDataset(n=int(n), verbose=True).get_data()
 
-        thres = 0.2
+        if "thresh" not in exp:
+            thres = 0.2
+        else:
+            thres = exp['thresh']
 
     results = {'N': n, 'opt': opt}
     failure_rate = []
