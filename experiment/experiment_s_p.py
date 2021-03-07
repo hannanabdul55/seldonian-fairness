@@ -1,7 +1,17 @@
+import sklearn
+from sklearn import preprocessing
+
+from seldonian.datasets import LawschoolDataset
 from seldonian.seldonian import *
 from seldonian.synthetic import *
+
 import numpy as np
+import pandas as pd
+
 from sklearn.metrics import accuracy_score
+
+from tempeh.configurations import datasets
+
 import pickle
 import os
 from time import time
@@ -85,11 +95,22 @@ def run_experiment_p(exp):
     if 'method' not in exp:
         exp['method'] = 'ttest'
 
+    if 'data' in exp:
+        data = exp['data']
+    else:
+        data = 'synthetic'
+
     n = exp['N']
     opt = exp['opt']
-    X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
-    X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
-    thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
+    if data == 'synthetic':
+        X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
+        X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
+        thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
+    else:
+        X, X_test, y, y_test, A, A_idx = LawschoolDataset(n=int(n), verbose=True).get_data()
+
+        thres = 0.2
+
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
@@ -152,7 +173,7 @@ def run_experiment_p(exp):
             'delta': 0.05
         }]
 
-        c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'], ub=False)
+        c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'])
 
         # mean value of ghat
         mean_ghat.append(c_ghat_val)
@@ -175,7 +196,7 @@ def run_experiment_p(exp):
         uc_accuracy.append(uc_acc)
 
         # Mean ghat value on test data
-        ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'], ub=False)
+        ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'])
         uc_mean_ghat.append(ghat_val)
 
         # Failure rate on Unconstrained estimator
@@ -212,7 +233,7 @@ if __name__ == '__main__':
     n_test = 1e6 * 6
     print(has_gpu)
     if has_gpu:
-        print(f"Initializing ray with {n_gpus} GPUs")
+        print(f"Initializing ray with {n_gpus} GPUs and {kwargs} parameters")
         print('Available devices ', torch.cuda.device_count())
         ray.init(**kwargs)
     else:
