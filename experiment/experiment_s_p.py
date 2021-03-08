@@ -1,7 +1,7 @@
 import sklearn
 from sklearn import preprocessing
 
-from seldonian.datasets import LawschoolDataset
+from seldonian.datasets import LawschoolDataset, AdultDataset
 from seldonian.seldonian import *
 from seldonian.synthetic import *
 
@@ -106,13 +106,15 @@ def run_experiment_p(exp):
         X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
         X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
         thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
-    else:
+    elif data == 'lawschool':
         X, X_test, y, y_test, A, A_idx = LawschoolDataset(n=int(n), verbose=True).get_data()
+    else:
+        X, X_test, y, y_test, A, A_idx = AdultDataset(n=int(n), verbose=True).get_data()
 
-        if "thresh" not in exp:
-            thres = 0.2
-        else:
-            thres = exp['thresh']
+    if "thresh" not in exp:
+        thres = 0.2
+    else:
+        thres = exp['thresh']
 
     results = {'N': n, 'opt': opt}
     failure_rate = []
