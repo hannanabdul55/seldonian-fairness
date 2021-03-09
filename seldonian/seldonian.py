@@ -34,7 +34,7 @@ class VanillaNN(SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, stratify=False, epochs=10,
-                 model=None):
+                 model=None, random_seed=0):
         """
         Initialize a model with `g_hats` constraints. This class is an example of training a
         non-linear model like a neural network based on the Seldonian Approach.
@@ -71,7 +71,7 @@ class VanillaNN(SeldonianAlgorithm):
         # Stratify the sampling method for safety and candidate set using the `stratify` param.
         if not stratify:
             self.X, self.X_s, self.y, self.y_s = train_test_split(
-                self.X, self.y, test_size=test_size, random_state=0
+                self.X, self.y, test_size=test_size, random_state=random_seed
             )
             self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
             self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
@@ -86,7 +86,8 @@ class VanillaNN(SeldonianAlgorithm):
                 self.X = self.X_t
                 self.y = self.y_t
                 self.X, self.X_s, self.y, self.y_s = train_test_split(
-                    self.X, self.y, test_size=test_size
+                    self.X, self.y, test_size=test_size,
+                    random_state=count+1
                 )
                 self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
                 self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
