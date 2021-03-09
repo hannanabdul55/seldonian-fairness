@@ -84,7 +84,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@ray.remote(**kwargs)
+@ray.remote(**exp_kwargs)
 def run_experiment_p(exp):
     gpu_ids = ray.get_gpu_ids()
     device = torch.device(f"cuda:0" if torch.cuda.is_available() else "cpu")
