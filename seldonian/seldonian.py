@@ -137,9 +137,10 @@ class VanillaNN(SeldonianAlgorithm):
                 if self.l_optimizer is not None:
                     self.l_optimizer.zero_grad()
                 out = self.mod(x)
+                safety = self._safetyTest(predict=True)
                 if self.lagrange is not None:
                     loss = self.loss_fn(out, y) + (self.lagrange ** 2).dot(
-                        self._safetyTest(predict=True))
+                        safety)
                 else:
                     loss = self.loss_fn(out, y)
                 loss.backward(retain_graph=True)
@@ -157,8 +158,7 @@ class VanillaNN(SeldonianAlgorithm):
                     # if self.l_optimizer is not None:
                     #     self.l_optimizer.step()
                     with torch.no_grad():
-                        self.lagrange = torch.sqrt((torch.abs(
-                            self.loss_fn(self.mod(x), y) / self._safetyTest(predict=True))))
+                        self.lagrange += 3e-3 * 2 * self.lagrange * safety
                     self.optimizer.zero_grad()
                 running_loss += loss.item()
 
