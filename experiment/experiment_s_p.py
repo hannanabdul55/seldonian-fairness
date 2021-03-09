@@ -47,9 +47,14 @@ else:
 kwargs = {
     'local_mode': use_local
 }
+
+exp_kwargs = {
+
+}
 if args.gpus:
     n_gpus = int(args.gpus)
     kwargs['num_gpus'] = n_gpus
+    exp_kwargs['num_gpus'] = 1
 else:
     n_gpus = 0
 
@@ -78,7 +83,7 @@ def save_res(obj, filename=f"./{dir}/{checkpoint}_{np.random.randint(1000000)}.p
     pickle.dump(obj, open(filename, 'wb'))
 
 
-@ray.remote
+@ray.remote(**kwargs)
 def run_experiment_p(exp):
     gpu_ids = ray.get_gpu_ids()
     device = torch.device(f"cuda:0" if torch.cuda.is_available() else "cpu")
