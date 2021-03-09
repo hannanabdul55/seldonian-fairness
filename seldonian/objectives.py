@@ -1,6 +1,5 @@
 from abc import ABC
 
-import torch
 import torch.nn as nn
 
 from seldonian.bounds import ttest_bounds, hoeffdings_bounds
@@ -128,7 +127,7 @@ def ghat_tpr_diff(A_idx, method='ttest', threshold=0.2):
                 hoeffdings_bounds(tp_b, delta, n, predict=predict) - hoeffdings_bounds(tp_a, delta,
                                                                                        n,
                                                                                        predict=predict))
-        if ub is True:
+        if ub:
             return bound.upper - threshold
         else:
             return bound.value - threshold
@@ -167,7 +166,7 @@ def ghat_recall_rate(A_idx, method='ttest', threshold=0.2):
                     recall_a, delta,
                     n,
                     predict=predict))
-        if ub is True:
+        if ub:
             return bound.upper - threshold
         else:
             return bound.value - threshold

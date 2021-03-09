@@ -1,7 +1,17 @@
+import sklearn
+from sklearn import preprocessing
+
+from seldonian.datasets import LawschoolDataset, AdultDataset
 from seldonian.seldonian import *
 from seldonian.synthetic import *
+
 import numpy as np
+import pandas as pd
+
 from sklearn.metrics import accuracy_score
+
+from tempeh.configurations import datasets
+
 import pickle
 import os
 from time import time
@@ -85,11 +95,27 @@ def run_experiment_p(exp):
     if 'method' not in exp:
         exp['method'] = 'ttest'
 
+    if 'data' in exp:
+        data = exp['data']
+    else:
+        data = 'synthetic'
+
     n = exp['N']
     opt = exp['opt']
-    X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
-    X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
-    thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
+    if data == 'synthetic':
+        X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
+        X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
+        thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
+    elif data == 'lawschool':
+        X, X_test, y, y_test, A, A_idx = LawschoolDataset(n=int(n), verbose=True).get_data()
+    else:
+        X, X_test, y, y_test, A, A_idx = AdultDataset(n=int(n), verbose=True).get_data()
+
+    if "thresh" not in exp:
+        thres = 0.2
+    else:
+        thres = exp['thresh']
+
     results = {'N': n, 'opt': opt}
     failure_rate = []
     sol_found_rate = []
@@ -108,7 +134,7 @@ def run_experiment_p(exp):
         if opt == 'CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
-                                                verbose=False, stratify=stratify)
+                                                verbose=True, stratify=stratify, random_seed=t)
         elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
@@ -119,7 +145,8 @@ def run_experiment_p(exp):
                                                    g_hats=ghats,
                                                    verbose=True,
                                                    hard_barrier=hard_barrier,
-                                                   stratify=stratify)
+                                                   stratify=stratify,
+                                                   random_seed=t)
         else:
             ghats = [{
                 'fn': ghat_tpr_diff_t(A_idx,
@@ -151,17 +178,17 @@ def run_experiment_p(exp):
             'delta': 0.05
         }]
 
-        c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'], ub=False)
+        c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'])
 
         # mean value of ghat
         mean_ghat.append(c_ghat_val)
 
         # Probability of g(D)<0
-        failure_rate.append(1 if c_ghat_val > 0.0 else 0)
+        failure_rate.append(1 if c_ghat_val > 0.0 and safe <= 0.0 else 0)
 
         # Unconstrained optimizer
         if opt != 'NN':
-            uc_est = LogisticRegression(penalty='none').fit(X, y)
+            uc_est = LogisticRegression(penalty='none', random_state=t).fit(X, y)
         else:
             uc_est = VanillaNN(X, y, test_size=exp['test_size'], stratify=stratify)
             uc_est.fit()
@@ -174,7 +201,7 @@ def run_experiment_p(exp):
         uc_accuracy.append(uc_acc)
 
         # Mean ghat value on test data
-        ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'], ub=False)
+        ghat_val = ghats[0]['fn'](X_test, y_test, y_preds, ghats[0]['delta'])
         uc_mean_ghat.append(ghat_val)
 
         # Failure rate on Unconstrained estimator
@@ -211,7 +238,7 @@ if __name__ == '__main__':
     n_test = 1e6 * 6
     print(has_gpu)
     if has_gpu:
-        print(f"Initializing ray with {n_gpus} GPUs")
+        print(f"Initializing ray with {n_gpus} GPUs and {kwargs} parameters")
         print('Available devices ', torch.cuda.device_count())
         ray.init(**kwargs)
     else:
@@ -232,5 +259,3 @@ if __name__ == '__main__':
     save_res(res, f"./{dir}/final_res_{checkpoint}.p")
 
     print(f"Time run: {int(b - a)} seconds")
-
-    # run_experiment(exp_config)
