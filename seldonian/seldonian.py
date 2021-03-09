@@ -156,7 +156,7 @@ class VanillaNN(SeldonianAlgorithm):
                     # # l_optimizer is a separate optimizer for the lagrangian.
                     # if self.l_optimizer is not None:
                     #     self.l_optimizer.step()
-                    with torch.no_grad:
+                    with torch.no_grad():
                         self.lagrange = torch.sqrt((torch.abs(
                             self.loss_fn(self.mod(x), y) / self._safetyTest(predict=True))))
                     self.optimizer.zero_grad()
