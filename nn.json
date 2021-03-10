@@ -1,0 +1,23 @@
+{
+  "name": "tmp_nn_20tr",
+  "N": [
+    12500,
+    22500,
+    45000,
+    54000,
+    80000,
+    100000
+  ],
+  "trials": 5,
+  "methods":
+    "ttest",
+  "D": 5,
+  "tprs": [
+    0.3,
+    0.9
+  ],
+  "test_size": 0.3,
+  "opt": "NN",
+  "hard_barrier": true
+}
+
