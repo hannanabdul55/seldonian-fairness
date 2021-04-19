@@ -220,7 +220,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
-                 stratify=False, hard_barrier=False, random_seed=0):
+                 stratify=False, hard_barrier=False, random_seed=0, nthetas=5):
         """
         Initialize the model.
 
@@ -247,7 +247,9 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                     self.X, self.y, test_size=test_size, random_state=random_seed
                 )
             else:
-                thet = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
+                thets = [np.random.default_rng(random_seed + i).random((X.shape[1] + 1, 1)) for i
+                         in
+                         range(nthetas)]
                 min_diff = np.inf
                 count = 0
                 self.X_t = self.X
@@ -259,8 +261,10 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size, random_state=rand
                     )
-                    diff = abs(self._safetyTest(thet, predict=True, ub=False) -
-                               self._safetyTest(thet, predict=False, ub=False))
+                    diff = abs(np.mean(
+                        [self._safetyTest(thet, predict=True, ub=False) for thet in thets]) -
+                               np.mean([self._safetyTest(thet, predict=False, ub=False) for thet in
+                                        thets]))
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff
@@ -316,8 +320,8 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
-                 hard_barrier=False, stratify=False, random_seed=0):
-        self.theta = np.random.random((X.shape[1] + 1,))
+                 hard_barrier=False, stratify=False, random_seed=0, nthetas=5):
+        self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1,))
         self.X = X
         self.y = y
         self.constraints = g_hats
@@ -332,7 +336,9 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
                 )
             else:
                 min_diff = np.inf
-                thet = self.theta
+                thets = [np.random.default_rng(random_seed + i).random((X.shape[1] + 1, 1)) for i
+                         in
+                         range(nthetas)]
                 count = 0
                 self.X_t = self.X
                 self.y_t = self.y
@@ -343,8 +349,10 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
                         self.X, self.y, test_size=test_size, random_state=rand
                     )
-                    diff = abs(self._safetyTest(thet, predict=True, ub=False) -
-                               self._safetyTest(thet, predict=False, ub=False))
+                    diff = abs(np.mean(
+                        [self._safetyTest(thet, predict=True, ub=False) for thet in thets]) -
+                               np.mean([self._safetyTest(thet, predict=False, ub=False) for thet in
+                                        thets]))
                     if diff < min_diff:
                         self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
                         min_diff = diff

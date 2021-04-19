@@ -1,0 +1,25 @@
+{
+  "name": "mc_stratify_nostratify_dry_run",
+  "N": [
+    200,
+    600,
+    1000,
+    10000,
+    25000,
+    78000,
+    100000
+  ],
+  "trials": 5,
+  "methods": [
+    "ttest",
+    "hoeffdings"
+  ],
+  "D": 6,
+  "tprs": [
+    0.3,
+    0.8
+  ],
+  "test_size": 0.4,
+  "opt": "CMAES",
+  "stratify": false
+}

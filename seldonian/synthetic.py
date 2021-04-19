@@ -7,17 +7,17 @@ import numpy as np
 from seldonian.seldonian import SeldonianAlgorithmLogRegCMAES
 
 
-def make_synthetic(N, D, tp_a=0.4, tp_b=0.8, A_idx=None):
+def make_synthetic(N, D, tp_a=0.4, tp_b=0.8, A_idx=None, A_prob=0.5, seed=0):
     N = int(N)
     if A_idx is None:
         A_idx = np.random.randint(1, D - 1)
-    X = np.random.default_rng(0).random((N, D))
-    X[:, A_idx] = np.random.default_rng(0).binomial(1, 0.5, N)
+    X = np.random.default_rng(seed).random((N, D))
+    X[:, A_idx] = np.random.default_rng(seed+13).binomial(1, A_prob, N)
     y = np.zeros((N,))
     slice_a = X[:, A_idx] == 1
     slice_b = X[:, A_idx] == 0
-    y[slice_a] = np.random.default_rng(0).binomial(1, tp_a, np.sum(slice_a))
-    y[slice_b] = np.random.default_rng(0).binomial(1, tp_b, np.sum(slice_b))
+    y[slice_a] = np.random.default_rng(seed+17).binomial(1, tp_a, np.sum(slice_a))
+    y[slice_b] = np.random.default_rng(seed+19).binomial(1, tp_b, np.sum(slice_b))
     X[:, 0] = np.random.randn(y.size) * y
     return X, y, A_idx
 

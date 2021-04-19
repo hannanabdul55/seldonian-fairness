@@ -98,6 +98,10 @@ def run_experiment_p(exp):
     stratify = False
     if 'stratify' in exp:
         stratify = exp['stratify']
+    if 'thetas' in exp:
+        thetas = exp['thetas']
+    else:
+        thetas = 1
     if 'method' not in exp:
         exp['method'] = 'ttest'
 
@@ -109,16 +113,24 @@ def run_experiment_p(exp):
     n = exp['N']
     opt = exp['opt']
     if data == 'synthetic':
-        X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
-        X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
-        thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
+        if 'a_prob' in exp:
+            a_prob = exp['a_prob']
+        else:
+            a_prob = 0.5
+        if 'seed' in exp:
+            seed = exp['seed']
+        else:
+            seed = 0
+        X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'], A_prob=a_prob, seed=seed)
+        X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx,
+                                           A_prob=a_prob, seed=seed)
     elif data == 'lawschool':
         X, X_test, y, y_test, A, A_idx = LawschoolDataset(n=int(n), verbose=True).get_data()
     else:
         X, X_test, y, y_test, A, A_idx = AdultDataset(n=int(n), verbose=True).get_data()
 
     if "thresh" not in exp:
-        thres = 0.2
+        thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
     else:
         thres = exp['thresh']
 
@@ -140,7 +152,9 @@ def run_experiment_p(exp):
         if opt == 'CMAES':
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
-                                                verbose=True, stratify=stratify, random_seed=t)
+                                                verbose=False, stratify=stratify, random_seed=t,
+                                                nthetas=thetas
+                                                )
         elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
@@ -149,10 +163,11 @@ def run_experiment_p(exp):
                 hard_barrier = False
             est = LogisticRegressionSeldonianModel(X, y, test_size=exp['test_size'],
                                                    g_hats=ghats,
-                                                   verbose=True,
+                                                   verbose=False,
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify,
-                                                   random_seed=t)
+                                                   random_seed=t,
+                                                   nthetas=thetas)
         else:
             ghats = [{
                 'fn': ghat_tpr_diff_t(A_idx,
