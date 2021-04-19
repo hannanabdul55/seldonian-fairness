@@ -1,0 +1,402 @@
+Running experiment with checkpoint: results-1615170559.9940705
+Config used: {'name': 'cmaes_upsample_adult_thres_02_ttest_v2', 'N': [100.0, 356.224789, 672.335754, 923.670857, 1268.961, 2395.02662, 3290.34456, 4520.35366, 6210.16942, 8531.67852, 11721.023, 30391.9538, 57361.5251, 78804.6282, 108263.673, 204335.972, 385662.042, 529831.691, 727895.384, 1000000.0], 'trials': 20, 'method': 'ttest', 'D': 5, 'tprs': [0.05, 0.95], 'thresh': 0.02, 'test_size': 0.2, 'opt': 'CMAES', 'hard_barrier': True, 'stratify': True, 'data': 'adult'}
+False
+[2m[36m(pid=29653)[0m True positive rate for feature Sex=1: 0.20224719101123595
+[2m[36m(pid=29653)[0m number of samples for feature Sex=1: 69
+[2m[36m(pid=29653)[0m True positive rate for feature Sex=0: 0.011235955056179775
+[2m[36m(pid=29653)[0m number of samples for feature Sex=0: 20
+[2m[36m(pid=29653)[0m FOR TEST SET:
+[2m[36m(pid=29653)[0m True positive rate for feature Sex=1: 0.1590909090909091
+[2m[36m(pid=29653)[0m number of samples for feature Sex=1: 28
+[2m[36m(pid=29653)[0m True positive rate for feature Sex=0: 0.0
+[2m[36m(pid=29653)[0m number of samples for feature Sex=0: 16
+[2m[36m(pid=29659)[0m True positive rate for feature Sex=1: 0.2102196752626552
+[2m[36m(pid=29659)[0m number of samples for feature Sex=1: 7028
+[2m[36m(pid=29659)[0m True positive rate for feature Sex=0: 0.03925501432664757
+[2m[36m(pid=29659)[0m number of samples for feature Sex=0: 3442
+[2m[36m(pid=29659)[0m FOR TEST SET:
+[2m[36m(pid=29659)[0m True positive rate for feature Sex=1: 0.21539356339666538
+[2m[36m(pid=29659)[0m number of samples for feature Sex=1: 3497
+[2m[36m(pid=29659)[0m True positive rate for feature Sex=0: 0.03606048856145793
+[2m[36m(pid=29659)[0m number of samples for feature Sex=0: 1661
+[2m[36m(pid=29689)[0m True positive rate for feature Sex=1: 0.20680563310379055
+[2m[36m(pid=29689)[0m number of samples for feature Sex=1: 64956
+[2m[36m(pid=29689)[0m True positive rate for feature Sex=0: 0.03634427280435097
+[2m[36m(pid=29689)[0m number of samples for feature Sex=0: 31758
+[2m[36m(pid=29689)[0m FOR TEST SET:
+[2m[36m(pid=29689)[0m True positive rate for feature Sex=1: 0.20574775379964733
+[2m[36m(pid=29689)[0m number of samples for feature Sex=1: 31885
+[2m[36m(pid=29689)[0m True positive rate for feature Sex=0: 0.03505751952304979
+[2m[36m(pid=29689)[0m number of samples for feature Sex=0: 15751
+[2m[36m(pid=29670)[0m True positive rate for feature Sex=1: 0.21633315305570577
+[2m[36m(pid=29670)[0m number of samples for feature Sex=1: 3772
+[2m[36m(pid=29670)[0m True positive rate for feature Sex=0: 0.04236524247340905
+[2m[36m(pid=29670)[0m number of samples for feature Sex=0: 1775
+[2m[36m(pid=29670)[0m FOR TEST SET:
+[2m[36m(pid=29670)[0m True positive rate for feature Sex=1: 0.20563483351628248
+[2m[36m(pid=29670)[0m number of samples for feature Sex=1: 1837
+[2m[36m(pid=29670)[0m True positive rate for feature Sex=0: 0.03549213318697402
+[2m[36m(pid=29670)[0m number of samples for feature Sex=0: 896
+[2m[36m(pid=29653)[0m Max number of iters: 1950
+[2m[36m(pid=29653)[0m max iterations: 16900
+[2m[36m(pid=29695)[0m True positive rate for feature Sex=1: 0.21996466431095407
+[2m[36m(pid=29695)[0m number of samples for feature Sex=1: 775
+[2m[36m(pid=29695)[0m True positive rate for feature Sex=0: 0.03356890459363958
+[2m[36m(pid=29695)[0m number of samples for feature Sex=0: 357
+[2m[36m(pid=29695)[0m FOR TEST SET:
+[2m[36m(pid=29695)[0m True positive rate for feature Sex=1: 0.2132616487455197
+[2m[36m(pid=29695)[0m number of samples for feature Sex=1: 385
+[2m[36m(pid=29695)[0m True positive rate for feature Sex=0: 0.043010752688172046
+[2m[36m(pid=29695)[0m number of samples for feature Sex=0: 173
+[2m[36m(pid=29654)[0m True positive rate for feature Sex=1: 0.21550656428040624
+[2m[36m(pid=29654)[0m number of samples for feature Sex=1: 2748
+[2m[36m(pid=29654)[0m True positive rate for feature Sex=0: 0.041367351994054995
+[2m[36m(pid=29654)[0m number of samples for feature Sex=0: 1289
+[2m[36m(pid=29654)[0m FOR TEST SET:
+[2m[36m(pid=29654)[0m True positive rate for feature Sex=1: 0.2016088486676722
+[2m[36m(pid=29654)[0m number of samples for feature Sex=1: 1344
+[2m[36m(pid=29654)[0m True positive rate for feature Sex=0: 0.03619909502262444
+[2m[36m(pid=29654)[0m number of samples for feature Sex=0: 645
+[2m[36m(pid=29647)[0m True positive rate for feature Sex=1: 0.20889114398345107
+[2m[36m(pid=29647)[0m number of samples for feature Sex=1: 34396
+[2m[36m(pid=29647)[0m True positive rate for feature Sex=0: 0.03555676983724289
+[2m[36m(pid=29647)[0m number of samples for feature Sex=0: 16846
+[2m[36m(pid=29647)[0m FOR TEST SET:
+[2m[36m(pid=29647)[0m True positive rate for feature Sex=1: 0.20781330480605412
+[2m[36m(pid=29647)[0m number of samples for feature Sex=1: 16990
+[2m[36m(pid=29647)[0m True positive rate for feature Sex=0: 0.03470818970640675
+[2m[36m(pid=29647)[0m number of samples for feature Sex=0: 8249
+[2m[36m(pid=29653)[0m Current evaluation: 11	 average loss:7130.679354372396 
+[2m[36m(pid=29659)[0m Max number of iters: 1950
+[2m[36m(pid=29659)[0m max iterations: 16900
+[2m[36m(pid=29670)[0m Max number of iters: 1950
+[2m[36m(pid=29670)[0m max iterations: 16900
+[2m[36m(pid=29664)[0m True positive rate for feature Sex=1: 0.21136827773995914
+[2m[36m(pid=29664)[0m number of samples for feature Sex=1: 1995
+[2m[36m(pid=29664)[0m True positive rate for feature Sex=0: 0.04186521443158611
+[2m[36m(pid=29664)[0m number of samples for feature Sex=0: 943
+[2m[36m(pid=29664)[0m FOR TEST SET:
+[2m[36m(pid=29664)[0m True positive rate for feature Sex=1: 0.2285911602209945
+[2m[36m(pid=29664)[0m number of samples for feature Sex=1: 1015
+[2m[36m(pid=29664)[0m True positive rate for feature Sex=0: 0.0324585635359116
+[2m[36m(pid=29664)[0m number of samples for feature Sex=0: 433
+[2m[36m(pid=29660)[0m True positive rate for feature Sex=1: 0.22397476340694006
+[2m[36m(pid=29660)[0m number of samples for feature Sex=1: 231
+[2m[36m(pid=29660)[0m True positive rate for feature Sex=0: 0.028391167192429023
+[2m[36m(pid=29660)[0m number of samples for feature Sex=0: 86
+[2m[36m(pid=29660)[0m FOR TEST SET:
+[2m[36m(pid=29660)[0m True positive rate for feature Sex=1: 0.16560509554140126
+[2m[36m(pid=29660)[0m number of samples for feature Sex=1: 102
+[2m[36m(pid=29660)[0m True positive rate for feature Sex=0: 0.012738853503184714
+[2m[36m(pid=29660)[0m number of samples for feature Sex=0: 55
+[2m[36m(pid=29679)[0m True positive rate for feature Sex=1: 0.21359223300970873
+[2m[36m(pid=29679)[0m number of samples for feature Sex=1: 556
+[2m[36m(pid=29679)[0m True positive rate for feature Sex=0: 0.03762135922330097
+[2m[36m(pid=29679)[0m number of samples for feature Sex=0: 268
+[2m[36m(pid=29679)[0m FOR TEST SET:
+[2m[36m(pid=29679)[0m True positive rate for feature Sex=1: 0.21921182266009853
+[2m[36m(pid=29679)[0m number of samples for feature Sex=1: 290
+[2m[36m(pid=29679)[0m True positive rate for feature Sex=0: 0.03694581280788178
+[2m[36m(pid=29679)[0m number of samples for feature Sex=0: 116
+[2m[36m(pid=29648)[0m True positive rate for feature Sex=1: 0.21666666666666667
+[2m[36m(pid=29648)[0m number of samples for feature Sex=1: 414
+[2m[36m(pid=29648)[0m True positive rate for feature Sex=0: 0.03666666666666667
+[2m[36m(pid=29648)[0m number of samples for feature Sex=0: 186
+[2m[36m(pid=29648)[0m FOR TEST SET:
+[2m[36m(pid=29648)[0m True positive rate for feature Sex=1: 0.23310810810810811
+[2m[36m(pid=29648)[0m number of samples for feature Sex=1: 217
+[2m[36m(pid=29648)[0m True positive rate for feature Sex=0: 0.033783783783783786
+[2m[36m(pid=29648)[0m number of samples for feature Sex=0: 79
+[2m[36m(pid=29653)[0m Current evaluation: 22	 average loss:7130.6793543670465 
+[2m[36m(pid=29665)[0m True positive rate for feature Sex=1: 0.21037868162692847
+[2m[36m(pid=29665)[0m number of samples for feature Sex=1: 1458
+[2m[36m(pid=29665)[0m True positive rate for feature Sex=0: 0.04020570359981299
+[2m[36m(pid=29665)[0m number of samples for feature Sex=0: 681
+[2m[36m(pid=29665)[0m FOR TEST SET:
+[2m[36m(pid=29665)[0m True positive rate for feature Sex=1: 0.23434535104364326
+[2m[36m(pid=29665)[0m number of samples for feature Sex=1: 741
+[2m[36m(pid=29665)[0m True positive rate for feature Sex=0: 0.03415559772296015
+[2m[36m(pid=29665)[0m number of samples for feature Sex=0: 313
+[2m[36m(pid=29696)[0m True positive rate for feature Sex=1: 0.2079036336259553
+[2m[36m(pid=29696)[0m number of samples for feature Sex=1: 47340
+[2m[36m(pid=29696)[0m True positive rate for feature Sex=0: 0.03490155970340066
+[2m[36m(pid=29696)[0m number of samples for feature Sex=0: 23055
+[2m[36m(pid=29696)[0m FOR TEST SET:
+[2m[36m(pid=29696)[0m True positive rate for feature Sex=1: 0.20508161735017594
+[2m[36m(pid=29696)[0m number of samples for feature Sex=1: 23171
+[2m[36m(pid=29696)[0m True positive rate for feature Sex=0: 0.03596354617292496
+[2m[36m(pid=29696)[0m number of samples for feature Sex=0: 11503
+[2m[36m(pid=29674)[0m True positive rate for feature Sex=1: 0.2089238845144357
+[2m[36m(pid=29674)[0m number of samples for feature Sex=1: 5129
+[2m[36m(pid=29674)[0m True positive rate for feature Sex=0: 0.03950131233595801
+[2m[36m(pid=29674)[0m number of samples for feature Sex=0: 2491
+[2m[36m(pid=29674)[0m FOR TEST SET:
+[2m[36m(pid=29674)[0m True positive rate for feature Sex=1: 0.21736814064997337
+[2m[36m(pid=29674)[0m number of samples for feature Sex=1: 2559
+[2m[36m(pid=29674)[0m True positive rate for feature Sex=0: 0.03702717101758125
+[2m[36m(pid=29674)[0m number of samples for feature Sex=0: 1195
+[2m[36m(pid=29670)[0m Current evaluation: 11	 average loss:2028.8691622012207 
+[2m[36m(pid=29663)[0m True positive rate for feature Sex=1: 0.2061954399793731
+[2m[36m(pid=29663)[0m number of samples for feature Sex=1: 18149
+[2m[36m(pid=29663)[0m True positive rate for feature Sex=0: 0.03547091973921691
+[2m[36m(pid=29663)[0m number of samples for feature Sex=0: 9000
+[2m[36m(pid=29663)[0m FOR TEST SET:
+[2m[36m(pid=29663)[0m True positive rate for feature Sex=1: 0.21260843553694286
+[2m[36m(pid=29663)[0m number of samples for feature Sex=1: 9026
+[2m[36m(pid=29663)[0m True positive rate for feature Sex=0: 0.03784026323661382
+[2m[36m(pid=29663)[0m number of samples for feature Sex=0: 4346
+[2m[36m(pid=29653)[0m Current evaluation: 33	 average loss:7130.614461550952 
+[2m[36m(pid=29695)[0m Max number of iters: 1950
+[2m[36m(pid=29695)[0m max iterations: 16900
+[2m[36m(pid=29659)[0m Current evaluation: 11	 average loss:2276.936339435755 
+[2m[36m(pid=29653)[0m Current evaluation: 44	 average loss:7130.233625169714 
+[2m[36m(pid=29660)[0m Max number of iters: 1950
+[2m[36m(pid=29660)[0m max iterations: 16900
+[2m[36m(pid=29695)[0m Current evaluation: 11	 average loss:2322.9868663750863 
+[2m[36m(pid=29653)[0m Current evaluation: 55	 average loss:7128.846777991231 
+[2m[36m(pid=29670)[0m Current evaluation: 22	 average loss:2015.4119061814504 
+[2m[36m(pid=29648)[0m Max number of iters: 1950
+[2m[36m(pid=29648)[0m max iterations: 16900
+[2m[36m(pid=29654)[0m Max number of iters: 1950
+[2m[36m(pid=29654)[0m max iterations: 16900
+[2m[36m(pid=29676)[0m True positive rate for feature Sex=1: 0.20633395641522798
+[2m[36m(pid=29676)[0m number of samples for feature Sex=1: 231225
+[2m[36m(pid=29676)[0m True positive rate for feature Sex=0: 0.036223891514089
+[2m[36m(pid=29676)[0m number of samples for feature Sex=0: 113299
+[2m[36m(pid=29676)[0m FOR TEST SET:
+[2m[36m(pid=29676)[0m True positive rate for feature Sex=1: 0.20605567734483654
+[2m[36m(pid=29676)[0m number of samples for feature Sex=1: 113547
+[2m[36m(pid=29676)[0m True positive rate for feature Sex=0: 0.03551729014921151
+[2m[36m(pid=29676)[0m number of samples for feature Sex=0: 56145
+[2m[36m(pid=29653)[0m Current evaluation: 66	 average loss:6841.444824167127 
+[2m[36m(pid=29664)[0m Max number of iters: 1950
+[2m[36m(pid=29664)[0m max iterations: 16900
+[2m[36m(pid=29660)[0m Current evaluation: 11	 average loss:4384.971905348593 
+[2m[36m(pid=29695)[0m Current evaluation: 22	 average loss:1488.296587876037 
+[2m[36m(pid=29659)[0m Current evaluation: 22	 average loss:2216.1652607204055 
+[2m[36m(pid=29679)[0m Max number of iters: 1950
+[2m[36m(pid=29679)[0m max iterations: 16900
+[2m[36m(pid=29653)[0m Current evaluation: 77	 average loss:5950.104097767862 
+[2m[36m(pid=29660)[0m Current evaluation: 22	 average loss:4179.956990503802 
+[2m[36m(pid=29648)[0m Current evaluation: 11	 average loss:4193.809845791723 
+[2m[36m(pid=29665)[0m Max number of iters: 1950
+[2m[36m(pid=29665)[0m max iterations: 16900
+[2m[36m(pid=29695)[0m Current evaluation: 33	 average loss:1196.5739842222274 
+[2m[36m(pid=29670)[0m Current evaluation: 33	 average loss:1899.1341139842896 
+[2m[36m(pid=29679)[0m Current evaluation: 11	 average loss:3157.9602172138116 
+[2m[36m(pid=29664)[0m Current evaluation: 11	 average loss:2599.3358810661343 
+[2m[36m(pid=29654)[0m Current evaluation: 11	 average loss:2076.2397270366696 
+[2m[36m(pid=29648)[0m Current evaluation: 22	 average loss:2803.4245195679805 
+[2m[36m(pid=29653)[0m Current evaluation: 88	 average loss:5940.946540648946 
+[2m[36m(pid=29660)[0m Current evaluation: 33	 average loss:4172.706204588066 
+[2m[36m(pid=29665)[0m Current evaluation: 11	 average loss:2917.7487575047844 
+[2m[36m(pid=29695)[0m Current evaluation: 44	 average loss:1110.0891674288869 
+[2m[36m(pid=29679)[0m Current evaluation: 22	 average loss:3157.9109638429914 
+[2m[36m(pid=29671)[0m True positive rate for feature Sex=1: 0.20698156000394438
+[2m[36m(pid=29671)[0m number of samples for feature Sex=1: 122504
+[2m[36m(pid=29671)[0m True positive rate for feature Sex=0: 0.03599798398141757
+[2m[36m(pid=29671)[0m number of samples for feature Sex=0: 60034
+[2m[36m(pid=29671)[0m FOR TEST SET:
+[2m[36m(pid=29671)[0m True positive rate for feature Sex=1: 0.20417537927659385
+[2m[36m(pid=29671)[0m number of samples for feature Sex=1: 60246
+[2m[36m(pid=29671)[0m True positive rate for feature Sex=0: 0.03546959113760733
+[2m[36m(pid=29671)[0m number of samples for feature Sex=0: 29662
+[2m[36m(pid=29653)[0m Current evaluation: 99	 average loss:5609.949939808457 
+[2m[36m(pid=29703)[0m True positive rate for feature Sex=1: 0.20557134255200024
+[2m[36m(pid=29703)[0m number of samples for feature Sex=1: 317257
+[2m[36m(pid=29703)[0m True positive rate for feature Sex=0: 0.03637957808224966
+[2m[36m(pid=29659)[0m Current evaluation: 33	 average loss:1949.9143760213078 
+[2m[36m(pid=29660)[0m Current evaluation: 44	 average loss:4098.56750111113 
+[2m[36m(pid=29695)[0m Current evaluation: 55	 average loss:8.548824212662977 
+[2m[36m(pid=29703)[0m number of samples for feature Sex=0: 156058
+[2m[36m(pid=29703)[0m FOR TEST SET:
+[2m[36m(pid=29703)[0m True positive rate for feature Sex=1: 0.20742002179079125
+[2m[36m(pid=29703)[0m number of samples for feature Sex=1: 156142
+[2m[36m(pid=29703)[0m True positive rate for feature Sex=0: 0.03553443202388408
+[2m[36m(pid=29703)[0m number of samples for feature Sex=0: 76984
+[2m[36m(pid=29670)[0m Current evaluation: 44	 average loss:1014.920904477238 
+[2m[36m(pid=29664)[0m Current evaluation: 22	 average loss:2557.3475698682 
+[2m[36m(pid=29654)[0m Current evaluation: 22	 average loss:813.5509361047098 
+[2m[36m(pid=29648)[0m Current evaluation: 33	 average loss:1973.959984832299 
+[2m[36m(pid=29665)[0m Current evaluation: 22	 average loss:2913.191700569057 
+[2m[36m(pid=29660)[0m Current evaluation: 55	 average loss:1941.6254951350215 
+[2m[36m(pid=29648)[0m Current evaluation: 44	 average loss:1553.1222665172966 
+[2m[36m(pid=29674)[0m Max number of iters: 1950
+[2m[36m(pid=29674)[0m max iterations: 16900
+[2m[36m(pid=29653)[0m Current evaluation: 110	 average loss:2682.967988971811 
+[2m[36m(pid=29664)[0m Current evaluation: 33	 average loss:932.4286826834763 
+[2m[36m(pid=29679)[0m Current evaluation: 33	 average loss:3157.9082605045555 
+[2m[36m(pid=29695)[0m Current evaluation: 66	 average loss:8.548824212662977 
+[2m[36m(pid=29648)[0m Current evaluation: 55	 average loss:1553.9522142875824 
+[2m[36m(pid=29665)[0m Current evaluation: 33	 average loss:2894.8759576097955 
+[2m[36m(pid=29653)[0m Current evaluation: 121	 average loss:7.847966970246952 
+[2m[36m(pid=29654)[0m Current evaluation: 33	 average loss:273.17390860976707 
+[2m[36m(pid=29660)[0m Current evaluation: 66	 average loss:7.475083096082178 
+[2m[36m(pid=29659)[0m Current evaluation: 44	 average loss:1167.8830376762644 
+[2m[36m(pid=29670)[0m Current evaluation: 55	 average loss:257.8921964332256 
+[2m[36m(pid=29679)[0m Current evaluation: 44	 average loss:3089.6448525782966 
+[2m[36m(pid=29648)[0m Current evaluation: 66	 average loss:1553.9637088617037 
+[2m[36m(pid=29695)[0m Current evaluation: 77	 average loss:8.548824212663233 
+[2m[36m(pid=29653)[0m Current evaluation: 132	 average loss:8.089033733193018 
+[2m[36m(pid=29664)[0m Current evaluation: 44	 average loss:914.7439235320802 
+[2m[36m(pid=29660)[0m Current evaluation: 77	 average loss:7.7064676046637866 
+[2m[36m(pid=29688)[0m True positive rate for feature Sex=1: 0.205326550322029
+[2m[36m(pid=29688)[0m number of samples for feature Sex=1: 435799
+[2m[36m(pid=29679)[0m Current evaluation: 55	 average loss:3089.6327231728965 
+[2m[36m(pid=29665)[0m Current evaluation: 44	 average loss:1092.7784872869859 
+[2m[36m(pid=29688)[0m True positive rate for feature Sex=0: 0.03606447961713305
+[2m[36m(pid=29688)[0m number of samples for feature Sex=0: 214453
+[2m[36m(pid=29688)[0m FOR TEST SET:
+[2m[36m(pid=29688)[0m True positive rate for feature Sex=1: 0.20555524332290476
+[2m[36m(pid=29688)[0m number of samples for feature Sex=1: 214211
+[2m[36m(pid=29688)[0m True positive rate for feature Sex=0: 0.036297045654658196
+[2m[36m(pid=29688)[0m number of samples for feature Sex=0: 106063
+[2m[36m(pid=29654)[0m Current evaluation: 44	 average loss:278.0618196454108 
+[2m[36m(pid=29695)[0m Current evaluation: 88	 average loss:8.548824212662977 
+[2m[36m(pid=29674)[0m Current evaluation: 11	 average loss:2137.7537800825785 
+[2m[36m(pid=29653)[0m Current evaluation: 143	 average loss:7.783386229839026 
+[2m[36m(pid=29670)[0m Current evaluation: 66	 average loss:258.42052564830425 
+[2m[36m(pid=29648)[0m Current evaluation: 77	 average loss:1553.9019823709268 
+[2m[36m(pid=29665)[0m Current evaluation: 55	 average loss:1091.2925443709441 
+[2m[36m(pid=29695)[0m Current evaluation: 99	 average loss:8.067594433070754 
+[2m[36m(pid=29660)[0m Current evaluation: 88	 average loss:7.549001897180093 
+[2m[36m(pid=29653)[0m Current evaluation: 154	 average loss:7.783386229839026 
+[2m[36m(pid=29664)[0m Current evaluation: 55	 average loss:912.9370635651157 
+[2m[36m(pid=29679)[0m Current evaluation: 66	 average loss:3087.6889677940026 
+[2m[36m(pid=29659)[0m Current evaluation: 55	 average loss:1606.4520588509108 
+[2m[36m(pid=29648)[0m Current evaluation: 88	 average loss:1554.0837342802029 
+[2m[36m(pid=29654)[0m Current evaluation: 55	 average loss:281.5757829262816 
+[2m[36m(pid=29660)[0m Current evaluation: 99	 average loss:7.46287668921793 
+[2m[36m(pid=29695)[0m Current evaluation: 110	 average loss:8.385423682131156 
+[2m[36m(pid=29648)[0m Current evaluation: 99	 average loss:1554.0556268903688 
+[2m[36m(pid=29653)[0m Current evaluation: 165	 average loss:7.783386229839026 
+[2m[36m(pid=29670)[0m Current evaluation: 77	 average loss:263.4617953474949 
+[2m[36m(pid=29665)[0m Current evaluation: 66	 average loss:1092.9195669494563 
+[2m[36m(pid=29664)[0m Current evaluation: 66	 average loss:914.8492807687109 
+[2m[36m(pid=29679)[0m Current evaluation: 77	 average loss:1792.861884647734 
+[2m[36m(pid=29660)[0m Current evaluation: 110	 average loss:8.334872727835645 
+[2m[36m(pid=29674)[0m Current evaluation: 22	 average loss:1906.5606728212638 
+[2m[36m(pid=29653)[0m Current evaluation: 176	 average loss:7.783386229839026 
+[2m[36m(pid=29695)[0m Current evaluation: 121	 average loss:7.8373270956268 
+[2m[36m(pid=29654)[0m Current evaluation: 66	 average loss:272.4137195775894 
+[2m[36m(pid=29659)[0m Current evaluation: 66	 average loss:497.93255758483645 
+[2m[36m(pid=29648)[0m Current evaluation: 110	 average loss:1553.7144316481345 
+[2m[36m(pid=29653)[0m Current evaluation: 187	 average loss:7.783386229839026 
+[2m[36m(pid=29670)[0m Current evaluation: 88	 average loss:259.0177569022531 
+[2m[36m(pid=29660)[0m Current evaluation: 121	 average loss:7.296904699812188 
+[2m[36m(pid=29663)[0m Max number of iters: 1950
+[2m[36m(pid=29663)[0m max iterations: 16900
+[2m[36m(pid=29665)[0m Current evaluation: 77	 average loss:1072.1000344204738 
+[2m[36m(pid=29664)[0m Current evaluation: 77	 average loss:914.2943560683915 
+[2m[36m(pid=29695)[0m Current evaluation: 132	 average loss:6.711742304784339 
+[2m[36m(pid=29679)[0m Current evaluation: 88	 average loss:191.8196279650498 
+[2m[36m(pid=29648)[0m Current evaluation: 121	 average loss:1553.317016262309 
+[2m[36m(pid=29653)[0m Current evaluation: 198	 average loss:7.783386229839026 
+[2m[36m(pid=29654)[0m Current evaluation: 77	 average loss:263.26216863378323 
+[2m[36m(pid=29660)[0m Current evaluation: 132	 average loss:6.775675644072674 
+[2m[36m(pid=29695)[0m Current evaluation: 143	 average loss:6.364808098588833 
+[2m[36m(pid=29679)[0m Current evaluation: 99	 average loss:8.562383651094256 
+[2m[36m(pid=29664)[0m Current evaluation: 88	 average loss:914.7377167022943 
+[2m[36m(pid=29660)[0m Current evaluation: 143	 average loss:8.600564875154962 
+[2m[36m(pid=29648)[0m Current evaluation: 132	 average loss:1551.2475478946242 
+[2m[36m(pid=29665)[0m Current evaluation: 88	 average loss:1039.2034292559397 
+[2m[36m(pid=29674)[0m Current evaluation: 33	 average loss:1661.8597598171666 
+[2m[36m(pid=29653)[0m Current evaluation: 209	 average loss:7.65575195923444 
+[2m[36m(pid=29659)[0m Current evaluation: 77	 average loss:503.51979688821035 
+[2m[36m(pid=29670)[0m Current evaluation: 99	 average loss:258.1796290670984 
+[2m[36m(pid=29695)[0m Current evaluation: 154	 average loss:6.449744358604318 
+[2m[36m(pid=29648)[0m Current evaluation: 143	 average loss:1552.860229458568 
+[2m[36m(pid=29653)[0m Current evaluation: 220	 average loss:7.783386229839026 
+[2m[36m(pid=29654)[0m Current evaluation: 88	 average loss:8.191082869249765 
+[2m[36m(pid=29660)[0m Current evaluation: 154	 average loss:7.9772256183908645 
+[2m[36m(pid=29647)[0m Max number of iters: 1950
+[2m[36m(pid=29647)[0m max iterations: 16900
+[2m[36m(pid=29664)[0m Current evaluation: 99	 average loss:914.705827946996 
+[2m[36m(pid=29693)[0m True positive rate for feature Sex=1: 0.20522022582844246
+[2m[36m(pid=29693)[0m number of samples for feature Sex=1: 598357
+[2m[36m(pid=29693)[0m True positive rate for feature Sex=0: 0.03624516277804581
+[2m[36m(pid=29693)[0m number of samples for feature Sex=0: 294976
+[2m[36m(pid=29693)[0m FOR TEST SET:
+[2m[36m(pid=29693)[0m True positive rate for feature Sex=1: 0.2048568181818182
+[2m[36m(pid=29693)[0m number of samples for feature Sex=1: 294504
+[2m[36m(pid=29693)[0m True positive rate for feature Sex=0: 0.035968181818181816
+[2m[36m(pid=29693)[0m number of samples for feature Sex=0: 145496
+[2m[36m(pid=29665)[0m Current evaluation: 99	 average loss:910.5502304207096 
+[2m[36m(pid=29695)[0m Current evaluation: 165	 average loss:213.97020789739946 
+[2m[36m(pid=29679)[0m Current evaluation: 110	 average loss:8.678411475513318 
+[2m[36m(pid=29648)[0m Current evaluation: 154	 average loss:1550.594206152409 
+[2m[36m(pid=29653)[0m Current evaluation: 231	 average loss:7.783386229839026 
+[2m[36m(pid=29660)[0m Current evaluation: 165	 average loss:7.532780685393296 
+[2m[36m(pid=29670)[0m Current evaluation: 110	 average loss:261.9127182471935 
+[2m[36m(pid=29654)[0m Current evaluation: 99	 average loss:8.517816256328237 
+[2m[36m(pid=29695)[0m Current evaluation: 176	 average loss:6.125519218012342 
+[2m[36m(pid=29659)[0m Current evaluation: 88	 average loss:8.516853947121998 
+[2m[36m(pid=29648)[0m Current evaluation: 165	 average loss:1552.7415055106303 
+[2m[36m(pid=29653)[0m Current evaluation: 242	 average loss:7.783386229839026 
+[2m[36m(pid=29679)[0m Current evaluation: 121	 average loss:8.731617782209689 
+[2m[36m(pid=29674)[0m Current evaluation: 44	 average loss:1661.6278898919093 
+[2m[36m(pid=29665)[0m Current evaluation: 110	 average loss:900.0501717553952 
+[2m[36m(pid=29660)[0m Current evaluation: 176	 average loss:7.552789486039897 
+[2m[36m(pid=29653)[0m Current evaluation: 253	 average loss:7.783386229839026 
+[2m[36m(pid=29664)[0m Current evaluation: 110	 average loss:913.6961865472246 
+[2m[36m(pid=29648)[0m Current evaluation: 176	 average loss:1550.7566640428377 
+[2m[36m(pid=29660)[0m Current evaluation: 187	 average loss:8.479400407847674 
+[2m[36m(pid=29679)[0m Current evaluation: 132	 average loss:8.719344361456725 
+[2m[36m(pid=29670)[0m Current evaluation: 121	 average loss:259.3687095507644 
+[2m[36m(pid=29654)[0m Current evaluation: 110	 average loss:8.560917890953037 
+[2m[36m(pid=29695)[0m Current evaluation: 187	 average loss:8.297087336440672 
+[2m[36m(pid=29653)[0m Current evaluation: 264	 average loss:7.783386229839026 
+[2m[36m(pid=29663)[0m Current evaluation: 11	 average loss:1965.1890816458586 
+[2m[36m(pid=29648)[0m Current evaluation: 187	 average loss:1552.8430621658347 
+[2m[36m(pid=29659)[0m Current evaluation: 99	 average loss:7.472767289643656 
+[2m[36m(pid=29665)[0m Current evaluation: 121	 average loss:900.0888626263991 
+[2m[36m(pid=29695)[0m Current evaluation: 198	 average loss:6.000072490189477 
+[2m[36m(pid=29653)[0m Current evaluation: 275	 average loss:7.783386229839026 
+[2m[36m(pid=29660)[0m Current evaluation: 198	 average loss:7.912673469441852 
+[2m[36m(pid=29654)[0m Current evaluation: 121	 average loss:8.436414155880243 
+[2m[36m(pid=29648)[0m Current evaluation: 198	 average loss:1551.4074474740075 
+[2m[36m(pid=29664)[0m Current evaluation: 121	 average loss:912.9494825943308 
+[2m[36m(pid=29660)[0m Current evaluation: 209	 average loss:8.231126764894212 
+[2m[36m(pid=29679)[0m Current evaluation: 143	 average loss:8.70424621614881 
+[2m[36m(pid=29695)[0m Current evaluation: 209	 average loss:8.491060087017843 
+[2m[36m(pid=29653)[0m Current evaluation: 286	 average loss:7.53342014254666 
+[2m[36m(pid=29670)[0m Current evaluation: 132	 average loss:258.67037658317463 
+[2m[36m(pid=29665)[0m Current evaluation: 132	 average loss:885.8924375904548 
+[2m[36m(pid=29674)[0m Current evaluation: 55	 average loss:1660.379951618103 
+[2m[36m(pid=29679)[0m Current evaluation: 154	 average loss:8.643185496394787 
+[2m[36m(pid=29695)[0m Current evaluation: 220	 average loss:6.835871348163691 
+[2m[36m(pid=29648)[0m Current evaluation: 209	 average loss:1552.059347935142 
+[2m[36m(pid=29664)[0m Current evaluation: 132	 average loss:908.3681965972 
+[2m[36m(pid=29659)[0m Current evaluation: 110	 average loss:6.310805242112181 
+[2m[36m(pid=29654)[0m Current evaluation: 132	 average loss:5.662597619650925 
+[2m[36m(pid=29660)[0m Current evaluation: 220	 average loss:8.52239071594502 
+[2m[36m(pid=29648)[0m Current evaluation: 220	 average loss:1552.8974588110902 
+[2m[36m(pid=29653)[0m Current evaluation: 297	 average loss:7.757048707420058 
+[2m[36m(pid=29653)[0m Current evaluation: 308	 average loss:7.783386229839026 
+[2m[36m(pid=29665)[0m Current evaluation: 143	 average loss:875.1469170192755 
+[2m[36m(pid=29695)[0m Current evaluation: 231	 average loss:7.276836973115054 
+[2m[36m(pid=29696)[0m Max number of iters: 1950
+[2m[36m(pid=29696)[0m max iterations: 16900
+[2m[36m(pid=29647)[0m Current evaluation: 11	 average loss:2108.5129816037816 
+[2m[36m(pid=29670)[0m Current evaluation: 143	 average loss:255.59081039912652 
+[2m[36m(pid=29660)[0m Current evaluation: 231	 average loss:6.0475537997914675 
+[2m[36m(pid=29679)[0m Current evaluation: 165	 average loss:8.590100652342228 
+[2m[36m(pid=29648)[0m Current evaluation: 231	 average loss:1551.2095403459357 
+[2m[36m(pid=29660)[0m Current evaluation: 242	 average loss:8.330292917121815 
+[2m[36m(pid=29695)[0m Current evaluation: 242	 average loss:8.137931614316711 
+[2m[36m(pid=29654)[0m Current evaluation: 143	 average loss:5.403483751546799 
+[2m[36m(pid=29664)[0m Current evaluation: 143	 average loss:53.41504194319863 
+[2m[36m(pid=29653)[0m Current evaluation: 319	 average loss:7.783386229839026 
+[2m[36m(pid=29653)[0m Current evaluation: 330	 average loss:7.783386229839026 
+[2m[36m(pid=29679)[0m Current evaluation: 176	 average loss:8.645167026957115 
+[2m[36m(pid=29648)[0m Current evaluation: 242	 average loss:1551.6311207414851 
+[2m[36m(pid=29674)[0m Current evaluation: 66	 average loss:50.008604491931386 
+[2m[36m(pid=29659)[0m Current evaluation: 121	 average loss:7.2520550760339315 
+[2m[36m(pid=29660)[0m Current evaluation: 253	 average loss:8.062134854898154 
+[2m[36m(pid=29648)[0m Current evaluation: 253	 average loss:1551.3015502972182 
+[2m[36m(pid=29665)[0m Current evaluation: 154	 average loss:339.316425885911 
+[2m[36m(pid=29695)[0m Current evaluation: 253	 average loss:7.713658103838569 
+[2m[36m(pid=29653)[0m Current evaluation: 341	 average loss:7.783386229839026 
+[2m[36m(pid=29670)[0m Current evaluation: 154	 average loss:252.45574803901425 
+[2m[36m(pid=29654)[0m Current evaluation: 154	 average loss:8.236062960452402 
+[2m[36m(pid=29660)[0m Current evaluation: 264	 average loss:7.718620280745845 

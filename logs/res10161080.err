@@ -1,0 +1,27 @@
+2021-03-07 21:29:20,965	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+[2m[36m(pid=29653)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=29653)[0m invalid value encountered in double_scalars
+Traceback (most recent call last):
+  File "experiment/experiment_s_p.py", line 256, in <module>
+    res = ray.get(futures)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 1428, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ValueError): [36mray::run_experiment_p()[39m (pid=29696, ip=10.128.0.17)
+  File "python/ray/_raylet.pyx", line 484, in ray._raylet.execute_task
+  File "experiment/experiment_s_p.py", line 159, in run_experiment_p
+    est.fit()
+  File "/home/akanji/seldonian-fairness/seldonian/cmaes.py", line 71, in fit
+    arfitness[k] = self.loss(X=X, y_true=y,
+  File "/home/akanji/seldonian-fairness/seldonian/seldonian.py", line 290, in loss
+    return log_loss(y_true, self._predict(X, theta)) + (10000 * (self._safetyTest(theta,
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/utils/validation.py", line 72, in inner_f
+    return f(**kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/metrics/_classification.py", line 2186, in log_loss
+    y_pred = check_array(y_pred, ensure_2d=False)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/utils/validation.py", line 72, in inner_f
+    return f(**kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/utils/validation.py", line 644, in check_array
+    _assert_all_finite(array,
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/utils/validation.py", line 96, in _assert_all_finite
+    raise ValueError(
+ValueError: Input contains NaN, infinity or a value too large for dtype('float64').
