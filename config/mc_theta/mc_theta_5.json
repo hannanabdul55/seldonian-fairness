@@ -1,5 +1,5 @@
 {
-  "name": "mc_stratify_dry_run",
+  "name": "mc_stratify_dry_run_v2",
   "N": [
     200,
     600,
@@ -9,7 +9,7 @@
     78000,
     100000
   ],
-  "trials": 5,
+  "trials": 20,
   "methods": [
     "ttest",
     "hoeffdings"
@@ -22,5 +22,6 @@
   "test_size": 0.4,
   "opt": "CMAES",
   "stratify": true,
-  "thetas": 10
+  "thetas": 10,
+  "a_prob": 0.05
 }
