@@ -5,7 +5,14 @@ import pickle
 import glob
 
 
-def plot_results(res, opt):
+def compare_results(res1, opt1, res2, opt2):
+    fig, axs = plt.subplots()
+    pass
+
+
+def plot_results(res, opt, display=True, axs=None):
+    if axs is None:
+        fig, axs = plt.subplots(4, 1, figsize=(6.4, 4.8*4))
     x = []
     sol_found_c = []
     sol_found_c_std = []
@@ -37,42 +44,51 @@ def plot_results(res, opt):
 
         ghat_c.append(r['ghat'])
         ghat_uc.append(r['uc_ghat'])
+    if display:
+        ax = axs[0]
+        ax.plot(x, fr_c, label='Constrained failure rate')
+        ax.plot(x, fr_uc, label='Unconstrained failure rate')
+        ax.set_xlabel('Number of data points')
+        ax.set_ylabel('failure rate')
+        ax.legend()
+        ax.grid(True)
+        ax.set_xscale('log')
+        ax.set_title(f"[{opt}]data vs failure rate")
+        # ax.show()
 
-    plt.plot(x, fr_c, label='Constrained failure rate')
-    plt.plot(x, fr_uc, label='Unconstrained failure rate')
-    plt.xlabel('Number of data points')
-    plt.ylabel('failure rate')
-    plt.legend()
-    plt.xscale('log')
-    plt.title(f"[{opt}]Plot for number of data points vs failure rate")
-    plt.show()
+        ax = axs[1]
+        ax.plot(x, sol_found_c, label='Solution Found Rate')
+        ax.errorbar(x, sol_found_c, yerr=sol_found_c_std, fmt='.k')
+        ax.set_xlabel('Number of data points')
+        ax.set_ylabel('Probability of solution found')
+        ax.set_xscale('log')
+        ax.grid(True)
+        ax.legend()
+        ax.set_title(f"[{opt}]data vs Pr(Solution Found)")
+        # ax.show()
 
-    plt.plot(x, sol_found_c, label='Solution Found Rate')
-    plt.errorbar(x, sol_found_c, yerr=sol_found_c_std, fmt='.k')
-    plt.xlabel('Number of data points')
-    plt.ylabel('Probability of solution found')
-    plt.xscale('log')
-    plt.legend()
-    plt.title(f"[{opt}]Plot for number of data points vs Pr(Solution Found)")
-    plt.show()
+        ax = axs[2]
+        ax.plot(x, ghat_c, label='Constrained ghat')
+        ax.plot(x, ghat_uc, label='Unconstrained ghat')
+        ax.set_xlabel('Number of data points')
+        ax.set_ylabel('mean ghat')
+        ax.legend()
+        ax.grid(True)
+        ax.set_xscale('log')
+        ax.set_title(f"[{opt}]data vs mean ghat")
+        # plt.show()
 
-    plt.plot(x, ghat_c, label='Constrained ghat')
-    plt.plot(x, ghat_uc, label='Unconstrained ghat')
-    plt.xlabel('Number of data points')
-    plt.ylabel('mean ghat')
-    plt.legend()
-    plt.xscale('log')
-    plt.title(f"[{opt}]Plot for number of data points vs mean ghat")
-    plt.show()
-
-    plt.plot(x, acc_c, label='Constrained accuracy')
-    plt.plot(x, acc_uc, label='Unconstrained accuracy')
-    plt.xlabel('Number of data points')
-    plt.ylabel('Accuracy')
-    plt.xscale('log')
-    plt.legend()
-    plt.title(f"[{opt}]Plot for number of data points vs accuracy")
-    plt.show()
+        ax = axs[3]
+        ax.plot(x, acc_c, label='Constrained accuracy')
+        ax.plot(x, acc_uc, label='Unconstrained accuracy')
+        ax.set_xlabel('Number of data points')
+        ax.set_ylabel('Accuracy')
+        ax.set_xscale('log')
+        ax.legend()
+        ax.grid(True)
+        ax.set_title(f"[{opt}]data vs accuracy")
+        # ax.show()
+    return x, sol_found_c, sol_found_c_std, ghat_c, ghat_uc, fr_c, fr_c_std, fr_uc, fr_uc_std, acc_c, acc_uc
 
 
 if __name__ == '__main__':
