@@ -10,7 +10,7 @@ def compare_results(res1, opt1, res2, opt2):
     pass
 
 
-def plot_results(res, opt, display=True, axs=None):
+def plot_results(res, opt, display=True, axs=None, show_subtitle=False):
     if axs is None:
         fig, axs = plt.subplots(4, 1, figsize=(6.4, 4.8*4))
     x = []
@@ -53,7 +53,10 @@ def plot_results(res, opt, display=True, axs=None):
         ax.legend()
         ax.grid(True)
         ax.set_xscale('log')
-        ax.set_title(f"[{opt}]data vs failure rate")
+        if show_subtitle:
+            ax.set_title(f"[{opt}]data vs failure rate")
+        else:
+            ax.set_title(f"[{opt}]")
         # ax.show()
 
         ax = axs[1]
@@ -64,7 +67,10 @@ def plot_results(res, opt, display=True, axs=None):
         ax.set_xscale('log')
         ax.grid(True)
         ax.legend()
-        ax.set_title(f"[{opt}]data vs Pr(Solution Found)")
+        if show_subtitle:
+            ax.set_title(f"[{opt}]data vs Pr(Solution Found)")
+        else:
+            ax.set_title(f"[{opt}]")
         # ax.show()
 
         ax = axs[2]
@@ -75,7 +81,10 @@ def plot_results(res, opt, display=True, axs=None):
         ax.legend()
         ax.grid(True)
         ax.set_xscale('log')
-        ax.set_title(f"[{opt}]data vs mean ghat")
+        if show_subtitle:
+            ax.set_title(f"[{opt}]data vs mean ghat")
+        else:
+            ax.set_title(f"[{opt}]")
         # plt.show()
 
         ax = axs[3]
@@ -86,7 +95,10 @@ def plot_results(res, opt, display=True, axs=None):
         ax.set_xscale('log')
         ax.legend()
         ax.grid(True)
-        ax.set_title(f"[{opt}]data vs accuracy")
+        if show_subtitle:
+            ax.set_title(f"[{opt}]data vs accuracy")
+        else:
+            ax.set_title(f"[{opt}]")
         # ax.show()
     return x, sol_found_c, sol_found_c_std, ghat_c, ghat_uc, fr_c, fr_c_std, fr_uc, fr_uc_std, acc_c, acc_uc
 
