@@ -1,5 +1,5 @@
 {
-  "name": "mc_nostrat_ttest_01_40trials_10theta",
+  "name": "mc_strat_ttest_001",
   "N": [
     1.00000000e+02,
     1.37382380e+02,
@@ -41,8 +41,8 @@
   ],
   "test_size": 0.2,
   "opt": "CMAES",
-  "stratify": false,
+  "stratify": true,
   "hard_barrier": false,
   "thetas": 10,
-  "a_prob": 0.1
+  "a_prob": 0.01
 }

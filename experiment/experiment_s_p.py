@@ -150,8 +150,13 @@ def run_experiment_p(exp):
             'delta': 0.05
         }]
         if opt == 'CMAES':
+            if 'hard_barrier' in exp:
+                hard_barrier = exp['hard_barrier']
+            else:
+                hard_barrier = False
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
+                                                hard_barrier=hard_barrier,
                                                 verbose=False, stratify=stratify, random_seed=t,
                                                 nthetas=thetas
                                                 )
