@@ -1,0 +1,774 @@
+2021-04-21 14:49:53,577	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m invalid value encountered in true_divide
+[2m[36m(pid=202684)[0m Mean of empty slice.
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in true_divide
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Mean of empty slice.
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in true_divide
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Mean of empty slice.
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m invalid value encountered in true_divide
+[2m[36m(pid=202684)[0m Mean of empty slice.
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m invalid value encountered in true_divide
+[2m[36m(pid=202684)[0m Mean of empty slice.
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in true_divide
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Mean of empty slice.
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in true_divide
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Mean of empty slice.
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m invalid value encountered in true_divide
+[2m[36m(pid=202738)[0m Mean of empty slice.
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m invalid value encountered in true_divide
+[2m[36m(pid=202684)[0m Mean of empty slice.
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202705)[0m invalid value encountered in true_divide
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202705)[0m Mean of empty slice.
+[2m[36m(pid=202705)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202690)[0m invalid value encountered in true_divide
+[2m[36m(pid=202690)[0m Mean of empty slice.
+[2m[36m(pid=202690)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202709)[0m invalid value encountered in true_divide
+[2m[36m(pid=202709)[0m Mean of empty slice.
+[2m[36m(pid=202709)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202729)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202729)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202738)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202738)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202685)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202685)[0m invalid value encountered in double_scalars
+[2m[36m(pid=202684)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=202684)[0m invalid value encountered in double_scalars
