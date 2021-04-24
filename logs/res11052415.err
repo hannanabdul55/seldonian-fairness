@@ -1,0 +1,106 @@
+2021-04-22 21:45:45,243	INFO services.py:1164 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in true_divide
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Mean of empty slice.
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in true_divide
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Mean of empty slice.
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26459)[0m invalid value encountered in true_divide
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Mean of empty slice.
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26442)[0m invalid value encountered in true_divide
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Mean of empty slice.
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26442)[0m invalid value encountered in true_divide
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Mean of empty slice.
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in true_divide
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Mean of empty slice.
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26442)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26442)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in true_divide
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Mean of empty slice.
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in true_divide
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Mean of empty slice.
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in true_divide
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Mean of empty slice.
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26459)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26459)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26470)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26470)[0m invalid value encountered in double_scalars
+[2m[36m(pid=26456)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=26456)[0m invalid value encountered in double_scalars
