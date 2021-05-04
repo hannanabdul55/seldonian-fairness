@@ -110,6 +110,10 @@ def run_experiment_p(exp):
     else:
         data = 'synthetic'
 
+    if 'agg' in exp:
+        agg_fn = exp['agg']
+    else:
+        agg_fn = 'min'
     n = exp['N']
     opt = exp['opt']
     if data == 'synthetic':
@@ -158,7 +162,8 @@ def run_experiment_p(exp):
                                                 g_hats=ghats,
                                                 hard_barrier=hard_barrier,
                                                 verbose=False, stratify=stratify, random_seed=t,
-                                                nthetas=thetas
+                                                nthetas=thetas,
+                                                agg_fn=agg_fn
                                                 )
         elif opt == 'Powell':
             if 'hard_barrier' in exp:
@@ -172,7 +177,8 @@ def run_experiment_p(exp):
                                                    hard_barrier=hard_barrier,
                                                    stratify=stratify,
                                                    random_seed=t,
-                                                   nthetas=thetas)
+                                                   nthetas=thetas,
+                                                   agg_fn=agg_fn)
         else:
             ghats = [{
                 'fn': ghat_tpr_diff_t(A_idx,
