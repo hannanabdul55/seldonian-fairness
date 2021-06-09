@@ -93,6 +93,8 @@ def QSA(X, Y, gHats, deltas):
 		if diff < best_diff:
 			best_diff = diff
 			candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = cand_X, safe_X, cand_Y, safe_Y
+		count+=1
+		rand+=1
 
 	# Get the candidate solution
 	candidateSolution = getCandidateSolution(candidateData_X, candidateData_Y, gHats, deltas,
