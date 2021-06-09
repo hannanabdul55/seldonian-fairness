@@ -76,14 +76,30 @@ def leastSq(X, Y):
 def QSA(X, Y, gHats, deltas):
 	# Put 40% of the data in candidateData (D1), and the rest in safetyData (D2)
 	candidateData_len = 0.40
+	count = 0
+	rand = 1
+	best_diff = np.inf
 	candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = train_test_split(
-								X, Y, test_size=1-candidateData_len, shuffle=False)
-	
+		X, Y, test_size=1 - candidateData_len, shuffle=False)
+
+	while count < 50:
+		cand_X, safe_X, cand_Y, safe_Y = train_test_split(X, Y, test_size=1 - candidateData_len,
+														  random_state=rand)
+		thets = [np.random.default_rng(rand + i).random(2) for i in range(20)]
+		diff = abs(np.mean(
+			[safetyTest(t, safe_X, safe_Y, gHats, deltas) for t in thets]) -
+				   np.mean([safetyTest(t, cand_X, cand_Y, gHats, deltas) for t in thets])
+				   )
+		if diff < best_diff:
+			best_diff = diff
+			candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = cand_X, safe_X, cand_Y, safe_Y
+
 	# Get the candidate solution
-	candidateSolution = getCandidateSolution(candidateData_X, candidateData_Y, gHats, deltas, safetyData_X.size)
+	candidateSolution = getCandidateSolution(candidateData_X, candidateData_Y, gHats, deltas,
+											 safetyData_X.size)
 
 	# Run the safety test
-	passedSafety      = safetyTest(candidateSolution, safetyData_X, safetyData_Y, gHats, deltas)
+	passedSafety = safetyTest(candidateSolution, safetyData_X, safetyData_Y, gHats, deltas)
 
 	# Return the result and success flag
 	return [candidateSolution, passedSafety]
@@ -93,23 +109,28 @@ def QSA(X, Y, gHats, deltas):
 #   candidateSolution: the solution to test. 
 #   (safetyData_X, safetyData_Y): data set D2 to be used in the safety test.
 #   (gHats, deltas): vectors containing the behavioral constraints and confidence levels.
-def safetyTest(candidateSolution, safetyData_X, safetyData_Y, gHats, deltas):
-
-	for i in range(len(gHats)):	# Loop over behavioral constraints, checking each
-		g         = gHats[i]	# The current behavioral constraint being checked
-		delta     = deltas[i]	# The confidence level of the constraint
+def safetyTest(candidateSolution, safetyData_X, safetyData_Y, gHats, deltas, ub=False):
+	max_ub = -np.inf
+	for i in range(len(gHats)):  # Loop over behavioral constraints, checking each
+		g = gHats[i]  # The current behavioral constraint being checked
+		delta = deltas[i]  # The confidence level of the constraint
 
 		# This is a vector of unbiased estimates of g(candidateSolution)
-		g_samples = g(candidateSolution, safetyData_X, safetyData_Y) 
+		g_samples = g(candidateSolution, safetyData_X, safetyData_Y)
 
 		# Check if the i-th behavioral constraint is satisfied
-		upperBound = ttestUpperBound(g_samples, delta) 
+		upperBound = ttestUpperBound(g_samples, delta)
 
-		if upperBound > 0.0: # If the current constraint was not satisfied, the safety test failed
+		if not ub and upperBound > 0.0:  # If the current constraint was not satisfied, the safety test failed
 			return False
+		if max_ub < upperBound:
+			max_ub = upperBound
 
-	# If we get here, all of the behavioral constraints were satisfied			
-	return True
+	# If we get here, all of the behavioral constraints were satisfied
+	if not ub:
+		return True
+	else:
+		return max_ub
 
 
 # The objective function maximized by getCandidateSolution.
