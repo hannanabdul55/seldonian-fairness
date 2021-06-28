@@ -14,6 +14,7 @@ import torch.utils
 import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from torch.utils.data import random_split, DataLoader
+from sklearn.linear_model import LinearRegression
 
 from seldonian.algorithm import SeldonianAlgorithm
 
@@ -325,7 +326,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
-                 hard_barrier=False, stratify=False,agg_fn='min', random_seed=0, nthetas=5):
+                 hard_barrier=False, stratify=False, agg_fn='min', random_seed=0, nthetas=5):
         self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1,))
         self.X = X
         self.y = y
@@ -442,6 +443,90 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         pass
 
 
+# Linear Regression algorithm
+
+class LinearRegressionSeldonianModel(SeldonianAlgorithm):
+
+    def __init__(self, X, y, ghats=[], stratify=False, verbose=False, test_size=0.2, safety_data=None,
+                 random_seed=0, nthetas=10, agg_fn='min', hard_barrier=True):
+        self.X = X
+        self.y = y
+        self.hard_barrier = hard_barrier
+        self.constraints = ghats
+        self.stratify = stratify
+        self.model = None
+
+        # stratification code
+        if safety_data is not None:
+            self.X_s, self.y_s = safety_data
+        else:
+            if not stratify:
+                self.X, self.X_s, self.y, self.y_s = train_test_split(
+                    self.X, self.y, test_size=test_size, random_state=random_seed
+                )
+            else:
+                thets = [np.random.default_rng(random_seed + i).random((X.shape[1] + 1, 1)) for i
+                         in
+                         range(nthetas)]
+                best_diff = np.inf * (1 if agg_fn == 'min' else -1)
+                count = 0
+                self.X_t = self.X
+                self.y_t = self.y
+                rand = random_seed
+                while count < 30:
+                    self.X = self.X_t
+                    self.y = self.y_t
+                    self.X, self.X_s, self.y, self.y_s = train_test_split(
+                        self.X, self.y, test_size=test_size, random_state=rand
+                    )
+                    diff = abs(np.mean(
+                        [self._safetyTest(thet, predict=True, ub=False) for thet in thets]) -
+                               np.mean([self._safetyTest(thet, predict=False, ub=False) for thet in
+                                        thets]))
+                    if agg_fn == 'min':
+                        is_new_best = diff < best_diff
+                    else:
+                        is_new_best = diff >= best_diff
+                    if is_new_best:
+                        self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
+                        best_diff = diff
+                    count += 1
+                    rand += 13
+                self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
+        pass
+
+    def fit(self, **kwargs):
+        self.model = LinearRegression(self.X, self.y)
+
+        pass
+
+    def predict(self, X):
+        pass
+
+    def _safetyTest(self, theta=None, predict=False, ub=True):
+        if theta is None:
+            theta = self.theta
+        X_test = self.X if predict else self.X_s
+        y_test = self.y if predict else self.y_s
+
+        for g_hat in self.constraints:
+            y_preds = (0.5 < self._predict(
+                X_test, theta)).astype(int)
+            ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
+                                   predict=predict, ub=ub)
+            if ghat_val > 0.0:
+                if self.hard_barrier:
+                    return 1
+                else:
+                    return ghat_val
+        return 0
+        pass
+
+    def data(self):
+        pass
+
+
+## RL Seldonian algorithms
 class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
