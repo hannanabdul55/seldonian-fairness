@@ -467,7 +467,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
                     self.X, self.y, test_size=test_size, random_state=random_seed
                 )
             else:
-                thets = [np.random.default_rng(random_seed + i).random((X.shape[1] + 1, 1)) for i
+                thets = [np.random.default_rng(random_seed + i).random((X.shape[1], 1)) for i
                          in
                          range(nthetas)]
                 best_diff = np.inf * (1 if agg_fn == 'min' else -1)
