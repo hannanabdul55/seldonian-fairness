@@ -161,8 +161,7 @@ def run_experiment_p(exp):
     uc_mean_ghat = []
     for t in np.arange(exp['trials']):
         ghats = [{
-            'fn': ghat_regression_thres(A_idx,
-                                threshold=thres,
+            'fn': ghat_regression_thres(threshold=thres,
                                 method=exp['method']),
             'delta': 0.05
         }]
