@@ -231,7 +231,7 @@ def run_experiment_p(exp):
 
         # Unconstrained optimizer
         if opt != 'NN':
-            uc_est = LinearRegression(random_state=t).fit(X, y)
+            uc_est = LinearRegression().fit(X, y)
         else:
             uc_est = VanillaNN(X, y, test_size=exp['test_size'], stratify=stratify)
             uc_est.fit()
