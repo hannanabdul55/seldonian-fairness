@@ -1,9 +1,11 @@
 from abc import ABC
+import numpy as np
 
 import torch.nn as nn
 
 from seldonian.bounds import ttest_bounds, hoeffdings_bounds
 
+from sklearn.metrics import mean_squared_error
 
 def tpr_rate(A_idx=None, A_val=None):
     def ghat_tpr(X, y_true, y_pred):
@@ -172,6 +174,18 @@ def ghat_recall_rate(A_idx, method='ttest', threshold=0.2):
             return bound.value - threshold
 
     return recall_ab
+
+
+def ghat_regression_thres(method='ttest', threshold=1.0):
+    def regression_thres(X, y_true, y_pred, delta, n=None, predict=False, ub=True):
+        losses = np.square(y_true - y_pred)
+        if method == 'ttest':
+            bound = ttest_bounds(losses, delta, n, predict=predict)
+        else:
+            bound = hoeffdings_bounds(losses, delta, n, predict=predict)
+        
+        return bound.upper - threshold if ub else bound.value - threshold
+    return regression_thres
 
 
 class Constraint(ABC):

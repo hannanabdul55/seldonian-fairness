@@ -1,9 +1,11 @@
 import itertools
 
-from sklearn.metrics import log_loss
+import pandas as pd
+from sklearn.metrics import log_loss, mean_squared_error
 
 import numpy as np
 import scipy.optimize
+from sklearn.utils.validation import check_is_fitted
 
 from seldonian.bounds import ttest_bounds
 from seldonian.cmaes import CMAESModel
@@ -445,16 +447,17 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
 # Linear Regression algorithm
 
-class LinearRegressionSeldonianModel(SeldonianAlgorithm):
+class LinearRegressionSeldonianModel(SeldonianAlgorithm, CMAESModel):
 
-    def __init__(self, X, y, ghats=[], stratify=False, verbose=False, test_size=0.2, safety_data=None,
-                 random_seed=0, nthetas=10, agg_fn='min', hard_barrier=True):
+    def __init__(self, X, y, ghats=[], stratify=False, verbose=False, test_size=0.2, safety_data=None, random_seed=0,
+                 nthetas=10, agg_fn='min', hard_barrier=True):
+        super().__init__(X, y, verbose=verbose, random_seed=random_seed)
         self.X = X
         self.y = y
         self.hard_barrier = hard_barrier
         self.constraints = ghats
         self.stratify = stratify
-        self.model = None
+        self.verbose = verbose
 
         # stratification code
         if safety_data is not None:
@@ -493,15 +496,28 @@ class LinearRegressionSeldonianModel(SeldonianAlgorithm):
                     count += 1
                     rand += 13
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
+
+    def loss(self, X, y_true, theta):
+        if not (isinstance(X, (np.ndarray, pd.DataFrame)) or isinstance(y_true,
+                                                                        (np.ndarray, pd.DataFrame)) or isinstance(theta,
+                                                                                                                  (
+                                                                                                                  np.ndarray,
+                                                                                                                  pd.DataFrame))):
+            raise ValueError("X should be a numpy array or a pandas dataframe")
+        return mean_squared_error(y_true, theta.dot(X)) + (10000 * (self._safetyTest(theta, predict=True)))
         pass
 
-    def fit(self, **kwargs):
-        self.model = LinearRegression(self.X, self.y)
-
-        pass
+    def _predict(self, X, theta=None):
+        if not isinstance(X, (np.ndarray, pd.DataFrame)):
+            raise ValueError("X should be a numpy array or a pandas dataframe")
+        if theta is None:
+            theta = self.theta
+        return X.dot(theta)
 
     def predict(self, X):
-        pass
+        # if not check_is_fitted(self.model):
+        #     raise ValueError(f"Model is not yet fit, please call fit before running any inference on the model")
+        return self._predict(X, self.theta)
 
     def _safetyTest(self, theta=None, predict=False, ub=True):
         if theta is None:
@@ -510,8 +526,7 @@ class LinearRegressionSeldonianModel(SeldonianAlgorithm):
         y_test = self.y if predict else self.y_s
 
         for g_hat in self.constraints:
-            y_preds = (0.5 < self._predict(
-                X_test, theta)).astype(int)
+            y_preds = self._predict(X_test, theta)
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
                                    predict=predict, ub=ub)
             if ghat_val > 0.0:
@@ -523,6 +538,7 @@ class LinearRegressionSeldonianModel(SeldonianAlgorithm):
         pass
 
     def data(self):
+        return self.X, self.y
         pass
 
 
