@@ -451,7 +451,6 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, X, y, ghats=[], stratify=False, verbose=False, test_size=0.2, safety_data=None, random_seed=0,
                  nthetas=10, agg_fn='min', hard_barrier=True):
-        super().__init__(X, y, verbose=verbose, random_seed=random_seed)
         self.X = X
         self.y = y
         self.hard_barrier = hard_barrier
@@ -496,6 +495,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
                     count += 1
                     rand += 13
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
+        super().__init__(X, y, verbose=verbose, random_seed=random_seed)
 
     def loss(self, X, y_true, theta):
         if not (isinstance(X, (np.ndarray, pd.DataFrame)) or isinstance(y_true,
@@ -539,7 +539,6 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
 
     def data(self):
         return self.X, self.y
-        pass
 
 
 ## RL Seldonian algorithms
