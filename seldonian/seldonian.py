@@ -495,7 +495,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
                     count += 1
                     rand += 13
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
-        super().__init__(X, y, verbose=verbose, random_seed=random_seed)
+        super().__init__(X, y, verbose=verbose, random_seed=random_seed, theta=np.random.default_rng(random_seed).random((X.shape[1], 1)))
 
     def loss(self, X, y_true, theta):
         if not (isinstance(X, (np.ndarray, pd.DataFrame)) or isinstance(y_true,
