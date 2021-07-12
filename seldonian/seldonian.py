@@ -447,7 +447,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
 # Linear Regression algorithm
 
-class LinearRegressionSeldonianModel(SeldonianAlgorithm, CMAESModel):
+class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, X, y, ghats=[], stratify=False, verbose=False, test_size=0.2, safety_data=None, random_seed=0,
                  nthetas=10, agg_fn='min', hard_barrier=True):
