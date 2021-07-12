@@ -449,12 +449,12 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
 class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
 
-    def __init__(self, X, y, ghats=[], stratify=False, verbose=False, test_size=0.2, safety_data=None, random_seed=0,
+    def __init__(self, X, y, g_hats=[], stratify=False, verbose=False, test_size=0.2, safety_data=None, random_seed=0,
                  nthetas=10, agg_fn='min', hard_barrier=True):
         self.X = X
         self.y = y
         self.hard_barrier = hard_barrier
-        self.constraints = ghats
+        self.constraints = g_hats
         self.stratify = stratify
         self.verbose = verbose
 
