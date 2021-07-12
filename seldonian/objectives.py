@@ -178,7 +178,8 @@ def ghat_recall_rate(A_idx, method='ttest', threshold=0.2):
 
 def ghat_regression_thres(method='ttest', threshold=1.0):
     def regression_thres(X, y_true, y_pred, delta, n=None, predict=False, ub=True):
-        losses = np.square(y_true - y_pred)
+        print(f"y_true shape: {y_true.shape} | y_pred shape: {y_pred.shape}")
+        losses = np.square(y_true.flatten() - y_pred.flatten())
         if method == 'ttest':
             bound = ttest_bounds(losses, delta, n, predict=predict)
         else:
