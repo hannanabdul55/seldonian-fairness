@@ -504,7 +504,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
                                                                                                                   np.ndarray,
                                                                                                                   pd.DataFrame))):
             raise ValueError("X should be a numpy array or a pandas dataframe")
-        return mean_squared_error(y_true, theta.dot(X)) + (10000 * (self._safetyTest(theta, predict=True)))
+        return mean_squared_error(y_true, X.dot(theta)) + (10000 * (self._safetyTest(theta, predict=True)))
         pass
 
     def _predict(self, X, theta=None):
