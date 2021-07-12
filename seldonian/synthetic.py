@@ -26,8 +26,8 @@ def make_synthetic(N, D, tp_a=0.4, tp_b=0.8, A_idx=None, A_prob=0.5, seed=0):
 def regression_make_synthetic(N, D, num_useful=None, random_state=0, noise=1.0):
     if num_useful is None:
         num_useful = max(int(D/3), 1)
-    return make_regression(n_samples=N, n_features=D, n_informative=num_useful,
-                           noise=noise, effective_rank=num_useful+1,
+    return make_regression(n_samples=N, n_features=D, n_informative=int(num_useful),
+                           noise=noise, effective_rank=int(num_useful)+1,
                            random_state=random_state)
 
 
