@@ -467,7 +467,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
                     self.X, self.y, test_size=test_size, random_state=random_seed
                 )
             else:
-                thets = [np.random.default_rng(random_seed + i).random((X.shape[1], 1)) for i
+                thets = [np.random.default_rng(random_seed + i).random((X.shape[1] + 1, 1)) for i
                          in
                          range(nthetas)]
                 best_diff = np.inf * (1 if agg_fn == 'min' else -1)
@@ -495,7 +495,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
                     count += 1
                     rand += 13
                 self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
-        super().__init__(X, y, verbose=verbose, random_seed=random_seed, theta=np.random.default_rng(random_seed).random((X.shape[1], 1)))
+        super().__init__(X, y, verbose=verbose, random_seed=random_seed, theta=np.random.default_rng(random_seed).random((X.shape[1]+1, 1)))
 
     def loss(self, X, y_true, theta):
         if not (isinstance(X, (np.ndarray, pd.DataFrame)) or isinstance(y_true,
@@ -504,7 +504,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
                                                                                                                   np.ndarray,
                                                                                                                   pd.DataFrame))):
             raise ValueError("X should be a numpy array or a pandas dataframe")
-        return mean_squared_error(y_true, X.dot(theta)) + (10000 * (self._safetyTest(theta, predict=True)))
+        return mean_squared_error(y_true, X.dot(theta[:-1]) + theta[-1]) + (10000 * (self._safetyTest(theta, predict=True)))
         pass
 
     def _predict(self, X, theta=None):
@@ -512,7 +512,7 @@ class LinearRegressionSeldonianModel(CMAESModel, SeldonianAlgorithm):
             raise ValueError("X should be a numpy array or a pandas dataframe")
         if theta is None:
             theta = self.theta
-        return X.dot(theta)
+        return X.dot(theta[:-1]) + theta[-1]
 
     def predict(self, X):
         # if not check_is_fitted(self.model):

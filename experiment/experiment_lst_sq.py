@@ -136,19 +136,19 @@ def run_experiment_p(exp):
 
         n_useful = exp['n_useful'] if 'n_useful' in exp else max(int(exp['D']/4), 2)
 
-        X, y = regression_make_synthetic(n, exp['D'], num_useful=n_useful, noise=noise)
+        X, y = regression_make_synthetic(int(n), int(exp['D']), num_useful=n_useful, noise=noise)
 
-        X_test, y_test = regression_make_synthetic(n_test, exp['D'], num_useful=n_useful, noise=noise*1.25)
+        X_test, y_test = regression_make_synthetic(int(n_test), int(exp['D']), num_useful=n_useful, noise=noise*1.25)
 
     elif data == 'lawschool':
         X, X_test, y, y_test, A, A_idx = LawschoolDataset(n=int(n), verbose=True).get_data()
     else:
         X, X_test, y, y_test, A, A_idx = AdultDataset(n=int(n), verbose=True).get_data()
 
-    if "thresh" not in exp:
+    if "thres" not in exp:
         thres = noise**1.5
     else:
-        thres = exp['thresh']
+        thres = exp['thres']
 
 
     results = {'N': n, 'opt': opt}
@@ -162,7 +162,7 @@ def run_experiment_p(exp):
     for t in np.arange(exp['trials']):
         ghats = [{
             'fn': ghat_regression_thres(threshold=thres,
-                                method=exp['method']),
+                                method=exp['method'], multiplier=-1),
             'delta': 0.05
         }]
         if opt == 'CMAES':
@@ -210,7 +210,6 @@ def run_experiment_p(exp):
 
         # safety test on seldonian model
         safe = est._safetyTest(predict=False)
-
         # Rate Solution Found
         sol_found_rate.append(1 if safe <= 0 else 0)
 
