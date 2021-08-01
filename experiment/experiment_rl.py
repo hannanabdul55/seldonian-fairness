@@ -87,7 +87,7 @@ def run_experiment_p(exp):
 
     n = exp['N']
     opt = exp['opt']
-    X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'])
+    X, y, A_idx = make_rl_data(n, exp['D'], *exp['tprs'])
     X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx)
     thres = abs(exp['tprs'][0] - exp['tprs'][1]) / 2
     results = {'N': n, 'opt': opt}
