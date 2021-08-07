@@ -36,12 +36,11 @@ def regression_make_synthetic(N, D, num_useful=None, random_state=0, noise=1.0):
 
 
 def regression_make_synthetic_v2(N, D, num_useful=None, random_state=0, noise=1.0):
-    if num_useful is None:
-        num_useful = max(int(D / 3), 1)
-    X = np.random.normal(0.0, noise, size=(N, D))
-    c = np.random.rand()
-    Y = X.dot(np.random.randn(D, 1)) + c
+    X = np.random.default_rng(random_state).normal(0.0, noise, size=(N, D))
+    c = np.random.default_rng(random_state).random()
+    Y = X.dot(np.random.default_rng(random_state).random(D, 1)) + c
     return X, Y
+
 
 if __name__ == '__main__':
     N = 1000
@@ -70,5 +69,4 @@ if __name__ == '__main__':
 
 def make_rl_data(gym_env='FrozenLake8x8-v0'):
     env = gym.make(gym_env)
-
     pass

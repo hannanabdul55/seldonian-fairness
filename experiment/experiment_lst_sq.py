@@ -128,17 +128,18 @@ def run_experiment_p(exp):
         X, y, A_idx = make_synthetic(n, exp['D'], *exp['tprs'], A_prob=a_prob, seed=seed)
         X_test, y_test, _ = make_synthetic(n_test, exp['D'], *exp['tprs'], A_idx=A_idx,
                                            A_prob=a_prob, seed=seed)
-    elif data=='synthetic_regression':
-        
+    elif data == 'synthetic_regression':
+
         noise = exp['noise'] if 'noise' in exp else 1.0
 
         seed = exp['seed'] if 'seed' in exp else 0
 
-        n_useful = exp['n_useful'] if 'n_useful' in exp else max(int(exp['D']/4), 2)
+        n_useful = exp['n_useful'] if 'n_useful' in exp else max(int(exp['D'] / 4), 2)
 
-        X, y = regression_make_synthetic(int(n), int(exp['D']), num_useful=n_useful, noise=noise)
+        X, y = regression_make_synthetic_v2(int(n), int(exp['D']), num_useful=n_useful, noise=noise)
 
-        X_test, y_test = regression_make_synthetic(int(n_test), int(exp['D']), num_useful=n_useful, noise=noise*1.25)
+        X_test, y_test = regression_make_synthetic_v2(int(n_test), int(exp['D']), num_useful=n_useful,
+                                                      noise=noise * 1.25)
 
     elif data == 'lawschool':
         X, X_test, y, y_test, A, A_idx = LawschoolDataset(n=int(n), verbose=True).get_data()
@@ -146,10 +147,9 @@ def run_experiment_p(exp):
         X, X_test, y, y_test, A, A_idx = AdultDataset(n=int(n), verbose=True).get_data()
 
     if "thres" not in exp:
-        thres = noise**1.5
+        thres = noise ** 1.5
     else:
         thres = exp['thres']
-
 
     results = {'N': n, 'opt': opt}
     failure_rate = []
@@ -162,7 +162,7 @@ def run_experiment_p(exp):
     for t in np.arange(exp['trials']):
         ghats = [{
             'fn': ghat_regression_thres(threshold=thres,
-                                method=exp['method'], multiplier=-1),
+                                        method=exp['method'], multiplier=-1),
             'delta': 0.05
         }]
         if opt == 'CMAES':
@@ -171,12 +171,12 @@ def run_experiment_p(exp):
             else:
                 hard_barrier = False
             est = LinearRegressionSeldonianModel(X, y, test_size=exp['test_size'],
-                                                g_hats=ghats,
-                                                hard_barrier=hard_barrier,
-                                                verbose=False, stratify=stratify, random_seed=t,
-                                                nthetas=thetas,
-                                                agg_fn=agg_fn
-                                                )
+                                                 g_hats=ghats,
+                                                 hard_barrier=hard_barrier,
+                                                 verbose=False, stratify=stratify, random_seed=t,
+                                                 nthetas=thetas,
+                                                 agg_fn=agg_fn
+                                                 )
         elif opt == 'Powell':
             if 'hard_barrier' in exp:
                 hard_barrier = exp['hard_barrier']
@@ -213,12 +213,6 @@ def run_experiment_p(exp):
         # Rate Solution Found
         sol_found_rate.append(1 if safe <= 0 else 0)
 
-        # ghats = [{
-        #     'fn': ghat_tpr_diff(A_idx,
-        #                         threshold=thres,
-        #                         method=exp['method']),
-        #     'delta': 0.05
-        # }]
 
         c_ghat_val = ghats[0]['fn'](X_test, y_test, y_p, ghats[0]['delta'])
 
@@ -236,7 +230,7 @@ def run_experiment_p(exp):
             uc_est.fit()
 
         y_preds = uc_est.predict(X_test)
-        
+
         # Accuracy on Unconstrained estimator
         uc_acc = mean_squared_error(y_test, y_preds)
         uc_accuracy.append(uc_acc)
