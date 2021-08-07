@@ -1,5 +1,5 @@
 {
-  "name": "logreg_small_n_strat_dryrun",
+  "name": "logreg_small_n_strat",
   "N": [
     312.42424242,
     362.82828283,
@@ -96,12 +96,12 @@
     4949.5959596,
     5000
   ],
-  "trials": 10,
+  "trials": 100,
   "method": "ttest",
   "D": 5,
   "tprs": [
-    0.05,
-    0.95
+    0.2,
+    0.9
   ],
   "test_size": 0.2,
   "opt": "Powell",
