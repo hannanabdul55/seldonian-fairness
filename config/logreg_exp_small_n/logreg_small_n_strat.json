@@ -109,5 +109,5 @@
   "hard_barrier": true,
   "thetas": 10,
   "a_prob": 0.1,
-  "thresh": 0.5
+  "thresh": 0.4
 }
