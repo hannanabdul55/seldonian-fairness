@@ -38,7 +38,7 @@ def regression_make_synthetic_v2(N, D, num_useful=None, random_state=0, noise=1.
         num_useful = max(int(D/3), 1)
     X = np.random.normal(0.0, noise, size=(N, D))
     c = np.random.rand()
-    Y = X.dot(np.random.randn((D, 1))) + c
+    Y = X.dot(np.random.randn(D, 1)) + c
     return X, Y
 
 if __name__ == '__main__':
