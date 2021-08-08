@@ -4,7 +4,6 @@ import pandas as pd
 from sklearn.metrics import log_loss, mean_squared_error
 
 import numpy as np
-from numba import jit
 import scipy.optimize
 from sklearn.utils.validation import check_is_fitted
 
@@ -305,19 +304,18 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     def loss(self, X, y_true, theta):
         return log_loss(y_true, self._predict(X, theta)) + (10000 * (self._safetyTest(theta,
                                                                                       predict=True)))
-    @jit
+
     def _predict(self, X, theta):
         w = theta[:-1]
         b = theta[-1]
         logit = np.dot(X, w) + b
         return sigmoid(logit).flatten()
-    
-    @jit
+
     def predict(self, X):
         w = self.theta[:-1]
         b = self.theta[-1]
         return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(int)
+            np.dot(X, w) + b) > 0.5).astype(np.int)
 
 
 class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
@@ -440,7 +438,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         # return (np.random.default_rng().uniform(size=X.shape[0]) < sigmoid(
         #     np.dot(X, w) + b)).astype(np.int)
         return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(int)
+            np.dot(X, w) + b) > 0.5).astype(np.int)
 
     def reset(self):
         self.theta = np.zeros_like(self.theta)
@@ -729,7 +727,7 @@ def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
     for ep in D:
         ep = np.array(ep, dtype=np.float)
         weights = np.cumprod(
-            pi_e[ep[:, 0].astype(int), ep[:, 1].astype(int)] * gamma / ep[:,
+            pi_e[ep[:, 0].astype(np.int), ep[:, 1].astype(np.int)] * gamma / ep[:,
                                                                              3]) / gamma
         if sum_red:
             est += weights.dot(ep[:, 2])

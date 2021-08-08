@@ -3,7 +3,6 @@ from abc import ABC
 import scipy
 
 import numpy as np
-from numba import jit
 
 
 class CMAESModel(ABC):
@@ -24,7 +23,6 @@ class CMAESModel(ABC):
     def data(self):
         return self.X, self.y
 
-    @jit
     def fit(self, X=None, y=None):
         if X is None:
             X = self.X
@@ -35,9 +33,9 @@ class CMAESModel(ABC):
         N = self.theta.size
         if self.stopeval is None:
             self.stopeval = 100 * N ** 2
-        self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(int))
-        # if self.verbose:
-        #     print(f"Max number of iters: {self.max_iter_no_change}")
+        self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(np.int))
+        if self.verbose:
+            print(f"Max number of iters: {self.max_iter_no_change}")
         sigma = self.sigma
 
         xmean = np.random.default_rng().random(self.theta.shape)
@@ -62,8 +60,8 @@ class CMAESModel(ABC):
         eigenval = 0
         chiN = np.sqrt(N) * (1 - 1 / (4 * N) + 1 / (21 * N ** 2))
 
-        # if self.verbose:
-        #     print(f"max iterations: {self.stopeval}")
+        if self.verbose:
+            print(f"max iterations: {self.stopeval}")
         counteval = 0
         while counteval < self.stopeval:
             arx = np.zeros((self.theta.size, lambda_p))
@@ -75,10 +73,10 @@ class CMAESModel(ABC):
                 counteval += 1
             arindex = np.argsort(arfitness)
             arfitness = arfitness[arindex]
-            # if self.verbose:
-            #     print(
-            #         f"Current evaluation: {counteval}\t average loss:{arfitness[1]} ",
-            #         end='\r')
+            if self.verbose:
+                print(
+                    f"Current evaluation: {counteval}\t average loss:{arfitness[1]} ",
+                    end='\r')
             xold = np.copy(xmean)
             xmean = arx[:, arindex[:mu]] @ weights
 
@@ -111,9 +109,9 @@ class CMAESModel(ABC):
             if abs(arfitness[
                        0] - last_loss) <= self.stopfitness:
                 if counteval - stop_iter_count > self.max_iter_no_change:
-                    # if self.verbose:
-                    #     print(
-                    #         f"\n\nStopping early after no change in {counteval - stop_iter_count} iterations !!")
+                    if self.verbose:
+                        print(
+                            f"\n\nStopping early after no change in {counteval - stop_iter_count} iterations !!")
                     break
             else:
                 stop_iter_count = counteval
