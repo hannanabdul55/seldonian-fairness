@@ -1,5 +1,5 @@
 {
-  "name": "logreg_small_n_strat_dryrun_2",
+  "name": "logreg_small_n_nostrat_dryrun_2",
   "N": [
     312.42424242,
     362.82828283,
@@ -105,7 +105,7 @@
   ],
   "test_size": 0.4,
   "opt": "Powell",
-  "stratify": true,
+  "stratify": false,
   "hard_barrier": true,
   "thetas": 10,
   "thresh": 0.2
