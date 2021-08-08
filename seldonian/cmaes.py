@@ -24,7 +24,7 @@ class CMAESModel(ABC):
     def data(self):
         return self.X, self.y
 
-    @jit(nopython=True)
+    @jit
     def fit(self, X=None, y=None):
         if X is None:
             X = self.X
