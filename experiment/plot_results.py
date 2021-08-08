@@ -39,8 +39,8 @@ def plot_results(res, opt, display=True, axs=None, show_subtitle=False):
         sol_found_c.append(r['sol_found_rate'])
         sol_found_c_std.append(r['sol_found_rate_std'])
 
-        acc_c.append(r['mse'])
-        acc_uc.append(r['uc_mse'])
+        acc_c.append(r['accuracy'])
+        acc_uc.append(r['uc_accuracy'])
 
         ghat_c.append(r['ghat'])
         ghat_uc.append(r['uc_ghat'])
