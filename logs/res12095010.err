@@ -1,0 +1,1 @@
+2021-08-07 22:51:20,447	ERROR services.py:1281 -- Failed to start the dashboard: Failed to read dashbord log: [Errno 2] No such file or directory: '/tmp/ray/session_2021-08-07_22-50-58_171570_37657/logs/dashboard.log'
