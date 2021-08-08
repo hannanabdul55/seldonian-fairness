@@ -1,0 +1,2 @@
+2021-08-07 21:32:16,203	INFO services.py:1272 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+slurmstepd: error: *** JOB 12094992 ON swarm052 CANCELLED AT 2021-08-07T21:32:19 ***
