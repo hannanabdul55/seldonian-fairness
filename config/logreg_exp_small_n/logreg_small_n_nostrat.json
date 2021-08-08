@@ -105,7 +105,7 @@
   ],
   "test_size": 0.4,
   "opt": "Powell",
-  "stratify": true,
+  "stratify": false,
   "hard_barrier": true,
   "thetas": 10,
   "thresh": 0.2
