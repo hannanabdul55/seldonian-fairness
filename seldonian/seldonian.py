@@ -317,7 +317,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         w = self.theta[:-1]
         b = self.theta[-1]
         return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(np.int)
+            np.dot(X, w) + b) > 0.5).astype(int)
 
 
 class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
@@ -440,7 +440,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         # return (np.random.default_rng().uniform(size=X.shape[0]) < sigmoid(
         #     np.dot(X, w) + b)).astype(np.int)
         return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(np.int)
+            np.dot(X, w) + b) > 0.5).astype(int)
 
     def reset(self):
         self.theta = np.zeros_like(self.theta)
@@ -729,7 +729,7 @@ def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
     for ep in D:
         ep = np.array(ep, dtype=np.float)
         weights = np.cumprod(
-            pi_e[ep[:, 0].astype(np.int), ep[:, 1].astype(np.int)] * gamma / ep[:,
+            pi_e[ep[:, 0].astype(int), ep[:, 1].astype(int)] * gamma / ep[:,
                                                                              3]) / gamma
         if sum_red:
             est += weights.dot(ep[:, 2])

@@ -35,7 +35,7 @@ class CMAESModel(ABC):
         N = self.theta.size
         if self.stopeval is None:
             self.stopeval = 100 * N ** 2
-        self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(np.int))
+        self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(int))
         # if self.verbose:
         #     print(f"Max number of iters: {self.max_iter_no_change}")
         sigma = self.sigma
