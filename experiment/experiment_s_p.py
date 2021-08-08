@@ -93,7 +93,6 @@ def run_experiment_p(exp):
         gpu_id = gpu_ids[0]
         print(f"Using GPU: {gpu_id}")
         print("CUDA_VISIBLE_DEVICES: {}".format(os.environ["CUDA_VISIBLE_DEVICES"]))
-        print(f"Running experiment for exp = {exp!r}")
         print(f"Running experiment on {device}")
     stratify = False
     if 'stratify' in exp:
@@ -115,6 +114,7 @@ def run_experiment_p(exp):
     else:
         agg_fn = 'min'
     n = exp['N']
+    print(f"Running experiment for N = {n}")
     opt = exp['opt']
     if data == 'synthetic':
         if 'a_prob' in exp:
