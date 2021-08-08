@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.metrics import log_loss, mean_squared_error
 
 import numpy as np
+from numba import jit
 import scipy.optimize
 from sklearn.utils.validation import check_is_fitted
 
@@ -304,7 +305,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     def loss(self, X, y_true, theta):
         return log_loss(y_true, self._predict(X, theta)) + (10000 * (self._safetyTest(theta,
                                                                                       predict=True)))
-
+    @jit(nopython=True)
     def _predict(self, X, theta):
         w = theta[:-1]
         b = theta[-1]
