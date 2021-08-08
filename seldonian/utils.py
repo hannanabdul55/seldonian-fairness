@@ -1,8 +1,6 @@
 import numpy as np
 from scipy.special import expit
-from numba import jit
 
-@jit
 def cross_entropy_loss(y_pred, y_true):
     """
     Implement cross entropy loss. See [this wiki](https://en.wikipedia.org/wiki/Cross_entropy#Cross-entropy_loss_function_and_logistic_regression)
@@ -18,6 +16,5 @@ def cross_entropy_loss(y_pred, y_true):
     # return -(y_true * np.log(y_pred) + (1-y_true)*np.log(1-y_pred))
 
 
-@jit
 def sigmoid(x):
     return expit(x)

@@ -275,6 +275,7 @@ if __name__ == '__main__':
         ray.init(**kwargs)
     else:
         ray.init(**kwargs)
+    
     pickle.dump(exp_config, open(dir + "/config.p", "wb"))
 
     exps = []
