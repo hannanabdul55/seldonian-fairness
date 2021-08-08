@@ -161,7 +161,7 @@ def run_experiment_p(exp):
             est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=exp['test_size'],
                                                 g_hats=ghats,
                                                 hard_barrier=hard_barrier,
-                                                verbose=True, stratify=stratify, random_seed=t,
+                                                verbose=False, stratify=stratify, random_seed=t,
                                                 nthetas=thetas,
                                                 agg_fn=agg_fn
                                                 )
