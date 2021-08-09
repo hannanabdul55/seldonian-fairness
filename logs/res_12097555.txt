@@ -1,0 +1,138 @@
+Running experiment with checkpoint: results-1628463031.0517542
+Config used: {'name': 'logreg_small_cmaes_nostrat_44n', 'N': [100, 109.52441201, 119.95596827, 131.38106893, 143.89434324, 157.59943336, 172.60985272, 189.04992627, 207.05582017, 226.77666958, 248.37581395, 272.03214981, 297.94161257, 326.31879932, 357.39874625, 391.43887537, 428.72112665, 469.55429315, 514.27657866, 563.25839891, 616.90544953, 675.66206628, 740.01490531, 810.49697386, 887.69204502, 972.23949281, 1064.83958787, 1166.25929752, 1277.33863818, 1398.9976329, 1532.24393154, 1678.18115665, 1838.01804437, 2013.07845582, 2204.81234214, 2414.80775376, 2644.80399359, 2896.70602293, 3172.60023941, 3474.7717578, 3805.72333659, 4168.19610731, 4565.19227816, 5000], 'trials': 1000, 'method': 'ttest', 'D': 5, 'tprs': [0.05, 0.95], 'test_size': 0.4, 'opt': 'CMAES', 'stratify': False, 'hard_barrier': True, 'thetas': 50, 'thresh': 0.2}
+False
+Available resources: {'object_store_memory': 78598861209.0, 'CPU': 56.0, 'memory': 173397342823.0, 'node:10.128.0.61': 1.0}
+[2m[36m(pid=13745)[0m Running experiment for N = 4565.19227816
+[2m[36m(pid=13746)[0m Running experiment for N = 3474.7717578
+[2m[36m(pid=13755)[0m Running experiment for N = 2204.81234214
+[2m[36m(pid=13758)[0m Running experiment for N = 1678.18115665
+[2m[36m(pid=13757)[0m Running experiment for N = 1277.33863818
+[2m[36m(pid=13763)[0m Running experiment for N = 1398.9976329
+[2m[36m(pid=13764)[0m Running experiment for N = 887.69204502
+[2m[36m(pid=13761)[0m Running experiment for N = 616.90544953
+[2m[36m(pid=13775)[0m Running experiment for N = 675.66206628
+[2m[36m(pid=13777)[0m Running experiment for N = 326.31879932
+[2m[36m(pid=13778)[0m Running experiment for N = 514.27657866
+[2m[36m(pid=13765)[0m Running experiment for N = 357.39874625
+[2m[36m(pid=13771)[0m Running experiment for N = 469.55429315
+[2m[36m(pid=13792)[0m Running experiment for N = 172.60985272
+[2m[36m(pid=13788)[0m Running experiment for N = 131.38106893
+[2m[36m(pid=13793)[0m Running experiment for N = 119.95596827
+[2m[36m(pid=13789)[0m Running experiment for N = 143.89434324
+[2m[36m(pid=13790)[0m Running experiment for N = 109.52441201
+[2m[36m(pid=13782)[0m Running experiment for N = 100
+[2m[36m(pid=13750)[0m Running experiment for N = 3172.60023941
+[2m[36m(pid=13754)[0m Running experiment for N = 1532.24393154
+[2m[36m(pid=13751)[0m Running experiment for N = 3805.72333659
+[2m[36m(pid=13748)[0m Running experiment for N = 2644.80399359
+[2m[36m(pid=13760)[0m Running experiment for N = 972.23949281
+[2m[36m(pid=13784)[0m Running experiment for N = 226.77666958
+[2m[36m(pid=13780)[0m Running experiment for N = 207.05582017
+[2m[36m(pid=13749)[0m Running experiment for N = 4168.19610731
+[2m[36m(pid=13743)[0m Running experiment for N = 2896.70602293
+[2m[36m(pid=13779)[0m Running experiment for N = 428.72112665
+[2m[36m(pid=13776)[0m Running experiment for N = 272.03214981
+[2m[36m(pid=13786)[0m Running experiment for N = 157.59943336
+[2m[36m(pid=13752)[0m Running experiment for N = 2414.80775376
+[2m[36m(pid=13756)[0m Running experiment for N = 1838.01804437
+[2m[36m(pid=13770)[0m Running experiment for N = 297.94161257
+[2m[36m(pid=13769)[0m Running experiment for N = 810.49697386
+[2m[36m(pid=13768)[0m Running experiment for N = 740.01490531
+[2m[36m(pid=13747)[0m Running experiment for N = 5000
+[2m[36m(pid=13762)[0m Running experiment for N = 1064.83958787
+[2m[36m(pid=13783)[0m Running experiment for N = 189.04992627
+[2m[36m(pid=13753)[0m Running experiment for N = 2013.07845582
+[2m[36m(pid=13767)[0m Running experiment for N = 248.37581395
+[2m[36m(pid=13759)[0m Running experiment for N = 1166.25929752
+[2m[36m(pid=13766)[0m Running experiment for N = 563.25839891
+[2m[36m(pid=13773)[0m Running experiment for N = 391.43887537
+[2m[36m(pid=13792)[0m Results for N=172.60985272: 
+[2m[36m(pid=13792)[0m {'N': 172.60985272, 'opt': 'CMAES', 'n': 172.60985272, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.22, 'sol_found_rate_std': 0.41424630354415964, 'accuracy': 0.8358552216666667, 'ghat': 0.5088688578297424, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13789)[0m Results for N=143.89434324: 
+[2m[36m(pid=13789)[0m {'N': 143.89434324, 'opt': 'CMAES', 'n': 143.89434324, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.253, 'sol_found_rate_std': 0.4347309512790641, 'accuracy': 0.8181121566666666, 'ghat': 0.47038178830612376, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9429940000000001, 'uc_ghat': 0.7344558400617379, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13783)[0m Results for N=189.04992627: 
+[2m[36m(pid=13783)[0m {'N': 189.04992627, 'opt': 'CMAES', 'n': 189.04992627, 'trials': 999, 'failure_rate': 0.001, 'failure_rate_std': 0.03160696125855822, 'sol_found_rate': 0.288, 'sol_found_rate_std': 0.45283109433871693, 'accuracy': 0.8094623131666667, 'ghat': 0.4534060942300307, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13790)[0m Results for N=109.52441201: 
+[2m[36m(pid=13790)[0m {'N': 109.52441201, 'opt': 'CMAES', 'n': 109.52441201, 'trials': 999, 'failure_rate': 0.001, 'failure_rate_std': 0.03160696125855822, 'sol_found_rate': 0.234, 'sol_found_rate_std': 0.42337217669563504, 'accuracy': 0.8230934001666665, 'ghat': 0.48383186922548316, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9494223333333331, 'uc_ghat': 0.7468308745845141, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13793)[0m Results for N=119.95596827: 
+[2m[36m(pid=13793)[0m {'N': 119.95596827, 'opt': 'CMAES', 'n': 119.95596827, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.231, 'sol_found_rate_std': 0.4214724190264412, 'accuracy': 0.8177822076666666, 'ghat': 0.4770520855331837, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9492731666666664, 'uc_ghat': 0.7490331758353611, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13780)[0m Results for N=207.05582017: 
+[2m[36m(pid=13780)[0m {'N': 207.05582017, 'opt': 'CMAES', 'n': 207.05582017, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.335, 'sol_found_rate_std': 0.4719904660054057, 'accuracy': 0.7924696054999999, 'ghat': 0.4172414466323711, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13767)[0m Results for N=248.37581395: 
+[2m[36m(pid=13767)[0m {'N': 248.37581395, 'opt': 'CMAES', 'n': 248.37581395, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.32, 'sol_found_rate_std': 0.466476151587624, 'accuracy': 0.7986766835000001, 'ghat': 0.4304291162769361, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13784)[0m Results for N=226.77666958: 
+[2m[36m(pid=13784)[0m {'N': 226.77666958, 'opt': 'CMAES', 'n': 226.77666958, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.329, 'sol_found_rate_std': 0.46984997605618756, 'accuracy': 0.8008053071666665, 'ghat': 0.43501679249713643, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13786)[0m Results for N=157.59943336: 
+[2m[36m(pid=13786)[0m {'N': 157.59943336, 'opt': 'CMAES', 'n': 157.59943336, 'trials': 999, 'failure_rate': 0.001, 'failure_rate_std': 0.03160696125855822, 'sol_found_rate': 0.273, 'sol_found_rate_std': 0.4455008417500465, 'accuracy': 0.811981305, 'ghat': 0.4595674735718535, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13776)[0m Results for N=272.03214981: 
+[2m[36m(pid=13776)[0m {'N': 272.03214981, 'opt': 'CMAES', 'n': 272.03214981, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.29, 'sol_found_rate_std': 0.4537620521815371, 'accuracy': 0.8123848006666667, 'ghat': 0.45949627819231775, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13773)[0m Results for N=391.43887537: 
+[2m[36m(pid=13773)[0m {'N': 391.43887537, 'opt': 'CMAES', 'n': 391.43887537, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.331, 'sol_found_rate_std': 0.47057305490221174, 'accuracy': 0.7970743669999999, 'ghat': 0.42693912836915904, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13782)[0m Results for N=100: 
+[2m[36m(pid=13782)[0m {'N': 100, 'opt': 'CMAES', 'n': 100, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.261, 'sol_found_rate_std': 0.43917991757365227, 'accuracy': 0.8090069248333334, 'ghat': 0.453825640500844, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13788)[0m Results for N=131.38106893: 
+[2m[36m(pid=13788)[0m {'N': 131.38106893, 'opt': 'CMAES', 'n': 131.38106893, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.284, 'sol_found_rate_std': 0.45093680266751346, 'accuracy': 0.8056117059999999, 'ghat': 0.44803761560686783, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9499196666666665, 'uc_ghat': 0.7494984881468734, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13777)[0m Results for N=326.31879932: 
+[2m[36m(pid=13777)[0m {'N': 326.31879932, 'opt': 'CMAES', 'n': 326.31879932, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.318, 'sol_found_rate_std': 0.4656994739099455, 'accuracy': 0.8060025089999999, 'ghat': 0.44591592694569254, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13765)[0m Results for N=357.39874625: 
+[2m[36m(pid=13765)[0m {'N': 357.39874625, 'opt': 'CMAES', 'n': 357.39874625, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.307, 'sol_found_rate_std': 0.4612493902434994, 'accuracy': 0.8131404961666667, 'ghat': 0.46096774298002835, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13761)[0m Results for N=616.90544953: 
+[2m[36m(pid=13761)[0m {'N': 616.90544953, 'opt': 'CMAES', 'n': 616.90544953, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.337, 'sol_found_rate_std': 0.47268488446321194, 'accuracy': 0.8023378256666667, 'ghat': 0.43814559299289035, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13770)[0m Results for N=297.94161257: 
+[2m[36m(pid=13770)[0m {'N': 297.94161257, 'opt': 'CMAES', 'n': 297.94161257, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.34, 'sol_found_rate_std': 0.4737087712930804, 'accuracy': 0.792597555, 'ghat': 0.41756854004216365, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500798333333335, 'uc_ghat': 0.7503538315163072, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13779)[0m Results for N=428.72112665: 
+[2m[36m(pid=13779)[0m {'N': 428.72112665, 'opt': 'CMAES', 'n': 428.72112665, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.304, 'sol_found_rate_std': 0.4599826083668816, 'accuracy': 0.8113213496666667, 'ghat': 0.45711453415116626, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13768)[0m Results for N=740.01490531: 
+[2m[36m(pid=13768)[0m {'N': 740.01490531, 'opt': 'CMAES', 'n': 740.01490531, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.325, 'sol_found_rate_std': 0.4683748498798799, 'accuracy': 0.8053540086666667, 'ghat': 0.4444873554886035, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13771)[0m Results for N=469.55429315: 
+[2m[36m(pid=13771)[0m {'N': 469.55429315, 'opt': 'CMAES', 'n': 469.55429315, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.306, 'sol_found_rate_std': 0.46082968654373824, 'accuracy': 0.808401476, 'ghat': 0.45101843657694246, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13775)[0m Results for N=675.66206628: 
+[2m[36m(pid=13775)[0m {'N': 675.66206628, 'opt': 'CMAES', 'n': 675.66206628, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.361, 'sol_found_rate_std': 0.4802905370710524, 'accuracy': 0.7883521033333334, 'ghat': 0.4085688392872637, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13769)[0m Results for N=810.49697386: 
+[2m[36m(pid=13769)[0m {'N': 810.49697386, 'opt': 'CMAES', 'n': 810.49697386, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.336, 'sol_found_rate_std': 0.4723388614120164, 'accuracy': 0.8000990206666667, 'ghat': 0.43347525304382856, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13766)[0m Results for N=563.25839891: 
+[2m[36m(pid=13766)[0m {'N': 563.25839891, 'opt': 'CMAES', 'n': 563.25839891, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.32, 'sol_found_rate_std': 0.46647615158762396, 'accuracy': 0.8046447381666667, 'ghat': 0.4430543617911054, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13778)[0m Results for N=514.27657866: 
+[2m[36m(pid=13778)[0m {'N': 514.27657866, 'opt': 'CMAES', 'n': 514.27657866, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.337, 'sol_found_rate_std': 0.47268488446321194, 'accuracy': 0.7970987421666667, 'ghat': 0.42708489818262957, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13760)[0m Results for N=972.23949281: 
+[2m[36m(pid=13760)[0m {'N': 972.23949281, 'opt': 'CMAES', 'n': 972.23949281, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.339, 'sol_found_rate_std': 0.4733698342733723, 'accuracy': 0.8022647001666666, 'ghat': 0.4379880843552327, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13764)[0m Results for N=887.69204502: 
+[2m[36m(pid=13764)[0m {'N': 887.69204502, 'opt': 'CMAES', 'n': 887.69204502, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.35, 'sol_found_rate_std': 0.47696960070847283, 'accuracy': 0.794391925, 'ghat': 0.4212923516657857, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13759)[0m Results for N=1166.25929752: 
+[2m[36m(pid=13759)[0m {'N': 1166.25929752, 'opt': 'CMAES', 'n': 1166.25929752, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.347, 'sol_found_rate_std': 0.4760157560417512, 'accuracy': 0.7985499606666667, 'ghat': 0.4301995948401801, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13762)[0m Results for N=1064.83958787: 
+[2m[36m(pid=13762)[0m {'N': 1064.83958787, 'opt': 'CMAES', 'n': 1064.83958787, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.372, 'sol_found_rate_std': 0.48333839077813795, 'accuracy': 0.788394299, 'ghat': 0.408643286093726, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13757)[0m Results for N=1277.33863818: 
+[2m[36m(pid=13757)[0m {'N': 1277.33863818, 'opt': 'CMAES', 'n': 1277.33863818, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.351, 'sol_found_rate_std': 0.47728293495577645, 'accuracy': 0.7977620495, 'ghat': 0.428511029481073, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13763)[0m Results for N=1398.9976329: 
+[2m[36m(pid=13763)[0m {'N': 1398.9976329, 'opt': 'CMAES', 'n': 1398.9976329, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.363, 'sol_found_rate_std': 0.4808648458766766, 'accuracy': 0.7949561258333333, 'ghat': 0.4225031331215904, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13758)[0m Results for N=1678.18115665: 
+[2m[36m(pid=13758)[0m {'N': 1678.18115665, 'opt': 'CMAES', 'n': 1678.18115665, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.399, 'sol_found_rate_std': 0.48969276082049645, 'accuracy': 0.7790037546666667, 'ghat': 0.3886580788614342, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13754)[0m Results for N=1532.24393154: 
+[2m[36m(pid=13754)[0m {'N': 1532.24393154, 'opt': 'CMAES', 'n': 1532.24393154, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.353, 'sol_found_rate_std': 0.47790270976423643, 'accuracy': 0.7986065308333333, 'ghat': 0.4301722741044317, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13756)[0m Results for N=1838.01804437: 
+[2m[36m(pid=13756)[0m {'N': 1838.01804437, 'opt': 'CMAES', 'n': 1838.01804437, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.354, 'sol_found_rate_std': 0.4782091592598368, 'accuracy': 0.795927039, 'ghat': 0.4244558965753504, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13752)[0m Results for N=2414.80775376: 
+[2m[36m(pid=13752)[0m {'N': 2414.80775376, 'opt': 'CMAES', 'n': 2414.80775376, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.385, 'sol_found_rate_std': 0.4865953144040744, 'accuracy': 0.7860498711666667, 'ghat': 0.4037311423643524, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13755)[0m Results for N=2204.81234214: 
+[2m[36m(pid=13755)[0m {'N': 2204.81234214, 'opt': 'CMAES', 'n': 2204.81234214, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.356, 'sol_found_rate_std': 0.4788152044369519, 'accuracy': 0.7968328391666667, 'ghat': 0.42651703151679016, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13753)[0m Results for N=2013.07845582: 
+[2m[36m(pid=13753)[0m {'N': 2013.07845582, 'opt': 'CMAES', 'n': 2013.07845582, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.346, 'sol_found_rate_std': 0.4756931784249171, 'accuracy': 0.8018230003333333, 'ghat': 0.43690056892271334, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13748)[0m Results for N=2644.80399359: 
+[2m[36m(pid=13748)[0m {'N': 2644.80399359, 'opt': 'CMAES', 'n': 2644.80399359, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.39, 'sol_found_rate_std': 0.4877499359302879, 'accuracy': 0.7857425554999999, 'ghat': 0.40298144386633533, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13743)[0m Results for N=2896.70602293: 
+[2m[36m(pid=13743)[0m {'N': 2896.70602293, 'opt': 'CMAES', 'n': 2896.70602293, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.354, 'sol_found_rate_std': 0.4782091592598368, 'accuracy': 0.7991418631666667, 'ghat': 0.4313246559177379, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13750)[0m Results for N=3172.60023941: 
+[2m[36m(pid=13750)[0m {'N': 3172.60023941, 'opt': 'CMAES', 'n': 3172.60023941, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.37, 'sol_found_rate_std': 0.4828043081829324, 'accuracy': 0.7917064151666666, 'ghat': 0.41560213775173166, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13746)[0m Results for N=3474.7717578: 
+[2m[36m(pid=13746)[0m {'N': 3474.7717578, 'opt': 'CMAES', 'n': 3474.7717578, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.354, 'sol_found_rate_std': 0.47820915925983687, 'accuracy': 0.8008052514999999, 'ghat': 0.43483085879648015, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13751)[0m Results for N=3805.72333659: 
+[2m[36m(pid=13751)[0m {'N': 3805.72333659, 'opt': 'CMAES', 'n': 3805.72333659, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.394, 'sol_found_rate_std': 0.48863483297857513, 'accuracy': 0.7818238691666667, 'ghat': 0.39464963612696774, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13745)[0m Results for N=4565.19227816: 
+[2m[36m(pid=13745)[0m {'N': 4565.19227816, 'opt': 'CMAES', 'n': 4565.19227816, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.385, 'sol_found_rate_std': 0.48659531440407444, 'accuracy': 0.7861683065, 'ghat': 0.4038971875750207, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+[2m[36m(pid=13747)[0m Results for N=5000: 
+[2m[36m(pid=13747)[0m {'N': 5000, 'opt': 'CMAES', 'n': 5000, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.405, 'sol_found_rate_std': 0.4908920451586072, 'accuracy': 0.7816659258333333, 'ghat': 0.3943693916239979, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
+saving results
+Time run: 17815 seconds
+[2m[36m(pid=13749)[0m Results for N=4168.19610731: 
+[2m[36m(pid=13749)[0m {'N': 4168.19610731, 'opt': 'CMAES', 'n': 4168.19610731, 'trials': 999, 'failure_rate': 0.0, 'failure_rate_std': 0.0, 'sol_found_rate': 0.411, 'sol_found_rate_std': 0.49201524366629135, 'accuracy': 0.7771594195, 'ghat': 0.38476971281620753, 'uc_failure_rate': 1.0, 'uc_failure_rate_std': 0.0, 'uc_accuracy': 0.9500806666666666, 'uc_ghat': 0.7503554946706067, 'method': 'ttest', 'device': device(type='cpu')}
