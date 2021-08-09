@@ -17,13 +17,8 @@
 export MKL_NUM_THREADS=7
 export OPENBLAS_NUM_THREADS=7
 export OMP_NUM_THREADS=7
-cd code
-/home/akanji/miniconda3/envs/seldnian-pre/bin/python  main_plotting.py "$@"
-/home/akanji/miniconda3/envs/seldnian-pre/bin/python create_plots.py
-cd ..
 cd python_tutorial
 /home/akanji/miniconda3/envs/seldnian-pre/bin/python  main_plotting.py "$@"
-/home/akanji/miniconda3/envs/seldnian-pre/bin/python create_plots.py
 cd ..
 
 sleep 1
