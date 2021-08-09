@@ -26,8 +26,8 @@ def normals(n, state):
 # Generate numPoints data points
 @jit(nopython=True)
 def generateData(numPoints):
-	X =     np.random.standard_normal(numPoints) # Sample x from a standard normal distribution
-	Y = X + np.random.standard_normal(numPoints) # Set y to be x, plus noise from a standard normal distribution
+	X =     np.random.standard_normal((numPoints,)) # Sample x from a standard normal distribution
+	Y = X + np.random.standard_normal((numPoints,)) # Set y to be x, plus noise from a standard normal distribution
 	return (X,Y)
 
 
