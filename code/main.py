@@ -75,7 +75,7 @@ def QSA(X, Y, gHats, deltas):
     candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = train_test_split(
         X, Y, test_size=1 - candidateData_len, shuffle=False)
 
-    while count < 50:
+    while count < 100:
         cand_X, safe_X, cand_Y, safe_Y = train_test_split(X, Y, test_size=1 - candidateData_len,
                                                           random_state=rand)
         thets = [np.random.default_rng(rand + i).random(2) for i in range(20)]
@@ -190,7 +190,7 @@ def getCandidateSolution(candidateData_X, candidateData_Y, gHats, deltas, safety
 if __name__ == "__main__":
 
     np.random.seed(0)  # Create the random number generator to use, with seed zero
-    numPoints = 5000  # Let's use 5000 points
+    numPoints = 10000  # Let's use 5000 points
 
     (X, Y) = generateData(numPoints)  # Generate the data
 

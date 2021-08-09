@@ -82,7 +82,7 @@ def QSA(X, Y, gHats, deltas):
 	candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = train_test_split(
 		X, Y, test_size=1 - candidateData_len, shuffle=False)
 
-	while count < 50:
+	while count < 100:
 		cand_X, safe_X, cand_Y, safe_Y = train_test_split(X, Y, test_size=1 - candidateData_len,
 														  random_state=rand)
 		thets = [np.random.default_rng(rand + i).random(2) for i in range(20)]
@@ -94,7 +94,7 @@ def QSA(X, Y, gHats, deltas):
 			best_diff = diff
 			candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = cand_X, safe_X, cand_Y, safe_Y
 		count+=1
-		rand+=1
+		rand+=13
 
 	# Get the candidate solution
 	candidateSolution = getCandidateSolution(candidateData_X, candidateData_Y, gHats, deltas,
@@ -283,7 +283,7 @@ if __name__ == "__main__":
 	# We will use different amounts of data, m. The different values of m will be stored in ms.
 	# These values correspond to the horizontal axis locations in all three plots we will make.
 	# We will use a logarithmic horizontal axis, so the amounts of data we use shouldn't be evenly spaced.
-	ms   = [2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+	ms   = np.geomspace(50,10000, 50)#[2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
 	numM = len(ms)
 
 	# How many trials should we average over?

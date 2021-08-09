@@ -260,7 +260,7 @@ if __name__ == "__main__":
 	# We will use different amounts of data, m. The different values of m will be stored in ms.
 	# These values correspond to the horizontal axis locations in all three plots we will make.
 	# We will use a logarithmic horizontal axis, so the amounts of data we use shouldn't be evenly spaced.
-	ms   = [2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+	ms   = np.geomspace(20,1000, 50)#[2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
 	numM = len(ms)
 
 	# How many trials should we average over?
