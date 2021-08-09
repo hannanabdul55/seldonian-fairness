@@ -10,7 +10,7 @@ def compare_results(res1, opt1, res2, opt2):
     pass
 
 
-def plot_results(res, opt, display=True, axs=None, show_subtitle=False):
+def plot_results(res, opt, display=True, axs=None, show_subtitle=False, errorbars=True):
     if axs is None:
         fig, axs = plt.subplots(4, 1, figsize=(6.4, 4.8*4))
     x = []
@@ -61,7 +61,8 @@ def plot_results(res, opt, display=True, axs=None, show_subtitle=False):
 
         ax = axs[1]
         ax.plot(x, sol_found_c, label='Solution Found Rate')
-        ax.errorbar(x, sol_found_c, yerr=sol_found_c_std, fmt='.k')
+        if errorbars:
+            ax.errorbar(x, sol_found_c, yerr=sol_found_c_std, fmt='.k')
         ax.set_xlabel('Number of data points')
         ax.set_ylabel('Probability of solution found')
         ax.set_xscale('log')
