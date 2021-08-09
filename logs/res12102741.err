@@ -1,0 +1,112 @@
+2021-08-09 08:39:29,428	INFO services.py:1272 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+Traceback (most recent call last):
+  File "main_plotting.py", line 299, in <module>
+    _ = ray.get([run_experiments.remote(worker_id, nWorkers, ms, numM, numTrials, mTest) for worker_id in range(1,nWorkers+1)])
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/_private/client_mode_hook.py", line 62, in wrapper
+    return func(*args, **kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 1495, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(TypingError): [36mray::run_experiments()[39m (pid=130522, ip=10.128.0.77)
+  File "python/ray/_raylet.pyx", line 501, in ray._raylet.execute_task
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/util/tracing/tracing_helper.py", line 330, in _function_with_tracing
+    return function(*args, **kwargs)
+  File "main_plotting.py", line 221, in run_experiments
+    (testX, testY) = generateData(mTest)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/dispatcher.py", line 415, in _compile_for_args
+    error_rewrite(e, 'typing')
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/dispatcher.py", line 358, in error_rewrite
+    reraise(type(e), e, None)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/utils.py", line 80, in reraise
+    raise value.with_traceback(tb)
+numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
+[1m[1m[1mNo implementation of function Function(np.random.normal) found for signature:
+ 
+ >>> <unknown function>(float64, float64, float64)
+ 
+There are 2 candidate implementations:
+[1m   - Of which 2 did not match due to:
+   Overload in function 'Numpy_normal.generic': File: numba/core/typing/randomdecl.py: Line 215.
+     With argument(s): '(float64, float64, float64)':[0m
+[1m    Rejected as the implementation raised a specific error:
+      TypeError: object of type 'Float' has no len()[0m
+  raised from /home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/typing/randomdecl.py:36
+[0m
+[0m[1mDuring: resolving callee type: Function(np.random.normal)[0m
+[0m[1mDuring: typing of call at main_plotting.py (14)
+[0m
+[1m
+File "main_plotting.py", line 14:[0m
+[1mdef generateData(numPoints):
+[1m	X =     np.random.normal(0.0, 1.0, numPoints) # Sample x from a standard normal distribution
+[0m [1m^[0m[0m
+create_plots.py:33: MatplotlibDeprecationWarning: savefig() got unexpected keyword argument "bbox_inchesstr" which is no longer supported as of 3.3 and will become an error two minor releases later
+  plt.savefig(output_file, bbox_inchesstr='tight')
+Traceback (most recent call last):
+  File "create_plots.py", line 40, in <module>
+    loadAndPlotResults(csv_path+'fs.csv',              'Mean Squared Error',            img_path+'tutorial7MSE_py.png',     False, 'lower right')
+  File "create_plots.py", line 33, in loadAndPlotResults
+    plt.savefig(output_file, bbox_inchesstr='tight')
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/matplotlib/pyplot.py", line 859, in savefig
+    res = fig.savefig(*args, **kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/matplotlib/figure.py", line 2311, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/matplotlib/backend_bases.py", line 2210, in print_figure
+    result = print_method(
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/matplotlib/backend_bases.py", line 1639, in wrapper
+    return func(*args, **kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/matplotlib/backends/backend_agg.py", line 510, in print_png
+    mpl.image.imsave(
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/matplotlib/image.py", line 1605, in imsave
+    image.save(fname, **pil_kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/PIL/Image.py", line 2148, in save
+    fp = builtins.open(filename, "w+b")
+FileNotFoundError: [Errno 2] No such file or directory: 'images/tutorial7MSE_py.png'
+2021-08-09 08:39:44,275	INFO services.py:1272 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+Traceback (most recent call last):
+  File "main_plotting.py", line 276, in <module>
+    _ = ray.get([run_experiments.remote(worker_id, nWorkers, ms, numM, numTrials, mTest) for worker_id in range(1,nWorkers+1)])
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/_private/client_mode_hook.py", line 62, in wrapper
+    return func(*args, **kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 1495, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(TypingError): [36mray::run_experiments()[39m (pid=132810, ip=10.128.0.77)
+  File "python/ray/_raylet.pyx", line 501, in ray._raylet.execute_task
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/util/tracing/tracing_helper.py", line 330, in _function_with_tracing
+    return function(*args, **kwargs)
+  File "main_plotting.py", line 198, in run_experiments
+    (testX, testY) = generateData(mTest)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/dispatcher.py", line 415, in _compile_for_args
+    error_rewrite(e, 'typing')
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/dispatcher.py", line 358, in error_rewrite
+    reraise(type(e), e, None)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/utils.py", line 80, in reraise
+    raise value.with_traceback(tb)
+numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
+[1m[1m[1mNo implementation of function Function(np.random.normal) found for signature:
+ 
+ >>> <unknown function>(float64, float64, float64)
+ 
+There are 2 candidate implementations:
+[1m   - Of which 2 did not match due to:
+   Overload in function 'Numpy_normal.generic': File: numba/core/typing/randomdecl.py: Line 215.
+     With argument(s): '(float64, float64, float64)':[0m
+[1m    Rejected as the implementation raised a specific error:
+      TypeError: object of type 'Float' has no len()[0m
+  raised from /home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/typing/randomdecl.py:36
+[0m
+[0m[1mDuring: resolving callee type: Function(np.random.normal)[0m
+[0m[1mDuring: typing of call at main_plotting.py (14)
+[0m
+[1m
+File "main_plotting.py", line 14:[0m
+[1mdef generateData(numPoints):
+[1m	X =     np.random.normal(0.0, 1.0, numPoints) # Sample x from a standard normal distribution
+[0m [1m^[0m[0m
+create_plots.py:33: MatplotlibDeprecationWarning: savefig() got unexpected keyword argument "bbox_inchesstr" which is no longer supported as of 3.3 and will become an error two minor releases later
+  plt.savefig(output_file, bbox_inchesstr='tight')
+create_plots.py:33: MatplotlibDeprecationWarning: savefig() got unexpected keyword argument "bbox_inchesstr" which is no longer supported as of 3.3 and will become an error two minor releases later
+  plt.savefig(output_file, bbox_inchesstr='tight')
+create_plots.py:33: MatplotlibDeprecationWarning: savefig() got unexpected keyword argument "bbox_inchesstr" which is no longer supported as of 3.3 and will become an error two minor releases later
+  plt.savefig(output_file, bbox_inchesstr='tight')
+create_plots.py:33: MatplotlibDeprecationWarning: savefig() got unexpected keyword argument "bbox_inchesstr" which is no longer supported as of 3.3 and will become an error two minor releases later
+  plt.savefig(output_file, bbox_inchesstr='tight')
