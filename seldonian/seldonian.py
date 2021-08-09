@@ -260,7 +260,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
                 self.X_t = self.X
                 self.y_t = self.y
                 rand = random_seed
-                while count < 30:
+                while count < 100:
                     self.X = self.X_t
                     self.y = self.y_t
                     self.X, self.X_s, self.y, self.y_s = train_test_split(
