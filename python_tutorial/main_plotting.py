@@ -7,12 +7,27 @@ from numba import jit       # Just-in-Time (JIT) compiler to accelerate Python c
 # Folder where the experiment results will be saved
 bin_path = 'experiment_results/bin/'
 
-
+@jit(nopython=True)
+def normals(n, state):
+    out = np.empty(n)
+    for i in range((n + 1) // 2):
+        x1 = 2.0 * next_d(state) - 1.0
+        x2 = 2.0 * next_d(state) - 1.0
+        r2 = x1 * x1 + x2 * x2
+        while r2 >= 1.0 or r2 == 0.0:
+            x1 = 2.0 * next_d(state) - 1.0
+            x2 = 2.0 * next_d(state) - 1.0
+            r2 = x1 * x1 + x2 * x2
+        f = np.sqrt(-2.0 * np.log(r2) / r2)
+        out[2 * i] = f * x1
+        if 2 * i + 1 < n:
+            out[2 * i + 1] = f * x2
+    return out
 # Generate numPoints data points
 @jit(nopython=True)
 def generateData(numPoints):
-	X =     np.random.normal(0.0, 1.0, numPoints) # Sample x from a standard normal distribution
-	Y = X + np.random.normal(0.0, 1.0, numPoints) # Set y to be x, plus noise from a standard normal distribution
+	X =     np.random.standard_normal(numPoints) # Sample x from a standard normal distribution
+	Y = X + np.random.standard_normal(numPoints) # Set y to be x, plus noise from a standard normal distribution
 	return (X,Y)
 
 
