@@ -1,1 +1,2550 @@
 2021-08-09 08:05:27,969	INFO services.py:1272 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55104)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55104)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in true_divide
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Mean of empty slice.
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55106)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55106)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55088)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55088)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
+[2m[36m(pid=55101)[0m Degrees of freedom <= 0 for slice
+[2m[36m(pid=55101)[0m invalid value encountered in double_scalars
