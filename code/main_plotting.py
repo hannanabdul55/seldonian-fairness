@@ -104,7 +104,7 @@ def QSA(X, Y, gHats, deltas):
 	passedSafety = safetyTest(candidateSolution, safetyData_X, safetyData_Y, gHats, deltas)
 
 	# Return the result and success flag
-	return [candidateSolution, passedSafety]
+	return [candidateSolution, passedSafety, candidateData_X, candidateData_Y, safetyData_X, safetyData_Y]
 
 
 # Run the safety test on a candidate solution. Returns true if the test is passed.
@@ -229,7 +229,11 @@ def run_experiments(worker_id, nWorkers, ms, numM, numTrials, mTest):
 			(trainX, trainY)  = generateData(m)
 
 			# Run the Quasi-Seldonian algorithm
-			(result, passedSafetyTest) = QSA(trainX, trainY, gHats, deltas)
+			(result, passedSafetyTest, cx, cy, sx, sy) = QSA(trainX, trainY, gHats, deltas)
+			if trial %5==0:
+				np.savetxt(f"experiment_results/bin/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
+				np.savetxt(f"experiment_results/bin/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
+			
 			if passedSafetyTest:
 				seldonian_solutions_found[trial, mIndex] = 1
 				trueMSE = -fHat(result, testX, testY)                               # Get the "true" mean squared error using the testData
@@ -283,7 +287,7 @@ if __name__ == "__main__":
 	# We will use different amounts of data, m. The different values of m will be stored in ms.
 	# These values correspond to the horizontal axis locations in all three plots we will make.
 	# We will use a logarithmic horizontal axis, so the amounts of data we use shouldn't be evenly spaced.
-	ms   = np.geomspace(20,10000, 50)#[2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+	ms   = np.geomspace(20,100000, 100)#[2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
 	numM = len(ms)
 
 	# How many trials should we average over?
@@ -292,7 +296,7 @@ if __name__ == "__main__":
 	# How much data should we generate to compute the estimates of the primary objective and behavioral constraint function values 
 	# that we call "ground truth"? Each candidate solution deemed safe, and identified using limited training data, will be evaluated 
 	# over this large number of points to check whether it is really safe, and to compute its "true" mean squared error.
-	mTest = ms[-1] * 100 # about 5,000,000 test samples
+	mTest = min(ms[-1] * 100, 1e7) # about 5,000,000 test samples
 
 	# Start 'nWorkers' threads in parallel, each one running 'numTrials' trials. Each thread saves its results to a file
 	tic = timeit.default_timer()

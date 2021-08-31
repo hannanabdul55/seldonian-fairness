@@ -3,6 +3,7 @@ import sys
 import matplotlib.pyplot as plt
 import pickle
 import glob
+import numpy as np
 
 
 def compare_results(res1, opt1, res2, opt2):
@@ -10,7 +11,7 @@ def compare_results(res1, opt1, res2, opt2):
     pass
 
 
-def plot_results(res, opt, display=True, axs=None, show_subtitle=False, errorbars=True):
+def plot_results(res, opt, display=True, axs=None, show_subtitle=False, errorbars=True, trials=1):
     if axs is None:
         fig, axs = plt.subplots(4, 1, figsize=(6.4, 4.8*4))
     x = []
@@ -57,12 +58,11 @@ def plot_results(res, opt, display=True, axs=None, show_subtitle=False, errorbar
             ax.set_title(f"[{opt}]data vs failure rate")
         else:
             ax.set_title(f"[{opt}]")
-        # ax.show()
 
         ax = axs[1]
         ax.plot(x, sol_found_c, label='Solution Found Rate')
         if errorbars:
-            ax.errorbar(x, sol_found_c, yerr=sol_found_c_std, fmt='.k')
+            ax.errorbar(x, sol_found_c, yerr=np.array(sol_found_c_std)/np.sqrt(trials), fmt='.k')
         ax.set_xlabel('Number of data points')
         ax.set_ylabel('Probability of solution found')
         ax.set_xscale('log')
@@ -72,7 +72,6 @@ def plot_results(res, opt, display=True, axs=None, show_subtitle=False, errorbar
             ax.set_title(f"[{opt}]data vs Pr(Solution Found)")
         else:
             ax.set_title(f"[{opt}]")
-        # ax.show()
 
         ax = axs[2]
         ax.plot(x, ghat_c, label='Constrained ghat')

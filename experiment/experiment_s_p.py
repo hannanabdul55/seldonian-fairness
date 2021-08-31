@@ -1,9 +1,11 @@
+from experiment.utils import stderror
 import sklearn
 from sklearn import preprocessing
 
 from seldonian.datasets import LawschoolDataset, AdultDataset
 from seldonian.seldonian import *
 from seldonian.synthetic import *
+from seldonian.utils import *
 
 import numpy as np
 import pandas as pd
@@ -243,14 +245,21 @@ def run_experiment_p(exp):
             'n': n,
             'trials': t,
             'failure_rate': np.mean(failure_rate),
-            'failure_rate_std': np.std(failure_rate),
+            'failure_rate_raw': failure_rate,
+            'failure_rate_std': stderror(failure_rate),
+            'sol_found_rate_raw': sol_found_rate,
             'sol_found_rate': np.mean(sol_found_rate),
-            'sol_found_rate_std': np.std(sol_found_rate),
+            'sol_found_rate_std': stderror(sol_found_rate),
+            'accuracy_raw': accuracy,
             'accuracy': np.mean(accuracy),
+            'ghat_raw': mean_ghat,
             'ghat': np.mean(mean_ghat),
+            'uc_failure_rate_raw': uc_failure_rate,
             'uc_failure_rate': np.mean(uc_failure_rate),
-            'uc_failure_rate_std': np.std(uc_failure_rate),
+            'uc_failure_rate_std': stderror(uc_failure_rate),
+            'uc_accuracy_raw': uc_accuracy,
             'uc_accuracy': np.mean(uc_accuracy),
+            'uc_ghat_raw': uc_mean_ghat,
             'uc_ghat': np.mean(uc_mean_ghat),
             'method': exp['method'],
             "device": device
