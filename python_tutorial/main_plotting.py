@@ -226,8 +226,8 @@ def run_experiments(worker_id, nWorkers, ms, numM, numTrials, mTest):
 			# Run the Quasi-Seldonian algorithm
 			(result, passedSafetyTest, cx, cy, sx, sy) = QSA(trainX, trainY, gHats, deltas)
 			if trial ==numTrials-1:
-				np.savez_compressed(f"{res_path}/bin/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
-				np.savez_compressed(f"{res_path}/bin/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
+				np.savez_compressed(f"{res_path}/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
+				np.savez_compressed(f"{res_path}/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
 			if passedSafetyTest:
 				seldonian_solutions_found[trial, mIndex] = 1
 				trueMSE = -fHat(result, testX, testY)                               # Get the "true" mean squared error using the testData
