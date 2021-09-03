@@ -3,10 +3,12 @@ import timeit               # To time the execution of ours experiments
 import ray                  # To allow us to execute experiments in parallel
 ray.init()    
 from numba import jit       # Just-in-Time (JIT) compiler to accelerate Python code
+import os
+
 
 # Folder where the experiment results will be saved
 bin_path = 'experiment_results/bin/'
-
+res_path = '/mnt/nfs/work1/pthomas/akanji/res_test'
 
 # Generate numPoints data points
 @jit(nopython=True)
@@ -230,9 +232,9 @@ def run_experiments(worker_id, nWorkers, ms, numM, numTrials, mTest):
 
 			# Run the Quasi-Seldonian algorithm
 			(result, passedSafetyTest, cx, cy, sx, sy) = QSA(trainX, trainY, gHats, deltas)
-			if trial %5==0:
-				np.savetxt(f"experiment_results/bin/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
-				np.savetxt(f"experiment_results/bin/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
+			if trial ==numTrials-1:
+				np.savez_compressed(f"{res_path}/bin/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
+				np.savez_compressed(f"{res_path}/bin/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
 			
 			if passedSafetyTest:
 				seldonian_solutions_found[trial, mIndex] = 1
@@ -283,7 +285,7 @@ if __name__ == "__main__":
 	else:
 		nWorkers = int(sys.argv[1])  # Workers is the number of threads running experiments in parallel
 	print(f"Running experiments on {nWorkers} threads")
-
+	os.makedirs(res_path, exist_ok=True)
 	# We will use different amounts of data, m. The different values of m will be stored in ms.
 	# These values correspond to the horizontal axis locations in all three plots we will make.
 	# We will use a logarithmic horizontal axis, so the amounts of data we use shouldn't be evenly spaced.
