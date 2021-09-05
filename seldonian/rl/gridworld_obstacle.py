@@ -1,4 +1,5 @@
 from numba.core.types.containers import DictType
+from numba.np.ufunc import parallel
 import numpy as np
 from numpy.core.fromnumeric import size
 from numba import int64, float32,int32, types, typed    # import the types
@@ -10,7 +11,7 @@ from time import time
 
 
 
-MAX_OBS = 10
+MAX_OBS = 14
 MAX_T=20
 
 
@@ -30,13 +31,16 @@ class GridWorld:
     rand_action_prob: float32
     len_actions: int64
     water: int64[:]
+    path: int64[:]
+    obs_as_cliff: bool
 
     def __init__(
         self, size=(5,5),
         obstacle=np.array([-1], dtype=np.int64),
         start_state=0,
         rand_action_prob=np.random.rand(),
-        water=np.array([-1], dtype=np.int64)
+        water=np.array([-1], dtype=np.int64),
+        obs_as_cliff=True
         ) -> None:
         self.m, self.n = size
         self.obstacles = obstacle
@@ -45,12 +49,14 @@ class GridWorld:
         self.goal = (self.m*self.n)-1
         self.rand_action_prob = rand_action_prob
         self.water=water
+        self.obs_as_cliff = obs_as_cliff
         self.actions = {
             'up':0,
             'down':1,
             'right':2,
             'left':3
         }
+
         self.len_actions = 4
         self.state = self.start
         self.rw = 0.0
@@ -104,7 +110,12 @@ class GridWorld:
             print("No action taken")
         
         rw = -1.0
-        if newstate ==-2 or newstate in self.obstacles:
+        if newstate ==-2:
+            newstate = self.state
+        if newstate in self.obstacles:
+            if self.obs_as_cliff:
+                newstate=self.start
+            else:
                 newstate = self.state
         if newstate in self.water:
             rw=-20.0
@@ -145,10 +156,11 @@ class GridWorld:
 def nparray(arr, type=np.float32):
     return np.array(arr, type)
 
-def get_gw_from_seed(seed):
+def get_gw_from_seed(seed, path):
     rng = np.random.default_rng(seed)
     n_obs = rng.integers(MAX_OBS)
-    obstacles = rng.choice(np.arange(1,24), n_obs, replace=False)
+    pos_obs = list(filter(lambda x: x not in path, range(24)))
+    obstacles = rng.choice(pos_obs, n_obs, replace=False)
     gw = GridWorld(
         obstacle=obstacles, 
         rand_action_prob=rng.random()
@@ -169,8 +181,8 @@ def get_episodes_from_env(gw, eps=1000, seed=123):
             rt = gw.take(a)
             ep.append([a, rt])
             t+=1
-        if t<MAX_T and gw.is_sinf():
-            print("Reached goal state in eps: ", t)
+        # if t<MAX_T and gw.is_sinf():
+        #     print("Reached goal state in eps: ", t)
         epss.append(ep)
     return epss
 
@@ -178,7 +190,14 @@ def get_episodes_from_env(gw, eps=1000, seed=123):
 if __name__=="__main__":
     seed = 42
     e = 100000
-    gw = get_gw_from_seed(seed)
+    path = np.array([
+            0,1,
+            6,7,
+            12,13,
+            18,19,
+            23,24
+        ], dtype=np.int64)
+    gw = get_gw_from_seed(seed, path)
     rng = np.random.default_rng(seed)
     t = time()
     episodes = get_episodes_from_env(gw, eps=e, seed=seed)
