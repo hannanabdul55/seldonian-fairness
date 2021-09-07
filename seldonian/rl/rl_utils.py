@@ -55,3 +55,4 @@ if __name__=="__main__":
     a = np.zeros((100,))
     a[30]=1
     print(one_hot_to_s(a))
+    print(s_to_onehot(30, 100))

@@ -25,9 +25,9 @@ class ActorCriticGridworld:
     alpha_mul: float64
     lam: float64
     eps: float64
-    theta: float64[:,:]
+    theta: float64[:, :]
     v: float64[:]
-    e_trace_theta: float64[:,:]
+    e_trace_theta: float64[:, :]
     e_trace_v: float64[:]
     frozen: bool
     td: float64
@@ -54,17 +54,17 @@ class ActorCriticGridworld:
         self.numactions = env.len_actions
         self.numstates = env.len_states
 
-        self.frozen=False
+        self.frozen = False
 
         self.theta = np.zeros(
-            (self.numactions,self.numstates), dtype=np.float64
+            (self.numactions, self.numstates), dtype=np.float64
         )
         self.policy.set_theta(self.theta)
 
         self.v = np.zeros(self.numstates, dtype=np.float64)
 
         self.e_trace_theta = np.zeros(
-            (self.numactions,self.numstates), dtype=np.float64
+            (self.numactions, self.numstates), dtype=np.float64
         )
 
         self.e_trace_v = np.zeros(
@@ -74,7 +74,7 @@ class ActorCriticGridworld:
     def set_policy(self, theta):
         self.policy.set_theta(theta)
 
-    def td_error(self, s:int64, rw: float64, sPrime: int64):
+    def td_error(self, s: int64, rw: float64, sPrime: int64):
         if self.env.is_terminated():
             # print("terminated")
             return rw - self.v[s]
@@ -83,8 +83,8 @@ class ActorCriticGridworld:
         pass
 
     def newepisode(self):
-        self.e_trace_theta*=0.0
-        self.e_trace_v*=0.0
+        self.e_trace_theta *= 0.0
+        self.e_trace_v *= 0.0
 
     def act(self):
         state = self.env.state
@@ -93,16 +93,16 @@ class ActorCriticGridworld:
 
         if not self.frozen:
             td = self.td_error(int(s), r, int(sPrime))
-            self.update_critic(td, int(a))
-            self.update_actor(td, int(a))
+            self.update_critic(td, int(s), int(a))
+            self.update_actor(td, int(s), int(a))
 
         return r
-    
-    def freeze(self, pol_freeze: bool=True):
+
+    def freeze(self, pol_freeze: bool = True):
         self.frozen = pol_freeze
-    
-    def update_actor(self, td: float64, a: int64):
-        det_matrix = self.policy.derivative(self.env.state, a)
+
+    def update_actor(self, td: float64, s: int64,  a: int64):
+        det_matrix = self.policy.derivative(s, a)
         self.e_trace_theta = self.e_trace_theta*self.gamma * self.lam
         self.e_trace_theta += det_matrix
         # print(det_matrix.shape, self.e_trace_theta.size, td)
@@ -115,9 +115,9 @@ class ActorCriticGridworld:
         # print("updated actor. TD: ", td, a)
         pass
 
-    def update_critic(self, td: float64, a:int64):
-        self.e_trace_v*= self.gamma * self.lam
-        self.e_trace_v += s_to_onehot(self.env.state, self.numstates)
+    def update_critic(self, td: float64, s: int64, a: int64):
+        self.e_trace_v *= self.gamma * self.lam
+        self.e_trace_v += s_to_onehot(s, self.numstates)
         self.v += self.alpha_critic * td * self.e_trace_v
         pass
 
@@ -130,10 +130,10 @@ if __name__ == "__main__":
     reinforce = ActorCriticGridworld(
         gw, pol,
         alpha_actor=0.00007742636826811269,
-        alpha_critic= 0.00002782559402207126,
-        lam= 0.0007742636826811269,
+        alpha_critic=0.00002782559402207126,
+        lam=0.0007742636826811269,
         seed=seed
-        )
+    )
     eps = 1024
     for i in range(eps):
         gw.reset()
@@ -141,8 +141,8 @@ if __name__ == "__main__":
         while not gw.is_terminated():
             reinforce.act()
     print(pol.phi)
-    print(reinforce.v.reshape(5,5))
-    
+    print(reinforce.v.reshape(5, 5))
+
     # run evaluation episode
     reinforce.freeze()
     gw.reset()

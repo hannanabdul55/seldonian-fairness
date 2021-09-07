@@ -100,9 +100,9 @@ if __name__=="__main__":
     ray.init(local_mode=True)
     futures = [
         objective(i,j,k) 
-        for i in np.geomspace(1e-6, 10, 10) 
-        for j in np.geomspace(1e-6, 10, 10)
-        for k in np.geomspace(1e-6, 10, 10)
+        for i in np.geomspace(1e-7, 1, 10) 
+        for j in np.geomspace(1e-7, 1, 10)
+        for k in np.geomspace(1e-7, 1, 10)
     ]
     max_r = -np.inf
     best_pol= None
