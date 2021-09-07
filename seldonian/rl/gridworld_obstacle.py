@@ -128,7 +128,7 @@ class GridWorld:
             if self.state-1 >= 0 and j > 0:
                 newstate = self.state - 1
         else:
-            print("No action taken. THIS SHOULD NOT HAPPEN!! Action: ", action)
+            print("No action taken. THIS SHOULD NOT HAPPEN!! Action: ", action, "State: ", s)
 
         rw = -1.0
         if newstate == -2:

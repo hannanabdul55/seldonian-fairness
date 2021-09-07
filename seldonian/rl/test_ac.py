@@ -8,12 +8,51 @@ import json
 
 from time import time
 
+from numba import typed, typeof, njit, int64, types
+from numba.experimental import jitclass
+from numba.extending import overload_method, overload
+
+@overload_method(types.misc.ClassInstanceType, 'clone')
+def ol_bag_clone(inst,):
+    if inst is GridWorld.class_type.instance_type:
+        def impl(inst,):
+            return GridWorld(obstacle=inst.obstacles)
+        return impl
+    elif inst is ActorCriticGridworld.class_type.instance_type:
+        def impl(inst,):
+            return ActorCriticGridworld(
+                inst.env, inst.policy, alpha_actor=inst.alpha_actor,
+                alpha_critic=inst.alpha_critic,
+                lam=inst.lam
+            )
+        return impl
+    elif inst is TabularSoftmaxPolicy.class_type.instance_type:
+        def impl(inst,):
+            return TabularSoftmaxPolicy(
+                inst.env, eps=inst.eps
+            )
+        return impl
+def serializer_gridworld(gw):
+    return gw.obstacles
+
+def deserializer_gridworld(obs):
+    return GridWorld(obstacle=obs)
+
+def serializer_policy(pol):
+    return (pol.env.obstacles, pol.eps)
+
+def deserializer_policy(obs, eps):
+    return TabularSoftmaxPolicy(GridWorld(obstacle=obs), eps=eps)
+
+def serializer_actorcritic(ac):
+    return ac.env.obstacles, 
+
 # @ray.remote
 def objective(alpha_actor, alpha_critic, lam):
     seed=np.random.randint(42)
     # alpha_actor, alpha_critic, lam = config['alpha_actor'], config['alpha_critic'], config['lam']
     gw = get_gw_from_seed(seed)
-    pol = TabularSoftmaxPolicy(gw, seed=seed)
+    pol = TabularSoftmaxPolicy(gw,eps=0.0, seed=seed)
     reinforce = ActorCriticGridworld(
         gw, pol,
         alpha_actor=alpha_actor,
