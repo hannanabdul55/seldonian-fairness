@@ -124,11 +124,15 @@ class ActorCriticGridworld:
 
 if __name__ == "__main__":
     # print(nb.typeof(list()))
-    seed = 1
+    seed = 42
     gw = get_gw_from_seed(seed)
     pol = TabularSoftmaxPolicy(gw, seed=seed)
     reinforce = ActorCriticGridworld(
-        gw, pol, seed=seed
+        gw, pol,
+        alpha_actor=0.00007742636826811269,
+        alpha_critic= 0.00002782559402207126,
+        lam= 0.0007742636826811269,
+        seed=seed
         )
     eps = 1024
     for i in range(eps):
