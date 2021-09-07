@@ -1,7 +1,7 @@
 from numba.core.types.containers import DictType
 import numpy as np
 from numpy.core.fromnumeric import size
-from numba import int64, float32,float64,int32, types, typed    # import the types
+from numba import int64, float32, float64, int32, types, typed    # import the types
 from numba.experimental import jitclass
 import typing
 from numba import prange, njit
@@ -9,43 +9,105 @@ from numba import prange, njit
 from time import time
 
 from rl_utils import *
+from gridworld_obstacle import *
+
 
 @jitclass
 class TabularSoftmaxPolicy:
     n_actions: int64
     n_states: int64
-    phi: float64[:]
+    phi: float64[:,:]
     phif: float64[:]
     action: int64
+    state: int64
+    actions: int64[:]
+    eps: float64
     a: int64
     s: int64
     theta: float64[:]
-    def __init__(self, n_actions, n_states, seed=42) -> None:
+    env: GridWorld
+    m:int64
+    n: int64
+    reset_env: bool
+
+    def __init__(
+        self, env,
+        eps=0.1, seed=42
+    ) -> None:
         np.random.seed(seed)
-        self.a = n_actions
-        self.s = n_states
-        phif = np.zeros(n_states* n_actions, dtype=np.float64)
-        for i in prange(n_actions*n_states):
-            phif[i] = np.random.randn()
-        self.phi = phif
+        self.a = env.len_actions
+        self.s = env.len_states
+        self.actions = np.arange(self.a, dtype=np.int64)
+        self.env = env
+        self.eps = eps
+        # print(self.a, self.s)
+        self.phi = np.zeros((self.a, self.s), dtype=np.float64)
+        for i in prange(self.a):
+            for j in prange(self.s):
+                self.phi[i,j] = np.random.randn()
+        # self.phi = phif.reshape((self.a, self.s))
 
-    def get_prob_for_action(self, action: int64):
-        return softmax_optimized(self.phi[action*self.s:action*self.s + self.a])
+    def get_prob_for_state(self, state: int64):
+        pros = softmax_optimized(self.phi[:,state])
+        return pros
 
-    def take_action(self, action):
-        return self.phi[action*self.s:action*self.s + self.a]
+    def choose_action(self, state: int64):
+        rn = np.random.random()
+        # epsilon greedy
+        if rn < self.eps:
+            # take random action
+            # print("taking random action")
+            return np.random.choice(self.a)
+        # choose action based on
+        return rand_choice_nb(self.actions, self.get_prob_for_state(state))
+
+    def reset(self, reset_env=False):
+        for i in np.arange(self.s):
+            for j in np.arange(self.a):
+                self.phi[i,j] = np.random.randn()
+        if reset_env:
+            self.env.reset()
+
+    def derivative(self, st: int64, ac:int64):
+        feats = s_to_onehot(st, self.s)
+        actionProbs = self.get_prob_for_state(st)
+        res = np.zeros((self.a, self.s), dtype=np.float64)
+
+        for i in np.arange(self.a):
+            if i == ac:
+                # print("ActionProbs", (1-actionProbs[i]) * feats)
+                res[i, :] = (1-actionProbs[i]) * feats
+            else:
+                # print("ActionProbs", (-actionProbs[i]) * feats)
+                res[i, :] = (-1*actionProbs[i]) * feats
+        # print(res.shape, feats)
+        return res
+
+    def q(self, s:int64, a:int64):
+        return self.phi[s, a]
     
-    def set_theta(self, theta):
-        self.phi = theta
+    def set_theta(self, theta: float64[:,:]):
+        if theta.shape == self.phi.shape:
+            # print("Theta shape: ",theta.shape)
+            for i in range(self.a):
+                for j in range(self.s):
+                    self.phi[int(i),int(j)] = theta[int(i),int(j)]
+        else:
+            print(
+                "ERROR: shape of input:",
+                theta.shape, "not equal to shape of theta",
+                self.phi.shape
+            )
 
 
 if __name__ == "__main__":
-    pi = TabularSoftmaxPolicy(5,4)
-    probs = pi.get_prob_for_action(3)
-    print(probs, probs.sum())
+    seed = 111
+    gw = get_gw_from_seed(seed, path)
+    pi = TabularSoftmaxPolicy(gw, seed=seed)
+    probs = pi.choose_action(3)
+    print(probs)
 
-    theta = np.random.randn(5*4)
-    pi.set_theta(theta)
-    probs = pi.get_prob_for_action(3)
-    print(probs, probs.sum())
-    
+    theta = np.random.randn(25*4)
+    pi.reset()
+    probs = pi.choose_action(7)
+    print(probs)
