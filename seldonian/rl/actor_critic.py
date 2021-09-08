@@ -31,14 +31,15 @@ class ActorCriticGridworld:
     e_trace_v: float64[:]
     frozen: bool
     td: float64
+    gw: GridWorld
 
     def __init__(
-        self, env, policy, seed=42,
+        self, env, policy,
         eps=0.0,
         gamma=1.0,
-        alpha_actor=0.0000137731127022912,
-        alpha_critic=0.000031442900745165847,
-        lam=0.000023372572419318238,
+        alpha_actor=0.137731127022912,
+        alpha_critic=0.31442900745165847,
+        lam=0.23372572419318238,
         order=1,
         j=-8.0
     ) -> None:
@@ -56,10 +57,8 @@ class ActorCriticGridworld:
 
         self.frozen = False
 
-        self.theta = np.zeros(
-            (self.numactions, self.numstates), dtype=np.float64
-        )
-        self.policy.set_theta(self.theta)
+        self.theta = self.policy.phi
+        # self.policy.set_theta(self.theta)
 
         self.v = np.zeros(self.numstates, dtype=np.float64)
 
@@ -85,6 +84,7 @@ class ActorCriticGridworld:
     def newepisode(self):
         self.e_trace_theta *= 0.0
         self.e_trace_v *= 0.0
+        self.env.reset()    
 
     def act(self):
         state = self.env.state
@@ -129,9 +129,9 @@ if __name__ == "__main__":
     pol = TabularSoftmaxPolicy(gw, seed=seed)
     reinforce = ActorCriticGridworld(
         gw, pol,
-        alpha_actor=0.00007742636826811269,
-        alpha_critic=0.00002782559402207126,
-        lam=0.0007742636826811269,
+        alpha_actor=0.137731127022912,
+        alpha_critic=0.31442900745165847,
+        lam=0.23372572419318238,
         seed=seed
     )
     eps = 1024

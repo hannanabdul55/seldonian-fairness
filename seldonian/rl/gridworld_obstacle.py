@@ -98,6 +98,15 @@ class GridWorld:
         if self.state in self.obstacles:
             return -20
         return -1
+    
+    def set_repr(self, gw):
+        self.obstacles = gw.obstacles
+
+    def set_repr(self, obstacles):
+        self.obstacles = obstacles
+    
+    def get_repr(self):
+        return self.obstacles
 
     def take(self, action: int):
         m, n = self.m, self.n

@@ -16,7 +16,7 @@ from gridworld_obstacle import *
 class TabularSoftmaxPolicy:
     n_actions: int64
     n_states: int64
-    phi: float64[:,:]
+    phi: float64[:, :]
     phif: float64[:]
     action: int64
     state: int64
@@ -26,29 +26,27 @@ class TabularSoftmaxPolicy:
     s: int64
     theta: float64[:]
     env: GridWorld
-    m:int64
+    m: int64
     n: int64
     reset_env: bool
 
     def __init__(
-        self, env,
-        eps=0.1, seed=42
+        self, a, s,
+        eps=0.1
     ) -> None:
-        np.random.seed(seed)
-        self.a = env.len_actions
-        self.s = env.len_states
+        self.a = a
+        self.s = s
         self.actions = np.arange(self.a, dtype=np.int64)
-        self.env = env
         self.eps = eps
         # print(self.a, self.s)
         self.phi = np.zeros((self.a, self.s), dtype=np.float64)
         for i in prange(self.a):
             for j in prange(self.s):
-                self.phi[i,j] = np.random.randn()
+                self.phi[i, j] = np.random.randn()
         # self.phi = phif.reshape((self.a, self.s))
 
     def get_prob_for_state(self, state: int64):
-        pros = softmax_optimized(self.phi[:,state])
+        pros = softmax_optimized(self.phi[:, state])
         return pros
 
     def choose_action(self, state: int64):
@@ -64,11 +62,11 @@ class TabularSoftmaxPolicy:
     def reset(self, reset_env=False):
         for i in np.arange(self.s):
             for j in np.arange(self.a):
-                self.phi[i,j] = np.random.randn()
+                self.phi[i, j] = np.random.randn()
         if reset_env:
             self.env.reset()
 
-    def derivative(self, st: int64, ac:int64):
+    def derivative(self, st: int64, ac: int64):
         feats = s_to_onehot(st, self.s)
         actionProbs = self.get_prob_for_state(st)
         res = np.zeros((self.a, self.s), dtype=np.float64)
@@ -83,15 +81,15 @@ class TabularSoftmaxPolicy:
         # print(res.shape, feats)
         return res
 
-    def q(self, s:int64, a:int64):
+    def q(self, s: int64, a: int64):
         return self.phi[s, a]
-    
-    def set_theta(self, theta: float64[:,:]):
+
+    def set_theta(self, theta: float64[:, :]):
         if theta.shape == self.phi.shape:
             # print("Theta shape: ",theta.shape)
             for i in range(self.a):
                 for j in range(self.s):
-                    self.phi[int(i),int(j)] = theta[int(i),int(j)]
+                    self.phi[int(i), int(j)] = theta[int(i), int(j)]
         else:
             print(
                 "ERROR: shape of input:",
@@ -103,7 +101,10 @@ class TabularSoftmaxPolicy:
 if __name__ == "__main__":
     seed = 111
     gw = get_gw_from_seed(seed, path)
-    pi = TabularSoftmaxPolicy(gw, seed=seed)
+    pi = TabularSoftmaxPolicy(
+        gw, s=gw.len_states,
+        a=gw.len_actions, seed=seed
+    )
     probs = pi.choose_action(3)
     print(probs)
 

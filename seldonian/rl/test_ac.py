@@ -52,7 +52,10 @@ def objective(alpha_actor, alpha_critic, lam):
     seed=np.random.randint(42)
     # alpha_actor, alpha_critic, lam = config['alpha_actor'], config['alpha_critic'], config['lam']
     gw = get_gw_from_seed(seed)
-    pol = TabularSoftmaxPolicy(gw,eps=0.0, seed=seed)
+    pol = TabularSoftmaxPolicy(
+        a=gw.len_actions, s=gw.len_states,
+        eps=0.0, seed=seed
+        )
     reinforce = ActorCriticGridworld(
         gw, pol,
         alpha_actor=alpha_actor,
