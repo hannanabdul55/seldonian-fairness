@@ -1,0 +1,24 @@
+2021-09-03 08:11:04,381	INFO services.py:1272 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+Traceback (most recent call last):
+  File "main_plotting.py", line 298, in <module>
+    _ = ray.get([run_experiments.remote(worker_id, nWorkers, ms, numM, numTrials, mTest) for worker_id in range(1,nWorkers+1)])
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/_private/client_mode_hook.py", line 62, in wrapper
+    return func(*args, **kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/worker.py", line 1495, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(FileNotFoundError): [36mray::run_experiments()[39m (pid=21475, ip=10.128.0.102)
+  File "python/ray/_raylet.pyx", line 501, in ray._raylet.execute_task
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/ray/util/tracing/tracing_helper.py", line 330, in _function_with_tracing
+    return function(*args, **kwargs)
+  File "main_plotting.py", line 229, in run_experiments
+    np.savez_compressed(f"{res_path}/bin/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
+  File "<__array_function__ internals>", line 5, in savez_compressed
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numpy/lib/npyio.py", line 687, in savez_compressed
+    _savez(file, args, kwds, True)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numpy/lib/npyio.py", line 713, in _savez
+    zipf = zipfile_factory(file, mode="w", compression=compression)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numpy/lib/npyio.py", line 112, in zipfile_factory
+    return zipfile.ZipFile(file, *args, **kwargs)
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/zipfile.py", line 1251, in __init__
+    self.fp = io.open(file, filemode)
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/nfs/work1/pthomas/akanji/res_control/bin/c_15_69_20.0.txt.npz'
