@@ -160,6 +160,9 @@ def run_experiment(
         # print("Running with stratification")
         pols = []
         best_diff = np.inf
+        mdps_tr_best, mdps_s_best = train_test_split(
+            mdps_tr, test_size=args.num_safety
+        )
         for k in range(args.num_theta):
             pols.append(TabularSoftmaxPolicy(
                 a=mdps_tr[0].len_actions,
@@ -208,8 +211,8 @@ def run_experiment(
             diff = np.abs(np.mean(est_tr) - np.mean(est_s))
             if diff < best_diff:
                 best_diff = diff
-                mdps_tr, mdps_s = t_mdps_tr, t_mdps_s
-
+                mdps_tr_best, mdps_s_best = t_mdps_tr, t_mdps_s
+        mdps_tr, mdps_s = mdps_tr_best, mdps_s_best
 
 
     policy = TabularSoftmaxPolicy(
