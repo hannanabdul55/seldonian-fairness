@@ -110,7 +110,8 @@ def main(n_tr, args):
             strat=strat
         ))
 
-    pickle.dump(results, open(os.path.join(out, f"results{workerid}_{n_tr}.p"), "wb"))
+    pickle.dump(results, open(os.path.join(
+        out, f"results{workerid}_{n_tr}.p"), "wb"))
 
 
 def run_experiment(
@@ -156,28 +157,60 @@ def run_experiment(
             mdps_tr, test_size=args.num_safety
         )
     else:
+        # print("Running with stratification")
         pols = []
         best_diff = np.inf
-        best_split = None
         for k in range(args.num_theta):
             pols.append(TabularSoftmaxPolicy(
                 a=mdps_tr[0].len_actions,
                 s=mdps_tr[0].len_states,
                 eps=0.0
             ))
-        
+
+        ag = ActorCriticGridworld(
+            mdps_tr[0], pols[0]
+        )
         for k in range(args.num_strat_try):
             t_mdps_tr, t_mdps_s = train_test_split(
                 mdps_tr, test_size=args.num_safety
             )
-            ag = ActorCriticGridworld(
-                mdps_tr[0], pols[0]
-            )
+
             est_tr = []
             est_s = []
-            for l in range(args.num_theta):
-                est_tr.app(run_episode(ag, ))
-            d = run_episode(ag, )
+            # for l in range(args.num_theta):
+
+            #     ag = ActorCriticGridworld(
+            #         t_mdps_tr[0], pols[l]
+            #     )
+            #     for m in range(len(t_mdps_tr)):
+            #         est_tr.app(run_episode(ag, t_mdps_tr[m].get_repr(), freeze=True))
+            #     for m in range(len(t_mdps_s)):
+            #         est_s.app(run_episode(ag, t_mdps_s[m].get_repr(), freeze=True))
+            #     diff = np.abs(np.mean(est_tr) - np.mean(est_s))
+
+            for mtr in t_mdps_tr:
+                r_t = []
+                for p in pols:
+                    ag = ActorCriticGridworld(
+                        mdps_tr[0], p
+                    )
+                    r_t.append(run_episode(ag, mtr.get_repr(), freeze=True))
+                est_tr.append(np.mean(r_t))
+            
+            for mtr in t_mdps_s:
+                r_t = []
+                for p in pols:
+                    ag = ActorCriticGridworld(
+                        mdps_tr[0], p
+                    )
+                    r_t.append(run_episode(ag, mtr.get_repr(), freeze=True))
+                est_s.append(np.mean(r_t))
+            diff = np.abs(np.mean(est_tr) - np.mean(est_s))
+            if diff < best_diff:
+                best_diff = diff
+                mdps_tr, mdps_s = t_mdps_tr, t_mdps_s
+
+
 
     policy = TabularSoftmaxPolicy(
         a=mdps_tr[0].len_actions,
