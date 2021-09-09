@@ -1,3 +1,4 @@
+from numba.core.decorators import jit
 from numba.core.types.containers import DictType
 import numpy as np
 from numpy.core.fromnumeric import size
@@ -8,6 +9,7 @@ from numba import prange, njit
 
 from time import time
 from scipy.stats import t
+
 
 def ttest_bounds(samples, delta, n=None):
     if samples.ndim >1:
@@ -21,9 +23,14 @@ def ttest_bounds(samples, delta, n=None):
 
 @njit
 def from_njit():
-    arr = np.random.randn(200)
     ttest_bounds(arr, 0.1)
 
 if __name__ == "__main__":
-    arr = np.random.randn(200)
+    np.random.seed(42)
+    arr = np.random.randn(200000)
+    a=time()
     print(ttest_bounds(arr, 0.1))
+    print("Calculated bounds in ", time()-a, "seconds")
+    a=time()
+    print(ttest_bounds(arr, 0.1))
+    print("Calculated bounds in ", time()-a, "seconds")
