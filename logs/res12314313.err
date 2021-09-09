@@ -1,0 +1,13 @@
+OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+Traceback (most recent call last):
+  File "run_hcga.py", line 293, in <module>
+    main(int(i), args)
+  File "run_hcga.py", line 106, in main
+    results.append(run_experiment(
+  File "run_hcga.py", line 174, in run_experiment
+    t_mdps_tr, t_mdps_s = train_test_split(
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/model_selection/_split.py", line 2130, in train_test_split
+    n_train, n_test = _validate_shuffle_split(n_samples, test_size, train_size,
+  File "/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/sklearn/model_selection/_split.py", line 1810, in _validate_shuffle_split
+    raise ValueError(
+ValueError: With n_samples=1, test_size=0.2 and train_size=None, the resulting train set will be empty. Adjust any of the aforementioned parameters.

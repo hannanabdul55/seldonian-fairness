@@ -1,0 +1,25 @@
+Running trial 1/1000
+Running training
+Finished training in 4.006755113601685 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.0006847381591796875 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: -7.0. Mean: -7.0. Std dev:0.0
+Policy found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: -7.0. Mean: -7.0. Std dev:0.0
+Candidate set passed safety test!
+Running evaluation on test MDPs
+Running trial 2/1000
+Running training
+Finished training in 0.19048643112182617 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.0007157325744628906 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: -7.0. Mean: -7.0. Std dev:0.0
+Policy found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: -23.310734148831227. Mean: -11.0. Std dev:12.310734148831227
+Failed safety test
+Running evaluation on test MDPs
+Running trial 3/1000

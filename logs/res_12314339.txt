@@ -1,0 +1,80 @@
+Running trial 1/1000
+Running training
+Finished training in 4.047260284423828 seconds
+Evaluation
+Expected Discounteed reward:  -7.333333333333333
+Finished evaluation in 0.0006582736968994141 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: -9.11023475202074. Mean: -7.333333333333333. Std dev:1.7769014186874066
+No Solution Found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: -199.0. Mean: -199.0. Std dev:0.0
+Running evaluation on test MDPs
+Running trial 2/1000
+Running training
+Finished training in 0.1869182586669922 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.00041604042053222656 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: -7.0. Mean: -7.0. Std dev:0.0
+Policy found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: -7.0. Mean: -7.0. Std dev:0.0
+Candidate set passed safety test!
+Running evaluation on test MDPs
+Running trial 3/1000
+Running training
+Finished training in 0.1842193603515625 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.00029468536376953125 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+No Solution Found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+Running evaluation on test MDPs
+Running trial 4/1000
+Running training
+Finished training in 0.19812822341918945 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.0003323554992675781 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+No Solution Found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+Running evaluation on test MDPs
+Running trial 5/1000
+Running training
+Finished training in 0.2566053867340088 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.0003960132598876953 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+No Solution Found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+Running evaluation on test MDPs
+Running trial 6/1000
+Running training
+Finished training in 0.18713665008544922 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.0005645751953125 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: -7.0. Mean: -7.0. Std dev:0.0
+Policy found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: -398.4576195719494. Mean: -103.0. Std dev:295.4576195719494
+Failed safety test
+Running evaluation on test MDPs
+Running trial 7/1000
+Running training
+Finished training in 0.18637657165527344 seconds
+Evaluation
+Expected Discounteed reward:  -7.0
+Finished evaluation in 0.00029349327087402344 seconds
+[CANDIDATE SELECTION] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+No Solution Found!
+Running safety test
+[SAFETY TEST] Minimum reward using ttest bounds: nan. Mean: -7.0. Std dev:nan
+Running evaluation on test MDPs
+Running trial 8/1000
