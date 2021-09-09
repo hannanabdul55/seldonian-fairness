@@ -74,7 +74,7 @@ def main(n_tr, args):
         strat, lam, num_trials,
         eps, workerid
     ) = (
-        args.num_training,
+        # args.num_training,
         args.num_test,
         args.num_safety,
         args.j,

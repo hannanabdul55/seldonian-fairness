@@ -14,6 +14,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=akanji@cs.umass.edu
 #SBATCH --array=3-50
+export PYTHONPATH=/home/akanji/seldonian-fairness:$PYTHONPATH
 export MKL_NUM_THREADS=7
 export OPENBLAS_NUM_THREADS=7
 export OMP_NUM_THREADS=7
