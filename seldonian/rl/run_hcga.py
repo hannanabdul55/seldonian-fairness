@@ -45,8 +45,8 @@ def parse_args():
     parser.add_argument("--j", default=-8.0, type=float)
     parser.add_argument("--num-trials", default=1000, type=int)
     parser.add_argument("--num-eps", default=1024, type=int)
-    parser.add_argument("--num-theta", default=10, type=int)
-    parser.add_argument("--num-strat-try", default=10, type=int)
+    parser.add_argument("--num-theta", default=50, type=int)
+    parser.add_argument("--num-strat-try", default=30, type=int)
     return parser.parse_args()
 
 
@@ -180,16 +180,6 @@ def run_experiment(
 
             est_tr = []
             est_s = []
-            # for l in range(args.num_theta):
-
-            #     ag = ActorCriticGridworld(
-            #         t_mdps_tr[0], pols[l]
-            #     )
-            #     for m in range(len(t_mdps_tr)):
-            #         est_tr.app(run_episode(ag, t_mdps_tr[m].get_repr(), freeze=True))
-            #     for m in range(len(t_mdps_s)):
-            #         est_s.app(run_episode(ag, t_mdps_s[m].get_repr(), freeze=True))
-            #     diff = np.abs(np.mean(est_tr) - np.mean(est_s))
 
             for mtr in t_mdps_tr:
                 r_t = []

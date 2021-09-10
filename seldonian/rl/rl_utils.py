@@ -38,6 +38,10 @@ def get_eps_for_n(n: int, tot=10000.0):
         return 0
     return int(np.ceil(tot/n))
 
+def stderror(v):
+	non_nan = np.count_nonzero(~np.isnan(v))        # number of valid (non NaN) elements in the vector
+	return np.nanstd(v, ddof=1) / np.sqrt(non_nan)
+
 @njit
 def rand_choice_nb(arr, prob):
     """
