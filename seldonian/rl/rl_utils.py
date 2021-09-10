@@ -34,6 +34,8 @@ def one_hot_to_s(o):
 
 @njit
 def get_eps_for_n(n: int, tot=10000.0):
+    if n==0:
+        return 0
     return int(np.ceil(tot/n))
 
 @njit

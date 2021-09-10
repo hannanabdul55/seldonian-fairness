@@ -1,5 +1,5 @@
 from numpy.core.function_base import geomspace
-from seldonian.rl.rl_utils import run_episodes
+from seldonian.rl.rl_utils import get_eps_for_n, run_episodes
 from actor_critic import *
 from bounds import *
 
@@ -45,8 +45,8 @@ def parse_args():
     parser.add_argument("--j", default=-8.0, type=float)
     parser.add_argument("--num-trials", default=1000, type=int)
     parser.add_argument("--num-eps", default=1024, type=int)
-    parser.add_argument("--num-theta", default=40, type=int)
-    parser.add_argument("--num-strat-try", default=40, type=int)
+    parser.add_argument("--num-theta", default=10, type=int)
+    parser.add_argument("--num-strat-try", default=10, type=int)
     return parser.parse_args()
 
 
@@ -62,19 +62,19 @@ def train(agent, mdps, eps, seed=42, epoch=1):
     return trained
 
 
-def main(n_tr, args):
+def main( args):
     out = args.out_dir
     # make output directory
     os.makedirs(out, exist_ok=True)
     # collect variables
     (
-        n_te, n_s,
+        n_tr, n_te, n_s,
         min_reward, alpha_critic,
         alpha_actor, delta,
         strat, lam, num_trials,
         eps, workerid
     ) = (
-        # args.num_training,
+        args.num_training,
         args.num_test,
         args.num_safety,
         args.j,
@@ -151,7 +151,7 @@ def run_experiment(
     # mdps_te = create_n_mdps(n_te)
     # mdps_tr = create_n_mdps(n_tr, start=n_te)
     # print(f"Took {time()-a} seconds to create {n_te + n_tr} MDPs")
-    np.random.seed(workerid*1234 + t)
+    np.random.seed(workerid%10000 + t)
     if not strat:
         mdps_tr, mdps_s = train_test_split(
             mdps_tr, test_size=args.num_safety
@@ -233,8 +233,15 @@ def run_experiment(
     print(f"Evaluation")
     a = time()
     rewards = []
+    np.random.shuffle(mdps_tr)
+    num_train_eval =0
+    # tot_num_eval = get_episodes_from_env(len(mdps_tr))
     for m in mdps_tr:
         rewards.append(run_episode(agent, m.get_repr(), True))
+        # num_train_eval+=1
+        # if num_train_eval > tot_num_eval:
+        #     break
+
     print("Expected Discounteed reward: ", np.mean(rewards))
     print(f"Finished evaluation in {time()-a} seconds")
 
@@ -256,6 +263,9 @@ def run_experiment(
     # safety tests
     print("Running safety test")
     s_rewards = []
+    np.random.shuffle(mdps_s)
+    # n_safe_runs = 0
+    # tot_num_safety_eps = get_eps_for_n(len(mdps_s))
     for m in mdps_s:
         s_rewards.append(run_episode(agent, m.get_repr(), True))
 
@@ -276,7 +286,9 @@ def run_experiment(
 
     print("Running evaluation on test MDPs")
     te_rewards = []
-    for m in mdps_te:
+    np.random.shuffle(mdps_te)
+    num_eval = get_eps_for_n(len(mdps_te), 100000)
+    for m in mdps_te[:num_eval]:
         te_rewards.append(run_episode(agent, m.get_repr(), True))
 
     te_reward = np.mean(te_rewards)
@@ -292,5 +304,6 @@ def run_experiment(
 
 if __name__ == "__main__":
     args = parse_args()
-    for i in np.geomspace(10, 300, 30):
-        main(int(i), args)
+    main(args)
+    # for i in np.geomspace(10, 300, 30):
+    #     main(int(i), args)

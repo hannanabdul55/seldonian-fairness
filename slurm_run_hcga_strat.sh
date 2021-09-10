@@ -19,5 +19,5 @@ export MKL_NUM_THREADS=7
 export OPENBLAS_NUM_THREADS=7
 export OMP_NUM_THREADS=7
 cd seldonian/rl
-/home/akanji/miniconda3/envs/seldnian-pre/bin/python run_hcga.py --workerid $SLURM_ARRAY_TASK_ID --out-dir output_swarm_strat --strat true 
+/home/akanji/miniconda3/envs/seldnian-pre/bin/python run_hcga.py --workerid $SLURM_ARRAY_TASK_ID --num-training $SLURM_ARRAY_TASK_ID --out-dir output_swarm_strat --strat true 
 cd ../..
