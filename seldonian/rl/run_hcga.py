@@ -45,8 +45,8 @@ def parse_args():
     parser.add_argument("--j", default=-8.0, type=float)
     parser.add_argument("--num-trials", default=1000, type=int)
     parser.add_argument("--num-eps", default=1024, type=int)
-    parser.add_argument("--num-theta", default=50, type=int)
-    parser.add_argument("--num-strat-try", default=30, type=int)
+    parser.add_argument("--num-theta", default=10, type=int)
+    parser.add_argument("--num-strat-try", default=40, type=int)
     return parser.parse_args()
 
 
@@ -157,7 +157,7 @@ def run_experiment(
             mdps_tr, test_size=args.num_safety
         )
     else:
-        # print("Running with stratification")
+        print("Running with stratification")
         pols = []
         best_diff = np.inf
         mdps_tr_best, mdps_s_best = train_test_split(
@@ -169,39 +169,51 @@ def run_experiment(
                 s=mdps_tr[0].len_states,
                 eps=0.0
             ))
+        ests_all = []
+        mtmp = get_gw_from_seed(0)  # temp environment
+        print(f"Running episodes for {len(mdps_tr)} MDPs")
+        a = time()
+        for m in mdps_tr:
+            r_t = []
+            for p in pols:
+                ag = ActorCriticGridworld(
+                    mdps_tr[0], p
+                )
+                r_t.append(run_episode(ag, mtmp.get_repr(), freeze=True))
+            ests_all.append(np.mean(r_t))
 
-        ag = ActorCriticGridworld(
-            mdps_tr[0], pols[0]
-        )
+        print(f"Got all estimates for all policies in {time()-a} seconds")
+
         for k in range(args.num_strat_try):
-            t_mdps_tr, t_mdps_s = train_test_split(
-                mdps_tr, test_size=args.num_safety
+            t_mdps_tr, t_mdps_s , ests_tr, ests_s= train_test_split(
+                mdps_tr, ests_all, test_size=args.num_safety
             )
 
-            est_tr = []
-            est_s = []
+            # est_tr = []
+            # est_s = []
 
-            for mtr in t_mdps_tr:
-                r_t = []
-                for p in pols:
-                    ag = ActorCriticGridworld(
-                        mdps_tr[0], p
-                    )
-                    r_t.append(run_episode(ag, mtr.get_repr(), freeze=True))
-                est_tr.append(np.mean(r_t))
+            # for mtr in t_mdps_tr:
+            #     r_t = []
+            #     for p in pols:
+            #         ag = ActorCriticGridworld(
+            #             mdps_tr[0], p
+            #         )
+            #         r_t.append(run_episode(ag, mtr.get_repr(), freeze=True))
+            #     est_tr.append(np.mean(r_t))
             
-            for mtr in t_mdps_s:
-                r_t = []
-                for p in pols:
-                    ag = ActorCriticGridworld(
-                        mdps_tr[0], p
-                    )
-                    r_t.append(run_episode(ag, mtr.get_repr(), freeze=True))
-                est_s.append(np.mean(r_t))
-            diff = np.abs(np.mean(est_tr) - np.mean(est_s))
+            # for mtr in t_mdps_s:
+            #     r_t = []
+            #     for p in pols:
+            #         ag = ActorCriticGridworld(
+            #             mdps_tr[0], p
+            #         )
+            #         r_t.append(run_episode(ag, mtr.get_repr(), freeze=True))
+            #     est_s.append(np.mean(r_t))
+            diff = np.abs(np.mean(ests_tr) - np.mean(ests_s))
             if diff < best_diff:
                 best_diff = diff
                 mdps_tr_best, mdps_s_best = t_mdps_tr, t_mdps_s
+                print(f"Found best diff: {best_diff} ")
         mdps_tr, mdps_s = mdps_tr_best, mdps_s_best
 
 
