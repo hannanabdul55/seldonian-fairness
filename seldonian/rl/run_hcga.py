@@ -96,7 +96,7 @@ def main( args):
         'n_tr': n_tr,
         'trials': num_trials
     }
-    np.random.seed(workerid)
+    np.random.seed(workerid + args.index)
     nums = 0
     mdps_te = create_n_mdps(n_te)
     # keep track of starting seed
