@@ -13,11 +13,11 @@
 #SBATCH --mem-per-cpu=500    # Memory in MB per cpu allocated
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=akanji@cs.umass.edu
-#SBATCH --array=10-5010:40
+#SBATCH --array=0-99
 export PYTHONPATH=/home/akanji/seldonian-fairness:$PYTHONPATH
 export MKL_NUM_THREADS=7
 export OPENBLAS_NUM_THREADS=7
 export OMP_NUM_THREADS=7
 cd seldonian/rl
-/home/akanji/miniconda3/envs/seldnian-pre/bin/python run_hcga.py --workerid $SLURM_ARRAY_TASK_ID --num-training $SLURM_ARRAY_TASK_ID --strat true "$@"
+/home/akanji/miniconda3/envs/seldnian-pre/bin/python run_hcga.py --workerid $SLURM_ARRAY_JOB_ID --index $SLURM_ARRAY_TASK_ID --strat true "$@"
 cd ../..

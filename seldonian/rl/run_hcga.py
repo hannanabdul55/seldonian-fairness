@@ -34,7 +34,7 @@ def parse_args():
                         type=int, help="Add worker is here")
     parser.add_argument("--out-dir", default="result",
                         help="Directory to output results")
-    parser.add_argument("--num-training", default=1000, type=int)
+    # parser.add_argument("--num-training", default=1000, type=int)
     parser.add_argument("--num-test", default=10000, type=int)
     parser.add_argument("--alpha-actor", default=0.02, type=float)
     parser.add_argument("--alpha-critic", default=0.02, type=float)
@@ -47,6 +47,9 @@ def parse_args():
     parser.add_argument("--num-eps", default=1024, type=int)
     parser.add_argument("--num-theta", default=10, type=int)
     parser.add_argument("--num-strat-try", default=40, type=int)
+    parser.add_argument("--num-multiplier", default=50, type=int)
+    parser.add_argument("--start", default=3, type=int)
+    parser.add_argument("--index", required=True, type=int)
     return parser.parse_args()
 
 
@@ -68,13 +71,13 @@ def main( args):
     os.makedirs(out, exist_ok=True)
     # collect variables
     (
-        n_tr, n_te, n_s,
+        n_te, n_s,
         min_reward, alpha_critic,
         alpha_actor, delta,
         strat, lam, num_trials,
         eps, workerid
     ) = (
-        args.num_training,
+        # args.num_training,
         args.num_test,
         args.num_safety,
         args.j,
@@ -88,6 +91,7 @@ def main( args):
         args.workerid
 
     )
+    n_tr = args.start + (args.num_multiplier*args.index)
     config = {
         'n_tr': n_tr,
         'trials': num_trials
