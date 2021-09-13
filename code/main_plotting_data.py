@@ -9,7 +9,7 @@ from distance_utils import *
 
 # Folder where the experiment results will be saved
 bin_path = 'experiment_results/bin/'
-res_path = '/mnt/nfs/work1/pthomas/akanji/res_test'
+res_path = '/mnt/nfs/work1/pthomas/akanji/res_dist_test'
 
 # Generate numPoints data points
 @jit(nopython=True)
@@ -243,39 +243,39 @@ def run_experiments(worker_id, nWorkers, ms, numM, numTrials, mTest):
 			# 	np.savez_compressed(f"{res_path}/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
 			# 	np.savez_compressed(f"{res_path}/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
 			
-			if passedSafetyTest:
-				seldonian_solutions_found[trial, mIndex] = 1
-				trueMSE = -fHat(result, testX, testY)                               # Get the "true" mean squared error using the testData
-				seldonian_failures_g1[trial, mIndex] = 1 if trueMSE > 2.0  else 0   # Check if the first behavioral constraint was violated
-				seldonian_failures_g2[trial, mIndex] = 1 if trueMSE < 1.25 else 0	# Check if the second behavioral constraint was violated
-				seldonian_fs[trial, mIndex] = -trueMSE                              # Store the "true" negative mean-squared error
-				print(f"[(worker {worker_id}/{nWorkers}) Seldonian trial {trial+1}/{numTrials}, m {m}] A solution was found: [{result[0]:.10f}, {result[1]:.10f}]\tfHat over test data: {trueMSE:.10f}")
-			else:
-				seldonian_solutions_found[trial, mIndex] = 0             # A solution was not found
-				seldonian_failures_g1[trial, mIndex]     = 0             # Returning NSF means the first constraint was not violated
-				seldonian_failures_g2[trial, mIndex]     = 0             # Returning NSF means the second constraint was not violated
-				seldonian_fs[trial, mIndex]              = None          # This value should not be used later. We use None and later remove the None values
-				print(f"[(worker {worker_id}/{nWorkers}) Seldonian trial {trial+1}/{numTrials}, m {m}] No solution found")
+			# if passedSafetyTest:
+			# 	seldonian_solutions_found[trial, mIndex] = 1
+			# 	trueMSE = -fHat(result, testX, testY)                               # Get the "true" mean squared error using the testData
+			# 	seldonian_failures_g1[trial, mIndex] = 1 if trueMSE > 2.0  else 0   # Check if the first behavioral constraint was violated
+			# 	seldonian_failures_g2[trial, mIndex] = 1 if trueMSE < 1.25 else 0	# Check if the second behavioral constraint was violated
+			# 	seldonian_fs[trial, mIndex] = -trueMSE                              # Store the "true" negative mean-squared error
+			# 	print(f"[(worker {worker_id}/{nWorkers}) Seldonian trial {trial+1}/{numTrials}, m {m}] A solution was found: [{result[0]:.10f}, {result[1]:.10f}]\tfHat over test data: {trueMSE:.10f}")
+			# else:
+			# 	seldonian_solutions_found[trial, mIndex] = 0             # A solution was not found
+			# 	seldonian_failures_g1[trial, mIndex]     = 0             # Returning NSF means the first constraint was not violated
+			# 	seldonian_failures_g2[trial, mIndex]     = 0             # Returning NSF means the second constraint was not violated
+			# 	seldonian_fs[trial, mIndex]              = None          # This value should not be used later. We use None and later remove the None values
+			# 	print(f"[(worker {worker_id}/{nWorkers}) Seldonian trial {trial+1}/{numTrials}, m {m}] No solution found")
 
 			# Run the Least Squares algorithm
-			theta = leastSq(trainX, trainY)                              # Run least squares linear regression
-			trueMSE = -fHat(theta, testX, testY)                         # Get the "true" mean squared error using the testData
-			LS_failures_g1[trial, mIndex] = 1 if trueMSE > 2.0  else 0   # Check if the first behavioral constraint was violated
-			LS_failures_g2[trial, mIndex] = 1 if trueMSE < 1.25 else 0   # Check if the second behavioral constraint was violated
-			LS_fs[trial, mIndex] = -trueMSE                              # Store the "true" negative mean-squared error
-			print(f"[(worker {worker_id}/{nWorkers}) LeastSq   trial {trial+1}/{numTrials}, m {m}] LS fHat over test data: {trueMSE:.10f}")
+			# theta = leastSq(trainX, trainY)                              # Run least squares linear regression
+			# trueMSE = -fHat(theta, testX, testY)                         # Get the "true" mean squared error using the testData
+			# LS_failures_g1[trial, mIndex] = 1 if trueMSE > 2.0  else 0   # Check if the first behavioral constraint was violated
+			# LS_failures_g2[trial, mIndex] = 1 if trueMSE < 1.25 else 0   # Check if the second behavioral constraint was violated
+			# LS_fs[trial, mIndex] = -trueMSE                              # Store the "true" negative mean-squared error
+			print(f"[(worker {worker_id}/{nWorkers}) LeastSq   trial {trial+1}/{numTrials}, m {m}]")
 		print()
 
 	np.savez(outputFile, 
 			 ms=ms, 
-			 seldonian_solutions_found=seldonian_solutions_found,
-			 seldonian_fs=seldonian_fs, 
-			 seldonian_failures_g1=seldonian_failures_g1, 
-			 seldonian_failures_g2=seldonian_failures_g2,
-			 LS_solutions_found=LS_solutions_found,
-			 LS_fs=LS_fs,
-			 LS_failures_g1=LS_failures_g1,
-			 LS_failures_g2=LS_failures_g2,
+			#  seldonian_solutions_found=seldonian_solutions_found,
+			#  seldonian_fs=seldonian_fs, 
+			#  seldonian_failures_g1=seldonian_failures_g1, 
+			#  seldonian_failures_g2=seldonian_failures_g2,
+			#  LS_solutions_found=LS_solutions_found,
+			#  LS_fs=LS_fs,
+			#  LS_failures_g1=LS_failures_g1,
+			#  LS_failures_g2=LS_failures_g2,
 			 dists=dists)
 
 
@@ -297,7 +297,7 @@ if __name__ == "__main__":
 	# We will use different amounts of data, m. The different values of m will be stored in ms.
 	# These values correspond to the horizontal axis locations in all three plots we will make.
 	# We will use a logarithmic horizontal axis, so the amounts of data we use shouldn't be evenly spaced.
-	ms   = np.geomspace(20,100000, 50)#[2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+	ms   = np.geomspace(20,100000, 100)#[2**i for i in range(5, 17)]  # ms = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
 	numM = len(ms)
 
 	# How many trials should we average over?
