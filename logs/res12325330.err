@@ -1,0 +1,9 @@
+usage: run_hcga.py [-h] --workerid WORKERID [--out-dir OUT_DIR]
+                   [--num-test NUM_TEST] [--alpha-actor ALPHA_ACTOR]
+                   [--alpha-critic ALPHA_CRITIC] [--lam LAM]
+                   [--num-safety NUM_SAFETY] [--strat STRAT] [--delta DELTA]
+                   [--j J] [--num-trials NUM_TRIALS] [--num-eps NUM_EPS]
+                   [--num-theta NUM_THETA] [--num-strat-try NUM_STRAT_TRY]
+                   [--num-multiplier NUM_MULTIPLIER] [--start START] --index
+                   INDEX
+run_hcga.py: error: unrecognized arguments: --multiplier 50
