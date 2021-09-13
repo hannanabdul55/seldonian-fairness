@@ -79,35 +79,18 @@ def leastSq(X, Y):
 def QSA(X, Y, gHats, deltas):
 	# Put 40% of the data in candidateData (D1), and the rest in safetyData (D2)
 	candidateData_len = 0.40
-	count = 0
-	rand = 1
-	best_diff = np.inf
 	candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = train_test_split(
 		X, Y, test_size=1 - candidateData_len, shuffle=False)
 
-	while count < 100:
-		cand_X, safe_X, cand_Y, safe_Y = train_test_split(X, Y, test_size=1 - candidateData_len,
-														  random_state=rand)
-		thets = [np.random.default_rng(rand + i).random(2) for i in range(20)]
-		diff = abs(np.mean(
-			[safetyTest(t, safe_X, safe_Y, gHats, deltas) for t in thets]) -
-				   np.mean([safetyTest(t, cand_X, cand_Y, gHats, deltas) for t in thets])
-				   )
-		if diff < best_diff:
-			best_diff = diff
-			candidateData_X, safetyData_X, candidateData_Y, safetyData_Y = cand_X, safe_X, cand_Y, safe_Y
-		count+=1
-		rand+=13
+	# # Get the candidate solution
+	# candidateSolution = getCandidateSolution(candidateData_X, candidateData_Y, gHats, deltas,
+	# 										 safetyData_X.size)
 
-	# Get the candidate solution
-	candidateSolution = getCandidateSolution(candidateData_X, candidateData_Y, gHats, deltas,
-											 safetyData_X.size)
-
-	# Run the safety test
-	passedSafety = safetyTest(candidateSolution, safetyData_X, safetyData_Y, gHats, deltas)
+	# # Run the safety test
+	# passedSafety = safetyTest(candidateSolution, safetyData_X, safetyData_Y, gHats, deltas)
 
 	# Return the result and success flag
-	return [candidateSolution, passedSafety, candidateData_X, candidateData_Y, safetyData_X, safetyData_Y]
+	return [candidateData_X, candidateData_Y, safetyData_X, safetyData_Y]
 
 
 # Run the safety test on a candidate solution. Returns true if the test is passed.
@@ -213,6 +196,8 @@ def run_experiments(worker_id, nWorkers, ms, numM, numTrials, mTest):
 	LS_failures_g1     = np.zeros((numTrials, numM)) # Stores whether solution was unsafe, (1=True,0=False), for the 1st constraint, g_1
 	LS_failures_g2     = np.zeros((numTrials, numM)) # Stores whether solution was unsafe, (1=True,0=False), for the 2nd constraint, g_2
 	LS_fs              = np.zeros((numTrials, numM)) # Stores the primary objective values (f) if a solution was found
+	
+	dists = np.zeros((numTrials, numM))
 
 	# Prepares file where experiment results will be saved
 	experiment_number = worker_id
@@ -232,10 +217,14 @@ def run_experiments(worker_id, nWorkers, ms, numM, numTrials, mTest):
 			(trainX, trainY)  = generateData(m)
 
 			# Run the Quasi-Seldonian algorithm
-			(result, passedSafetyTest, cx, cy, sx, sy) = QSA(trainX, trainY, gHats, deltas)
-			if trial ==numTrials-1:
-				np.savez_compressed(f"{res_path}/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
-				np.savez_compressed(f"{res_path}/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
+			(cx, cy, sx, sy) = QSA(trainX, trainY, gHats, deltas)
+			C = np.c_[cx, cy]
+			S = np.c_[sx, sy]
+			dists[trial, mIndex] = calc_dist(C, S)
+
+			# if trial ==numTrials-1:
+			# 	np.savez_compressed(f"{res_path}/c_{experiment_number}_{trial}_{m}.txt", np.c_[cx, cy])
+			# 	np.savez_compressed(f"{res_path}/s_{experiment_number}_{trial}_{m}.txt", np.c_[sx, sy])
 			
 			if passedSafetyTest:
 				seldonian_solutions_found[trial, mIndex] = 1
@@ -269,7 +258,8 @@ def run_experiments(worker_id, nWorkers, ms, numM, numTrials, mTest):
 			 LS_solutions_found=LS_solutions_found,
 			 LS_fs=LS_fs,
 			 LS_failures_g1=LS_failures_g1,
-			 LS_failures_g2=LS_failures_g2)
+			 LS_failures_g2=LS_failures_g2,
+			 dists=dists)
 
 
 
