@@ -7,9 +7,12 @@ from pathlib import Path
 import pickle
 from rl_utils import *
 
-res_control = "output_swarm_v2"
-res_test = "output_swarm_strat_v2"
+res_control = "output_swarm_v4"
+res_test = "output_swarn_v4_strat"
 
+out = "figures"
+
+os.makedirs(out, exist_ok=True)
 
 def main():
     results_control = {
@@ -66,11 +69,15 @@ def main():
 
     # plot values
 
+    fig_params = {
+        'figsize':(12,5), 'dpi':200
+    }
     x_b = np.array(results_control['n'])
     b_i = np.argsort(x_b)
     x_t = np.array(results_test['n'])
-    t_i = np.argsort(x_b)
-    plt.figure()
+    t_i = np.argsort(x_t)
+    # print(x_t.shape, t_i.shape)
+    plt.figure(**fig_params)
     plt.plot(
         np.take_along_axis(x_b,b_i, axis=0), 
         np.take_along_axis(get_index(results_control['sol_found'], i=0), b_i, axis=0),
@@ -94,9 +101,10 @@ def main():
         fmt='.k'
         )
     plt.legend()
+    plt.savefig(f"{out}/sol_found.png")
     plt.show(block=False)
     
-    plt.figure()
+    plt.figure(**fig_params)
     plt.plot(
         np.take_along_axis(x_b,b_i, axis=0), 
         np.take_along_axis(get_index(results_control['fail'], i=0), b_i, axis=0),
@@ -120,9 +128,10 @@ def main():
         fmt='.k'
         )
     plt.legend()
+    plt.savefig(f"{out}/fail_rate.png")
     plt.show(block=False)
 
-    plt.figure()
+    plt.figure(**fig_params)
     plt.plot(
         np.take_along_axis(x_b,b_i, axis=0), 
         np.take_along_axis(get_index(results_control['te_reward'], i=0), b_i, axis=0),
@@ -146,6 +155,7 @@ def main():
         fmt='.k'
         )
     plt.legend()
+    plt.savefig(f"{out}/reward.png")
     plt.show()
     pass
 
