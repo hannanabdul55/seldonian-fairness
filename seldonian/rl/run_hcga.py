@@ -92,10 +92,12 @@ def main( args):
 
     )
     n_tr = args.start + (args.num_multiplier*args.index)
-    config = {
-        'n_tr': n_tr,
-        'trials': num_trials
-    }
+    # config = {
+    #     'n_tr': n_tr,
+    #     'trials': num_trials
+    # }
+    config = vars(args)
+    json.dump(config, open(os.path.join(out, "config.json"), "w"))
     np.random.seed(workerid + args.index)
     nums = 0
     mdps_te = create_n_mdps(n_te)

@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -7,14 +8,23 @@ from pathlib import Path
 import pickle
 from rl_utils import *
 
-res_control = "output_swarm_v4"
-res_test = "output_swarn_v4_strat"
+# res_control = "output_swarm_v4"
+# res_test = "output_swarn_v4_strat"
 
-out = "figures"
+# out = "figures"
 
-os.makedirs(out, exist_ok=True)
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--control-dir", default="output_swarm_v4")
+    parser.add_argument("--test-dir", default="output_swarn_v4_strat")
+    parser.add_argument("--output", default="figures")
+    return parser.parse_args()
 
-def main():
+def main(args):
+    res_control = args.control_dir
+    res_test = args.test_dir
+    out = args.output
+    os.makedirs(out, exist_ok=True)
     results_control = {
         'n': [],
         'sol_found': [],
@@ -164,4 +174,5 @@ def get_index(a, i=0):
 
 
 if __name__ == "__main__":
-    main()
+
+    main(parse_args())
