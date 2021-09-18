@@ -1,0 +1,2 @@
+2021-09-03 11:20:27,829	ERROR services.py:1281 -- Failed to start the dashboard: Failed to read dashbord log: [Errno 2] No such file or directory: '/tmp/ray/session_2021-09-03_11-19-29_434773_300378/logs/dashboard.log'
+slurmstepd: error: *** JOB 12276444 ON swarm072 CANCELLED AT 2021-09-05T10:08:00 DUE TO TIME LIMIT ***
