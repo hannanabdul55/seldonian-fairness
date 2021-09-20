@@ -1,0 +1,2 @@
+OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+slurmstepd: error: *** JOB 12400597 ON swarm073 CANCELLED AT 2021-09-19T12:25:46 ***
