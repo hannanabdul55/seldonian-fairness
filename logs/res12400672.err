@@ -1,1 +1,12 @@
 OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+/home/akanji/miniconda3/envs/seldnian-pre/lib/python3.8/site-packages/numba/core/ir_utils.py:2139: NumbaPendingDeprecationWarning: [1m
+Encountered the use of a type that is scheduled for deprecation: type 'reflected list' found for argument 'mdps' of function 'train'.
+
+For more information visit https://numba.pydata.org/numba-doc/latest/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
+[1m
+File "run_hcga.py", line 57:[0m
+[1m@njit
+[1mdef train(agent, mdps, eps, seed=42, epoch=1):
+[0m[1m^[0m[0m
+[0m
+  warnings.warn(NumbaPendingDeprecationWarning(msg, loc=loc))
