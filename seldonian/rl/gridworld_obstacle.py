@@ -10,15 +10,23 @@ from numba import prange, njit
 from time import time
 
 
-MAX_OBS = 14
+MAX_OBS = 6
 
-path = np.array([
-    0, 1,
-    6, 7,
-    12, 13,
-    18, 19,
-    23, 24
-], dtype=np.int64)
+# path = np.array([
+#     0, 1,
+#     6, 7,
+#     12, 13,
+#     18, 19,
+#     23, 24
+# ], dtype=np.int64)
+
+path = np.array(
+    [
+        0, 1, 2, 3, 4, 9,
+        14, 13, 12, 11, 10, 15,
+        20, 21, 22, 23, 24
+    ]
+)
 
 
 @jitclass
@@ -40,7 +48,7 @@ class GridWorld:
     obs_as_cliff: bool
     len_states: int64
     t: int64
-    qsa: int64[:,:]
+    qsa: int64[:, :]
     MAX_T: int64
     deterministic: bool
 
@@ -54,7 +62,7 @@ class GridWorld:
         obs_as_cliff=True
     ) -> None:
         self.m, self.n = size
-        self.MAX_T = 199
+        self.MAX_T = 200
         self.obstacles = obstacle
         self.states = np.zeros(self.m*self.n, dtype=np.integer)
         self.start = start_state
@@ -78,7 +86,7 @@ class GridWorld:
         # print(self.len_states, self.len_actions)
         self.state = self.start
         self.rw = 0.0
-        self.t=0
+        self.t = 0
         pass
 
     def reset(self):
@@ -98,13 +106,13 @@ class GridWorld:
         if self.state in self.obstacles:
             return -20
         return -1
-    
+
     def set_repr(self, gw):
         self.obstacles = gw.obstacles
 
     def set_repr(self, obstacles):
         self.obstacles = obstacles
-    
+
     def get_repr(self):
         return self.obstacles
 
@@ -137,7 +145,8 @@ class GridWorld:
             if self.state-1 >= 0 and j > 0:
                 newstate = self.state - 1
         else:
-            print("No action taken. THIS SHOULD NOT HAPPEN!! Action: ", action, "State: ", s)
+            print("No action taken. THIS SHOULD NOT HAPPEN!! Action: ",
+                  action, "State: ", s)
 
         rw = -1.0
         if newstate == -2:
@@ -151,21 +160,21 @@ class GridWorld:
         if newstate in self.water:
             rw = -20.0
 
-        if newstate == self.goal:
-            rw = 0.0
+        # if newstate == self.goal:
+        #     rw = 0.0
 
         self.state = newstate
         # print(s, action, rw, newstate)
-        self.rw+= rw
-        self.t+=1
+        self.rw += rw
+        self.t += 1
         return [s, action, rw, newstate]
         # return rw
 
     def is_sinf(self):
         return self.state == self.goal
-    
+
     def is_terminated(self):
-        return self.is_sinf() or self.t >=self.MAX_T
+        return self.is_sinf() or self.t >= self.MAX_T
 
     def visualize(self):
         arr = np.zeros((self.m, self.n), dtype=np.integer)
@@ -196,7 +205,7 @@ def nparray(arr, type=np.float32):
 def get_gw_from_seed(seed, path=path):
     rng = np.random.default_rng(seed)
     n_obs = rng.integers(MAX_OBS)
-    pos_obs = list(filter(lambda x: x not in path, range(24)))
+    pos_obs = list(filter(lambda x: x not in path, range(25)))
     obstacles = rng.choice(pos_obs, n_obs, replace=False)
     gw = GridWorld(
         obstacle=obstacles,

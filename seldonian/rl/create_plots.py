@@ -18,6 +18,7 @@ def parse_args():
     parser.add_argument("--control-dir", default="output_swarm_v4")
     parser.add_argument("--test-dir", default="output_swarn_v4_strat")
     parser.add_argument("--output", default="figures")
+    parser.add_argument("--delta", default=0.1, type=float)
     return parser.parse_args()
 
 def main(args):
@@ -88,6 +89,9 @@ def main(args):
     t_i = np.argsort(x_t)
     # print(x_t.shape, t_i.shape)
     plt.figure(**fig_params)
+    plt.ylim(-0.1, 1.1)
+    plt.ylabel("Solution Found rate")
+    plt.xlabel("Number of train MDPs")
     plt.plot(
         np.take_along_axis(x_b,b_i, axis=0), 
         np.take_along_axis(get_index(results_control['sol_found'], i=0), b_i, axis=0),
@@ -115,11 +119,20 @@ def main(args):
     plt.show(block=False)
     
     plt.figure(**fig_params)
+    plt.ylim(-0.1, 1.1)
+    plt.ylabel("Failure rate")
+    plt.xlabel("Number of train MDPs")
     plt.plot(
         np.take_along_axis(x_b,b_i, axis=0), 
         np.take_along_axis(get_index(results_control['fail'], i=0), b_i, axis=0),
         'b-', linewidth=3, label='[C]Fail Rate'
         )
+    plt.plot(
+        np.take_along_axis(x_b,b_i, axis=0),
+        [args.delta]*len(x_b), 
+        '-k',
+        label=f"y={args.delta}"
+    )
     plt.errorbar(
         np.take_along_axis(x_b,b_i, axis=0), 
         np.take_along_axis(get_index(results_control['fail'], i=0), b_i, axis=0),
@@ -142,6 +155,8 @@ def main(args):
     plt.show(block=False)
 
     plt.figure(**fig_params)
+    plt.ylabel("Total expected reward")
+    plt.xlabel("Number of train MDPs")
     plt.plot(
         np.take_along_axis(x_b,b_i, axis=0), 
         np.take_along_axis(get_index(results_control['te_reward'], i=0), b_i, axis=0),
