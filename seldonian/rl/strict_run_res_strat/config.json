@@ -1,0 +1,1 @@
+{"workerid": 12497307, "out_dir": "strict_run_res_strat", "num_test": 10000, "alpha_actor": 0.02, "alpha_critic": 0.02, "lam": 0.02, "num_safety": 0.2, "strat": true, "delta": 0.1, "j": -18.0, "num_trials": 1000, "num_eps": 1024, "num_theta": 10, "num_strat_try": 40, "num_multiplier": 50, "start": 3, "index": 76}
