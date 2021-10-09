@@ -16,7 +16,7 @@ from rl_utils import *
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--control-dir", default="output_swarm_v4")
-    parser.add_argument("--test-dir", default="output_swarn_v4_strat")
+    parser.add_argument("--test-dir", default=None)
     parser.add_argument("--output", default="figures")
     parser.add_argument("--delta", default=0.1, type=float)
     return parser.parse_args()
@@ -60,23 +60,24 @@ def main(args):
                 (np.mean(temp_res[key]), stderror(temp_res[key])))
 
     # for stratified sampling
-    for f in glob.glob(os.path.join(res_test , "results*.p")):
-        n = int(str(f).split(".")[0].split("_")[-1])
-        results_test['n'].append(n)
-        ress = pickle.load(open(f, "rb"))
-        temp_res = {
-            'sol_found': [],
-            'fail': [],
-            'te_reward': [],
-            'g_safe_mean': []
-        }
-        for r in ress:
-            for k in temp_res.keys():
-                if k in r:
-                    temp_res[k].append(r[k])
-        for key in temp_res.keys():
-            results_test[key].append(
-                (np.mean(temp_res[key]), stderror(temp_res[key])))
+    if res_test is not None:
+        for f in glob.glob(os.path.join(res_test , "results*.p")):
+            n = int(str(f).split(".")[0].split("_")[-1])
+            results_test['n'].append(n)
+            ress = pickle.load(open(f, "rb"))
+            temp_res = {
+                'sol_found': [],
+                'fail': [],
+                'te_reward': [],
+                'g_safe_mean': []
+            }
+            for r in ress:
+                for k in temp_res.keys():
+                    if k in r:
+                        temp_res[k].append(r[k])
+            for key in temp_res.keys():
+                results_test[key].append(
+                    (np.mean(temp_res[key]), stderror(temp_res[key])))
 
     # plot values
 
@@ -103,17 +104,18 @@ def main(args):
         yerr=np.take_along_axis(get_index(results_control['sol_found'], i=1), b_i, axis=0),
         fmt='.k'
         )
-    plt.plot(
-        np.take_along_axis(x_t,t_i, axis=0), 
-        np.take_along_axis(get_index(results_test['sol_found'], i=0), t_i, axis=0),
-        'r-', linewidth=3, label='[T]Sol found'
-        )
-    plt.errorbar(
-        np.take_along_axis(x_t,t_i, axis=0), 
-        np.take_along_axis(get_index(results_test['sol_found'], i=0), t_i, axis=0),
-        yerr=np.take_along_axis(get_index(results_test['sol_found'], i=1), t_i, axis=0),
-        fmt='.k'
-        )
+    if res_test is not None:
+        plt.plot(
+            np.take_along_axis(x_t,t_i, axis=0), 
+            np.take_along_axis(get_index(results_test['sol_found'], i=0), t_i, axis=0),
+            'r-', linewidth=3, label='[T]Sol found'
+            )
+        plt.errorbar(
+            np.take_along_axis(x_t,t_i, axis=0), 
+            np.take_along_axis(get_index(results_test['sol_found'], i=0), t_i, axis=0),
+            yerr=np.take_along_axis(get_index(results_test['sol_found'], i=1), t_i, axis=0),
+            fmt='.k'
+            )
     plt.legend()
     plt.savefig(f"{out}/sol_found.png")
     plt.show(block=False)
@@ -139,17 +141,18 @@ def main(args):
         yerr=np.take_along_axis(get_index(results_control['fail'], i=1), b_i, axis=0),
         fmt='.k'
         )
-    plt.plot(
-        np.take_along_axis(x_t,t_i, axis=0), 
-        np.take_along_axis(get_index(results_test['fail'], i=0), t_i, axis=0),
-        'r-', linewidth=3, label='[T]Fail Rate'
-        )
-    plt.errorbar(
-        np.take_along_axis(x_t,t_i, axis=0), 
-        np.take_along_axis(get_index(results_test['fail'], i=0), t_i, axis=0),
-        yerr=np.take_along_axis(get_index(results_test['fail'], i=1), t_i, axis=0),
-        fmt='.k'
-        )
+    if res_test is not None:
+        plt.plot(
+            np.take_along_axis(x_t,t_i, axis=0), 
+            np.take_along_axis(get_index(results_test['fail'], i=0), t_i, axis=0),
+            'r-', linewidth=3, label='[T]Fail Rate'
+            )
+        plt.errorbar(
+            np.take_along_axis(x_t,t_i, axis=0), 
+            np.take_along_axis(get_index(results_test['fail'], i=0), t_i, axis=0),
+            yerr=np.take_along_axis(get_index(results_test['fail'], i=1), t_i, axis=0),
+            fmt='.k'
+            )
     plt.legend()
     plt.savefig(f"{out}/fail_rate.png")
     plt.show(block=False)
@@ -168,17 +171,18 @@ def main(args):
         yerr=np.take_along_axis(get_index(results_control['te_reward'], i=1), b_i, axis=0),
         fmt='.k'
         )
-    plt.plot(
-        np.take_along_axis(x_t,t_i, axis=0), 
-        np.take_along_axis(get_index(results_test['te_reward'], i=0), t_i, axis=0),
-        'r-', linewidth=3, label='[T]Expected Reward'
-        )
-    plt.errorbar(
-        np.take_along_axis(x_t,t_i, axis=0), 
-        np.take_along_axis(get_index(results_test['te_reward'], i=0), t_i, axis=0),
-        yerr=np.take_along_axis(get_index(results_test['te_reward'], i=1), t_i, axis=0),
-        fmt='.k'
-        )
+    if res_test is not None:
+        plt.plot(
+            np.take_along_axis(x_t,t_i, axis=0), 
+            np.take_along_axis(get_index(results_test['te_reward'], i=0), t_i, axis=0),
+            'r-', linewidth=3, label='[T]Expected Reward'
+            )
+        plt.errorbar(
+            np.take_along_axis(x_t,t_i, axis=0), 
+            np.take_along_axis(get_index(results_test['te_reward'], i=0), t_i, axis=0),
+            yerr=np.take_along_axis(get_index(results_test['te_reward'], i=1), t_i, axis=0),
+            fmt='.k'
+            )
     plt.legend()
     plt.savefig(f"{out}/reward.png")
     plt.show()
