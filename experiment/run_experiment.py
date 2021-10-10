@@ -41,6 +41,8 @@ print(f"running experiment on worker {args_m.worker_id}")
 np.random.seed(args_m.worker_id)
 @ray.remote
 def run_experiment(args, n):
+    print(f"Running experiment for workerid {args.worker_id} and n={n}")
+    a_c = time()
     # opt = 'CMAES'
     X, y, A_idx = make_synthetic(n, args.dims, args.tpr1, args.tpr2)
     X_test, y_test, _ = make_synthetic(args.num_test, args.dims, args.tpr1, args.tpr2, A_idx=A_idx)
@@ -65,7 +67,7 @@ def run_experiment(args, n):
 
     est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=args.num_test_ratio,
                                         g_hats=ghats,
-                                        verbose=True, stratify=args.strat)
+                                        verbose=False, stratify=args.strat)
     est.fit()
 
     # Accuracy on seldonian optimizer
@@ -101,7 +103,8 @@ def run_experiment(args, n):
 
     # Failure rate on Unconstrained estimator
     res['uc_fr'] = 1 if ghat_val > 0.0 else 0
-
+    b_c = time()
+    print(f"completed run in {int(b_c-a_c)} seconds.")
     return (
         res['n'], res['acc'],
         res['sol_found'], res['ghat'],
