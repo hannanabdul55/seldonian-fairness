@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/run_cma_exp.sh">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/seldonian/cmaes.py">
           <value>
             <Attribute>

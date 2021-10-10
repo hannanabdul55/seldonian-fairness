@@ -18,4 +18,4 @@ export PYTHONPATH=/home/akanji/seldonian-fairness:$PYTHONPATH
 export MKL_NUM_THREADS=7
 export OPENBLAS_NUM_THREADS=7
 export OMP_NUM_THREADS=7
-/home/akanji/miniconda3/envs/seldnian-pre/bin/python experiment/run_experiment.py --workerid $SLURM_ARRAY_JOB_ID "$@"
+/home/akanji/miniconda3/envs/seldnian-pre/bin/python experiment/run_experiment.py --worker-id $SLURM_ARRAY_JOB_ID "$@"
