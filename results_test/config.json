@@ -1,0 +1,1 @@
+{"result_dir": "results_test", "strat": false, "worker_id": 100, "dims": 5, "min": 1000, "max": 100000, "num": 50, "tpr1": 0.1, "tpr2": 0.9, "num_test": 100000, "num_test_ratio": 0.4}
