@@ -16,7 +16,7 @@ import copy
 parser = argparse.ArgumentParser()
 parser.add_argument("--result-dir", required=True)
 # parser.add_argument("--dir")
-parser.add_argument("--strat", type=bool, default=False)
+parser.add_argument("--strat", type=str, default='true')
 parser.add_argument("--worker-id", required=True, type=int)
 parser.add_argument("--dims", default=5, type=int)
 parser.add_argument("--min", default=100, type=int)
@@ -67,7 +67,7 @@ def run_experiment(args, n):
 
     est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=args.num_test_ratio,
                                         g_hats=ghats,
-                                        verbose=False, stratify=args.strat)
+                                        verbose=False, stratify=args.strat.lower() == 'true')
     est.fit()
 
     # Accuracy on seldonian optimizer
