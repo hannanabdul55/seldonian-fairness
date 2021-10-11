@@ -16,7 +16,7 @@ import copy
 parser = argparse.ArgumentParser()
 parser.add_argument("--result-dir", required=True)
 # parser.add_argument("--dir")
-parser.add_argument("--strat", type=str, default='true')
+parser.add_argument("--strat", type=str, default='false')
 parser.add_argument("--worker-id", required=True, type=int)
 parser.add_argument("--dims", default=5, type=int)
 parser.add_argument("--min", default=100, type=int)
