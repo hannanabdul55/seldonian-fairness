@@ -41,7 +41,7 @@ print(f"running experiment on worker {args_m.worker_id}")
 np.random.seed(args_m.worker_id)
 @ray.remote
 def run_experiment(args, n):
-    print(f"Running experiment for workerid {args.worker_id} and n={n}")
+    print(f"Running experiment for workerid {args.worker_id} and n={n}, strat={args.strat}")
     a_c = time()
     # opt = 'CMAES'
     X, y, A_idx = make_synthetic(n, args.dims, args.tpr1, args.tpr2)
