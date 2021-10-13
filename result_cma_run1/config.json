@@ -1,0 +1,1 @@
+{"result_dir": "result_cma_run1", "strat": "false", "worker_id": 12530645, "dims": 5, "min": 100, "max": 100000, "num": 100, "tpr1": 0.1, "tpr2": 0.9, "num_test": 100000, "num_test_ratio": 0.4}
