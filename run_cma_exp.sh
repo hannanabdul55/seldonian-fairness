@@ -3,13 +3,13 @@
 #SBATCH --job-name=exp_cma_run
 #SBATCH --output=logs/res_%j.txt  # output file
 #SBATCH -e logs/res%j.err        # File to which STDERR will be written
-#SBATCH --partition=longq    # Partition to submit to
+#SBATCH --partition=defq    # Partition to submit to
 
 #
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=5
+#SBATCH --cpus-per-task=10
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=1-22:59         # Maximum runtime in D-HH:MM
+#SBATCH --time=0-11:59         # Maximum runtime in D-HH:MM
 #SBATCH --mem-per-cpu=500    # Memory in MB per cpu allocated
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=akanji@cs.umass.edu
