@@ -7,7 +7,7 @@
 
 #
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=10
+#SBATCH --cpus-per-task=5
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=0-11:59         # Maximum runtime in D-HH:MM
 #SBATCH --mem-per-cpu=500    # Memory in MB per cpu allocated
