@@ -172,6 +172,7 @@ def run_experiment_p(exp):
                 hard_barrier = exp['hard_barrier']
                 print(f"Running with hard_barrier={hard_barrier}")
             else:
+                print(f"Running with hard_barrier=False")
                 hard_barrier = False
             est = LogisticRegressionSeldonianModel(X, y, test_size=exp['test_size'],
                                                    g_hats=ghats,

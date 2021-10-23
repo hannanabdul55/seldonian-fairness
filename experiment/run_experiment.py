@@ -44,8 +44,16 @@ def run_experiment(args, n):
     print(f"Running experiment for workerid {args.worker_id} and n={n}, strat={args.strat}")
     a_c = time()
     # opt = 'CMAES'
-    X, y, A_idx = make_synthetic(n, args.dims, args.tpr1, args.tpr2)
-    X_test, y_test, _ = make_synthetic(args.num_test, args.dims, args.tpr1, args.tpr2, A_idx=A_idx)
+    X, y, A_idx = make_synthetic(
+        n, args.dims, args.tpr1,
+        args.tpr2, seed=args.worker_id+n
+    )
+    X_test, y_test, _ = make_synthetic(
+        args.num_test, args.dims,
+        args.tpr1, args.tpr2, A_idx=A_idx,
+        seed=int(args.worker_id*1.5)+n
+    )
+
     thres = abs(args.tpr1 - args.tpr2) / 2
     # results = {'N': n, 'opt': opt}
     # failure_rate = []
@@ -67,8 +75,8 @@ def run_experiment(args, n):
 
     est = SeldonianAlgorithmLogRegCMAES(X, y, test_size=args.num_test_ratio,
                                         g_hats=ghats,
-                                        verbose=False, stratify=args.strat.lower() == 'true')
-    est.fit()
+                                        verbose=False, stratify=args.strat.lower() == 'true',
+                                        random_seed=args.worker_id)
 
     # Accuracy on seldonian optimizer
     y_p = est.predict(X_test)
