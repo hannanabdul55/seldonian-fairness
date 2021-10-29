@@ -46,12 +46,14 @@ def run_experiment(args, n):
     # opt = 'CMAES'
     X, y, A_idx = make_synthetic(
         n, args.dims, args.tpr1,
-        args.tpr2, seed=args.worker_id+n
+        args.tpr2, seed=args.worker_id+n,
+        A_prob=0.1
     )
     X_test, y_test, _ = make_synthetic(
         args.num_test, args.dims,
         args.tpr1, args.tpr2, A_idx=A_idx,
-        seed=int(args.worker_id*1.5)+n
+        seed=int(args.worker_id*1.5)+n,
+        A_prob=0.1
     )
 
     thres = abs(args.tpr1 - args.tpr2) / 2
