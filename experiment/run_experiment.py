@@ -19,6 +19,7 @@ parser.add_argument("--result-dir", required=True)
 parser.add_argument("--strat", type=str, default='false')
 parser.add_argument("--worker-id", required=True, type=int)
 parser.add_argument("--dims", default=5, type=int)
+parser.add_argument("--workers", default=5, type=int)
 parser.add_argument("--min", default=100, type=int)
 parser.add_argument("--max", default=1e6, type=int)
 parser.add_argument("--num", default=50, type=int)
@@ -124,7 +125,9 @@ def run_experiment(args, n):
 
 if __name__ == "__main__":
     ns = np.geomspace(args_m.min, args_m.max, args_m.num, dtype=int)
-    ray.init()
+    ray.init(
+        num_cpus=args_m.workers
+    )
 
     # dump arguments to config json
     json.dump(vars(args_m), open(f"{args_m.result_dir}/config.json", "w"))
