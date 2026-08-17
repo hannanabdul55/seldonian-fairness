@@ -10,11 +10,9 @@ def cross_entropy_loss(y_pred, y_true):
     :param y_true: True labels
     :return: value of cross entropy loss between the predictions and true labels.
     """
-    if y_true == 1:
-        return -np.log(y_pred)
-    else:
-        return -np.log(1 - y_pred)
-    # return -(y_true * np.log(y_pred) + (1-y_true)*np.log(1-y_pred))
+    y_true = np.asarray(y_true)
+    y_pred = np.asarray(y_pred)
+    return -(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
 
 
 def sigmoid(x):

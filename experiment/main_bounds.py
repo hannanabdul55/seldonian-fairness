@@ -257,7 +257,7 @@ run_logreg_bbo(X, y, conf)
 run_logreg_sklearn(X, y)
 # print(conf)
 
-# iters = np.geomspace(1000, 500000, 10).astype(np.int)
+# iters = np.geomspace(1000, 500000, 10).astype(int)
 # lrs = np.linspace(0.2, 2, 10)
 # n_samples_s = [20, 60, 100]
 # results = {}

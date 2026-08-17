@@ -64,9 +64,9 @@ def estimate_ray_vec(pi_e, D, n, gamma=0.95):
     pi_e = softmax(pi_e, axis=1)
     # print(f"Starting PDIS estimation for {n} samples")
     for ep in D:
-        ep = np.array(ep, dtype=np.float)
+        ep = np.array(ep, dtype=float)
         weights = np.cumprod(
-            pi_e[ep[:, 0].astype(np.int), ep[:, 1].astype(np.int)] * gamma / ep[:,
+            pi_e[ep[:, 0].astype(int), ep[:, 1].astype(int)] * gamma / ep[:,
                                                                                    3]) / gamma
 
         est += weights.dot(ep[:, 2])
@@ -82,9 +82,9 @@ def estimate_vec(pi_e, D, n, gamma=0.95):
     # print(f"Starting PDIS estimation for {n} samples")
 
     for ep in D:
-        ep = np.array(ep, dtype=np.float)
+        ep = np.array(ep, dtype=float)
         weights = np.cumprod(
-            pi_e[ep[:, 0].astype(np.int), ep[:, 1].astype(np.int)] * gamma / ep[:,
+            pi_e[ep[:, 0].astype(int), ep[:, 1].astype(int)] * gamma / ep[:,
                                                                                    3]) / gamma
         est += weights.dot(ep[:, 2])
     return est/n

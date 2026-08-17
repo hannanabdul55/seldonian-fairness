@@ -1,18 +1,34 @@
 from abc import ABC
 
+import cma as pycma
 import scipy
 
 import numpy as np
 
 
 class CMAESModel(ABC):
-    def __init__(self, X, y, verbose=False, random_seed=0, theta=None, maxiter=None):
+    """
+    Base model optimized with CMA-ES. Subclasses implement ``loss``.
+
+    Two optimizer engines are available via the ``optimizer`` argument:
+
+    - ``'native'`` (default) - the in-repo port of Hansen's purecmaes.m.
+    - ``'pycma'`` - Nikolaus Hansen's reference `pycma <https://github.com/CMA-ES/pycma>`_
+      library. Recommended for production/experiment runs.
+    """
+
+    def __init__(self, X, y, verbose=False, random_seed=0, theta=None, maxiter=None,
+                 optimizer='native'):
         if theta is None:
             self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
         else:
             self.theta = theta
+        if optimizer not in ('native', 'pycma'):
+            raise ValueError(f"optimizer must be 'native' or 'pycma', got {optimizer!r}")
         self.X = X
         self.y = y
+        self.seed = random_seed
+        self.optimizer = optimizer
         self.sigma = 0.3
         self.stopfitness = 1e-9
         self.stopeval = maxiter
@@ -28,17 +44,45 @@ class CMAESModel(ABC):
             X = self.X
         if y is None:
             y = self.y
+        if self.optimizer == 'pycma':
+            return self._fit_pycma(X, y)
+        return self._fit_native(X, y)
+
+    def _fit_pycma(self, X, y):
+        x0 = np.asarray(self.theta, dtype=float).flatten()
+        if self.stopeval is None:
+            self.stopeval = 100 * x0.size ** 2
+        opts = {
+            'seed': self.seed,
+            'maxfevals': self.stopeval,
+            'tolfun': self.stopfitness,
+            'verbose': 3 if self.verbose else -9,
+            'verb_log': 0,
+        }
+        es = pycma.CMAEvolutionStrategy(x0, self.sigma, opts)
+        while not es.stop():
+            solutions = es.ask()
+            es.tell(solutions, [self.loss(X=X, y_true=y, theta=np.asarray(s))
+                                for s in solutions])
+            if self.verbose:
+                es.disp()
+        self.theta = np.asarray(es.result.xbest)
+        self.C = np.asarray(es.C)
+        return self
+
+    def _fit_native(self, X, y):
         stop_iter_count = 0
         last_loss = 0
         N = self.theta.size
+        rng = np.random.default_rng(self.seed)
         if self.stopeval is None:
             self.stopeval = 100 * N ** 2
-        self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(np.int))
+        self.max_iter_no_change = max(1000, 15 * np.sqrt(self.stopeval).astype(int))
         if self.verbose:
             print(f"Max number of iters: {self.max_iter_no_change}")
         sigma = self.sigma
 
-        xmean = np.random.default_rng().random(self.theta.shape)
+        xmean = np.asarray(self.theta, dtype=float).reshape((N, 1)).copy()
         lambda_p = int(4 + np.floor(3 * np.log(N)))
         mu = int(lambda_p / 2)
         weights = np.log(mu + 0.5) - np.log(np.arange(1, mu + 1))
@@ -60,6 +104,9 @@ class CMAESModel(ABC):
         eigenval = 0
         chiN = np.sqrt(N) * (1 - 1 / (4 * N) + 1 / (21 * N ** 2))
 
+        best_theta = xmean.flatten().copy()
+        best_fitness = np.inf
+
         if self.verbose:
             print(f"max iterations: {self.stopeval}")
         counteval = 0
@@ -67,24 +114,26 @@ class CMAESModel(ABC):
             arx = np.zeros((self.theta.size, lambda_p))
             arfitness = np.zeros((lambda_p,))
             for k in range(lambda_p):
-                arx[:, k] = (xmean + sigma * B @ (D * np.random.randn(N, 1))).flatten()
+                arx[:, k] = (xmean + sigma * B @ (D * rng.standard_normal((N, 1)))).flatten()
                 arfitness[k] = self.loss(X=X, y_true=y,
                                          theta=arx[:, k])
                 counteval += 1
             arindex = np.argsort(arfitness)
             arfitness = arfitness[arindex]
+            if arfitness[0] < best_fitness:
+                best_fitness = arfitness[0]
+                best_theta = arx[:, arindex[0]].copy()
             if self.verbose:
                 print(
-                    f"Current evaluation: {counteval}\t average loss:{arfitness[1]} ",
+                    f"Current evaluation: {counteval}\t best loss:{arfitness[0]} ",
                     end='\r')
             xold = np.copy(xmean)
             xmean = arx[:, arindex[:mu]] @ weights
 
             ps = (1 - cs) * ps + (
                     np.sqrt(cs * (2 - cs) * mueff) * invsqrtC @ (xmean - xold) / sigma)
-            hsig = np.linalg.norm(ps) / (
-                    np.sqrt(1 - (1 - cs) ** (2 * counteval / lambda_p)) / chiN) < 1.4 + 2 / (
-                           N + 1)
+            hsig = np.linalg.norm(ps) / np.sqrt(
+                1 - (1 - cs) ** (2 * counteval / lambda_p)) / chiN < 1.4 + 2 / (N + 1)
             pc = (1 - cc) * pc + (hsig * np.sqrt(cc * (2 - cc) * mueff) * (xmean - xold) / sigma)
             artmp = (1 / sigma) * ((arx[:, arindex[:mu]]) - xold)
 
@@ -116,8 +165,9 @@ class CMAESModel(ABC):
             else:
                 stop_iter_count = counteval
                 last_loss = arfitness[0]
-        self.theta = arx[:, arindex[0]]
+        self.theta = best_theta
         self.C = C
+        return self
 
     def parameters(self):
         return self.theta, self.C

@@ -26,7 +26,7 @@ else:
 if args.config:
     exp_config = json.load(open(args.config, "r"))
 else:
-    exp_config = {'N': np.geomspace(1e2, 1e6, 20).astype(np.int), 'trials': 40,
+    exp_config = {'N': np.geomspace(1e2, 1e6, 20).astype(int), 'trials': 40,
                   'methods': ['ttest', 'hoeffdings'], 'D': 10, 'tprs': [0.3, 0.8],
                   'test_size': 0.4, 'opt': 'Powell'}
 

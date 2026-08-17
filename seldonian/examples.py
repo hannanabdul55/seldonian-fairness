@@ -9,8 +9,8 @@ from seldonian.utils import sigmoid
 
 class LogisticRegressionCMAES(CMAESModel):
 
-    def __init__(self, X, y, verbose=False):
-        super().__init__(X, y, verbose)
+    def __init__(self, X, y, verbose=False, **kwargs):
+        super().__init__(X, y, verbose, **kwargs)
 
     def _predict(self, X, theta):
         w = theta[:-1]
@@ -26,4 +26,4 @@ class LogisticRegressionCMAES(CMAESModel):
         w = self.theta[:-1]
         b = self.theta[-1]
         return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(np.int)
+            np.dot(X, w) + b) > 0.5).astype(int)

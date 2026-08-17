@@ -13,7 +13,7 @@ import torch
 import torch.utils
 import torch.nn as nn
 from sklearn.model_selection import train_test_split
-from torch.utils.data import random_split, DataLoader
+from torch.utils.data import DataLoader
 
 from seldonian.algorithm import SeldonianAlgorithm
 
@@ -22,7 +22,10 @@ from scipy.special import softmax
 
 from time import time
 
-import ray
+try:
+    import ray
+except ImportError:  # ray is optional; only needed when use_ray/multiprocessing is enabled
+    ray = None
 
 
 # torch.autograd.set_detect_anomaly(True)
@@ -52,7 +55,7 @@ class VanillaNN(SeldonianAlgorithm):
         self.y = y
         D = self.X.shape[1]
         H1 = int(D * 0.5)
-        self.device = torch.device(f"cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         print(f"Running on {self.device}")
         device = self.device
         self.constraint = g_hats
@@ -173,8 +176,8 @@ class VanillaNN(SeldonianAlgorithm):
         # print(f"X is on device {X.get_device()}")
         if not torch.is_tensor(X):
             X = torch.as_tensor(X, dtype=torch.float, device=self.device)
-        elif X.get_device() is not self.device:
-            X.to(self.device)
+        else:
+            X = X.to(self.device)
 
         if not pmf:
             preds = torch.argmax(self.mod(X), dim=1)
@@ -220,7 +223,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
-                 stratify=False, hard_barrier=False, random_seed=0):
+                 stratify=False, hard_barrier=False, random_seed=0, optimizer='native',
+                 maxiter=None):
         """
         Initialize the model.
 
@@ -233,7 +237,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         :param stratify: Stratify the training data when splitting to train/safety sets.
         :param hard_barrier: Use a hard barrier while training the data using the BBO optimizer.
         """
-        super().__init__(X, y, verbose=verbose, random_seed=random_seed)
+        super().__init__(X, y, verbose=verbose, random_seed=random_seed, optimizer=optimizer,
+                         maxiter=maxiter)
         self.X = X
         self.y = y
         self.seed = random_seed
@@ -303,7 +308,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         w = self.theta[:-1]
         b = self.theta[-1]
         return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(np.int)
+            np.dot(X, w) + b) > 0.5).astype(int)
 
 
 class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
@@ -356,8 +361,8 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         return self.X, self.y
 
     def _safetyTest(self, theta=None, predict=False, ub=True):
-        """
-        This is the mehtod that implements the safety test. for this model.
+        r"""
+        This is the method that implements the safety test for this model.
 
         :param theta: Model parameters to be used to run the safety test. **Default** - ``None``. If ``None``, the current model parameters used.
         :param predict: **Default** - ``False``. Indicate whether you want to predict the upper bound of :math:`g(\\theta)` using the candidate set (this is used when running candidate selection).
@@ -416,9 +421,9 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         w = self.theta[:-1]
         b = self.theta[-1]
         # return (np.random.default_rng().uniform(size=X.shape[0]) < sigmoid(
-        #     np.dot(X, w) + b)).astype(np.int)
+        #     np.dot(X, w) + b)).astype(int)
         return (sigmoid(
-            np.dot(X, w) + b) > 0.5).astype(np.int)
+            np.dot(X, w) + b) > 0.5).astype(int)
 
     def reset(self):
         self.theta = np.zeros_like(self.theta)
@@ -428,13 +433,17 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
-                 multiprocessing=True):
+                 multiprocessing=True, delta=0.05):
         self.theta = np.random.rand(states * actions, 1)
         self.gamma = gamma
         self.D = data
         self.s = states
         self.a = actions
         self.thres = threshold
+        self.delta = delta
+        if multiprocessing and ray is None:
+            raise ImportError(
+                "ray is required for multiprocessing=True; install with `uv sync --extra ray`")
         self.use_ray = multiprocessing
         self.D_c, self.D_s = train_test_split(data, test_size=test_size)
         super(PDISSeldonianPolicyCMAES, self).__init__(self.D_c, None, theta=self.theta,
@@ -449,8 +458,7 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
         pass
 
     def predict(self, X):
-        self._predict(X, self.theta)
-        pass
+        return self._predict(X, self.theta)
 
     def _predict(self, X, theta):
         theta = theta.reshape(self.s, self.a)
@@ -474,12 +482,11 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
                 end = int(n * (i + 1) / n_work)
                 works.append(estimate_ray_vec.remote(pi_e, D[start:end], n, gamma, sum_red))
             results = ray.get(works)
+            # ray workers return partial results that still need combining
+            est = sum(results) if sum_red else list(itertools.chain.from_iterable(results))
         else:
-            results = estimate_vec(pi_e, D, n, gamma, sum_red)
-        if sum_red:
-            est = sum(results)
-        else:
-            est = list(itertools.chain.from_iterable(results))
+            # the serial path is already fully reduced by estimate_vec
+            est = estimate_vec(pi_e, D, n, gamma, sum_red)
 
         if verbose:
             print(f"Estimation for one complete run done in {time() - a} seconds")
@@ -492,7 +499,7 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def _safetyTest(self, theta, predict=False, ub=False, est=None):
         X = self.D_s
-        n = self.D_s.shape[0]
+        n = len(self.D_s)
         if predict:
             X = self.D_c
         if est is None:
@@ -501,7 +508,10 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
             estimate = est
         estimate = np.array(estimate)
         if ub:
-            return -1 * (ttest_bounds(estimate, 0.05, n=n).upper - self.thres)
+            # performance-floor constraint: pass only if the LOWER confidence bound on the
+            # policy return clears the threshold
+            return -1 * (ttest_bounds(estimate, self.delta, n=n, predict=predict).lower -
+                         self.thres)
         else:
             return -1 * (np.mean(estimate) - self.thres)
 
@@ -509,14 +519,18 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=1.41537, test_size=0.4,
-                 verbose=False, use_ray=False):
+                 verbose=False, use_ray=False, delta=0.05):
         self.theta = np.random.rand(states * actions)
         self.gamma = gamma
         self.D = data
         self.s = states
         self.a = actions
         self.thres = threshold
+        self.delta = delta
         self.verbose = verbose
+        if use_ray and ray is None:
+            raise ImportError(
+                "ray is required for use_ray=True; install with `uv sync --extra ray`")
         self.use_ray = use_ray
         self.D_c, self.D_s = train_test_split(data, test_size=test_size)
 
@@ -534,7 +548,7 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
 
     def fit(self, method='Powell'):
         if self.verbose:
-            print(f"Running minimization")
+            print("Running minimization")
         a = time()
         res = minimize(self.objective, self.theta, args=(self.D_c,), method=method,
                        options={'maxfev': 100})
@@ -577,26 +591,27 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
                 end = int(n * (i + 1) / n_work)
                 works.append(estimate_ray_vec.remote(pi_e, D[start:end], n, gamma, sum_red))
             results = ray.get(works)
+            # ray workers return partial results that still need combining
+            est = sum(results) if sum_red else list(itertools.chain.from_iterable(results))
         else:
-            results = estimate_vec(pi_e, D, n, gamma, sum_red)
-
-        if sum_red:
-            est = sum(results)
-        else:
-            est = list(itertools.chain.from_iterable(results))
+            # the serial path is already fully reduced by estimate_vec
+            est = estimate_vec(pi_e, D, n, gamma, sum_red)
         if self.verbose and sum_red:
             print(f"Average estimate of return: {est}")
         return est * (-1 if minimize else 1)
 
     def _safetyTest(self, theta, predict=False, ub=False):
         X = self.D_s
-        n = self.D_s.shape[0]
+        n = len(self.D_s)
         if predict:
             X = self.D_c
         estimate = self.pdis_estimate(theta, X, minimize=False, sum_red=not ub)
         estimate = np.array(estimate)
         if ub:
-            return -1 * (ttest_bounds(estimate, 0.05, n=n, predict=predict).upper - self.thres)
+            # performance-floor constraint: pass only if the LOWER confidence bound on the
+            # policy return clears the threshold
+            return -1 * (ttest_bounds(estimate, self.delta, n=n, predict=predict).lower -
+                         self.thres)
         else:
             return -1 * (np.mean(estimate) - self.thres)
 
@@ -608,9 +623,9 @@ def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
         est = []
     pi_e = softmax(pi_e, axis=1)
     for ep in D:
-        ep = np.array(ep, dtype=np.float)
+        ep = np.array(ep, dtype=float)
         weights = np.cumprod(
-            pi_e[ep[:, 0].astype(np.int), ep[:, 1].astype(np.int)] * gamma / ep[:,
+            pi_e[ep[:, 0].astype(int), ep[:, 1].astype(int)] * gamma / ep[:,
                                                                              3]) / gamma
         if sum_red:
             est += weights.dot(ep[:, 2])
@@ -619,6 +634,9 @@ def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):
     return est / n if sum_red else est
 
 
-@ray.remote
 def estimate_ray_vec(pi_e, D, n, gamma=0.95, sum_red=True):
     return estimate_vec(pi_e, D, n, gamma=gamma, sum_red=sum_red)
+
+
+if ray is not None:
+    estimate_ray_vec = ray.remote(estimate_ray_vec)

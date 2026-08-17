@@ -7,18 +7,21 @@ import numpy as np
 from seldonian.seldonian import SeldonianAlgorithmLogRegCMAES
 
 
-def make_synthetic(N, D, tp_a=0.4, tp_b=0.8, A_idx=None):
+def make_synthetic(N, D, tp_a=0.4, tp_b=0.8, A_idx=None, seed=0):
     N = int(N)
+    rng = np.random.default_rng(seed)
     if A_idx is None:
-        A_idx = np.random.randint(1, D - 1)
-    X = np.random.default_rng(0).random((N, D))
-    X[:, A_idx] = np.random.default_rng(0).binomial(1, 0.5, N)
+        A_idx = int(rng.integers(1, D - 1))
+    X = rng.random((N, D))
+    X[:, A_idx] = rng.binomial(1, 0.5, N)
     y = np.zeros((N,))
     slice_a = X[:, A_idx] == 1
     slice_b = X[:, A_idx] == 0
-    y[slice_a] = np.random.default_rng(0).binomial(1, tp_a, np.sum(slice_a))
-    y[slice_b] = np.random.default_rng(0).binomial(1, tp_b, np.sum(slice_b))
-    X[:, 0] = np.random.randn(y.size) * y
+    y[slice_a] = rng.binomial(1, tp_a, np.sum(slice_a))
+    y[slice_b] = rng.binomial(1, tp_b, np.sum(slice_b))
+    # informative feature: shifted by the label but noisy, so the label is not
+    # perfectly recoverable (the old `randn * y` made y == 0 exactly identifiable)
+    X[:, 0] = rng.standard_normal(y.size) + y
     return X, y, A_idx
 
 
@@ -40,7 +43,7 @@ if __name__ == '__main__':
     print(
         f"mean ghat value: {ghat_tpr_diff(A_idx, threshold=0.2)(X, y.flatten(), estimator.predict(X), delta=0.05)}")
 
-    sklearn_estimator = LogisticRegression(penalty='none')
+    sklearn_estimator = LogisticRegression(penalty=None)
     sklearn_estimator.fit(X, y)
     print(f"Accuracy: {balanced_accuracy_score(y, sklearn_estimator.predict(X))}\n")
     print(

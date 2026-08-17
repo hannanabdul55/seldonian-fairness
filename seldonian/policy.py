@@ -11,4 +11,6 @@ class SeldonianCEMPolicyCMAES(SeldonianAlgorithm, CMAESModel):
         self.gamma = gamma
         self.D = data
         self.D_c, self.D_s = train_test_split(data, test_size=0.2)
-        super(CMAESModel, self).__init__(self.D_c)
+        # init the CMA-ES base explicitly; theta is set above, so pass it through instead
+        # of letting CMAESModel re-initialize it from X's shape
+        CMAESModel.__init__(self, self.D_c, None, theta=self.theta)

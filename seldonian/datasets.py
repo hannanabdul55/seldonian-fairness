@@ -4,9 +4,7 @@ import shap
 from sklearn import preprocessing
 import sklearn
 
-from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 from tempeh.configurations import datasets
 

@@ -1,9 +1,7 @@
 import numpy as np
-import math
 import torch
 import numbers
 from scipy.stats import t
-import torch
 
 
 class RandomVariable:
@@ -17,7 +15,7 @@ class RandomVariable:
     def __init__(self, value, lower=None, upper=None):
         if not (isinstance(value, numbers.Number) or torch.is_tensor(value)):
             raise ValueError(
-                f"`value` parameter must be a non-null number")
+                "`value` parameter must be a non-null number")
         self.value = value
         self.upper = upper if upper is not None else value
         self.lower = lower if lower is not None else value
@@ -97,30 +95,26 @@ class RandomVariable:
 
 
 def min_bounds(*args):
+    # min of intervals: every component is the minimum over all arguments
     min_rv = RandomVariable(np.inf, lower=np.inf, upper=np.inf)
     for arg in args:
         if not isinstance(arg, RandomVariable):
             arg = RandomVariable(value=arg)
-        if arg.value < min_rv.value:
-            min_rv.value = arg.value
-            if arg.lower < min_rv.lower:
-                min_rv.lower = arg.lower
-            if arg.upper < min_rv.upper:
-                min_rv.upper = arg.upper
+        min_rv.value = min(min_rv.value, arg.value)
+        min_rv.lower = min(min_rv.lower, arg.lower)
+        min_rv.upper = min(min_rv.upper, arg.upper)
     return min_rv
 
 
 def max_bounds(*args):
+    # max of intervals: every component is the maximum over all arguments
     max_rv = RandomVariable(-np.inf, lower=-np.inf, upper=-np.inf)
     for arg in args:
         if not isinstance(arg, RandomVariable):
             arg = RandomVariable(value=arg)
-        if arg.value > max_rv.value:
-            max_rv.value = arg.value
-            if arg.lower > max_rv.lower:
-                max_rv.lower = arg.lower
-            if arg.upper > max_rv.upper:
-                max_rv.upper = arg.upper
+        max_rv.value = max(max_rv.value, arg.value)
+        max_rv.lower = max(max_rv.lower, arg.lower)
+        max_rv.upper = max(max_rv.upper, arg.upper)
     return max_rv
 
 
@@ -128,7 +122,7 @@ def ttest_bounds(samples, delta, n=None, predict=False):
     if not (isinstance(samples, numbers.Number) or isinstance(samples,
                                                               np.ndarray) or torch.is_tensor(
             samples)):
-        raise ValueError(f"`samples` argument should be a numpy array")
+        raise ValueError("`samples` argument should be a numpy array")
     is_tensor = torch.is_tensor(samples)
     if not is_tensor:
         samples = np.array(samples)
@@ -136,8 +130,7 @@ def ttest_bounds(samples, delta, n=None, predict=False):
     if samples.ndim > 1:
         raise ValueError(f"`samples` should be a vector (1-D array). Got shape: {samples.shape}")
     if n is None:
-        n = samples.size
-    # print(f"n={n}")
+        n = samples.numel() if is_tensor else samples.size
     if not is_tensor:
         dev = ((samples.std(ddof=1) / np.sqrt(n)) * t.ppf(1 - delta, n - 1)) * (1 + (1 * predict))
     else:
@@ -152,26 +145,27 @@ def ttest_bounds(samples, delta, n=None, predict=False):
 
 def hoeffdings_bounds(samples, delta, n=None, predict=False):
     """
-    
+
     :param samples:
     :param delta:
     :param n:
     :param predict:
     :return:
     """
-    if not (isinstance(samples, numbers.Number) or isinstance(samples, np.ndarray)):
-        raise ValueError(f"`samples` argument should be a numpy array")
-    samples = np.array(samples)
+    if not (isinstance(samples, numbers.Number) or isinstance(samples,
+                                                              np.ndarray) or torch.is_tensor(
+            samples)):
+        raise ValueError("`samples` argument should be a numpy array")
     is_tensor = torch.is_tensor(samples)
-    if samples.ndim > 1:
-        raise ValueError(f"`samples` should be a vector (1-D array)")
-    if n is None:
-        n = samples.size
-    # print(f"n={n}")
     if not is_tensor:
-        dev = np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
+        samples = np.array(samples)
+    if samples.ndim > 1:
+        raise ValueError("`samples` should be a vector (1-D array)")
+    if n is None:
+        n = samples.numel() if is_tensor else samples.size
+    dev = np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
+    if not is_tensor:
         sample_mean = samples.mean()
     else:
-        dev = torch.sqrt(torch.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
-        sample_mean = torch.mean(samples)
+        sample_mean = torch.mean(samples.double())
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)

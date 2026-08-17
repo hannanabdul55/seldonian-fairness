@@ -43,4 +43,6 @@ def parse_ghat(statement, vars={}):
             else:
                 stack.push(vars[tok])
 
-    pass
+    raise NotImplementedError(
+        "parse_ghat is unfinished - it tokenizes the statement but does not yet build or "
+        "evaluate the expression")
