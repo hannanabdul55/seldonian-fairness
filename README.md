@@ -12,6 +12,20 @@ Currently, you can install the library only from source using `pip`:
 ```bash
 pip install https://github.com/hannanabdul55/seldonian-fairness/archive/master.zip
 ```
+
+# Development setup
+This project uses [uv](https://docs.astral.sh/uv/) and Python 3.12 (pinned in `.python-version`).
+```bash
+uv sync                    # create .venv and install core + dev dependencies
+uv run pytest tests/ -q    # run the test suite
+uv run ruff check seldonian/ tests/   # lint
+```
+Optional extras:
+```bash
+uv sync --extra ray        # ray-based multiprocessing for RL experiments
+uv sync --extra datasets   # shap + tempeh (installed from GitHub; removed from PyPI)
+uv sync --extra docs       # sphinx documentation toolchain
+```
 # Usage
 [![Open example In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hannanabdul55/seldonian-fairness/blob/master/logistic_regression_seldonian.ipynb) Use this notebook as a reference to train a basic Logistic Regression Model.  
  A quickstart tutorial on how to get quickly get started with developing your own model is present [here](http://abdulhannan.in/seldonian-fairness/quickstart.html).

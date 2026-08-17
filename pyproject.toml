@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "seldonian"
+version = "0.0.4.dev0"
+description = "Train models with safety (fairness) constraints"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Abdul Hannan Kanji", email = "kanji@abdulhannan.in" }]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+    "pandas>=2.0",
+    "torch>=2.2",
+    "cma>=3.3",
+]
+
+[project.urls]
+Homepage = "https://abdulhannan.in/seldonian-fairness"
+Repository = "https://github.com/hannanabdul55/seldonian-fairness"
+
+[project.optional-dependencies]
+ray = ["ray>=2.9"]
+datasets = ["shap>=0.44", "tempeh @ git+https://github.com/microsoft/tempeh.git"]
+docs = ["sphinx", "sphinx-rtd-theme", "myst-parser"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.4",
+    "jupyter",
+    "matplotlib>=3.8",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["seldonian"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+# F403/F405 (star imports) and F841 (unused vars) are pre-existing style; not worth churn
+ignore = ["E501", "E741", "F403", "F405", "F841"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

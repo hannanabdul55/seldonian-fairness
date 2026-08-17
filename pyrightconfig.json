@@ -1,0 +1,6 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "typeCheckingMode": "basic",
+  "exclude": ["logs", "result", "reports", "notebooks", "**/__pycache__"]
+}
