@@ -12,13 +12,14 @@ class CMAESModel(ABC):
 
     Two optimizer engines are available via the ``optimizer`` argument:
 
-    - ``'native'`` (default) - the in-repo port of Hansen's purecmaes.m.
-    - ``'pycma'`` - Nikolaus Hansen's reference `pycma <https://github.com/CMA-ES/pycma>`_
-      library. Recommended for production/experiment runs.
+    - ``'pycma'`` (default) - Nikolaus Hansen's reference
+      `pycma <https://github.com/CMA-ES/pycma>`_ library.
+    - ``'native'`` - the in-repo port of Hansen's purecmaes.m, kept as a reference
+      implementation.
     """
 
     def __init__(self, X, y, verbose=False, random_seed=0, theta=None, maxiter=None,
-                 optimizer='native'):
+                 optimizer='pycma'):
         if theta is None:
             self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
         else:

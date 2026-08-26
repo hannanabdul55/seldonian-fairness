@@ -223,7 +223,7 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, verbose=False, test_size=0.35,
-                 stratify=False, hard_barrier=False, random_seed=0, optimizer='native',
+                 stratify=False, hard_barrier=False, random_seed=0, optimizer='pycma',
                  maxiter=None):
         """
         Initialize the model.
