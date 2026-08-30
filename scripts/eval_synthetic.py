@@ -13,8 +13,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.model_selection import train_test_split
 
-from seldonian.objectives import ghat_tpr_diff, tpr_rate
+from seldonian.objectives import ghat_tpr_diff, ghat_tpr_diff_t, tpr_rate
 from seldonian.seldonian import (
+    LogisticRegressionSeldonianGD,
+    NeuralNetSeldonianGD,
     LogisticRegressionSeldonianModel,
     SeldonianAlgorithmLogRegCMAES,
 )
@@ -84,3 +86,18 @@ with contextlib.redirect_stdout(io.StringIO()):
     m3.fit()
 report("Seldonian LogisticRegression (CMA-ES pycma)", m3.predict,
        safety=m3.safetyTest(), seconds=time.time() - t0)
+
+# --- Seldonian gradient-based (Adam + Lagrangian dual ascent) ---
+t0 = time.time()
+ghats_t = [{"fn": ghat_tpr_diff_t(A_idx, threshold=THRESHOLD), "delta": DELTA}]
+m4 = LogisticRegressionSeldonianGD(X_tr, y_tr, g_hats=ghats_t, random_seed=1)
+r4 = m4.fit()
+report("Seldonian LogisticRegression (gradient-based Adam)", m4.predict,
+       safety=m4.safetyTest(), seconds=time.time() - t0, solution=r4 is not None)
+
+# --- Seldonian neural network (Adam + Lagrangian dual ascent) ---
+t0 = time.time()
+m5 = NeuralNetSeldonianGD(X_tr, y_tr, g_hats=ghats_t, random_seed=1)
+r5 = m5.fit()
+report("Seldonian NeuralNet 32x16 (gradient-based Adam)", m5.predict,
+       safety=m5.safetyTest(), seconds=time.time() - t0, solution=r5 is not None)

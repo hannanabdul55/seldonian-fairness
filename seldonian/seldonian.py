@@ -430,6 +430,147 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         pass
 
 
+class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
+    """
+    Gradient-based Seldonian logistic regression.
+
+    Candidate selection minimizes cross-entropy plus a Lagrangian penalty on a
+    *differentiable surrogate* of each constraint: hard prediction indicators are
+    replaced by the model's class probabilities (via the ``est=`` path of the torch
+    g-hat functions such as :func:`seldonian.objectives.ghat_tpr_diff_t`), so the
+    predicted confidence bound is differentiable end-to-end and can be trained with
+    Adam. The Lagrange multipliers are updated by dual ascent, and the surrogate
+    constraint is tightened by ``margin`` to compensate for the surrogate/hard-
+    prediction mismatch.
+
+    The safety test is unchanged: hard thresholded predictions on the held-out
+    safety set. ``fit`` returns ``None`` when the trained candidate fails it.
+
+    Constraints must be the torch variants (accepting ``est=``), e.g.::
+
+        g_hats = [{'fn': ghat_tpr_diff_t(A_idx, threshold=0.2), 'delta': 0.05}]
+    """
+
+    def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.35, verbose=False,
+                 epochs=300, lr=1e-2, lambda_lr=3e-2, margin=0.08, random_seed=0):
+        torch.manual_seed(random_seed)
+        self.constraints = g_hats
+        self.verbose = verbose
+        self.epochs = epochs
+        self.lr = lr
+        self.lambda_lr = lambda_lr
+        self.margin = margin
+        if safety_data is not None:
+            X_c, y_c = X, y
+            self.X_s, self.y_s = safety_data
+        else:
+            X_c, X_s, y_c, y_s = train_test_split(X, y, test_size=test_size,
+                                                  random_state=random_seed)
+            self.X_s, self.y_s = X_s, y_s
+        self.X, self.y = X_c, y_c
+        self.mod = self._build_model(X.shape[1])
+        self.X_t = torch.as_tensor(np.asarray(X_c), dtype=torch.float)
+        self.y_t = torch.as_tensor(np.asarray(y_c), dtype=torch.long)
+        if len(self.constraints) > 0:
+            self.lagrange = torch.ones((len(self.constraints),))
+        else:
+            self.lagrange = None
+
+    def _build_model(self, n_features):
+        # two-logit linear layer == logistic regression under softmax
+        return nn.Linear(n_features, 2)
+
+    def _soft_ghats(self):
+        """Differentiable, margin-tightened predicted upper bounds on each g."""
+        vals = []
+        for g_hat in self.constraints:
+            g = g_hat['fn'](self.X_t, self.y_t, None, g_hat['delta'],
+                            n=self.X_s.shape[0], predict=True, ub=True, est=self.mod)
+            if not torch.is_tensor(g):
+                raise RuntimeError(
+                    "constraint surrogate returned a non-tensor value (likely too few "
+                    "subgroup samples in the candidate set to bound the constraint)")
+            # the ttest bound computes in double precision; cast back for the optimizer
+            vals.append((g + self.margin).float())
+        return torch.stack(vals)
+
+    def fit(self, **kwargs):
+        optimizer = torch.optim.Adam(self.mod.parameters(), lr=self.lr)
+        loss_fn = nn.CrossEntropyLoss()
+        for epoch in range(self.epochs):
+            optimizer.zero_grad()
+            loss = loss_fn(self.mod(self.X_t), self.y_t)
+            if self.lagrange is not None:
+                ghats = self._soft_ghats()
+                loss = loss + (self.lagrange ** 2).dot(ghats)
+            loss.backward()
+            optimizer.step()
+            if self.lagrange is not None:
+                # dual ascent: multiplier pressure grows while the surrogate constraint
+                # is violated and decays once it is satisfied
+                with torch.no_grad():
+                    self.lagrange += self.lambda_lr * 2 * self.lagrange * ghats.detach()
+            if self.verbose and (epoch + 1) % 50 == 0:
+                print(f"epoch {epoch + 1}: loss={loss.item():.4f}")
+        if self._safetyTest() > 0:
+            return None
+        return self
+
+    def _safetyTest(self, predict=False, ub=True):
+        X_test = self.X if predict else self.X_s
+        y_test = self.y if predict else self.y_s
+        for g_hat in self.constraints:
+            y_preds = self.predict(X_test)
+            ghat_val = g_hat['fn'](np.asarray(X_test), np.asarray(y_test), y_preds,
+                                   g_hat['delta'], n=self.X_s.shape[0],
+                                   predict=predict, ub=ub)
+            if ghat_val > 0:
+                return ghat_val
+        return 0
+
+    def predict(self, X):
+        with torch.no_grad():
+            logits = self.mod(torch.as_tensor(np.asarray(X), dtype=torch.float))
+            return torch.argmax(logits, dim=1).numpy()
+
+    def parameters(self):
+        return self.mod
+
+    def data(self):
+        return self.X, self.y
+
+
+class NeuralNetSeldonianGD(LogisticRegressionSeldonianGD):
+    """
+    Gradient-based Seldonian classifier with a neural network.
+
+    Same training scheme as :class:`LogisticRegressionSeldonianGD` (Adam on a
+    differentiable surrogate constraint, Lagrangian dual ascent, margin tightening,
+    unchanged hard safety test) with a multi-layer perceptron instead of a linear
+    model. Pass ``hidden_layers`` to set the architecture, or ``model`` to supply
+    any torch module mapping inputs to two logits.
+    """
+
+    def __init__(self, X, y, g_hats=[], hidden_layers=(32, 16), model=None, **kwargs):
+        self._hidden_layers = hidden_layers
+        self._custom_model = model
+        # a flexible model exploits the soft surrogate harder than a linear one, so the
+        # surrogate/hard-prediction gap is bigger - default to a wider safety margin
+        kwargs.setdefault('margin', 0.15)
+        super().__init__(X, y, g_hats=g_hats, **kwargs)
+
+    def _build_model(self, n_features):
+        if self._custom_model is not None:
+            return self._custom_model
+        layers = []
+        prev = n_features
+        for width in self._hidden_layers:
+            layers += [nn.Linear(prev, width), nn.ReLU()]
+            prev = width
+        layers.append(nn.Linear(prev, 2))
+        return nn.Sequential(*layers)
+
+
 class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
