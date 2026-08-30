@@ -494,6 +494,20 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
             vals.append((g + self.margin).float())
         return torch.stack(vals)
 
+    def _hard_ghats(self):
+        """
+        Per-constraint predicted upper bounds computed from hard thresholded
+        predictions on the candidate set, tightened by ``margin``. Unlike the soft
+        surrogate these go negative once the constraint is genuinely satisfied, so
+        they give the dual-ascent update a fixed point.
+        """
+        y_preds = self.predict(self.X)
+        X_np, y_np = np.asarray(self.X), np.asarray(self.y)
+        return torch.tensor([
+            float(g_hat['fn'](X_np, y_np, y_preds, g_hat['delta'],
+                              n=self.X_s.shape[0], predict=True, ub=True)) + self.margin
+            for g_hat in self.constraints], dtype=torch.float)
+
     def fit(self, **kwargs):
         optimizer = torch.optim.Adam(self.mod.parameters(), lr=self.lr)
         loss_fn = nn.CrossEntropyLoss()
@@ -501,17 +515,22 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
             optimizer.zero_grad()
             loss = loss_fn(self.mod(self.X_t), self.y_t)
             if self.lagrange is not None:
-                ghats = self._soft_ghats()
-                loss = loss + (self.lagrange ** 2).dot(ghats)
+                # gradients flow through the differentiable soft surrogate...
+                loss = loss + (self.lagrange ** 2).dot(self._soft_ghats())
             loss.backward()
             optimizer.step()
             if self.lagrange is not None:
-                # dual ascent: multiplier pressure grows while the surrogate constraint
-                # is violated and decays once it is satisfied
+                # ...but the multiplier is driven by the hard-prediction bound: the
+                # soft bound stays positive even at zero true gap (confidence width
+                # + margin), which would grow lambda without a fixed point and
+                # collapse the model to a trivial constraint-satisfying solution
                 with torch.no_grad():
-                    self.lagrange += self.lambda_lr * 2 * self.lagrange * ghats.detach()
+                    hard = torch.clamp(self._hard_ghats(), min=-1.0, max=1.0)
+                    self.lagrange += self.lambda_lr * 2 * self.lagrange * hard
+                    self.lagrange.clamp_(min=1e-3, max=100.0)
             if self.verbose and (epoch + 1) % 50 == 0:
-                print(f"epoch {epoch + 1}: loss={loss.item():.4f}")
+                print(f"epoch {epoch + 1}: loss={loss.item():.4f} "
+                      f"lambda={self.lagrange.tolist() if self.lagrange is not None else None}")
         if self._safetyTest() > 0:
             return None
         return self
