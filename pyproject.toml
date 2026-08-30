@@ -25,6 +25,7 @@ Repository = "https://github.com/hannanabdul55/seldonian-fairness"
 
 [project.optional-dependencies]
 ray = ["ray>=2.9"]
+llm = ["transformers>=4.40"]
 datasets = ["shap>=0.44", "tempeh @ git+https://github.com/microsoft/tempeh.git"]
 docs = ["sphinx", "sphinx-rtd-theme", "myst-parser"]
 
