@@ -8,25 +8,23 @@ words at all, so an unconstrained classifier learns to use gender as a shortcut.
 
 Requires the llm extra: uv sync --extra llm
 """
+import argparse
 import time
 
 import numpy as np
-import torch
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.model_selection import train_test_split
 
 try:
-    # bert-tiny's repo predates the Auto* metadata (no model_type in config.json,
-    # slow-tokenizer vocab only), so load the BERT classes explicitly
-    from transformers import BertModel, BertTokenizerFast
+    from seldonian.encoders import embed_texts, normalize_embeddings
 except ImportError as e:
     raise SystemExit("transformers not installed - run: uv sync --extra llm") from e
 
 from seldonian.objectives import ghat_tpr_diff, ghat_tpr_diff_t, tpr_rate
 from seldonian.seldonian import NeuralNetSeldonianGD
 
-MODEL_NAME = "prajjwal1/bert-tiny"
+DEFAULT_MODEL = "Qwen/Qwen3-Embedding-0.6B"
 THRESHOLD = 0.15
 DELTA = 0.05
 N = 4000
@@ -61,20 +59,6 @@ def make_corpus(n, rng):
     return texts, np.array(labels), np.array(genders)
 
 
-def embed(texts, batch_size=128):
-    tokenizer = BertTokenizerFast.from_pretrained(MODEL_NAME)
-    model = BertModel.from_pretrained(MODEL_NAME).eval()
-    out = []
-    with torch.no_grad():
-        for i in range(0, len(texts), batch_size):
-            enc = tokenizer(texts[i:i + batch_size], padding=True, truncation=True,
-                            max_length=32, return_tensors="pt")
-            hidden = model(**enc).last_hidden_state
-            mask = enc["attention_mask"].unsqueeze(-1)
-            out.append(((hidden * mask).sum(1) / mask.sum(1)).numpy())
-    return np.vstack(out)
-
-
 def report(name, preds, y_te, X_te, A_idx, safety=None, seconds=None, solution=None):
     tpr_a = tpr_rate(A_idx, 1)(X_te, y_te, preds).mean()
     tpr_b = tpr_rate(A_idx, 0)(X_te, y_te, preds).mean()
@@ -97,16 +81,23 @@ def report(name, preds, y_te, X_te, A_idx, safety=None, seconds=None, solution=N
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--model", default=DEFAULT_MODEL,
+                        help="HF model id to use as the frozen encoder")
+    args = parser.parse_args()
+
     rng = np.random.default_rng(0)
     texts, y, gender = make_corpus(N, rng)
     print(f"Corpus: {N} sentences, positive rate male={y[gender == 1].mean():.2f} "
           f"female={y[gender == 0].mean():.2f}")
 
     t0 = time.time()
-    emb = embed(texts)
-    print(f"Embedded with {MODEL_NAME} ({emb.shape[1]}-dim) in {time.time() - t0:.1f}s\n")
+    emb = embed_texts(texts, args.model, max_length=32)
+    print(f"Embedded with {args.model} ({emb.shape[1]}-dim) in {time.time() - t0:.1f}s\n")
 
-    # gender appended as the last feature column so the g-hat functions can mask on it
+    emb = normalize_embeddings(emb)
+    # gender appended as the last feature column so the g-hat functions can mask on
+    # it; it must stay exactly 0/1
     X = np.hstack([emb, gender[:, None]]).astype(np.float32)
     A_idx = X.shape[1] - 1
     X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
