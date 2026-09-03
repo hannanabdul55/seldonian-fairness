@@ -143,3 +143,7 @@ temp/
 
 # macOS
 .DS_Store
+
+# LLM judge cache and run outputs
+.cache/
+results/llm/
