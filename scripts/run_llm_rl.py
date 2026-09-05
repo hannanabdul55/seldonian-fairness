@@ -35,7 +35,7 @@ import numpy as np
 
 from seldonian.llm.data import load_task, make_episodes, split_prompts, write_jsonl
 from seldonian.llm.judges import build_judge
-from seldonian.llm.policy import Constraint, SeldonianLLMPolicy
+from seldonian.llm.policy import Constraint, SeldonianLLMPolicy, predicted_width
 from seldonian.llm.rewards import (
     CompositeReward,
     ExactMatchReward,
@@ -57,11 +57,11 @@ def parse():
     p.add_argument("--harm-judge", default="qwen3guard",
                    help="harm constraint judge: qwen3guard (ungated, default) | "
                         "qwen3guard_strict | llama_guard (gated)")
-    p.add_argument("--refusal-judge", default="refusal",
-                   help="refusal constraint judge: refusal (classifier) | "
-                        "qwen3guard_refusal | keyword_refusal")
+    p.add_argument("--refusal-judge", default="qwen3guard_refusal",
+                   help="refusal constraint judge: qwen3guard_refusal (default) | "
+                        "refusal (classifier) | keyword_refusal")
     p.add_argument("--n", type=int, default=3000, help="adversarial / task prompts")
-    p.add_argument("--benign-n", type=int, default=1000, help="benign prompts (task ab)")
+    p.add_argument("--benign-n", type=int, default=3000, help="benign prompts (task ab)")
     p.add_argument("--test-size", type=float, default=0.4, help="fraction of prompts in D_s")
     p.add_argument("--delta", type=float, default=0.1)
     p.add_argument("--bound", choices=["ttest", "hoeffding"], default="ttest")
@@ -72,14 +72,17 @@ def parse():
     p.add_argument("--acc-margin", type=float, default=0.02,
                    help="gsm8k: allowed accuracy drop below the reference")
     p.add_argument("--steps", type=int, default=200)
-    p.add_argument("--group-size", type=int, default=4)
+    p.add_argument("--group-size", type=int, default=8)
+    p.add_argument("--steps-per-generation", type=int, default=1,
+                   help="generate this many optimizer steps' worth of completions in one "
+                        "batch (TRL steps_per_generation); >1 is faster, slightly off-policy")
     p.add_argument("--prompts-per-step", type=int, default=8)
     p.add_argument("--max-new-tokens", type=int, default=256)
     p.add_argument("--beta", type=float, default=0.04)
     p.add_argument("--lr", type=float, default=1e-5)
     p.add_argument("--lora-r", type=int, default=16)
     p.add_argument("--predict-every", type=int, default=25)
-    p.add_argument("--predict-n", type=int, default=512)
+    p.add_argument("--predict-n", type=int, default=1024)
     p.add_argument("--gen-batch-size", type=int, default=128,
                    help="prompts per generate() call for predicted/safety tests")
     p.add_argument("--ref-n", type=int, default=1000,
@@ -87,8 +90,13 @@ def parse():
                         "measurement is cached per task/seed and shared by all methods")
     p.add_argument("--lam", type=float, nargs="*", default=[1.0],
                    help="composite: one lambda per constraint (broadcast if a single value)")
-    p.add_argument("--lam0", type=float, default=1.0, help="seldonian_lag: initial multiplier")
-    p.add_argument("--eta", type=float, default=10.0, help="seldonian_lag: dual step size")
+    p.add_argument("--lam0", type=float, default=5.0, help="seldonian_lag: initial multiplier")
+    p.add_argument("--predict-inflation", type=float, default=1.0,
+                   help="multiplier on the predicted-test interval (computed at the effective "
+                        "size of prediction + safety samples)")
+    p.add_argument("--allow-tight-margin", action="store_true",
+                   help="proceed even when a relative margin is below the predicted-test width")
+    p.add_argument("--eta", type=float, default=100.0, help="seldonian_lag: dual step size")
     p.add_argument("--lam-max", type=float, default=20.0, help="seldonian_lag: multiplier cap")
     p.add_argument("--out", default="results/llm")
     p.add_argument("--cache-dir", default=".cache/judges")
@@ -153,11 +161,14 @@ def main():
                             prompts_per_step=args.prompts_per_step, max_steps=args.steps,
                             max_completion_length=args.max_new_tokens, beta=args.beta,
                             learning_rate=args.lr, seed=args.seed,
-                            gen_batch_size=args.gen_batch_size)
+                            gen_batch_size=args.gen_batch_size,
+                            extra_grpo_kwargs={"steps_per_generation": args.steps_per_generation}
+                            if args.steps_per_generation > 1 else None)
     policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=reward, constraints=constraints,
                                 delta=args.delta, predict_every=args.predict_every,
                                 predict_n=args.predict_n, max_new_tokens=args.max_new_tokens,
-                                seed=args.seed, verbose=not args.quiet)
+                                seed=args.seed, verbose=not args.quiet,
+                                predict_inflation=args.predict_inflation)
 
     t0 = time.time()
     # reference rates are measured once per (task, seed) on a large D_c subset and
@@ -179,11 +190,30 @@ def main():
     thresholds = {c.name: float(c.threshold) for c in constraints}
     print(f"reference rates: {ref_rates} -> thresholds {thresholds} ({time.time() - t0:.0f}s)")
 
+    # a margin below the predicted-test width can only be met by a policy that is
+    # *better* than the reference; refuse such configurations unless told otherwise
+    widths = {}
+    for c in constraints:
+        n_s = policy.n_safety(c)
+        # prediction samples this constraint will see: predict_n times its group share of D_c
+        m = max(2, int(round(args.predict_n * len(c.select(d_c)) / len(d_c))))
+        widths[c.name] = predicted_width(ref_rates[c.name], n_s, policy.delta_each, c.bound,
+                                         inflation=args.predict_inflation, m=m)
+        if margins[c.name] < widths[c.name]:
+            need = int(np.ceil(n_s * (widths[c.name] / margins[c.name]) ** 2))
+            msg = (f"margin for {c.name!r} ({margins[c.name]:.3f}) is below the predicted-test "
+                   f"width ({widths[c.name]:.3f}) at n_s={n_s}; need n_s >= {need} in that "
+                   f"group, or a larger margin")
+            if not args.allow_tight_margin:
+                raise SystemExit("refusing to run: " + msg + " (pass --allow-tight-margin to override)")
+            print("WARNING: " + msg)
+    print(f"predicted-test widths: {widths}")
+
     result = {
         "task": args.task, "method": args.method, "seed": args.seed, "model": args.model,
         "reward": reward.name, "n_c": len(d_c), "n_s": len(d_s), "groups_s": groups_s,
         "delta": args.delta, "bound": args.bound, "thresholds": thresholds,
-        "reference_rates": ref_rates, "config": vars(args),
+        "reference_rates": ref_rates, "predicted_widths": widths, "config": vars(args),
     }
 
     if args.method == "reference":
@@ -214,6 +244,13 @@ def main():
         solution = True
 
     result["solution_found"] = solution
+    if args.task == "ab":
+        ben = [e for e in episodes if e["group"] == "benign"]
+        diag = {}
+        for jname in ("qwen3guard_refusal", "refusal", "keyword_refusal"):
+            j = build_judge(jname, cache_dir=args.cache_dir)
+            diag[jname] = float(j([e["prompt"] for e in ben], [e["response"] for e in ben]).mean())
+        result["diagnostic_refusal_rates"] = diag
     result["total_seconds"] = time.time() - t_start
     write_jsonl(os.path.join(out, "episodes_s.jsonl"), episodes)
     with open(os.path.join(out, "result.json"), "w") as f:

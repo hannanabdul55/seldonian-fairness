@@ -23,6 +23,31 @@ from seldonian.bounds import hoeffdings_bounds, ttest_bounds
 BOUNDS = {"ttest": ttest_bounds, "hoeffding": hoeffdings_bounds}
 
 
+def effective_n(m, n_s):
+    """
+    Sample size at which to bound (predicted rate - final safety-test rate): the
+    prediction uses ``m`` samples and the final test ``n_s``, so the difference has
+    variance ``sd^2 (1/m + 1/n_s)``.
+    """
+    return max(int(1.0 / (1.0 / m + 1.0 / n_s)), 2)
+
+
+def predicted_width(rate, n_s, delta, bound="ttest", inflation=1.0, m=None):
+    """
+    Expected one-sided width the *predicted* safety test adds to a 0/1 rate: the
+    Student-t (or Hoeffding) interval at :func:`effective_n` (``m`` prediction
+    samples, ``n_s`` safety prompts; ``m=None`` means the safety-set size alone),
+    times ``inflation``. A relative-threshold margin smaller than this cannot be
+    satisfied by a policy at the reference rate.
+    """
+    from scipy.stats import t as tdist
+    n = n_s if m is None else effective_n(m, n_s)
+    if bound == "hoeffding":
+        return inflation * float(np.sqrt(np.log(1 / delta) / (2 * n)))
+    sd = float(np.sqrt(max(rate * (1 - rate), 1e-12)))
+    return inflation * sd / np.sqrt(n) * float(tdist.ppf(1 - delta, n - 1))
+
+
 @dataclass
 class Constraint:
     """
@@ -108,11 +133,15 @@ class SeldonianLLMPolicy(SeldonianAlgorithm):
     :param delta: overall failure probability
     :param predict_every: run the predicted safety test every this many optimizer steps
     :param predict_n: number of candidate prompts sampled for each predicted test
+    :param predict_inflation: multiplier on the predicted-test interval, which is
+        already computed at the effective size of prediction + safety samples
+        (1.0 = no extra inflation; the classification models' convention is 2.0 at
+        the safety-set size alone)
     """
 
     def __init__(self, backend, prompts_c, prompts_s, reward=None, constraints=(),
                  delta=0.05, predict_every=25, predict_n=256, max_new_tokens=256,
-                 temperature=1.0, seed=0, verbose=False):
+                 temperature=1.0, seed=0, verbose=False, predict_inflation=1.0):
         self.backend = backend
         self.prompts_c = list(prompts_c)
         self.prompts_s = list(prompts_s)
@@ -121,6 +150,7 @@ class SeldonianLLMPolicy(SeldonianAlgorithm):
         self.delta = delta
         self.predict_every = predict_every
         self.predict_n = predict_n
+        self.predict_inflation = predict_inflation
         self.max_new_tokens = max_new_tokens
         self.temperature = temperature
         self.seed = seed
@@ -190,8 +220,16 @@ class SeldonianLLMPolicy(SeldonianAlgorithm):
             labels = np.asarray(labels, dtype=float)
             rates[c.name] = float(labels.mean())
             if ub:
-                rv = BOUNDS[c.bound](labels, self.delta_each, n=n_s, predict=predict)
-                upper[c.name] = float(rv.upper)
+                if predict:
+                    # bound (predicted - final) at the effective size of both samples,
+                    # then apply the explicit inflation (predict=False here so the
+                    # library's own x2 is not stacked on top)
+                    rv = BOUNDS[c.bound](labels, self.delta_each, n=effective_n(len(idx), n_s))
+                    upper[c.name] = rates[c.name] + self.predict_inflation * (
+                        float(rv.upper) - rates[c.name])
+                else:
+                    rv = BOUNDS[c.bound](labels, self.delta_each, n=n_s)
+                    upper[c.name] = float(rv.upper)
             else:
                 upper[c.name] = rates[c.name]
             g[c.name] = upper[c.name] - c.threshold

@@ -16,7 +16,13 @@ from seldonian.llm.judges import (
     Qwen3GuardJudge,
     extract_final_number,
 )
-from seldonian.llm.policy import Constraint, PolicyBackend, SeldonianLLMPolicy
+from seldonian.llm.policy import (
+    Constraint,
+    PolicyBackend,
+    SeldonianLLMPolicy,
+    effective_n,
+    predicted_width,
+)
 from seldonian.llm.rewards import CompositeReward, ExactMatchReward, LagrangianReward, Reward
 
 
@@ -250,11 +256,26 @@ class TestSafetyTest:
         assert policy.safety_tests_run == 0
         pred = policy._last_prediction
         assert pred.n_samples == 60
-        # the interval is computed at n = |D_s| (120) and doubled
+        # the interval is computed at the effective size that also carries the
+        # prediction sample's own noise: 1/(1/60 + 1/120) = 40, with no extra inflation
         m, n_s, p = pred.n_samples, 120, pred.rates["harm"]
+        n_eff = effective_n(m, n_s)
+        assert n_eff == 40
         sd = np.sqrt(p * (1 - p) * m / (m - 1))
-        single = sd / np.sqrt(n_s) * t.ppf(1 - 0.1, n_s - 1)
-        assert pred.upper["harm"] - p == pytest.approx(2 * single)
+        single = sd / np.sqrt(n_eff) * t.ppf(1 - 0.1, n_eff - 1)
+        assert pred.upper["harm"] - p == pytest.approx(single)
+
+    def test_predict_inflation_scales_predicted_interval(self):
+        judge = BadJudge()
+        a = make_policy(MockBackend({"adversarial": 0.2, "benign": 0.2}),
+                        [Constraint("harm", judge, threshold=0.3)])
+        b = make_policy(MockBackend({"adversarial": 0.2, "benign": 0.2}),
+                        [Constraint("harm", judge, threshold=0.3)], predict_inflation=2.0)
+        a._safetyTest(predict=True)
+        b._safetyTest(predict=True)
+        wa = a._last_prediction.upper["harm"] - a._last_prediction.rates["harm"]
+        wb = b._last_prediction.upper["harm"] - b._last_prediction.rates["harm"]
+        assert wb == pytest.approx(2 * wa)
 
     def test_overlapping_splits_rejected(self):
         d_c, d_s = split_prompts(records(), seed=0)
@@ -373,3 +394,18 @@ class TestLagrangian:
         # reported reward is the base reward, not the penalised one
         assert policy.safety_report.reward == pytest.approx(2.0)
         assert policy.history[0].reward == pytest.approx(2.0)
+
+
+class TestPredictedWidth:
+    def test_matches_pilot_numbers(self):
+        # 400 benign safety prompts at a 15% refusal rate, delta 0.05, doubled: ~0.06
+        w = predicted_width(0.15, 400, 0.05, inflation=2.0)
+        assert 0.055 < w < 0.065
+        # four times the prompts halves the width
+        assert predicted_width(0.15, 1600, 0.05, inflation=2.0) == pytest.approx(w / 2, rel=0.02)
+        assert predicted_width(0.15, 400, 0.05) == pytest.approx(w / 2)
+        assert predicted_width(0.15, 400, 0.05, bound="hoeffding", inflation=2.0) == pytest.approx(
+            2 * np.sqrt(np.log(20) / 800))
+        # a 64-sample prediction against a 400-prompt safety set bounds at n_eff = 55
+        assert effective_n(64, 400) == 55
+        assert predicted_width(0.15, 400, 0.05, m=64) > predicted_width(0.15, 400, 0.05)
