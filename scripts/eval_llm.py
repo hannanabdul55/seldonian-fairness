@@ -95,12 +95,16 @@ def main():
     emb = embed_texts(texts, args.model, max_length=32)
     print(f"Embedded with {args.model} ({emb.shape[1]}-dim) in {time.time() - t0:.1f}s\n")
 
-    emb = normalize_embeddings(emb)
+    # split first, then take standardization statistics from the training rows only
+    # so test-set statistics never leak into the features
+    idx_tr, idx_te = train_test_split(np.arange(len(y)), test_size=0.3, random_state=1)
+    emb = normalize_embeddings(emb, stats_from=emb[idx_tr])
     # gender appended as the last feature column so the g-hat functions can mask on
     # it; it must stay exactly 0/1
     X = np.hstack([emb, gender[:, None]]).astype(np.float32)
     A_idx = X.shape[1] - 1
-    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
+    X_tr, X_te = X[idx_tr], X[idx_te]
+    y_tr, y_te = y[idx_tr], y[idx_te]
 
     t0 = time.time()
     base = LogisticRegression(max_iter=2000).fit(X_tr, y_tr)

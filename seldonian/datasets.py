@@ -1,16 +1,15 @@
 import numpy as np
 import pandas as pd
-import shap
 from sklearn import preprocessing
 import sklearn
 
 from sklearn.model_selection import train_test_split
 
-from tempeh.configurations import datasets
-
 
 class LawschoolDataset:
     def __init__(self, verbose=False, n=None, **kwargs):
+        # imported lazily so this module works without the `datasets` extra installed
+        from tempeh.configurations import datasets
         self.data = datasets['lawschool_passbar'](drop_gender=False, drop_race=False, **kwargs)
         dataset = self.data
 
@@ -72,6 +71,8 @@ class LawschoolDataset:
 
 class AdultDataset:
     def __init__(self, verbose=False, **kwargs):
+        # imported lazily so this module works without the `datasets` extra installed
+        import shap
         self.X, self.y = shap.datasets.adult()
 
         if 'sensitive_feature' in kwargs:

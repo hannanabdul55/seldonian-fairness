@@ -23,7 +23,7 @@ except ImportError as e:
 
 from seldonian.encoders import embed_texts, normalize_embeddings
 from seldonian.objectives import ghat_tpr_diff, ghat_tpr_diff_t, tpr_rate
-from seldonian.seldonian import NeuralNetSeldonianGD
+from seldonian.seldonian import LogisticRegressionSeldonianGD, NeuralNetSeldonianGD
 
 POSITIVE_PROF = 25  # surgeon
 NEGATIVE_PROF = 13  # nurse
@@ -85,7 +85,8 @@ def main():
 
     t0 = time.time()
     emb_all = embed_texts(texts_tr + texts_te, args.model, verbose=True)
-    emb_all = normalize_embeddings(emb_all)
+    # standardization statistics from the training rows only - no test-set leakage
+    emb_all = normalize_embeddings(emb_all, stats_from=emb_all[:len(y_tr)])
     print(f"Embedded with {args.model} ({emb_all.shape[1]}-dim) "
           f"in {time.time() - t0:.1f}s\n")
 
@@ -102,9 +103,11 @@ def main():
     ghats = [{"fn": ghat_tpr_diff_t(A_idx, threshold=THRESHOLD), "delta": DELTA}]
     t0 = time.time()
     np.random.seed(0)
-    model = NeuralNetSeldonianGD(X_tr, y_tr, g_hats=ghats, random_seed=0,
-                                 margin=args.margin, epochs=args.epochs,
-                                 lambda_lr=args.lambda_lr)
+    head_cls = LogisticRegressionSeldonianGD if args.head == "linear" else NeuralNetSeldonianGD
+    model = head_cls(X_tr, y_tr, g_hats=ghats, random_seed=0,
+                     margin=args.margin, epochs=args.epochs,
+                     lambda_lr=args.lambda_lr, temperature=args.temperature,
+                     weight_decay=args.weight_decay)
     result = model.fit()
     report("Seldonian NeuralNet head (gradient-based Adam)", model.predict(X_te),
            y_te, X_te, A_idx, safety=model.safetyTest(), seconds=time.time() - t0,

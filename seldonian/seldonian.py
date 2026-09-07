@@ -13,7 +13,6 @@ import torch
 import torch.utils
 import torch.nn as nn
 from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader
 
 from seldonian.algorithm import SeldonianAlgorithm
 
@@ -29,192 +28,6 @@ except ImportError:  # ray is optional; only needed when use_ray/multiprocessing
 
 
 # torch.autograd.set_detect_anomaly(True)
-
-
-class VanillaNN(SeldonianAlgorithm):
-    """
-    Implement a Seldonian Algorithm on a Neural network.
-    """
-
-    def __init__(self, X, y, test_size=0.4, g_hats=[], verbose=False, stratify=False, epochs=10,
-                 model=None, random_seed=0):
-        """
-        Initialize a model with `g_hats` constraints. This class is an example of training a
-        non-linear model like a neural network based on the Seldonian Approach.
-
-        :param X: Input data, this also includes the safety set.
-        :param y: targets for the data ``X``
-        :param test_size: the fraction of ``X`` to be used for the safety test
-        :param g_hats: a list of function callables that correspond to a constriant
-        :param verbose: Set this to ``True`` to get some debug messages.
-        :param stratify: set this to true if you want to do stratified sampling of safety set.
-        :param epochs: number of epochs to run teh training of the model. Default: ``10``
-        :param model: PyTorch model to use. Should be an instance of ``nn.Module``. Defaults to a 2 layer model with a binary output.
-        """
-        self.X = X
-        self.y = y
-        D = self.X.shape[1]
-        H1 = int(D * 0.5)
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        print(f"Running on {self.device}")
-        device = self.device
-        self.constraint = g_hats
-        self.verbose = verbose
-        self.epochs = epochs
-        # initialize the torch model using the Sequential API.
-        if model is None:
-            self.mod = nn.Sequential(
-                nn.Linear(D, H1),
-                nn.ReLU(),
-                nn.Linear(H1, 2)
-            ).to(device)
-        else:
-            self.mod = model.to(device)
-
-        # Stratify the sampling method for safety and candidate set using the `stratify` param.
-        if not stratify:
-            self.X, self.X_s, self.y, self.y_s = train_test_split(
-                self.X, self.y, test_size=test_size, random_state=random_seed
-            )
-            self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
-            self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
-            self.X_s = torch.as_tensor(self.X_s, dtype=torch.float, device=device)
-            self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
-        else:
-            min_diff = np.inf
-            count = 0
-            self.X_t = self.X
-            self.y_t = self.y
-            while count < 30:
-                self.X = self.X_t
-                self.y = self.y_t
-                self.X, self.X_s, self.y, self.y_s = train_test_split(
-                    self.X, self.y, test_size=test_size,
-                    random_state=count + 1
-                )
-                self.X = torch.as_tensor(self.X, dtype=torch.float, device=device)
-                self.y = torch.as_tensor(self.y, dtype=torch.long, device=device)
-                self.X_s = torch.as_tensor(self.X_s, dtype=torch.float, device=device)
-                self.y_s = torch.as_tensor(self.y_s, dtype=torch.long, device=device)
-                self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
-                if len(g_hats) > 0:
-                    diff = abs(self._safetyTest(predict=True, ub=False) -
-                               self._safetyTest(predict=False, ub=False))
-                    if diff < min_diff:
-                        self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
-                        min_diff = diff
-                    count += 1
-                else:
-                    count += 30
-            self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
-        self.loss_fn = nn.CrossEntropyLoss()
-        # self.constraint = []
-        if len(self.constraint) > 0:
-            self.lagrange = torch.ones((len(self.constraint),), requires_grad=True, device=device)
-        else:
-            self.lagrange = None
-
-        self.dataset = torch.utils.data.TensorDataset(self.X, self.y)
-        self.loader = DataLoader(self.dataset, batch_size=300)
-        if self.lagrange is not None:
-            params = nn.ParameterList(self.mod.parameters())
-
-            # optimizer used to train model parameters.
-            self.optimizer = torch.optim.Adam(params, lr=6e-4)
-
-            # optimizer used for adjusting the lagrange multipliers
-            self.l_optimizer = torch.optim.Adam([self.lagrange], lr=6e-3)
-        else:
-            # if it is an unconstrained problem, just init the model optimizer.
-            self.optimizer = torch.optim.Adam(self.mod.parameters(), lr=3e-3)
-            self.l_optimizer = None
-        pass
-
-    def fit(self, **kwargs):
-        running_loss = 0.0
-        for epoch in range(self.epochs):
-            for i, data in enumerate(self.loader, 0):
-                x, y = data
-                # print(x.shape, y.shape)
-                self.optimizer.zero_grad()
-                if self.l_optimizer is not None:
-                    self.l_optimizer.zero_grad()
-                out = self.mod(x)
-                safety = self._safetyTest(predict=True)
-                if self.lagrange is not None:
-                    loss = self.loss_fn(out, y) + (self.lagrange ** 2).dot(
-                        safety)
-                else:
-                    loss = self.loss_fn(out, y)
-                loss.backward(retain_graph=True)
-                # grad_check(self.mod.named_parameters())
-                self.optimizer.step()
-
-                if self.l_optimizer is not None:
-                    self.l_optimizer.zero_grad()
-
-                if self.lagrange is not None:
-                    # loss_f = -1 * (self.loss_fn(self.mod(x), y) + (self.lagrange ** 2).dot(
-                    #     self._safetyTest(predict=True)))
-                    # loss_f.backward(retain_graph=True)
-                    # # l_optimizer is a separate optimizer for the lagrangian.
-                    # if self.l_optimizer is not None:
-                    #     self.l_optimizer.step()
-                    with torch.no_grad():
-                        self.lagrange += 3e-3 * 2 * self.lagrange * safety
-                    self.optimizer.zero_grad()
-                running_loss += loss.item()
-
-                if i % 10 == 9:  # print every 2000 mini-batches
-                    print('[%d, %5d] loss: %.3f' %
-                          (epoch + 1, i + 1, running_loss / 10))
-                    running_loss = 0.0
-        print("Training done.")
-        pass
-
-    def predict(self, X, pmf=False):
-        # print(f"X is on device {X.get_device()}")
-        if not torch.is_tensor(X):
-            X = torch.as_tensor(X, dtype=torch.float, device=self.device)
-        else:
-            X = X.to(self.device)
-
-        if not pmf:
-            preds = torch.argmax(self.mod(X), dim=1)
-        else:
-            preds = nn.Softmax(dim=1)(self.mod(X))[:, 1]
-        return preds
-
-    def _safetyTest(self, predict=False, ub=True):
-        with torch.no_grad():
-            X_test = self.X if predict else self.X_s
-            y_test = self.y if predict else self.y_s
-
-        ghats = torch.empty(len(self.constraint), device=self.device)
-        i = 0
-        for g_hat in self.constraint:
-            y_preds = self.predict(X_test, False)
-            ghats[i] = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
-                                   predict=predict, ub=ub, est=self.mod)
-            # ghats[i] = ghat_val
-            i += 1
-        if predict:
-            return ghats
-        else:
-            return np.clip(np.mean(ghats.detach().cpu().numpy()), a_min=0, a_max=None)
-
-    def data(self):
-        return self.X, self.y
-
-
-def grad_check(named_params):
-    avg = []
-    for n, p in named_params:
-        if p.requires_grad and ("bias" not in n):
-            if p.grad is not None:
-                avg.append(p.grad.abs().mean())
-    print(f"Average gradient flow: {np.mean(avg)}")
-    pass
 
 
 class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
@@ -282,21 +95,28 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         X_test = self.X if predict else self.X_s
         y_test = self.y if predict else self.y_s
 
+        y_preds = (0.5 < self._predict(X_test, theta)).astype(int)
+        max_violation = 0
         for g_hat in self.constraints:
-            y_preds = (0.5 < self._predict(
-                X_test, theta)).astype(int)
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
                                    predict=predict, ub=ub)
-            if ghat_val > 0.0:
-                if self.hard_barrier:
-                    return 1
-                else:
-                    return ghat_val
-        return 0
+            max_violation = max(max_violation, ghat_val)
+        if max_violation > 0 and self.hard_barrier is True and predict is True:
+            # barrier applies to candidate selection only; the safety test always
+            # reports the real ghat value
+            return 1
+        return max_violation
+
+    def fit(self, X=None, y=None):
+        super().fit(X, y)
+        # Seldonian contract: reject the candidate if it fails the safety test
+        if self._safetyTest(self.theta, ub=True) > 0:
+            return None
+        return self
 
     def loss(self, X, y_true, theta):
-        return log_loss(y_true, self._predict(X, theta)) + (10000 * (self._safetyTest(theta,
-                                                                                      predict=True)))
+        return log_loss(y_true, self._predict(X, theta), labels=[0, 1]) + (
+                10000 * (self._safetyTest(theta, predict=True)))
 
     def _predict(self, X, theta):
         w = theta[:-1]
@@ -322,7 +142,7 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.5, verbose=True,
                  hard_barrier=False, stratify=False, random_seed=0):
-        self.theta = np.random.random((X.shape[1] + 1,))
+        self.theta = np.random.default_rng(random_seed).random((X.shape[1] + 1,))
         self.X = X
         self.y = y
         self.constraints = g_hats
@@ -374,21 +194,19 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         X_test = self.X if predict else self.X_s
         y_test = self.y if predict else self.y_s
 
+        y_preds = (0.5 < self._predict(X_test, theta)).astype(int)
+        max_violation = 0
         for g_hat in self.constraints:
-            y_preds = (0.5 < self._predict(
-                X_test, theta)).astype(int)
             ghat_val = g_hat['fn'](X_test, y_test, y_preds, g_hat['delta'], self.X_s.shape[0],
                                    predict=predict, ub=ub)
-            if ghat_val > 0:
-                if self.hard_barrier is True and predict is True:
-                    return 1
-                else:
-                    return ghat_val
-        return 0
+            max_violation = max(max_violation, ghat_val)
+        if max_violation > 0 and self.hard_barrier is True and predict is True:
+            return 1
+        return max_violation
 
     def get_opt_fn(self):
         def loss_fn(theta):
-            return log_loss(self.y, self._predict(self.X, theta)) + (
+            return log_loss(self.y, self._predict(self.X, theta), labels=[0, 1]) + (
                     10000 * self._safetyTest(theta,
                                              predict=True))
 
@@ -452,7 +270,8 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
     """
 
     def __init__(self, X, y, g_hats=[], safety_data=None, test_size=0.35, verbose=False,
-                 epochs=300, lr=1e-2, lambda_lr=3e-2, margin=0.08, random_seed=0):
+                 epochs=300, lr=1e-2, lambda_lr=3e-2, margin=0.08, random_seed=0,
+                 temperature=1.0, weight_decay=0.0):
         torch.manual_seed(random_seed)
         self.constraints = g_hats
         self.verbose = verbose
@@ -460,6 +279,13 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
         self.lr = lr
         self.lambda_lr = lambda_lr
         self.margin = margin
+        # temperature < 1 sharpens the surrogate's softmax toward the hard argmax
+        # decision, closing the gap between the soft constraint the gradients see
+        # and the hard constraint the safety test checks
+        self.temperature = temperature
+        # weight decay curbs the model's ability to satisfy the constraint by
+        # memorizing the very rows the constraint gradient flows through
+        self.weight_decay = weight_decay
         if safety_data is not None:
             X_c, y_c = X, y
             self.X_s, self.y_s = safety_data
@@ -469,10 +295,21 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
             self.X_s, self.y_s = X_s, y_s
         self.X, self.y = X_c, y_c
         self.mod = self._build_model(X.shape[1])
-        self.X_t = torch.as_tensor(np.asarray(X_c), dtype=torch.float)
-        self.y_t = torch.as_tensor(np.asarray(y_c), dtype=torch.long)
+        device = next(self.mod.parameters()).device
+        self.X_t = torch.as_tensor(np.asarray(X_c), dtype=torch.float, device=device)
+        self.y_t = torch.as_tensor(np.asarray(y_c), dtype=torch.long, device=device)
+        # the constraint surrogates are estimated on a held-out slice of the candidate
+        # set: a flexible model can memorize its training rows (train TPR gap -> 0),
+        # which would blind both the gradient surrogate and the dual-ascent driver
+        X_fit, X_val, y_fit, y_val = train_test_split(
+            np.asarray(X_c), np.asarray(y_c), test_size=0.25, random_state=random_seed)
+        self.X_fit_t = torch.as_tensor(X_fit, dtype=torch.float, device=device)
+        self.y_fit_t = torch.as_tensor(y_fit, dtype=torch.long, device=device)
+        self.X_val_t = torch.as_tensor(X_val, dtype=torch.float, device=device)
+        self.y_val_t = torch.as_tensor(y_val, dtype=torch.long, device=device)
+        self.X_val, self.y_val = X_val, y_val
         if len(self.constraints) > 0:
-            self.lagrange = torch.ones((len(self.constraints),))
+            self.lagrange = torch.ones((len(self.constraints),), device=device)
         else:
             self.lagrange = None
 
@@ -483,9 +320,11 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
     def _soft_ghats(self):
         """Differentiable, margin-tightened predicted upper bounds on each g."""
         vals = []
+        est = self.mod if self.temperature == 1.0 else (
+            lambda X: self.mod(X) / self.temperature)
         for g_hat in self.constraints:
-            g = g_hat['fn'](self.X_t, self.y_t, None, g_hat['delta'],
-                            n=self.X_s.shape[0], predict=True, ub=True, est=self.mod)
+            g = g_hat['fn'](self.X_val_t, self.y_val_t, None, g_hat['delta'],
+                            n=self.X_s.shape[0], predict=True, ub=True, est=est)
             if not torch.is_tensor(g):
                 raise RuntimeError(
                     "constraint surrogate returned a non-tensor value (likely too few "
@@ -497,23 +336,25 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
     def _hard_ghats(self):
         """
         Per-constraint predicted upper bounds computed from hard thresholded
-        predictions on the candidate set, tightened by ``margin``. Unlike the soft
-        surrogate these go negative once the constraint is genuinely satisfied, so
-        they give the dual-ascent update a fixed point.
+        predictions on the held-out candidate validation slice, tightened by
+        ``margin``. Unlike the soft surrogate these go negative once the constraint
+        is genuinely satisfied, so they give the dual-ascent update a fixed point;
+        evaluating on the validation slice (not the training rows) keeps the signal
+        alive when the model memorizes its training data.
         """
-        y_preds = self.predict(self.X)
-        X_np, y_np = np.asarray(self.X), np.asarray(self.y)
+        y_preds = self.predict(self.X_val)
         return torch.tensor([
-            float(g_hat['fn'](X_np, y_np, y_preds, g_hat['delta'],
+            float(g_hat['fn'](self.X_val, self.y_val, y_preds, g_hat['delta'],
                               n=self.X_s.shape[0], predict=True, ub=True)) + self.margin
             for g_hat in self.constraints], dtype=torch.float)
 
     def fit(self, **kwargs):
-        optimizer = torch.optim.Adam(self.mod.parameters(), lr=self.lr)
+        optimizer = torch.optim.Adam(self.mod.parameters(), lr=self.lr,
+                                     weight_decay=self.weight_decay)
         loss_fn = nn.CrossEntropyLoss()
         for epoch in range(self.epochs):
             optimizer.zero_grad()
-            loss = loss_fn(self.mod(self.X_t), self.y_t)
+            loss = loss_fn(self.mod(self.X_fit_t), self.y_fit_t)
             if self.lagrange is not None:
                 # gradients flow through the differentiable soft surrogate...
                 loss = loss + (self.lagrange ** 2).dot(self._soft_ghats())
@@ -538,19 +379,21 @@ class LogisticRegressionSeldonianGD(SeldonianAlgorithm):
     def _safetyTest(self, predict=False, ub=True):
         X_test = self.X if predict else self.X_s
         y_test = self.y if predict else self.y_s
+        y_preds = self.predict(X_test)
+        max_violation = 0
         for g_hat in self.constraints:
-            y_preds = self.predict(X_test)
             ghat_val = g_hat['fn'](np.asarray(X_test), np.asarray(y_test), y_preds,
                                    g_hat['delta'], n=self.X_s.shape[0],
                                    predict=predict, ub=ub)
-            if ghat_val > 0:
-                return ghat_val
-        return 0
+            max_violation = max(max_violation, ghat_val)
+        return max_violation
 
     def predict(self, X):
         with torch.no_grad():
-            logits = self.mod(torch.as_tensor(np.asarray(X), dtype=torch.float))
-            return torch.argmax(logits, dim=1).numpy()
+            device = next(self.mod.parameters()).device
+            logits = self.mod(torch.as_tensor(np.asarray(X), dtype=torch.float,
+                                              device=device))
+            return torch.argmax(logits, dim=1).cpu().numpy()
 
     def parameters(self):
         return self.mod
@@ -593,8 +436,8 @@ class NeuralNetSeldonianGD(LogisticRegressionSeldonianGD):
 class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
-                 multiprocessing=True, delta=0.05):
-        self.theta = np.random.rand(states * actions, 1)
+                 multiprocessing=True, delta=0.05, random_seed=0):
+        self.theta = np.random.default_rng(random_seed).random((states * actions, 1))
         self.gamma = gamma
         self.D = data
         self.s = states
@@ -605,17 +448,25 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
             raise ImportError(
                 "ray is required for multiprocessing=True; install with `uv sync --extra ray`")
         self.use_ray = multiprocessing
-        self.D_c, self.D_s = train_test_split(data, test_size=test_size)
+        self.D_c, self.D_s = train_test_split(data, test_size=test_size,
+                                              random_state=random_seed)
         super(PDISSeldonianPolicyCMAES, self).__init__(self.D_c, None, theta=self.theta,
-                                                       maxiter=1000, verbose=True)
+                                                       maxiter=1000, verbose=True,
+                                                       random_seed=random_seed)
+
+    def fit(self, X=None, y=None):
+        super().fit(X, y)
+        # Seldonian contract: reject the candidate if it fails the safety test
+        if self._safetyTest(self.theta, ub=True) > 0:
+            return None
+        return self
 
     def loss(self, X, y_true, theta):
         est = self.pdis_estimate(theta, X, minimize=False, sum_red=False, verbose=True)
         loss = (-1 * np.sum(est) / len(X)) + (
-            0 if self._safetyTest(theta, predict=True, ub=True, est=est) < 0 else 10000)
+            0 if self._safetyTest(theta, predict=True, ub=True, est=est) <= 0 else 10000)
         print(f"Loss: {loss}")
         return loss
-        pass
 
     def predict(self, X):
         return self._predict(X, self.theta)
@@ -679,8 +530,8 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=1.41537, test_size=0.4,
-                 verbose=False, use_ray=False, delta=0.05):
-        self.theta = np.random.rand(states * actions)
+                 verbose=False, use_ray=False, delta=0.05, random_seed=0):
+        self.theta = np.random.default_rng(random_seed).random((states * actions,))
         self.gamma = gamma
         self.D = data
         self.s = states
@@ -692,12 +543,8 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
             raise ImportError(
                 "ray is required for use_ray=True; install with `uv sync --extra ray`")
         self.use_ray = use_ray
-        self.D_c, self.D_s = train_test_split(data, test_size=test_size)
-
-    def loss(self, y_true, y_pred, theta):
-        return y_pred + (
-            0 if self._safetyTest(theta, predict=True, ub=True) < 0 else 10000)
-        pass
+        self.D_c, self.D_s = train_test_split(data, test_size=test_size,
+                                              random_state=random_seed)
 
     def objective(self, theta, data):
         obj = (-1 * self._predict(data, theta)) + (
@@ -716,7 +563,10 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
             print(f"Optimization result: {res}")
             print(f"Time takes: {time() - a} seconds")
         self.theta = res.x
-        pass
+        # Seldonian contract: reject the candidate if it fails the safety test
+        if self._safetyTest(self.theta, ub=True) > 0:
+            return None
+        return self
 
     def _predict(self, X, theta):
         theta = theta.reshape(self.s, self.a)
@@ -758,7 +608,10 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
             est = estimate_vec(pi_e, D, n, gamma, sum_red)
         if self.verbose and sum_red:
             print(f"Average estimate of return: {est}")
-        return est * (-1 if minimize else 1)
+        if sum_red:
+            return est * (-1 if minimize else 1)
+        # per-episode list: negating it with `list * -1` would silently produce []
+        return est
 
     def _safetyTest(self, theta, predict=False, ub=False):
         X = self.D_s

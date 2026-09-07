@@ -11,7 +11,7 @@ def cross_entropy_loss(y_pred, y_true):
     :return: value of cross entropy loss between the predictions and true labels.
     """
     y_true = np.asarray(y_true)
-    y_pred = np.asarray(y_pred)
+    y_pred = np.clip(np.asarray(y_pred, dtype=float), 1e-15, 1 - 1e-15)
     return -(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
 
 

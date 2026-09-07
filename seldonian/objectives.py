@@ -65,14 +65,22 @@ def _rate_diff_bound(samples_a, samples_b, delta, n, total_size, method, predict
     """
     Upper-bounded absolute difference between two subgroup rates, or ``None`` if either
     subgroup has too few samples to bound.
+
+    The confidence budget is split across the expression per the Seldonian Engine's
+    "equal" allocation: 2 base quantities (the two subgroup rates), each needing both
+    interval endpoints for the abs-of-difference, so each tail gets ``delta / 4``. By
+    union bound the propagated interval then holds with probability at least
+    ``1 - delta``; passing the full delta to every tail would only guarantee
+    ``1 - 4*delta``.
     """
     if len(samples_a) < 2 or len(samples_b) < 2:
         return None
     bound_fn = ttest_bounds if method == 'ttest' else hoeffdings_bounds
+    delta_tail = delta / 4
     n_a = _subgroup_n(n, len(samples_a), total_size, predict)
     n_b = _subgroup_n(n, len(samples_b), total_size, predict)
-    return abs(bound_fn(samples_b, delta, n_b, predict=predict) -
-               bound_fn(samples_a, delta, n_a, predict=predict))
+    return abs(bound_fn(samples_b, delta_tail, n_b, predict=predict) -
+               bound_fn(samples_a, delta_tail, n_a, predict=predict))
 
 
 def ghat_tpr_diff_t(A_idx, method='ttest', threshold=0.2):

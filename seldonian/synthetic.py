@@ -12,6 +12,8 @@ def make_synthetic(N, D, tp_a=0.4, tp_b=0.8, A_idx=None, seed=0):
     rng = np.random.default_rng(seed)
     if A_idx is None:
         A_idx = int(rng.integers(1, D - 1))
+    elif A_idx == 0:
+        raise ValueError("A_idx must not be 0: column 0 holds the informative feature")
     X = rng.random((N, D))
     X[:, A_idx] = rng.binomial(1, 0.5, N)
     y = np.zeros((N,))

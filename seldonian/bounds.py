@@ -57,6 +57,26 @@ class RandomVariable:
         upper = max(uu, lu, ul, ll)
         return RandomVariable(self.value * other.value, lower=low, upper=upper)
 
+    def __radd__(self, other):
+        return self + other
+
+    def __rsub__(self, other):
+        return (-self) + other
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __rtruediv__(self, other):
+        if isinstance(other, numbers.Number) or torch.is_tensor(other):
+            other = RandomVariable(other, lower=other, upper=other)
+        return other / self
+
+    def __eq__(self, other):
+        if not isinstance(other, RandomVariable):
+            return NotImplemented
+        return (self.value == other.value and self.lower == other.lower
+                and self.upper == other.upper)
+
     def __truediv__(self, other):
         if isinstance(other, numbers.Number) or torch.is_tensor(other):
             other = RandomVariable(other, lower=other, upper=other)
@@ -64,6 +84,10 @@ class RandomVariable:
         if self.lower is None or self.upper is None or other.lower is None or other.upper is None:
             return RandomVariable(self.value / other.value)
 
+        # degenerate divisor [0, 0]: the quotient is unbounded
+        if other.lower == 0 and other.upper == 0:
+            return RandomVariable(float(np.sign(self.value)) * np.inf if self.value != 0
+                                  else np.nan, lower=-np.inf, upper=np.inf)
         # if 0 not in [other.lower , other.upper]
         if other.lower * other.upper > 0:
             return self * RandomVariable(1 / other.value, lower=1 / other.upper,
@@ -119,6 +143,16 @@ def max_bounds(*args):
 
 
 def ttest_bounds(samples, delta, n=None, predict=False):
+    """
+    Student's t confidence interval on the sample mean (one-sided quantile at
+    ``1 - delta``, doubled in width when ``predict=True`` for candidate-selection
+    inflation, following Thomas et al. 2019).
+
+    Caveat: on unanimous binary samples (all 0 or all 1) the sample standard
+    deviation is 0 and the interval has zero width, so the bound degenerates to the
+    point estimate. This is faithful to the published formulation but understates
+    uncertainty for Bernoulli rates near 0 or 1.
+    """
     if not (isinstance(samples, numbers.Number) or isinstance(samples,
                                                               np.ndarray) or torch.is_tensor(
             samples)):

@@ -4,14 +4,12 @@ import importlib
 
 import numpy as np
 import pytest
-import torch
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
 
-from seldonian.objectives import ghat_tpr_diff, ghat_tpr_diff_t
+from seldonian.objectives import ghat_tpr_diff
 from seldonian.seldonian import (
     LogisticRegressionSeldonianModel,
     SeldonianAlgorithmLogRegCMAES,
-    VanillaNN,
 )
 from seldonian.synthetic import make_synthetic
 
@@ -112,38 +110,3 @@ class TestSeldonianAlgorithmLogRegCMAES:
         theta, C = model.parameters()
         assert np.asarray(theta).size == X.shape[1] + 1
         assert np.all(np.isfinite(np.asarray(theta, dtype=float)))
-
-
-class TestVanillaNN:
-    @pytest.fixture(autouse=True)
-    def _seed_torch(self):
-        # network weight init is drawn from torch's global RNG
-        torch.manual_seed(0)
-
-    def test_unconstrained_training(self):
-        # batch size is 300, so with ~180 candidate samples each epoch is a single
-        # gradient step - give it enough epochs to actually learn
-        X, y = separable_data(300, seed=11)
-        model = VanillaNN(X, y, g_hats=[], epochs=200)
-        model.fit()
-        preds = model.predict(X)
-        assert torch.is_tensor(preds)
-        assert preds.shape[0] == len(X)
-        assert accuracy_score(y, preds.cpu().numpy()) > 0.6
-
-    def test_pmf_predictions_are_probabilities(self):
-        X, y = separable_data(200, seed=12)
-        model = VanillaNN(X, y, g_hats=[], epochs=2)
-        model.fit()
-        pmf = model.predict(X, pmf=True).detach().cpu().numpy()
-        assert np.all((pmf >= 0) & (pmf <= 1))
-
-    def test_constrained_training_reports_safety(self):
-        np.random.seed(2)
-        X, y, A_idx = make_synthetic(600, 5)
-        ghats = [{"fn": ghat_tpr_diff_t(A_idx, threshold=0.2), "delta": 0.05}]
-        model = VanillaNN(X, y, g_hats=ghats, epochs=2)
-        model.fit()
-        safety = float(model._safetyTest())
-        assert np.isfinite(safety)
-        assert safety >= 0
