@@ -5,7 +5,7 @@ from sklearn.metrics import log_loss
 import numpy as np
 import scipy.optimize
 
-from seldonian.bounds import ttest_bounds
+from seldonian.bounds import get_bound
 from seldonian.cmaes import CMAESModel
 from seldonian.utils import sigmoid
 
@@ -436,7 +436,14 @@ class NeuralNetSeldonianGD(LogisticRegressionSeldonianGD):
 class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=2, test_size=0.4,
-                 multiprocessing=True, delta=0.05, random_seed=0):
+                 multiprocessing=True, delta=0.05, random_seed=0, bound='ttest',
+                 bound_range=None):
+        """
+        :param bound: name of the concentration bound applied to the per-episode PDIS
+            estimates (see :data:`seldonian.bounds.BOUNDS`). ``'ttest'`` reproduces the
+            quasi-Seldonian test of Thomas et al.; the distribution-free bounds need the
+            return range, passed as ``bound_range=(low, high)``.
+        """
         self.theta = np.random.default_rng(random_seed).random((states * actions, 1))
         self.gamma = gamma
         self.D = data
@@ -444,6 +451,7 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
         self.a = actions
         self.thres = threshold
         self.delta = delta
+        self._bound_fn, self._bound_kwargs = _resolve_bound(bound, bound_range)
         if multiprocessing and ray is None:
             raise ImportError(
                 "ray is required for multiprocessing=True; install with `uv sync --extra ray`")
@@ -521,8 +529,8 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
         if ub:
             # performance-floor constraint: pass only if the LOWER confidence bound on the
             # policy return clears the threshold
-            return -1 * (ttest_bounds(estimate, self.delta, n=n, predict=predict).lower -
-                         self.thres)
+            return -1 * (self._bound_fn(estimate, self.delta, n=n, predict=predict,
+                                        **self._bound_kwargs).lower - self.thres)
         else:
             return -1 * (np.mean(estimate) - self.thres)
 
@@ -530,7 +538,8 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
 
     def __init__(self, data, states, actions, gamma, threshold=1.41537, test_size=0.4,
-                 verbose=False, use_ray=False, delta=0.05, random_seed=0):
+                 verbose=False, use_ray=False, delta=0.05, random_seed=0, bound='ttest',
+                 bound_range=None):
         self.theta = np.random.default_rng(random_seed).random((states * actions,))
         self.gamma = gamma
         self.D = data
@@ -538,6 +547,7 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
         self.a = actions
         self.thres = threshold
         self.delta = delta
+        self._bound_fn, self._bound_kwargs = _resolve_bound(bound, bound_range)
         self.verbose = verbose
         if use_ray and ray is None:
             raise ImportError(
@@ -623,10 +633,23 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
         if ub:
             # performance-floor constraint: pass only if the LOWER confidence bound on the
             # policy return clears the threshold
-            return -1 * (ttest_bounds(estimate, self.delta, n=n, predict=predict).lower -
-                         self.thres)
+            return -1 * (self._bound_fn(estimate, self.delta, n=n, predict=predict,
+                                        **self._bound_kwargs).lower - self.thres)
         else:
             return -1 * (np.mean(estimate) - self.thres)
+
+
+def _resolve_bound(bound, bound_range):
+    """Bound callable plus the range keyword arguments the RL safety tests pass to it."""
+    fn = get_bound(bound)
+    if bound_range is None:
+        if bound not in ('ttest', 'hoeffdings') and not callable(bound):
+            raise ValueError(
+                f"bound='{bound}' is distribution-free and needs the return range: pass "
+                "bound_range=(low, high)")
+        return fn, {}
+    low, high = bound_range
+    return fn, {'a': float(low), 'b': float(high)}
 
 
 def estimate_vec(pi_e, D, n, gamma=0.95, sum_red=True):

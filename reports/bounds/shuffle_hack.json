@@ -1,0 +1,182 @@
+[
+ {
+  "miss_single": 0.016666666666666666,
+  "miss_best_of_tries": 0.03,
+  "mean_spread": 0.01743993709034633,
+  "tries": 20,
+  "reps": 300,
+  "method": "betting",
+  "dist": "beta(2,8)",
+  "n": 50
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.0032670443326427616,
+  "tries": 20,
+  "reps": 100,
+  "method": "betting(permutations=16)",
+  "dist": "beta(2,8)",
+  "n": 50
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.0,
+  "tries": 5,
+  "reps": 100,
+  "method": "betting_mixture",
+  "dist": "beta(2,8)",
+  "n": 50
+ },
+ {
+  "miss_single": 0.023333333333333334,
+  "miss_best_of_tries": 0.10666666666666667,
+  "mean_spread": 0.010152783734426383,
+  "tries": 20,
+  "reps": 300,
+  "method": "betting",
+  "dist": "beta(2,8)",
+  "n": 200
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.000994446945325704,
+  "tries": 20,
+  "reps": 100,
+  "method": "betting(permutations=16)",
+  "dist": "beta(2,8)",
+  "n": 200
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.0,
+  "tries": 5,
+  "reps": 100,
+  "method": "betting_mixture",
+  "dist": "beta(2,8)",
+  "n": 200
+ },
+ {
+  "miss_single": 0.0033333333333333335,
+  "miss_best_of_tries": 0.016666666666666666,
+  "mean_spread": 0.00482173383449781,
+  "tries": 20,
+  "reps": 300,
+  "method": "betting",
+  "dist": "spike-slab",
+  "n": 50
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.0007840851900262625,
+  "tries": 20,
+  "reps": 100,
+  "method": "betting(permutations=16)",
+  "dist": "spike-slab",
+  "n": 50
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 1.734723475976807e-20,
+  "tries": 5,
+  "reps": 100,
+  "method": "betting_mixture",
+  "dist": "spike-slab",
+  "n": 50
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.04,
+  "mean_spread": 0.009020165392009147,
+  "tries": 20,
+  "reps": 300,
+  "method": "betting",
+  "dist": "spike-slab",
+  "n": 200
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.0011302390315924829,
+  "tries": 20,
+  "reps": 100,
+  "method": "betting(permutations=16)",
+  "dist": "spike-slab",
+  "n": 200
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 1.2750217548429532e-18,
+  "tries": 5,
+  "reps": 100,
+  "method": "betting_mixture",
+  "dist": "spike-slab",
+  "n": 200
+ },
+ {
+  "miss_single": 0.016666666666666666,
+  "miss_best_of_tries": 0.09666666666666666,
+  "mean_spread": 0.050938223863463056,
+  "tries": 20,
+  "reps": 300,
+  "method": "betting",
+  "dist": "uniform",
+  "n": 50
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.003070436577109091,
+  "tries": 20,
+  "reps": 100,
+  "method": "betting(permutations=16)",
+  "dist": "uniform",
+  "n": 50
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.0,
+  "tries": 5,
+  "reps": 100,
+  "method": "betting_mixture",
+  "dist": "uniform",
+  "n": 50
+ },
+ {
+  "miss_single": 0.03,
+  "miss_best_of_tries": 0.18666666666666668,
+  "mean_spread": 0.029583799837012592,
+  "tries": 20,
+  "reps": 300,
+  "method": "betting",
+  "dist": "uniform",
+  "n": 200
+ },
+ {
+  "miss_single": 0.0,
+  "miss_best_of_tries": 0.0,
+  "mean_spread": 0.0011428786928931527,
+  "tries": 20,
+  "reps": 100,
+  "method": "betting(permutations=16)",
+  "dist": "uniform",
+  "n": 200
+ },
+ {
+  "miss_single": 0.01,
+  "miss_best_of_tries": 0.01,
+  "mean_spread": 5.551115123125783e-19,
+  "tries": 5,
+  "reps": 100,
+  "method": "betting_mixture",
+  "dist": "uniform",
+  "n": 200
+ }
+]

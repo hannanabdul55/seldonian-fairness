@@ -73,6 +73,15 @@ def main():
     parser.add_argument("--margin", type=float, default=0.2)
     parser.add_argument("--epochs", type=int, default=2000)
     parser.add_argument("--lambda-lr", type=float, default=8e-2)
+    parser.add_argument("--temperature", type=float, default=1.0)
+    parser.add_argument("--weight-decay", type=float, default=0.0)
+    parser.add_argument("--bound", default="ttest",
+                        help="concentration bound for the constraint: ttest, clopper_pearson, "
+                             "bentkus, convex_order_diff, ... (see seldonian.bounds.BOUNDS)")
+    parser.add_argument("--head", choices=["linear", "nn"], default="linear",
+                        help="linear generalizes the constraint honestly here; the "
+                             "32x16 nn can memorize the constraint fold and needs "
+                             "careful weight-decay tuning")
     args = parser.parse_args()
     rng = np.random.default_rng(0)
 
@@ -100,7 +109,8 @@ def main():
     report("Unconstrained LogisticRegression head", base.predict(X_te), y_te, X_te,
            A_idx, seconds=time.time() - t0)
 
-    ghats = [{"fn": ghat_tpr_diff_t(A_idx, threshold=THRESHOLD), "delta": DELTA}]
+    ghats = [{"fn": ghat_tpr_diff_t(A_idx, method=args.bound, threshold=THRESHOLD),
+              "delta": DELTA}]
     t0 = time.time()
     np.random.seed(0)
     head_cls = LogisticRegressionSeldonianGD if args.head == "linear" else NeuralNetSeldonianGD
@@ -109,9 +119,31 @@ def main():
                      lambda_lr=args.lambda_lr, temperature=args.temperature,
                      weight_decay=args.weight_decay)
     result = model.fit()
-    report("Seldonian NeuralNet head (gradient-based Adam)", model.predict(X_te),
-           y_te, X_te, A_idx, safety=model.safetyTest(), seconds=time.time() - t0,
-           solution=result is not None)
+    report(f"Seldonian {args.head} head (gradient-based Adam, bound={args.bound})",
+           model.predict(X_te), y_te, X_te, A_idx, safety=model.safetyTest(),
+           seconds=time.time() - t0, solution=result is not None)
+    certification_table(model, base, A_idx)
+
+
+def certification_table(model, base, A_idx):
+    """How much of the threshold each bound spends on the same safety set."""
+    X_s, y_s = model.X_s, model.y_s
+    for name, preds in [("unconstrained head", base.predict(X_s)),
+                        ("Seldonian head", model.predict(X_s))]:
+        tp_f = tpr_rate(A_idx, 1)(X_s, y_s, preds)
+        tp_m = tpr_rate(A_idx, 0)(X_s, y_s, preds)
+        gap = abs(tp_f.mean() - tp_m.mean())
+        print(f"{name} on the safety set: TPR[female]={tp_f.mean():.3f} (n={tp_f.size}) "
+              f"TPR[male]={tp_m.mean():.3f} (n={tp_m.size}) gap={gap:.3f}")
+        print(f"  {'bound':20s} {'certified gap':>14s} {'slack':>8s} {'passes':>7s}")
+        for method in ["ttest", "hoeffdings", "clopper_pearson", "bentkus", "bentkus_diff",
+                       "convex_order_diff"]:
+            g = ghat_tpr_diff(A_idx, method=method, threshold=THRESHOLD)(
+                X_s, y_s, preds, delta=DELTA)
+            certified = g + THRESHOLD
+            print(f"  {method:20s} {certified:14.3f} {certified - gap:8.3f} "
+                  f"{'yes' if g <= 0 else 'no':>7s}")
+        print()
 
 
 if __name__ == "__main__":

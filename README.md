@@ -5,6 +5,7 @@ Example notebook: [![Open example In Colab](https://colab.research.google.com/as
 An easy to use Python Library to train and develop new Machine Learning models within some fairness constraints. This is an implementation of [this Science](https://aisafety.cs.umass.edu/paper.html) paper.   
 Also includes some other handy tools like: 
 - Bound propogation using the `RandomVariable` object. 
+- A family of non-asymptotic confidence bounds for the mean of a bounded random variable (`seldonian.bounds`: Clopper-Pearson, Bentkus, empirical Bernstein, Anderson, betting-based bounds, and a two-sample Bentkus bound for rate differences), selectable per constraint via `ghat_tpr_diff(A_idx, method='bentkus_diff')`. See [`reports/bounds/README.md`](reports/bounds/README.md) for the study and the exact-enumeration validation harness (`uv run python scripts/validate_bounds.py`).
 - _[Documentation WIP]_ Python implementation of the [CMA-ES](https://en.wikipedia.org/wiki/CMA-ES) black-box optimization algorithm. You can refer to the details [here](http://abdulhannan.in/seldonian-fairness/reference.html#module-seldonian.cmaes) and the implementation [here](https://github.com/hannanabdul55/seldonian-fairness/blob/master/seldonian/cmaes.py#L11)
 
 # Installation

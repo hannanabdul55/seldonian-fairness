@@ -3,7 +3,7 @@ from abc import ABC
 import numpy as np
 import torch.nn as nn
 
-from seldonian.bounds import ttest_bounds, hoeffdings_bounds
+from seldonian.bounds import get_bound, bentkus_diff_bounds, convex_order_diff_bounds
 
 
 def tpr_rate(A_idx=None, A_val=None):
@@ -66,19 +66,30 @@ def _rate_diff_bound(samples_a, samples_b, delta, n, total_size, method, predict
     Upper-bounded absolute difference between two subgroup rates, or ``None`` if either
     subgroup has too few samples to bound.
 
-    The confidence budget is split across the expression per the Seldonian Engine's
-    "equal" allocation: 2 base quantities (the two subgroup rates), each needing both
-    interval endpoints for the abs-of-difference, so each tail gets ``delta / 4``. By
-    union bound the propagated interval then holds with probability at least
-    ``1 - delta``; passing the full delta to every tail would only guarantee
-    ``1 - 4*delta``.
+    ``method`` is either a one-sample bound name from :data:`seldonian.bounds.BOUNDS`
+    (``'ttest'``, ``'hoeffdings'``, ``'clopper_pearson'``, ``'bentkus'``, ...) or
+    ``'bentkus_diff'`` for the two-sample Bentkus bound on the difference itself.
+
+    With a one-sample bound the confidence budget is split across the expression per the
+    Seldonian Engine's "equal" allocation: 2 base quantities (the two subgroup rates), each
+    needing both interval endpoints for the abs-of-difference, so each tail gets
+    ``delta / 4``. By union bound the propagated interval then holds with probability at
+    least ``1 - delta``; passing the full delta to every tail would only guarantee
+    ``1 - 4*delta``. The two-sample bound needs only the two tails of the difference, so
+    each gets ``delta / 2`` and the width scales with the combined standard error.
     """
     if len(samples_a) < 2 or len(samples_b) < 2:
         return None
-    bound_fn = ttest_bounds if method == 'ttest' else hoeffdings_bounds
-    delta_tail = delta / 4
     n_a = _subgroup_n(n, len(samples_a), total_size, predict)
     n_b = _subgroup_n(n, len(samples_b), total_size, predict)
+    if method == 'bentkus_diff':
+        return abs(bentkus_diff_bounds(samples_a, samples_b, delta / 2, n_a=n_a, n_b=n_b,
+                                       predict=predict))
+    if method == 'convex_order_diff':
+        return abs(convex_order_diff_bounds(samples_a, samples_b, delta / 2, n_a=n_a, n_b=n_b,
+                                            predict=predict))
+    bound_fn = get_bound(method)
+    delta_tail = delta / 4
     return abs(bound_fn(samples_b, delta_tail, n_b, predict=predict) -
                bound_fn(samples_a, delta_tail, n_a, predict=predict))
 
@@ -97,6 +108,14 @@ def ghat_tpr_diff_t(A_idx, method='ttest', threshold=0.2):
 
         - `hoeffdings` - Use the `Hoeffdings inequality <https://en.wikipedia.org/wiki/Hoeffding%27s_inequality>`_ to caluclate the 95% confidence interval.
 
+        - any other key of :data:`seldonian.bounds.BOUNDS` (``'clopper_pearson'``, ``'bentkus'``,
+          ``'empirical_bentkus'``, ``'betting'``, ``'betting_mixture'``, ...) for a
+          non-asymptotic one-sample bound on each subgroup rate.
+
+        - `bentkus_diff` - two-sample Bentkus bound on the rate difference itself
+          (:func:`seldonian.bounds.bentkus_diff_bounds`); valid and tighter than combining
+          two one-sample intervals.
+
     :param threshold: TPR difference should not be greater than this value.
     :return: method that is to be sent to the Seldonian Algorithm and is used for calculating the :math:`g(\\theta)`
     """
@@ -105,7 +124,11 @@ def ghat_tpr_diff_t(A_idx, method='ttest', threshold=0.2):
         tp_a = tpr_rate_t(A_idx, 1)(X, y_true, y_pred, est=est)
         tp_b = tpr_rate_t(A_idx, 0)(X, y_true, y_pred, est=est)
 
-        bound = _rate_diff_bound(tp_a, tp_b, delta, n, len(X), method, predict)
+        # the differentiable soft surrogate (est is not None) needs a bound that is a
+        # differentiable function of the tensors; only the t-test bound is, so the other
+        # methods apply to the hard-prediction safety test and use the t-test surrogate
+        surrogate_method = 'ttest' if est is not None else method
+        bound = _rate_diff_bound(tp_a, tp_b, delta, n, len(X), surrogate_method, predict)
         if bound is None:
             # too few subgroup samples to certify the constraint - treat as a violation
             return np.inf
@@ -129,6 +152,14 @@ def ghat_tpr_diff(A_idx, method='ttest', threshold=0.2):
         - `ttest` - Use student `Student's t-distribution <https://en.wikipedia.org/wiki/Student%27s_t-distribution>`_ to calculate the confidence interval.
 
         - `hoeffdings` - Use the `Hoeffdings inequality <https://en.wikipedia.org/wiki/Hoeffding%27s_inequality>`_ to caluclate the 95% confidence interval.
+
+        - any other key of :data:`seldonian.bounds.BOUNDS` (``'clopper_pearson'``, ``'bentkus'``,
+          ``'empirical_bentkus'``, ``'betting'``, ``'betting_mixture'``, ...) for a
+          non-asymptotic one-sample bound on each subgroup rate.
+
+        - `bentkus_diff` - two-sample Bentkus bound on the rate difference itself
+          (:func:`seldonian.bounds.bentkus_diff_bounds`); valid and tighter than combining
+          two one-sample intervals.
 
     :param threshold: TPR difference should not be greater than this value.
     :return: method that is to be sent to the Seldonian Algorithm and is used for calculating the :math:`g(\\theta)`

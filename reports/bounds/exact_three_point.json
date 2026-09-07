@@ -1,0 +1,1442 @@
+[
+ {
+  "method": "learned_miller_thomas",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9680487363486181,
+  "min_cov_upper": 0.9680487363486201,
+  "mean_slack_upper": 0.10259839615164879
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9680487363486181,
+  "min_cov_upper": 0.9680487363486201,
+  "mean_slack_upper": 0.11957967176722795
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9680487363486181,
+  "min_cov_upper": 0.9680487363486201,
+  "mean_slack_upper": 0.09824989030235962
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9680487363486181,
+  "min_cov_upper": 0.9999999555406928,
+  "mean_slack_upper": 0.07872086627736835
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9666000553885069,
+  "min_cov_upper": 0.9557535026087232,
+  "mean_slack_upper": 0.12828361110228909
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9666000553885069,
+  "min_cov_upper": 0.9557535026087232,
+  "mean_slack_upper": 0.15260482409536605
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9666000553885069,
+  "min_cov_upper": 0.9557535026087232,
+  "mean_slack_upper": 0.1201169132782402
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9666000553885069,
+  "min_cov_upper": 0.9999999999886272,
+  "mean_slack_upper": 0.11939322370581851
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9717524751000008,
+  "min_cov_upper": 0.952651012600001,
+  "mean_slack_upper": 0.20866274898289922
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9717524751000008,
+  "min_cov_upper": 0.952651012600001,
+  "mean_slack_upper": 0.25524125841278855
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9717524751000008,
+  "min_cov_upper": 0.952651012600001,
+  "mean_slack_upper": 0.18078355585394876
+ },
+ {
+  "method": "learned_miller_thomas",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9717524751000008,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.2551881462270808
+ },
+ {
+  "method": "ttest",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.908093489333614,
+  "min_cov_upper": 0.9080934893336119,
+  "mean_slack_upper": 0.08336060500804358
+ },
+ {
+  "method": "ttest",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.919526303985537,
+  "min_cov_upper": 0.9059493534429839,
+  "mean_slack_upper": 0.0885034025932834
+ },
+ {
+  "method": "ttest",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9059493534429814,
+  "min_cov_upper": 0.9195263039855391,
+  "mean_slack_upper": 0.08850340259328332
+ },
+ {
+  "method": "ttest",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9110360942778275,
+  "min_cov_upper": 0.8918091125883958,
+  "mean_slack_upper": 0.01708029800420346
+ },
+ {
+  "method": "hoeffdings",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9916582291088251,
+  "min_cov_upper": 0.9916582291088255,
+  "mean_slack_upper": 0.1935113780102493
+ },
+ {
+  "method": "hoeffdings",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9916582291088251,
+  "min_cov_upper": 0.9916582291088255,
+  "mean_slack_upper": 0.19351137801024929
+ },
+ {
+  "method": "hoeffdings",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9916582291088251,
+  "min_cov_upper": 0.9916582291088255,
+  "mean_slack_upper": 0.19351137801024929
+ },
+ {
+  "method": "hoeffdings",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.19351137801024929
+ },
+ {
+  "method": "bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9844273764766774,
+  "min_cov_upper": 0.984427376476677,
+  "mean_slack_upper": 0.14906991764921831
+ },
+ {
+  "method": "bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9844273764766774,
+  "min_cov_upper": 0.984427376476677,
+  "mean_slack_upper": 0.14811589107357492
+ },
+ {
+  "method": "bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9844273764766774,
+  "min_cov_upper": 0.984427376476677,
+  "mean_slack_upper": 0.12459862394156668
+ },
+ {
+  "method": "bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9999999872109953,
+  "min_cov_upper": 0.9999999986632561,
+  "mean_slack_upper": 0.13514534030643502
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9913819466886367,
+  "min_cov_upper": 0.9913819466886347,
+  "mean_slack_upper": 0.16395777462638275
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9913819466886367,
+  "min_cov_upper": 0.9913819466886347,
+  "mean_slack_upper": 0.16423627612154515
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9913819466886367,
+  "min_cov_upper": 0.9913819466886347,
+  "mean_slack_upper": 0.13619359311227922
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9999999998128323,
+  "min_cov_upper": 0.9999999999999986,
+  "mean_slack_upper": 0.15275940858645418
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9852191170585812,
+  "min_cov_upper": 0.9852191170585834,
+  "mean_slack_upper": 0.16105090428610283
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9852191170585812,
+  "min_cov_upper": 0.9852191170585834,
+  "mean_slack_upper": 0.15885821199188924
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9852191170585812,
+  "min_cov_upper": 0.9852191170585833,
+  "mean_slack_upper": 0.13396664639355738
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9999999983763534,
+  "min_cov_upper": 0.9999999986632561,
+  "mean_slack_upper": 0.14059266197404843
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9999993086939906,
+  "min_cov_upper": 0.9999993086939906,
+  "mean_slack_upper": 0.3144396973017564
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9999993086939906,
+  "min_cov_upper": 0.9999993086939906,
+  "mean_slack_upper": 0.3313437279352018
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9999993086939906,
+  "min_cov_upper": 0.9999993086939906,
+  "mean_slack_upper": 0.2709702053031231
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.2482374986305629
+ },
+ {
+  "method": "anderson",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.991658229108825,
+  "min_cov_upper": 0.9916582291088255,
+  "mean_slack_upper": 0.16515222408198915
+ },
+ {
+  "method": "anderson",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.991658229108825,
+  "min_cov_upper": 0.9916582291088255,
+  "mean_slack_upper": 0.182306044781046
+ },
+ {
+  "method": "anderson",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.991658229108825,
+  "min_cov_upper": 0.9916582291088255,
+  "mean_slack_upper": 0.14799840338293227
+ },
+ {
+  "method": "anderson",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.991658229108825,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.18998377481197934
+ },
+ {
+  "method": "betting",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9617971788631843,
+  "min_cov_upper": 0.9652634881853875,
+  "mean_slack_upper": 0.1160521164302959
+ },
+ {
+  "method": "betting",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9617971788631843,
+  "min_cov_upper": 0.9516339048176503,
+  "mean_slack_upper": 0.13884651335490703
+ },
+ {
+  "method": "betting",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9617971788631843,
+  "min_cov_upper": 0.9641380869644943,
+  "mean_slack_upper": 0.11172324693072921
+ },
+ {
+  "method": "betting",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9909916686642684,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.12459324144903695
+ },
+ {
+  "method": "betting_mixture",
+  "n": 40,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9852191170585812,
+  "min_cov_upper": 0.9852191170585834,
+  "mean_slack_upper": 0.13210079504076638
+ },
+ {
+  "method": "betting_mixture",
+  "n": 40,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9852191170585812,
+  "min_cov_upper": 0.9852191170585736,
+  "mean_slack_upper": 0.15211329584242694
+ },
+ {
+  "method": "betting_mixture",
+  "n": 40,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9852191170585736,
+  "min_cov_upper": 0.9852191170585833,
+  "mean_slack_upper": 0.12618307315644084
+ },
+ {
+  "method": "betting_mixture",
+  "n": 40,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9975824665826808,
+  "min_cov_upper": 0.9999999555406928,
+  "mean_slack_upper": 0.08077165776108214
+ },
+ {
+  "method": "ttest",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.8908450812926417,
+  "min_cov_upper": 0.8908450812926416,
+  "mean_slack_upper": 0.10657820613688038
+ },
+ {
+  "method": "ttest",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9017747771563145,
+  "min_cov_upper": 0.8994662006260091,
+  "mean_slack_upper": 0.11295251898799913
+ },
+ {
+  "method": "ttest",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.8994662006260089,
+  "min_cov_upper": 0.9017747771563144,
+  "mean_slack_upper": 0.11295251898799906
+ },
+ {
+  "method": "ttest",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9017747771563145,
+  "min_cov_upper": 0.8768792509468406,
+  "mean_slack_upper": 0.02182125547542652
+ },
+ {
+  "method": "hoeffdings",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9926833510398921,
+  "min_cov_upper": 0.9926833510398921,
+  "mean_slack_upper": 0.24477468306808273
+ },
+ {
+  "method": "hoeffdings",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9926833510398921,
+  "min_cov_upper": 0.9926833510398921,
+  "mean_slack_upper": 0.24477468306808273
+ },
+ {
+  "method": "hoeffdings",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9926833510398921,
+  "min_cov_upper": 0.9926833510398921,
+  "mean_slack_upper": 0.24477468306808267
+ },
+ {
+  "method": "hoeffdings",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.24477468306808273
+ },
+ {
+  "method": "bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9825302594739463,
+  "min_cov_upper": 0.982530259473948,
+  "mean_slack_upper": 0.1878803380002536
+ },
+ {
+  "method": "bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9825302594739463,
+  "min_cov_upper": 0.982530259473948,
+  "mean_slack_upper": 0.19083184171546663
+ },
+ {
+  "method": "bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9825302594739463,
+  "min_cov_upper": 0.982530259473948,
+  "mean_slack_upper": 0.15376480853759686
+ },
+ {
+  "method": "bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9999999987762118,
+  "min_cov_upper": 0.9999999998874147,
+  "mean_slack_upper": 0.18531389146800475
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9905236393084957,
+  "min_cov_upper": 0.9905236393084949,
+  "mean_slack_upper": 0.20586322415003025
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9905236393084957,
+  "min_cov_upper": 0.9905236393084949,
+  "mean_slack_upper": 0.2114489703628981
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9905236393084957,
+  "min_cov_upper": 0.9905236393084949,
+  "mean_slack_upper": 0.16731053725819783
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9999999999159579,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.2108433383265572
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9905236393084957,
+  "min_cov_upper": 0.9905236393084949,
+  "mean_slack_upper": 0.1993241179656214
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9905236393084957,
+  "min_cov_upper": 0.9905236393084949,
+  "mean_slack_upper": 0.20081151495211771
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9905236393084957,
+  "min_cov_upper": 0.9905236393084949,
+  "mean_slack_upper": 0.16243802591088252
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9999999987762118,
+  "min_cov_upper": 0.9999999998874147,
+  "mean_slack_upper": 0.18926805573417554
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9999971569712016,
+  "min_cov_upper": 0.9999971569712022,
+  "mean_slack_upper": 0.4088009569561895
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9999971569712007,
+  "min_cov_upper": 0.9999971569712022,
+  "mean_slack_upper": 0.444402688036364
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9999971569712016,
+  "min_cov_upper": 0.9999971569712012,
+  "mean_slack_upper": 0.32108740748994236
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.3932845679388596
+ },
+ {
+  "method": "anderson",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.992683351039892,
+  "min_cov_upper": 0.992683351039892,
+  "mean_slack_upper": 0.20235178534030523
+ },
+ {
+  "method": "anderson",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.992683351039892,
+  "min_cov_upper": 0.9926833508342979,
+  "mean_slack_upper": 0.2267822992417746
+ },
+ {
+  "method": "anderson",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9926833508342986,
+  "min_cov_upper": 0.992683351039892,
+  "mean_slack_upper": 0.1779212714388357
+ },
+ {
+  "method": "anderson",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.992683351039892,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.23934391776021088
+ },
+ {
+  "method": "betting",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9689559526741559,
+  "min_cov_upper": 0.9640584998639535,
+  "mean_slack_upper": 0.1532495958939263
+ },
+ {
+  "method": "betting",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9689559526741559,
+  "min_cov_upper": 0.9640584998639535,
+  "mean_slack_upper": 0.18483785501576794
+ },
+ {
+  "method": "betting",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9689559526741559,
+  "min_cov_upper": 0.9640584998639535,
+  "mean_slack_upper": 0.1428201217395212
+ },
+ {
+  "method": "betting",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9950641441627484,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.18718717812765687
+ },
+ {
+  "method": "betting_mixture",
+  "n": 25,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9884296665709338,
+  "min_cov_upper": 0.9884296665709335,
+  "mean_slack_upper": 0.16528057075971392
+ },
+ {
+  "method": "betting_mixture",
+  "n": 25,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9905291690748146,
+  "min_cov_upper": 0.990529169074815,
+  "mean_slack_upper": 0.19329266805718529
+ },
+ {
+  "method": "betting_mixture",
+  "n": 25,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9905291690748146,
+  "min_cov_upper": 0.990529169074815,
+  "mean_slack_upper": 0.15284155595880675
+ },
+ {
+  "method": "betting_mixture",
+  "n": 25,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.996222106813708,
+  "min_cov_upper": 0.9999999999886272,
+  "mean_slack_upper": 0.1221814708164853
+ },
+ {
+  "method": "ttest",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.6513215599000002,
+  "min_cov_upper": 0.6513215599000008,
+  "mean_slack_upper": 0.17576675078176834
+ },
+ {
+  "method": "ttest",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.6513215599000002,
+  "min_cov_upper": 0.6513215599000002,
+  "mean_slack_upper": 0.18438153798918372
+ },
+ {
+  "method": "ttest",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.6513215598999997,
+  "min_cov_upper": 0.6513215599000008,
+  "mean_slack_upper": 0.1843815379891837
+ },
+ {
+  "method": "ttest",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.6513215599000002,
+  "min_cov_upper": 0.6513215589000003,
+  "mean_slack_upper": 0.03584187870333184
+ },
+ {
+  "method": "hoeffdings",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9877054464000009,
+  "min_cov_upper": 0.9877054464000008,
+  "mean_slack_upper": 0.3870227560204953
+ },
+ {
+  "method": "hoeffdings",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9877054464000009,
+  "min_cov_upper": 0.9877054464000008,
+  "mean_slack_upper": 0.3870227560204953
+ },
+ {
+  "method": "hoeffdings",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9877054464000009,
+  "min_cov_upper": 0.9877054464000008,
+  "mean_slack_upper": 0.3870227560204953
+ },
+ {
+  "method": "hoeffdings",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.3870227560204953
+ },
+ {
+  "method": "bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.2842044627585673
+ },
+ {
+  "method": "bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.3039062741897181
+ },
+ {
+  "method": "bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.22070683786210368
+ },
+ {
+  "method": "bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9999999999000009,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.3374729467905219
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9936306176000009,
+  "min_cov_upper": 0.9936306176000007,
+  "mean_slack_upper": 0.30870980357832417
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9936306176000003,
+  "min_cov_upper": 0.9936306176000007,
+  "mean_slack_upper": 0.33765291493734834
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9936306176000009,
+  "min_cov_upper": 0.9936306176000007,
+  "mean_slack_upper": 0.23833503049049282
+ },
+ {
+  "method": "empirical_bentkus",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.3914035045400839
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.29022300990901023
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.3087523884006507
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.22505373150308822
+ },
+ {
+  "method": "chernoff_kl",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.33789670577204156
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.49856613433836827
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.6317850794712315
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.3652328010050348
+ },
+ {
+  "method": "empirical_bernstein",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 1.0,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.9143034130250343
+ },
+ {
+  "method": "anderson",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9877054464000009,
+  "min_cov_upper": 0.9877054464000008,
+  "mean_slack_upper": 0.2903186467069323
+ },
+ {
+  "method": "anderson",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9877054464000009,
+  "min_cov_upper": 0.9877054464000006,
+  "mean_slack_upper": 0.338005193615733
+ },
+ {
+  "method": "anderson",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9877054464000006,
+  "min_cov_upper": 0.9877054464000008,
+  "mean_slack_upper": 0.24263209979813152
+ },
+ {
+  "method": "anderson",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9877054464000009,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.3736427525213828
+ },
+ {
+  "method": "betting",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.9760300145750003,
+  "min_cov_upper": 0.9760835420875009,
+  "mean_slack_upper": 0.2597143654037876
+ },
+ {
+  "method": "betting",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.9825160011625004,
+  "min_cov_upper": 0.9632186239375015,
+  "mean_slack_upper": 0.3177900140473545
+ },
+ {
+  "method": "betting",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9658732895875004,
+  "min_cov_upper": 0.9760835420875009,
+  "mean_slack_upper": 0.22455942104063314
+ },
+ {
+  "method": "betting",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9998951424000009,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.37790552863901333
+ },
+ {
+  "method": "betting_mixture",
+  "n": 10,
+  "values": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.25034965146621735
+ },
+ {
+  "method": "betting_mixture",
+  "n": 10,
+  "values": [
+   0.0,
+   0.1,
+   1.0
+  ],
+  "min_cov_lower": 0.971752475100001,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.3015706195470823
+ },
+ {
+  "method": "betting_mixture",
+  "n": 10,
+  "values": [
+   0.0,
+   0.9,
+   1.0
+  ],
+  "min_cov_lower": 0.9717524751000008,
+  "min_cov_upper": 0.9717524751000003,
+  "mean_slack_upper": 0.21341467772569755
+ },
+ {
+  "method": "betting_mixture",
+  "n": 10,
+  "values": [
+   0.0,
+   0.05,
+   0.2
+  ],
+  "min_cov_lower": 0.9939533824000006,
+  "min_cov_upper": 1.0,
+  "mean_slack_upper": 0.2681711690551264
+ }
+]
