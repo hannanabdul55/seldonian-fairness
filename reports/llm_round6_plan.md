@@ -27,6 +27,11 @@ a reference measurement 5-10 minutes. Queue scripts skip finished runs, so a reb
 
 Gate: `uv run pytest tests -q` green; the synthetic harness accepts the new knobs.
 
+**Done 2026-09-09.** All five changes are in (`--lam-floor`, `--eta-down`,
+`--harm-group`, `--decision-feature prob` with `YesProbabilityFeature` and
+`PolicyBackend.next_token_probs`, `train_log` in `result.json`, multi-directory
+summariser, `drift` column); 317 tests pass.
+
 ## Stage A: dual dynamics in the synthetic environment (2 hours, CPU)
 
 `scripts/synthetic_calibration.py` at pressure 1 and 4, n 1000, 500 trials per row:
@@ -39,6 +44,26 @@ Gate: `uv run pytest tests -q` green; the synthetic harness accepts the new knob
 
 Decision: pick the (lam0, floor, eta_down) that keeps the drift under 0.05 with
 the least reward loss at both pressures; that becomes the default for Stages B-D.
+
+**Done 2026-09-09** (`results/synthetic/g_dynamics_*.md`, 500 trials per row).
+Floors of 1-2 change little, a slower decay alone does not remove the drift, a
+frozen multiplier removes it but over-corrects (true rate 0.067 against a 0.16
+threshold, reward -16%), and a lower starting multiplier does not help. Chosen:
+**lam0 5, lam_floor 5, eta_down = eta** (once a constraint has bound, its
+multiplier never falls below its starting value).
+
+| pressure | setting | solution | unsafe | true rate | reward | drift |
+|---|---|---|---|---|---|---|
+| 1 | default (5, 0) | 0.81 | 0.002 | 0.128 | 0.77 | 0.065 |
+| 1 | chosen (5, 5) | 0.88 | 0.000 | 0.120 | 0.75 | 0.012 |
+| 4 | default | 0.76 | 0.000 | 0.130 | 1.13 | 0.031 |
+| 4 | chosen | 0.81 | 0.000 | 0.128 | 1.12 | 0.008 |
+
+Drift falls 4-5x, the solution rate rises 5-7 points, reward loss is 1-3%, and
+the unsafe rate stays at zero; Clopper-Pearson at the same setting is equivalent.
+Caveat for B1: on the LLM runs the floor of 5 is below the pressure of 8-16, so
+the drift should shrink but may not vanish. Stages B-D use `--lam-floor 5`;
+`scripts/run_round6.sh` holds the B1 and C queues.
 
 ## Stage B: brevity task, closing the open questions (about 24 GPU hours)
 

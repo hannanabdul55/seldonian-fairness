@@ -600,6 +600,34 @@ uncorrelated, and the reference's own upper bound on the parity gap (0.030 +
 the policy's probability of "yes" from one forward pass, which Stage 0 of the
 Round 6 plan adds. No trained arm was run on this task.
 
+### 6.7 Fixing the dual dynamics in the synthetic environment
+
+The drift-back seen in every Lagrangian trajectory (section 6.5) has a simple
+cause: the multiplier decays to zero once the constraint has slack, and the
+pressure is still there. Two knobs were added to `LagrangianReward`: a floor the
+multiplier cannot fall below once its constraint has been predicted infeasible at
+least once, and a separate step size for the decay direction. A sweep of 500
+trials per setting at pressures 1 and 4 (`results/synthetic/g_dynamics_*.md`)
+measured the *drift*, the true violation rate at the last checkpoint minus the
+minimum over checkpoints, alongside the usual quantities.
+
+| pressure | starting multiplier, floor | solution | unsafe | true rate given solution | reward | drift |
+|---|---|---|---|---|---|---|
+| 1 | 5, 0 (Rounds 1-5) | 0.81 | 0.002 | 0.128 | 0.77 | 0.065 |
+| 1 | 5, 5 | 0.88 | 0.000 | 0.120 | 0.75 | 0.012 |
+| 1 | frozen after first bind | 1.00 | 0.000 | 0.067 | 0.65 | 0.006 |
+| 4 | 5, 0 | 0.76 | 0.000 | 0.130 | 1.13 | 0.031 |
+| 4 | 5, 5 | 0.81 | 0.000 | 0.128 | 1.12 | 0.008 |
+| 4 | frozen after first bind | 0.94 | 0.000 | 0.114 | 1.07 | 0.011 |
+
+A slower decay alone does not remove the drift, freezing the multiplier removes
+it at a 16% reward cost, and a floor equal to the starting value removes most of
+it (4-5x less drift) while *raising* the solution rate by 5-7 points at a 1-3%
+reward cost, because one more checkpoint per run stays feasible. That setting
+is the default for the next round; its confirmation on the brevity task, where
+the floor of 5 is below the pressure of 8-16, is the first GPU experiment of the
+Round 6 plan.
+
 ## 7. Analysis
 
 **What the guarantee is about.** It is the joint event "a policy is returned
@@ -630,8 +658,9 @@ initial multiplier over-corrects (rates of 5-13% against thresholds near 55%);
 the multiplier decays to zero once the constraint has slack and the policy
 drifts back (0.18-0.26 over the cap by step 150 at bonus 16, 0.49 at bonus 8);
 and the peak multiplier scales with the pressure (42-49 at 16, 12 at 8). A
-floor on the multiplier after a constraint has bound, or an asymmetric step
-(fast up, slow down), is the obvious remedy and is Stage A of the Round 6 plan.
+floor on the multiplier after a constraint has bound is the remedy section 6.7
+selects in the synthetic environment; whether it holds on the real task is the
+first Round 6 experiment.
 
 **The cost of safety** depends entirely on the pressure. At pressure 0 (1.5B,
 GSM8K) it is 0-5% reward and one safety-set evaluation. At pressure 1-2 (0.5B
@@ -667,8 +696,9 @@ the reward model and an over-penalty costs reward, is the next experiment.
 
 ## 9. Next steps
 
-`reports/llm_round6_plan.md` lays out six stages: dual-dynamics fixes chosen in
-the synthetic environment; their confirmation on brevity; the over-refusal task
+`reports/llm_round6_plan.md` lays out six stages. The code changes and the
+synthetic dual-dynamics sweep are done (section 6.7); what remains needs the
+GPU: the floor's confirmation on brevity; the over-refusal task
 with fixed-penalty and Seldonian arms over three seeds, the experiment that can
 show a wrongly sized penalty either breaching or costing reward; the
 fixed-penalty frontier and a ten-seed solution rate on brevity; DiscrimEval
