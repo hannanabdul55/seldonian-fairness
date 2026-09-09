@@ -105,6 +105,15 @@ class PolicyBackend(ABC):
     def load_checkpoint(self, handle):
         """Restore parameters saved by :meth:`save_checkpoint`."""
 
+    def next_token_probs(self, prompts, candidates):
+        """
+        Optional. Per prompt, the probability the policy puts on each string in
+        ``candidates`` as the start of its response, normalised over the candidate
+        set: a float array of shape ``(len(prompts), len(candidates))``. Needed only
+        by policy-dependent features such as :class:`seldonian.llm.discrim.YesProbabilityFeature`.
+        """
+        raise NotImplementedError(f"{type(self).__name__} does not expose next-token probabilities")
+
 
 @dataclass
 class PredictedTest:

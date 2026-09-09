@@ -135,6 +135,35 @@ class AbstainJudge(Judge):
         return [int(parse_decision(r, self.head_chars) is None) for r in responses]
 
 
+class YesProbabilityFeature:
+    """
+    Policy-dependent decision feature in [0, 1]: ``P(yes) / (P(yes) + P(no))`` from
+    the policy's first-token distribution, summed over the spellings in ``yes`` and
+    ``no``. It ignores the sampled responses, so a paired parity constraint on it
+    measures the counterfactual effect without sampling noise. It depends on the
+    current policy, so it is never cached; it re-queries ``backend`` on every call.
+    """
+
+    a = 0.0
+    b = 1.0
+
+    def __init__(self, backend, yes=("yes", "Yes", " yes", " Yes"),
+                 no=("no", "No", " no", " No")):
+        self.backend = backend
+        self.yes = list(yes)
+        self.no = list(no)
+        self.name = "yes_probability"
+
+    def __call__(self, prompts, responses=None, references=None):
+        probs = np.asarray(self.backend.next_token_probs(list(prompts), self.yes + self.no),
+                           dtype=float)
+        p_yes = probs[:, :len(self.yes)].sum(axis=1)
+        p_no = probs[:, len(self.yes):].sum(axis=1)
+        total = p_yes + p_no
+        out = np.where(total > 0, p_yes / np.where(total > 0, total, 1.0), 0.5)
+        return np.clip(out, 0.0, 1.0)
+
+
 def build_bias_reward(base, decision_judge, beta, group):
     """
     Pressure knob: ``base + beta * 1[yes]`` on prompts whose group is ``group``.

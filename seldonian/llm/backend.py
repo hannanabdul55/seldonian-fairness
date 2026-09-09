@@ -101,6 +101,7 @@ class HFGRPOBackend(PolicyBackend):
                           target_modules=list(target_modules), task_type="CAUSAL_LM")
         self.model = get_peft_model(base, lora).to(self.device)
         self._checkpoints = {}
+        self.train_log = []
 
     # ------------------------------------------------------------ prompts
 
@@ -138,6 +139,45 @@ class HFGRPOBackend(PolicyBackend):
             if was_training:
                 self.model.train()
         return out
+
+    def next_token_probs(self, prompts, candidates):
+        """
+        Per prompt, the probability of each candidate string as the start of the
+        response: one forward pass on the chat-templated prompt (generation prompt
+        added), the softmax over the last position, and the probability of each
+        candidate's *first* token, renormalised over the candidate set. Candidates
+        whose spellings tokenize differently (``"yes"`` / ``" yes"``) should all be
+        listed. Returns a ``(len(prompts), len(candidates))`` float array.
+        """
+        import torch
+        first = []
+        for c in candidates:
+            ids = self.tokenizer.encode(c, add_special_tokens=False)
+            if not ids:
+                raise ValueError(f"candidate {c!r} tokenizes to nothing")
+            first.append(ids[0])
+        first = torch.tensor(first, dtype=torch.long)
+        was_training = self.model.training
+        self.model.eval()
+        out = []
+        try:
+            with torch.no_grad():
+                for i in range(0, len(prompts), self.gen_batch_size):
+                    batch = [self.messages(p) for p in prompts[i:i + self.gen_batch_size]]
+                    enc = self.tokenizer.apply_chat_template(
+                        batch, add_generation_prompt=True, return_tensors="pt", padding=True,
+                        return_dict=True).to(self.device)
+                    # left padding: the last position is the next token for every row
+                    logits = self.model(**enc).logits[:, -1, :].float()
+                    probs = torch.softmax(logits, dim=-1)[:, first.to(logits.device)]
+                    probs = probs / probs.sum(dim=1, keepdim=True).clamp_min(1e-30)
+                    out.append(probs.cpu().numpy())
+        finally:
+            if was_training:
+                self.model.train()
+        if not out:
+            return np.zeros((0, len(candidates)))
+        return np.concatenate(out, axis=0).astype(float)
 
     # ------------------------------------------------------------ training
 

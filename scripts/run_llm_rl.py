@@ -128,6 +128,17 @@ def parse():
                    help="proceed even when a relative margin is below the predicted-test width")
     p.add_argument("--eta", type=float, default=100.0, help="seldonian_lag: dual step size")
     p.add_argument("--lam-max", type=float, default=20.0, help="seldonian_lag: multiplier cap")
+    p.add_argument("--lam-floor", type=float, default=0.0,
+                   help="seldonian_lag: once a constraint has been predicted infeasible its "
+                        "multiplier never drops below this")
+    p.add_argument("--eta-down", type=float, default=None,
+                   help="seldonian_lag: dual step size when the bound has slack (default: "
+                        "same as --eta; 0 freezes a raised multiplier)")
+    p.add_argument("--harm-group", choices=["all", "adversarial"], default="all",
+                   help="task ab: prompts the harm constraint is measured on")
+    p.add_argument("--decision-feature", choices=["sampled", "prob"], default="sampled",
+                   help="discrim: parity on the sampled decision, or on the policy's "
+                        "P(yes) / (P(yes) + P(no)) from one forward pass (abstain stays sampled)")
     p.add_argument("--out", default="results/llm")
     p.add_argument("--cache-dir", default=".cache/judges")
     p.add_argument("--quiet", action="store_true")
@@ -139,7 +150,8 @@ def build_constraints(args):
     if args.task == "ab":
         harm = build_judge(args.harm_judge, cache_dir=args.cache_dir)
         refusal = build_judge(args.refusal_judge, cache_dir=args.cache_dir)
-        cons = [Constraint("harm", harm, threshold=np.nan, group=None, bound=args.bound),
+        harm_group = None if args.harm_group == "all" else args.harm_group
+        cons = [Constraint("harm", harm, threshold=np.nan, group=harm_group, bound=args.bound),
                 Constraint("refusal", refusal, threshold=np.nan, group="benign", bound=args.bound)]
         margins = {"harm": args.harm_margin, "refusal": args.refusal_margin}
     elif args.task == "brevity":
@@ -161,6 +173,24 @@ def build_constraints(args):
         cons = [Constraint("error", wrong, threshold=np.nan, group=None, bound=args.bound)]
         margins = {"error": args.acc_margin}
     return cons, margins
+
+
+def train_log(backend):
+    """The trainer's per-logging-step reward / length / kl records, floats only."""
+    keep = ("step", "reward", "reward_std", "kl", "loss", "completions/mean_length",
+            "completions/clipped_ratio")
+    out = []
+    for rec in getattr(backend, "train_log", []) or []:
+        row = {}
+        for k, v in rec.items():
+            if k in keep or (k.startswith("rewards/") and k.endswith("/mean")):
+                try:
+                    row[k] = float(v)
+                except (TypeError, ValueError):
+                    continue
+        if row:
+            out.append(row)
+    return out
 
 
 def judge_name(c):
@@ -209,7 +239,8 @@ def build_reward(args, constraints):
     if args.method == "seldonian_lag":
         return LagrangianReward(base, penalty_terms(constraints),
                                 names=[c.name for c in constraints], lam0=args.lam0,
-                                eta=args.eta, lam_max=args.lam_max)
+                                eta=args.eta, lam_max=args.lam_max, lam_floor=args.lam_floor,
+                                eta_down=args.eta_down)
     return base
 
 
@@ -251,6 +282,10 @@ def main():
                             gen_batch_size=args.gen_batch_size,
                             extra_grpo_kwargs={"steps_per_generation": args.steps_per_generation}
                             if args.steps_per_generation > 1 else None)
+    if args.task == "discrim" and args.decision_feature == "prob":
+        from seldonian.llm.discrim import YesProbabilityFeature
+        parity = next(c for c in constraints if c.name == "parity")
+        parity.feature = YesProbabilityFeature(backend)
     policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=reward, constraints=constraints,
                                 delta=args.delta, predict_every=args.predict_every,
                                 predict_n=args.predict_n, max_new_tokens=args.max_new_tokens,
@@ -320,11 +355,13 @@ def main():
         result["selected"] = policy.selected
         result["history"] = [dataclasses.asdict(h) for h in policy.history]
         result["train_seconds"] = policy.train_seconds
+        result["train_log"] = train_log(backend)
         recs, resps, rews = policy._safety_episodes
         episodes = make_episodes(recs, resps, rews)
     else:
         policy.fit(seldonian=False)
         result["train_seconds"] = policy.train_seconds
+        result["train_log"] = train_log(backend)
         ev = policy.evaluate(d_s)
         result["eval_s"] = {"rates": ev["rates"], "reward": ev["reward"],
                             "mean_length": ev["mean_length"],

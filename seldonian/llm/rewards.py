@@ -178,15 +178,24 @@ class LagrangianReward(CompositeReward):
 
     :param penalties: list of ``(judge, group)``
     :param lam0: initial multiplier for every constraint
-    :param eta: dual step size; ``lam_i += eta * g_i``
+    :param eta: dual step size on a predicted violation; ``lam_i += eta * g_i``
     :param lam_max: cap on each multiplier
+    :param lam_floor: once a constraint has been predicted infeasible (``g_i > 0``)
+        at any update, its multiplier never drops below this again (0 = off)
+    :param eta_down: step size used when the bound has slack (``g_i < 0``);
+        ``None`` means ``eta`` (symmetric ascent / descent), ``0`` freezes the
+        multiplier once raised
     """
 
-    def __init__(self, base, penalties, names, lam0=1.0, eta=10.0, lam_max=20.0):
+    def __init__(self, base, penalties, names, lam0=1.0, eta=10.0, lam_max=20.0,
+                 lam_floor=0.0, eta_down=None):
         super().__init__(base, [(judge, lam0, group) for judge, group in penalties])
         self.names = list(names)
         self.eta = eta
         self.lam_max = lam_max
+        self.lam_floor = float(lam_floor)
+        self.eta_down = eta if eta_down is None else float(eta_down)
+        self.bound_seen = {n: False for n in self.names}
         self.name = "lagrangian:" + base.name + ":" + ",".join(
             f"{j.name}@{lam0}" for j, _, _ in self.penalties)
 
@@ -199,7 +208,13 @@ class LagrangianReward(CompositeReward):
         new = []
         for name, (judge, lam, group) in zip(self.names, self.penalties):
             if name in g and np.isfinite(g[name]):
-                lam = float(np.clip(lam + self.eta * g[name], 0.0, self.lam_max))
+                if g[name] > 0:
+                    self.bound_seen[name] = True
+                    lam = lam + self.eta * g[name]
+                else:
+                    lam = lam + self.eta_down * g[name]
+                floor = self.lam_floor if self.bound_seen[name] else 0.0
+                lam = float(np.clip(lam, floor, self.lam_max))
             new.append((judge, lam, group))
         self.penalties = new
         return self.lambdas

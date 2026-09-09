@@ -108,6 +108,8 @@ def as_feature(x):
         return x
     if isinstance(x, Judge):
         return JudgeFeature(x)
+    if callable(x) and all(hasattr(x, k) for k in ("a", "b", "name")):
+        return x  # duck-typed feature, e.g. seldonian.llm.discrim.YesProbabilityFeature
     raise TypeError(f"expected a Feature or a Judge, got {type(x).__name__}; wrap other "
                     "callables in CallableFeature")
 

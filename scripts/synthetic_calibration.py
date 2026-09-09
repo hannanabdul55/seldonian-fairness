@@ -12,19 +12,28 @@ upper limit); ``viol|sol`` = P(true g > 0 | solution), NOT what delta bounds;
 ``viol_judge|sol`` is the same at the judge level (differs under judge noise) and
 ``viol_trueref|sol`` compares the true rate with the true reference rate + margin;
 ``width`` = safety-test upper bound - rate; ``gap`` = predicted rate of the returned
-checkpoint - safety-test rate; ``feas ckpts`` = checkpoints passing the predicted test.
+checkpoint - safety-test rate; ``feas ckpts`` = checkpoints passing the predicted test;
+``drift`` = true population violation rate at the last predicted test minus the minimum
+over the run's predicted tests (the drift-back of the Lagrangian multiplier).
 Methods: grpo, seldonian (filter only), seldonian_lag (as in scripts/run_llm_rl.py).
+
+Every option given as a list (``--method``, ``--n``, ``--bound``, ``--pressure``,
+``--predict-inflation``, ``--eta``, ``--lam0``, ``--lam-floor``, ``--eta-down``) is a grid
+axis; one table row per combination.
 
 Examples
   python scripts/synthetic_calibration.py --tag a_delta --pressure 1 --n 1000 \\
       --bound ttest hoeffding clopper_pearson bentkus betting_mixture --method seldonian_lag
   python scripts/synthetic_calibration.py --tag c_pressure --pressure 0 0.5 1 2 4 \\
       --method grpo seldonian_lag
+  python scripts/synthetic_calibration.py --tag g_dynamics --pressure 1 4 --n 1000 \\
+      --method seldonian_lag --lam-floor 0 1 2 5 --eta-down frozen 10 50 100
 """
 import argparse
 import itertools
 import json
 import os
+import sys
 import time
 from multiprocessing import Pool
 
@@ -58,8 +67,13 @@ def parse(argv=None):
     p.add_argument("--predict-every", type=int, default=25)
     p.add_argument("--predict-n", type=int, default=512)
     p.add_argument("--eta", type=float, nargs="+", default=[100.0])
-    p.add_argument("--lam0", type=float, default=5.0)
+    p.add_argument("--lam0", type=float, nargs="+", default=[5.0])
     p.add_argument("--lam-max", type=float, default=20.0)
+    p.add_argument("--lam-floor", type=float, nargs="+", default=[0.0],
+                   help="multiplier floor once the constraint has been predicted infeasible")
+    p.add_argument("--eta-down", nargs="+", default=["same"],
+                   help="dual step size when the bound has slack: a number, 'frozen' (0) or "
+                        "'same' (= --eta)")
     p.add_argument("--margin", type=float, default=0.03, help="threshold = reference + margin")
     p.add_argument("--threshold", choices=["exact", "measured"], default="exact",
                    help="exact: true reference rate + margin; measured: reference measured "
@@ -76,38 +90,68 @@ def parse(argv=None):
     p.add_argument("--w-scale", type=float, default=None,
                    help="reward weight scale (default 0.7 / sqrt(d))")
     p.add_argument("--seed", type=int, default=0)
-    return p.parse_args(argv)
+    args = p.parse_args(argv)
+    for v in args.eta_down:
+        if v not in ("same", "frozen"):
+            try:
+                float(v)
+            except ValueError:
+                p.error(f"--eta-down takes numbers, 'frozen' or 'same', got {v!r}")
+    return args
 
 
 # ------------------------------------------------------------------ one trial
 
-def run_trial(cfg, trial):
+class TrackingBackend(SyntheticBackend):
+    """
+    :class:`SyntheticBackend` that also records the *population* true violation rate
+    every ``track_every`` optimizer steps (set it to the policy's ``predict_every``,
+    so the trace has one entry per predicted test) in ``true_trace``.
+    """
+
+    track_every = 0
+
+    def train(self, records, reward, on_step):
+        self.true_trace = []
+
+        def tracked(step):
+            on_step(step)
+            if self.track_every and step % self.track_every == 0:
+                self.true_trace.append(self.env.true_rate(self.params))
+
+        super().train(records, reward, tracked)
+
+
+def run_trial(cfg, seed):
     """One full pipeline run; returns a flat dict of what the harness aggregates."""
     t0 = time.time()
-    seed = cfg["seed"] * 1_000_003 + trial
     sens, spec = cfg["judge_noise"]
-    env = SyntheticEnv(cfg["population"], d=cfg["d"], n_actions=cfg["actions"],
-                       pressure=cfg["pressure"], judge_noise=(sens, spec), seed=seed,
-                       w_scale=cfg["w_scale"])
+    env = SyntheticEnv(n_contexts=cfg["population"], d=cfg["d"], n_actions=cfg["actions"],
+                       pressure=cfg["pressure"], judge_noise=tuple(cfg["judge_noise"]),
+                       seed=seed, w_scale=cfg["w_scale"])
     records = env.records(cfg["n"], seed=seed)
     d_c, d_s = split_prompts(records, test_size=0.4, seed=seed)
 
     judge = SyntheticJudge(sens, spec, seed=seed)
     base = SyntheticReward(env, seed=seed + 1)
-    backend = SyntheticBackend(env, max_steps=cfg["steps"], group_size=cfg["group_size"],
-                               prompts_per_step=cfg["prompts_per_step"], lr=cfg["lr"],
-                               beta=cfg["beta"], seed=seed + 2)
+    backend = TrackingBackend(env, max_steps=cfg["steps"], group_size=cfg["group_size"],
+                              prompts_per_step=cfg["prompts_per_step"], lr=cfg["lr"],
+                              beta=cfg["beta"], seed=seed + 2)
+    backend.track_every = cfg["predict_every"]
     ref = backend.params
     ref_true = env.true_rate(ref)
     ref_reward = env.true_reward(ref)
     ref_judge = env.judged_rate(ref, judge)
 
-    method = cfg["method"]
     c = Constraint("harm", judge, threshold=np.nan, group=None,
                    bound=cfg["bound"] if cfg["bound"] != "-" else "ttest")
-    if method == "seldonian_lag":
+    if cfg["method"] == "seldonian_lag":
+        eta_down = cfg["eta_down"]
+        eta_down = (None if eta_down == "same" else 0.0 if eta_down == "frozen"
+                    else float(eta_down))
         reward = LagrangianReward(base, [(judge, None)], names=["harm"], lam0=cfg["lam0"],
-                                  eta=cfg["eta"], lam_max=cfg["lam_max"])
+                                  eta=cfg["eta"], lam_max=cfg["lam_max"],
+                                  lam_floor=cfg["lam_floor"], eta_down=eta_down)
     else:
         reward = base
     policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=reward, constraints=[c],
@@ -121,10 +165,10 @@ def run_trial(cfg, trial):
         ref_measured = policy.set_relative_thresholds({"harm": cfg["margin"]},
                                                       n=cfg["ref_n"])["harm"]
 
-    row = {"trial": trial, "seed": seed, "threshold": float(c.threshold),
+    row = {"seed": seed, "threshold": float(c.threshold),
            "ref_true": ref_true, "ref_reward": ref_reward, "ref_judge": ref_judge,
            "ref_measured": ref_measured}
-    if method == "grpo":
+    if cfg["method"] == "grpo":
         policy.fit(seldonian=False)
         solution = True
         row.update(safety_rate=np.nan, safety_upper=np.nan, predicted_rate=np.nan,
@@ -141,18 +185,26 @@ def run_trial(cfg, trial):
                    lambda_final=getattr(reward, "lambdas", {}).get("harm", np.nan))
     params = backend.params
     true_rate = env.true_rate(params)
+    trace = backend.true_trace
+    # drift-back: how far the last checkpoint's true rate rose above the run's minimum
+    row["drift"] = (trace[-1] - min(trace)) if trace else np.nan
+    row["true_min_ckpt"] = min(trace) if trace else np.nan
     row.update(solution=bool(solution), true_rate=true_rate,
                true_g=true_rate - row["threshold"],
                judge_rate=env.judged_rate(params, judge),
                true_reward=env.true_reward(params),
                safety_rate_true=env.true_rate(params, d_s),
                seconds=time.time() - t0)
+    row["violates"] = bool(row["true_g"] > 0)
+    row["violates_judge"] = bool(row["judge_rate"] > row["threshold"])
+    # relative to the TRUE reference (the threshold restated in true-label units)
+    row["violates_true_ref"] = bool(true_rate > ref_true + cfg["margin"])
     return row
 
 
 def _run(job):
-    key, cfg, trial = job
-    return key, run_trial(cfg, trial)
+    cfg, trial, seed = job
+    return {"trial": trial, **run_trial(cfg, seed)}
 
 
 # ------------------------------------------------------------------ aggregation
@@ -170,125 +222,116 @@ def _mean(x):
     return float(x.mean()) if len(x) else np.nan
 
 
-def aggregate(rows, margin):
-    sol = np.array([r["solution"] for r in rows], dtype=bool)
-    true_viol = np.array([r["true_g"] > 0 for r in rows])
-    judge_viol = np.array([r["judge_rate"] > r["threshold"] for r in rows])
-    ref_viol = np.array([r["true_rate"] > r["ref_true"] + margin for r in rows])
-    k = int(np.sum(sol & true_viol))
-    s = sol.sum()
+def summarize(rows):
+    sol = [r for r in rows if r["solution"]]
+    k = sum(r["violates"] for r in sol)
     return {
         "trials": len(rows),
-        "sol": float(sol.mean()),
-        "unsafe": k / len(rows),
+        "sol_rate": len(sol) / len(rows),
+        "unsafe_rate": k / len(rows),
         "unsafe_cp95": cp_upper(k, len(rows)),
-        "viol_sol": float(true_viol[sol].mean()) if s else np.nan,
-        "viol_judge_sol": float(judge_viol[sol].mean()) if s else np.nan,
-        "viol_trueref_sol": float(ref_viol[sol].mean()) if s else np.nan,
-        "true_rate_sol": _mean([r["true_rate"] for r in rows if r["solution"]]),
-        "reward_sol": _mean([r["true_reward"] for r in rows if r["solution"]]),
+        "viol_given_sol": _mean([r["violates"] for r in sol]),
+        "viol_judge_given_sol": _mean([r["violates_judge"] for r in sol]),
+        "viol_true_ref_given_sol": _mean([r["violates_true_ref"] for r in sol]),
+        "true_rate_sol": _mean([r["true_rate"] for r in sol]),
+        "reward_sol": _mean([r["true_reward"] for r in sol]),
         "reward_ref": _mean([r["ref_reward"] for r in rows]),
         "ref_true": _mean([r["ref_true"] for r in rows]),
         "threshold": _mean([r["threshold"] for r in rows]),
         "width": _mean([r["safety_upper"] - r["safety_rate"] for r in rows]),
         "gap": _mean([r["predicted_rate"] - r["safety_rate"] for r in rows]),
-        "feasible": _mean([r["n_feasible"] for r in rows]),
-        "seconds": _mean([r["seconds"] for r in rows]),
+        "feasible_ckpts": _mean([r["n_feasible"] for r in rows]),
+        "drift": _mean([r["drift"] for r in rows]),
+        "drift_sol": float(np.nanmean([r["drift"] for r in sol])) if sol else np.nan,
+        "seconds": float(np.mean([r["seconds"] for r in rows])),
     }
 
 
-CONFIG_COLS = [("method", "method", str), ("n", "n", str), ("bound", "bound", str),
-               ("pressure", "pressure", lambda v: f"{v:g}"),
-               ("predict_inflation", "inflation", lambda v: f"{v:g}"),
-               ("eta", "eta", lambda v: f"{v:g}")]
+COLS = [("method", "method"), ("n", "n"), ("bound", "bound"), ("pressure", "pressure"),
+        ("infl", "predict_inflation"), ("eta", "eta"), ("lam0", "lam0"),
+        ("floor", "lam_floor"), ("eta_down", "eta_down")]
+STATS = [("sol", "sol_rate", "{:.2f}"), ("unsafe", "unsafe_rate", "{:.3f}"),
+         ("unsafe CP95", "unsafe_cp95", "{:.3f}"), ("viol|sol", "viol_given_sol", "{:.3f}"),
+         ("viol_judge|sol", "viol_judge_given_sol", "{:.3f}"),
+         ("viol_trueref|sol", "viol_true_ref_given_sol", "{:.3f}"),
+         ("true rate|sol", "true_rate_sol", "{:.3f}"), ("reward|sol", "reward_sol", "{:.2f}"),
+         ("reward ref", "reward_ref", "{:.2f}"), ("width", "width", "{:.3f}"),
+         ("gap", "gap", "{:+.3f}"), ("feas ckpts", "feasible_ckpts", "{:.1f}"),
+         ("drift", "drift", "{:.3f}")]
 
 
-def _fmt(v, spec):
-    if v is None or not np.isfinite(v):
-        return ""
-    return format(v, spec)
-
-
-METRIC_COLS = [("sol", "sol", ".2f"), ("unsafe", "unsafe", ".3f"),
-               ("unsafe_cp95", "unsafe CP95", ".3f"), ("viol_sol", "viol|sol", ".3f"),
-               ("viol_judge_sol", "viol_judge|sol", ".3f"),
-               ("viol_trueref_sol", "viol_trueref|sol", ".3f"),
-               ("true_rate_sol", "true rate|sol", ".3f"), ("reward_sol", "reward|sol", ".2f"),
-               ("reward_ref", "reward ref", ".2f"), ("width", "width", ".3f"),
-               ("gap", "gap", "+.3f"), ("feasible", "feas ckpts", ".1f")]
-
-
-def markdown(summary):
-    """Markdown table; config columns that are constant across rows are dropped."""
-    cols = [c for c in CONFIG_COLS
-            if c[0] == "method" or len({str(s["config"][c[0]]) for s in summary}) > 1]
-    head = [name for _, name, _ in cols] + [name for _, name, _ in METRIC_COLS]
+def markdown(summaries, varying):
+    head = [name for name, key in COLS if key in varying] + [s[0] for s in STATS]
     lines = ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
-    for s in summary:
-        cells = [f(s["config"][k]) for k, _, f in cols]
-        cells += [_fmt(s["metrics"][k], spec) for k, _, spec in METRIC_COLS]
+    for cfg, s in summaries:
+        cells = [str(cfg[key]) for name, key in COLS if key in varying]
+        cells += [fmt.format(s[key]) if np.isfinite(s[key]) else "" for _, key, fmt in STATS]
         lines.append("| " + " | ".join(cells) + " |")
     return "\n".join(lines)
 
 
 # ------------------------------------------------------------------ main
 
-def grid(args):
-    """Row configs; grpo runs no safety test, so its bound is collapsed to ``"-"``."""
-    rows, seen = [], set()
-    for method, n, bound, pressure, infl, eta in itertools.product(
-            args.method, args.n, args.bound, args.pressure, args.predict_inflation, args.eta):
-        if method == "grpo":
-            bound = "-"
-        key = (method, n, bound, pressure, infl, eta)
-        if key in seen:
-            continue
-        seen.add(key)
-        rows.append({
-            "method": method, "n": n, "bound": bound, "pressure": pressure,
-            "predict_inflation": infl, "eta": eta, "delta": args.delta,
-            "judge_noise": list(args.judge_noise), "predict_every": args.predict_every,
-            "predict_n": args.predict_n, "lam0": args.lam0, "lam_max": args.lam_max,
-            "margin": args.margin, "threshold": args.threshold, "ref_n": args.ref_n,
-            "steps": args.steps, "group_size": args.group_size,
-            "prompts_per_step": args.prompts_per_step, "lr": args.lr, "beta": args.beta,
-            "population": args.population, "d": args.d, "actions": args.actions,
-            "w_scale": args.w_scale, "seed": args.seed})
-    return rows
+#: grid axes a method ignores; collapsed to ``"-"`` so they do not duplicate rows
+IGNORED = {"grpo": ("bound", "eta", "lam0", "lam_floor", "eta_down"),
+           "seldonian": ("eta", "lam0", "lam_floor", "eta_down")}
 
 
 def main(argv=None):
     args = parse(argv)
     os.makedirs(args.out, exist_ok=True)
-    configs = grid(args)
-    jobs = [(i, cfg, t) for i, cfg in enumerate(configs) for t in range(args.trials)]
+    grid_keys = ["method", "n", "bound", "pressure", "predict_inflation", "eta", "lam0",
+                 "lam_floor", "eta_down"]
+    grid_vals = [args.method, args.n, args.bound, args.pressure, args.predict_inflation,
+                 args.eta, args.lam0, args.lam_floor, args.eta_down]
+    fixed = {k: v for k, v in vars(args).items() if k not in grid_keys + ["tag", "out",
+                                                                          "trials", "workers"]}
+    varying = {k for k, v in zip(grid_keys, grid_vals) if len(v) > 1} | {"method"}
+    seeds = [args.seed * 1_000_003 + i for i in range(args.trials)]
+    command = " ".join(sys.argv[1:] if argv is None else argv)
+
+    configs, seen = [], set()
+    for combo in itertools.product(*grid_vals):
+        grid = dict(zip(grid_keys, combo))
+        for k in IGNORED.get(grid["method"], ()):
+            grid[k] = "-"
+        key = tuple(grid.values())
+        if key not in seen:
+            seen.add(key)
+            configs.append(grid)
+
     t0 = time.time()
-    results = [[] for _ in configs]
-    if args.workers > 1:
-        with Pool(args.workers) as pool:
-            for key, row in pool.imap_unordered(_run, jobs, chunksize=8):
-                results[key].append(row)
-    else:
-        for job in jobs:
-            key, row = _run(job)
-            results[key].append(row)
+    base = os.path.join(args.out, args.tag)
+    summaries = []
+    pool = Pool(args.workers) if args.workers > 1 else None
+    try:
+        with open(base + ".jsonl", "w") as f:
+            for grid in configs:
+                cfg = {**fixed, **grid}
+                jobs = [(cfg, i, s) for i, s in enumerate(seeds)]
+                rows = pool.map(_run, jobs, chunksize=8) if pool else [_run(j) for j in jobs]
+                for row in rows:
+                    f.write(json.dumps({"config": cfg, **row}, default=float) + "\n")
+                s = summarize(rows)
+                summaries.append((cfg, s))
+                print(f"{grid}: sol={s['sol_rate']:.2f} unsafe={s['unsafe_rate']:.3f} "
+                      f"true rate|sol={s['true_rate_sol']:.3f} reward|sol={s['reward_sol']:.2f} "
+                      f"drift={s['drift']:.3f} ({time.time() - t0:.0f}s)", flush=True)
+    finally:
+        if pool is not None:
+            pool.close()
+            pool.join()
     elapsed = time.time() - t0
 
-    base = os.path.join(args.out, args.tag)
-    with open(base + ".jsonl", "w") as f:
-        for cfg, rows in zip(configs, results):
-            for row in sorted(rows, key=lambda r: r["trial"]):
-                f.write(json.dumps({"config": cfg, **row}, default=float) + "\n")
-    summary = [{"config": cfg, "metrics": aggregate(rows, args.margin)}
-               for cfg, rows in zip(configs, results)]
     with open(base + "_summary.json", "w") as f:
-        json.dump({"tag": args.tag, "args": vars(args), "seconds": elapsed, "rows": summary},
+        json.dump({"tag": args.tag, "args": vars(args), "seconds": elapsed,
+                   "rows": [{"config": cfg, "metrics": s} for cfg, s in summaries]},
                   f, indent=2, default=float)
-    header = f"delta = {args.delta:g}, trials = {args.trials} per row, {elapsed:.0f}s total"
-    table = markdown(summary)
+    table = markdown(summaries, varying)
     with open(base + ".md", "w") as f:
-        f.write(header + "\n\n" + table + "\n")
-    print(header)
+        f.write(f"# {args.tag}\n\n`scripts/synthetic_calibration.py {command}`\n\n"
+                f"delta = {args.delta:g}, "
+                f"trials = {args.trials}, judge noise = {tuple(args.judge_noise)}\n\n{table}\n")
     print()
     print(table)
 
