@@ -44,7 +44,16 @@ uv run scripts/run_llm_rl.py --task ab --method composite --lam 1.0     # compos
 uv run scripts/run_llm_rl.py --task gsm8k --method grpo                 # verifiable control task
 ```
 Results land in `results/llm/<task>/<method>/seed<k>/result.json` next to the prompt splits and the
-safety-set episodes. The safety logic in `seldonian.llm.policy` has no model dependency and is
+safety-set episodes. Constraints are not limited to single rates: `seldonian.llm.constraints` has
+expression constraints over group-conditional means (parity, ratios, bounded scores), paired
+counterfactual differences and two-sample differences, and any bound in `seldonian.bounds` can be
+named with `--bound` (Clopper-Pearson is the recommended default for 0/1 judge labels; see
+`reports/llm_round4_evaluation_design.md`). Two tasks make the constraint bind by construction:
+`--task ab --compliance-bonus 5` pays for complying on adversarial prompts (harm constraint), and
+`--task discrim --bias-bonus 2` pays for a "yes" to one demographic group on DiscrimEval pairs
+(paired decision-parity constraint). `scripts/synthetic_calibration.py` runs the same pipeline on a
+contextual bandit with an exact ground truth (hundreds of trials per minute) and
+`scripts/resample_calibration.py` measures each bound's coverage on real judge labels. The safety logic in `seldonian.llm.policy` has no model dependency and is
 covered by `tests/test_llm_policy.py` with a mock backend.
 # Usage
 [![Open example In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hannanabdul55/seldonian-fairness/blob/master/logistic_regression_seldonian.ipynb) Use this notebook as a reference to train a basic Logistic Regression Model.  
