@@ -18,9 +18,12 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from seldonian.algorithm import SeldonianAlgorithm
-from seldonian.bounds import hoeffdings_bounds, ttest_bounds
+from seldonian.bounds import BOUNDS as _LIBRARY_BOUNDS, hoeffdings_bounds, ttest_bounds
 
-BOUNDS = {"ttest": ttest_bounds, "hoeffding": hoeffdings_bounds}
+#: bounds a :class:`Constraint` may name: every one-sample bound in
+#: :data:`seldonian.bounds.BOUNDS` plus the short alias ``"hoeffding"``
+BOUNDS = dict(_LIBRARY_BOUNDS)
+BOUNDS.update({"ttest": ttest_bounds, "hoeffding": hoeffdings_bounds})
 
 
 def effective_n(m, n_s):
@@ -42,10 +45,17 @@ def predicted_width(rate, n_s, delta, bound="ttest", inflation=1.0, m=None):
     """
     from scipy.stats import t as tdist
     n = n_s if m is None else effective_n(m, n_s)
-    if bound == "hoeffding":
+    if bound in ("hoeffding", "hoeffdings"):
         return inflation * float(np.sqrt(np.log(1 / delta) / (2 * n)))
-    sd = float(np.sqrt(max(rate * (1 - rate), 1e-12)))
-    return inflation * sd / np.sqrt(n) * float(tdist.ppf(1 - delta, n - 1))
+    if bound == "ttest":
+        sd = float(np.sqrt(max(rate * (1 - rate), 1e-12)))
+        return inflation * sd / np.sqrt(n) * float(tdist.ppf(1 - delta, n - 1))
+    # any other bound: evaluate it on a 0/1 sample with the given rate, as the
+    # library's bounds depend on the data only through the empirical distribution
+    k = int(round(rate * n))
+    x = np.concatenate([np.ones(k), np.zeros(n - k)])
+    rv = BOUNDS[bound](x, delta, n=n)
+    return inflation * float(rv.upper - x.mean())
 
 
 @dataclass
@@ -57,7 +67,8 @@ class Constraint:
     :param threshold: tau; set it after measuring the reference policy for a
         relative constraint (see :meth:`SeldonianLLMPolicy.evaluate`)
     :param group: restrict to prompt records with this ``group``; ``None`` = all
-    :param bound: ``"ttest"`` (default) or ``"hoeffding"``
+    :param bound: name of a one-sample bound in :data:`BOUNDS` (``"ttest"`` by
+        default; ``"bentkus"``, ``"betting_mixture"``, ... are distribution-free)
     """
     name: str
     judge: object
@@ -195,7 +206,9 @@ class SeldonianLLMPolicy(SeldonianAlgorithm):
         """
         if self.reward is None:
             return np.full(len(records), np.nan)
-        reward = getattr(self.reward, "base", self.reward)
+        reward = self.reward
+        while hasattr(reward, "base"):
+            reward = reward.base
         return np.asarray(reward([r["prompt"] for r in records], responses,
                                       groups=[r.get("group") for r in records],
                                       references=[r.get("reference") for r in records]),
@@ -209,6 +222,13 @@ class SeldonianLLMPolicy(SeldonianAlgorithm):
         """
         g, rates, upper, ns = {}, {}, {}, {}
         for c in self.constraints:
+            if hasattr(c, "measure"):
+                # self-bounding constraint (seldonian.llm.constraints): it sees the
+                # safety prompts only to count them, never their responses
+                g[c.name], rates[c.name], upper[c.name], ns[c.name] = c.measure(
+                    records, responses, self.delta_each, self.prompts_s, predict=predict,
+                    inflation=self.predict_inflation, ub=ub)
+                continue
             idx = c.select(records)
             n_s = self.n_safety(c)
             ns[c.name] = n_s

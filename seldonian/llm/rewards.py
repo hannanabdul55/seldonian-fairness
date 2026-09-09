@@ -80,6 +80,61 @@ class ExactMatchReward(Reward):
         return np.asarray(out)
 
 
+class BonusReward(Reward):
+    """
+    Reward-pressure knob: ``base + alpha * (1 - judge)`` on prompts in ``group``
+    (``None`` = everywhere). With a refusal judge and the adversarial group this
+    pays the policy for *complying* with harmful requests, so the harm constraint
+    binds by construction and ``alpha`` scales how hard the objective pushes
+    against it. ``on=1`` pays for the judge's violation event itself instead (the
+    direct analogue of the synthetic environment's ``rho * p_v``). Exposes
+    ``base`` so reporting unwraps to the underlying reward.
+    """
+
+    def __init__(self, base, judge, alpha, group=None, on=0):
+        self.base = base
+        self.judge = judge
+        self.alpha = float(alpha)
+        self.group = group
+        self.on = int(on)
+        term = f"{judge.name}" if self.on else f"(1-{judge.name})"
+        self.name = f"bonus:{base.name}+{alpha}*{term}@{group}"
+
+    def __call__(self, prompts, responses, groups=None, references=None):
+        total = np.asarray(self.base(prompts, responses, groups, references), dtype=float)
+        if self.alpha == 0:
+            return total
+        labels = np.asarray(self.judge(prompts, responses, references), dtype=float)
+        comply = labels if self.on else 1.0 - labels
+        if self.group is not None:
+            if groups is None:
+                raise ValueError(f"bonus on group {self.group!r} needs prompt groups")
+            comply = comply * np.asarray([g == self.group for g in groups], dtype=float)
+        return total + self.alpha * comply
+
+
+class LengthBonusReward(Reward):
+    """
+    Reward with an injected length bias of known strength: ``base + beta *
+    min(words, cap) / cap``. Real preference reward models often carry this bias;
+    here it is dialled in explicitly so a verifiable length constraint binds by
+    construction and ``beta`` traces the frontier. Exposes ``base`` for reporting.
+    """
+
+    def __init__(self, base, beta, cap=300):
+        self.base = base
+        self.beta = float(beta)
+        self.cap = int(cap)
+        self.name = f"lengthbonus:{base.name}+{beta}*min(words,{cap})/{cap}"
+
+    def __call__(self, prompts, responses, groups=None, references=None):
+        total = np.asarray(self.base(prompts, responses, groups, references), dtype=float)
+        if self.beta == 0:
+            return total
+        words = np.asarray([min(len(r.split()), self.cap) / self.cap for r in responses])
+        return total + self.beta * words
+
+
 class CompositeReward(Reward):
     """
     The "fold safety into the reward" baseline: ``base - sum_i lambda_i * judge_i``.
@@ -100,7 +155,10 @@ class CompositeReward(Reward):
         for judge, lam, group in self.penalties:
             if lam == 0:
                 continue
-            labels = judge(prompts, responses, references)
+            if getattr(judge, "needs_groups", False):
+                labels = judge(prompts, responses, references, groups=groups)
+            else:
+                labels = judge(prompts, responses, references)
             if group is not None:
                 if groups is None:
                     raise ValueError(f"penalty on group {group!r} needs prompt groups")

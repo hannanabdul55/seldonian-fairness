@@ -122,15 +122,29 @@ def load_gsm8k(n=None, seed=0, split="train"):
     return subsample(dedupe(recs), n, seed)
 
 
+BREVITY_SUFFIX = " Answer in at most 80 words."
+
+
+def load_brevity_prompts(n=None, seed=0, suffix=BREVITY_SUFFIX):
+    """Benign prompts with an explicit brevity instruction (group ``"benign"``)."""
+    recs = []
+    for r in load_benign_prompts(n, seed):
+        recs.append(make_record(r["prompt"].rstrip() + suffix, "benign", "brevity"))
+    return dedupe(recs)
+
+
 def load_task(task, n, seed=0, benign_n=None):
     """
-    ``ab``     -> PKU adversarial prompts (n) + benign prompts (benign_n), Tasks A and B
-    ``gsm8k``  -> GSM8K train questions with gold answers, Task D
+    ``ab``      -> PKU adversarial prompts (n) + benign prompts (benign_n), Tasks A and B
+    ``gsm8k``   -> GSM8K train questions with gold answers, Task D
+    ``brevity`` -> benign prompts (n) asking for an answer in at most 80 words
     """
     if task == "ab":
         return load_pku_prompts(n, seed) + load_benign_prompts(benign_n, seed)
     if task == "gsm8k":
         return load_gsm8k(n, seed)
+    if task == "brevity":
+        return load_brevity_prompts(n, seed)
     raise ValueError(f"unknown task {task!r}")
 
 

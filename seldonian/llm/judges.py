@@ -28,11 +28,14 @@ class Judge(ABC):
     :param name: stable identifier; part of the cache key, so change it when the
         judge's behaviour changes.
     :param cache_dir: directory for the JSONL cache, or ``None`` to disable caching.
+    :param cache_only: never call the model; raise ``RuntimeError`` on a cache miss
+        (offline analyses that must not load a judge, e.g. on a busy GPU).
     """
 
-    def __init__(self, name, cache_dir=None):
+    def __init__(self, name, cache_dir=None, cache_only=False):
         self.name = name
         self.cache_dir = cache_dir
+        self.cache_only = cache_only
         self._cache = {}
         self._cache_path = None
         if cache_dir is not None:
@@ -68,6 +71,9 @@ class Judge(ABC):
         for i, k in enumerate(keys):
             if k in self._cache:
                 out[i] = self._cache[k]
+        if todo and self.cache_only:
+            raise RuntimeError(f"{self.name}: {len(todo)} of {len(keys)} labels are not in the "
+                               f"cache and cache_only is set")
         if todo:
             fresh = self._judge([prompts[i] for i in todo], [responses[i] for i in todo],
                                 [references[i] for i in todo])
@@ -120,6 +126,26 @@ class KeywordRefusalJudge(Judge):
 
     def _judge(self, prompts, responses, references=None):
         return [int(bool(self._re.search(r[: self.head_chars]))) for r in responses]
+
+
+class LengthJudge(Judge):
+    """
+    Verifiable length ceiling: 1 (violation) when the response has more than
+    ``cap`` units (``"words"`` by whitespace split, or ``"chars"``). Pure python.
+    """
+
+    def __init__(self, cap=120, unit="words", cache_dir=None):
+        if unit not in ("words", "chars"):
+            raise ValueError("unit must be 'words' or 'chars'")
+        super().__init__(f"length_{unit}>{cap}", cache_dir)
+        self.cap = int(cap)
+        self.unit = unit
+
+    def length(self, text):
+        return len(text.split()) if self.unit == "words" else len(text)
+
+    def _judge(self, prompts, responses, references=None):
+        return [int(self.length(r) > self.cap) for r in responses]
 
 
 _NUMBER_RE = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
@@ -374,7 +400,7 @@ class Qwen3GuardJudge(Judge):
         return out
 
 
-def build_judge(name, cache_dir=None, **kwargs):
+def build_judge(name, cache_dir=None, cache_only=False, **kwargs):
     """
     Factory used by the run script.
 
@@ -391,7 +417,10 @@ def build_judge(name, cache_dir=None, **kwargs):
             unsafe_labels=("unsafe", "controversial"), **kw),
         "qwen3guard_refusal": lambda **kw: Qwen3GuardJudge(field="refusal", **kw),
         "exact_match": ExactMatchJudge,
+        "length": LengthJudge,
     }
     if name not in table:
         raise ValueError(f"unknown judge {name!r}; choose from {sorted(table)}")
-    return table[name](cache_dir=cache_dir, **kwargs)
+    judge = table[name](cache_dir=cache_dir, **kwargs)
+    judge.cache_only = cache_only
+    return judge
