@@ -35,6 +35,11 @@ brev_ref() {  # brev_ref <out> <seed>: reuse a Round 5 reference-rate file when 
   cp --update=none "$REF5/reference_rates_seed$2.json" "$1/brevity/" 2>/dev/null || true
 }
 
+# B1b: the always-on floor on the real task (synthetic: +9 pts solution rate at pressure 4
+# for 3% reward; the armed floor left the first excursion unpenalised in B1)
+out=results/llm_r6/b1a_v8; brev_ref $out 0
+run $out "$BREV" seldonian_lag 0 --long-bonus 8 $DUAL --lam-floor-always
+
 # B2: the fixed-penalty frontier at seed 0 (r5 has lam 16 at bonus 8, lam 16 / 32 at bonus 16)
 for lam in 2 4 8 32; do
   out=results/llm_r6/b2_v8_l$lam; brev_ref $out 0
@@ -59,15 +64,15 @@ run $out "$DISC" grpo          0 --bias-bonus 2
 run $out "$DISC" composite     0 --bias-bonus 2 --lam 1
 run $out "$DISC" seldonian_lag 0 --bias-bonus 2 $DUAL
 
-# B4: solution rate, seldonian_lag at bonus 8, seeds 1-9 (seed 0 is B1). Seeds 3-9
-# measure their own reference rates in-run (10 minutes each).
+# B4: solution rate, seldonian_lag at bonus 8 with the always-on floor, seeds 1-9 (seed 0
+# is B1b). Seeds 3-9 measure their own reference rates in-run (10 minutes each).
 if [ -f results/llm_r6/B4_HOLD ]; then
   echo "=== $(date '+%F %T') B4 held (results/llm_r6/B4_HOLD exists)"
 else
   out=results/llm_r6/b4_v8
   for seed in 1 2 3 4 5 6 7 8 9; do
     brev_ref $out $seed
-    run $out "$BREV" seldonian_lag $seed --long-bonus 8 $DUAL
+    run $out "$BREV" seldonian_lag $seed --long-bonus 8 $DUAL --lam-floor-always
   done
 fi
 echo "=== $(date '+%F %T') ROUND6B DONE"

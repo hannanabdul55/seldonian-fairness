@@ -97,6 +97,28 @@ armed floor at 5 and 10, pressure 1 and 4. B4 is held (`results/llm_r6/B4_HOLD`)
 until that decides the setting; B2, B3 and D are unaffected (composite and grpo
 arms, or a different task).
 
+**Synthetic check of the always-on floor** (`results/synthetic/g_dynamics_floor_always.md`,
+500 trials per row, Clopper-Pearson, lam0 5, eta_down = eta):
+
+| pressure | floor | armed: solution / true rate / reward | always-on: solution / true rate / reward |
+|---|---|---|---|
+| 1 | 5 | 0.91 / 0.117 / 0.74 | 1.00 / 0.067 / 0.65 |
+| 1 | 10 | 0.91 / 0.118 / 0.74 | 1.00 / 0.061 / 0.62 |
+| 4 | 5 | 0.82 / 0.124 / 1.11 | 0.91 / 0.114 / 1.08 |
+| 4 | 10 | 0.87 / 0.119 / 1.07 | 0.98 / 0.098 / 0.96 |
+
+The always-on floor buys solution rate everywhere, cheaply where the pressure is
+high (+9 points for 3% reward at pressure 4, floor 5) and expensively where it is
+low (+9 points for 12% at pressure 1: the policy sits at a true rate of 0.07 against
+a threshold of 0.16 because a multiplier of 5 outweighs a reward pressure of 1).
+Drift is small in every row; the synthetic environment does not reproduce B1's
+overshoot, whose cause is the 30-step gap between dual updates on a fast-moving
+policy. Decision: the brevity stages (bonus 8-16, pressure well above 5) use
+`--lam-floor 5 --lam-floor-always`; the over-refusal stage C, whose pressure is near
+1-2, keeps the armed floor already queued. `scripts/run_round6b.sh` now runs B1b
+(bonus 8, seed 0, always-on floor, `results/llm_r6/b1a_v8`) first, and B4 with the
+same setting. B4 stays held until B1b is read.
+
 ## Stage C: a task where the constraint opposes the reward (about 14 GPU hours)
 
 Over-refusal at 0.5B, the pilot's natural breach: reward Skywork, constraints harm
