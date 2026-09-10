@@ -9,7 +9,8 @@ With several ``--out`` directories every row is labelled by the directory's base
 Columns: constraint rates on D_s with the threshold each run used, the reward-model
 mean, whether the run returned a solution (Seldonian: passed the safety test;
 baselines: always, with `viol` marking a threshold breach that carries no
-guarantee), and wall-clock.
+guarantee), the drift-back of Seldonian runs (last predicted rate minus the minimum
+over checkpoints, with the final multiplier), and wall-clock.
 """
 import argparse
 import glob
@@ -36,8 +37,33 @@ def load(out, task):
             "selected": (r.get("selected") or {}).get("step"),
             "n_pred": len(r.get("history", [])),
             "n_feasible": sum(h["feasible"] for h in r.get("history", [])),
+            "drift": drift(r.get("history", [])),
+            "lam_end": (r.get("history") or [{}])[-1].get("lambdas"),
         })
     return rows
+
+
+def drift(history):
+    """Per constraint: predicted rate at the last checkpoint minus the minimum over
+    checkpoints (the drift-back Round 5 diagnosed); ``None`` without a history."""
+    if len(history) < 2:
+        return None
+    out = {}
+    for name in history[0]["rates"]:
+        rates = [h["rates"][name] for h in history]
+        out[name] = rates[-1] - min(rates)
+    return out
+
+
+def fmt_drift(r, names):
+    if not r["drift"]:
+        return "-"
+    cells = []
+    for n in names:
+        if n in r["drift"]:
+            lam = (r["lam_end"] or {}).get(n)
+            cells.append(f"{r['drift'][n]:+.3f}" + (f" lam {lam:.1f}" if lam is not None else ""))
+    return " ".join(cells)
 
 
 def fmt_rate(rows_rates, upper, thr, name):
@@ -69,7 +95,7 @@ def main():
         return
     names = sorted({k for r in rows for k in r["rates"]})
     head = ["method", "seed", "sol"]
-    head += [f"{n} (tau)" for n in names] + ["reward", "len", "ckpt", "feasible", "min"]
+    head += [f"{n} (tau)" for n in names] + ["reward", "len", "ckpt", "feasible", "drift", "min"]
     if multi:
         head = ["dir"] + head
     table = [head]
@@ -79,7 +105,7 @@ def main():
                       f" ({r['thresholds'].get(n, float('nan')):.3f})" for n in names] +
                      [f"{r['reward']:.2f}", f"{r['length']:.0f}", str(r["selected"]),
                       f"{r['n_feasible']}/{r['n_pred']}" if r["n_pred"] else "-",
-                      f"{r['minutes']:.0f}"])
+                      fmt_drift(r, names), f"{r['minutes']:.0f}"])
         if multi:
             table[-1].insert(0, r["dir"])
     widths = [max(len(row[i]) for row in table) for i in range(len(head))]
