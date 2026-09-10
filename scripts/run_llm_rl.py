@@ -134,6 +134,9 @@ def parse():
     p.add_argument("--eta-down", type=float, default=None,
                    help="seldonian_lag: dual step size when the bound has slack (default: "
                         "same as --eta; 0 freezes a raised multiplier)")
+    p.add_argument("--judge-calibration", default=None,
+                   help="JSON from scripts/judge_calibration.py analyze: scales each relative "
+                        "margin by the judge's Youden index (lower confidence limits)")
     p.add_argument("--harm-group", choices=["all", "adversarial"], default="all",
                    help="task ab: prompts the harm constraint is measured on")
     p.add_argument("--decision-feature", choices=["sampled", "prob"], default="sampled",
@@ -271,6 +274,15 @@ def main():
     print(f"D_c={len(d_c)} {groups_c}  D_s={len(d_s)} {groups_s}")
 
     constraints, margins = build_constraints(args)
+    judge_youden = {}
+    if args.judge_calibration:
+        from seldonian.llm.calibration import apply_calibration
+        with open(args.judge_calibration) as f:
+            calibration = json.load(f)
+        true_margins = dict(margins)
+        margins, judge_youden = apply_calibration(margins, calibration.get("judges", calibration))
+        print(f"judge calibration {args.judge_calibration}: margins {true_margins} -> {margins} "
+              f"(youden {judge_youden})")
     reward = build_reward(args, constraints)
 
     from seldonian.llm.backend import HFGRPOBackend
@@ -339,6 +351,7 @@ def main():
         "reward": reward.name, "n_c": len(d_c), "n_s": len(d_s), "groups_s": groups_s,
         "delta": args.delta, "bound": args.bound, "thresholds": thresholds,
         "reference_rates": ref_rates, "predicted_widths": widths, "config": vars(args),
+        "margins": margins, "judge_youden": judge_youden,
     }
 
     if args.method == "reference":
