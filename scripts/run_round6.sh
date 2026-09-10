@@ -9,7 +9,7 @@ LOCK=/tmp/claude-gpu.lock
 S05=Qwen/Qwen2.5-0.5B-Instruct
 DUAL="--lam0 5 --lam-floor 5 --lam-max 50 --eta 100"
 BREV="--task brevity --n 3000 --steps 150 --group-size 4 --predict-every 30 --predict-n 768 --steps-per-generation 4 --bound clopper_pearson --word-cap 120 --long-margin 0.05"
-AB="--task ab --steps 150 --group-size 4 --predict-every 30 --predict-n 768 --steps-per-generation 4 --bound clopper_pearson --harm-margin 0.03 --harm-group adversarial"
+AB="--task ab --steps 150 --group-size 4 --predict-every 30 --predict-n 768 --steps-per-generation 4 --bound clopper_pearson --harm-margin 0.045 --harm-group adversarial"
 
 run() {  # run <out> <task-args-var> <method> <seed> [extra args...]
   local out=$1 targs=$2 method=$3 seed=$4; shift 4

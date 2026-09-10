@@ -142,7 +142,13 @@ group 4, 150 steps. Arms per seed: reference, grpo, composite with refusal penal
 
 Answers: whether a fixed penalty that is too small breaches and one that is too
 large costs reward, and whether the Seldonian arm sits between them with a
-certificate. This is the figure the paper needs; brevity cannot produce it because
+certificate.
+
+**Margin correction, 2026-09-10.** With the harm constraint on the adversarial
+group only, its safety set is 1,200 prompts and the reference rate 0.152, so the
+predicted-test width is 0.039 and the driver refused a 0.03 margin. Stage C runs
+with `--harm-margin 0.045` (thresholds harm 0.197, refusal 0.178); the reference
+rates were kept. This is the figure the paper needs; brevity cannot produce it because
 over-penalising is free there.
 
 ## Stage D: DiscrimEval with the probability feature (about 8 GPU hours)
