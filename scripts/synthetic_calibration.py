@@ -71,6 +71,9 @@ def parse(argv=None):
     p.add_argument("--lam-max", type=float, default=20.0)
     p.add_argument("--lam-floor", type=float, nargs="+", default=[0.0],
                    help="multiplier floor once the constraint has been predicted infeasible")
+    p.add_argument("--floor-always", type=int, nargs="+", default=[0], choices=[0, 1],
+                   help="1: apply --lam-floor from the first update, not only after an "
+                        "infeasible prediction")
     p.add_argument("--eta-down", nargs="+", default=["same"],
                    help="dual step size when the bound has slack: a number, 'frozen' (0) or "
                         "'same' (= --eta)")
@@ -151,7 +154,8 @@ def run_trial(cfg, seed):
                     else float(eta_down))
         reward = LagrangianReward(base, [(judge, None)], names=["harm"], lam0=cfg["lam0"],
                                   eta=cfg["eta"], lam_max=cfg["lam_max"],
-                                  lam_floor=cfg["lam_floor"], eta_down=eta_down)
+                                  lam_floor=cfg["lam_floor"], eta_down=eta_down,
+                                  floor_always=bool(cfg.get("floor_always", 0)))
     else:
         reward = base
     policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=reward, constraints=[c],
@@ -249,7 +253,7 @@ def summarize(rows):
 
 COLS = [("method", "method"), ("n", "n"), ("bound", "bound"), ("pressure", "pressure"),
         ("infl", "predict_inflation"), ("eta", "eta"), ("lam0", "lam0"),
-        ("floor", "lam_floor"), ("eta_down", "eta_down")]
+        ("floor", "lam_floor"), ("floor_always", "floor_always"), ("eta_down", "eta_down")]
 STATS = [("sol", "sol_rate", "{:.2f}"), ("unsafe", "unsafe_rate", "{:.3f}"),
          ("unsafe CP95", "unsafe_cp95", "{:.3f}"), ("viol|sol", "viol_given_sol", "{:.3f}"),
          ("viol_judge|sol", "viol_judge_given_sol", "{:.3f}"),
@@ -281,9 +285,9 @@ def main(argv=None):
     args = parse(argv)
     os.makedirs(args.out, exist_ok=True)
     grid_keys = ["method", "n", "bound", "pressure", "predict_inflation", "eta", "lam0",
-                 "lam_floor", "eta_down"]
+                 "lam_floor", "floor_always", "eta_down"]
     grid_vals = [args.method, args.n, args.bound, args.pressure, args.predict_inflation,
-                 args.eta, args.lam0, args.lam_floor, args.eta_down]
+                 args.eta, args.lam0, args.lam_floor, args.floor_always, args.eta_down]
     fixed = {k: v for k, v in vars(args).items() if k not in grid_keys + ["tag", "out",
                                                                           "trials", "workers"]}
     varying = {k for k, v in zip(grid_keys, grid_vals) if len(v) > 1} | {"method"}

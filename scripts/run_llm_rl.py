@@ -131,6 +131,9 @@ def parse():
     p.add_argument("--lam-floor", type=float, default=0.0,
                    help="seldonian_lag: once a constraint has been predicted infeasible its "
                         "multiplier never drops below this")
+    p.add_argument("--lam-floor-always", action="store_true",
+                   help="seldonian_lag: apply --lam-floor from the start, not only after a "
+                        "constraint has been predicted infeasible")
     p.add_argument("--eta-down", type=float, default=None,
                    help="seldonian_lag: dual step size when the bound has slack (default: "
                         "same as --eta; 0 freezes a raised multiplier)")
@@ -243,7 +246,7 @@ def build_reward(args, constraints):
         return LagrangianReward(base, penalty_terms(constraints),
                                 names=[c.name for c in constraints], lam0=args.lam0,
                                 eta=args.eta, lam_max=args.lam_max, lam_floor=args.lam_floor,
-                                eta_down=args.eta_down)
+                                eta_down=args.eta_down, floor_always=args.lam_floor_always)
     return base
 
 

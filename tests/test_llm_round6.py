@@ -231,3 +231,17 @@ def test_synthetic_harness_records_drift():
                      "10", "same"])
     assert args.lam0 == [1.0, 2.0] and args.lam_floor == [0.0, 5.0]
     assert args.eta_down == ["frozen", "10", "same"]
+
+
+def test_lagrangian_floor_always_holds_from_the_first_update():
+    armed = LagrangianReward(Const(), [(Flag(), None)], names=["c"], lam0=5.0, eta=10.0,
+                             lam_max=50, lam_floor=5.0)
+    always = LagrangianReward(Const(), [(Flag(), None)], names=["c"], lam0=5.0, eta=10.0,
+                              lam_max=50, lam_floor=5.0, floor_always=True)
+    # slack before any infeasible prediction: the armed floor lets lam decay to 0
+    assert armed.update({"c": -1.0})["c"] == 0.0
+    assert always.update({"c": -1.0})["c"] == 5.0
+    # after an infeasible prediction both hold the floor
+    armed.update({"c": 1.0}); always.update({"c": 1.0})
+    assert armed.update({"c": -5.0})["c"] == 5.0
+    assert always.update({"c": -5.0})["c"] == 5.0

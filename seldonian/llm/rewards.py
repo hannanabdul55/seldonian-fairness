@@ -185,16 +185,22 @@ class LagrangianReward(CompositeReward):
     :param eta_down: step size used when the bound has slack (``g_i < 0``);
         ``None`` means ``eta`` (symmetric ascent / descent), ``0`` freezes the
         multiplier once raised
+    :param floor_always: apply ``lam_floor`` from the first update, not only after
+        a constraint has been predicted infeasible (Round 6 B1: with the floor
+        armed only by an infeasible prediction, the multiplier decayed to zero
+        while the policy was still far below the threshold and the first
+        excursion above it went unpenalised)
     """
 
     def __init__(self, base, penalties, names, lam0=1.0, eta=10.0, lam_max=20.0,
-                 lam_floor=0.0, eta_down=None):
+                 lam_floor=0.0, eta_down=None, floor_always=False):
         super().__init__(base, [(judge, lam0, group) for judge, group in penalties])
         self.names = list(names)
         self.eta = eta
         self.lam_max = lam_max
         self.lam_floor = float(lam_floor)
         self.eta_down = eta if eta_down is None else float(eta_down)
+        self.floor_always = bool(floor_always)
         self.bound_seen = {n: False for n in self.names}
         self.name = "lagrangian:" + base.name + ":" + ",".join(
             f"{j.name}@{lam0}" for j, _, _ in self.penalties)
@@ -213,7 +219,7 @@ class LagrangianReward(CompositeReward):
                     lam = lam + self.eta * g[name]
                 else:
                     lam = lam + self.eta_down * g[name]
-                floor = self.lam_floor if self.bound_seen[name] else 0.0
+                floor = self.lam_floor if (self.floor_always or self.bound_seen[name]) else 0.0
                 lam = float(np.clip(lam, floor, self.lam_max))
             new.append((judge, lam, group))
         self.penalties = new
