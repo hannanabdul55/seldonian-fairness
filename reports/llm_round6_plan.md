@@ -76,6 +76,27 @@ the drift should shrink but may not vanish. Stages B-D use `--lam-floor 5`;
 
 Gate after B1: if the drift is not fixed, stop and return to Stage A before B4.
 
+**B1 at bonus 8, 2026-09-10** (`results/llm_r6/b1_v8`; Round 5 baseline `results/llm_r5/v8`):
+
+| run | predicted rate at steps 30 / 60 / 90 / 120 / 150 | multiplier | selected | test rate (ub) | reward | drift |
+|---|---|---|---|---|---|---|
+| Round 5 (no floor) | 0.135 / 0.260 / 0.561 / 0.624 / 0.487 | 0 / 0 / 3.0 / 12.2 / 7.9 | step 30 | 0.135 (0.149) | 1.82 | +0.352 |
+| B1 (lam0 5, floor 5) | 0.130 / 0.383 / 0.699 / 0.387 / 0.337 | 0 / 0 / 16.6 / 5.0 / 5.0 | step 30 | 0.140 (0.154) | 1.74 | +0.207 |
+
+Partial. The floor halves the drift and the last two checkpoints sit under the
+threshold (0.561) instead of on it, but the first excursion is unchanged: the
+starting multiplier of 5 decays to zero at the first prediction (rate 0.13 against
+a 0.56 threshold gives g = -0.43, and eta 100 takes lam to zero), so the policy
+climbs unpenalised from 0.13 to 0.70 between steps 30 and 90. The floor as
+implemented only arms after an infeasible prediction, which is exactly when it is
+no longer needed. Both runs return the step-30 checkpoint at the same reward.
+
+Fix under test: `--lam-floor-always` (commit 62678a7) applies the floor from the
+first update; `results/synthetic/g_dynamics_floor_always.md` compares it with the
+armed floor at 5 and 10, pressure 1 and 4. B4 is held (`results/llm_r6/B4_HOLD`)
+until that decides the setting; B2, B3 and D are unaffected (composite and grpo
+arms, or a different task).
+
 ## Stage C: a task where the constraint opposes the reward (about 14 GPU hours)
 
 Over-refusal at 0.5B, the pilot's natural breach: reward Skywork, constraints harm
