@@ -97,6 +97,20 @@ armed floor at 5 and 10, pressure 1 and 4. B4 is held (`results/llm_r6/B4_HOLD`)
 until that decides the setting; B2, B3 and D are unaffected (composite and grpo
 arms, or a different task).
 
+**B1 at bonus 16, 2026-09-10** (`results/llm_r6/b1_v16` against `results/llm_r5/v16` seed 0):
+predicted rates 0.901 / 0.311 / 0.073 / 0.211 / 0.279 with multipliers 40.7 / 18.7 /
+5.0 / 5.0 / 5.0, selected step 90, test rate 0.095 (ub 0.107), reward 2.05, drift
++0.206; Round 5 had 0.914 / 0.314 / 0.060 / 0.181 / 0.266, multipliers 41.9 / 20.1 /
+0 / 0 / 0, step 90, reward 2.05, drift +0.206. A floor of 5 against a pressure of
+16 is no floor at all: the multiplier is 5 instead of 0 during the drift-back and
+the trajectory is unchanged to the second decimal. What the floor has to be is a
+fraction of the pressure, which is unknown in advance but is what the multiplier
+itself measures at its peak (41 at bonus 16, 17 at bonus 8). The clean version is a
+ratchet: floor = a fraction of the largest multiplier the run has reached. Not
+implemented; the drift-back is dual ascent behaving as designed (the constrained
+optimum sits at the threshold), and candidate selection returns the step-90
+checkpoint either way. Its cost is feasible checkpoints, which B4 measures.
+
 **Synthetic check of the always-on floor** (`results/synthetic/g_dynamics_floor_always.md`,
 500 trials per row, Clopper-Pearson, lam0 5, eta_down = eta):
 
