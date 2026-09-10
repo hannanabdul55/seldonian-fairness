@@ -628,6 +628,81 @@ is the default for the next round; its confirmation on the brevity task, where
 the floor of 5 is below the pressure of 8-16, is the first GPU experiment of the
 Round 6 plan.
 
+### 6.8 The floor on the brevity task
+
+The Round 6 gate ran the floored multiplier (start 5, floor 5) at bonus 8 and 16,
+seed 0, against the Round 5 trajectories (`results/llm_r6/b1_v8`, `b1_v16`).
+
+| bonus | setting | predicted rate at steps 30 / 60 / 90 / 120 / 150 | multiplier | selected | test rate (ub) | base reward | drift |
+|---|---|---|---|---|---|---|---|
+| 8 | Round 5, no floor | 0.135 / 0.260 / 0.561 / 0.624 / 0.487 | 0 / 0 / 3.0 / 12.2 / 7.9 | 30 | 0.135 (0.149) | 1.82 | +0.352 |
+| 8 | floor 5 | 0.130 / 0.383 / 0.699 / 0.387 / 0.337 | 0 / 0 / 16.6 / 5.0 / 5.0 | 30 | 0.140 (0.154) | 1.74 | +0.207 |
+| 16 | Round 5, no floor | 0.914 / 0.314 / 0.060 / 0.181 / 0.266 | 41.9 / 20.1 / 0 / 0 / 0 | 90 | 0.063 (0.073) | 2.05 | +0.206 |
+| 16 | floor 5 | 0.901 / 0.311 / 0.073 / 0.211 / 0.279 | 40.7 / 18.7 / 5.0 / 5.0 / 5.0 | 90 | 0.095 (0.107) | 2.05 | +0.206 |
+
+Two things the synthetic environment did not show. First, the floor as
+implemented arms only after a constraint has been predicted infeasible, and at
+bonus 8 that is too late: the starting multiplier of 5 decays to zero at the first
+prediction (a rate of 0.13 against a threshold of 0.56 gives `g = -0.43`, and a
+step of 100 takes the multiplier to zero), so the policy climbs unpenalised from
+0.13 to 0.70 between steps 30 and 90. The floor then holds the last two
+checkpoints under the threshold (0.39, 0.34 against 0.56) instead of on it, which
+halves the drift. Second, at bonus 16 a floor of 5 against a pressure of 16 is no
+floor at all: the trajectory is unchanged to the second decimal. What the floor
+needs to be is a fraction of the pressure, which is unknown in advance but is what
+the multiplier itself measures at its peak (41 at bonus 16, 17 at bonus 8); a
+ratchet floor set from the peak is the untested next version. Both runs return the
+same checkpoint at the same reward as without the floor, so the drift-back is dual
+ascent behaving as designed (the constrained optimum sits at the threshold) and
+candidate selection makes it harmless for the guarantee; its cost is feasible
+checkpoints, which the ten-seed solution rate measures.
+
+A floor applied from the first update (`--lam-floor-always`) was swept in the
+synthetic environment (`results/synthetic/g_dynamics_floor_always.md`, 500 trials
+per row): at pressure 4 it raises the solution rate from 0.82 to 0.91 at a 3%
+reward cost (floor 5) and from 0.87 to 0.98 at 10% (floor 10); at pressure 1 it
+over-corrects (true rate 0.067 against a threshold of 0.16, reward down 12%),
+because a multiplier of 5 outweighs a pressure of 1. The brevity stages, whose
+pressure is well above 5, use it; the over-refusal stage, near pressure 1-2,
+keeps the armed floor.
+
+### 6.9 Judge calibration (provisional)
+
+The guarantee is stated in the judge's labels. With sensitivity `s` and
+specificity `p`, the judge-level rate `q` and the true rate `r` are related by
+`q = (s + p - 1) r + (1 - p)`. Because the same judge measures the reference
+policy, a relative constraint `r <= r_ref + m` is exactly `q <= q_ref + J m` with
+`J = s + p - 1`: the offset cancels and the margin scales by Youden's index
+(`seldonian/llm/calibration.py`; `run_llm_rl.py --judge-calibration`). Lower
+confidence limits on `s` and `p` make the correction conservative.
+
+Violations are rare, so the labelling sample is stratified by the judge's own
+flag: 100 flagged and 100 cleared responses per judge, drawn from the safety-set
+responses of every 0.5B over-refusal run (34,687 adversarial and 22,757 benign;
+flag prevalence 0.088 and 0.172). That estimates the predictive values directly;
+sensitivity and specificity follow from them and the prevalence, and their lower
+limits from Clopper-Pearson limits on the predictive values. A language model
+produced a first pass of labels; the human labels are pending, and six harm rows
+with weapons content were left for the human.
+
+| judge | PPV | NPV | sensitivity | specificity | J | margin, judge-level |
+|---|---|---|---|---|---|---|
+| harm (Qwen3Guard unsafe) | 0.52 (>= 0.43) | 0.99 (>= 0.95) | 0.83 (>= 0.47) | 0.96 (>= 0.95) | 0.79 (>= 0.41) | 0.030 -> 0.024 (point) |
+| refusal (Qwen3Guard refusal) | 0.69 (>= 0.61) | 1.00 (>= 0.97) | 1.00 (>= 0.81) | 0.94 (>= 0.92) | 0.94 (>= 0.73) | 0.050 -> 0.047 (point) |
+
+Provisional as they are, the labels say three things. Both judges miss almost
+nothing the labeller counts: the failure direction of the guarantee, a true
+violation the judge clears, is rare. Both over-flag by the labeller's stricter
+definition (half of the harm flags are dark fiction, generic caution, or
+rambling without actionable help; a third of the refusal flags are a disclaimer
+followed by a real answer), which is a definition gap the human labels have to
+settle, and one that makes the judge conservative rather than unsafe. And the
+sensitivity lower limit is set by the cleared stratum: one miss in 98 gives an
+NPV of at least 0.95, which at an 8.8% flag prevalence allows a sensitivity as low
+as 0.47. Pinning it above 0.8 needs about 500 cleared-stratum labels, not 100.
+At the current sample the lower-limit correction (margin 0.030 to 0.012) is below
+the predicted-test width, so only the point-estimate correction is usable.
+
 ## 7. Analysis
 
 **What the guarantee is about.** It is the joint event "a policy is returned
@@ -659,8 +734,11 @@ the multiplier decays to zero once the constraint has slack and the policy
 drifts back (0.18-0.26 over the cap by step 150 at bonus 16, 0.49 at bonus 8);
 and the peak multiplier scales with the pressure (42-49 at 16, 12 at 8). A
 floor on the multiplier after a constraint has bound is the remedy section 6.7
-selects in the synthetic environment; whether it holds on the real task is the
-first Round 6 experiment.
+selects in the synthetic environment; on the real task (6.8) it halves the drift
+at bonus 8 and does nothing at bonus 16, because a fixed floor is only a floor
+when it is a fraction of the pressure. The drift-back itself is not a failure of
+the guarantee, which candidate selection protects; it is a cost in feasible
+checkpoints.
 
 **The cost of safety** depends entirely on the pressure. At pressure 0 (1.5B,
 GSM8K) it is 0-5% reward and one safety-set evaluation. At pressure 1-2 (0.5B
@@ -682,8 +760,9 @@ the reward model and an over-penalty costs reward, is the next experiment.
 - Every real-LLM comparison has one to three seeds; solution rates and breach
   counts have no useful interval. The delta claim rests on the synthetic
   environment, which has one constraint and a 36-parameter linear policy.
-- The guarantee is with respect to judges whose agreement with human labels is
-  measured for one of them (harm, 90%) and not at all for the refusal flag.
+- The guarantee is with respect to judges. Their calibration (6.9) rests on
+  machine labels until the hand labels are in, and its sensitivity lower limits
+  are loose at 100 cleared labels per judge.
 - Rounds 1-4 used the t bound, shown in 6.2 to be anti-conservative at the
   rates trained policies reach.
 - Reward pressure is injected. The natural case (a helpfulness-only reward
@@ -696,14 +775,16 @@ the reward model and an over-penalty costs reward, is the next experiment.
 
 ## 9. Next steps
 
-`reports/llm_round6_plan.md` lays out six stages. The code changes and the
-synthetic dual-dynamics sweep are done (section 6.7); what remains needs the
-GPU: the floor's confirmation on brevity; the over-refusal task
-with fixed-penalty and Seldonian arms over three seeds, the experiment that can
-show a wrongly sized penalty either breaching or costing reward; the
-fixed-penalty frontier and a ten-seed solution rate on brevity; DiscrimEval
-with the probability feature; and hand-labelled judge calibration with a
-sensitivity correction. About 58 GPU-hours.
+`reports/llm_round6_plan.md` lays out six stages. Done: the code changes, the
+synthetic dual-dynamics sweeps (6.7, 6.8), the floor's confirmation on brevity
+(6.8) and the calibration tooling with provisional labels (6.9). Running on the
+GPU, in order: the over-refusal task with fixed-penalty and Seldonian arms over
+three seeds, the experiment that can show a wrongly sized penalty either
+breaching or costing reward; the always-on floor on brevity; the fixed-penalty
+frontier and the marginal regime; DiscrimEval with the probability feature; a
+ten-seed solution rate. Off the GPU: the human labels (with about 500
+cleared-stratum responses per judge) and a ratchet floor set from the peak
+multiplier.
 
 ## Appendix A. Glossary
 
@@ -737,8 +818,11 @@ uv run scripts/run_llm_rl.py --task brevity --method reference     --seed 0 --bo
 uv run scripts/run_llm_rl.py --task brevity --method grpo          --seed 0 --bound clopper_pearson --out results/llm_r5/v16 --long-bonus 16 --steps 150 --group-size 4
 uv run scripts/run_llm_rl.py --task brevity --method seldonian_lag --seed 0 --bound clopper_pearson --out results/llm_r5/v16 --long-bonus 16 --steps 150 --group-size 4 --lam-max 50
 uv run scripts/summarize_llm.py --out results/llm_r5/v16 --task brevity
+# judge calibration sheets from cached labels (no GPU), then analysis once "label" is filled
+uv run scripts/judge_calibration.py sample --per-stratum 100
+uv run scripts/judge_calibration.py analyze
 ```
 
 Queue scripts with the exact settings of every round: `scripts/run_round1.sh`
-through `scripts/run_round5b.sh`. Reports per round: `reports/llm_round1_pilot.md`,
+through `scripts/run_round6b.sh`. Reports per round: `reports/llm_round1_pilot.md`,
 `reports/llm_round2.md`, `reports/llm_round4_evaluation_design.md`.
