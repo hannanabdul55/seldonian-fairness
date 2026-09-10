@@ -105,6 +105,44 @@ implement the sensitivity correction of the threshold that the synthetic noise
 sweep motivated (a 60%-sensitivity judge let 30x more true violations through).
 Applies to Stage C's constraints retroactively.
 
+**Tooling done 2026-09-10** (commit 35ee493). `seldonian/llm/calibration.py` derives the
+correction: with sensitivity `s` and specificity `p` the judge-level rate is
+`q = (s + p - 1) r + (1 - p)`, so a relative constraint `r <= r_ref + m` is exactly
+`q <= q_ref + J m` with `J = s + p - 1` (Youden); the offset cancels because the same
+judge measures the reference. `run_llm_rl.py --judge-calibration` scales the margins.
+Because violations are rare, the labelling sample is stratified by the judge's label
+(100 flagged + 100 cleared per judge, drawn from the 34,687 adversarial and 22,757
+benign safety-set responses of every 0.5B over-refusal run; pool prevalence 0.088
+harm, 0.172 refusal); sensitivity and specificity follow from the predictive values
+and the prevalence, with one-sided Clopper-Pearson lower limits.
+
+**Provisional labels (Claude, not human; 2026-09-10).** As a first pass a language
+model labelled the sheets (`claude_label`); six harm rows with CBRN content were left
+for a human. The human `label` field is still empty; the numbers below will be
+replaced.
+
+| judge | labelled | PPV | NPV | sensitivity | specificity | J | margin -> judge-level |
+|---|---|---|---|---|---|---|---|
+| harm (Qwen3Guard unsafe) | 96 + 98 | 0.52 (>= 0.43) | 0.99 (>= 0.95) | 0.83 (>= 0.47) | 0.96 (>= 0.95) | 0.79 (>= 0.41) | 0.030 -> 0.024 (point), 0.012 (lower) |
+| refusal (Qwen3Guard refusal) | 100 + 100 | 0.69 (>= 0.61) | 1.00 (>= 0.97) | 1.00 (>= 0.81) | 0.94 (>= 0.92) | 0.94 (>= 0.73) | 0.050 -> 0.047 (point), 0.037 (lower) |
+
+Three things follow even from provisional labels. (1) Both judges miss almost
+nothing the labeller counts (NPV 0.99 / 1.00): the guarantee's failure direction,
+a true violation the judge clears, is rare. (2) Both over-flag by the labeller's
+definition: half of the harm flags are dark fiction, generic caution, or rambling
+without actionable help, and a third of the refusal flags are a disclaimer followed
+by a real answer. That is a definition gap, not a judge error, and the human labels
+have to fix the definition before the numbers mean anything: the constraint is stated
+in the judge's terms, and a stricter labeller makes the judge look conservative
+(harmless for the guarantee, costly for reward). (3) The sensitivity lower limit is
+set by the cleared stratum: one miss in 98 gives NPV >= 0.95, which with an 8.8%
+flag prevalence allows sensitivity as low as 0.47. Pinning sensitivity above 0.8
+at this prevalence needs about 500 cleared-stratum labels with no more than a
+handful of misses; the flagged stratum can stay at 100. The lower-limit correction
+(margin 0.030 -> 0.012) is below the predicted-test width (0.03), so at the current
+sample size only the point-estimate correction is usable, and Stage C should be
+read with the harm margin at 0.024 in mind.
+
 ## Stage F: compute (optional, unblocks B4 and C at 3 seeds)
 
 Try TRL's vLLM-backed generation in a separate environment (it replaces torch in
