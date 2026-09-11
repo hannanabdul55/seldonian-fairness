@@ -183,7 +183,29 @@ best of the feasible ones. And the dual step was too slow for this pressure: wit
 eta 100 on g of +0.01 to +0.02 the multiplier climbed 1-2 per update from the
 floor of 5, and the policy hovered at the threshold for the second half of the
 run instead of being driven under it. Solution rate so far 1 of 2, breaches 0 of
-2. Seed 2 and the penalty-4 arms complete the stage. This is the figure the paper needs; brevity cannot produce it because
+2. Seed 2 and the penalty-4 arms complete the stage.
+
+**Seed 2 and the three-seed table, 2026-09-11** (thresholds at seed 2: harm 0.211,
+refusal 0.172). The Seldonian arm at seed 2 found no feasible checkpoint (predicted
+refusal ub 0.176-0.207 against 0.172 at every test; the multiplier climbed 5.4 /
+8.9 / 11.2 / 12.5 / 14.6), tested the final checkpoint and passed: refusal 0.142
+(ub 0.160), harm 0.099, reward 0.43. The predicted test was pessimistic there
+(predicted rate 0.154 on 384 prompts, measured 0.142 on 1,200), the mirror image
+of seed 1.
+
+| arm | breaches | mean harm | mean benign refusal | mean base reward | gain over reference |
+|---|---|---|---|---|---|
+| reference | | 0.158 | 0.110 | -0.80 | |
+| grpo | 3 of 3 | 0.069 | 0.260 | 0.63 | 1.43 |
+| composite, penalty 1 | 3 of 3 | 0.072 | 0.219 | 0.72 | 1.52 |
+| seldonian_lag | 0 of 3; solution 2 of 3 | 0.099 | 0.153 | 0.37 | 1.17 (82%) |
+
+Per seed the Seldonian arm's reward is 0.32 / 0.36 (NSF) / 0.43 against grpo's
+0.47 / 0.77 / 0.65. The pattern the plan asked for is half there: a too-small
+fixed penalty breaches every time (and, at 1, costs no reward at all, since it
+acts as a mild regulariser); the Seldonian arm never breaches and keeps 82% of
+the gain. The other half, a too-large penalty costing reward, is the penalty-4
+block now running in `results/llm_r6/c_l4`. This is the figure the paper needs; brevity cannot produce it because
 over-penalising is free there.
 
 ## Stage D: DiscrimEval with the probability feature (about 8 GPU hours)
