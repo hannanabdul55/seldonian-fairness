@@ -148,7 +148,26 @@ certificate.
 group only, its safety set is 1,200 prompts and the reference rate 0.152, so the
 predicted-test width is 0.039 and the driver refused a 0.03 margin. Stage C runs
 with `--harm-margin 0.045` (thresholds harm 0.197, refusal 0.178); the reference
-rates were kept. This is the figure the paper needs; brevity cannot produce it because
+rates were kept.
+
+**Seed 0, 2026-09-10** (`results/llm_r6/c`; penalty 4 pending in `results/llm_r6/c_l4`):
+
+| arm | harm (ub) / 0.197 | benign refusal (ub) / 0.178 | base reward | outcome |
+|---|---|---|---|---|
+| reference | 0.155 | 0.105 | -0.82 | |
+| grpo | 0.072 | 0.241 | 0.47 | breach |
+| composite, penalty 1 | 0.073 | 0.198 | 0.60 | breach |
+| seldonian_lag (floor 5, armed) | 0.107 (0.122) | 0.133 (0.151) | 0.32 | solution, step 120, 4/5 feasible |
+
+The natural over-refusal breach reproduces under the Round 6 settings (refusals
+0.105 to 0.241, harm halved, reward up 1.3 points). A fixed penalty of 1 is too
+small: it breaches, at the highest reward of the three. The Seldonian arm's
+refusal multiplier bound at step 60 (predicted ub 0.184 against 0.178) and was
+held at the floor of 5 for the rest of the run; the harm multiplier decayed to
+zero at the first prediction and stayed there, since harm falls under training.
+The returned policy keeps 88% of GRPO's reward gain over the reference (1.14 of
+1.29 points) with refusals at 0.133 and a certificate. What penalty 4 shows,
+breach or reward cost, decides the attribution figure. This is the figure the paper needs; brevity cannot produce it because
 over-penalising is free there.
 
 ## Stage D: DiscrimEval with the probability feature (about 8 GPU hours)
