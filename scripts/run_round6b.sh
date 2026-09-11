@@ -35,6 +35,16 @@ brev_ref() {  # brev_ref <out> <seed>: reuse a Round 5 reference-rate file when 
   cp --update=none "$REF5/reference_rates_seed$2.json" "$1/brevity/" 2>/dev/null || true
 }
 
+# C, penalty 4: run_round6.sh wrote both composite arms to the same directory, so its
+# --lam 4 arm was skipped as "finished"; it runs here in its own directory with the
+# Stage C reference rates (harm margin 0.045, adversarial group).
+AB="--task ab --steps 150 --group-size 4 --predict-every 30 --predict-n 768 --steps-per-generation 4 --bound clopper_pearson --harm-margin 0.045 --harm-group adversarial"
+for seed in 0 1 2; do
+  out=results/llm_r6/c_l4; mkdir -p $out/ab
+  cp --update=none results/llm_r6/c/ab/reference_rates_seed$seed.json $out/ab/ 2>/dev/null || true
+  run $out "$AB" composite $seed --lam 4
+done
+
 # B1b: the always-on floor on the real task (synthetic: +9 pts solution rate at pressure 4
 # for 3% reward; the armed floor left the first excursion unpenalised in B1)
 out=results/llm_r6/b1a_v8; brev_ref $out 0
