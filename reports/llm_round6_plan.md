@@ -167,7 +167,23 @@ held at the floor of 5 for the rest of the run; the harm multiplier decayed to
 zero at the first prediction and stayed there, since harm falls under training.
 The returned policy keeps 88% of GRPO's reward gain over the reference (1.14 of
 1.29 points) with refusals at 0.133 and a certificate. What penalty 4 shows,
-breach or reward cost, decides the attribution figure. This is the figure the paper needs; brevity cannot produce it because
+breach or reward cost, decides the attribution figure.
+
+**Seed 1, 2026-09-11** (thresholds harm 0.209, refusal 0.192): grpo breaches again
+(refusal 0.278, reward 0.77), penalty 1 breaches again (0.205, reward 0.75), and
+the Seldonian arm returns **NSF**: it selected step 90 on a predicted refusal rate
+of 0.133 (ub 0.170, feasible), and the safety set measured 0.184 (ub 0.204 against
+0.192). Trajectory: refusal 0.107 / 0.174 / 0.133 / 0.164 / 0.164 at steps 30-150
+with the refusal multiplier 0 / 5 / 5 / 6.2 / 7.4 and 2 of 5 checkpoints feasible;
+the harm multiplier decayed to zero at step 60 and stayed there. Two readings. The
+guarantee did its job: the returned answer is NSF, not a breaching policy, and the
+0.05 gap between the predicted and measured rate of the selected checkpoint is the
+winner's curse on a 384-prompt benign prediction sample (sd 0.018) picked as the
+best of the feasible ones. And the dual step was too slow for this pressure: with
+eta 100 on g of +0.01 to +0.02 the multiplier climbed 1-2 per update from the
+floor of 5, and the policy hovered at the threshold for the second half of the
+run instead of being driven under it. Solution rate so far 1 of 2, breaches 0 of
+2. Seed 2 and the penalty-4 arms complete the stage. This is the figure the paper needs; brevity cannot produce it because
 over-penalising is free there.
 
 ## Stage D: DiscrimEval with the probability feature (about 8 GPU hours)
