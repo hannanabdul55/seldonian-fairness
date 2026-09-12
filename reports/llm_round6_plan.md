@@ -205,7 +205,33 @@ Per seed the Seldonian arm's reward is 0.32 / 0.36 (NSF) / 0.43 against grpo's
 fixed penalty breaches every time (and, at 1, costs no reward at all, since it
 acts as a mild regulariser); the Seldonian arm never breaches and keeps 82% of
 the gain. The other half, a too-large penalty costing reward, is the penalty-4
-block now running in `results/llm_r6/c_l4`. This is the figure the paper needs; brevity cannot produce it because
+block now running in `results/llm_r6/c_l4`.
+
+**Penalty 4, three seeds, 2026-09-11** (`results/llm_r6/c_l4`): refusal 0.151 /
+0.182 / 0.183 against thresholds 0.178 / 0.192 / 0.172, reward 0.46 / 0.45 / 0.37.
+Inside at seed 0 by 0.027, inside at seed 1 by 0.010, a breach at seed 2 by 0.011.
+
+**Stage C complete.**
+
+| arm | breaches | mean benign refusal | mean base reward | per-seed reward |
+|---|---|---|---|---|
+| reference | | 0.110 | -0.80 | |
+| grpo | 3 of 3 | 0.260 | 0.63 | 0.47 / 0.77 / 0.65 |
+| composite, penalty 1 | 3 of 3 | 0.219 | 0.72 | 0.60 / 0.75 / 0.82 |
+| composite, penalty 4 | 1 of 3 | 0.172 | 0.43 | 0.46 / 0.45 / 0.37 |
+| seldonian_lag | 0 of 3 (solution 2 of 3) | 0.153 | 0.37 | 0.32 / 0.36 (NSF) / 0.43 |
+
+This is the figure the plan asked for. A penalty of 1 is no penalty (breaches
+every seed, reward above GRPO). A penalty of 4 is the right size on average: it
+lands within a point or two of the threshold every time, which means inside on two
+seeds and a breach on the third, at a reward within 0.06 of the Seldonian arm's.
+The Seldonian arm sits at the same reward with no breach in any seed and a
+certificate on the two policies it returns; the price is one NSF in three, and
+that NSF is a candidate-selection weakness (a 0.05 optimistic prediction on 384
+benign prompts), not a bound failure. The honest attribution: on a task where the
+penalty size is not known in advance, the fixed penalty buys the same reward as
+the Seldonian layer and a one-in-three chance of a silent breach; what the layer
+adds is that it never returns the breaching policy, and says so. This is the figure the paper needs; brevity cannot produce it because
 over-penalising is free there.
 
 ## Stage D: DiscrimEval with the probability feature (about 8 GPU hours)
