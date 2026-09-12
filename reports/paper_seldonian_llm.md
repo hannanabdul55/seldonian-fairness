@@ -1,6 +1,6 @@
 # Seldonian post-training of language models: certified constraints on judge-measured behaviour under reinforcement learning
 
-Draft v0.1, 2026-09-09. Branch `llm-seldonian-rl`. This is a working paper written
+Draft v0.3, 2026-09-11. Branch `llm-seldonian-rl`. This is a working paper written
 to make the whole setup legible end to end; every number is traceable to a
 `result.json` under `results/` or to a table under `results/synthetic/` and
 `results/calibration/`, and every design decision to a file in `seldonian/llm/`.
@@ -33,7 +33,11 @@ the Seldonian arm returns a certified policy in 5 of 5, finding its own penalty
 and, at lower pressure, discarding checkpoints that had crossed the threshold;
 (iv) a fixed penalty chosen with knowledge of the pressure matches it on the
 constraint and beats it on reward, so the layer's contribution is adaptivity and
-the certificate, not reward. We document the failure modes we hit on the way,
+the certificate, not reward; (v) on the natural over-refusal task, where the
+penalty size is not known in advance, a too-small penalty breaches in 3 of 3
+seeds, a penalty of the right average size breaches in 1 of 3 at the same reward
+as the Seldonian arm, and the Seldonian arm breaches in 0 of 3 while returning a
+certified policy in 2 of 3. We document the failure modes we hit on the way,
 because they are the content: pressure through a proxy is absorbed, pooled
 constraints are diluted, sampled decisions make paired constraints useless, and
 a multiplier that decays to zero lets the policy drift back.
@@ -703,6 +707,53 @@ as 0.47. Pinning it above 0.8 needs about 500 cleared-stratum labels, not 100.
 At the current sample the lower-limit correction (margin 0.030 to 0.012) is below
 the predicted-test width, so only the point-estimate correction is usable.
 
+### 6.10 The over-refusal task with fixed-penalty and Seldonian arms
+
+Stage C of Round 6 ran the natural over-refusal task at 0.5B with the Round 5
+machinery (group 4, 150 steps, Clopper-Pearson, delta 0.1, the harm constraint on
+the adversarial prompts only, margins harm 0.045 and refusal 0.05, the armed floor
+of 5) over three seeds and four trained arms (`results/llm_r6/c`, `c_l4`). The
+constraint here opposes the reward model, which prefers refusals, so a penalty
+that is too large should cost reward, which brevity could not show.
+
+| arm | breaches | mean harm | mean benign refusal | mean base reward | per-seed reward |
+|---|---|---|---|---|---|
+| reference | | 0.158 | 0.110 | -0.80 | |
+| grpo | 3 of 3 | 0.069 | 0.260 | 0.63 | 0.47 / 0.77 / 0.65 |
+| composite, penalty 1 | 3 of 3 | 0.072 | 0.219 | 0.72 | 0.60 / 0.75 / 0.82 |
+| composite, penalty 4 | 1 of 3 | 0.089 | 0.172 | 0.43 | 0.46 / 0.45 / 0.37 |
+| seldonian_lag | 0 of 3 (solution 2 of 3) | 0.099 | 0.153 | 0.37 | 0.32 / 0.36 (NSF) / 0.43 |
+
+Thresholds on benign refusal were 0.178 / 0.192 / 0.172 by seed. Unconstrained
+GRPO more than doubles refusals in every seed. A penalty of 1 is no penalty: it
+breaches every seed and scores above GRPO, a mild regulariser. A penalty of 4 is
+the right size on average and lands within one or two points of the threshold in
+every seed (0.151, 0.182, 0.183): inside twice, a breach once, at a reward within
+0.06 of the Seldonian arm's. The Seldonian arm never breaches and certifies the
+two policies it returns.
+
+The three Seldonian trajectories are three different stories. At seed 0 the
+refusal multiplier bound at step 60, the floor held it at 5, and the step-120
+checkpoint passed (0.133, upper 0.151). At seed 1 the selected step-90 checkpoint
+predicted 0.133 and measured 0.184 (upper 0.204 against 0.192): NSF. That gap is
+the winner's curse on a prediction sample of 384 benign prompts (standard deviation
+0.018) chosen as the best of the feasible ones, and the multiplier, climbing 1-2
+per update from the floor, never drove the policy under the threshold in the
+second half of the run. At seed 2 no checkpoint was predicted feasible (upper
+bounds 0.176-0.207 against 0.172), the multiplier climbed to 14.6, the final
+checkpoint was tested and passed (0.142, upper 0.160): the predicted test was
+pessimistic by the same 0.01-0.02 it had been optimistic at seed 1. The harm
+multiplier decayed to zero at the first or second prediction in every seed, since
+training lowers harm.
+
+The attribution this supports: on a task where the penalty size is not known in
+advance, a fixed penalty at the right average size buys the same reward as the
+Seldonian layer and a one-in-three chance of a silent breach; the layer's addition
+is that it never returns the breaching policy, and it says so. Its cost is the
+NSF, which is a candidate-selection weakness (the prediction sample) rather than
+a property of the bound, and which a larger prediction sample or a faster dual
+step on this task would reduce.
+
 ## 7. Analysis
 
 **What the guarantee is about.** It is the joint event "a policy is returned
@@ -747,13 +798,15 @@ At pressure beyond 4 (brevity) the constrained policy scores lower on the
 optimised objective by a factor of four and higher on the base reward, because
 the objective was adversarial to it. There is no single number.
 
-**Attribution.** The honest statement is: given the pressure, a fixed penalty
-set at or above it does as well or better; the Seldonian layer's contributions
-are that it finds the penalty without being told the pressure (peaks of 42-49
-at 16, 12 at 8, one configuration) and returns a certificate. Whether
-adaptivity matters in practice is a question about tasks where the penalty is
-not obvious, which is why the over-refusal task, where the constraint opposes
-the reward model and an over-penalty costs reward, is the next experiment.
+**Attribution.** Given the pressure, a fixed penalty set at or above it does as
+well or better on brevity (6.5). Where the penalty size is not known in advance
+(6.10), a penalty of 1 breaches every seed and a penalty of 4, the right size on
+average, breaches one seed in three at the Seldonian arm's reward; the layer's
+contributions are that it finds the penalty without being told the pressure
+(peaks of 42-49 at bonus 16, 12-17 at 8, 5-15 on over-refusal, one
+configuration), never returns the breaching policy, and returns a certificate.
+Its cost is the NSF rate, one in three on over-refusal, which traces to the
+prediction sample rather than the bound.
 
 ## 8. Limitations
 
@@ -772,15 +825,16 @@ the reward model and an over-penalty costs reward, is the next experiment.
 - Response length is capped at 256 new tokens, which truncates the brevity
   task's upper tail and made a pure length-ceiling task impossible.
 - The DiscrimEval task has a reference measurement only.
+- The over-refusal prediction sample (384 benign prompts) is the weak link: it
+  produced one optimistic and one pessimistic miss of 0.01-0.05 in three seeds.
 
 ## 9. Next steps
 
 `reports/llm_round6_plan.md` lays out six stages. Done: the code changes, the
 synthetic dual-dynamics sweeps (6.7, 6.8), the floor's confirmation on brevity
-(6.8) and the calibration tooling with provisional labels (6.9). Running on the
-GPU, in order: the over-refusal task with fixed-penalty and Seldonian arms over
-three seeds, the experiment that can show a wrongly sized penalty either
-breaching or costing reward; the always-on floor on brevity; the fixed-penalty
+(6.8) and the calibration tooling with provisional labels (6.9). Done as well: the
+over-refusal task with fixed-penalty and Seldonian arms over three seeds (6.10).
+Running on the GPU, in order: the always-on floor on brevity; the fixed-penalty
 frontier and the marginal regime; DiscrimEval with the probability feature; a
 ten-seed solution rate. Off the GPU: the human labels (with about 500
 cleared-stratum responses per judge) and a ratchet floor set from the peak
