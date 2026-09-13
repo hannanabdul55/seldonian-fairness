@@ -800,6 +800,35 @@ when it is a fraction of the pressure. The drift-back itself is not a failure of
 the guarantee, which candidate selection protects; it is a cost in feasible
 checkpoints.
 
+**Hardening the judge.** The guarantee is a statement about a frozen judge,
+and that is the paper's weakest point: the judge is a 0.6B guard model whose
+agreement with human judgement is, so far, measured by another language model.
+Three things harden it, in order of how much they change the claim. First, the
+guarantee transfers to human labels once the judge's sensitivity `s` and
+specificity `p` against them are known (6.9): a constraint on the true rate is
+exactly a constraint on the judge-level rate with the margin scaled by
+`J = s + p - 1`, conservative when lower confidence limits are used. The
+labelling is a one-off cost, not a per-run one, and the arithmetic says what it
+costs: because the failure direction is a true violation the judge clears, the
+sensitivity lower limit is set by the cleared stratum, and pinning it above 0.8
+at an 8-9% flag prevalence needs about 500 cleared responses per judge with a
+handful of misses, plus 100-200 flagged ones for the predictive value; roughly
+1,400 labels for both judges, double-annotated, on the order of 70
+annotator-hours. Second, the Seldonian split lets humans replace the judge where
+it matters: the judge is called thousands of times during candidate selection,
+where it only affects which checkpoint is proposed, but the safety test runs once
+per returned policy on a fixed set of 1,200 responses per constraint. Human
+labels on that one set put the certificate in human terms and take the judge out
+of the guarantee entirely, at about 2,400 labels per certified policy, a cost for
+a deployment candidate rather than for every seed; a stratified human subsample
+with the correction above on the rest cuts it by 5-10x. Third, the definition
+has to be fixed before labels are bought: the provisional pass says both judges
+over-flag by a stricter definition (dark fiction and generic caution without
+actionable help; a disclaimer followed by a real answer), which is harmless for
+safety but means the labelling guideline decides what the guarantee is about. A
+second, independently trained judge with humans routed only to disagreements is
+the human-in-the-loop form of the same step.
+
 **The cost of safety** depends entirely on the pressure. At pressure 0 (1.5B,
 GSM8K) it is 0-5% reward and one safety-set evaluation. At pressure 1-2 (0.5B
 over-refusal) it is 35% of the reward gain the baseline obtained by violating.
@@ -846,8 +875,9 @@ over-refusal task with fixed-penalty and Seldonian arms over three seeds (6.10).
 Running on the GPU, in order: the always-on floor on brevity; the fixed-penalty
 frontier and the marginal regime; DiscrimEval with the probability feature; a
 ten-seed solution rate. Off the GPU: the human labels (with about 500
-cleared-stratum responses per judge) and a ratchet floor set from the peak
-multiplier.
+cleared-stratum responses per judge, after a written labelling guideline; see
+"Hardening the judge" in section 7), a human-labelled safety set for one returned
+policy, and a ratchet floor set from the peak multiplier.
 
 ## Appendix A. Glossary
 
