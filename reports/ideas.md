@@ -36,3 +36,32 @@ fix Stage C seed 1 needed without more prediction samples.
 Cheapest first experiment: from the existing `train_log` and `history` fields,
 does the reward-std or KL trajectory between checkpoints separate the intervals
 that ended infeasible from the ones that stayed feasible? No GPU.
+
+**Addendum (2026-09-13): what happens to the policy around a spike.** An empirical
+evaluation of the policy in the neighbourhood of these spikes, before any
+predictor is built:
+
+> Does their state and action distribution change drastically? Does the model
+> weight distribution change drastically?
+
+Sketch. Take the checkpoints (or the per-step LoRA states, which are cheap to
+save: r 16 adapters are a few MB) on either side of a spike and measure three
+things. (a) Actions: the per-prompt response distribution on a fixed probe set
+(the 768 prediction prompts), as the change in the judge rates, in mean length,
+in the token-level KL to the pre-spike policy, and in the entropy of the first
+few tokens, where refusals and language switches are decided. (b) States: for an
+LLM the "state" is the prompt plus the prefix generated so far, so the question is
+whether the spike is localised to a subset of prompts (a cluster of the probe set
+whose responses flip) or diffuse; the per-prompt KL histogram answers that, and
+the brevity language switch and the over-refusal preamble are the two known cases
+to look for. (c) Weights: the norm and spectrum of the LoRA delta per layer
+between the two sides of the spike against the same quantity across a quiet
+interval of equal length; a spike that is a few layers' singular directions moving
+is a different object from one that is a uniform drift. TRL logs the gradient
+norm per step, which is the first thing to line up against the reward and KL
+spikes already in `train_log`.
+
+Cheapest first experiment: the brevity runs at bonus 16 have a known spike
+(over-cap rate 0.91 to 0.31 to 0.06 between steps 30 and 90, multiplier 42 to
+0); save adapters every 5 steps on a rerun of seed 0 (about 2 GPU hours) and plot
+(a)-(c) against step.
