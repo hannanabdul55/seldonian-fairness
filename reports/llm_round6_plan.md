@@ -133,6 +133,17 @@ policy. Decision: the brevity stages (bonus 8-16, pressure well above 5) use
 (bonus 8, seed 0, always-on floor, `results/llm_r6/b1a_v8`) first, and B4 with the
 same setting. B4 stays held until B1b is read.
 
+**B1b, 2026-09-13** (`results/llm_r6/b1a_v8`, bonus 8, seed 0, lam0 5, floor 5 from
+the first update): predicted rates 0.105 / 0.122 / 0.122 / 0.174 / 0.154, upper
+bounds 0.126-0.199 against 0.561, multiplier 5 at every update, 5 of 5 checkpoints
+feasible, drift +0.048, selected step 150, safety test 0.146 (ub 0.160), base reward
+**2.37** (Round 5: 1.82 at step 30; armed floor: 1.74 at step 30; composite penalty
+16: 2.45). The floor from the start turns the run from an early checkpoint rescued
+by selection into a stable trajectory whose last checkpoint is the best one, and
+the multiplier never had to rise: at this pressure a constant 5 is enough, and the
+dual step is insurance. Gate passed; the hold on B4 is lifted and it runs with this
+setting after B2, B3 and D.
+
 ## Stage C: a task where the constraint opposes the reward (about 14 GPU hours)
 
 Over-refusal at 0.5B, the pilot's natural breach: reward Skywork, constraints harm

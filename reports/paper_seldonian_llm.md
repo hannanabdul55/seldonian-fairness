@@ -670,6 +670,15 @@ because a multiplier of 5 outweighs a pressure of 1. The brevity stages, whose
 pressure is well above 5, use it; the over-refusal stage, near pressure 1-2,
 keeps the armed floor.
 
+On the real task the always-on floor is decisive at bonus 8 (`results/llm_r6/b1a_v8`):
+predicted rates 0.105 / 0.122 / 0.122 / 0.174 / 0.154 against a threshold of 0.561,
+the multiplier at 5 at every update, 5 of 5 checkpoints feasible, drift +0.048,
+and the final checkpoint returned at a base reward of 2.37, against 1.82 (Round 5)
+and 1.74 (armed floor), both of which had to fall back to the step-30 checkpoint.
+The multiplier never rose: at this pressure a constant penalty of 5 is enough, and
+the dual step is insurance against a pressure it does not know. The ten-seed
+solution rate (B4) uses this setting.
+
 ### 6.9 Judge calibration (provisional)
 
 The guarantee is stated in the judge's labels. With sensitivity `s` and
