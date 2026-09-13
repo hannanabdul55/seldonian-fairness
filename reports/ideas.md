@@ -65,3 +65,42 @@ Cheapest first experiment: the brevity runs at bonus 16 have a known spike
 (over-cap rate 0.91 to 0.31 to 0.06 between steps 30 and 90, multiplier 42 to
 0); save adapters every 5 steps on a rerun of seed 0 (about 2 GPU hours) and plot
 (a)-(c) against step.
+
+**First result, no GPU (2026-09-13).** `scripts/spike_analysis.py` cuts every
+stored Seldonian Lagrangian run (12 runs: 7 brevity, 5 over-refusal) into the
+intervals between predicted tests (60 intervals, 22 ended infeasible), summarises
+the trainer signals logged every 5 steps in each (reward, reward spread, KL to the
+reference, gradient norm, length, clip ratio: mean, max, slope, largest jump, and
+the largest jump in units of the run's own jump sd, the spike score), and asks
+whether they separate infeasible from feasible intervals or track the move in the
+binding rate. Output: `results/spike/spike_analysis_{all,brevity,ab}.md` and the
+interval tables.
+
+- The reward-surprise spike carries nothing at this granularity. AUC for
+  `reward_jump_z` is 0.48 on brevity and 0.33 on over-refusal (0.50 pooled); the
+  interval with the largest spike is the interval with the largest move in the
+  binding rate in 5 of 12 runs against a chance of about 3. The same for the
+  spread and KL spike scores.
+- The signals that do separate are the constraint in disguise or the multiplier
+  in disguise. On brevity, mean reward (AUC 0.94) and length slope (0.76) are the
+  length bonus and the over-cap rate themselves. Gradient norm and KL are *lower*
+  in infeasible intervals (AUC 0.03-0.09 on brevity, rho with g about -0.8):
+  a policy drifting into breach under the bonus moves quietly, and the large
+  gradients and KL belong to the intervals where a multiplier of 20-40 is pulling
+  it back, so they read the multiplier (control AUC 0.34 on brevity, 0.79 on
+  over-refusal, with opposite signs on the two tasks), not an aha.
+- Confounds dominate: 7 brevity runs are 4 at bonus 16 (all breach in the first
+  interval) and 3 at bonus 8 (none do), so every "first interval" contrast is
+  bonus 16 against bonus 8. The winner's-curse gap of the selected checkpoint
+  (+0.051 at over-refusal seed 1) is not marked by any run-level spike statistic.
+
+What would make the test fair. (1) Same setting, many seeds: B4 delivers nine
+bonus-8 brevity runs with the same pressure and floor, 45 intervals with the
+confound removed; rerun the script on them first. (2) Episode-level data: the
+trainer log is a 5-step mean over 32 completions; the hypothesis is about
+individual episodes, so log per-completion advantages and per-token log-ratios
+(a few KB per step) in the backend and look for within-step outliers, not
+between-step jumps. (3) Weights: save the LoRA adapter every 5 steps on one rerun
+(the addendum above) and measure the per-layer delta norm and spectrum against the
+same signals; TRL's gradient norm is the only weight-side signal in the logs and
+it points the wrong way for the hypothesis.
