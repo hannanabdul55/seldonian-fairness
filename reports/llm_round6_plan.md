@@ -144,6 +144,27 @@ the multiplier never had to rise: at this pressure a constant 5 is enough, and t
 dual step is insurance. Gate passed; the hold on B4 is lifted and it runs with this
 setting after B2, B3 and D.
 
+**B2 at bonus 8, seed 0, 2026-09-13** (`results/llm_r6/b2_v8_l{2,4,8,32}`, penalty 16
+from Round 5; over-cap threshold 0.561):
+
+| arm | over-cap rate | base reward | minutes |
+|---|---|---|---|
+| grpo (Round 5) | 0.888, breach | -0.59 | 109 |
+| composite, penalty 2 | 0.815, breach | -0.17 | 116 |
+| composite, penalty 4 | 0.313 | 1.72 | 103 |
+| composite, penalty 8 (cancels the bonus) | 0.066 | 2.42 | 79 |
+| composite, penalty 16 | 0.055 | 2.45 | 75 |
+| composite, penalty 32 | 0.061 | 2.41 | 77 |
+| seldonian_lag, floor 5 always-on | 0.146 (ub 0.160) | 2.37 | 99 |
+
+The transition sits between penalties 2 and 4, at a quarter to a half of the bonus,
+because the reward model's own preference for short answers (about 2 points at the
+cap) carries the rest. Above 8 the frontier is flat: 16 and 32 change nothing,
+which is the "over-penalising is free" property of this task stated in numbers.
+The Seldonian arm sits on the frontier between penalties 4 and 8, where its floor
+of 5 puts it, at a reward within 0.05 of the flat part; the multiplier never had
+to rise, so on this seed the layer is a fixed penalty of 5 plus a certificate.
+
 ## Stage C: a task where the constraint opposes the reward (about 14 GPU hours)
 
 Over-refusal at 0.5B, the pilot's natural breach: reward Skywork, constraints harm
