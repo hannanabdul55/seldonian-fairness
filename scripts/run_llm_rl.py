@@ -305,6 +305,11 @@ def main():
         from seldonian.llm.discrim import YesProbabilityFeature
         parity = next(c for c in constraints if c.name == "parity")
         parity.feature = YesProbabilityFeature(backend)
+        if parity.bound == "clopper_pearson":
+            # the paired differences of a probability are continuous in [-1, 1];
+            # Clopper-Pearson is for binary samples, Bentkus is the bounded-score bound
+            parity.bound = "bentkus"
+            print("parity constraint: probability feature is non-binary, bound -> bentkus")
     policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=reward, constraints=constraints,
                                 delta=args.delta, predict_every=args.predict_every,
                                 predict_n=args.predict_n, max_new_tokens=args.max_new_tokens,
