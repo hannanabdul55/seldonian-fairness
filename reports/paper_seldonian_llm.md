@@ -816,6 +816,42 @@ when it is a fraction of the pressure. The drift-back itself is not a failure of
 the guarantee, which candidate selection protects; it is a cost in feasible
 checkpoints.
 
+**A moving landscape, and why that is allowed.** While the multiplier moves
+there is no fixed objective for the policy, so "the optimum of the training
+reward" is not defined at any moment. Primal-dual methods do not look for a
+minimum of a stationary landscape; they look for a saddle point of the
+Lagrangian `L(theta, lambda) = reward(theta) - sum_i lambda_i (rate_i(theta) -
+tau_i)`, a maximum in `theta` and a minimum in `lambda >= 0`. For a convex
+problem that saddle exists and ascent-descent converges to it, and at the saddle
+the landscape stops moving: `lambda*` is the price of each binding constraint
+and `theta*` is the optimum of that fixed penalty, so the moving landscape is a
+route to a fixed one whose penalty was not known in advance. Nothing here is
+convex. The primal step is a few GRPO updates on a nonconvex LoRA policy, the
+dual step is discrete, large (eta 100 on a confidence bound) and thirty steps
+apart, and the trajectories show what that produces: overshoot (rate 0.91 at
+step 30, multiplier to 42, rate 0.06 by step 90), decay, drift-back. Those are
+the oscillations of a two-timescale game that is not converging, the standard
+failure of a fast dual against a nonconvex primal. The design does not need it
+to converge. Every checkpoint at every predicted test is a fixed policy that is
+evaluated as such, the best feasible one is kept, and the safety test checks it
+once; a wandering optimiser costs solution rate and reward, never safety. The
+Round 6 runs read cleanly in this light. The always-on floor at bonus 8 (6.8)
+worked because it froze the landscape: the multiplier sat at 5 for the whole
+run, the policy optimised a fixed penalty, and the final checkpoint was the
+best one (5 of 5 feasible, reward 2.37), where the moving penalty of the earlier
+runs (0 to 17 to 5) left the step-30 checkpoint to be rescued by selection.
+Over-refusal seed 1 (6.10) is the other side: a dual step too slow for the
+pressure (5 to 7.4), the policy hovering at the threshold, 2 of 5 checkpoints
+feasible, NSF. The useful schedule is therefore not adaptive against fixed but
+two-phase: let the dual step find the price, then hold it and let the primal
+settle, which is what averaging the dual iterates, a decaying dual step, or a
+ratchet floor set from the peak multiplier all do; the synthetic "frozen after
+first bind" row (6.7) is the crude version and removes the drift at a reward
+cost because it freezes too high. Even with a fixed multiplier there is no
+global optimum to certify, since GRPO on a 0.5B adapter finds a local one; the
+Seldonian contract was built for that situation, asking nothing of the
+optimiser and only honesty of the safety test.
+
 **Hardening the judge.** The guarantee is a statement about a frozen judge,
 and that is the paper's weakest point: the judge is a 0.6B guard model whose
 agreement with human judgement is, so far, measured by another language model.
