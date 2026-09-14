@@ -27,9 +27,12 @@ def load(out, task):
             rates, reward = r["safety_test"]["rates"], r["safety_test"]["reward"]
             upper = r["safety_test"]["upper"]
             length = r["safety_test"]["mean_length"]
-        else:
+        elif "eval_s" in r:
             rates, reward = r["eval_s"]["rates"], r["eval_s"]["reward"]
             upper, length = {}, r["eval_s"]["mean_length"]
+        else:
+            print(f"skipping {path}: no safety_test or eval_s block")
+            continue
         rows.append({
             "method": r["method"], "seed": r["seed"], "solution": r["solution_found"],
             "rates": rates, "upper": upper, "thresholds": r["thresholds"], "reward": reward,
