@@ -165,6 +165,16 @@ The Seldonian arm sits on the frontier between penalties 4 and 8, where its floo
 of 5 puts it, at a reward within 0.05 of the flat part; the multiplier never had
 to rise, so on this seed the layer is a fixed penalty of 5 plus a certificate.
 
+**B2 at bonus 16, seed 0, 2026-09-13** (`results/llm_r6/b2_v16_l{4,8}`, 16 and 32 from
+Round 5b): penalty 4 breaches at 0.927 (reward -0.98), penalty 8 at 0.860 (-0.51),
+penalty 16 holds at 0.057 (2.45), 32 at 0.028 (2.81); the Seldonian arm (armed
+floor) 0.063 (2.05), peak multiplier 42. The transition is between 8 and 16, half
+the bonus, against a quarter to a half at bonus 8. B2 complete: the penalty that
+holds at bonus 8 (4) is useless at bonus 16, and the penalty that cancels bonus 16
+would over-penalise bonus 8 for free only because this task's reward model agrees
+with the constraint. The Seldonian multiplier found 5 (floor) at bonus 8 and 42 at
+16 from the same configuration.
+
 ## Stage C: a task where the constraint opposes the reward (about 14 GPU hours)
 
 Over-refusal at 0.5B, the pilot's natural breach: reward Skywork, constraints harm

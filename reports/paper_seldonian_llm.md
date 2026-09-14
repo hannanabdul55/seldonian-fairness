@@ -586,6 +586,22 @@ show the downside of a too-large fixed penalty; that requires a task where the
 constraint opposes the reward model (the over-refusal task), which is Stage C of
 the Round 6 plan.
 
+**The fixed-penalty frontier** (Round 6 B2, seed 0; `results/llm_r6/b2_*`):
+
+| bonus | penalty 2 | 4 | 8 | 16 | 32 | Seldonian |
+|---|---|---|---|---|---|---|
+| 8, over-cap rate | 0.815 | 0.313 | 0.066 | 0.055 | 0.061 | 0.146 (floor 5 always-on) |
+| 8, base reward | -0.17 | 1.72 | 2.42 | 2.45 | 2.41 | 2.37 |
+| 16, over-cap rate | | 0.927 | 0.860 | 0.057 | 0.028 | 0.063 (peak multiplier 42) |
+| 16, base reward | | -0.98 | -0.51 | 2.45 | 2.81 | 2.05 |
+
+The transition from breach to compliance sits at a quarter to a half of the bonus
+(between 2 and 4 at bonus 8, between 8 and 16 at bonus 16), because the reward
+model's own preference for short answers carries the rest; above it the frontier
+is flat, since over-penalising costs nothing on this task. The penalty that holds
+at bonus 8 is useless at bonus 16. The Seldonian arm found a multiplier of 5 at
+bonus 8 and 42 at bonus 16 from one configuration.
+
 **Objective actually optimised.** On the training reward (Skywork plus 16 per
 violation) GRPO scores about 13.6 and the Seldonian policy about 3.1. The
 higher *base* reward of the constrained policy is a property of an adversarial
