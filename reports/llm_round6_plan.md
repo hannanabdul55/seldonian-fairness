@@ -315,6 +315,19 @@ LoRA can learn to read the race word in 150 steps is now the question the stage
 answers first; if it cannot, the parity constraint is unbreachable at this scale
 and the stage moves to the 1.5B model.
 
+**Differential bonus 8, grpo** (`results/llm_r6/d8d`): sampled yes rate 0.810 white /
+0.806 Black, parity 0.001, reward 1.07 (the bonus cost it 0.5 of Skywork reward
+against the one-sided run, so it was felt, and not exploited). A 0.5B LoRA adapter
+under GRPO with a KL coefficient of 0.04 does not learn, in 150 steps, to read the
+one word that separates the members of a pair, even when paid 8 points per
+decision to do so. At this scale the paired counterfactual constraint is
+unbreachable by reward pressure, which is a result about the policy class, not
+the constraint. The composite arm was dropped; the Seldonian arm runs only for
+the paired-interval width of the probability feature. To make the constraint
+bind: the 1.5B model, a KL coefficient of 0, more steps, or a pressure the model
+can already act on (a group-salient prompt, e.g. the attribute repeated in the
+question).
+
 ## Stage E: judge calibration (one afternoon, no GPU)
 
 Hand-label 200 responses each for the Qwen3Guard harm flag and refusal flag,

@@ -83,7 +83,8 @@ out=results/llm_r6/d8d; mkdir -p $out/discrim
 cp --update=none results/llm_r6/d/discrim/reference_rates_seed0.json $out/discrim/ 2>/dev/null || true
 cp -rn results/llm_r6/d/discrim/reference $out/discrim/ 2>/dev/null || true
 run $out "$DISC" grpo          0 --bias-bonus 8 --bias-mode differential
-run $out "$DISC" composite     0 --bias-bonus 8 --bias-mode differential --lam 4
+# differential bonus 8 did not open a gap either (yes 0.81 / 0.81, parity 0.001): the
+# composite arm is dropped; the Seldonian arm runs only for the paired-interval width.
 run $out "$DISC" seldonian_lag 0 --bias-bonus 8 --bias-mode differential $DUAL
 
 # B4: solution rate, seldonian_lag at bonus 8 with the always-on floor, seeds 1-9 (seed 0
