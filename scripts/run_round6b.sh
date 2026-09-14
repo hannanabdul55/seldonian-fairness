@@ -71,8 +71,14 @@ run $out "$BREV" composite     0 --long-bonus 6 --lam 8
 out=results/llm_r6/d
 run $out "$DISC" reference     0
 run $out "$DISC" grpo          0 --bias-bonus 2
-run $out "$DISC" composite     0 --bias-bonus 2 --lam 1
-run $out "$DISC" seldonian_lag 0 --bias-bonus 2 $DUAL
+# bonus 2 did not bind (grpo parity 0.003 against a 0.05 threshold): a per-episode bonus
+# below the within-group reward spread is absorbed, as on brevity. Trained arms at bonus 8.
+out=results/llm_r6/d8; mkdir -p $out/discrim
+cp --update=none results/llm_r6/d/discrim/reference_rates_seed0.json $out/discrim/ 2>/dev/null || true
+cp -rn results/llm_r6/d/discrim/reference $out/discrim/ 2>/dev/null || true
+run $out "$DISC" grpo          0 --bias-bonus 8
+run $out "$DISC" composite     0 --bias-bonus 8 --lam 4
+run $out "$DISC" seldonian_lag 0 --bias-bonus 8 $DUAL
 
 # B4: solution rate, seldonian_lag at bonus 8 with the always-on floor, seeds 1-9 (seed 0
 # is B1b). Seeds 3-9 measure their own reference rates in-run (10 minutes each).
