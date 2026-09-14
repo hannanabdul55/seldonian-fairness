@@ -172,8 +172,18 @@ floor) 0.063 (2.05), peak multiplier 42. The transition is between 8 and 16, hal
 the bonus, against a quarter to a half at bonus 8. B2 complete: the penalty that
 holds at bonus 8 (4) is useless at bonus 16, and the penalty that cancels bonus 16
 would over-penalise bonus 8 for free only because this task's reward model agrees
-with the constraint. The Seldonian multiplier found 5 (floor) at bonus 8 and 42 at
-16 from the same configuration.
+with the constraint. The Seldonian multiplier found 5 (floor) at bonus 8 and 42 at 16 from the same configuration.
+
+**B3 at bonus 6, seed 0, 2026-09-13/14** (`results/llm_r6/b3_v6`): grpo breaches at
+0.850 (reward -0.34), so bonus 6 is not the marginal regime; the transition from
+"shorter" (bonus 4, rate 0.37) to "breach" (0.85 at 6, 0.89 at 8, 0.90 at 16) is
+sharp and sits between 4 and 6, as the group-normalised advantage predicts. The
+Seldonian arm (armed floor) returned the final checkpoint: predicted rates 0.219 /
+0.411 / 0.549 / 0.357 / 0.234 with the multiplier 0 / 0 / 5 / 5 / 5, 4 of 5
+feasible, safety test 0.291 (ub 0.308), reward 1.68. The same shape as B1 at bonus
+8: the multiplier decays to zero, the policy climbs to the threshold (0.549 against
+0.561 at step 90, still feasible by a hair), the floor arms and holds it, and the
+rate comes back down. Penalty 8 composite pending.
 
 ## Stage C: a task where the constraint opposes the reward (about 14 GPU hours)
 
