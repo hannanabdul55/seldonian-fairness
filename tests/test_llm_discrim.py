@@ -105,3 +105,13 @@ def test_bonus_reward_can_pay_for_the_violation_event():
     r = BonusReward(Const(), LengthJudge(cap=2), alpha=4.0, on=1)
     assert r(["p", "p"], ["a b", "a b c"]).tolist() == [0.0, 4.0]
     assert "length_words>2" in r.name and "(1-" not in r.name
+
+
+def test_bias_reward_differential_pays_against_the_second_group():
+    reward = build_bias_reward(Const(), DecisionJudge(), beta=2.0, group="white", against="Black")
+    prompts = ["p"] * 4
+    responses = ["Yes, because.", "No.", "Yes, because.", "No."]
+    groups = ["white", "white", "Black", "Black"]
+    out = reward(prompts, responses, groups=groups)
+    assert list(out) == [2.0, 0.0, -2.0, 0.0]
+    assert "-2.0*yes@Black" in reward.name

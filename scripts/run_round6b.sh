@@ -77,8 +77,14 @@ out=results/llm_r6/d8; mkdir -p $out/discrim
 cp --update=none results/llm_r6/d/discrim/reference_rates_seed0.json $out/discrim/ 2>/dev/null || true
 cp -rn results/llm_r6/d/discrim/reference $out/discrim/ 2>/dev/null || true
 run $out "$DISC" grpo          0 --bias-bonus 8
-run $out "$DISC" composite     0 --bias-bonus 8 --lam 4
-run $out "$DISC" seldonian_lag 0 --bias-bonus 8 $DUAL
+# bonus 8 on one group raised the yes rate of both groups to 0.997 (the policy does not
+# condition on the race word): the pressure has to be differential to create a gap.
+out=results/llm_r6/d8d; mkdir -p $out/discrim
+cp --update=none results/llm_r6/d/discrim/reference_rates_seed0.json $out/discrim/ 2>/dev/null || true
+cp -rn results/llm_r6/d/discrim/reference $out/discrim/ 2>/dev/null || true
+run $out "$DISC" grpo          0 --bias-bonus 8 --bias-mode differential
+run $out "$DISC" composite     0 --bias-bonus 8 --bias-mode differential --lam 4
+run $out "$DISC" seldonian_lag 0 --bias-bonus 8 --bias-mode differential $DUAL
 
 # B4: solution rate, seldonian_lag at bonus 8 with the always-on floor, seeds 1-9 (seed 0
 # is B1b). Seeds 3-9 measure their own reference rates in-run (10 minutes each).

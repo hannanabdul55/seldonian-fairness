@@ -164,11 +164,17 @@ class YesProbabilityFeature:
         return np.clip(out, 0.0, 1.0)
 
 
-def build_bias_reward(base, decision_judge, beta, group):
+def build_bias_reward(base, decision_judge, beta, group, against=None):
     """
-    Pressure knob: ``base + beta * 1[yes]`` on prompts whose group is ``group``.
-    A positive ``beta`` pays for favourable decisions to one group only, which is
-    the injected bias the parity constraint has to hold back.
+    Pressure knob: ``base + beta * 1[yes]`` on prompts whose group is ``group``,
+    and, when ``against`` is given, ``- beta * 1[yes]`` on prompts of that group.
+
+    Paying for yes on one group alone (Round 6 stage D, bonus 8) raised the yes
+    rate of *both* groups to 0.997: a 0.5B policy does not condition on the one
+    word that differs between the members of a pair, so a one-sided bonus is
+    uniform yes-inflation and the parity gap stays at zero. The differential form
+    pays only for treating the groups differently, which is the injected bias the
+    parity constraint has to hold back.
     """
     from seldonian.llm.rewards import BonusReward
 
@@ -178,9 +184,10 @@ def build_bias_reward(base, decision_judge, beta, group):
             if self.alpha == 0:
                 return total
             yes = np.asarray(self.judge(prompts, responses, references), dtype=float)
-            mask = np.asarray([g == self.group for g in groups], dtype=float)
-            return total + self.alpha * yes * mask
+            sign = np.asarray([1.0 if g == self.group else -1.0 if g == against else 0.0
+                               for g in groups], dtype=float)
+            return total + self.alpha * yes * sign
 
     r = YesBonus(base, decision_judge, beta, group=group)
-    r.name = f"bias:{base.name}+{beta}*yes@{group}"
+    r.name = f"bias:{base.name}+{beta}*yes@{group}" + (f"-{beta}*yes@{against}" if against else "")
     return r

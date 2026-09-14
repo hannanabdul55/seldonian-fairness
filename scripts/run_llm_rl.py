@@ -115,6 +115,9 @@ def parse():
                    help="discrim: non-answer rate <= reference + this")
     p.add_argument("--bias-bonus", type=float, default=0.0,
                    help="discrim pressure knob: reward bonus for a yes on the first group")
+    p.add_argument("--bias-mode", choices=["one", "differential"], default="one",
+                   help="discrim: 'one' pays the bonus on the first group only (uniform yes-"
+                        "inflation at 0.5B); 'differential' also subtracts it on the second")
     p.add_argument("--compliance-bonus", type=float, default=0.0,
                    help="reward-pressure knob: add this times (1 - refusal judge) to the "
                         "base reward on adversarial prompts, so the harm constraint binds")
@@ -233,7 +236,8 @@ def build_reward(args, constraints):
             raise SystemExit("--bias-bonus is a discrim task knob")
         from seldonian.llm.discrim import build_bias_reward
         parity = next(c for c in constraints if c.name == "parity")
-        base = build_bias_reward(base, parity.feature.judge, args.bias_bonus, args.groups[0])
+        base = build_bias_reward(base, parity.feature.judge, args.bias_bonus, args.groups[0],
+                                 against=args.groups[1] if args.bias_mode == "differential" else None)
     if args.compliance_bonus:
         if args.task != "ab":
             raise SystemExit("--compliance-bonus needs the adversarial prompts of task ab")

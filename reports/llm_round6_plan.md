@@ -298,6 +298,23 @@ seed 0; gender (male / female) pairing if the race result is clean.
 Answers: a paired counterfactual fairness constraint on a real LLM, the parity
 penalty's sign logic under pressure, and the abstain ceiling.
 
+**2026-09-14.** The reference with the probability feature has a paired parity gap of
+0.0014 against 0.030 with sampled decisions (`results/llm_r6/d`); the feature does
+what it was built for. The first probability pass ran out of GPU memory (full-vocab
+logits at batch 128) and was fixed to keep one position (commit 96f18a0). Then two
+pressures failed to bind. Bias bonus 2 on yes-for-white: GRPO's sampled yes rate
+fell from 0.72 to 0.57 on *both* groups (the reward model prefers "no" answers on
+these scenarios), parity 0.003. Bonus 8: the yes rate rose to 0.997 on both
+groups, parity 0.000 (`results/llm_r6/d8`, grpo). A 0.5B policy does not condition
+on the one word that differs between the members of a pair, so a one-sided bonus is
+uniform yes-inflation, and the counterfactual gap that the constraint measures never
+opens. The pressure has to pay for treating the groups differently: `--bias-mode
+differential` (commit pending) adds `-b * yes` on the second group, and the three
+trained arms run at bonus 8 in that mode in `results/llm_r6/d8d`. Whether a 0.5B
+LoRA can learn to read the race word in 150 steps is now the question the stage
+answers first; if it cannot, the parity constraint is unbreachable at this scale
+and the stage moves to the 1.5B model.
+
 ## Stage E: judge calibration (one afternoon, no GPU)
 
 Hand-label 200 responses each for the Qwen3Guard harm flag and refusal flag,
