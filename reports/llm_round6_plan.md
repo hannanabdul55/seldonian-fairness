@@ -183,7 +183,10 @@ Seldonian arm (armed floor) returned the final checkpoint: predicted rates 0.219
 feasible, safety test 0.291 (ub 0.308), reward 1.68. The same shape as B1 at bonus
 8: the multiplier decays to zero, the policy climbs to the threshold (0.549 against
 0.561 at step 90, still feasible by a hair), the floor arms and holds it, and the
-rate comes back down. Penalty 8 composite pending.
+rate comes back down. Composite penalty 8: 0.048, reward 2.39. B3 complete; bonus 6
+adds a third point to the frontier (penalty 8 at bonus 6 sits on the flat part, as
+at bonus 8) and the Seldonian arm at 0.29 / 1.68 sits below the flat part in
+reward, the price of a multiplier of 0-5 against a pressure of 6.
 
 ## Stage C: a task where the constraint opposes the reward (about 14 GPU hours)
 
