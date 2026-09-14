@@ -162,12 +162,15 @@ class HFGRPOBackend(PolicyBackend):
         out = []
         try:
             with torch.no_grad():
-                for i in range(0, len(prompts), self.gen_batch_size):
-                    batch = [self.messages(p) for p in prompts[i:i + self.gen_batch_size]]
+                # only the last position's logits are needed; the full [batch, seq, vocab]
+                # tensor at batch 128 is tens of GB (Round 6 stage D ran out of memory)
+                bs = min(self.gen_batch_size, 32)
+                for i in range(0, len(prompts), bs):
+                    batch = [self.messages(p) for p in prompts[i:i + bs]]
                     enc = self.tokenizer.apply_chat_template(
                         batch, add_generation_prompt=True, return_tensors="pt", padding=True,
                         return_dict=True).to(self.device)
-                    logits = self.model(**enc).logits[:, -1, :].float()
+                    logits = self.model(**enc, logits_to_keep=1).logits[:, -1, :].float()
                     probs = torch.softmax(logits, dim=-1)[:, first.to(logits.device)]
                     probs = probs / probs.sum(dim=1, keepdim=True).clamp_min(1e-30)
                     out.append(probs.cpu().numpy())
