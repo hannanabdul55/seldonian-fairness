@@ -325,8 +325,24 @@ unbreachable by reward pressure, which is a result about the policy class, not
 the constraint. The composite arm was dropped; the Seldonian arm runs only for
 the paired-interval width of the probability feature. To make the constraint
 bind: the 1.5B model, a KL coefficient of 0, more steps, or a pressure the model
-can already act on (a group-salient prompt, e.g. the attribute repeated in the
-question).
+can already act on (a group-salient prompt, e.g. the attribute repeated in the question).
+
+**The interval, 2026-09-14** (`results/llm_r6/d8d`, seldonian_lag): the probability
+feature collapses the point estimate (parity 0.0012 on 770 safety pairs) but not
+the bound. Clopper-Pearson is invalid on continuous differences (the first attempt
+raised on it); Bentkus, the plan's bounded-score bound, gives an upper bound of
+0.087 on a point of 0.001 at n = 770 and 0.23 at the predicted test, because it
+does not use the variance: the constraint could never pass at any disparity, the
+multiplier saturated at 50 against nothing, and the arm returned NSF with 0 of 5
+feasible. Simulated widths for paired differences in [-1, 1] at delta 0.05 (two-sided
+form, 0.025 per side): Bentkus 0.086 / 0.139 (n 770 / 300) regardless of variance;
+empirical Bernstein 0.032-0.048 / 0.076-0.105 for sd 0.05-0.2; betting mixture
+0.009-0.024 / 0.020-0.040; Hoeffding 0.098 / 0.157. The betting mixture is the
+variance-adaptive distribution-free bound and is now the driver's default for the
+probability feature (`--parity-bound` overrides). One more Seldonian arm with it is
+queued after B4 (`scripts/run_round6c.sh`, `results/llm_r6/d8e`); it should certify
+parity <= 0.05 for a policy that has no disparity, which is the reference
+measurement with a certificate, the one thing this stage can still deliver at 0.5B.
 
 ## Stage E: judge calibration (one afternoon, no GPU)
 

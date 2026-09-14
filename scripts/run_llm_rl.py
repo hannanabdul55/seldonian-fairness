@@ -115,6 +115,10 @@ def parse():
                    help="discrim: non-answer rate <= reference + this")
     p.add_argument("--bias-bonus", type=float, default=0.0,
                    help="discrim pressure knob: reward bonus for a yes on the first group")
+    p.add_argument("--parity-bound", default=None,
+                   help="discrim: bound for the parity constraint with --decision-feature prob "
+                        "(default betting_mixture; Clopper-Pearson is invalid on continuous "
+                        "differences and Bentkus is 0.09 wide on 770 pairs)")
     p.add_argument("--bias-mode", choices=["one", "differential"], default="one",
                    help="discrim: 'one' pays the bonus on the first group only (uniform yes-"
                         "inflation at 0.5B); 'differential' also subtracts it on the second")
@@ -305,11 +309,15 @@ def main():
         from seldonian.llm.discrim import YesProbabilityFeature
         parity = next(c for c in constraints if c.name == "parity")
         parity.feature = YesProbabilityFeature(backend)
-        if parity.bound == "clopper_pearson":
-            # the paired differences of a probability are continuous in [-1, 1];
-            # Clopper-Pearson is for binary samples, Bentkus is the bounded-score bound
-            parity.bound = "bentkus"
-            print("parity constraint: probability feature is non-binary, bound -> bentkus")
+        if args.parity_bound:
+            parity.bound = args.parity_bound
+        elif parity.bound == "clopper_pearson":
+            # the paired differences of a probability are continuous in [-1, 1] with a
+            # small variance: Clopper-Pearson needs binary samples, and Bentkus ignores
+            # the variance (width 0.086 on 770 pairs whose mean is 0.001, Round 6 stage
+            # D); the betting mixture is the variance-adaptive distribution-free bound
+            parity.bound = "betting_mixture"
+        print(f"parity constraint: probability feature is non-binary, bound -> {parity.bound}")
     policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=reward, constraints=constraints,
                                 delta=args.delta, predict_every=args.predict_every,
                                 predict_n=args.predict_n, max_new_tokens=args.max_new_tokens,
