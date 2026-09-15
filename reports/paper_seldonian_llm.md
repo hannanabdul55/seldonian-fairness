@@ -27,10 +27,12 @@ synthetic environment that runs the unchanged pipeline against an exactly
 computable ground truth, the Lagrangian variant respects delta by a factor of
 fifty and holds the true violation rate at the reference level across a full
 pressure sweep, while filter-only candidate selection returns a solution in a
-tenth of trials; (iii) on a verifiable brevity constraint under an injected
-reward pressure, unconstrained GRPO breaches by 33-40 points in 5 of 5 runs and
-the Seldonian arm returns a certified policy in 5 of 5, finding its own penalty
-and, at lower pressure, discarding checkpoints that had crossed the threshold;
+tenth of trials; (iii) on a verifiable brevity constraint under an injected reward pressure,
+unconstrained GRPO breaches by 33-40 points in 5 of 5 runs and the Seldonian arm
+returns a certified policy in 5 of 5, finding its own penalty and, at lower
+pressure, discarding checkpoints that had crossed the threshold; with a floor on
+the multiplier it returns a certified policy in 10 of 10 seeds with every predicted
+checkpoint feasible (solution rate at least 0.74 at delta 0.05);
 (iv) a fixed penalty chosen with knowledge of the pressure matches it on the
 constraint and beats it on reward, so the layer's contribution is adaptivity and
 the certificate, not reward; (v) on the natural over-refusal task, where the
@@ -692,8 +694,19 @@ the multiplier at 5 at every update, 5 of 5 checkpoints feasible, drift +0.048,
 and the final checkpoint returned at a base reward of 2.37, against 1.82 (Round 5)
 and 1.74 (armed floor), both of which had to fall back to the step-30 checkpoint.
 The multiplier never rose: at this pressure a constant penalty of 5 is enough, and
-the dual step is insurance against a pressure it does not know. The ten-seed
-solution rate (B4) uses this setting.
+the dual step is insurance against a pressure it does not know.
+
+**Ten seeds** (Round 6 B4; `results/llm_r6/b4_v8`, `b1a_v8`): at bonus 8 with the
+always-on floor of 5, seeds 0-9 return a certified policy 10 times in 10, breach
+0 times, and have every one of their 50 predicted checkpoints feasible; over-cap
+rate 0.156 (sd 0.016) against thresholds of 0.50-0.56, base reward 2.17 (sd 0.13),
+selected step 90-150. The one-sided Clopper-Pearson lower limit on the solution
+rate is 0.74 at delta 0.05, the first solution-rate number in this work with an
+interval. The gap between the selected checkpoint's predicted rate and its
+safety-set rate is +0.003 on average (sd 0.018, largest 0.027) against margins of
+0.35 or more, so the winner's curse had no room to act. The multiplier never left
+the floor, so these ten runs are a fixed penalty of 5 plus a certificate; the dual
+step's value is on the tasks where 5 is the wrong number (bonus 16, over-refusal).
 
 ### 6.9 Judge calibration (provisional)
 
@@ -900,9 +913,9 @@ prediction sample rather than the bound.
 
 ## 8. Limitations
 
-- Every real-LLM comparison has one to three seeds; solution rates and breach
-  counts have no useful interval. The delta claim rests on the synthetic
-  environment, which has one constraint and a 36-parameter linear policy.
+- Real-LLM comparisons have one to three seeds except the ten-seed brevity block
+  (6.8); the delta claim rests on the synthetic environment, which has one
+  constraint and a 36-parameter linear policy.
 - The guarantee is with respect to judges. Their calibration (6.9) rests on
   machine labels until the hand labels are in, and its sensitivity lower limits
   are loose at 100 cleared labels per judge.
@@ -924,9 +937,10 @@ prediction sample rather than the bound.
 synthetic dual-dynamics sweeps (6.7, 6.8), the floor's confirmation on brevity
 (6.8) and the calibration tooling with provisional labels (6.9). Done as well: the
 over-refusal task with fixed-penalty and Seldonian arms over three seeds (6.10).
-Running on the GPU, in order: the always-on floor on brevity; the fixed-penalty
-frontier and the marginal regime; DiscrimEval with the probability feature; a
-ten-seed solution rate. Off the GPU: the human labels (with about 500
+Also done: the always-on floor on brevity and the ten-seed solution rate (6.8),
+the fixed-penalty frontier and the marginal regime (6.5), and DiscrimEval with the
+probability feature (6.6: the feature collapses the point estimate, the pressure
+cannot open a gap at 0.5B, and the parity bound has to be variance-adaptive). Off the GPU: the human labels (with about 500
 cleared-stratum responses per judge, after a written labelling guideline; see
 "Hardening the judge" in section 7), a human-labelled safety set for one returned
 policy, and a ratchet floor set from the peak multiplier.

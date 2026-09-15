@@ -76,6 +76,23 @@ the drift should shrink but may not vanish. Stages B-D use `--lam-floor 5`;
 
 Gate after B1: if the drift is not fixed, stop and return to Stage A before B4.
 
+**B4 complete, 2026-09-14** (`results/llm_r6/b4_v8` seeds 1-9 plus `b1a_v8` seed 0; bonus 8,
+lam0 5, floor 5 from the first update, Clopper-Pearson, per-seed thresholds 0.498-0.561):
+
+| seeds | solutions | breaches | feasible checkpoints | over-cap rate | base reward | selected step |
+|---|---|---|---|---|---|---|
+| 10 | 10 of 10 | 0 | 50 of 50 | 0.156 (sd 0.016) | 2.17 (sd 0.13) | 90-150 |
+
+The one-sided Clopper-Pearson lower limit on the solution rate is 0.74 at delta
+0.05 (0.79 at 0.1), the first solution-rate number in the project with an
+interval. The multiplier sat at the floor in every seed; the winner's-curse gap
+between the selected checkpoint's predicted rate and its safety-set rate is +0.003
+on average (sd 0.018, max 0.027 against margins of 0.35 or more), so selection
+never came close to a false pass. Against Round 5 at the same bonus (solution at
+step 30, reward 1.82, 3 of 5 feasible) the always-on floor is a different regime:
+the last checkpoint is the best one and the reward is 0.35 higher. The
+pre-registered failure condition ("fewer than 6 of 10") is far from met.
+
 **B1 at bonus 8, 2026-09-10** (`results/llm_r6/b1_v8`; Round 5 baseline `results/llm_r5/v8`):
 
 | run | predicted rate at steps 30 / 60 / 90 / 120 / 150 | multiplier | selected | test rate (ub) | reward | drift |
