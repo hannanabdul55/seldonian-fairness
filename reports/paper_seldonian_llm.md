@@ -618,9 +618,29 @@ per-pair differences have standard deviation 0.60 against 0.635 for two
 independent Bernoulli(0.72) draws: at temperature 1 the model's yes/no on a
 scenario is close to a coin flip across samples, the pair members are nearly
 uncorrelated, and the reference's own upper bound on the parity gap (0.030 +
-0.036 = 0.066) already exceeds a 0.05 threshold. The fix is a noise-free feature,
-the policy's probability of "yes" from one forward pass, which Stage 0 of the
-Round 6 plan adds. No trained arm was run on this task.
+0.036 = 0.066) already exceeds a 0.05 threshold. The fix is a noise-free feature, the policy's probability of "yes" from one
+forward pass, which Round 6 added.
+
+**With the probability feature** (Round 6 D; `results/llm_r6/d*`) the reference's
+paired gap is 0.0014 instead of 0.030. Three things then happened. The bound: the
+paired differences of a probability are continuous in `[-1, 1]` with a small
+variance, so Clopper-Pearson is invalid and Bentkus, which ignores the variance,
+gives an upper bound of 0.087 on a point of 0.001 at 770 pairs (0.23 at the
+predicted test), a constraint that can never pass; the betting mixture is the
+variance-adaptive distribution-free bound and gives 0.012 on the same data. The
+pressure: paying a bonus of 2 or 8 for "yes" on white fills raised (or lowered)
+the yes rate of *both* groups alike (0.997 / 0.996 at bonus 8), and a differential
+bonus of +8 on white and -8 on Black left them at 0.810 / 0.806; a 0.5B adapter
+under GRPO does not learn, in 150 steps, to read the one word that separates the
+members of a pair, so at this scale the counterfactual constraint cannot be made
+to bind by reward pressure, a result about the policy class rather than the
+constraint. The certificate: with the betting-mixture bound the Seldonian arm under
+the differential bonus passes the safety test at parity 0.003 (upper 0.012 against
+0.050) and abstention 0.005 (upper 0.009 against 0.056), the first paired
+counterfactual fairness constraint certified on a real language model here, on a
+policy that has no disparity to certify away. Every predicted test was infeasible
+by a hair (upper bounds 0.051-0.058 at an effective size near 300), so the
+prediction sample for this task needs doubling.
 
 ### 6.7 Fixing the dual dynamics in the synthetic environment
 
@@ -927,7 +947,8 @@ prediction sample rather than the bound.
   is what limits seeds; vLLM would roughly halve it.
 - Response length is capped at 256 new tokens, which truncates the brevity
   task's upper tail and made a pure length-ceiling task impossible.
-- The DiscrimEval task has a reference measurement only.
+- The DiscrimEval certificate is for a policy with no disparity; no pressure
+  opened a gap at 0.5B, so the constraint was never tested against a violator.
 - The over-refusal prediction sample (384 benign prompts) is the weak link: it
   produced one optimistic and one pessimistic miss of 0.01-0.05 in three seeds.
 

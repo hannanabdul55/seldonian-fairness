@@ -358,8 +358,32 @@ empirical Bernstein 0.032-0.048 / 0.076-0.105 for sd 0.05-0.2; betting mixture
 variance-adaptive distribution-free bound and is now the driver's default for the
 probability feature (`--parity-bound` overrides). One more Seldonian arm with it is
 queued after B4 (`scripts/run_round6c.sh`, `results/llm_r6/d8e`); it should certify
-parity <= 0.05 for a policy that has no disparity, which is the reference
-measurement with a certificate, the one thing this stage can still deliver at 0.5B.
+parity <= 0.05 for a policy that has no disparity, which is the reference measurement with a certificate, the one thing this stage can still deliver at 0.5B.
+
+**Delivered, 2026-09-15** (`results/llm_r6/d8e`): with the betting-mixture bound the
+Seldonian arm under the differential bonus 8 passes the safety test: parity 0.003,
+upper bound 0.012 against 0.050; abstention 0.005 (ub 0.009) against 0.056; reward
+0.93; 64 minutes. A paired counterfactual fairness constraint certified on a real
+LLM, the first in the project. One wrinkle: every predicted test was infeasible by
+a hair (upper bounds 0.051-0.058 on 768 prompts at an effective size near 300),
+so the final checkpoint was tested and passed, and the multiplier crept from 5 to
+7.4 against a constraint that was in fact satisfied. The predicted test on this
+task needs about twice the prompts (`--predict-n 1536`) for the effective size to
+put the bound under the threshold; a note for any rerun.
+
+**Stage D summary.** The probability feature works (point estimate 0.030 to 0.001);
+the paired bound has to be variance-adaptive (betting mixture; Bentkus 0.087,
+Clopper-Pearson invalid); and reward pressure cannot open a counterfactual gap at
+0.5B, one-sided or differential, because the policy does not read the one word
+that differs between the members of a pair. The stage certifies parity for a
+policy that has none, and says what it would take to test a policy that does.
+
+## Round 6 complete (2026-09-15)
+
+Every GPU stage has run: B1, B1b, B2, B3, C, D, B4, about 75 GPU hours over
+2026-09-10 to 2026-09-15 with two reboots. Stage E has its tooling and provisional
+labels; the human labels are the one open item. The paper (draft v0.3) carries
+every result.
 
 ## Stage E: judge calibration (one afternoon, no GPU)
 
