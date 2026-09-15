@@ -149,3 +149,48 @@ testable claim: a run whose spike rate is still rising at the last checkpoint is
 one whose safety-test result is least likely to hold if training continued, and
 whose returned policy sits on a moving landscape (section 7 of the paper). The
 Seldonian test is a snapshot; this statistic would be the derivative.
+
+**Version 1 result, no GPU (2026-09-14).** `scripts/spike_profile.py` over the 51
+stored runs with a trainer log (Rounds 4-6; GRPO, composite and Seldonian arms; 30
+log points per run). Per run and signal (reward, reward spread, KL, gradient norm)
+a spike is a between-log jump more than 2 robust sd (MAD) from the run's typical
+jump; the profile is the pooled count per 30-step interval; *late share* is the
+fraction of spikes in the last two intervals (0.4 if flat); the cumulative |z| per
+interval is the cumulative-TD-error analogue. Output `results/spike/profile.md`
+(and `z3/` at a threshold of 3).
+
+| group | runs | spikes per run | late share (z 2) | late share (z 3) |
+|---|---|---|---|---|
+| brevity, Seldonian, always-on floor (B4) | 7 | 9.9 | 0.21 | 0.10 |
+| brevity, Seldonian, no floor / armed floor | 7 | 17 | 0.19 / 0.33 | 0.11 / 0.14 |
+| brevity, GRPO / composite | 17 | 6.6 / 8.7 | 0.30 / 0.25 | 0.21 / 0.23 |
+| over-refusal, Seldonian (armed / no floor) | 5 | 10 / 16 | 0.47 / 0.65 | 0.50 / 0.69 |
+| over-refusal, GRPO / composite | 11 | 11 / 12 | 0.57 / 0.44 | 0.74 / 0.39 |
+
+- The late share is first of all a task signature. Brevity runs are front-loaded
+  (0.1-0.3): the bonus flips the policy in the first 30-60 steps and the
+  correction, if any, follows at once. Over-refusal runs are back-loaded
+  (0.4-0.7): the drift is slow and the multiplier acts late. So the statistic
+  reads *when the pressure acts*, and cross-task comparisons say nothing about
+  potential for harm.
+- Within task, the direction of the hypothesis is there but weak. Over 19-20
+  Seldonian runs, Spearman(late share, fraction of feasible checkpoints) is -0.25
+  at z 2 and -0.36 at z 3: runs whose spikes come late had fewer feasible
+  checkpoints. Breaching baselines are slightly later than compliant ones (0.38
+  vs 0.33 at z 2, 0.42 vs 0.31 at z 3, n 14-16 each). The two NSF runs are not
+  later than the solutions (0.39 vs 0.31, then 0.21 vs 0.23).
+- The one run that matches the idea exactly is over-refusal seed 2: no checkpoint
+  predicted feasible, the multiplier still climbing (5 to 14.6) at step 150,
+  spikes 0/1/2/4/5 (late share 0.75), and a *passed* safety test on the final
+  checkpoint. That is a certificate on a policy that was still moving, the case
+  the hypothesis says to flag; the Seldonian test, being a snapshot, cannot see
+  it. One run.
+- The B4 seeds, whose multiplier never left the floor, are the most front-loaded
+  group at either threshold (late share 0.21, then 0.10), which is what a frozen
+  landscape should look like.
+
+Verdict: at 5-step aggregate resolution the statistic is dominated by the task
+and only weakly related to outcomes, but the within-task sign is right and the
+seed-2 anecdote is the phenomenon. Version 2 (per-episode advantages and
+per-token log-ratios logged in the backend) is the fair test, and B4's remaining
+seeds add three more same-setting runs.
