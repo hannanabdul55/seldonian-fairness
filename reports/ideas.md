@@ -194,3 +194,13 @@ and only weakly related to outcomes, but the within-task sign is right and the
 seed-2 anecdote is the phenomenon. Version 2 (per-episode advantages and
 per-token log-ratios logged in the backend) is the fair test, and B4's remaining
 seeds add three more same-setting runs.
+
+**B4 rerun of the breach predictor (2026-09-14).** `spike_analysis.py --tag b4` on
+the ten same-setting bonus-8 seeds: 50 intervals, 0 infeasible. The always-on
+floor kept every checkpoint feasible, so the same-setting data removes the
+confound and, with it, the contrast; nothing to predict. The interval with the
+largest reward-jump z coincides with the largest move in the over-cap rate in 2
+of 10 runs (chance about 0.25), and no feature's rank correlation with the move
+exceeds 0.4. The breach predictor needs runs that approach the threshold, which
+at bonus 8 means the armed or absent floor (Round 5, B1) or the over-refusal
+task; the cumulative-spike statistic (version 1 above) needs per-episode data.
