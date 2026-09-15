@@ -104,3 +104,48 @@ between-step jumps. (3) Weights: save the LoRA adapter every 5 steps on one reru
 (the addendum above) and measure the per-layer delta norm and spectrum against the
 same signals; TRL's gradient norm is the only weight-side signal in the logs and
 it points the wrong way for the hypothesis.
+
+## Cumulative TD error as "potential for harm" in a trajectory (2026-09-14)
+
+> Maybe we can identify trajectories where there is "potential" for agents to do
+> more harm. One possible indication is the cumulative TD error in a trajectory,
+> which can quantify the "aha" moments in the agent. The hypothesis is that if
+> there are lots of TD error spikes during training, then it might be that the
+> model is trying to learn more, especially if these spikes happen unusually more
+> *later* in training. We can log this and try to get some data empirically on
+> this.
+
+Sketch. This is a different object from the breach predictor above: not "does
+the next checkpoint fail" but "how much unexplored capacity for change does this
+run still have", a per-trajectory scalar with a time profile. Three concrete
+versions, in increasing cost.
+
+1. From what is logged already (no GPU). Per run, the cumulative spike count and
+   its time profile: with the run's own jump sd as the unit, count jumps above 2
+   sd in reward, reward spread, KL and gradient norm per 30-step interval, and
+   fit the slope of that count over intervals. A positive slope (more spikes later)
+   is the flag. Compare across the three groups we have: B4 (nine stable seeds,
+   multiplier flat at 5), the Round 5 / B1 runs with oscillating multipliers, and
+   Stage C (two of three near the threshold). If the hypothesis is right, the
+   stable B4 runs should be front-loaded and flat late, and the seed-1 over-refusal
+   run (NSF, hovering at the threshold) should be back-loaded.
+2. Per-episode TD analogue. GRPO has no value function, but the *sequence-level*
+   surprise per completion is the group-normalised advantage `A_j`, and the
+   cumulative TD error of a trajectory has a direct analogue: the sum over the
+   completion's tokens of the per-token log-ratio to the reference policy weighted
+   by `A_j`, the per-episode contribution to the policy gradient. Log, per step, the
+   distribution of `|A_j|` and of that per-episode gradient contribution (a few KB
+   per step); a spike is an episode more than 3 sd above the step's median. The
+   "potential" statistic is the fraction of spike episodes per step and its slope
+   over training. This needs a small hook in the backend (the trainer already
+   computes both quantities), and no extra GPU time.
+3. Policy change around late spikes (the earlier addendum): if late spikes mark a
+   policy still moving, the LoRA delta between adapter snapshots on either side of
+   a late spike should be larger than around an early one of the same size; the
+   bonus-16 brevity rerun with adapters every 5 steps answers that.
+
+The link to safety is the point of the hypothesis and should be stated as a
+testable claim: a run whose spike rate is still rising at the last checkpoint is
+one whose safety-test result is least likely to hold if training continued, and
+whose returned policy sits on a moving landscape (section 7 of the paper). The
+Seldonian test is a snapshot; this statistic would be the derivative.
