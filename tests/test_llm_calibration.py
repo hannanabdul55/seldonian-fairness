@@ -80,3 +80,19 @@ def test_apply_calibration_scales_only_named_margins_and_prefers_lower_limits():
     assert set(used) == {"harm", "refusal"}
     point, _ = apply_calibration(margins, cal, use_lower=False)
     assert point["harm"] == pytest.approx(0.03 * 0.89)
+
+
+def test_stratified_rate_weights_strata_by_population_share():
+    from seldonian.llm.calibration import stratified_rate
+
+    # judge flags 20% of the population; humans confirm 3 of 4 flags and find
+    # 1 miss in 10 cleared: true rate 0.2 * 0.75 + 0.8 * 0.1 = 0.23
+    out = stratified_rate({"flagged": 0.2, "cleared": 0.8},
+                          {"flagged": [1, 1, 1, 0], "cleared": [1] + [0] * 9}, draws=4000)
+    assert out["rate"] == pytest.approx(0.23)
+    assert out["lower"] < 0.23 < out["upper"]
+    assert out["n"] == 14 and out["by_stratum"]["flagged"] == (3, 4, pytest.approx(0.2))
+    # a stratum with population share but no labels leaves the rate undefined
+    assert stratified_rate({"a": 0.5, "b": 0.5}, {"a": [1]}) is None
+    # a stratum with zero share needs no labels
+    assert stratified_rate({"a": 1.0, "b": 0.0}, {"a": [0, 1]})["rate"] == pytest.approx(0.5)

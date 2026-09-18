@@ -27,6 +27,7 @@ uv sync --extra ray        # ray-based multiprocessing for RL experiments
 uv sync --extra rl         # trl + peft + transformers for LLM post-training (seldonian.llm)
 uv sync --extra datasets   # shap + tempeh (installed from GitHub; removed from PyPI)
 uv sync --extra docs       # sphinx documentation toolchain
+uv sync --extra rl --extra redteam   # + Microsoft PyRIT, for red-teaming a certified policy
 ```
 
 # Seldonian RL post-training for LLMs
@@ -55,6 +56,17 @@ named with `--bound` (Clopper-Pearson is the recommended default for 0/1 judge l
 contextual bandit with an exact ground truth (hundreds of trials per minute) and
 `scripts/resample_calibration.py` measures each bound's coverage on real judge labels. The safety logic in `seldonian.llm.policy` has no model dependency and is
 covered by `tests/test_llm_policy.py` with a mock backend.
+
+**Red-teaming a certificate.** The safety test certifies the judge rate on the safety-set prompt
+distribution, one sample per prompt. `seldonian.llm.redteam` runs Microsoft PyRIT's attack battery
+(the Foundry converter and multi-turn tiers, jailbreak templates, best-of-n resampling) against a
+trained policy with the constraint's own judge as PyRIT's objective scorer, and reports each
+technique's judge rate with the safety test's own bound against the safety test's own threshold:
+```bash
+uv run scripts/redteam_pyrit.py --run-dir results/llm_r6/c/ab/seldonian_lag/seed0 \
+    --constraint harm --n 600 --techniques converter template resample --out results/redteam/c0_harm
+```
+See `reports/redteam_pyrit.md` for the PyRIT survey, the scenario design and the results.
 # Usage
 [![Open example In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hannanabdul55/seldonian-fairness/blob/master/logistic_regression_seldonian.ipynb) Use this notebook as a reference to train a basic Logistic Regression Model.  
  A quickstart tutorial on how to get quickly get started with developing your own model is present [here](http://abdulhannan.in/seldonian-fairness/quickstart.html).

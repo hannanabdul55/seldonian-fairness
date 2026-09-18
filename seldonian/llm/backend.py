@@ -40,6 +40,90 @@ DEFAULT_TARGET_MODULES = ("q_proj", "k_proj", "v_proj", "o_proj",
                           "gate_proj", "up_proj", "down_proj")
 
 
+def _generate_chat(model, tokenizer, device, conversations, max_new_tokens, temperature,
+                   batch_size):
+    """Batched sampling of one assistant turn per chat-templated conversation."""
+    import torch
+    was_training = model.training
+    model.eval()
+    out = []
+    try:
+        with torch.no_grad():
+            for i in range(0, len(conversations), batch_size):
+                batch = conversations[i:i + batch_size]
+                enc = tokenizer.apply_chat_template(
+                    batch, add_generation_prompt=True, return_tensors="pt", padding=True,
+                    return_dict=True).to(device)
+                gen_kwargs = dict(max_new_tokens=max_new_tokens, use_cache=True,
+                                  pad_token_id=tokenizer.pad_token_id)
+                if temperature > 0:
+                    gen_kwargs.update(do_sample=True, temperature=temperature, top_p=1.0)
+                else:
+                    gen_kwargs.update(do_sample=False)
+                gen = model.generate(**enc, **gen_kwargs)
+                new = gen[:, enc["input_ids"].shape[1]:]
+                out.extend(tokenizer.batch_decode(new, skip_special_tokens=True))
+    finally:
+        if was_training:
+            model.train()
+    return out
+
+
+class HFChatBackend:
+    """
+    A plain instruct model (no adapter, no training) with the sampling half of the
+    :class:`~seldonian.llm.policy.PolicyBackend` interface. Used as the adversarial
+    (attacker) model and as the converter model in :mod:`seldonian.llm.redteam`.
+    """
+
+    def __init__(self, model_name, device=None, bf16=None, gen_batch_size=32,
+                 system_prompt=None):
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        from seldonian.llm.judges import _device
+
+        self.model_name = model_name
+        self.device = _device(device)
+        self.triton_disabled = disable_triton_overrides_without_compiler()
+        self.bf16 = (self.device == "cuda") if bf16 is None else bf16
+        self.gen_batch_size = gen_batch_size
+        self.system_prompt = system_prompt
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer.padding_side = "left"
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+        dtype = torch.bfloat16 if self.bf16 else torch.float32
+        self.model = AutoModelForCausalLM.from_pretrained(model_name, dtype=dtype).to(self.device)
+        self.model.eval()
+
+    def messages(self, prompt):
+        msgs = []
+        if self.system_prompt:
+            msgs.append({"role": "system", "content": self.system_prompt})
+        msgs.append({"role": "user", "content": prompt})
+        return msgs
+
+    def generate(self, prompts, max_new_tokens=256, temperature=1.0):
+        return self.generate_conversations([self.messages(p) for p in prompts],
+                                           max_new_tokens=max_new_tokens, temperature=temperature)
+
+    def generate_conversations(self, conversations, max_new_tokens=256, temperature=1.0):
+        convs = []
+        for c in conversations:
+            c = list(c)
+            if self.system_prompt and not (c and c[0]["role"] == "system"):
+                c.insert(0, {"role": "system", "content": self.system_prompt})
+            convs.append(c)
+        return _generate_chat(self.model, self.tokenizer, self.device, convs, max_new_tokens,
+                              temperature, self.gen_batch_size)
+
+    def unload(self):
+        self.model = None
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+
 def _text(x):
     """Flatten TRL's conversational prompt/completion (list of messages) to a string."""
     if isinstance(x, str):
@@ -115,30 +199,25 @@ class HFGRPOBackend(PolicyBackend):
     # ------------------------------------------------------------ sampling
 
     def generate(self, prompts, max_new_tokens=256, temperature=1.0):
-        import torch
-        was_training = self.model.training
-        self.model.eval()
-        out = []
-        try:
-            with torch.no_grad():
-                for i in range(0, len(prompts), self.gen_batch_size):
-                    batch = [self.messages(p) for p in prompts[i:i + self.gen_batch_size]]
-                    enc = self.tokenizer.apply_chat_template(
-                        batch, add_generation_prompt=True, return_tensors="pt", padding=True,
-                        return_dict=True).to(self.device)
-                    gen_kwargs = dict(max_new_tokens=max_new_tokens, use_cache=True,
-                                      pad_token_id=self.tokenizer.pad_token_id)
-                    if temperature > 0:
-                        gen_kwargs.update(do_sample=True, temperature=temperature, top_p=1.0)
-                    else:
-                        gen_kwargs.update(do_sample=False)
-                    gen = self.model.generate(**enc, **gen_kwargs)
-                    new = gen[:, enc["input_ids"].shape[1]:]
-                    out.extend(self.tokenizer.batch_decode(new, skip_special_tokens=True))
-        finally:
-            if was_training:
-                self.model.train()
-        return out
+        return self.generate_conversations([self.messages(p) for p in prompts],
+                                           max_new_tokens=max_new_tokens, temperature=temperature)
+
+    def generate_conversations(self, conversations, max_new_tokens=256, temperature=1.0):
+        """
+        One sampled assistant turn per conversation, where a conversation is a list of
+        ``{"role", "content"}`` messages ending in a user turn (the multi-turn form of
+        :meth:`generate`; red-teaming attacks send whole conversations). The configured
+        system prompt is prepended when the conversation has none.
+        """
+        return _generate_chat(self.model, self.tokenizer, self.device,
+                              [self._with_system(c) for c in conversations],
+                              max_new_tokens, temperature, self.gen_batch_size)
+
+    def _with_system(self, conversation):
+        conversation = list(conversation)
+        if self.system_prompt and not (conversation and conversation[0]["role"] == "system"):
+            conversation.insert(0, {"role": "system", "content": self.system_prompt})
+        return conversation
 
     def next_token_probs(self, prompts, candidates):
         """

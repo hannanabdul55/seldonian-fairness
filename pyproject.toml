@@ -29,6 +29,9 @@ llm = ["transformers>=4.40", "datasets>=3.0"]
 rl = ["transformers>=4.40", "datasets>=3.0", "trl>=0.19", "peft>=0.14", "accelerate>=1.0"]
 datasets = ["shap>=0.44", "tempeh @ git+https://github.com/microsoft/tempeh.git"]
 docs = ["sphinx", "sphinx-rtd-theme", "myst-parser"]
+redteam = [
+    "pyrit ; python_full_version >= '3.11' and python_full_version < '3.15'",
+]
 
 [dependency-groups]
 dev = [
@@ -55,3 +58,6 @@ ignore = ["E501", "E741", "F403", "F405", "F841"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.uv.sources]
+pyrit = { git = "https://github.com/microsoft/PyRIT.git", rev = "b0dba3edd0abc2a88c15a5e8ebd106fe8396d27d" }

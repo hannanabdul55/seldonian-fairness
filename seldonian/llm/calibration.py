@@ -145,3 +145,45 @@ def apply_calibration(margins, calibration, use_lower=True):
         out[name] = judge_margin(margins[name], s, p)
         used[name] = youden(s, p)
     return out, used
+
+
+def stratified_rate(weights, labels, *, level=0.9, draws=20_000, seed=0):
+    """
+    The true event rate of a population whose judge labels are known for every
+    unit but whose true labels are known only for a stratified sample.
+
+    The population is split into strata by the judge's labels (for instance
+    ``(flagged, cleared)``, or the four combinations of two judge labels); the
+    share of each stratum is known exactly from the judge, and a few units per
+    stratum carry a human label. The rate is ``sum_s w_s * r_s`` with ``r_s`` the
+    human-positive share of stratum ``s``.
+
+    :param weights: ``{stratum: population share}`` (normalised here)
+    :param labels: ``{stratum: list of 0/1 human labels}``; a stratum with weight
+        but no labels makes the estimate undefined (returned as ``None``)
+    :param level: two-sided level of the interval
+    :returns: ``{"rate", "lower", "upper", "n", "by_stratum": {s: (k, n, share)}}``
+        or ``None``. The interval is from independent Jeffreys posteriors
+        ``Beta(k + 1/2, n - k + 1/2)`` per stratum, which is well behaved at the
+        small per-stratum counts a day of labelling gives.
+    """
+    total = float(sum(weights.values()))
+    if total <= 0:
+        return None
+    w = {s: v / total for s, v in weights.items() if v > 0}
+    if any(not labels.get(s) for s in w):
+        return None
+    rng = np.random.default_rng(seed)
+    point, sims, by = 0.0, np.zeros(draws), {}
+    for s, ws in w.items():
+        ys = np.asarray(labels[s], dtype=float)
+        k, n = float(ys.sum()), len(ys)
+        point += ws * k / n
+        sims += ws * rng.beta(k + 0.5, n - k + 0.5, size=draws)
+        by[s] = (int(k), n, ws)
+    a = (1 - level) / 2
+    # the Jeffreys interval can exclude the point estimate when a stratum is all 0s
+    # or all 1s; widen to include it, as the summaries of the red-team rates do
+    return {"rate": point, "lower": min(float(np.quantile(sims, a)), point),
+            "upper": max(float(np.quantile(sims, 1 - a)), point),
+            "n": sum(len(labels[s]) for s in w), "by_stratum": by}
