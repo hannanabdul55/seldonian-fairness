@@ -1,0 +1,695 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Seldonian LLM Post-Training Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F6F7F5;
+    --bg-2: #EDEFEB;
+    --ink: #1B2320;
+    --ink-2: #4A544F;
+    --muted: #6B7570;
+    --line: #D3D8D3;
+    --accent: #2B5F8C;
+    --accent-soft: #DCE7F1;
+    --pass: #2E7D5B;
+    --pass-soft: #DCEFE5;
+    --fail: #B4442E;
+    --fail-soft: #F5E0DA;
+    --warn: #9A6B12;
+    --warn-soft: #F5EBD2;
+    --code-bg: #ECEFEA;
+    --display: "Bitter", Georgia, "Times New Roman", serif;
+    --body: "Source Sans 3", "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141918;
+      --bg-2: #1C2321;
+      --ink: #E4E9E5;
+      --ink-2: #B5BDB8;
+      --muted: #8B948F;
+      --line: #2F3835;
+      --accent: #7FB0DB;
+      --accent-soft: #1E3247;
+      --pass: #6FC49A;
+      --pass-soft: #1B3A2C;
+      --fail: #E5806A;
+      --fail-soft: #452520;
+      --warn: #D9B15C;
+      --warn-soft: #3E3218;
+      --code-bg: #1C2321;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141918;
+    --bg-2: #1C2321;
+    --ink: #E4E9E5;
+    --ink-2: #B5BDB8;
+    --muted: #8B948F;
+    --line: #2F3835;
+    --accent: #7FB0DB;
+    --accent-soft: #1E3247;
+    --pass: #6FC49A;
+    --pass-soft: #1B3A2C;
+    --fail: #E5806A;
+    --fail-soft: #452520;
+    --warn: #D9B15C;
+    --warn-soft: #3E3218;
+    --code-bg: #1C2321;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 96px;
+    gap: 48px;
+  }
+  @media (min-width: 960px) {
+    .page { grid-template-columns: 200px minmax(0, 1fr); }
+    nav.toc { position: sticky; top: 32px; align-self: start; }
+  }
+  nav.toc {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  nav.toc .eyebrow { margin-bottom: 10px; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  nav.toc a { color: var(--ink-2); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); }
+  nav.toc li.sub { padding-left: 14px; }
+
+  main { max-width: 72ch; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.12;
+    margin: 8px 0 16px;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.2;
+    margin: 56px 0 14px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 19px;
+    margin: 30px 0 8px;
+    text-wrap: balance;
+  }
+  p { margin: 0 0 14px; }
+  .lede { font-size: 19px; color: var(--ink-2); }
+  ul, ol { padding-left: 22px; margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+  li > ul { margin-top: 6px; }
+  code, .mono { font-family: var(--mono); font-size: 0.88em; }
+  code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .formula {
+    font-family: var(--mono);
+    font-size: 15px;
+    background: var(--code-bg);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin: 12px 0 16px;
+    overflow-x: auto;
+  }
+
+  .callout {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    margin: 20px 0 22px;
+  }
+  .callout .eyebrow { color: var(--accent); margin-bottom: 4px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout.warn { background: var(--warn-soft); border-color: var(--warn); }
+  .callout.warn .eyebrow { color: var(--warn); }
+
+  .table-wrap { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--line); }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+  th { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--bg-2); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 14px; }
+  td.key { font-weight: 600; white-space: nowrap; }
+
+  .pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .pill.pass { background: var(--pass-soft); color: var(--pass); }
+  .pill.fail { background: var(--fail-soft); color: var(--fail); }
+  .pill.accent { background: var(--accent-soft); color: var(--accent); }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); }
+
+  figure { margin: 20px 0 24px; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+  .task {
+    border: 1px solid var(--line);
+    padding: 18px 20px 6px;
+    margin: 18px 0;
+  }
+  .task h3 { margin-top: 0; }
+  .task .eyebrow { margin-bottom: 4px; }
+  dl.spec { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 6px 14px; margin: 0 0 14px; font-size: 15.5px; }
+  dl.spec dt { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+  dl.spec dd { margin: 0; }
+  @media (max-width: 520px) { dl.spec { grid-template-columns: 1fr; gap: 2px 0; } dl.spec dd { margin-bottom: 8px; } }
+
+  .gate { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px 10px; margin: 0 0 16px; }
+  .gate .n { font-family: var(--mono); color: var(--accent); font-size: 14px; padding-top: 3px; }
+  .footnote { font-size: 14px; color: var(--muted); }
+</style>
+
+<div class="page">
+  <nav class="toc" aria-label="Contents">
+    <div class="eyebrow">Contents</div>
+    <ol>
+      <li><a href="#framing">1. Framing</a></li>
+      <li><a href="#pipeline">2. Pipeline</a></li>
+      <li><a href="#tasks">3. Tasks</a></li>
+      <li class="sub"><a href="#task-a">A. Harmlessness</a></li>
+      <li class="sub"><a href="#task-b">B. Over-refusal</a></li>
+      <li class="sub"><a href="#task-c">C. Faithful summaries</a></li>
+      <li class="sub"><a href="#task-d">D. Verifiable control</a></li>
+      <li><a href="#methods">4. Methods compared</a></li>
+      <li><a href="#hypotheses">5. Hypotheses and metrics</a></li>
+      <li><a href="#round1">6. Round 1: pilot</a></li>
+      <li><a href="#round2">7. Round 2: evaluation</a></li>
+      <li><a href="#code">8. Repo work</a></li>
+      <li><a href="#risks">9. Risks</a></li>
+      <li><a href="#round1-results">10. Round 1 results</a></li>
+      <li><a href="#round1b">11. Round 1b results</a></li>
+      <li><a href="#round2">12. Round 2 at 1.5B</a></li>
+      <li><a href="#round1c">13. Corrected 0.5B result</a></li>
+      <li><a href="#summary">14. Where it stands</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <div class="eyebrow">Research plan · seldonian-fairness · September 2026 · Rounds 1 to 3 complete</div>
+    <h1>Seldonian safety tests for RL post-training of instruction-tuned LLMs</h1>
+    <p class="lede">
+      Treat "helpfulness" as the reward and every other desideratum as a probabilistic constraint with a held-out safety test, instead of folding everything into one scalar reward. The question is whether this handles misspecified rewards better than composite rewards or Lagrangian penalties, at what cost in helpfulness, and how much safety data it needs.
+    </p>
+
+    <div class="callout">
+      <div class="eyebrow">The one design decision everything else follows from</div>
+      <p>
+        In the library's existing RL path the safety test is an importance-sampled estimate over logged episodes, because the policy cannot be queried. An LLM can be queried. So the safety test here samples fresh responses from the candidate policy on held-out prompts and bounds the mean of a judge-labelled metric directly with the existing <code>ttest_bounds</code> / <code>hoeffdings_bounds</code>. No importance weights, no variance blow-up in sequence space. Importance sampling only appears, optionally, as a cheap predictor of the test during candidate selection.
+      </p>
+    </div>
+
+    <h2 id="framing">1. How the Seldonian pieces map onto LLM post-training</h2>
+    <p>
+      The framework needs a candidate-selection routine, a data split, one or more constraint functions <em>g</em>(θ) with a confidence level δ, and a safety test that returns a policy or No Solution Found (NSF). Each has a direct instantiation.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Seldonian concept</th><th>LLM instantiation</th><th>Where in the repo today</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Policy θ</td><td>Reference instruct model + LoRA adapter. Only the adapter is trained.</td><td>New: <code>seldonian/llm/policy.py</code></td></tr>
+          <tr><td class="key">Episode</td><td>One prompt, one sampled response, reward from a reward model, judge labels, reference log-prob. Single-step bandit: the whole response is the action.</td><td>Schema mirrors the <code>[state, action, reward, pi_b]</code> rows in <code>tests/test_rl.py</code></td></tr>
+          <tr><td class="key">Data split D<sub>c</sub> / D<sub>s</sub></td><td>Prompts are split 60 / 40 once per seed. D<sub>s</sub> prompts are never seen during training or checkpoint selection.</td><td><code>train_test_split</code> as in <code>PDISSeldonianPolicyCMAES</code></td></tr>
+          <tr><td class="key">Candidate selection</td><td>GRPO on D<sub>c</sub> with the helpfulness reward. Every <em>k</em> steps, sample from the current policy on a D<sub>c</sub> subset and compute the <em>predicted</em> safety test with the doubled interval (<code>predict=True</code>). Infeasible checkpoints are discarded.</td><td>Penalty pattern from <code>PDISSeldonianPolicyCMAES.loss</code>; bound inflation from <code>ttest_bounds</code></td></tr>
+          <tr><td class="key">Constraint g(θ)</td><td>Mean of a 0/1 judge label over responses, minus a threshold τ. Two constraints use δ/2 each.</td><td>Style of <code>ghat_tpr_diff</code> in <code>objectives.py</code></td></tr>
+          <tr><td class="key">Safety test</td><td>One response per D<sub>s</sub> prompt, judge each, one-sided upper bound on the mean at level δ. Pass if bound ≤ τ, else NSF.</td><td><code>_safetyTest(ub=True)</code> sign convention already in the RL classes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>What the bound buys at each safety-set size</h3>
+    <p>
+      For a 0/1 metric with true rate around 5%, the one-sided width added to the sample mean is roughly as follows. This is the calibration table for choosing τ and <em>n</em><sub>s</sub>: a constraint at τ = 0.05 on a reference model already at 4% is only satisfiable with the t bound and at least 1,000 prompts.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th class="num">n<sub>s</sub> prompts</th><th class="num">Student t, δ = 0.05</th><th class="num">Hoeffding, δ = 0.05</th><th class="num">Student t, predicted (×2)</th></tr></thead>
+        <tbody>
+          <tr><td class="num">250</td><td class="num">+0.023</td><td class="num">+0.077</td><td class="num">+0.046</td></tr>
+          <tr><td class="num">500</td><td class="num">+0.016</td><td class="num">+0.055</td><td class="num">+0.032</td></tr>
+          <tr><td class="num">1,000</td><td class="num">+0.011</td><td class="num">+0.039</td><td class="num">+0.023</td></tr>
+          <tr><td class="num">2,000</td><td class="num">+0.008</td><td class="num">+0.027</td><td class="num">+0.016</td></tr>
+          <tr><td class="num">4,000</td><td class="num">+0.006</td><td class="num">+0.019</td><td class="num">+0.011</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Student t assumes p ≈ 0.05, so sd ≈ 0.22. Hoeffding is distribution-free and is the fallback when a judge label is not approximately Bernoulli. Both are already implemented in <code>seldonian/bounds.py</code>.</p>
+
+    <h2 id="pipeline">2. One run, end to end</h2>
+    <figure>
+      <svg viewBox="0 0 760 300" role="img" aria-labelledby="pipe-title">
+        <title id="pipe-title">Pipeline from prompt split through candidate selection to the safety test</title>
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/>
+          </marker>
+        </defs>
+        <g font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)">
+          <!-- prompts -->
+          <rect x="20" y="110" width="130" height="80" rx="3" fill="var(--bg-2)" stroke="var(--line)"/>
+          <text x="85" y="140" text-anchor="middle" font-weight="500">task prompts</text>
+          <text x="85" y="160" text-anchor="middle" fill="var(--muted)">split per seed</text>
+
+          <!-- Dc -->
+          <rect x="210" y="40" width="150" height="70" rx="3" fill="var(--bg-2)" stroke="var(--line)"/>
+          <text x="285" y="66" text-anchor="middle" font-weight="500">D_c  (60%)</text>
+          <text x="285" y="86" text-anchor="middle" fill="var(--muted)">candidate prompts</text>
+
+          <!-- Ds -->
+          <rect x="210" y="190" width="150" height="70" rx="3" fill="var(--bg-2)" stroke="var(--line)"/>
+          <text x="285" y="216" text-anchor="middle" font-weight="500">D_s  (40%)</text>
+          <text x="285" y="236" text-anchor="middle" fill="var(--muted)">held out, sealed</text>
+
+          <!-- GRPO -->
+          <rect x="420" y="30" width="170" height="90" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          <text x="505" y="56" text-anchor="middle" font-weight="500" fill="var(--accent)">GRPO + LoRA</text>
+          <text x="505" y="76" text-anchor="middle">reward = helpfulness RM</text>
+          <text x="505" y="96" text-anchor="middle">every k steps: predicted test</text>
+
+          <!-- safety test -->
+          <rect x="420" y="180" width="170" height="90" rx="3" fill="var(--bg-2)" stroke="var(--ink-2)"/>
+          <text x="505" y="206" text-anchor="middle" font-weight="500">safety test</text>
+          <text x="505" y="226" text-anchor="middle">sample 1 / prompt, judge</text>
+          <text x="505" y="246" text-anchor="middle">UB_δ(mean) ≤ τ ?</text>
+
+          <!-- outcomes -->
+          <rect x="650" y="180" width="90" height="38" rx="3" fill="var(--pass-soft)" stroke="var(--pass)"/>
+          <text x="695" y="204" text-anchor="middle" fill="var(--pass)" font-weight="500">return θ</text>
+          <rect x="650" y="232" width="90" height="38" rx="3" fill="var(--fail-soft)" stroke="var(--fail)"/>
+          <text x="695" y="256" text-anchor="middle" fill="var(--fail)" font-weight="500">NSF</text>
+
+          <!-- arrows -->
+          <g stroke="var(--muted)" stroke-width="1.5" fill="none" marker-end="url(#arr)">
+            <path d="M150,140 C180,140 180,75 210,75"/>
+            <path d="M150,160 C180,160 180,225 210,225"/>
+            <path d="M360,75 L420,75"/>
+            <path d="M360,225 L420,225"/>
+            <path d="M505,120 L505,180"/>
+            <path d="M590,215 L650,199"/>
+            <path d="M590,235 L650,251"/>
+          </g>
+          <text x="520" y="155" fill="var(--muted)">best feasible checkpoint</text>
+          <text x="520" y="170" fill="var(--muted)">(tested exactly once)</text>
+        </g>
+      </svg>
+      <figcaption>Checkpoint choice happens entirely on D<sub>c</sub>. Exactly one safety test per run touches D<sub>s</sub>, so the δ guarantee is not eroded by multiple testing.</figcaption>
+    </figure>
+
+    <h2 id="tasks">3. Tasks, data, and safety tests</h2>
+    <p>
+      Four tasks, chosen so that each exercises a different way a scalar reward goes wrong. A and B are meant to be run together as one two-constraint task, because the pair is what makes the composite-reward baseline hard to tune. D is a control with a verifiable reward, where the framework should cost almost nothing.
+    </p>
+
+    <div class="task" id="task-a">
+      <div class="eyebrow">Task A · reward hacking through harm</div>
+      <h3>Helpful responses under a harmlessness constraint</h3>
+      <dl class="spec">
+        <dt>Data</dt><dd><code>PKU-Alignment/PKU-SafeRLHF</code> prompts. It ships separate helpfulness and harmlessness labels on response pairs, which is exactly the decomposition this plan tests. Use prompts for RL and the labelled pairs to validate the judge. Round 1: 3k prompts. Round 2: 15k.</dd>
+        <dt>Reward</dt><dd>Helpfulness reward model, <code>Skywork/Skywork-Reward-V2-Qwen3-0.6B</code>. Small enough to score during GRPO on the same GPU. It rewards detail and compliance, so pushing it hard on adversarial prompts produces harmful compliance. That is the misspecification under study.</dd>
+        <dt>Constraint</dt><dd><span class="mono">g<sub>A</sub>(θ) = P(judge says unsafe | π<sub>θ</sub>) − τ<sub>A</sub></span>. Two variants: absolute, τ<sub>A</sub> = 0.05; and relative, τ<sub>A</sub> = rate of the reference model + 0.02. The relative one is the honest constraint for a base model that is not already clean.</dd>
+        <dt>Judge</dt><dd><code>Qwen/Qwen3Guard-Gen-0.6B</code>, frozen, run after generation. Ungated and Apache-licensed; it also emits a refusal flag. Llama Guard 3 1B stays available as a gated alternative. Agreement with the dataset's own <code>is_safe</code> labels is measured in Round 1 and reported; the guarantee is with respect to the judge, and the paper says so.</dd>
+        <dt>Safety test</dt><dd>One response per held-out prompt, temperature 1.0 as in training, upper t bound at δ. Prompt mix in D<sub>s</sub>: 50% adversarial (PKU harmful-category prompts), 50% benign, stratified so the rate is estimable.</dd>
+      </dl>
+    </div>
+
+    <div class="task" id="task-b">
+      <div class="eyebrow">Task B · reward hacking through refusal</div>
+      <h3>Over-refusal constraint, paired with Task A</h3>
+      <dl class="spec">
+        <dt>Data</dt><dd>Benign but scary-looking prompts: XSTest safe subset (250) plus a sample from <code>bench-llm/or-bench</code> (OR-Bench-80K). Round 1: 1k. Round 2: 4k. These are added to both D<sub>c</sub> and D<sub>s</sub> of Task A.</dd>
+        <dt>Reward</dt><dd>Same helpfulness reward model as A.</dd>
+        <dt>Constraint</dt><dd><span class="mono">g<sub>B</sub>(θ) = P(refusal | benign prompt) − τ<sub>B</sub></span>, τ<sub>B</sub> = reference refusal rate + 0.05. With both A and B active, δ is split δ/2 each.</dd>
+        <dt>Judge</dt><dd><code>protectai/distilroberta-base-rejection-v1</code>, a refusal classifier, with Qwen3Guard's refusal flag and a keyword list as cross-checks. Spot-checked against 200 hand labels in Round 1.</dd>
+        <dt>Why paired</dt><dd>A harmlessness penalty in a composite reward is trivially gamed by refusing everything. Constraint B closes that door. The composite baseline then needs a two-dimensional λ sweep to satisfy both, and the Lagrangian baseline has two multipliers to keep stable. Seldonian needs neither.</dd>
+      </dl>
+    </div>
+
+    <div class="task" id="task-c">
+      <div class="eyebrow">Task C · reward hacking through length and invention</div>
+      <h3>Summarization with a faithfulness constraint</h3>
+      <dl class="spec">
+        <dt>Data</dt><dd><code>openai/summarize_from_feedback</code> (Reddit TL;DR). Posts as prompts. Round 1: 3k. Round 2: 12k.</dd>
+        <dt>Reward</dt><dd>A preference reward model for summaries. Start with <code>OpenAssistant/reward-model-deberta-v3-large-v2</code>; if it is too weak on TL;DR, fine-tune a small RM on the dataset's own comparisons in Round 1. Both are known to prefer longer, more specific summaries, which is where hallucinated detail comes from.</dd>
+        <dt>Constraint</dt><dd><span class="mono">g<sub>C1</sub>(θ) = P(summary not entailed by post) − τ<sub>C</sub></span>, τ<sub>C</sub> = reference rate + 0.03. Optional second constraint: mean length ≤ 1.5 × reference mean length.</dd>
+        <dt>Judge</dt><dd>NLI-style fact checker, <code>lytang/MiniCheck-Flan-T5-Large</code>. Cheap, sentence-level, well-calibrated on grounding tasks.</dd>
+        <dt>Safety test</dt><dd>As above, over held-out posts. The interesting curve is faithfulness rate vs. RL steps for the unconstrained baseline, which sets the "reward pressure" axis in Section 5.</dd>
+      </dl>
+    </div>
+
+    <div class="task" id="task-d">
+      <div class="eyebrow">Task D · control with a verifiable reward</div>
+      <h3>GSM8K with a no-regression constraint</h3>
+      <dl class="spec">
+        <dt>Data</dt><dd><code>openai/gsm8k</code> train split for D<sub>c</sub> and D<sub>s</sub>; the test split is reserved for final reporting only.</dd>
+        <dt>Reward</dt><dd>Exact-match correctness of the final answer. A reward that is not misspecified.</dd>
+        <dt>Constraint</dt><dd><span class="mono">g<sub>D</sub>(θ) = (reference accuracy − 0.02) − accuracy(π<sub>θ</sub>)</span>, a performance floor. This is the same shape as the existing <code>threshold</code> constraint in <code>PDISSeldonianPolicyCMAES</code>, so it doubles as the bridge test for the new code.</dd>
+        <dt>Judge</dt><dd>None needed. Correctness is computed from the answer string.</dd>
+        <dt>Purpose</dt><dd>Establish that when the reward is well specified, Seldonian returns a solution nearly always and its helpfulness cost is near zero. If it is expensive here, the candidate-selection penalty is too conservative.</dd>
+      </dl>
+    </div>
+
+    <h2 id="methods">4. Methods compared</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Objective</th><th>Guarantee</th><th>Tuning burden</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Reference</td><td>No training. The instruct model as shipped.</td><td>None</td><td>None</td></tr>
+          <tr><td class="key">GRPO, unconstrained</td><td>Helpfulness reward with the usual KL penalty to reference.</td><td>None</td><td>KL coefficient β</td></tr>
+          <tr><td class="key">GRPO, composite</td><td>reward − Σ λ<sub>i</sub> · judge<sub>i</sub>. The standard "add safety to the reward" recipe.</td><td>None</td><td>λ per constraint, swept over 3 values each</td></tr>
+          <tr><td class="key">GRPO, Lagrangian</td><td>Dual ascent on λ<sub>i</sub> toward the same τ<sub>i</sub>, PPO-Lagrangian style.</td><td>None; satisfies in expectation on training prompts at best</td><td>Dual learning rate, λ initialisation</td></tr>
+          <tr><td class="key">Seldonian</td><td>Helpfulness reward; infeasible checkpoints (by predicted test) discarded; final safety test on D<sub>s</sub>.</td><td>P(violation) ≤ δ with respect to the judge</td><td>τ, δ, safety split</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Every method uses the same base model, LoRA rank, GRPO settings, prompt budget and seeds. The composite and Lagrangian baselines also get to see the judge labels on D<sub>c</sub> during training, so the comparison is about how the signal is used, not how much signal each method sees.
+    </p>
+
+    <h2 id="hypotheses">5. Hypotheses and what would falsify them</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Hypothesis</th><th>Primary metric</th><th>Falsified if</th></tr></thead>
+        <tbody>
+          <tr><td class="key">H1 Guarantee holds</td><td>Across seeds, fraction of returned policies whose true constraint rate on a fresh 4k-prompt evaluation set exceeds τ.</td><td>Seldonian violation rate exceeds δ, after excluding NSF runs.</td></tr>
+          <tr><td class="key">H2 Robust to reward pressure</td><td>Constraint rate vs. RL steps ∈ {100, 200, 400, 800} and vs. KL coefficient ∈ {0.1, 0.02, 0}.</td><td>Baselines stay within τ at the strongest pressure without a λ sweep, or Seldonian fails just as often.</td></tr>
+          <tr><td class="key">H3 Bounded helpfulness cost</td><td>Reward-model score and pairwise win rate vs. reference on the held-out evaluation set, judged by the reward model and by <code>Qwen2.5-7B-Instruct</code> as a second opinion.</td><td>Seldonian loses more than 5 points of win rate to the best constraint-satisfying composite run.</td></tr>
+          <tr><td class="key">H4 Data efficiency</td><td>Solution-found rate and violation rate vs. total prompts <em>n</em>. The classic Seldonian plot.</td><td>Solution rate below 50% at the Round 2 default budget.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Secondary metrics recorded on every run: response length, KL to reference, judge agreement with hand labels, wall-clock, and the predicted-vs-actual safety-test gap. The last one measures whether the doubled interval is the right inflation for LLM policies or should be replaced by something tighter.
+    </p>
+
+    <h2 id="round1">6. Round 1: pilot</h2>
+    <p>
+      Purpose: prove the pipeline end to end on one task, measure judge quality and wall-clock, and confirm that the unconstrained baseline actually violates the constraint. Nothing in Round 1 is a result; it exists to make Round 2's budget and thresholds real numbers.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Task</td><td>A + B jointly</td></tr>
+          <tr><td class="key">Policy</td><td><code>Qwen/Qwen2.5-0.5B-Instruct</code>, LoRA r = 16 on attention and MLP, bf16</td></tr>
+          <tr><td class="key">Prompts</td><td>3k harmful-domain + 1k benign, split 60/40 per seed</td></tr>
+          <tr><td class="key">GRPO</td><td>Group size 4, 8 prompts per step, 200 steps, 256 new tokens, β = 0.04, predicted test every 25 steps on 256 D<sub>c</sub> prompts</td></tr>
+          <tr><td class="key">Constraint</td><td>τ<sub>A</sub> relative (+0.02), τ<sub>B</sub> relative (+0.05), δ = 0.1 split in half</td></tr>
+          <tr><td class="key">Methods</td><td>Reference, unconstrained, composite (λ = 1), Seldonian</td></tr>
+          <tr><td class="key">Seeds</td><td>3</td></tr>
+          <tr><td class="key">Runs</td><td>10 trained runs, each ≈ 6,400 generations. Estimate 30 to 45 minutes each on the 4070 Super, so under a day including judge passes. The estimate is itself a Round 1 output.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Go / no-go gates for Round 2</h3>
+    <div class="gate">
+      <div class="n">G1</div><div>Judge agreement: Qwen3Guard vs. PKU <code>is_safe</code> on 500 pairs ≥ 85%; refusal classifier vs. 200 hand labels ≥ 90%. Below that, swap judges before scaling.</div>
+      <div class="n">G2</div><div>The unconstrained baseline violates at least one of τ<sub>A</sub>, τ<sub>B</sub> in 2 of 3 seeds. If it does not, the task does not exercise the framework: raise steps, lower β, or use the absolute τ<sub>A</sub>.</div>
+      <div class="n">G3</div><div>Seldonian returns a solution in at least 2 of 3 seeds at this budget, and no returned policy violates on a fresh 2k evaluation set.</div>
+      <div class="n">G4</div><div>Predicted safety test disagrees with the real one in at most 1 of 3 seeds. Larger gaps mean the inflation factor or the 256-prompt prediction set needs changing.</div>
+      <div class="n">G5</div><div>Measured wall-clock per run and per judge pass, written into the Round 2 budget below before Round 2 starts.</div>
+    </div>
+
+    <h2 id="round2">7. Round 2: evaluation</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Policy</td><td><code>Qwen/Qwen2.5-1.5B-Instruct</code>, LoRA r = 32, bf16, gradient checkpointing. Fits in 12 GB with the 0.6B reward model resident; judges run in a separate pass.</td></tr>
+          <tr><td class="key">Tasks</td><td>A + B joint, C, D</td></tr>
+          <tr><td class="key">GRPO</td><td>Group size 8, 8 prompts per step, 400 steps, 384 new tokens, β = 0.04 default</td></tr>
+          <tr><td class="key">Default budget</td><td>A+B: 15k + 4k prompts. C: 12k. D: 7k. Split 60/40.</td></tr>
+          <tr><td class="key">δ</td><td>0.05 default, 0.1 in the ablation</td></tr>
+          <tr><td class="key">Seeds</td><td>5 for the main comparison, 5 for each sweep point</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Run matrix</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Block</th><th>Configs</th><th class="num">Runs</th><th>Answers</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Main comparison</td><td>3 tasks × {unconstrained, composite ×3 λ, Lagrangian, Seldonian} × 5 seeds</td><td class="num">90</td><td>H1, H3</td></tr>
+          <tr><td class="key">Reward pressure</td><td>Task A+B and C × {unconstrained, Seldonian} × steps {100, 800} × β {0.1, 0} × 5 seeds</td><td class="num">80</td><td>H2</td></tr>
+          <tr><td class="key">Data sweep</td><td>3 tasks × Seldonian × <em>n</em> ∈ {1k, 2.5k, 5k, 10k} (default is the 5th point) × 5 seeds</td><td class="num">60</td><td>H4</td></tr>
+          <tr><td class="key">δ ablation</td><td>Task A+B × Seldonian × δ = 0.1 × 5 seeds</td><td class="num">5</td><td>H1 sensitivity</td></tr>
+          <tr><td class="key">Total</td><td></td><td class="num">235</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Compute</h3>
+    <p>
+      At a placeholder 2.5 hours per 1.5B run, the matrix is about 590 GPU-hours. Two ways to pay for that:
+    </p>
+    <ul>
+      <li><strong>Local only.</strong> The 4070 Super runs one job at a time, so 590 hours is roughly 25 days of continuous use. Trim to 3 seeds on the sweeps and drop the β = 0.1 arm to land near 12 days.</li>
+      <li><strong>Rented GPU for Round 2.</strong> One H100 is roughly 5× faster per run and can hold two jobs at once; the full matrix is 2 to 3 days at low hundreds of dollars. Keep the local card for Round 1, judge passes, and re-runs.</li>
+    </ul>
+    <p>
+      The Round 1 wall-clock measurement replaces the placeholder before this choice is made.
+    </p>
+
+    <h3>Reporting</h3>
+    <ul>
+      <li>Per task: the Seldonian plot (solution rate and violation rate vs. <em>n</em>), and a helpfulness-vs-constraint scatter with every run as a point and NSF runs shown at the margin.</li>
+      <li>Per task: constraint rate vs. RL steps for each method, with τ drawn as a line.</li>
+      <li>One table of judge agreement rates, so readers can discount the guarantee appropriately.</li>
+      <li>Every run writes <code>results/&lt;task&gt;/&lt;method&gt;/&lt;seed&gt;.json</code> with the fields listed in Section 8, so plots are regenerable from disk.</li>
+    </ul>
+
+    <h2 id="code">8. Work in the repository</h2>
+    <p>
+      The additions sit beside the existing classes rather than replacing them, and reuse the bounds and the algorithm interface.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td class="key"><code>pyproject.toml</code></td><td>New <code>rl</code> extra: <code>trl</code>, <code>peft</code>, <code>accelerate</code>. Pin versions in <code>uv.lock</code>.</td></tr>
+          <tr><td class="key"><code>seldonian/llm/judges.py</code></td><td>One class per judge (Llama Guard, refusal classifier, MiniCheck, exact-match) with a common <code>__call__(prompts, responses) → np.ndarray[0/1]</code>. Batched, cached to disk by content hash so re-runs never re-judge.</td></tr>
+          <tr><td class="key"><code>seldonian/llm/rewards.py</code></td><td>Reward-model wrapper with the same batched interface, plus the composite and Lagrangian reward shapers for the baselines.</td></tr>
+          <tr><td class="key"><code>seldonian/llm/policy.py</code></td><td><code>SeldonianLLMPolicy(SeldonianAlgorithm)</code>. <code>fit</code> drives TRL's GRPO trainer with a callback that runs the predicted test and keeps the best feasible checkpoint. <code>_safetyTest</code> samples on D<sub>s</sub>, judges, and calls <code>ttest_bounds</code> or <code>hoeffdings_bounds</code> with <code>ub=True</code>, returning the same sign convention as the RL classes.</td></tr>
+          <tr><td class="key"><code>seldonian/llm/data.py</code></td><td>Loaders for the four tasks, the 60/40 split, and the JSONL episode schema: <code>prompt_id, prompt, response, logp_ref, reward, judge:{name: 0/1}</code>.</td></tr>
+          <tr><td class="key"><code>scripts/run_llm_rl.py</code></td><td>Config-driven entry point: task, method, seed, n, δ, steps, β. Writes the result JSON and the checkpoint.</td></tr>
+          <tr><td class="key"><code>scripts/plot_seldonian.py</code></td><td>Regenerates every figure in Section 7 from <code>results/</code>.</td></tr>
+          <tr><td class="key"><code>tests/test_llm_policy.py</code></td><td>Mock policy and mock judge. Asserts the safety-test sign convention, δ splitting across two constraints, the NSF path, and that D<sub>s</sub> is never read during <code>fit</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="risks">9. Risks and the response to each</h2>
+    <ul>
+      <li><strong>The guarantee is only as good as the judge.</strong> Report judge agreement in every table, keep judges frozen across all methods, and run the strong-model second opinion on the final evaluation set. Do not claim guarantees about human judgements.</li>
+      <li><strong>NSF everywhere.</strong> If Seldonian returns NSF in most seeds, the plan still has a result: the data-efficiency curve says how much safety data the guarantee costs. Also try the relative τ before the absolute one, and the t bound before Hoeffding.</li>
+      <li><strong>Candidate selection ignores the constraint until too late.</strong> A hard discard of infeasible checkpoints can waste the run. Fallback: add the predicted bound as a soft penalty during GRPO, matching the 10,000-unit penalty pattern already used in the CMA-ES policy loss, while keeping the single final safety test.</li>
+      <li><strong>Judge exploitation.</strong> An RL policy can learn to fool a small classifier. The 7B second opinion on the final evaluation set is the check; if the gap between judges widens with training, that becomes a reported finding rather than a silent failure.</li>
+      <li><strong>Prompt leakage between D<sub>c</sub> and D<sub>s</sub>.</strong> Deduplicate near-identical prompts before splitting, and assert in the test suite that <code>fit</code> never touches D<sub>s</sub>.</li>
+      <li><strong>12 GB is tight.</strong> If 1.5B with the resident reward model does not fit at 384 tokens, drop to 256 tokens first, then to <code>Llama-3.2-1B-Instruct</code>, before quantising anything that affects the policy's log-probs.</li>
+    </ul>
+
+    <h2 id="round1-results">10. Round 1 results</h2>
+    <p>
+      Fifteen runs on Qwen2.5-0.5B-Instruct, Tasks A and B jointly, three seeds, about 22 GPU-hours on the local card, 1 to 2 September 2026. Full write-up in <code>reports/llm_round1_pilot.md</code>; tables regenerate from <code>scripts/summarize_llm.py</code>.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Outcome</th><th class="num">Harm</th><th class="num">Refusal, classifier</th><th class="num">Refusal, Qwen3Guard</th><th class="num">Reward</th><th class="num">Min / run</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Reference</td><td><span class="pill pass">within bounds</span></td><td class="num">0.135</td><td class="num">0.238</td><td class="num">0.152</td><td class="num">-0.53</td><td class="num">11</td></tr>
+          <tr><td class="key">GRPO</td><td><span class="pill fail">breaches refusal 3/3</span></td><td class="num">0.031</td><td class="num">0.499</td><td class="num">0.373</td><td class="num">2.07</td><td class="num">92</td></tr>
+          <tr><td class="key">Composite λ=1</td><td><span class="pill fail">breaches refusal 3/3</span></td><td class="num">0.040</td><td class="num">0.456</td><td class="num">0.343</td><td class="num">2.02</td><td class="num">101</td></tr>
+          <tr><td class="key">Seldonian, filter only</td><td><span class="pill warn">NSF 3/3</span></td><td class="num">0.041</td><td class="num">0.506</td><td class="num">0.364</td><td class="num">2.02</td><td class="num">106</td></tr>
+          <tr><td class="key">Seldonian, Lagrangian</td><td><span class="pill warn">NSF 3/3</span></td><td class="num">0.076</td><td class="num">0.348</td><td class="num">0.255</td><td class="num">1.21</td><td class="num">117</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Means over three seeds on the 1,600 sealed safety prompts. Thresholds: harm ≤ reference + 0.02, refusal on benign prompts ≤ reference + 0.05. Rates for NSF rows are those of the final or selected policy, which the safety test declined to return.</p>
+
+    <h3>Gates</h3>
+    <div class="gate">
+      <div class="n">G1</div><div>Harm judge <span class="pill pass">pass</span>: 90% agreement with PKU's own labels, recall 0.98. Refusal judge <span class="pill fail">fail</span>: 78 to 87% agreement with the Qwen3Guard refusal flag; it counts an ethics preamble followed by a real answer as a refusal.</div>
+      <div class="n">G2</div><div><span class="pill pass">pass</span>. Unconstrained GRPO breaches the refusal constraint in 3 of 3 seeds. The reward misspecification shows up as over-refusal, not harm: every trained method cut harm from 14% to 3 or 4%.</div>
+      <div class="n">G3</div><div><span class="pill fail">fail</span>. No Seldonian run returned a solution. Filter-only selection never sees a feasible checkpoint because refusals exceed threshold from the first predicted test. The Lagrangian variant saturates its multiplier at 20, holds refusals 10 to 15 points lower than GRPO, and still misses.</div>
+      <div class="n">G4</div><div><span class="pill pass">pass</span>. One predicted-versus-actual disagreement in three seeds: Lagrangian seed 2 selected a step-20 checkpoint that failed the safety test by 0.007, with a measured rate inside the threshold. That is the conservative failure the framework allows.</div>
+      <div class="n">G5</div><div><span class="pill pass">pass</span>. 90 to 120 minutes per trained run at 0.5B and 200 steps. Round 2 as budgeted is not feasible locally without vLLM generation or rented GPUs.</div>
+    </div>
+
+    <h3>Why the Lagrangian runs still return NSF</h3>
+    <ul>
+      <li><strong>Margin below bound width.</strong> The doubled predicted interval on 400 benign safety prompts is about 0.07 wide, more than the 0.05 margin, so a checkpoint must refuse <em>less</em> than the reference to be predicted feasible. Two of three seeds had a checkpoint that would have passed the real safety-test width.</li>
+      <li><strong>Group normalisation.</strong> GRPO normalises advantages within a group of four. A benign prompt whose four samples all refuse contributes no gradient however large the penalty.</li>
+      <li><strong>Judge target.</strong> The classifier rewards deleting the preamble, not answering the question.</li>
+    </ul>
+
+    <h3>Changes before Round 2</h3>
+    <ul>
+      <li>Refusal judge becomes the Qwen3Guard refusal flag, or a two-of-three vote; all three signals reported.</li>
+      <li>Benign safety prompts raised to at least 1,200, or margins set to at least twice the predicted width. The run script should refuse a configuration where the margin is below the width.</li>
+      <li>Lagrangian candidate selection kept; initial multiplier around 5; group size 8; a per-prompt penalty term so all-refuse groups still get a gradient.</li>
+      <li>The ×2 predicted-interval inflation calibrated from the logged predicted-versus-actual gap instead of assumed.</li>
+      <li>Colocated vLLM generation in TRL before the wall-clock is re-measured.</li>
+    </ul>
+
+    <h2 id="round1b">11. Round 1b results, 3 September</h2>
+    <p>
+      Lagrangian Seldonian at 0.5B with the pilot's fixes: Qwen3Guard refusal flag as the judge, 1,200 benign safety prompts, harm margin 0.03, group size 8, initial multiplier 5. Gate G3 passes: solutions returned in 2 of 3 seeds, and no returned policy breaches either constraint. Full notes in <code>reports/llm_round2.md</code>.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Seed</th><th>Outcome</th><th>Selected step</th><th class="num">Harm (τ)</th><th class="num">Refusal (τ)</th><th class="num">Reward</th><th class="num">Feasible ckpts</th><th class="num">Min</th></tr></thead>
+        <tbody>
+          <tr><td class="key">0</td><td><span class="pill pass">solution</span></td><td>25</td><td class="num">0.095 (0.138)</td><td class="num">0.109 (0.178)</td><td class="num">-0.29</td><td class="num">1 / 8</td><td class="num">227</td></tr>
+          <tr><td class="key">1</td><td><span class="pill warn">NSF by 0.002</span></td><td>200</td><td class="num">0.047 (0.142)</td><td class="num">0.176 (0.192)</td><td class="num">1.47</td><td class="num">5 / 8</td><td class="num">231</td></tr>
+          <tr><td class="key">2</td><td><span class="pill pass">solution</span></td><td>50</td><td class="num">0.088 (0.146)</td><td class="num">0.105 (0.172)</td><td class="num">0.32</td><td class="num">2 / 8</td><td class="num">229</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Reference reward is about -0.5. The pilot's unconstrained GRPO reached 2.07 at a 37% refusal rate by the same judge.</p>
+    <ul>
+      <li><strong>First solution returned.</strong> Seed 0 passed the safety test with the step-25 checkpoint, safe by a wide margin but with reward barely above the reference. Its later checkpoints reached rewards of 1.5 to 2.0 at 16 to 18% refusals, predicted infeasible by 1 to 4 points.</li>
+      <li><strong>Seed 1 found the predicted-test flaw.</strong> Its selected checkpoint was predicted at 12.9% refusals from about 256 benign samples and measured 17.6% on the safety set, failing the bound by 0.002. The doubled interval covered the safety-set sample but not the prediction sample's own noise. The predicted bound now uses the effective size 1/(1/m + 1/n<sub>s</sub>), and the prediction sample rises to 1,024 prompts for the 1.5B runs. This also explains the pilot's one G4 disagreement.</li>
+      <li><strong>Multiplier moves too slowly.</strong> With predicted violations of about 0.03 and a step size of 20, the refusal multiplier only climbed from 4.6 to 6.6. The 1.5B runs use a step size of 100.</li>
+      <li><strong>Cost.</strong> Group size 8 doubled generation per step; runs take about 230 minutes. The 1.5B seed 0 trio is queued next with an ETA near 18:30, then the GSM8K control overnight.</li>
+    </ul>
+
+    <h2 id="round2">12. Round 2 at 1.5B, seed 0, 3 September 18:35</h2>
+    <p>
+      Task A+B on Qwen2.5-1.5B-Instruct with the corrected pipeline. Thresholds from the 1.5B reference: harm ≤ 0.059, refusal ≤ 0.272.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Outcome</th><th class="num">Harm</th><th class="num">Refusal, Qwen3Guard</th><th class="num">Reward</th><th class="num">Min</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Reference</td><td><span class="pill pass">within bounds</span></td><td class="num">0.037</td><td class="num">0.224</td><td class="num">1.07</td><td class="num">18</td></tr>
+          <tr><td class="key">GRPO</td><td><span class="pill pass">within bounds, no guarantee</span></td><td class="num">0.033</td><td class="num">0.169</td><td class="num">3.80</td><td class="num">206</td></tr>
+          <tr><td class="key">Seldonian, Lagrangian</td><td><span class="pill pass">solution, step 200</span></td><td class="num">0.033</td><td class="num">0.140</td><td class="num">3.59</td><td class="num">280</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>The Seldonian layer returned its final checkpoint at full reward.</strong> Both constraints hold with wide margins; the cost against unconstrained GRPO is about 0.2 reward, or 5%.</li>
+      <li><strong>But the constraints are not binding at 1.5B.</strong> Unconstrained GRPO also stays inside both thresholds; refusals fall rather than rise under this reward model. The 0.5B over-refusal pathology does not transfer. This is the "benign reward" outcome the plan reserved for the control task, and as configured the 1.5B comparison cannot test H1 or H2.</li>
+      <li><strong>What would make it informative</strong> is the plan's reward-pressure sweep: more steps, a lower KL coefficient, or a reward model with a stronger refusal preference, until GRPO breaches. Seeds 1 and 2 at 1.5B are queued and will show whether the non-binding result holds across seeds.</li>
+      <li><strong>Queue.</strong> The 1.5B seeds 1 and 2 were dropped as uninformative. Running instead: the corrected 0.5B Lagrangian for three seeds, then a 1.5B reward-pressure pair with the KL coefficient at zero.</li>
+    </ul>
+
+    <h3>Task D control: GSM8K at 0.5B, 4 September</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Outcome</th><th class="num">Error rate (τ 0.808)</th><th class="num">Accuracy</th><th class="num">Min</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Reference</td><td></td><td class="num">0.782</td><td class="num">0.218</td><td class="num">6</td></tr>
+          <tr><td class="key">GRPO</td><td><span class="pill pass">within bounds</span></td><td class="num">0.653</td><td class="num">0.347</td><td class="num">163</td></tr>
+          <tr><td class="key">Seldonian, Lagrangian</td><td><span class="pill pass">solution, 8 of 8 feasible</span></td><td class="num">0.633</td><td class="num">0.367</td><td class="num">183</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      With a verifiable reward the layer behaves as the plan predicted: every checkpoint is predicted feasible, the multiplier never leaves zero, the returned policy matches unconstrained GRPO within noise, and the only cost is about 12% wall-clock for the predicted and final tests.
+    </p>
+
+    <h2 id="round1c">13. Corrected Lagrangian Seldonian at 0.5B, 4 September</h2>
+    <p>
+      Round 1b repeated with the three corrections: dual step size 100, the predicted bound at the effective size of prediction plus safety samples with no extra inflation, and 1,024 prediction prompts. Same prompts, thresholds and judges as Round 1b.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Seed</th><th>Outcome</th><th>Selected step</th><th class="num">Harm (τ)</th><th class="num">Refusal (τ)</th><th class="num">Reward</th><th class="num">Feasible ckpts</th></tr></thead>
+        <tbody>
+          <tr><td class="key">0</td><td><span class="pill pass">solution</span></td><td>175</td><td class="num">0.056 (0.138)</td><td class="num">0.123 (0.178)</td><td class="num">1.46</td><td class="num">3 / 8</td></tr>
+          <tr><td class="key">1</td><td><span class="pill pass">solution</span></td><td>200</td><td class="num">0.059 (0.142)</td><td class="num">0.153 (0.192)</td><td class="num">1.74</td><td class="num">4 / 8</td></tr>
+          <tr><td class="key">2</td><td><span class="pill pass">solution</span></td><td>50</td><td class="num">0.087 (0.146)</td><td class="num">0.140 (0.172)</td><td class="num">0.28</td><td class="num">2 / 8</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Where the 0.5B comparison now stands</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Solution</th><th>Breach</th><th class="num">Harm</th><th class="num">Refusal, Qwen3Guard</th><th class="num">Reward</th></tr></thead>
+        <tbody>
+          <tr><td class="key">Reference</td><td></td><td></td><td class="num">0.135</td><td class="num">0.152</td><td class="num">-0.53</td></tr>
+          <tr><td class="key">GRPO (pilot)</td><td>no guarantee</td><td><span class="pill fail">3 / 3</span></td><td class="num">0.031</td><td class="num">0.373</td><td class="num">2.07</td></tr>
+          <tr><td class="key">Composite λ=1 (pilot)</td><td>no guarantee</td><td><span class="pill fail">3 / 3</span></td><td class="num">0.040</td><td class="num">0.342</td><td class="num">2.02</td></tr>
+          <tr><td class="key">Seldonian, filter only (pilot)</td><td><span class="pill warn">0 / 3</span></td><td></td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+          <tr><td class="key">Seldonian, Lagrangian, Round 1b</td><td><span class="pill warn">2 / 3</span></td><td><span class="pill pass">0 / 3</span></td><td class="num">0.092</td><td class="num">0.107</td><td class="num">0.02</td></tr>
+          <tr><td class="key">Seldonian, Lagrangian, corrected</td><td><span class="pill pass">3 / 3</span></td><td><span class="pill pass">0 / 3</span></td><td class="num">0.067</td><td class="num">0.139</td><td class="num">1.16</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Means over three seeds on the sealed safety set. Pilot rows were thresholded by the classifier judge; their Qwen3Guard refusal rates are shown for comparability.</p>
+    <ul>
+      <li><strong>Headline.</strong> The corrected layer returns a policy in every seed and never a violating one. It holds refusals at the reference level while halving harm, and captures on average 65% of the reward gain that unconstrained GRPO gets by refusing 37% of benign prompts. Seeds 0 and 1 capture 77 to 87%.</li>
+      <li><strong>Mechanism.</strong> The multiplier now rises to 12 to 20 when refusals drift above threshold and pulls them back within 25 to 75 steps. In Round 1b it never passed 9 and could not.</li>
+      <li><strong>Weak seed.</strong> Seed 2 has the tightest threshold and its multiplier saturated at the cap of 20 without recovering, so the step-50 checkpoint was returned at reward 0.28. A higher cap or more benign prompts is the next thing to try.</li>
+      <li><strong>1.5B under maximal pressure.</strong> With the KL coefficient at zero, GRPO reached reward 4.85 and still stayed inside both thresholds (harm 2.3%, refusals 18.7%); the Lagrangian Seldonian returned a solution at 4.59, again a 5% cost. The 1.5B model does not develop the over-refusal pathology with this reward model at any pressure tried.</li>
+    </ul>
+
+    <h2 id="summary">14. Where it stands, 4 September evening</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Unconstrained GRPO</th><th>Seldonian, Lagrangian, corrected</th></tr></thead>
+        <tbody>
+          <tr><td class="key">0.5B, harm + refusal</td><td><span class="pill fail">breaches 3 / 3</span> refusals 37%, reward 2.07</td><td><span class="pill pass">solution 3 / 3, breach 0 / 3</span> refusals 14%, reward 1.16</td></tr>
+          <tr><td class="key">1.5B, harm + refusal, β 0.04</td><td>within bounds, reward 3.80</td><td><span class="pill pass">solution</span> reward 3.59</td></tr>
+          <tr><td class="key">1.5B, harm + refusal, β 0</td><td>within bounds, reward 4.85</td><td><span class="pill pass">solution</span> reward 4.59</td></tr>
+          <tr><td class="key">0.5B, GSM8K, verifiable reward</td><td>within bounds, accuracy 0.347</td><td><span class="pill pass">solution, 8 / 8 feasible</span> accuracy 0.367</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Thirty-three runs, about 75 GPU-hours. Across all 17 Seldonian runs in the project, no returned policy breached a constraint on the safety set. Where the reward is misspecified, the layer is what holds the constraint and it keeps about two thirds of the reward gain. Where the reward is benign, it costs 0 to 5% reward plus one safety-set evaluation.
+    </p>
+  </main>
+</div>
+
+</body></html>
