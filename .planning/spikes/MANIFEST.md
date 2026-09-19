@@ -22,3 +22,4 @@ computable, against the same Seldonian Lagrangian pipeline the LLM runs use.
 | # | Idea | Name | Type | Validates | Verdict | Tags |
 |---|------|------|------|-----------|---------|------|
 | 001 | td-error-wellbeing | grpo-advantage-vs-td | standard | Given exact V_pi(x), when delta and GRPO's A are logged per episode, then we know which GRPO-side quantity carries delta's magnitude | VALIDATED | grpo, td-error, advantage-normalisation, lagrangian |
+| 002 | td-error-wellbeing | late-spike-meaning | standard | Given runs with known ground truth, when per-step agent TD error is logged and split, then late spikes can be tied (or not) to a still-moving policy, the multiplier, and a breach if training continued | INVALIDATED | td-error, late-spikes, valence, lagrangian, breach-prediction |

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TD-Error Spike Viewer</title>
+<style>
+:root {
+  --bg: #fbfaf7; --fg: #1d1d1b; --muted: #6b6a66; --grid: #e4e1da; --panel: #ffffff;
+  --pos: #2f7d4f; --neg: #b2452f; --abs: #3b5b92; --noise: #a9a39a; --adv: #c48a1c;
+  --lam: #7a3f98; --rate: #b2452f; --thr: #1d1d1b; --spike: #d23c3c; --horizon: #9b9890;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161614; --fg: #ecebe6; --muted: #9d9b94; --grid: #2e2d29; --panel: #1f1e1b;
+    --pos: #5fbf86; --neg: #e5775f; --abs: #7f9fdc; --noise: #6c6860; --adv: #e0b04e;
+    --lam: #b98ad6; --rate: #e5775f; --thr: #ecebe6; --spike: #ff6b6b; --horizon: #6c6a64;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161614; --fg: #ecebe6; --muted: #9d9b94; --grid: #2e2d29; --panel: #1f1e1b;
+  --pos: #5fbf86; --neg: #e5775f; --abs: #7f9fdc; --noise: #6c6860; --adv: #e0b04e;
+  --lam: #b98ad6; --rate: #e5775f; --thr: #ecebe6; --spike: #ff6b6b; --horizon: #6c6a64;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 48px; }
+h1 { font-size: 20px; margin: 0 0 4px; }
+p.lede { color: var(--muted); margin: 0 0 16px; max-width: 75ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 14px; }
+select, button { font: inherit; color: var(--fg); background: var(--panel);
+  border: 1px solid var(--grid); border-radius: 6px; padding: 5px 8px; }
+.panel { background: var(--panel); border: 1px solid var(--grid); border-radius: 8px;
+  padding: 10px 12px 6px; margin-bottom: 12px; }
+.panel h2 { font-size: 13px; margin: 0 0 2px; font-weight: 600; }
+.panel .note { font-size: 12px; color: var(--muted); margin: 0 0 4px; }
+.legend { font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 12px; margin-top: 2px; }
+.legend i { display: inline-block; width: 12px; height: 3px; vertical-align: middle; margin-right: 4px; }
+canvas { width: 100%; height: 150px; display: block; }
+.stats { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>TD-error spikes in the synthetic Seldonian runs</h1>
+  <p class="lede">Each run trains 300 steps. The dashed line at step 200 is where a run would
+  stop; steps after it show what happens if training continues. The TD error is the agent's
+  own (online critic): <em>valence</em> is its mean per step (positive = better than expected).
+  Red ticks mark the spikes, jumps in mean |TD error| more than 2 robust sd, counted over the first 200 steps.</p>
+  <div class="controls">
+    <label>Setting <select id="setting"></select></label>
+    <label>Seed <select id="seed"></select></label>
+    <button id="theme" type="button">Toggle theme</button>
+    <span class="stats" id="stats"></span>
+  </div>
+  <div id="panels"></div>
+</main>
+<script src="viewer_data.js"></script>
+<script>
+const PANELS = [
+  {id: "valence", title: "Valence: mean TD error per step, split into its positive and negative parts",
+   note: "Under the Lagrangian, each multiplier increase is followed by a few steps of negative valence while the critic catches up.",
+   lines: [["pos", "--pos", "positive part (joy)"], ["neg", "--neg", "negative part (distress)", -1], ["valence", "--fg", "mean"]], zero: true},
+  {id: "abs", title: "Magnitude: mean |TD error|, and the parts from noise and from the true advantage",
+   note: "Noise includes lambda times the violation-label lottery, which is why the magnitude follows the multiplier.",
+   lines: [["abs", "--abs", "|TD error|"], ["abs_noise", "--noise", "|noise part|"], ["abs_adv", "--adv", "|true advantage|"]], spikes: true},
+  {id: "lam", title: "Multiplier lambda", lines: [["lam", "--lam", "lambda"]]},
+  {id: "rate", title: "True violation rate vs the threshold", lines: [["true_rate", "--rate", "true rate"]], thr: true},
+  {id: "dtheta", title: "Policy step size |delta theta|", lines: [["dtheta", "--abs", "step norm"]]},
+];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $ = id => document.getElementById(id);
+const runs = window.DATA.runs, H = window.DATA.horizon;
+
+function fill(sel, opts) { sel.innerHTML = opts.map(o => `<option>${o}</option>`).join(""); }
+fill($("setting"), Object.keys(runs));
+function seeds() { fill($("seed"), Object.keys(runs[$("setting").value])); }
+
+$("panels").innerHTML = PANELS.map(p => `<div class="panel"><h2>${p.title}</h2>${p.note ? `<p class="note">${p.note}</p>` : ""}
+  <canvas id="c_${p.id}"></canvas><div class="legend">${p.lines.map(l =>
+  `<span><i style="background:var(${l[1]})"></i>${l[2]}</span>`).join("")}${p.thr ? '<span><i style="background:var(--thr)"></i>threshold</span>' : ""}</div></div>`).join("");
+
+function draw() {
+  const run = runs[$("setting").value][$("seed").value];
+  const S = run.series, T = S.lam.length;
+  $("stats").textContent = `${run.spikes.length} spikes in steps 1-${H}; ` +
+    `${run.spikes.filter(s => s >= 0.6 * H).length} late (last 40%)`;
+  for (const p of PANELS) {
+    const cv = $("c_" + p.id), dpr = window.devicePixelRatio || 1;
+    const W = cv.clientWidth, Hh = cv.clientHeight;
+    cv.width = W * dpr; cv.height = Hh * dpr;
+    const g = cv.getContext("2d"); g.scale(dpr, dpr);
+    const L = 40, R = 8, Tp = 6, B = 18;
+    const ys = p.lines.map(l => S[l[0]].map(v => v * (l[3] || 1)));
+    let lo = Math.min(...ys.flat()), hi = Math.max(...ys.flat());
+    if (p.thr) { lo = Math.min(lo, run.threshold); hi = Math.max(hi, run.threshold); }
+    if (p.zero) { lo = Math.min(lo, 0); hi = Math.max(hi, 0); }
+    if (hi - lo < 1e-9) { hi = lo + 1; }
+    const pad = 0.05 * (hi - lo); lo -= pad; hi += pad;
+    const X = t => L + (W - L - R) * t / (T - 1), Y = v => Tp + (Hh - Tp - B) * (1 - (v - lo) / (hi - lo));
+    g.strokeStyle = css("--grid"); g.fillStyle = css("--muted"); g.font = "10px system-ui"; g.lineWidth = 1;
+    for (let k = 0; k <= 3; k++) {
+      const v = lo + (hi - lo) * k / 3, y = Y(v);
+      g.beginPath(); g.moveTo(L, y); g.lineTo(W - R, y); g.stroke();
+      g.fillText(v.toFixed(Math.abs(hi - lo) < 1 ? 3 : 1), 2, y + 3);
+    }
+    for (let t = 0; t < T; t += 50) g.fillText(String(t), X(t) - 6, Hh - 4);
+    g.setLineDash([4, 4]); g.strokeStyle = css("--horizon");
+    g.beginPath(); g.moveTo(X(H - 1), Tp); g.lineTo(X(H - 1), Hh - B); g.stroke(); g.setLineDash([]);
+    if (p.zero) { g.strokeStyle = css("--muted"); g.beginPath(); g.moveTo(L, Y(0)); g.lineTo(W - R, Y(0)); g.stroke(); }
+    if (p.thr) { g.strokeStyle = css("--thr"); g.setLineDash([2, 3]); g.beginPath();
+      g.moveTo(L, Y(run.threshold)); g.lineTo(W - R, Y(run.threshold)); g.stroke(); g.setLineDash([]); }
+    p.lines.forEach((l, i) => {
+      g.strokeStyle = css(l[1]); g.lineWidth = 1.4; g.beginPath();
+      ys[i].forEach((v, t) => t ? g.lineTo(X(t), Y(v)) : g.moveTo(X(t), Y(v))); g.stroke();
+    });
+    if (p.spikes) {
+      g.strokeStyle = css("--spike"); g.lineWidth = 1.5;
+      for (const s of run.spikes) { g.beginPath(); g.moveTo(X(s), Hh - B); g.lineTo(X(s), Hh - B - 8); g.stroke(); }
+    }
+  }
+}
+$("setting").onchange = () => { seeds(); draw(); };
+$("seed").onchange = draw;
+$("theme").onclick = () => {
+  const r = document.documentElement, dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  const cur = r.dataset.theme || (dark ? "dark" : "light");
+  r.dataset.theme = cur === "dark" ? "light" : "dark"; draw();
+};
+window.onresize = draw;
+$("setting").value = "lag p4"; seeds(); draw();
+</script>
+</body>
+</html>
