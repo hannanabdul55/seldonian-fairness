@@ -167,7 +167,6 @@ class HFGRPOBackend(PolicyBackend):
                     enc = self.tokenizer.apply_chat_template(
                         batch, add_generation_prompt=True, return_tensors="pt", padding=True,
                         return_dict=True).to(self.device)
-                    # left padding: the last position is the next token for every row
                     logits = self.model(**enc).logits[:, -1, :].float()
                     probs = torch.softmax(logits, dim=-1)[:, first.to(logits.device)]
                     probs = probs / probs.sum(dim=1, keepdim=True).clamp_min(1e-30)
