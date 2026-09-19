@@ -117,7 +117,7 @@ class TDBackend(SyntheticBackend):
             Vc = (pi * Qc).sum(axis=1)
             ctx = {
                 "step": step, "lam": lam, "idx": idx, "actions": actions, "v": v,
-                "r": r, "pi_a": pi[n, actions],
+                "r": r, "pi_a": pi[n, actions], "pi": pi, "X": X,
                 "delta": r - V,                      # oracle TD error
                 "adv_true": Q[n, actions] - V,       # its learnable part
                 "delta_c": r - Vc,                   # the agent's own TD error

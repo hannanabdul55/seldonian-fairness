@@ -16,6 +16,13 @@ computable, against the same Seldonian Lagrangian pipeline the LLM runs use.
 - CPU synthetic spikes first (001-003); the GPU LLM logging spike (004) is decided after them.
 - The internal reward is judged by what it does to the Seldonian outcome (true violation
   rate, safety test, solution rate), not only to reward.
+- Any per-episode TD statistic for the LLM runs is built from the unnormalised group
+  residual `r - group mean` or a value head, never from the group-normalised advantage
+  (001: its magnitude is bounded and flat by construction).
+- Any claim about training dynamics under the Lagrangian is reported net of the
+  multiplier's level and moves (002: three statistics turned out to be lambda in disguise).
+- A "wellness" reading of a trainer-side signal is stated as functional (convergence,
+  how harshly the constraint is enforced), not as welfare; see LITERATURE.md thread 1B.
 
 ## Spikes
 
@@ -23,3 +30,6 @@ computable, against the same Seldonian Lagrangian pipeline the LLM runs use.
 |---|------|------|------|-----------|---------|------|
 | 001 | td-error-wellbeing | grpo-advantage-vs-td | standard | Given exact V_pi(x), when delta and GRPO's A are logged per episode, then we know which GRPO-side quantity carries delta's magnitude | VALIDATED | grpo, td-error, advantage-normalisation, lagrangian |
 | 002 | td-error-wellbeing | late-spike-meaning | standard | Given runs with known ground truth, when per-step agent TD error is logged and split, then late spikes can be tied (or not) to a still-moving policy, the multiplier, and a breach if training continued | INVALIDATED | td-error, late-spikes, valence, lagrangian, breach-prediction |
+| 003a | td-error-wellbeing | td-bonus-abs | comparison | Given the noisy-TV env and the Lagrangian, when the reward adds beta*abs(TD error), then measure solution rate, violations and noise-seeking against controls | INVALIDATED | intrinsic-reward, curiosity, noisy-tv, wireheading, seldonian |
+| 003b | td-error-wellbeing | td-bonus-positive | comparison | Same, with beta*max(TD error, 0) ("pay good news only") | PARTIAL | intrinsic-reward, valence, noisy-tv, seldonian |
+| 003c | td-error-wellbeing | td-bonus-learning-progress | comparison | Same, paying the decrease of the critic's error per region (learning progress) | PARTIAL (winner) | intrinsic-reward, learning-progress, noisy-tv, seldonian |
