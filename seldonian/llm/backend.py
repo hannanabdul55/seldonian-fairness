@@ -23,7 +23,9 @@ def disable_triton_overrides_without_compiler():
     first use. On a machine without ``cc``/``gcc`` that raises on the first
     ``generate``. Fall back to the stock CUDA kernels in that case.
     """
-    if any(shutil.which(c) for c in ("cc", "gcc", "clang")):
+    # the same lookup Triton makes (triton/runtime/build.py): $CC, then gcc, then clang.
+    # A bare ``cc`` on the PATH is not enough; it can be an unrelated script.
+    if os.environ.get("CC") or shutil.which("gcc") or shutil.which("clang"):
         return False
     try:
         from torch._native import registry
