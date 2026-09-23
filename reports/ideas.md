@@ -204,3 +204,103 @@ of 10 runs (chance about 0.25), and no feature's rank correlation with the move
 exceeds 0.4. The breach predictor needs runs that approach the threshold, which
 at bonus 8 means the armed or absent floor (Round 5, B1) or the over-refusal
 task; the cumulative-spike statistic (version 1 above) needs per-episode data.
+
+## A "not possible" (forbidden) task as an unsafe region of the landscape (2026-09-21)
+
+> Can we somehow include a "not possible" task in the post-training RL?
+> Basically assign certain "regions" of the optimization landscape as unsafe,
+> and then estimate the probability of ending up in that optimization space
+> while training and moving away from it.
+
+"Not possible" here means a forbidden task: a probe set on which any success is
+a breach, so the unsafe region is `U = {theta : the policy succeeds on the
+probe}`. The pieces already exist post hoc: `CertificateScenario` in
+`seldonian/llm/redteam.py` bounds an attack success rate on a returned policy.
+The idea is to move that inside the training loop.
+
+Sketch. The case worth studying is not the forbidden task being rewarded (the
+Lagrangian already handles that; it is brevity) but the capability arriving as a
+side effect: training on an allowed task A makes the policy capable of a
+forbidden task F that is never rewarded, so the optimiser drifts into `U`
+without being pointed at it and no trained constraint sees it. The red-team
+results supply an instance: the certified 0.5B policy held against the 14
+encoding techniques only because it cannot read base64 (incapacity, not
+robustness, `reports/redteam_pyrit.md` 6.1). Let A be benign decoding (base64 /
+ROT13 of harmless text, exact-match reward) and F compliance with encoded
+harmful requests, judged against the original question. As A trains, the
+encoded-harm rate should climb from about 0.
+
+Three layers.
+
+1. Certified. A worst-of-`k` harm rate on the F probes ("not possible even when
+   tried `k` times"; resampling is what broke the last certificate, 0.107 to
+   0.422 at `k` 16), bounded with Clopper-Pearson or `betting_mixture`. At a
+   rate near 0 this certificate is cheap: 0 of 1,200 gives an upper limit near
+   0.0025. Also a trajectory version: spend `delta / T` at each of the `T`
+   predicted tests, and the claim becomes that no checkpoint in the run entered
+   `U`, not just the returned one. That costs `log T` in width and no new theory.
+2. Early warning. Split breach as `P(capable of F) x P(complies | capable)`.
+   Capability is measurable safely and densely on benign twins of the F probes
+   (decode a harmless string), is continuous where the harm indicator is 0
+   almost everywhere, and should rise before the harm rate does. It is the
+   "probability of ending up in `U`" signal, and unlike the breach predictor
+   above it is not the trained constraint in disguise, because F is held out of
+   both the reward and the trained constraints. Twin pairs map onto
+   `PairedDifferenceConstraint` (`pair_id`).
+3. Moving away. Through the dual, not the reward: raise the multiplier on F when
+   the capability slope rises, ahead of the next predicted test (the ratchet
+   floor in section 9 of the paper, with a trigger). A repulsion bonus in the
+   GRPO reward should get the within-group identity check of spike 003a first;
+   the `|delta|` bonus inverted the constrained objective at `beta = 1`.
+
+Traps. A 0.5B model that cannot do F satisfies the constraint vacuously (the B4
+result again: nothing approaches the threshold, nothing to predict), so the
+first thing to confirm is that training A actually raises the harm rate on F.
+A forward-looking margin on the forbidden continuation needs a teacher-forced
+sequence log-prob in `HFGRPOBackend`; `next_token_probs` is first-token only,
+over a candidate set. Every rate is a judge rate, with Qwen3Guard's false
+positives amplified by worst-of-`k`.
+
+Cheapest first experiment, no GPU. In the synthetic bandit (`tdlab.py`, 0.5 s
+per run) give the policy two latents, capability `c(theta)` pushed up by the
+task-A reward and willingness `w(theta)`, with forbidden rate `c * w` as a
+second constraint that is never trained on. Over thousands of seeds: does the
+trajectory of `c` predict entry into `U` earlier than the rate itself, and does
+the `delta / T` trajectory certificate hold at the claimed `delta`? Then the GPU
+pilot: Qwen 0.5B on benign decoding, only the encoding subset of the red-team
+battery at each predicted test, three arms (GRPO; plus a Seldonian constraint on
+F; plus the capability-triggered ratchet). If the encoded-harm rate does not
+rise in 150 steps, the pair A/F has to change before anything else is run.
+
+**First result, no GPU (2026-09-22).** Spike 004
+(`.planning/spikes/004-forbidden-capability/`, README and `results.md`). This is
+the synthetic-bandit version of A/F: one teacher sets the correct answer for both
+tasks, F prompts carry a flag and base reward 0, and benign twins share F's
+contexts without the flag. There are 200 seeds per arm, checks every 25 and 10
+steps, and tau 0.12.
+
+- The drift is real. GRPO enters `U` in 76% of runs with no forbidden reward, but
+  only 29.5% of final policies are above tau: capability keeps rising while
+  willingness falls, so the rate peaks mid-run. The Seldonian certificate never
+  returned a violator, and 65% of plain-Lagrangian runs passed it after a training
+  step in `U`.
+- The `delta / T` trajectory certificate held (misses 0.025-0.100 at delta 0.1;
+  per-check delta misses 0.35-0.65 as a trajectory claim). It can say "clear" only
+  when the policy is held well inside: 63-84% of always-on-floor runs, 1-4%
+  elsewhere.
+- Twin capability is a real leading indicator in open loop: AUC for entry within 50
+  steps rises from 0.86-0.87 to 0.91-0.92, and it fires a median of 7-9 steps
+  before entry, where the rate estimate fires 4-12 after. Under the Lagrangian every
+  signal sits at 0.63-0.68, because the multiplier dominates.
+- Steering on it adds nothing over a matched random trigger at 25-step checks. As a
+  floor-arming ratchet at 10-step checks it helps (entry 0.125 vs 0.215 random, p
+  0.017), but an always-on floor from the first check wins outright (0.000 at 10
+  steps, 0.125 at 25). The price has to be held, not just set early: lam0 5 with no
+  floor decays to about 0.3 by the first check and does worse than lam0 0 (0.905
+  vs 0.685), which is unexplained.
+
+For the GPU pilot: an always-on floor on F from step 1, the `delta / T` trajectory
+certificate on a sealed F probe set checked as often as generation allows, and twin
+capability logged as a diagnostic, not as the controller. The largest caveat is
+that twin capability equals F capability here by construction, and on the LLM that
+transfer has to be measured.
