@@ -32,6 +32,9 @@ docs = ["sphinx", "sphinx-rtd-theme", "myst-parser"]
 redteam = [
     "pyrit ; python_full_version >= '3.11' and python_full_version < '3.15'",
 ]
+quant = [
+    "bitsandbytes>=0.45",
+]
 
 [dependency-groups]
 dev = [
