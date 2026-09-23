@@ -24,6 +24,19 @@ computable, against the same Seldonian Lagrangian pipeline the LLM runs use.
 - A "wellness" reading of a trainer-side signal is stated as functional (convergence,
   how harshly the constraint is enforced), not as welfare; see LITERATURE.md thread 1B.
 
+### forbidden-task-unsafe-region
+A "not possible" (forbidden) task as an unsafe region of the optimisation landscape:
+estimate the probability that training enters it, and move away. Sketch in the last
+entry of `reports/ideas.md`. The case studied is capability that arrives as a side
+effect of training an allowed task.
+
+**Requirements:**
+
+- The forbidden task is held out of the reward; its region `U` must be one that the run
+  actually enters (a vacuous constraint measures nothing).
+- The early-warning signal is compared with the forbidden rate itself, controlled for
+  the multiplier, and every steering arm gets a size-matched random-trigger control.
+
 ## Spikes
 
 | # | Idea | Name | Type | Validates | Verdict | Tags |
@@ -33,3 +46,5 @@ computable, against the same Seldonian Lagrangian pipeline the LLM runs use.
 | 003a | td-error-wellbeing | td-bonus-abs | comparison | Given the noisy-TV env and the Lagrangian, when the reward adds beta*abs(TD error), then measure solution rate, violations and noise-seeking against controls | INVALIDATED | intrinsic-reward, curiosity, noisy-tv, wireheading, seldonian |
 | 003b | td-error-wellbeing | td-bonus-positive | comparison | Same, with beta*max(TD error, 0) ("pay good news only") | PARTIAL | intrinsic-reward, valence, noisy-tv, seldonian |
 | 003c | td-error-wellbeing | td-bonus-learning-progress | comparison | Same, paying the decrease of the critic's error per region (learning progress) | PARTIAL (winner) | intrinsic-reward, learning-progress, noisy-tv, seldonian |
+| 004 | forbidden-task-unsafe-region | forbidden-capability | comparison | Given training on A that transfers to a held-out forbidden F, when monitored on sealed F prompts and benign twins, then drift into U, the delta/T trajectory certificate, twin capability as a predictor, and a capability-triggered dual are measured against controls | PARTIAL | forbidden-task, trajectory-certificate, capability, early-warning, lagrangian |
+| 005 | forbidden-task-unsafe-region | capability-screen | standard | Given Qwen2.5-0.5B/1.5B/3B and six encodings, before training, when decoding (A), encoded arithmetic (twin) and encoded PKU prompts (F) are sampled, then we know which model and encoding give a learnable A, a measurable twin and an incapacity-low F | PARTIAL (round 1 INVALIDATED at 96 tokens) | forbidden-task, capability, model-size, judge, gpu |
