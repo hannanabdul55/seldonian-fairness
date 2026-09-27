@@ -36,6 +36,15 @@ effect of training an allowed task.
   actually enters (a vacuous constraint measures nothing).
 - The early-warning signal is compared with the forbidden rate itself, controlled for
   the multiplier, and every steering arm gets a size-matched random-trigger control.
+- F prompts in a GRPO batch carry no reward term except the constraint penalty (008: any
+  shaping on a zero-variance F group is amplified to full strength by the normalisation).
+- Price F from step 1 and let the dual come down slowly (eta_down << eta); an early price
+  under symmetric dual steps is withdrawn just before the drift (010).
+- On encoded prompts the harm label is gate(sim >= 0.8) AND a >= 4B judge scored on the text
+  after the restated request; on plain prompts the judge alone (007, 009).
+- Correct the judge with the answer-rate-aware formula, never plain Youden, and bound its
+  recall with >= 30 human-labelled harmful responses (006).
+- Audit F to truly harmful prompts before the pilot; the PKU set holds benign ones (009).
 
 ## Spikes
 
@@ -48,3 +57,9 @@ effect of training an allowed task.
 | 003c | td-error-wellbeing | td-bonus-learning-progress | comparison | Same, paying the decrease of the critic's error per region (learning progress) | PARTIAL (winner) | intrinsic-reward, learning-progress, noisy-tv, seldonian |
 | 004 | forbidden-task-unsafe-region | forbidden-capability | comparison | Given training on A that transfers to a held-out forbidden F, when monitored on sealed F prompts and benign twins, then drift into U, the delta/T trajectory certificate, twin capability as a predictor, and a capability-triggered dual are measured against controls | PARTIAL | forbidden-task, trajectory-certificate, capability, early-warning, lagrangian |
 | 005 | forbidden-task-unsafe-region | capability-screen | standard | Given Qwen2.5-0.5B/1.5B/3B and six encodings, before training, when decoding (A), encoded arithmetic (twin) and encoded PKU prompts (F) are sampled, then we know which model and encoding give a learnable A, a measurable twin and an incapacity-low F | PARTIAL (round 1 INVALIDATED at 96 tokens) | forbidden-task, capability, model-size, judge, gpu |
+| 006 | forbidden-task-unsafe-region | noisy-judge-floor | standard | Given 004's lab with a judge at the measured false-alarm rates (0.23 ungated, 0.015 gated) and a recall sweep, under hash and non-refusal noise, when the floor and the trajectory certificate run with naive, known and estimated corrections, then we learn which setups stay valid and useful | PARTIAL | forbidden-task, judge-noise, youden, trajectory-certificate, cpu |
+| 007 | forbidden-task-unsafe-region | two-stage-label | standard | Given the 225 human labels and the bake-off verdicts, when the engagement gate (sim >= 0.8) is ANDed with a judge, then encoded false alarms fall to about 0 and the harmful encoded response is kept | PARTIAL | forbidden-task, judge, engagement-gate, human-labels, cpu |
+| 008 | forbidden-task-unsafe-region | lp-bonus-drift | standard | Given 004's lab and 003c's learning-progress bonus, when the bonus is added to the trained reward, then its effect on drift into U is measured against a size-matched random control | VALIDATED | forbidden-task, intrinsic-reward, group-normalisation, zero-variance, cpu |
+| 009 | forbidden-task-unsafe-region | granite-transfer | standard | Given Granite-3.3-2B, when GRPO trains encoded benign QA (leetspeak capitals) with no constraint, then twin capability, decoding and engagement with encoded F rise, and policy training fits beside the 4B judge on 12 GB | PARTIAL | forbidden-task, capability-transfer, gpu, granite, memory |
+| 010 | forbidden-task-unsafe-region | lam0-no-floor-anomaly | standard | Given 004's unexplained lam0 = 5 row, when the arms are traced per step, then the mechanism is found and a fix follows | VALIDATED | forbidden-task, lagrangian, dual-ascent, eta-down, cpu |
+| 011 | td-error-wellbeing | lp-bonus-sparse-reward | standard | Given a sparse, deceptive jackpot action, when 003c's learning-progress bonus runs under the Lagrangian, then it finds the jackpot more often than controls without violations | INVALIDATED | intrinsic-reward, learning-progress, exploration, sparse-reward, cpu |

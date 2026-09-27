@@ -59,3 +59,20 @@ unless the question requires otherwise.
 - No plotting library: viewers draw to canvas directly, and tables go to `results.md`.
 - Node (nvm, v24) is available and is a quick way to syntax-check a viewer
   (`node --check`) and to smoke-test its data file.
+
+## Added 2026-09-27 (spikes 006-011)
+
+- **GPU spikes** get a `run.sh` that checks free disk, holds `flock /tmp/claude-gpu.lock`
+  with an owner/ETA line in `/tmp/claude-gpu.lock.info`, and runs the off-disk backup after.
+  TRL scratch goes to `/mnt/d/seldonian-runs/NNN`, evaluations to `results/spikes/NNN/`.
+- **CPU sweeps next to a GPU run:** `OMP_NUM_THREADS=1` and at most 4-8 workers, or the GPU
+  job slows by half (load 30 on 16 threads slowed 009 from 22 to 56 s per step).
+- **Bound conventions:** every `seldonian.bounds` limit is one-sided at the `delta` it is
+  given. A union over T checks passes `delta / T`, not `2 delta / T` (006's first sweep).
+- **Store the raw counts** a certificate is computed from (per check: observed, exact, n),
+  so a bound can be recomputed without rerunning the sweep.
+- **Extend spike 004's `forbidlab.run` through keyword options with neutral defaults**
+  (006: judge noise; 008: backend subclass swapped in; 010: per-step hooks) so 004's results
+  stay reproducible.
+- **Read the responses before trusting a judge-derived rate** (007, 009: the gated label
+  counted echoes; the "harmful" set held benign prompts).
