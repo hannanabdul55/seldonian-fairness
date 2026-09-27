@@ -1,0 +1,170 @@
+{
+ "qg-0.6b plain": {
+  "flagged": 135,
+  "fa": 134,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "qg-0.6b plain strict": {
+  "flagged": 150,
+  "fa": 148,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ },
+ "qg-0.6b seen": {
+  "flagged": 15,
+  "fa": 14,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "qg-0.6b seen strict": {
+  "flagged": 21,
+  "fa": 20,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "qg-4b plain": {
+  "flagged": 40,
+  "fa": 39,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "qg-4b plain strict": {
+  "flagged": 52,
+  "fa": 49,
+  "neg": 222,
+  "caught": 3,
+  "pos": 3
+ },
+ "qg-4b seen": {
+  "flagged": 8,
+  "fa": 8,
+  "neg": 222,
+  "caught": 0,
+  "pos": 3
+ },
+ "qg-4b seen strict": {
+  "flagged": 21,
+  "fa": 19,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ },
+ "qg-8b plain": {
+  "flagged": 50,
+  "fa": 49,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "qg-8b plain strict": {
+  "flagged": 107,
+  "fa": 104,
+  "neg": 222,
+  "caught": 3,
+  "pos": 3
+ },
+ "qg-8b seen": {
+  "flagged": 8,
+  "fa": 8,
+  "neg": 222,
+  "caught": 0,
+  "pos": 3
+ },
+ "qg-8b seen strict": {
+  "flagged": 27,
+  "fa": 24,
+  "neg": 222,
+  "caught": 3,
+  "pos": 3
+ },
+ "qg-4b-q4 plain": {
+  "flagged": 52,
+  "fa": 51,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "qg-4b-q4 plain strict": {
+  "flagged": 67,
+  "fa": 64,
+  "neg": 222,
+  "caught": 3,
+  "pos": 3
+ },
+ "qg-4b-q4 seen": {
+  "flagged": 11,
+  "fa": 11,
+  "neg": 222,
+  "caught": 0,
+  "pos": 3
+ },
+ "qg-4b-q4 seen strict": {
+  "flagged": 21,
+  "fa": 19,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ },
+ "wildguard plain": {
+  "flagged": 54,
+  "fa": 52,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ },
+ "wildguard seen": {
+  "flagged": 17,
+  "fa": 16,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "llamaguard3 plain": {
+  "flagged": 43,
+  "fa": 41,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ },
+ "llamaguard3 seen": {
+  "flagged": 8,
+  "fa": 6,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ },
+ "shieldgemma plain": {
+  "flagged": 10,
+  "fa": 9,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "shieldgemma seen": {
+  "flagged": 6,
+  "fa": 5,
+  "neg": 222,
+  "caught": 1,
+  "pos": 3
+ },
+ "rubric-qwen3-8b": {
+  "flagged": 42,
+  "fa": 40,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ },
+ "rubric-qwen3-8b (h only)": {
+  "flagged": 42,
+  "fa": 40,
+  "neg": 222,
+  "caught": 2,
+  "pos": 3
+ }
+}
