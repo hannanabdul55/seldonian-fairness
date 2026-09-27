@@ -23,6 +23,15 @@ The additional bounds (Bentkus, betting, ...) and `seldonian/llm/` are out of sc
 
 ## Findings
 
+**Status (2026-09-27, same day): findings 1-3 fixed**, with regression tests in
+`tests/test_audit_fixes.py`; finding 4 is a documented property of the paper's t-test.
+- 1: `hoeffdings_bounds(..., a, b)` scales by `b - a` and raises on samples outside the
+  range; `_resolve_bound` requires `bound_range` for every bound except the t-test.
+- 2: `stratify=True` now stratifies the split on the labels (`train_test_split(stratify=y)`)
+  and never looks at the safety set.
+- 3: `_barrier(v) = 0 if v <= 0 else 1e4 + v` in all four candidate objectives (both
+  logistic models, both PDIS policies); `hard_barrier=True` only flattens the violation to 1.
+
 **1. Hoeffding ignores the range of the samples (bug; affects the RL classes).**
 The paper's bound is `mean + (b - a) sqrt(ln(1/delta) / (2n))`. `hoeffdings_bounds`
 has no `a, b` and always assumes width 1, although `DISTRIBUTION_FREE_BOUNDS` lists it.

@@ -47,8 +47,13 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         :param safety_data: If you have a separate held out data to be used for the safety set, it should be specified here, otherwise, the data `X` is split according to `test_size` for this.
         :param verbose: Print out extra log statements
         :param test_size: ratio of the data `X` to e used for the safety set.
-        :param stratify: Stratify the training data when splitting to train/safety sets.
-        :param hard_barrier: Use a hard barrier while training the data using the BBO optimizer.
+        :param stratify: Stratify the train/safety split on the labels ``y``. (It used to
+            pick, among several random splits, the one whose constraint value on the safety
+            set best matched the candidate set; choosing the safety set by looking at it
+            voids the safety test's guarantee.)
+        :param hard_barrier: Report any predicted violation to the candidate-selection barrier
+            as a flat 1 (the barrier itself is always hard, see :func:`_barrier`; this only
+            removes its guidance toward feasibility).
         """
         super().__init__(X, y, verbose=verbose, random_seed=random_seed, optimizer=optimizer,
                          maxiter=maxiter)
@@ -60,31 +65,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         if safety_data is not None:
             self.X_s, self.y_s = safety_data
         else:
-            if not stratify:
-                self.X, self.X_s, self.y, self.y_s = train_test_split(
-                    self.X, self.y, test_size=test_size, random_state=random_seed
-                )
-            else:
-                thet = np.random.default_rng(random_seed).random((X.shape[1] + 1, 1))
-                min_diff = np.inf
-                count = 0
-                self.X_t = self.X
-                self.y_t = self.y
-                rand = random_seed
-                while count < 30:
-                    self.X = self.X_t
-                    self.y = self.y_t
-                    self.X, self.X_s, self.y, self.y_s = train_test_split(
-                        self.X, self.y, test_size=test_size, random_state=rand
-                    )
-                    diff = abs(self._safetyTest(thet, predict=True, ub=False) -
-                               self._safetyTest(thet, predict=False, ub=False))
-                    if diff < min_diff:
-                        self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
-                        min_diff = diff
-                    count += 1
-                    rand += 13
-                self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
+            self.X, self.X_s, self.y, self.y_s = _split(self.X, self.y, test_size, random_seed,
+                                                        stratify)
 
     def data(self):
         return self.X, self.y
@@ -115,8 +97,8 @@ class SeldonianAlgorithmLogRegCMAES(CMAESModel, SeldonianAlgorithm):
         return self
 
     def loss(self, X, y_true, theta):
-        return log_loss(y_true, self._predict(X, theta), labels=[0, 1]) + (
-                10000 * (self._safetyTest(theta, predict=True)))
+        return log_loss(y_true, self._predict(X, theta), labels=[0, 1]) + _barrier(
+            self._safetyTest(theta, predict=True))
 
     def _predict(self, X, theta):
         w = theta[:-1]
@@ -151,31 +133,8 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
         if safety_data is not None:
             self.X_s, self.y_s = safety_data
         else:
-            if not stratify:
-                self.X, self.X_s, self.y, self.y_s = train_test_split(
-                    self.X, self.y, test_size=test_size, random_state=random_seed
-                )
-            else:
-                min_diff = np.inf
-                thet = self.theta
-                count = 0
-                self.X_t = self.X
-                self.y_t = self.y
-                rand = random_seed
-                while count < 50:
-                    self.X = self.X_t
-                    self.y = self.y_t
-                    self.X, self.X_s, self.y, self.y_s = train_test_split(
-                        self.X, self.y, test_size=test_size, random_state=rand
-                    )
-                    diff = abs(self._safetyTest(thet, predict=True, ub=False) -
-                               self._safetyTest(thet, predict=False, ub=False))
-                    if diff < min_diff:
-                        self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp = self.X, self.X_s, self.y, self.y_s
-                        min_diff = diff
-                    count += 1
-                    rand += 1
-                self.X, self.X_s, self.y, self.y_s = self.X_temp, self.X_s_temp, self.y_temp, self.y_s_temp
+            self.X, self.X_s, self.y, self.y_s = _split(self.X, self.y, test_size, random_seed,
+                                                        stratify)
 
     def data(self):
         return self.X, self.y
@@ -206,9 +165,8 @@ class LogisticRegressionSeldonianModel(SeldonianAlgorithm):
 
     def get_opt_fn(self):
         def loss_fn(theta):
-            return log_loss(self.y, self._predict(self.X, theta), labels=[0, 1]) + (
-                    10000 * self._safetyTest(theta,
-                                             predict=True))
+            return log_loss(self.y, self._predict(self.X, theta), labels=[0, 1]) + _barrier(
+                self._safetyTest(theta, predict=True))
 
         return loss_fn
 
@@ -471,8 +429,8 @@ class PDISSeldonianPolicyCMAES(CMAESModel, SeldonianAlgorithm):
 
     def loss(self, X, y_true, theta):
         est = self.pdis_estimate(theta, X, minimize=False, sum_red=False, verbose=True)
-        loss = (-1 * np.sum(est) / len(X)) + (
-            0 if self._safetyTest(theta, predict=True, ub=True, est=est) <= 0 else 10000)
+        loss = (-1 * np.sum(est) / len(X)) + _barrier(
+            self._safetyTest(theta, predict=True, ub=True, est=est))
         print(f"Loss: {loss}")
         return loss
 
@@ -557,8 +515,8 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
                                               random_state=random_seed)
 
     def objective(self, theta, data):
-        obj = (-1 * self._predict(data, theta)) + (
-            10000 if self._safetyTest(theta, predict=True, ub=True) > 0 else 0)
+        obj = (-1 * self._predict(data, theta)) + _barrier(
+            self._safetyTest(theta, predict=True, ub=True))
         if self.verbose:
             print(f"Estimate: {obj}")
         return obj
@@ -639,11 +597,28 @@ class SeldonianCEMPDISPolicy(SeldonianAlgorithm):
             return -1 * (np.mean(estimate) - self.thres)
 
 
+#: candidate-selection barrier (Thomas et al. 2019): every theta predicted to fail ranks
+#: below every theta predicted to pass, and among failing thetas a smaller predicted
+#: violation ranks higher, which steers the search back toward feasibility
+BARRIER = 1e4
+
+
+def _barrier(violation):
+    """0 when the predicted safety test passes, else ``BARRIER + violation``."""
+    return 0.0 if violation <= 0 else BARRIER + float(violation)
+
+
+def _split(X, y, test_size, random_seed, stratify):
+    """Candidate / safety split, stratified on the labels when asked (never on D_s values)."""
+    return train_test_split(X, y, test_size=test_size, random_state=random_seed,
+                            stratify=y if stratify else None)
+
+
 def _resolve_bound(bound, bound_range):
     """Bound callable plus the range keyword arguments the RL safety tests pass to it."""
     fn = get_bound(bound)
     if bound_range is None:
-        if bound not in ('ttest', 'hoeffdings') and not callable(bound):
+        if bound != 'ttest' and not callable(bound):
             raise ValueError(
                 f"bound='{bound}' is distribution-free and needs the return range: pass "
                 "bound_range=(low, high)")

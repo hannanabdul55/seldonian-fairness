@@ -180,14 +180,14 @@ def ttest_bounds(samples, delta, n=None, predict=False):
     return RandomVariable(sample_mean, lower=sample_mean - dev, upper=sample_mean + dev)
 
 
-def hoeffdings_bounds(samples, delta, n=None, predict=False):
+def hoeffdings_bounds(samples, delta, n=None, predict=False, a=0.0, b=1.0):
     """
+    Hoeffding's inequality for the mean of i.i.d. samples in ``[a, b]``:
+    ``mean +- (b - a) * sqrt(ln(1 / delta) / (2 n))``, each endpoint one-sided at ``delta``
+    (Thomas et al. 2019). ``predict=True`` doubles the width for candidate selection.
 
-    :param samples:
-    :param delta:
-    :param n:
-    :param predict:
-    :return:
+    The range is part of the bound: samples outside ``[a, b]`` raise, so a caller cannot
+    silently apply the unit-range width to returns or other unbounded quantities.
     """
     if not (isinstance(samples, numbers.Number) or isinstance(samples,
                                                               np.ndarray) or torch.is_tensor(
@@ -198,9 +198,17 @@ def hoeffdings_bounds(samples, delta, n=None, predict=False):
         samples = np.array(samples)
     if samples.ndim > 1:
         raise ValueError("`samples` should be a vector (1-D array)")
+    if not b > a:
+        raise ValueError(f"range must satisfy a < b, got a={a}, b={b}")
+    lo, hi = (float(samples.min()), float(samples.max()))
+    tol = 1e-9 * (b - a)
+    if lo < a - tol or hi > b + tol:
+        raise ValueError(
+            f"samples must lie in [{a}, {b}] (observed [{lo}, {hi}]); pass the true range "
+            "with the `a`, `b` arguments")
     if n is None:
         n = samples.numel() if is_tensor else samples.size
-    dev = np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
+    dev = (b - a) * np.sqrt(np.log(1 / delta) / (2 * n)) * (1 + (1 * predict))
     if not is_tensor:
         sample_mean = samples.mean()
     else:
