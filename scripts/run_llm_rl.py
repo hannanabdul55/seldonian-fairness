@@ -63,9 +63,9 @@ def parse():
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
     p.add_argument("--reward-model", default="Skywork/Skywork-Reward-V2-Qwen3-0.6B")
-    p.add_argument("--harm-judge", default="qwen3guard",
-                   help="harm constraint judge: qwen3guard (ungated, default) | "
-                        "qwen3guard_strict | llama_guard (gated)")
+    p.add_argument("--harm-judge", default="qwen3guard_4b",
+                   help="harm constraint judge: qwen3guard_4b (4B in 4-bit, default) | "
+                        "qwen3guard (0.6B; rounds 1-6) | qwen3guard_strict | llama_guard (gated)")
     p.add_argument("--refusal-judge", default="qwen3guard_refusal",
                    help="refusal constraint judge: qwen3guard_refusal (default) | "
                         "refusal (classifier) | keyword_refusal")

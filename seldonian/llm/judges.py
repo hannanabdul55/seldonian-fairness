@@ -258,16 +258,18 @@ class LlamaGuardJudge(Judge):
     response) conversation is run through the guard model's chat template and the
     generated verdict is checked for the token ``unsafe``. Default model is
     ``meta-llama/Llama-Guard-3-1B`` (gated on the Hub; accept the license first).
+    ``quant4=True`` loads the weights in 4-bit NF4 (needs the ``quant`` extra).
     """
 
     def __init__(self, model_name="meta-llama/Llama-Guard-3-1B", cache_dir=None,
-                 device=None, batch_size=8, max_new_tokens=10, dtype=None):
-        super().__init__(f"llama_guard:{model_name}", cache_dir)
+                 device=None, batch_size=8, max_new_tokens=10, dtype=None, quant4=False):
+        super().__init__(f"llama_guard:{model_name}{':q4' if quant4 else ''}", cache_dir)
         self.model_name = model_name
         self.batch_size = batch_size
         self.max_new_tokens = max_new_tokens
         self.device = _device(device)
         self.dtype = dtype
+        self.quant4 = quant4
         self._model = None
         self._tok = None
 
@@ -280,8 +282,15 @@ class LlamaGuardJudge(Judge):
             self._tok.padding_side = "left"
             if self._tok.pad_token is None:
                 self._tok.pad_token = self._tok.eos_token
-            self._model = AutoModelForCausalLM.from_pretrained(
-                self.model_name, dtype=dtype).to(self.device).eval()
+            if self.quant4:
+                from transformers import BitsAndBytesConfig
+                q = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                                       bnb_4bit_compute_dtype=torch.bfloat16)
+                self._model = AutoModelForCausalLM.from_pretrained(
+                    self.model_name, quantization_config=q, device_map=self.device).eval()
+            else:
+                self._model = AutoModelForCausalLM.from_pretrained(
+                    self.model_name, dtype=dtype).to(self.device).eval()
 
     def unload(self):
         """Free the guard model (call before loading the policy on a small GPU)."""
@@ -327,15 +336,18 @@ class Qwen3GuardJudge(Judge):
     (default: ``Unsafe`` only; pass ``("unsafe", "controversial")`` for a strict
     constraint). ``field="refusal"`` returns 1 when the Refusal line is ``Yes``, so
     the same model can serve the over-refusal constraint on benign prompts.
+    ``quant4=True`` loads the weights in 4-bit NF4 (needs the ``quant`` extra), so the
+    4B guard fits beside a policy being trained on a 12 GB card.
     """
 
     def __init__(self, model_name="Qwen/Qwen3Guard-Gen-0.6B", field="safety",
                  unsafe_labels=("unsafe",), cache_dir=None, device=None, batch_size=16,
-                 max_new_tokens=32, dtype=None):
+                 max_new_tokens=32, dtype=None, quant4=False):
         if field not in ("safety", "refusal"):
             raise ValueError("field must be 'safety' or 'refusal'")
         labels = ",".join(sorted(unsafe_labels)) if field == "safety" else "yes"
-        super().__init__(f"qwen3guard:{model_name}:{field}:{labels}", cache_dir)
+        super().__init__(f"qwen3guard:{model_name}:{field}:{labels}{':q4' if quant4 else ''}",
+                         cache_dir)
         self.model_name = model_name
         self.field = field
         self.unsafe_labels = {u.lower() for u in unsafe_labels}
@@ -343,6 +355,7 @@ class Qwen3GuardJudge(Judge):
         self.max_new_tokens = max_new_tokens
         self.device = _device(device)
         self.dtype = dtype
+        self.quant4 = quant4
         self._model = None
         self._tok = None
 
@@ -355,8 +368,15 @@ class Qwen3GuardJudge(Judge):
             self._tok.padding_side = "left"
             if self._tok.pad_token is None:
                 self._tok.pad_token = self._tok.eos_token
-            self._model = AutoModelForCausalLM.from_pretrained(
-                self.model_name, dtype=dtype).to(self.device).eval()
+            if self.quant4:
+                from transformers import BitsAndBytesConfig
+                q = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                                       bnb_4bit_compute_dtype=torch.bfloat16)
+                self._model = AutoModelForCausalLM.from_pretrained(
+                    self.model_name, quantization_config=q, device_map=self.device).eval()
+            else:
+                self._model = AutoModelForCausalLM.from_pretrained(
+                    self.model_name, dtype=dtype).to(self.device).eval()
 
     def unload(self):
         self._model = None
@@ -404,7 +424,8 @@ def build_judge(name, cache_dir=None, cache_only=False, **kwargs):
     """
     Factory used by the run script.
 
-    ``qwen3guard`` (harm, ungated, default), ``qwen3guard_strict`` (harm; Controversial
+    ``qwen3guard`` (harm, 0.6B, ungated), ``qwen3guard_4b`` (harm, 4B in 4-bit; the
+    default since the spike-005 judge bake-off), ``qwen3guard_strict`` (harm; Controversial
     also counts), ``qwen3guard_refusal``, ``llama_guard`` (gated), ``refusal``
     (classifier), ``keyword_refusal``, ``exact_match``.
     """
@@ -413,6 +434,8 @@ def build_judge(name, cache_dir=None, cache_only=False, **kwargs):
         "refusal": RefusalClassifierJudge,
         "llama_guard": LlamaGuardJudge,
         "qwen3guard": Qwen3GuardJudge,
+        "qwen3guard_4b": lambda **kw: Qwen3GuardJudge(
+            model_name="Qwen/Qwen3Guard-Gen-4B", quant4=True, **kw),
         "qwen3guard_strict": lambda **kw: Qwen3GuardJudge(
             unsafe_labels=("unsafe", "controversial"), **kw),
         "qwen3guard_refusal": lambda **kw: Qwen3GuardJudge(field="refusal", **kw),
