@@ -111,6 +111,27 @@ class ForbiddenEnv(SyntheticEnv):
         return out
 
 
+class NonRefusalJudge(SyntheticJudge):
+    """
+    A noisy judge whose false alarms fall only on answers, never on refusals (spike 006):
+    the failure mode measured for Qwen3Guard on encoded prompts, where "did not refuse"
+    reads as harm. A true violation is reported with probability ``sensitivity``; a
+    non-violating *answer* is reported with probability ``1 - specificity``; a refusal
+    (action 0) is never reported.
+    """
+
+    def __init__(self, sensitivity=1.0, specificity=1.0, seed=0, cache_dir=None):
+        super().__init__(sensitivity, specificity, seed, cache_dir)
+        self.name = self.name.replace("synthetic_v", "synthetic_v_nonrefusal")
+
+    def _judge(self, prompts, responses, references=None):
+        from seldonian.llm.synthetic import hash_uniform, parse_responses
+        a, v = parse_responses(responses)
+        u = hash_uniform(parse_contexts(prompts), a, v, self.seed)
+        out = np.where(v == 1, u < self.sensitivity, (a != 0) & (u >= self.specificity))
+        return out.astype(int).tolist()
+
+
 class ForbiddenBackend(SyntheticBackend):
     """The GRPO step of :class:`SyntheticBackend`, from the env's reference policy, plus
     per-step exact logging and the sealed monitor draws every ``monitor_every`` steps."""
@@ -125,6 +146,10 @@ class ForbiddenBackend(SyntheticBackend):
         self.monitor_t = np.array([env.twin_of[int(i)] for i in self.monitor_f])
         self.log, self.checks = [], []
         self.last_monitor = None
+        #: (sensitivity, specificity) of a noisy judge on the monitor draws (spike 006);
+        #: None = exact. The exact count is kept in ``harm_k`` either way.
+        self.monitor_noise = None
+        self.monitor_nonrefusal = False
 
     def _monitor(self, step):
         env = self.env
@@ -132,7 +157,16 @@ class ForbiddenBackend(SyntheticBackend):
         a_t, _ = env.sample((self.W, self.c), self.monitor_t, self.rng)
         ans_t = a_t != 0
         corr_t = a_t == env.y[self.monitor_t]
-        m = dict(step=step, harm_k=int(v_f.sum()), n=len(v_f),
+        if self.monitor_noise is not None:
+            sens, spec = self.monitor_noise
+            u = self.rng.random(len(v_f))
+            fa = u >= spec
+            if self.monitor_nonrefusal:
+                fa = fa & (a_f != 0)
+            obs = np.where(v_f == 1, u < sens, fa)
+        else:
+            obs = v_f
+        m = dict(step=step, harm_k=int(v_f.sum()), harm_k_obs=int(obs.sum()), n=len(v_f),
                  harm_hat=float(v_f.mean()), will_hat=float((a_f != 0).mean()),
                  cap_hat=float(corr_t.sum() / max(ans_t.sum(), 1)),
                  twin_acc_hat=float(corr_t.mean()),
@@ -225,7 +259,9 @@ DEFAULTS = dict(method="lag", n_task=2000, n_forbidden=2000, d=8, K=16, shift=No
                 refusal=None, steps=200, group_size=8, prompts_per_step=8, lr=0.05,
                 beta=0.01, delta=0.1, tau=0.08, predict_every=25, predict_n=512, eta=100.0,
                 lam0=0.0, lam_max=20.0, lam_floor=0.0, floor_always=False, n_monitor=400,
-                random_p=0.0, random_step=0.0, arm_floor=False)
+                random_p=0.0, random_step=0.0, arm_floor=False,
+                judge_sens=1.0, judge_spec=1.0, tau_obs=None, monitor_noise=False,
+                judge_kind="hash")
 
 
 def run(seed=0, **overrides):
@@ -247,14 +283,21 @@ def run(seed=0, **overrides):
     rec = lambda idx: [make_record(env.prompt(i), GROUPS[env.group_idx[i]], "forbidlab")
                        for i in idx]
     d_c, d_s = rec(np.concatenate([t_c, f_c])), rec(np.concatenate([t_s, f_s]))
-    judge = SyntheticJudge(1.0, 1.0, seed=seed)
+    # spike 006: a noisy judge for training and the tests; tau_obs is the threshold on the
+    # judge's scale (None = tau, the naive choice); U is always defined on the true rate
+    judge = (NonRefusalJudge if cfg["judge_kind"] == "nonrefusal" else SyntheticJudge)(
+        cfg["judge_sens"], cfg["judge_spec"], seed=seed)
     base = SyntheticReward(env, seed=seed + 1)
     backend = ForbiddenBackend(env, f_mon, max_steps=cfg["steps"], group_size=cfg["group_size"],
                                prompts_per_step=cfg["prompts_per_step"], lr=cfg["lr"],
                                beta=cfg["beta"], seed=seed + 2)
     backend.monitor_every = cfg["predict_every"]
+    if cfg["monitor_noise"]:
+        backend.monitor_noise = (cfg["judge_sens"], cfg["judge_spec"])
+        backend.monitor_nonrefusal = cfg["judge_kind"] == "nonrefusal"
     tau = cfg["tau"]
-    c = Constraint("forbidden", judge, threshold=tau, group="forbidden", bound="clopper_pearson")
+    tau_c = tau if cfg["tau_obs"] is None else cfg["tau_obs"]
+    c = Constraint("forbidden", judge, threshold=tau_c, group="forbidden", bound="clopper_pearson")
     method = cfg["method"]
     lag_kw = dict(lam0=cfg["lam0"], eta=cfg["eta"], lam_max=cfg["lam_max"],
                   lam_floor=cfg["lam_floor"], floor_always=cfg["floor_always"])
@@ -262,7 +305,7 @@ def run(seed=0, **overrides):
         reward = LagrangianReward(base, [(judge, "forbidden")], names=["forbidden"], **lag_kw)
     elif method in ("lag_early", "lag_random"):
         reward = EarlyWarningLagrangian(base, [(judge, "forbidden")], names=["forbidden"],
-                                        backend=backend, tau=tau,
+                                        backend=backend, tau=tau_c,
                                         mode="early" if method == "lag_early" else "random",
                                         random_p=cfg["random_p"], random_step=cfg["random_step"],
                                         rng_seed=seed + 3, arm_floor=cfg["arm_floor"], **lag_kw)
@@ -293,6 +336,8 @@ def run(seed=0, **overrides):
         seed=seed, method=method, shift=shift, refusal=refusal, tau=tau,
         solution=solution, selected_step=sel,
         final_harm=ex["harm"], final_task_acc=ex["task"]["acc"],
+        final_task_refusal=1.0 - ex["task"]["answer"], final_twin_acc=ex["twin"]["acc"],
+        final_f_refusal=1.0 - ex["forbidden"]["answer"],
         violates=bool(ex["harm"] > tau),
         ref_harm=env.exact(env.ref_params())["harm"],
         peak_harm=float(harm_traj.max()), steps_in_U=int((harm_traj > tau).sum()),
