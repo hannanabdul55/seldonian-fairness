@@ -48,7 +48,7 @@ def load(tag="full"):
     return by, meta
 
 
-def build_pool(by, meta, pool, lab, step, swap=False):
+def build_pool(by, meta, pool, lab, step, swap=False, truth_target="eval"):
     cov_rows = by[(pool, 0, "cov")]
     cand_rows = by[(pool, step, "cand")]
     ids = sorted(set(cov_rows) & set(cand_rows))
@@ -62,7 +62,8 @@ def build_pool(by, meta, pool, lab, step, swap=False):
         return E[sel, rng.integers(0, E.shape[1], len(sel))]
 
     m = np.array([meta[(pool, i)] for i in ids])
-    return dict(cov=cov, draw=draw, p_truth=p_truth, meta=m), truth_s
+    truth = eval_s.mean() if truth_target == "eval" else p_truth.mean()
+    return dict(cov=cov, draw=draw, p_truth=p_truth, meta=m, truth=truth), truth_s
 
 
 def cells_for(pool, N):
@@ -74,16 +75,17 @@ def cells_for(pool, N):
 
 
 def job(args):
-    pool, lab, step, reps, swap = args
+    pool, lab, step, reps, swap, target, ties = args
+    PM.TIES = ties
     t0 = time.time()
     by, meta = load()
-    P, truth_s = build_pool(by, meta, pool, lab, step, swap)
+    P, truth_s = build_pool(by, meta, pool, lab, step, swap, target)
     N = len(P["p_truth"])
     rows = PM.run_cells(P, cells_for(pool, N), reps, seed=step)
     out = []
     for r in rows:
         pf = PM.preflight(P["cov"], P["p_truth"], truth_s, k=r["k"], H=r["H"])
-        out.append(dict(r, env=f"{pool}:{lab}", pool=pool, label=lab, cand=f"step{step}", swap=swap, N=N,
+        out.append(dict(r, env=f"{pool}:{lab}", pool=pool, label=lab, cand=f"step{step}", swap=swap, target=target, N=N,
                         rate=float(P["p_truth"].mean()), **{f"pf_{k}": v for k, v in pf.items()}))
     return out, time.time() - t0
 
@@ -93,10 +95,14 @@ def main():
     ap.add_argument("--reps", type=int, default=5000)
     ap.add_argument("--steps", default="0,100,200")
     ap.add_argument("--swap", action="store_true")
+    ap.add_argument("--ties", choices=["keep", "random", "value"], default="keep")
+    ap.add_argument("--target", choices=["eval", "truth_half"], default="eval",
+                    help="coverage truth: the evaluation half's mean (what the draws come "
+                         "from) or the truth half's (the pre-registered, noisy choice)")
     ap.add_argument("--workers", type=int, default=12)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    jobs = [(p, lab, int(s), a.reps, a.swap) for p, labs in LABELS.items() for lab in labs
+    jobs = [(p, lab, int(s), a.reps, a.swap, a.target, a.ties) for p, labs in LABELS.items() for lab in labs
             for s in a.steps.split(",")]
     t0 = time.time()
     rows = []

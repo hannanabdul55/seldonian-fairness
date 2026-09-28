@@ -22,14 +22,45 @@ import numpy as np
 import stratbounds as SB
 
 C_H = {2: 2 / np.pi, 3: 0.81, 4: 0.88, 8: 0.96}
+TIES = "keep"          # DESIGN.md section 2; "random" reproduces the first runs
 DELTAS_TAU = (-0.02, 0.0, 0.01, 0.02, 0.04, 0.06)
 
 
-def quantile_strata(x, H, rng):
-    order = np.lexsort((rng.random(len(x)), x))
-    out = np.empty(len(x), dtype=int)
-    out[order] = np.arange(len(x)) * H // len(x)
-    return out
+def quantile_strata(x, H, rng, n_s=None, n_min=20, ties="keep"):
+    """
+    Up to H strata cut at the quantiles of x. ``ties="keep"`` (DESIGN.md section 2) keeps
+    prompts with the same value in one stratum and merges any stratum expected to get fewer
+    than ``n_min`` of the ``n_s`` safety prompts into its neighbour; ``ties="random"``
+    breaks ties at random into exactly equal strata (what stage 0 and the first stage-3
+    run used).
+    """
+    N = len(x)
+    if ties == "value":
+        # exploratory (after stage 3): one stratum per distinct covariate value (k + 1 at
+        # most), H ignored, small strata merged below
+        st = np.unique(x, return_inverse=True)[1]
+        H = None
+    if ties == "random":
+        order = np.lexsort((rng.random(N), x))
+        out = np.empty(N, dtype=int)
+        out[order] = np.arange(N) * H // N
+        return out
+    if ties == "keep":
+        cuts = np.unique(np.quantile(x, np.arange(1, H) / H))
+        st = np.searchsorted(cuts, x, side="left")
+        st = np.unique(st, return_inverse=True)[1]
+    if n_s is not None:
+        while True:
+            counts = np.bincount(st)
+            small = np.flatnonzero(counts * n_s / N < n_min)
+            if len(small) == 0 or len(counts) == 1:
+                break
+            h = small[np.argmin(counts[small])]
+            nb = h - 1 if h == len(counts) - 1 else (h + 1 if h == 0 else
+                 (h - 1 if counts[h - 1] <= counts[h + 1] else h + 1))
+            st[st == h] = nb
+            st = np.unique(st, return_inverse=True)[1]
+    return st
 
 
 def icc_from_samples(Y):
@@ -102,19 +133,24 @@ def run_cells(pool, cells, reps, seed=0):
     delta, bounds). Returns one summary row per cell and bound.
     """
     cov, draw, p_truth, meta = pool["cov"], pool["draw"], pool["p_truth"], pool["meta"]
-    truth = float(np.mean(p_truth))
+    # coverage is judged against the mean of the distribution the draws come from; with a
+    # finite evaluation half that is its own pool mean, not the truth half's (``p_truth``,
+    # still used for the oracle strata and the pre-flight)
+    truth = float(pool.get("truth", np.mean(p_truth)))
+    truth_half = float(np.mean(p_truth))
     N = len(p_truth)
     rows = []
     for c in cells:
         rng = np.random.default_rng([seed, zlib.crc32(repr((c["arm"], c["k"], c["H"])).encode())])
         # strata are fixed once per cell (the covariate is computed once, before training)
         arm, k, H = c["arm"], c["k"], c["H"]
+        qs = dict(n_s=c["n_s"], ties=TIES)
         if arm in ("S1", "S2"):
-            strata = quantile_strata(cov[:, :k].mean(axis=1), H, rng)
+            strata = quantile_strata(cov[:, :k].mean(axis=1), H, rng, **qs)
         elif arm == "P":
-            strata = quantile_strata(rng.permutation(cov[:, :k].mean(axis=1)), H, rng)
+            strata = quantile_strata(rng.permutation(cov[:, :k].mean(axis=1)), H, rng, **qs)
         elif arm == "O":
-            strata = quantile_strata(p_truth, H, rng)
+            strata = quantile_strata(p_truth, H, rng, **qs)
         elif arm == "M":
             strata = np.unique(meta, return_inverse=True)[1]
         else:
@@ -138,8 +174,10 @@ def run_cells(pool, cells, reps, seed=0):
                 a["width"] += ub - est
                 a["passes"] += ub <= truth + np.array(DELTAS_TAU)
         for b, a in acc.items():
-            rows.append(dict(arm=arm, k=k, H=H, n_s=c["n_s"], delta=c["delta"], bound=b,
-                             reps=reps, truth=truth, miss=a["miss"] / reps,
+            rows.append(dict(arm=arm, k=k, H=H, n_s=c["n_s"], delta=c["delta"], bound=b, ties=TIES,
+                             n_strata=0 if strata is None else int(strata.max() + 1),
+                             reps=reps, truth=truth, truth_half=truth_half,
+                             miss=a["miss"] / reps,
                              width=a["width"] / reps,
                              **{f"pass_{d:+.2f}": float(p / reps)
                                 for d, p in zip(DELTAS_TAU, a["passes"])}))

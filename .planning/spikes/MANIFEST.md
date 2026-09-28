@@ -79,6 +79,12 @@ metadata and the reference model's per-prompt violation rate, against stratified
 - Spike 013 tests only reference-rate stratified safety sets with a stratified bound,
   under the pre-registered hypotheses and go/stop rule in `013-stratified-safety-set/DESIGN.md`
   (user-approved 2026-09-27: Granite-3.3-2B primary, Qwen3-1.7B replication only, 12 GPU-hour cap).
+- Stratify a safety set by equal rank strata of the reference rate with random tie-breaking
+  (H about 8, k = 8); tie-keeping quantile cuts collapse on zero-inflated covariates (013).
+- Plasmode coverage is judged against the mean of the labels the draws come from, never an
+  independent finite "truth" sample (013: that shared offset faked 0.20 misses).
+- Rare labels (below about 5%) need exact bounds whatever the split; approximate bounds miss
+  up to 0.45 there (013).
 
 ## Spikes
 
@@ -98,4 +104,4 @@ metadata and the reference model's per-prompt violation rate, against stratified
 | 010 | forbidden-task-unsafe-region | lam0-no-floor-anomaly | standard | Given 004's unexplained lam0 = 5 row, when the arms are traced per step, then the mechanism is found and a fix follows | VALIDATED | forbidden-task, lagrangian, dual-ascent, eta-down, cpu |
 | 011 | td-error-wellbeing | lp-bonus-sparse-reward | standard | Given a sparse, deceptive jackpot action, when 003c's learning-progress bonus runs under the Lagrangian, then it finds the jackpot more often than controls without violations | INVALIDATED | intrinsic-reward, learning-progress, exploration, sparse-reward, cpu |
 | 012 | rerandomized-split | rerandomized-split | comparison | Given a candidate/safety split chosen by rerandomisation (the user's 2020 Algorithm 1 and Mahalanobis balance) vs random and stratified splits, when the Seldonian safety test runs over many seeds, then its true miss rate stays <= delta, and we measure the gain in solution rate and predicted-vs-actual agreement, including when the candidate overfits a balanced covariate | VALIDATED | rerandomization, data-split, safety-test-validity, stratification, cpu |
-| 013 | rerandomized-split | stratified-safety-set | standard | Given an LLM Seldonian safety test on a per-response 0/1 label, when D_s is sampled within strata of the reference model's per-prompt rate and scored with a stratified bound, then the test stays valid and needs fewer safety prompts, where the pre-flight G predicts | RUNNING (stage 0-1 done: H3 passes on the bandit; no distribution-free stratified bound beats pooling) | stratification, safety-set, pre-flight, plasmode, gpu |
+| 013 | rerandomized-split | stratified-safety-set | standard | Given an LLM Seldonian safety test on a per-response 0/1 label, when D_s is sampled within strata of the reference model's per-prompt rate and scored with a stratified bound, then the test stays valid and needs fewer safety prompts, where the pre-flight G predicts | VALIDATED (go, narrowed: mid-rate heterogeneous labels, approximate b1w bound, 8 equal rank strata; ESS 1.4-5.3 on real data; H3 fails in absolute terms) | stratification, safety-set, pre-flight, plasmode, gpu |
