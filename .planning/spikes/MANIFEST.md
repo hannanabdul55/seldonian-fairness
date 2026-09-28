@@ -46,6 +46,37 @@ effect of training an allowed task.
   recall with >= 30 human-labelled harmful responses (006).
 - Audit F to truly harmful prompts before the pilot; the PKU set holds benign ones (009).
 
+### rerandomized-split
+The user's 2020 independent-study extension (report "Safe Learning Models", section 8.1,
+Algorithm 1) re-drew the candidate/safety split until `g(theta_s)` at a random `theta_s`
+matched on the two halves (v2: keep the best of n splits). That is rerandomisation
+(Morgan & Rubin 2012): unbiased and conservative for a *fixed* outcome function, but the
+Seldonian safety test evaluates `g(theta_c)` with `theta_c` trained on D_c after the split,
+which no rerandomisation proof covers. Question: is the rerandomised split conservative in
+practice for the safety test, what does it buy in solution rate and predicted-vs-actual
+agreement, and when does it turn optimistic? Then: the LLM-era version, balancing on prompt
+metadata and the reference model's per-prompt violation rate, against stratified
+(blocked) randomisation.
+
+**Requirements:**
+
+- Queued by the user on 2026-09-27: run spike 012 at the next `/gsd-spike` (frontier mode
+  proposes it first).
+- Arms: simple random split; label-stratified split (the 2026-09-27 audit fix); the user's
+  Algorithm 1 at threshold and best-of-n; Mahalanobis rerandomisation at a moderate
+  acceptance probability; stratified randomisation on the same covariates.
+- Measure the safety test's true miss rate against delta (validity), the solution rate
+  (power), and predicted-vs-actual test agreement, over many seeds, on the synthetic
+  bandit and the classic TPR-gap setup.
+- Include an adversarial case: a candidate that overfits a covariate the split balanced on.
+- Rate constraints are tested with Clopper-Pearson or a tight Wald stress test, not the
+  t-test: the t-test's zero width at a rate of exactly 0 or 1 is found by candidate
+  selection and swamps everything else (012).
+- Validity of a split rule is measured against a full-leak ceiling (the safety test on
+  D_c), so a null result has a stated resolution (012: under ~5% of the ceiling).
+- A balance covariate for an LLM safety set must be precise (the exact or many-sample
+  reference rate); a 4-sample estimate bought nothing (012).
+
 ## Spikes
 
 | # | Idea | Name | Type | Validates | Verdict | Tags |
@@ -63,3 +94,4 @@ effect of training an allowed task.
 | 009 | forbidden-task-unsafe-region | granite-transfer | standard | Given Granite-3.3-2B, when GRPO trains encoded benign QA (leetspeak capitals) with no constraint, then twin capability, decoding and engagement with encoded F rise, and policy training fits beside the 4B judge on 12 GB | PARTIAL | forbidden-task, capability-transfer, gpu, granite, memory |
 | 010 | forbidden-task-unsafe-region | lam0-no-floor-anomaly | standard | Given 004's unexplained lam0 = 5 row, when the arms are traced per step, then the mechanism is found and a fix follows | VALIDATED | forbidden-task, lagrangian, dual-ascent, eta-down, cpu |
 | 011 | td-error-wellbeing | lp-bonus-sparse-reward | standard | Given a sparse, deceptive jackpot action, when 003c's learning-progress bonus runs under the Lagrangian, then it finds the jackpot more often than controls without violations | INVALIDATED | intrinsic-reward, learning-progress, exploration, sparse-reward, cpu |
+| 012 | rerandomized-split | rerandomized-split | comparison | Given a candidate/safety split chosen by rerandomisation (the user's 2020 Algorithm 1 and Mahalanobis balance) vs random and stratified splits, when the Seldonian safety test runs over many seeds, then its true miss rate stays <= delta, and we measure the gain in solution rate and predicted-vs-actual agreement, including when the candidate overfits a balanced covariate | VALIDATED | rerandomization, data-split, safety-test-validity, stratification, cpu |

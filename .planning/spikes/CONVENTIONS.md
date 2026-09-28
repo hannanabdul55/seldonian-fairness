@@ -76,3 +76,15 @@ unless the question requires otherwise.
   stay reproducible.
 - **Read the responses before trusting a judge-derived rate** (007, 009: the gated label
   counted echoes; the "harmful" set held benign prompts).
+
+## Added 2026-09-27 (spike 012)
+
+- **A vectorised re-implementation of a project bound gets a check script** against the
+  project function on random candidates (`012/check_bound.py`, to 1e-16), in the spirit of
+  003a's `identity_check.py`.
+- **A null validity result needs a ceiling.** Run a deliberately leaking reference arm (012:
+  the safety test on D_c) so "no effect" comes with a resolution ("under 5% of a full leak").
+- **Large per-run results** (> ~5 MB) go xz-compressed to `results/spikes/NNN/`; the spike
+  directory keeps the scripts, `README.md` and `results.md`.
+- **Pair arms on seeds.** Every arm of a sweep uses the same seeds and data, so arm
+  differences are reported as paired differences with a paired se.

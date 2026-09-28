@@ -304,3 +304,30 @@ certificate on a sealed F probe set checked as often as generation allows, and t
 capability logged as a diagnostic, not as the controller. The largest caveat is
 that twin capability equals F capability here by construction, and on the LLM that
 transfer has to be measured.
+
+## Rerandomised candidate/safety splits: the 2020 stratification idea, revisited (2026-09-27)
+
+In the Fall 2020 independent study ("Safe Learning Models", section 8.1) the split into
+candidate and safety sets was re-drawn until the constraint value at a random parameter
+vector matched on both halves; v2 kept the best of n splits. The results were more
+consistent than a random split, with a noted "slight" multiple-comparisons cost.
+
+This is rerandomisation (Morgan & Rubin 2012, Annals of Statistics): fix a balance rule
+before looking at outcomes, re-draw until it passes. For a fixed outcome function it keeps
+the estimator unbiased, cuts variance by `(1 - v_a) R^2`, and makes the usual intervals
+conservative (Li, Ding & Rubin 2018 give the exact asymptotics). In the Seldonian setting
+every function of the data is "pre-treatment", so balancing on `g(theta_s)` is allowed; the
+safety set's mean is pulled toward the full-data mean (variance between `sigma^2 / n` and
+`sigma^2 / n_s`), so the t-test is conservative. The gap: the tested quantity
+`g(theta_c)` depends on `theta_c`, trained on D_c after the split, and balancing makes D_c
+and D_s dependent. Nothing proves the test valid then; it could turn optimistic if the
+candidate overfits what the split balanced.
+
+For LLM post-training the idea matters more: prompt pools are heterogeneous (harm rates vary
+by orders of magnitude across categories and encodings), DiscrimEval pairs must stay together,
+and safety sets are expensive. Balance on covariates fixed before training (prompt metadata,
+the reference model's per-prompt violation rate from separate samples), by Mahalanobis
+rerandomisation or by stratified randomisation, and use a stratum-weighted bound.
+
+Queued as spike 012 (`.planning/spikes/MANIFEST.md`, idea `rerandomized-split`).
+
