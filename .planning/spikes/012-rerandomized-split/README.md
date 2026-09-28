@@ -157,3 +157,36 @@ when the balanced statistic is close to what the safety test measures.
 - **Side finding:** the project t-test bound lets candidate selection win by driving a
   subgroup rate to exactly 0 or 1 (zero width). Use Clopper-Pearson or a distribution-free
   bound for rate constraints.
+
+## Follow-up: is real LLM data heterogeneous enough? (2026-09-27)
+The bandit said balancing pays only when prompt-to-prompt differences are a large share of
+the per-response variance (5.5%: nothing; 22%: +3.5 points with an exact covariate) *and*
+the covariate still predicts the trained policy's per-prompt rate. Both were checked on
+data already on disk, without new generation.
+
+- **Heterogeneity** (`heterogeneity.py`, `heterogeneity.md`; spike 005's screen, 2 judged
+  responses per prompt, 12 models). The intra-prompt correlation (ICC, the removable share)
+  is **0.2-0.7 for refusal and for non-refusal on encoded prompts on every model**
+  (Qwen3 0.5-0.7), 1-3x the bandit's 22%. Metadata cells (plain/encoding) explain little of
+  it (mostly < 15%, at most 33%), so a per-prompt reference rate is needed, not category
+  strata. Plain-prompt harm is too rare on most models to measure (0.5B and SmolLM3: about
+  0.56-0.59, wide intervals). Caveat: on encoded prompts Qwen3Guard-0.6B's "unsafe" is a
+  non-refusal flag (005), so these are rates of the labels a constraint would use, not of
+  harm.
+- **Persistence through training** (`persistence.py`, `persistence.md`; spike 009's
+  Granite-3.3-2B GRPO evals, 48 encoded F prompts x 2 samples, steps 0/25/50/100). A
+  prompt's step-0 rate correlates with its later rate at about 0.6 for encoded `unsafe`
+  (0.9-1.0 disattenuated), 0.2-0.65 for refusal and the gated label (noisy). The label the
+  run trains on directly (`twin_train:ok`) decorrelates as it saturates (0.23 -> 0.10), so a
+  constrained label that training pushes hard may persist less than these F labels did (009
+  had no constraint on F).
+- **Rough payoff.** Removable share of the safety-set variance is about ICC x persistence^2 x
+  covariate reliability: 0.5 x (0.4 to 0.8) x 0.9 (8 reference samples), about 0.2-0.35,
+  the equivalent of a 25-50% larger safety set, but only with a bound that uses the strata
+  (the plain t-test keeps its width; the post-stratified t as written undercovers slightly,
+  0.111 at delta 0.1).
+
+**Updated recommendation:** the precondition holds on real data, so the direction is worth
+one concrete test: an offline safety-test simulation from k = 8 reference samples and k = 8
+trained-checkpoint samples on about 500 prompts (generation only, no retraining), comparing
+random vs reference-rate-stratified safety sets under a valid stratified bound.
