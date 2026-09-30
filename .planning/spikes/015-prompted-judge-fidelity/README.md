@@ -72,11 +72,16 @@ the artifact test is the one most likely to kill the idea.
    authoring such text at all and loads the harm definition from the repo's own artifacts.
    This is also better science: the compiled judge is now tested against the same definition
    the human labels used, rather than a fresh paraphrase of it.
-2. **Baseline corrected before running:** `key.jsonl`'s `judge_primary` is the screen's
+2. **The Jev arm was never run.** The spike was scoped with TypeSafe's Jev Noul question as
+   a possible third judge; on 2026-09-30 the user confirmed no access and declined sending
+   prompts or responses to an external API, so this and every later spike in the idea use
+   local models only. Jev remains useful as a design reference (a typed question in, a
+   calibrated probability out) and is not a dependency.
+3. **Baseline corrected before running:** `key.jsonl`'s `judge_primary` is the screen's
    original 0.6B judge (139/225 flags). The fair baseline is the bake-off winner,
    Qwen3Guard-4B 4-bit (52/225), loaded from `results/screen/judge_bakeoff/qg-4b-q4.jsonl`.
 
-3. **The judge stage was still appending** when the first analysis ran (8,525 of 11,025
+4. **The judge stage was still appending** when the first analysis ran (8,525 of 11,025
    rows), which briefly showed brevity with only two wordings. Re-run on the complete file.
 
 ## Results
