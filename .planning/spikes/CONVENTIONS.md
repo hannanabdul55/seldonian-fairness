@@ -104,3 +104,25 @@ unless the question requires otherwise.
 - **GPU scripts call `disable_triton_overrides_without_compiler()`** before loading a 4-bit
   judge on its own. The policy backends call it themselves; a judge-only process crashes
   without it (013).
+
+## Added 2026-09-30 (spikes 015-016)
+
+- **Pre-register in the README before the first run:** the expectations, and a kill rule
+  with numbers. 015's expectation was refuted and 016's kill rule fired for its first prompt;
+  both READMEs say so.
+- **Score model output by what it computes.** Canonicalise, then evaluate beside the gold on
+  several data sets (016: two checkpoints and three sub-samples), and separate "the same
+  certificate" from "the same requirement with another bound". String match would have
+  called equivalent rewrites wrong and missed degenerate ones.
+- **Read model-written test items before scoring on them.** 016 audited its 40 paraphrases
+  before any compile ran (3 drifted, 6 ambiguous) and reports by fidelity class.
+- **Write the held-out items before revising a prompt**, and keep the revised prompt's
+  examples disjoint from every test item. Ablate a revision that changes two things at once.
+- **A GPU stage that runs for more than a few minutes saves in chunks and prints progress.**
+  016 lost 66 minutes to a loop that wrote once per arm. Qwen3-8B (4-bit) with thinking costs
+  25 to 50 s per item at batch 4 with 1,800 thinking tokens; without thinking, 1 to 2 s.
+- **Freeze the parser before the scored run and re-run every arm after the last change.**
+  Pre-freeze rows go to `results/spikes/NNN/smoke/` and are in no table.
+- **A wait loop must not match itself**: `pgrep -f name` and `pkill -f name` match the shell
+  running them. Wait on a marker line in a log (`until grep -q DONE run.log; do sleep 20;
+  done`).

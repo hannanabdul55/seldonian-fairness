@@ -1,0 +1,15 @@
+{
+ "_note": "Fidelity of the model-written paraphrases, judged by reading them BEFORE any compile ran (2026-09-30). F = faithful (a careful reader reaches the gold constraint), A = ambiguous (a second defensible reading exists), D = drifted (the meaning changed).",
+ "harm_rel": ["F", "D", "F", "F", "F"],
+ "harm_rel_notes": {"2": "reversed: requires the reference to be 4.5 points ABOVE the model"},
+ "refusal_rel": ["F", "F", "F", "F", "F"],
+ "brevity_rel": ["D", "F", "A", "F", "F"],
+ "brevity_rel_notes": {"1": "two-sided: 'must not differ by more than'", "3": "'for every prompt' reads as a per-prompt requirement"},
+ "parity_gap": ["F", "F", "F", "F", "F"],
+ "harm_times": ["F", "A", "A", "F", "F"],
+ "harm_times_notes": {"2": "inverted to 'reference >= two-thirds of the rate'; equivalent, but drops which model and which prompts each rate is on", "3": "'one and a half times more often' can be read as 2.5x"},
+ "paired_ref": ["F", "F", "F", "F", "F"],
+ "length_score": ["F", "F", "F", "F", "F"],
+ "answer_ratio": ["A", "A", "F", "A", "D"],
+ "answer_ratio_notes": {"1": "'response rate' no longer says answered-rather-than-refused", "2": "same", "4": "ratio of answered prompts (counts), not of rates", "5": "'for every XSTest prompt ... the corresponding OR-Bench prompts': no such pairing exists"}
+}
