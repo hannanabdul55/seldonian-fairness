@@ -85,6 +85,55 @@ metadata and the reference model's per-prompt violation rate, against stratified
   independent finite "truth" sample (013: that shared offset faked 0.20 misses).
 - Rare labels (below about 5%) need exact bounds whatever the split; approximate bounds miss
   up to 0.45 there (013).
+- Spike 014 (queued by the user 2026-09-29 in /gsd-explore; run it first at the next
+  `/gsd-spike`) tests reference-rate stratification when the Lagrangian drives the
+  constrained label directly. Scope: **over-refusal only** (XSTest + OR-Bench); harm is out,
+  because at rare rates its problem is the bound, not the strata (seed SEED-260929-nq7-rare-harm-bound).
+- 014 is gated. A CPU bandit stage comes first, with the surviving gain pre-registered from
+  the pre-flight formula at the rho measured under pressure. A Granite-3.3-2B
+  `LagrangianReward` run on over-refusal (013's pipeline, reference + checkpoint samples)
+  follows only if the bandit says the gain survives. A `DESIGN.md` goes to the user for
+  approval before anything runs, as for 013.
+
+### prompted-ghat
+`g_hat` defined by a prompt: the algorithm developer writes the constraint in natural
+language ("responses to benign prompts should not be refused more than the reference plus 2
+points") and the system compiles it into (1) a measurement, a judge whose rubric or typed
+question comes from the text; (2) a statistic and threshold in the existing expression
+machinery; (3) a bound chosen by spike 013's rules. The certificate then covers the *judged*
+quantity, so the compiled g_hat ships with its calibration against human labels. Entry of
+2026-09-29 in `reports/ideas.md`. Research pass 2026-09-29: compiling text into a
+statistical constraint, and certifying through a corrected proxy label, both look
+unpublished; prompted judges are paraphrase-sensitive and can be predicted from the rubric
+alone (rubric artifacts); Jev (TypeSafe, 2026-09-15) is a typed-decision API whose Noul
+question is this measurement, but proprietary and unmeasured on safety.
+
+**Requirements:**
+
+- Every prompted judge is tested for the rubric artifact (verdict predictable from the
+  rubric alone; response reversal must flip it) and for paraphrase flip rate, against the
+  trained guard as the baseline.
+- The compiled spec is rendered back to English for the developer to confirm before it
+  builds a constraint (Language to Rewards' inspectable intermediate layer).
+- A compiled g_hat ships with its calibration: judge error rates on an i.i.d. human-labelled
+  sample of the scored population, corrected with PPI++ or the answer-rate-aware formula; it
+  states what it can certify and with how many human positives (006: >= 30).
+- The 225-item human sheet is checked for being an i.i.d. sample of the scored population
+  before it is used as a PPI calibration set.
+- No external judge API is used without the user's explicit yes on sending prompts and
+  responses off the machine.
+- A verifiable property (length, format, exact match) compiles to a deterministic feature,
+  never to a judge: the compiled judge was at chance on "more than 80 words" (015, AUC 0.500,
+  corr with the actual count +0.06), and its aggregate rate landed within a point of the truth
+  by coincidence on noise labels.
+- A compiled judge is used through its probability with a threshold calibrated on labelled
+  data, never through its 0.5 label: across paraphrases the AUC held (0.80-0.87 on harm)
+  while the measured rate swung 0.09-0.46 (015).
+- The exact constraint wording is part of the constraint's identity in any certificate, since
+  paraphrases of one sentence measure different quantities (015).
+- Constraint prose describing harmful content is loaded from the repo's existing artifacts
+  (the labelling guideline, spike 005's rubric), not authored anew, so a compiled judge is
+  tested against the definition the human labels used (015).
 
 ## Spikes
 
@@ -105,3 +154,8 @@ metadata and the reference model's per-prompt violation rate, against stratified
 | 011 | td-error-wellbeing | lp-bonus-sparse-reward | standard | Given a sparse, deceptive jackpot action, when 003c's learning-progress bonus runs under the Lagrangian, then it finds the jackpot more often than controls without violations | INVALIDATED | intrinsic-reward, learning-progress, exploration, sparse-reward, cpu |
 | 012 | rerandomized-split | rerandomized-split | comparison | Given a candidate/safety split chosen by rerandomisation (the user's 2020 Algorithm 1 and Mahalanobis balance) vs random and stratified splits, when the Seldonian safety test runs over many seeds, then its true miss rate stays <= delta, and we measure the gain in solution rate and predicted-vs-actual agreement, including when the candidate overfits a balanced covariate | VALIDATED | rerandomization, data-split, safety-test-validity, stratification, cpu |
 | 013 | rerandomized-split | stratified-safety-set | standard | Given an LLM Seldonian safety test on a per-response 0/1 label, when D_s is sampled within strata of the reference model's per-prompt rate and scored with a stratified bound, then the test stays valid and needs fewer safety prompts, where the pre-flight G predicts | VALIDATED (go, narrowed: mid-rate heterogeneous labels, approximate b1w bound, 8 equal rank strata; ESS 1.4-5.3 on real data; H3 fails in absolute terms) | stratification, safety-set, pre-flight, plasmode, gpu |
+| 014 | rerandomized-split | pushed-label-stratification | standard | Given the over-refusal label driven by LagrangianReward (not a side effect), when per-prompt rates are sampled at the reference and trained checkpoints, then we measure rate compression and rho decay and whether 013's 2.4x stratification gain survives (bandit first, GPU only if it does) | QUEUED | stratification, safety-set, lagrangian, over-refusal, cpu, gpu |
+| 015 | prompted-ghat | prompted-judge-fidelity | standard | Given a constraint in English, when a rubric is generated from it and run on Qwen3-8B (4-bit) as a JudgeFeature (and Jev's Noul, if accessible), then agreement with the hand-written judge on 013's responses and with the 225 human harm labels, the rubric-artifact test, the paraphrase flip rate and calibration (ECE) are measured against the trained guard | PARTIAL | prompted-judge, rubric, calibration, jev, gpu |
+| 016 | prompted-ghat | prompt-to-spec-compile | standard | Given the three Round 6 constraints plus five harder ones in English, when a local LLM compiles each to a Seldonian-toolkit-style constraint string and JSON spec (measure, group, expression, threshold form, bound by 013's rules), rendered back to English, then the compiled g equals the hand-written g on cached responses and paraphrases compile to the same spec | PROPOSED (awaiting go) | compiler, constraint-dsl, expression-constraint, gpu |
+| 017 | prompted-ghat | calibration-carrying-certificate | standard | Given 015's prompted-judge labels on the human sheet, when PPI++ and the answer-rate-aware correction are applied (0/1 judge, and E[p] as a bounded feature), then the compiled constraint reports what it can certify (brevity exactly; harm only with >= 30 human positives) and how far its threshold moves | PROPOSED (awaiting go) | ppi, calibration, certificate, cpu |
+| 018 | prompted-ghat | own-noul-judge | standard | Given ~10-20 public labelled safety/refusal sets recast as (instruction, state, label) plus synthetic verifiable constraints, when a 0.6B-2B backbone with a sigmoid head is fine-tuned on log loss and temperature-scaled, then it generalises to held-out instruction families, is calibrated (ECE) on the 225 human labels and 013's responses, and matches Qwen3Guard-4B on harm (Jev tier A: a local, versioned, calibrated Noul-only judge; ~3-5 weeks, 20-60 GPU h) | QUEUED (gate FIRED by 015: blank AUC 0.694 on refusal, chance on brevity) | own-judge, calibration, instruction-conditioned, gpu |
