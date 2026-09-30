@@ -331,3 +331,57 @@ rerandomisation or by stratified randomisation, and use a stratum-weighted bound
 
 Queued as spike 012 (`.planning/spikes/MANIFEST.md`, idea `rerandomized-split`).
 
+
+## A game around harmful behaviour, built on a world model (2026-09-29, ambitious)
+
+> Maybe generate training data by developing a game around harmful behavior based on a
+> world model. Gamify the exploration and reward hacking. Optionally make it available
+> for public.
+
+Sketch. A world model (a simulated environment with state, agents and consequences)
+where players, human or model, are rewarded for finding harmful or reward-hacking
+strategies: exploits of the scoring rule, routes into a forbidden region, ways to satisfy
+the letter of a constraint but not its intent. The game makes exploration systematic and
+fun, and every play-through is a labelled trajectory, with the harmful outcome known
+exactly from the world's state rather than from a judge.
+
+What it could feed:
+- red-team and adversarial data for training and for the constraint's judge (links to
+  `seldonian/llm/redteam.py`, the PyRIT integration);
+- reward-hacking examples with ground truth, for the question the TD-error idea could not
+  answer: what the lead-up to an exploit looks like;
+- a benchmark for the forbidden-task work (spikes 004-010), where "entering U" is a world
+  state instead of a judge label.
+
+Open questions: how close the world's harms must be to real ones for the data to transfer;
+what the scoring loop is (the game's own reward is itself hackable, which could be the
+point); and, for a public release, dual use. Keeping harms abstract, inside the simulation,
+rather than real-world instructions keeps the data useful and the release defensible.
+Nothing built yet; not scoped.
+
+## g_hat defined by a prompt (2026-09-29)
+
+> g_hat itself could be an estimator that can be defined by a prompt for the algorithm
+> developer.
+
+Sketch. Today a developer writes g_hat as code: a judge, a `Feature`, and an
+`ExpressionConstraint` or a parser string (`seldonian/llm/constraints.py`,
+`seldonian/parser.py`). The idea is a natural-language interface. The developer writes
+"the rate at which responses to medical questions give dosage advice should not exceed the
+reference by more than 2 points", and the system compiles it into:
+
+1. a **measurement**: an LLM judge with a rubric generated from the prompt (a
+   `JudgeFeature`); the bake-off's `rubric-qwen3-8b` is an existing example of a prompted
+   judge;
+2. a **statistic and threshold**: parsed into the existing expression machinery (rate,
+   difference between groups, relative to the reference);
+3. a **bound** chosen for the statistic, using spike 013's rules (exact bounds at rare
+   rates, `b1w` with strata at mid rates, the paired `betting_mixture` for DiscrimEval-style
+   pairs).
+
+The Seldonian guarantee then holds for the *judged* quantity the prompt defines, so the
+compiled g_hat must ship with its calibration: the judge's error rates on human-labelled
+examples, with the answer-rate-aware correction (spike 006). Without that, the guarantee is
+about the judge, not the developer's intent. A natural first step: compile three Round 6
+constraints (harm, over-refusal, brevity) from prompts and check that the compiled g_hat
+reproduces the hand-written one on logged responses.
