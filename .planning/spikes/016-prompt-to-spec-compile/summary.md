@@ -12,6 +12,7 @@ same_g = the gold certificate; req = same_g or same_point (the same requirement,
 | v2 | dsl-plain | 6/8 / 7/8 | 29 / 31 / 4 / 4 | 9/10 | 6/6 | 2/8 | 3/6 | 81 |
 | v2 | json-plain | 4/8 / 7/8 | 23 / 33 / 6 / 0 | 6/10 | 3/6 | 3/8 | 5/6 | 74 |
 | v2 | dsl-think | 7/8 / 8/8 | 34 / 36 / 0 / 3 | 8/10 | 5/6 | 7/8 | 4/6 | 79 |
+| v2 | json-think | 4/8 / 7/8 | 20 / 35 / 1 / 3 | 6/10 | 4/6 | 6/8 | 6/6 | 75 |
 
 - v1: attribute=value, 3 routes to the reference, 3 examples
 - v1b: v1's registry, v2's 10 examples

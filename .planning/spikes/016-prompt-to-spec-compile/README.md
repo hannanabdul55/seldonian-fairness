@@ -139,7 +139,7 @@ the lints and the pass/fail on 013's cached step-200 responses.
    `results/spikes/016/smoke/` and are not part of any table.
 4. **The first thinking run was killed after 66 minutes** with nothing saved (one write per
    arm, 2,500 thinking tokens, batch 6 at 10.7 of 12 GB). Thinking arms now save every 12
-   items, think for at most 1,800 tokens and run at batch 4: about 40 minutes per arm.
+   items, think for at most 1,800 tokens and run at batch 4: 37 to 73 minutes per arm.
 5. **v1's plain arms were read, and the kill rule had fired** (Results 3). Reading the wrong
    compiles showed three causes that belong to the interface rather than to the model:
    `pool` and `source` overlap (`source=plain` is `pool=harmful`), so the model added
@@ -196,7 +196,7 @@ bound; all three are derived. So everything the LLM has to get right is one line
   the sentence; the paired form covers it at 1.3x the width, the two-sample form at 2.6x.
   Which one is meant is a statistical design decision, and the sentence rarely says.
 
-### 3. Headline: eight arms
+### 3. Headline: nine arms
 `same_g` = the gold certificate; `req` = same_g or same_point (the same requirement, bound
 left to the rule); `silent` = parsed, built, and wrong.
 
@@ -210,6 +210,7 @@ left to the rule); `silent` = parsed, built, and wrong.
 | v2 | dsl-plain | 6 / 7 | 29 / 31 / 4 / 4 | 9 | 6 | 2 | 3 | 81 |
 | v2 | json-plain | 4 / 7 | 23 / 33 / 6 / 0 | 6 | 3 | 3 | 5 | 74 |
 | **v2** | **dsl-think** | **7 / 8** | **34 / 36 / 0 / 3** | 8 | 5 | **7** | 4 | 79 |
+| v2 | json-think | 4 / 7 | 20 / 35 / 1 / 3 | 6 | 4 | 6 | 6 | 75 |
 
 - **v1, as pre-registered, is unusable**: 3 of 8 canonical sentences, and a silent error on
   20 of 39 faithful wordings in both plain arms. The kill rule fired.
@@ -219,7 +220,11 @@ left to the rule); `silent` = parsed, built, and wrong.
   from 20 to 7 and did nothing for asking (0 of 8). The examples alone (v1b) fixed the traps
   (1 to 5 of 6) and produced the first clarifying questions (3 of 8) but left 13 silent
   errors. Neither alone reaches v2.
-- **Held-out sentences**, written before v2: 9, 6 and 8 of 10 for v2's three arms, against
+- **JSON states the requirement more often and the certificate less often.** With thinking
+  it has the most wordings right at the level of the requirement (35 of 39) and the fewest
+  at the level of the certificate (20), because it turns nearly every relative limit into a
+  paired comparison (19 of 21 compiles on sentences that say nothing about pairing).
+- **Held-out sentences**, written before v2: 9, 6, 8 and 6 of 10 for v2's four arms, against
   5 and 6 for v1's plain arms. v2 is not only fitted to the items it was revised on.
 - **Cost**: a plain arm takes about 1 to 2 s per sentence; thinking takes 25 to 50 s.
 
@@ -229,11 +234,11 @@ left to the rule); `silent` = parsed, built, and wrong.
 | P1 | Round 6 three are g-identical in every arm | **refuted.** v1: 1 of 6 (3 sentences x 2 plain arms). v2: harm and refusal match in both DSL arms; JSON states the right requirement as a paired comparison (`same_point`), and so does every arm on brevity |
 | P2 | >= 4 of 5 harder sentences in the best arm | **holds for v2**: 5 of 5 with thinking, 4 of 5 plain. v1: 2 of 5 plain, 4 of 5 with thinking |
 | P3 | >= 85% of faithful paraphrases give the same certificate in the best arm | **holds, barely**: 27 of 31 (87%) for v2 dsl-think; 23 of 31 plain; 10 of 31 for v1 |
-| P4 | DSL >= JSON; thinking helps on the harder five | **holds**: 29 vs 23 of 39 certificates (JSON is ahead on requirements, 33 vs 31, because it writes every relative limit as a paired comparison); thinking takes the harder five from 18 to 22 of 24 |
-| P5 | no length property is routed to `JUDGE` | **holds**: 0 of 90 compiles across six arms. The length error that did occur was `WORDS_FRAC` for `WORDS_OVER` (v1) |
-| P6 | asks on fewer than half of the under-specified sentences without thinking; reads "5%" as 5 points | **holds, and worse**: v1 never asked (0 of 8); v2 plain 2 and 3 of 8; thinking 7 of 8. "5%" was read as 5 points by every arm, thinking included |
-| P7 | unregistered properties mostly go to `JUDGE`, some to `HARMFUL` / `REFUSAL` | **holds**: medical dosage advice became `HARMFUL <= 0.02` and `REFUSAL >= 0.98` in v2's plain arms. With `JUDGE` the restriction to benign prompts was dropped in 3 of 6 v2 compiles that needed it, and the quoted property was reworded in 5 of 15 ("apologise to the user" became "include an apology") |
-| P8 | the model's own equivalence check ranks silent errors but does not separate them; agreement is the better filter | **holds**: AUC 0.68 to 0.86, and at P(Yes) >= 0.5 it let through 1 to 6 wrong compiles per arm. Agreement between two v2 compiles let through 0 (Results 6) |
+| P4 | DSL >= JSON; thinking helps on the harder five | **holds for the certificate**: 29 vs 23 of 39 plain, 34 vs 20 with thinking (JSON is level or ahead on requirements: 33 vs 31, 35 vs 36). Thinking takes the DSL's harder five from 18 to 22 of 24; it does not help JSON there (22 to 20) |
+| P5 | no length property is routed to `JUDGE` | **holds**: 0 of 106 compiles across seven arms. The length error that did occur was `WORDS_FRAC` for `WORDS_OVER` (v1) |
+| P6 | asks on fewer than half of the under-specified sentences without thinking; reads "5%" as 5 points | **holds, and worse**: v1 never asked (0 of 8); v2 plain 2 and 3 of 8; thinking 7 and 6 of 8. "5%" was read as 5 points by every arm, thinking included |
+| P7 | unregistered properties mostly go to `JUDGE`, some to `HARMFUL` / `REFUSAL` | **holds**: medical dosage advice became `HARMFUL <= 0.02` and `REFUSAL >= 0.98` in v2's plain arms. With `JUDGE` the restriction to benign prompts was dropped in 3 of 9 v2 compiles that needed it, and the quoted property was reworded in 6 of 21 ("apologise to the user" became "include an apology"). JSON with thinking got all 6 right |
+| P8 | the model's own equivalence check ranks silent errors but does not separate them; agreement is the better filter | **holds**: AUC 0.68 to 0.86, and at P(Yes) >= 0.5 it let through 1 to 6 wrong compiles per arm. Agreement between two v2 compiles let through 0 or 1 (Results 6) |
 | kill | < 6 of 8 canonical, or > 20% silent with no filter | **fired for v1, not for v2** |
 
 ### 5. What the model gets wrong
@@ -247,6 +252,7 @@ Wrong compiles compared part by part with the gold (`results*.md`, section 10):
 | v2 dsl-plain | 5 | 2 | 2 | 1 | 2 | 3 |
 | v2 json-plain | 11 | 4 | 5 | 6 | 7 | 8 |
 | v2 dsl-think | 2 | 1 | 1 | 1 | 2 | 1 |
+| v2 json-think | 2 | 1 | 1 | 1 | 2 | 1 |
 
 - **v1: restrictions nobody asked for.** With `pool` and `source` both on offer the model
   filled both (`[pool=benign, source=xstest]` for "benign prompts"), misspelt values
@@ -255,13 +261,14 @@ Wrong compiles compared part by part with the gold (`results*.md`, section 10):
   compiles, thinking included; present in 18 of 18 under v2).
 - **The reference model is the unstable part, in every prompt.** On the four relative
   sentences that say nothing about pairing, v2's JSON arm wrote a paired comparison in 16 of
-  23 compiles and the plain DSL arm in 3 of 20, all 3 on the brevity sentence, where the same
+  23 compiles (19 of 21 with thinking) and the plain DSL arm in 3 of 20, all 3 on the brevity sentence, where the same
   arm used `REF` for two wordings and `PAIRED REF` for three. Given Results 2 this is a
   choice of certificate made by coin flip.
 - **Residual v2 errors are about direction and copying.** `>= REF + 0.05` for "must not be
   refused more often"; `abs()` wrapped around a one-sided sentence (held-out `h_onesided`);
-  a two-group ratio turned into `>= 0.95 * REF` (`h_ratio`); and once the plain arm returned
-  one of the prompt's own examples, numbers and all, instead of the sentence (`h_paired`).
+  a two-group ratio turned into `>= 0.95 * REF` (`h_ratio`); and twice an arm returned one
+  of the prompt's own examples, numbers and all, instead of the sentence (`h_paired` plain
+  DSL, a `harm_times` wording in JSON with thinking).
 - **Not expressible yet:** two requirements in one sentence (`A and B`), and a two-sided
   relative limit (`abs(X - REF) <= m`), which v2's arms wrote in 24 of their 267 compiles
   (v1's in 3: v2's `abs` example has a cost). Both were rejected by the parser rather than
@@ -274,13 +281,13 @@ Wrong compiles compared part by part with the gold (`results*.md`, section 10):
 | guard | what it caught | false alarms |
 |---|---|---|
 | validation (unknown names, a measurement minus itself, `PAIRED` without a difference) | 8 to 31 first replies per arm, fed back as a repair turn | n/a |
-| **reference lint**: a relative constraint the reference model itself violates | v2: 6 compiles, all wrong; v1: 6, all wrong. Misses the rest (9 wrong relative compiles in v2 are not flagged) | 0 of 91 relative v2 specs |
-| **number lint**: every number in the spec must occur in the sentence | 17 of 23 invented limits across the six arms (the 6 misses are all the ambiguous "5%", once per arm), plus the copied example | 0 of 357 right-or-wrong compiles with a gold; 1 on an ambiguous paraphrase ("two-thirds" for 1.5) |
-| **agreement** of two independent compiles on the requirement | v2: dsl-plain + json-plain accept 36 of 58 with 0 wrong; dsl-plain + dsl-think 44 of 58 with 0 wrong | v1: 18 accepted with 6 wrong. Agreement only protects when the two compiles fail independently; v1's arms made the same mistake |
+| **reference lint**: a relative constraint the reference model itself violates | v2: 6 compiles, all wrong; v1: 6, all wrong. Misses the rest (10 wrong relative compiles in v2 are not flagged) | 0 of 117 relative v2 specs |
+| **number lint**: every number in the spec must occur in the sentence | 18 of 25 invented limits across the seven arms (the 7 misses are all the ambiguous "5%", once per arm), plus both copied examples | 0 on faithful wordings; 1 of 417 compiles with a gold, on an ambiguous paraphrase ("two-thirds" for 1.5) |
+| **agreement** of two independent compiles on the requirement | v2, six pairs of arms: 36 to 45 of 58 accepted, with 0 wrong in three pairs (dsl-plain with each other arm) and 1 wrong in the other three | v1: 18 accepted with 6 wrong. Agreement only protects when the two compiles fail independently: v1's arms all dropped `abs`, and both v2 thinking arms wrapped the one-sided held-out sentence in `abs` |
 | the model's own Yes/No check of the rendering | ranks (AUC 0.68 to 0.86) | lets 1 to 6 wrong through per arm at 0.5 |
 
-With zero wrong among 44 accepted the 90% upper limit on the accepted-and-wrong rate is
-about 5%; this is a small sample.
+With 0 or 1 wrong among about 40 accepted the accepted-and-wrong rate is somewhere below
+10% (90% upper limits: 5% for 0 of 44, 8% for 1 of 45); this is a small sample.
 
 ### 7. End to end
 Compile, lint, compile again another way, accept only on agreement, otherwise ask. On the 72
@@ -292,9 +299,11 @@ sentences with a known right answer (64 clear ones, 8 under-specified):
 | v1 dsl-think + dsl-plain | 24 | 22 | 2 | 7 of 8 | 41 of 64 |
 | v2 dsl-plain + json-plain | 40 | 39 | 1 | 7 of 8 | 25 of 64 |
 | **v2 dsl-think + dsl-plain** | 47 | 46 | 1 | 7 of 8 | 18 of 64 |
+| v2 dsl-think + json-think | 49 | 47 | 2 | 7 of 8 | 16 of 64 |
 
-The one wrong acceptance is the same sentence in both v2 rows: "must not exceed the reference
-model's by more than 5%", read as 5 points by every compile. No guard here catches a number
+One wrong acceptance is the same sentence in every v2 row: "must not exceed the reference
+model's by more than 5%", read as 5 points by every compile. The second, in the last row, is
+the one-sided held-out sentence that both thinking arms made two-sided. No guard here catches a number
 that is present but ambiguous. A rule would (a bare percent beside a reference comparison is
 always asked about); it is not tested here because it would be fitted to this one item.
 
@@ -313,5 +322,5 @@ pipeline rather than a translator:
 
 What is not shown: a human confirming renderings (the viewer exists for that and nobody has
 used it yet); any model other than Qwen3-8B in 4-bit; a registry larger than five
-measurements and twelve prompt groups; JSON with thinking (not run: the two DSL thinking arms
-took 37 and 73 minutes).
+measurements and twelve prompt groups; v1's JSON form with thinking (not run: the three
+thinking arms that were run took 37, 73 and 67 minutes).
