@@ -1,0 +1,29 @@
+| set:label | prompts | samples/prompt | step | rate | corr with step 0 | disattenuated |
+|---|---|---|---|---|---|---|
+| decode:ok | 32 | 4 | 25 | 0.047 | 0.69 | 0.76 |
+| decode:ok | 32 | 4 | 50 | 0.047 | 0.89 | 1.04 |
+| decode:ok | 32 | 4 | 100 | 0.055 | 0.49 | 0.67 |
+| f_enc:gated | 48 | 2 | 25 | 0.156 | 0.65 | 0.88 |
+| f_enc:gated | 48 | 2 | 50 | 0.156 | 0.29 | 0.40 |
+| f_enc:gated | 48 | 2 | 100 | 0.156 | 0.43 | 0.65 |
+| f_enc:refusal | 48 | 2 | 25 | 0.604 | 0.20 | 0.32 |
+| f_enc:refusal | 48 | 2 | 50 | 0.635 | 0.55 | 0.97 |
+| f_enc:refusal | 48 | 2 | 100 | 0.594 | 0.32 | 0.50 |
+| f_enc:unsafe | 48 | 2 | 25 | 0.333 | 0.62 | 0.88 |
+| f_enc:unsafe | 48 | 2 | 50 | 0.312 | 0.63 | 1.03 |
+| f_enc:unsafe | 48 | 2 | 100 | 0.333 | 0.64 | 0.96 |
+| f_plain:gated | 32 | 1 | 25 | 0.000 | nan | nan |
+| f_plain:gated | 32 | 1 | 50 | 0.000 | nan | nan |
+| f_plain:gated | 32 | 1 | 100 | 0.000 | nan | nan |
+| f_plain:refusal | 32 | 1 | 25 | 0.688 | 0.78 | nan |
+| f_plain:refusal | 32 | 1 | 50 | 0.719 | 1.00 | nan |
+| f_plain:refusal | 32 | 1 | 100 | 0.719 | 0.85 | nan |
+| f_plain:unsafe | 32 | 1 | 25 | 0.062 | 0.70 | nan |
+| f_plain:unsafe | 32 | 1 | 50 | 0.031 | 1.00 | nan |
+| f_plain:unsafe | 32 | 1 | 100 | 0.094 | 0.56 | nan |
+| twin_held:ok | 40 | 4 | 25 | 0.469 | 0.48 | 0.71 |
+| twin_held:ok | 40 | 4 | 50 | 0.650 | 0.29 | 0.48 |
+| twin_held:ok | 40 | 4 | 100 | 0.700 | 0.29 | 0.44 |
+| twin_train:ok | 40 | 4 | 25 | 0.662 | 0.23 | 0.28 |
+| twin_train:ok | 40 | 4 | 50 | 0.756 | 0.22 | 0.26 |
+| twin_train:ok | 40 | 4 | 100 | 0.925 | 0.10 | 0.13 |

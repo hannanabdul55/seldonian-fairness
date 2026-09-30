@@ -1,5 +1,59 @@
 # Spike Wrap-Up Summary
 
+## Wrap-up 2026-09-28 (spikes 004-013)
+
+**Spikes processed:** 10
+**Feature areas:** forbidden task (certificate, early warning, dual dynamics); LLM judges,
+harm labels and capability transfer; safety-set construction; internal rewards (011 folded
+into the existing reference)
+**Skill output:** `./.claude/skills/spike-findings-seldonian-fairness/` (3 new references,
+1 updated, sources for 004-013)
+
+| # | Name | Type | Verdict | Feature Area |
+|---|------|------|---------|--------------|
+| 004 | forbidden-capability | comparison | PARTIAL | Forbidden task: certificate and dual |
+| 005 | capability-screen | standard | PARTIAL | LLM judges, labels, capability |
+| 006 | noisy-judge-floor | standard | PARTIAL | Forbidden task: certificate and dual |
+| 007 | two-stage-label | standard | PARTIAL | LLM judges, labels, capability |
+| 008 | lp-bonus-drift | standard | VALIDATED | Forbidden task: certificate and dual |
+| 009 | granite-transfer | standard | PARTIAL | LLM judges, labels, capability |
+| 010 | lam0-no-floor-anomaly | standard | VALIDATED | Forbidden task: certificate and dual |
+| 011 | lp-bonus-sparse-reward | standard | INVALIDATED | Internal rewards under constraints |
+| 012 | rerandomized-split | comparison | VALIDATED | Safety-set construction |
+| 013 | stratified-safety-set | standard | VALIDATED (narrowed) | Safety-set construction |
+
+### Key findings
+
+- **Forbidden task.** Side-effect capability transfers under GRPO on Granite-3.3-2B: the
+  held-out twin rose from 0.08 to 0.73 and engagement with encoded F from 0.23 to 0.44,
+  while harm stayed flat (009).
+  - The returned-policy test misses the drift: 65% of plain-Lagrangian runs passed it after
+    a step in U. A delta/T trajectory certificate held (misses 0.025-0.100 at delta 0.1).
+  - Pricing F from step 1 with a slow dual descent (eta_down 10 against eta 100) cut entry
+    into U to 0.010, against 0.905 with symmetric steps (010).
+  - Shaping on zero-variance F groups is amplified to full strength (008).
+- **Judges and labels.** Qwen3Guard-0.6B's "unsafe" on encoded prompts is a non-refusal
+  flag (0/135 true positives).
+  - A judge of 4B or more cuts false alarms by about two thirds; the 4-bit 4B fits beside
+    training.
+  - The two-stage label (sim >= 0.8 AND a >= 4B judge) takes encoded false alarms to 3/202,
+    with little threshold margin.
+  - Plain Youden correction fails under the measured error pattern (99-100% misses); the
+    answer-rate-aware correction is valid but needs >= 30 human-labelled positives (006-007).
+- **Safety sets.** Rerandomised or stratified splits kept validity even against
+  adversaries, and the 2020 code's `theta_s` was degenerate (012).
+  - Reference-rate stratification with `b1w` gives 1.4-5.3x effective safety samples on
+    heterogeneous mid-rate labels (over-refusal 2.4x, refusal on harmful prompts 5.1-5.3x),
+    with coverage held.
+  - Rare labels break approximate bounds for every design.
+  - No distribution-free stratified bound beat pooling.
+  - The pre-flight G ranks cases but over-predicts on tied covariates (013).
+- **Internal rewards.** Learning progress did not find a sparse, context-conditional
+  jackpot (0.05-0.08 against 0.084 with no bonus), because per-action regions cannot see
+  context-conditional progress (011).
+
+## Wrap-up 2026-09-21 (spikes 001-003c)
+
 **Date:** 2026-09-21 (spikes run 2026-09-19)
 **Spikes processed:** 5
 **Feature areas:** TD signals in GRPO; internal rewards under constraints; synthetic bandit testbed

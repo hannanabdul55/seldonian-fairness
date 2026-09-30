@@ -88,3 +88,19 @@ unless the question requires otherwise.
   directory keeps the scripts, `README.md` and `results.md`.
 - **Pair arms on seeds.** Every arm of a sweep uses the same seeds and data, so arm
   differences are reported as paired differences with a paired se.
+
+## Added 2026-09-28 (spike 013)
+
+- **Multi-stage GPU spikes get a DESIGN.md first** (the user asked for this on 013): one
+  question, fixed arms, pre-registered hypotheses and a go/stop rule, stop points per stage.
+  Nothing runs until the user approves it. Report every deviation in the README.
+- **A GPU pilot measures throughput before the full run is sized.** 013's pilot rate (5.8
+  gen/s) still over-estimated long encoded prompts (2.3/s), so size each pool from its own
+  prompt length, not from the average.
+- **Plasmode resampling for design and bound questions on real data.** Fix the candidate,
+  generate k samples per prompt once, then resample thousands of safety sets with paired
+  streams across arms (`013/plasmode.py`). Coverage truth = the mean of what the draws
+  come from.
+- **GPU scripts call `disable_triton_overrides_without_compiler()`** before loading a 4-bit
+  judge on its own. The policy backends call it themselves; a judge-only process crashes
+  without it (013).

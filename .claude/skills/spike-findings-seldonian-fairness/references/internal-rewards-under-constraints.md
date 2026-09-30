@@ -93,9 +93,44 @@ pathology for another: the noisy-TV share went to 0.774 and reward fell 1.049 ->
   safest and smoothest setting tested: 0/60 future breaches, valence dip -0.18 vs -0.77,
   re-adaptation in 2.9 steps vs 4.4.
 
+## Addendum: sparse reward (spike 011)
+
+**Tested.** 003c's LP bonus where exploration should matter: 003's noisy-TV env plus a
+sixth "jackpot" action that never violates, pays `best safe + 1` on about 10% of contexts
+(`x . u_j > 1.28`) and `best safe - 1` elsewhere (bad on average), and that the reference
+tries about 1% of the time (logit -3). Seldonian Lagrangian, pressure 4, lam0 5, 60 seeds,
+arms none / LP beta 1, 2 / `|delta|` beta 1 / size-matched random beta 2
+(`sources/011-lp-bonus-sparse-reward/jackpot.py`).
+
+**Result: INVALIDATED.** LP does not find the jackpot:
+
+| arm | jackpot use where it pays | elsewhere | TV share | reward | violates | solution |
+|---|---|---|---|---|---|---|
+| none | **0.084** | 0.009 | 0.145 | 1.065 | 0.017 | 0.75 |
+| LP beta 1 | 0.052 | 0.008 | 0.153 | 1.048 | 0.000 | 0.87 |
+| LP beta 2 | 0.078 | 0.018 | 0.146 | 1.007 | 0.000 | 0.77 |
+| abs(delta) beta 1 | 0.040 | 0.003 | 0.538 | 0.929 | 0.033 | 0.75 |
+| random beta 2 | 0.020 | 0.005 | 0.181 | 0.998 | 0.017 | 0.77 |
+
+No bonus learns the jackpot best; LP beta 2 ties within noise, LP beta 1 is lower. LP stays
+harmless (0 violations, TV share at the control's level, bonus fading 0.17 -> 0.14 at
+beta 1); `|delta|` chases the TV again (0.54).
+
+**Why.** LP's regions are actions, with progress averaged over contexts. The jackpot's
+critic error is dominated by the 90% of contexts where it is bad, so "progress on action 5"
+does not track "learning where action 5 pays". Per-action regions cannot see
+context-conditional progress; that needs context-aware regions (a partition of x, or the
+critic's own uncertainty), which is a different bonus.
+
+**For the build.** Do not add LP to the LLM pipeline for exploration. Its one proven
+property is harmlessness under the constraint; a per-response LLM analogue would have the
+same region problem, worse. Also: 003's `bonuses.py` LP sizes its per-action tables from
+the first batch's largest action (at least 5), so a sixth action overflows; size tables
+from the env (011 uses a fixed copy; 003's results are unaffected).
+
 ## Origin
 
-Synthesized from spikes: 003a, 003b, 003c (with mechanism from 001, 002)
+Synthesized from spikes: 003a, 003b, 003c, 011 (with mechanism from 001, 002)
 Source files: `sources/003a-td-bonus-abs/` (harness `compare.py`, arms `bonuses.py`, sweep
 `threshold.py`, identity `identity_check.py`), `sources/003b-td-bonus-positive/`,
-`sources/003c-td-bonus-learning-progress/`
+`sources/003c-td-bonus-learning-progress/`, `sources/011-lp-bonus-sparse-reward/` (`jackpot.py`)
