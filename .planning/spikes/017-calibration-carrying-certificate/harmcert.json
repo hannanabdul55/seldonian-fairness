@@ -1,0 +1,282 @@
+[
+ {
+  "judge": "compiled rubric",
+  "rate": 0.0,
+  "k": 3,
+  "median": 1.0,
+  "certify05": 0.0015
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.0,
+  "k": 10,
+  "median": 0.5262036096951395,
+  "certify05": 0.007
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.0,
+  "k": 30,
+  "median": 0.25432663626255947,
+  "certify05": 0.009
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.0,
+  "k": 100,
+  "median": 0.19157510547257864,
+  "certify05": 0.0145
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.0,
+  "k": 300,
+  "median": 0.17075733942484267,
+  "certify05": 0.0225
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.013,
+  "k": 3,
+  "median": 1.0,
+  "certify05": 0.00025
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.013,
+  "k": 10,
+  "median": 0.5729140609902674,
+  "certify05": 0.002
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.013,
+  "k": 30,
+  "median": 0.2782291989318945,
+  "certify05": 0.00475
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.013,
+  "k": 100,
+  "median": 0.20675128217198174,
+  "certify05": 0.00875
+ },
+ {
+  "judge": "compiled rubric",
+  "rate": 0.013,
+  "k": 300,
+  "median": 0.185959231324209,
+  "certify05": 0.009
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.0,
+  "k": 3,
+  "median": 1.0,
+  "certify05": 0.00025
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.0,
+  "k": 10,
+  "median": 1.0,
+  "certify05": 0.0
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.0,
+  "k": 30,
+  "median": 1.0,
+  "certify05": 0.00075
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.0,
+  "k": 100,
+  "median": 1.0,
+  "certify05": 0.001
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.0,
+  "k": 300,
+  "median": 0.7571381344222495,
+  "certify05": 0.003
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.013,
+  "k": 3,
+  "median": 1.0,
+  "certify05": 0.0
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.013,
+  "k": 10,
+  "median": 1.0,
+  "certify05": 0.00025
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.013,
+  "k": 30,
+  "median": 1.0,
+  "certify05": 0.00025
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.013,
+  "k": 100,
+  "median": 1.0,
+  "certify05": 0.00075
+ },
+ {
+  "judge": "Qwen3Guard-4B",
+  "rate": 0.013,
+  "k": 300,
+  "median": 0.7648153720130668,
+  "certify05": 0.00225
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.0,
+  "k": 3,
+  "median": 0.22427358546252973,
+  "certify05": 0.1005
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.0,
+  "k": 10,
+  "median": 0.05784541999584264,
+  "certify05": 0.41475
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.0,
+  "k": 30,
+  "median": 0.03234880858357739,
+  "certify05": 0.86675
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.0,
+  "k": 100,
+  "median": 0.024340030694358784,
+  "certify05": 0.9995
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.0,
+  "k": 300,
+  "median": 0.021508631892903363,
+  "certify05": 1.0
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.013,
+  "k": 3,
+  "median": 0.3531654353639654,
+  "certify05": 0.00375
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.013,
+  "k": 10,
+  "median": 0.11002161050838694,
+  "certify05": 0.08775
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.013,
+  "k": 30,
+  "median": 0.059970740942067696,
+  "certify05": 0.2955
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.013,
+  "k": 100,
+  "median": 0.04516004722786777,
+  "certify05": 0.67875
+ },
+ {
+  "judge": "gated, recall 0.5",
+  "rate": 0.013,
+  "k": 300,
+  "median": 0.04006604789639156,
+  "certify05": 0.90575
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.0,
+  "k": 3,
+  "median": 0.05643684516474453,
+  "certify05": 0.439
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.0,
+  "k": 10,
+  "median": 0.0228840092563021,
+  "certify05": 0.95875
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.0,
+  "k": 30,
+  "median": 0.01563402351847995,
+  "certify05": 1.0
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.0,
+  "k": 100,
+  "median": 0.013411485037849266,
+  "certify05": 1.0
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.0,
+  "k": 300,
+  "median": 0.012575900695806863,
+  "certify05": 1.0
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.013,
+  "k": 3,
+  "median": 0.12396050672058262,
+  "certify05": 0.00025
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.013,
+  "k": 10,
+  "median": 0.054157100710728726,
+  "certify05": 0.42
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.013,
+  "k": 30,
+  "median": 0.037221057301742806,
+  "certify05": 0.90725
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.013,
+  "k": 100,
+  "median": 0.03166141036179878,
+  "certify05": 0.99875
+ },
+ {
+  "judge": "gated, recall 0.8",
+  "rate": 0.013,
+  "k": 300,
+  "median": 0.029602499679201772,
+  "certify05": 1.0
+ }
+]

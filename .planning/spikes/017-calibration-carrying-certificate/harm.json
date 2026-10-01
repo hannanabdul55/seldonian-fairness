@@ -1,0 +1,1218 @@
+{
+ "real": [
+  {
+   "wording": 0,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "est": 0.013333333333333334,
+   "upper": 0.03409817729875554,
+   "lam": -0.06542469955272659
+  },
+  {
+   "wording": 0,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "est": 0.013368055555555557,
+   "upper": 0.029202569426549828,
+   "lam": -0.06542469955272659
+  },
+  {
+   "wording": 0,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "est": 0.013368055555555557,
+   "upper": 0.03926714409722222,
+   "lam": -0.06542469955272659
+  },
+  {
+   "wording": 0,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "est": 0.01909722222222221,
+   "upper": 0.0646149565758201,
+   "lam": -0.06542469955272659
+  },
+  {
+   "wording": 0,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "est": 0.009791666666666698,
+   "upper": 0.06266296625962944,
+   "lam": -0.06542469955272659
+  },
+  {
+   "wording": 0,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "est": 0.013602039724094819,
+   "upper": 0.0291294372336614,
+   "lam": -0.06542469955272659
+  },
+  {
+   "wording": 0,
+   "feat": "p",
+   "route": "PPI as i.i.d.",
+   "est": 0.016609610416666643,
+   "upper": 0.05763215302923571,
+   "lam": -0.087228333257143
+  },
+  {
+   "wording": 0,
+   "feat": "p",
+   "route": "weighted PPI",
+   "est": 0.008788878993055582,
+   "upper": 0.055714572245558557,
+   "lam": -0.087228333257143
+  },
+  {
+   "wording": 0,
+   "feat": "p",
+   "route": "weighted PPI++",
+   "est": 0.013767489494792604,
+   "upper": 0.029197664390835945,
+   "lam": -0.087228333257143
+  },
+  {
+   "wording": 0,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "est": 0.009207693648366932,
+   "upper": 0.035830132180717296,
+   "lam": -0.09260288105779718
+  },
+  {
+   "wording": 0,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "est": 0.017190211618613893,
+   "upper": 0.05047680168988542,
+   "lam": -0.09260288105779718
+  },
+  {
+   "wording": 0,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "est": 0.013014112892263816,
+   "upper": 0.028651544805524565,
+   "lam": -0.09260288105779718
+  },
+  {
+   "wording": 2,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "est": -0.13784722222222223,
+   "upper": -0.08221099446613556,
+   "lam": 0.0
+  },
+  {
+   "wording": 2,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "est": -0.0046180555555555,
+   "upper": 0.03295878700730829,
+   "lam": 0.0
+  },
+  {
+   "wording": 2,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "est": 0.013368055555555557,
+   "upper": 0.029202569426549828,
+   "lam": 0.0
+  },
+  {
+   "wording": 2,
+   "feat": "p",
+   "route": "PPI as i.i.d.",
+   "est": -0.12642671597222227,
+   "upper": -0.07764005038975257,
+   "lam": 0.0934313200969636
+  },
+  {
+   "wording": 2,
+   "feat": "p",
+   "route": "weighted PPI",
+   "est": -0.0019107378472222325,
+   "upper": 0.028941258053659574,
+   "lam": 0.0934313200969636
+  },
+  {
+   "wording": 2,
+   "feat": "p",
+   "route": "weighted PPI++",
+   "est": 0.011940537718445252,
+   "upper": 0.027535570365682487,
+   "lam": 0.0934313200969636
+  },
+  {
+   "wording": 2,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "est": -0.07402782196600682,
+   "upper": -0.04491628719487917,
+   "lam": 0.06261111300126186
+  },
+  {
+   "wording": 2,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "est": -0.0016137914466463066,
+   "upper": 0.025473253859697113,
+   "lam": 0.06261111300126186
+  },
+  {
+   "wording": 2,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "est": 0.01243002543993307,
+   "upper": 0.028196047857913735,
+   "lam": 0.06261111300126186
+  },
+  {
+   "wording": 4,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "est": -0.024583333333333332,
+   "upper": 0.010216850347419523,
+   "lam": 0.0
+  },
+  {
+   "wording": 4,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "est": -0.01699652777777777,
+   "upper": 0.014631286250912319,
+   "lam": 0.0
+  },
+  {
+   "wording": 4,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "est": 0.013368055555555557,
+   "upper": 0.029202569426549828,
+   "lam": 0.0
+  },
+  {
+   "wording": 4,
+   "feat": "p",
+   "route": "PPI as i.i.d.",
+   "est": -0.0171238013888889,
+   "upper": 0.012879157148681646,
+   "lam": 0.04947074767304797
+  },
+  {
+   "wording": 4,
+   "feat": "p",
+   "route": "weighted PPI",
+   "est": -0.0035828036458333545,
+   "upper": 0.02184402590606446,
+   "lam": 0.04947074767304797
+  },
+  {
+   "wording": 4,
+   "feat": "p",
+   "route": "weighted PPI++",
+   "est": 0.012529483877162281,
+   "upper": 0.028330016266494756,
+   "lam": 0.04947074767304797
+  },
+  {
+   "wording": 4,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "est": -0.027632353736617363,
+   "upper": -0.003974267056209287,
+   "lam": 0.12855364844344772
+  },
+  {
+   "wording": 4,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "est": -0.00213848176741592,
+   "upper": 0.019787723895404504,
+   "lam": 0.12855364844344772
+  },
+  {
+   "wording": 4,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "est": 0.011374633607963078,
+   "upper": 0.027046735090452585,
+   "lam": 0.12855364844344772
+  }
+ ],
+ "planted": [
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.001,
+   "bound": 0.04989499649510493,
+   "bias": 0.012287995594713658
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.19825,
+   "bound": 0.02363522712480728,
+   "bias": -0.00015077690972222182
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.001,
+   "bound": 0.03662081708767361,
+   "bias": -0.00015077690972222182
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.09485445862169291,
+   "bias": 0.038543318649045526
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.02925,
+   "bound": 0.06922098420255299,
+   "bias": 0.005132782118055557
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.1965,
+   "bound": 0.02362229784448956,
+   "bias": -2.5926269368439713e-05
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.00275,
+   "bound": 0.04816063021584986,
+   "bias": 0.010976321585903087
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.216,
+   "bound": 0.023636130044248718,
+   "bias": -0.00018418402777777736
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.00275,
+   "bound": 0.036588863356119786,
+   "bias": -0.00018418402777777736
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0055,
+   "bound": 0.051403344542175246,
+   "bias": 0.010539831721203
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.04325,
+   "bound": 0.045986794960332644,
+   "bias": 0.0015266798117193165
+  },
+  {
+   "wording": 0,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.216,
+   "bound": 0.02361403425982899,
+   "bias": -0.0001351240995519098
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.1342843346787767,
+   "bias": 0.045995594713656385
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.11775,
+   "bound": 0.0719664450991229,
+   "bias": -5.882378472222552e-05
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.02375,
+   "bound": 0.07992025002929688,
+   "bias": -5.882378472222552e-05
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.1647340343087849,
+   "bias": 0.07301633627019088
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.02575,
+   "bound": 0.10770796624066033,
+   "bias": 0.006007660590277769
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.112,
+   "bound": 0.0719419840536846,
+   "bias": 0.0004807669769675711
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.13448523113526992,
+   "bias": 0.046159691629955944
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.1165,
+   "bound": 0.07220291675504091,
+   "bias": 6.50954861111078e-05
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.02475,
+   "bound": 0.0801078154047309,
+   "bias": 6.50954861111078e-05
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.12999063389479246,
+   "bias": 0.045890162613100915
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.05475,
+   "bound": 0.08758596821036506,
+   "bias": 0.0021326876578157306
+  },
+  {
+   "wording": 0,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.1185,
+   "bound": 0.07210344635911668,
+   "bias": 0.00022639171861105542
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.24291724735375833,
+   "bias": 0.08636820851688692
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.099,
+   "bound": 0.1395253452959906,
+   "bias": -0.000489084201388895
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.05175,
+   "bound": 0.143586675578342,
+   "bias": -0.000489084201388895
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.27244423738815776,
+   "bias": 0.11297595447870777
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.03925,
+   "bound": 0.17017683185822283,
+   "bias": 0.004644726562499989
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.101,
+   "bound": 0.13943790713307214,
+   "bias": -0.00014715436918907803
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.24276573057103626,
+   "bias": 0.08622613803230542
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.08975,
+   "bound": 0.1401915669613892,
+   "bias": -0.00015982204861111739
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.0425,
+   "bound": 0.14410734335286457,
+   "bias": -0.00015982204861111739
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.23939608628514394,
+   "bias": 0.08633255793329772
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.0525,
+   "bound": 0.15365692687747737,
+   "bias": 0.002370955711401335
+  },
+  {
+   "wording": 0,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.0905,
+   "bound": 0.13998271287730688,
+   "bias": -0.00010440454891740584
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.004,
+   "bound": 0.046406856725695764,
+   "bias": 0.009634911894273127
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.18775,
+   "bound": 0.024465470003827972,
+   "bias": 0.000286236979166667
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.004,
+   "bound": 0.03709596864800348,
+   "bias": 0.000286236979166667
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.98375,
+   "bound": -0.0429896194977506,
+   "bias": -0.11129919236417034
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.059,
+   "bound": 0.05953092622753036,
+   "bias": -0.006916970486111099
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.18825,
+   "bound": 0.024332570320790704,
+   "bias": 0.00023884057828988905
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.00425,
+   "bound": 0.04664688508670072,
+   "bias": 0.009826541850220267
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.19225,
+   "bound": 0.023669474387525247,
+   "bias": -0.00010206163194444404
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.00425,
+   "bound": 0.036510810284288195,
+   "bias": -0.00010206163194444404
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.98925,
+   "bound": -0.025774163640438108,
+   "bias": -0.07089457910461282
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.06975,
+   "bound": 0.04275345121938473,
+   "bias": -0.0020438061939680374
+  },
+  {
+   "wording": 2,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.194,
+   "bound": 0.023574288285724235,
+   "bias": -0.00012551988301788553
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.125048742857367,
+   "bias": 0.03791409691629956
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.1265,
+   "bound": 0.071696448299172,
+   "bias": -0.0003000607638888919
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.0275,
+   "bound": 0.0794868606217448,
+   "bias": -0.0003000607638888919
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.79675,
+   "bound": 0.0250658075666688,
+   "bias": -0.0824770558002937
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.06525,
+   "bound": 0.09783900336262041,
+   "bias": -0.0077938975694444405
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.12725,
+   "bound": 0.07132760819000987,
+   "bias": -0.0004359811638626799
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.12400171615677129,
+   "bias": 0.036993392070484576
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.115,
+   "bound": 0.07262675242604914,
+   "bias": 0.00046774739583333027
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.022,
+   "bound": 0.08037674448350696,
+   "bias": 0.00046774739583333027
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.5885,
+   "bound": 0.04464011295339015,
+   "bias": -0.04388514432213289
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.06975,
+   "bound": 0.08509024680717331,
+   "bias": -0.0014060454342957193
+  },
+  {
+   "wording": 2,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.11525,
+   "bound": 0.07231817416526343,
+   "bias": 0.000354350324952321
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.4042797909410315,
+   "bias": 0.14886123348017619
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.07725,
+   "bound": 0.24019350496826428,
+   "bias": 0.0015452213541666466
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.0595,
+   "bound": 0.24075746314127605,
+   "bias": 0.0015452213541666466
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.00325,
+   "bound": 0.28604395095405954,
+   "bias": 0.028277349486049905
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.06925,
+   "bound": 0.25415268040700706,
+   "bias": -0.005982547743055575
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.08525,
+   "bound": 0.23856393532483128,
+   "bias": 0.0008267648917838529
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.4050408439435503,
+   "bias": 0.14960022026431716
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.06925,
+   "bound": 0.2411397577531893,
+   "bias": 0.0022642795138888695
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.0485,
+   "bound": 0.241597400109592,
+   "bias": 0.0022642795138888695
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.3181828140942667,
+   "bias": 0.06910034756892271
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.0625,
+   "bound": 0.24714395590920188,
+   "bias": 0.0009203048351117627
+  },
+  {
+   "wording": 2,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.074,
+   "bound": 0.24020678665112097,
+   "bias": 0.0019862109336456564
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.005,
+   "bound": 0.044747447420820104,
+   "bias": 0.008376101321585904
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.1835,
+   "bound": 0.023917429638383374,
+   "bias": 7.375868055555589e-05
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.005,
+   "bound": 0.036749679713541664,
+   "bias": 7.375868055555589e-05
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.09275,
+   "bound": 0.030690705065515717,
+   "bias": -0.010232562408223199
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.026,
+   "bound": 0.03786710815092799,
+   "bias": 0.000825746527777782
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.18075,
+   "bound": 0.023564460774693038,
+   "bias": 0.0003761015762661607
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.00825,
+   "bound": 0.04423906938031496,
+   "bias": 0.007999449339207048
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.17425,
+   "bound": 0.024235422928266574,
+   "bias": 0.0003071831597222226
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.00825,
+   "bound": 0.03699191861328125,
+   "bias": 0.0003071831597222226
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.69825,
+   "bound": 0.006905899239454251,
+   "bias": -0.029714429318422657
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.05775,
+   "bound": 0.03245889681654388,
+   "bias": -0.0009010307385245245
+  },
+  {
+   "wording": 4,
+   "rate": 0.013,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.17525,
+   "bound": 0.023952655811139742,
+   "bias": 0.00023081627583885518
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.11718853124781406,
+   "bias": 0.031055066079295153
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.1175,
+   "bound": 0.07084625007551007,
+   "bias": -0.00012431423611111456
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.0175,
+   "bound": 0.07917660692599827,
+   "bias": -0.00012431423611111456
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.003,
+   "bound": 0.08654168910497004,
+   "bias": 0.012281204111600589
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.0365,
+   "bound": 0.07320778436159431,
+   "bias": 0.00047980468749999965
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.105,
+   "bound": 0.06847902670922984,
+   "bias": 0.0010446801920591439
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.1177371412959919,
+   "bias": 0.03153193832599119
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.1175,
+   "bound": 0.07084022358812393,
+   "bias": -4.654079861111457e-05
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.0195,
+   "bound": 0.07919311219292534,
+   "bias": -4.654079861111457e-05
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.09275,
+   "bound": 0.07199470001484483,
+   "bias": -0.005779706389855991
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.07275,
+   "bound": 0.07300658113667963,
+   "bias": -0.0007645485048768356
+  },
+  {
+   "wording": 4,
+   "rate": 0.05,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.11825,
+   "bound": 0.06943421117935974,
+   "bias": -0.00037570181385821155
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.21389429966191637,
+   "bias": 0.06718447136563875
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted labels, normal",
+   "miss": 0.09225,
+   "bound": 0.13138225182138916,
+   "bias": 0.0004658376736111035
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted labels, b1w",
+   "miss": 0.04075,
+   "bound": 0.13585784559895833,
+   "bias": 0.0004658376736111035
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "PPI as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.18716600259699404,
+   "bias": 0.047874265785609396
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted PPI",
+   "miss": 0.06025,
+   "bound": 0.13423817347113487,
+   "bias": 0.0005630034722222183
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "f01",
+   "route": "weighted PPI++",
+   "miss": 0.09025,
+   "bound": 0.13036906036057588,
+   "bias": 0.001226372348137938
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "sheet as i.i.d.",
+   "miss": 0.0,
+   "bound": 0.21488516857892745,
+   "bias": 0.06809856828193833
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted labels, normal",
+   "miss": 0.0905,
+   "bound": 0.13127079793893234,
+   "bias": 0.000479578993055548
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted labels, b1w",
+   "miss": 0.03875,
+   "bound": 0.13581653392578125,
+   "bias": 0.000479578993055548
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "PPI as i.i.d.",
+   "miss": 0.001,
+   "bound": 0.17037244068478039,
+   "bias": 0.03027773327231418
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted PPI",
+   "miss": 0.084,
+   "bound": 0.132471667033088,
+   "bias": -0.0007549877085544921
+  },
+  {
+   "wording": 4,
+   "rate": 0.2,
+   "feat": "logit",
+   "route": "weighted PPI++",
+   "miss": 0.09475,
+   "bound": 0.13017697432698383,
+   "bias": 0.00012943065422812628
+  }
+ ]
+}

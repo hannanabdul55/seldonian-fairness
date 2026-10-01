@@ -126,3 +126,28 @@ unless the question requires otherwise.
 - **A wait loop must not match itself**: `pgrep -f name` and `pkill -f name` match the shell
   running them. Wait on a marker line in a log (`until grep -q DONE run.log; do sleep 20;
   done`).
+
+## Added 2026-09-30 (spike 017)
+
+- **One-sided bounds get a studentised bootstrap, not a normal limit**, whenever the statistic
+  is more than a plain 0/1 mean (017: a control-variate estimate missed 0.08-0.24 under the
+  normal limit and at most 0.053 under bootstrap-t). Treat a zero-variance resample as
+  `t = -inf`, so too little data gives a vacuous bound instead of a wrong one.
+- **A rule that picks between bounds is scored as a rule.** Pick by the data's shape (label
+  counts), fixed before any bound is computed, and put the rule itself through the plasmode
+  (`017/route017.py`); the smaller of two valid bounds is not valid.
+- **Check a bound on a parametric case with known truth before the real data**
+  (`017/check_cert.py`): it showed the normal limit and the exact pieces failing before any
+  judge score was read.
+- **A sample drawn by strata is resampled by its real rule** when checking validity: plant
+  labels on the real population, re-draw with the sampling script's allocation
+  (`017/harm017.py`). Reading the sheet as i.i.d. was conservative for one wording and wrong
+  in 98% of draws for another.
+- **Judge-only GPU passes sort by length and save in chunks** (`017/score017.py`: 20,400
+  passes in 33 minutes, about 10 per second). Scores depend on batch composition at the
+  1-2% level for 0/1 labels, so compare only scores from one run.
+- **Headless Chrome on the Windows side checks a viewer from WSL**:
+  `chrome.exe --headless=new --screenshot=<windows path> "file:$(wslpath -w viewer.html)"`,
+  run from `/mnt/c`. Viewer state in the URL hash makes each view a one-line screenshot.
+- **SVG is fine for viewers** (017) where hover and a table view matter more than drawing
+  speed; still no CDN and no build step.

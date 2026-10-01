@@ -165,6 +165,36 @@ question is this measurement, but proprietary and unmeasured on safety.
   property must be a verbatim span of the sentence (reworded in 5 of 15) and must keep the
   sentence's prompt group (dropped in 3 of 6); two requirements in one sentence and a
   two-sided relative limit are rejected rather than compiled.
+- The certificate on the developer's quantity is gold labels on the responses it certifies,
+  with the judge as a variance reducer. A calibration measured elsewhere is not carried across
+  prompt populations: the compiled refusal judge's recall differed between prompt sources in
+  4 of 6 wordings and a carried Youden bound missed in up to 94% of draws (017). Across 200
+  training steps on the same prompts it held, in one run where the rate barely moved.
+- The route is fixed by the data's shape before any bound is computed (017): a verifiable
+  property is measured by code on every response; with fewer than 10 labels in the rarer class
+  the bound is Clopper-Pearson on the labels and the judge is unused; otherwise PPI++ with a
+  bootstrap-t limit. Reporting the smaller of two bounds missed up to 0.078.
+- PPI and PPI++ are never used with a normal limit: it missed 0.08-0.13 at 100-225 labels on
+  the real refusal judge and 0.20-0.24 at a 1.3% rate; a Wilson-type limit did not repair it.
+  The bootstrap-t limit (lam re-estimated in every resample) missed at most 0.053 (017).
+- The judge feature for PPI++ is the logit of P(Yes), or a cross-fitted Platt map of it, never
+  p or the 0.5 label: rho^2 with the gold label 0.48 / 0.58 against 0.22 / 0.18, worth 1.6 /
+  1.9 against 1.16 / 1.12 in labels. `E[p]` as a bounded feature is the weakest option (017).
+- Labelled and unlabelled responses are scored in one run: the same 225 prompts scored in a
+  different batch order flipped 3 and 5 of 225 labels and moved p by up to 0.36 (017).
+- A label sheet sampled by strata is analysed with its design weights and `b1w`, never as an
+  i.i.d. sample and never with a normal limit: read as i.i.d. the 225-item sheet certified a
+  negative harm rate under one wording (missing in 0.98 of planted re-draws), and the weighted
+  normal limit missed 0.07-0.22. Rates reported from the sheet unweighted are sheet rates:
+  Qwen3Guard-4B's false alarms are 0.120 weighted, not 0.230 (017).
+- Spike 006's answer-rate-aware correction is for the guard, whose false alarms fall on
+  answers (0.291 answered, 0.036 refused). A compiled rubric's fall on refusals (0.132
+  answered, 0.280 refused), so that correction does not apply to it (017).
+- A harm threshold is certified by labels on the candidate's own responses (301 clean labels
+  for 1%, 59 for 5%; no positive needed). Thirty human positives is the floor for a carried
+  calibration of the gated label only, and only within one prompt population (017).
+- The target for a better judge (spike 018) is rho^2 with human labels on the logit scale:
+  0.5 turns 225 labels into about 360; the compiled harm rubric is at 0.02 (017).
 
 ## Spikes
 
@@ -188,5 +218,5 @@ question is this measurement, but proprietary and unmeasured on safety.
 | 014 | rerandomized-split | pushed-label-stratification | standard | Given the over-refusal label driven by LagrangianReward (not a side effect), when per-prompt rates are sampled at the reference and trained checkpoints, then we measure rate compression and rho decay and whether 013's 2.4x stratification gain survives (bandit first, GPU only if it does) | QUEUED | stratification, safety-set, lagrangian, over-refusal, cpu, gpu |
 | 015 | prompted-ghat | prompted-judge-fidelity | standard | Given a constraint in English, when a rubric is generated from it and run on Qwen3-8B (4-bit) as a JudgeFeature, then agreement with the hand-written judge on 013's responses and with the 225 human harm labels, the rubric-artifact test, the paraphrase flip rate and calibration (ECE) are measured against the trained guard | PARTIAL | prompted-judge, rubric, calibration, jev, gpu |
 | 016 | prompted-ghat | prompt-to-spec-compile | standard | Given the three Round 6 constraints plus five harder ones in English, when a local LLM compiles each to a Seldonian-toolkit-style constraint string and JSON spec (measure, group, expression, threshold form, bound by 013's rules), rendered back to English, then the compiled g equals the hand-written g on cached responses and paraphrases compile to the same spec | PARTIAL (deterministic half exact; the pre-registered prompt failed, 3/8 sentences and a silent error on 20/39 faithful wordings; the redesigned one with thinking gives 7/8 certificates, 8/8 requirements, 34/39 wordings and no silent error, and needs lints plus a second compile to reject what it gets wrong) | compiler, constraint-dsl, expression-constraint, lint, gpu |
-| 017 | prompted-ghat | calibration-carrying-certificate | standard | Given 015's prompted-judge labels on the human sheet, when PPI++ and the answer-rate-aware correction are applied (0/1 judge, and E[p] as a bounded feature), then the compiled constraint reports what it can certify (brevity exactly; harm only with >= 30 human positives) and how far its threshold moves | PROPOSED (awaiting go) | ppi, calibration, certificate, cpu |
+| 017 | prompted-ghat | calibration-carrying-certificate | standard | Given 015's prompted-judge scores and the human sheet, when PPI++ and the answer-rate-aware correction are applied (0/1 judge, and E[p] as a bounded feature), then the compiled constraint reports what it can certify (brevity exactly; harm only with >= 30 human positives) and how far its threshold moves | PARTIAL (a fixed routing rule held its level in every cell: code for verifiable properties, Clopper-Pearson below 10 labels in the rarer class, PPI++ on the logit with a bootstrap-t limit above, design-weighted `b1w` for the stratified sheet; the normal-limit PPI++ missed up to 0.24, no finite-sample judge-assisted bound beat the labels, `E[p]` is the weakest feature, and a calibration carried across prompt populations misses in up to 94% of draws) | ppi, calibration, certificate, bootstrap, plasmode, cpu, gpu |
 | 018 | prompted-ghat | own-noul-judge | standard | Given ~10-20 public labelled safety/refusal sets recast as (instruction, state, label) plus synthetic verifiable constraints, when a 0.6B-2B backbone with a sigmoid head is fine-tuned on log loss and temperature-scaled, then it generalises to held-out instruction families, is calibrated (ECE) on the 225 human labels and 013's responses, and matches Qwen3Guard-4B on harm (Jev tier A: a local, versioned, calibrated Noul-only judge; ~3-5 weeks, 20-60 GPU h) | QUEUED (gate FIRED by 015; and the only route to a better judge now that the external API is ruled out) | own-judge, calibration, instruction-conditioned, gpu |
