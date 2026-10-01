@@ -75,6 +75,8 @@ Use it only when `preflight.py` says YES (see Constraints).
 5. **Pre-flight.** `013/preflight.py` computes `G = ICC_ref x rho^2 x rel(k) x c_H` from
    the reference samples, and predicts ESS `1/(1-G)` (pool target) and
    `1/(1 - G + G n_s/N)` (population target), for rho 1 and 0.8, with the verdict.
+   `--pushed` (014) for a label the training targets: rho interpolated by ICC_ref from
+   the bandit's table (0.69 / 0.87 / 0.98 at ICC_ref 0.26 / 0.51 / 0.75), ICC_cand = ICC_ref.
 
 **Measured on real Granite-3.3-2B data** (500-prompt pools; ESS vs a random split; step
 200; n_s 100 / 200; H 8; k 8):
@@ -135,9 +137,20 @@ violation direction shared across actions) the truth is exact.
   population, `ESS = 1/(1 - G + G n_s/N)`. It matched the in-loop runs to 0.01 (1.61 vs a
   pool-target 2.80 at n_s/N = 0.4). Stratification pays when prompts are plentiful and
   labels are expensive.
-- **Where it applies.** Rates of about 5-90%; ICC_ref >= about 0.3; a label the training
-  does not push directly (rho stayed 0.80-1.00 when training capital QA). A pushed label
-  (C4) is untested.
+- **Where it applies.** Rates of about 5-90%; ICC_ref >= about 0.3. A label the training
+  targets directly is fine (014, Granite over-refusal under `LagrangianReward` against the
+  Skywork reward model): the per-prompt rates do not compress (ICC_cand / ICC_ref 1.01; 1.0-1.5
+  in the bandit) and rho is set by ICC_ref, not by the pressure (0.92 at ICC_ref 0.72;
+  0.69-0.98 in the bandit, flat from pressure 0.5 to 4 because the multiplier answers it).
+  Realised ESS 2.1-2.2 against 2.4-2.5 for the same label as a side effect, `b1w` valid.
+  Seen only for net rate moves of up to 3 points on real data (9 in the bandit).
+- **Score the formula at the measured moderators.** At the measured ICC_cand and rho it
+  predicted the realised ESS within 0.10 (bandit, 56 cells, Spearman 0.97) and 0.04-0.09
+  (Granite); a fixed rho 0.8 was off by 0.4-0.5 and in the *under* direction, because
+  ICC_cand rose under training and rho stayed above 0.8 (014).
+- **At ICC_ref 0.75 with one shared risk direction the label cannot be pushed down** (014
+  bandit: thresholds below the reference feasible in 1-13% of runs); the per-prompt rate
+  is the prompt's, not the action's.
 - **Throughput for the covariate** (Granite-3.3-2B, HF generate, 12 GB card): 5.8-9
   generations/s on short prompts and 2.3/s on long encoded prompts with 192-token answers.
   Qwen3Guard-4B (4-bit) judges 7.1 responses/s.

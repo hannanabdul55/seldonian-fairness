@@ -140,3 +140,21 @@ SKILL.md updated, sources for 015-017)
   labels below 10 in the rarer class. Normal limits, finite-sample judge-assisted bounds
   and carried calibrations all failed one way or another. The human sheet is stratified and
   must be weighted.
+
+## Wrap-up 2026-10-01 (spike 014)
+
+**Skill output:** `./.claude/skills/spike-findings-seldonian-fairness/` (safety-set
+reference extended, SKILL.md finding 10 and two requirements, sources for 014, 013's
+`preflight.py` refreshed)
+
+| # | Name | Type | Verdict | Feature Area |
+|---|------|------|---------|--------------|
+| 014 | pushed-label-stratification | standard | VALIDATED (narrowed) | Safety-set construction |
+
+### Key findings
+- A label the Lagrangian pushes directly still stratifies: no compression, rho 0.92 on
+  Granite (set by ICC_ref, not by the pressure), ESS 2.1-2.2 against 2.4-2.5 as a side
+  effect, `b1w` valid.
+- Score the pre-flight at the measured moderators; a fixed rho 0.8 under-predicts.
+  `preflight.py --pushed` carries the bandit's rho-by-ICC_ref table.
+- Process: a GPU cap is a `timeout`, not a watch (12.8 GPU-hours against a 5-hour cap).

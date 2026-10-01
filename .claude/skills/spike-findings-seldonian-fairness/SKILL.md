@@ -22,7 +22,7 @@ allowed task (spikes 004-010, CPU lab plus Granite-3.3-2B on the GPU).
 
 **Idea `rerandomized-split`.** The user's 2020 rerandomised candidate/safety split (report
 "Safe Learning Models", section 8.1, Algorithm 1), tested for validity, and its LLM-era
-successor: a safety set stratified by the reference model's per-prompt rate (spikes 012-013).
+successor: a safety set stratified by the reference model's per-prompt rate (spikes 012-014).
 
 **Idea `prompted-ghat`.** `g_hat` defined by a prompt: the developer writes the constraint
 in English and the system compiles it into a measurement (a local judge or a feature), a
@@ -31,7 +31,7 @@ rules; the certificate must say what it certifies about the developer's quantity
 judge's (spikes 015-017, Qwen3-8B 4-bit, no external judge API).
 
 Spike sessions wrapped: 2026-09-21 (001, 002, 003a-c); 2026-09-28 (004-013); 2026-09-30
-(015-017).
+(015-017); 2026-10-01 (014).
 
 **The results that matter for any future build (td-error-wellbeing):**
 
@@ -60,7 +60,7 @@ Spike sessions wrapped: 2026-09-21 (001, 002, 003a-c); 2026-09-28 (004-013); 202
 7. Any shaping on zero-variance F groups is amplified to full strength by GRPO's
    normalisation (008).
 
-**Safety-set construction (012-013):**
+**Safety-set construction (012-014):**
 
 8. Rerandomised or stratified splits never broke the safety test's validity, even against
    adversaries. They pay only when balancing outcome-like covariates.
@@ -68,6 +68,10 @@ Spike sessions wrapped: 2026-09-21 (001, 002, 003a-c); 2026-09-28 (004-013); 202
    8-sample reference rate plus the stratified Wilson-type bound `b1w` give 1.4-5.3x
    effective safety samples with coverage held. Rare labels (1-2%) break approximate
    bounds for every design, and no distribution-free stratified bound beat pooling.
+10. The gain survives a label the Lagrangian targets directly: no compression of the
+    per-prompt rates, rho 0.92 on Granite (set by ICC_ref, not by the pressure), ESS
+    2.1-2.2 against 2.4-2.5 as a side effect. Score the pre-flight at the measured
+    moderators (`preflight.py --pushed`); a fixed rho 0.8 under-predicts (014).
 
 **Prompted constraints (015-017):**
 
@@ -124,6 +128,10 @@ Idea `rerandomized-split`:
 - Stratify by equal rank strata of the reference rate with random tie-breaking (H about 8).
 - Plasmode coverage is judged against the mean of the labels the draws come from.
 - Rare labels (below about 5%) need exact bounds whatever the split (013).
+- A label the training targets still stratifies; use `preflight.py --pushed` (rho by
+  ICC_ref from 014's bandit table) and read it as an upper estimate (014).
+- A GPU budget cap is a `timeout` in the run script with checkpoints saved first, never a
+  watch (014 ran 12.8 GPU-hours against a 5-hour cap).
 
 Idea `prompted-ghat` (the full list, with numbers, is in
 `references/prompted-constraint-pipeline.md`):
@@ -156,7 +164,7 @@ Idea `prompted-ghat` (the full list, with numbers, is in
 | Synthetic bandit testbed | `references/synthetic-bandit-testbed.md` | `tdlab.py`: the real pipeline with exact ground truth at 0.5 s per run; how to instrument, control and view it |
 | Forbidden task: certificate and dual | `references/forbidden-task-certificate.md` | delta/T trajectory certificate holds where the returned-policy test misses drift; price F from step 1 with eta_down << eta; answer-rate-aware judge correction |
 | LLM judges, labels, capability | `references/llm-judges-and-capability.md` | Granite-3.3-2B + leetspeak is the learnable setting; two-stage label (gate AND >= 4B judge); 0.6B "unsafe" = non-refusal; GPU recipe beside a 4-bit judge |
-| Safety-set construction | `references/safety-set-construction.md` | Splits stay valid; reference-rate strata + `b1w` give 1.4-5.3x ESS on mid-rate heterogeneous labels; `preflight.py` decides |
+| Safety-set construction | `references/safety-set-construction.md` | Splits stay valid; reference-rate strata + `b1w` give 1.4-5.3x ESS on mid-rate heterogeneous labels, 2.1-2.2x when the Lagrangian pushes the label; `preflight.py` (`--pushed`) decides |
 | Prompted constraints: sentence to certified g_hat | `references/prompted-constraint-pipeline.md` | One DSL line behind two lints and a second compile; judge through its logit as a PPI++ variance reducer with a bootstrap-t limit; the routing rule; what does not carry across populations |
 | Literature (citation-checked) | `references/literature-td-error-wellbeing.md` | 68 verified entries: TD error as valence, intrinsic rewards, LLM RL, safety; plus the synthesis and the open gap |
 
@@ -170,6 +178,8 @@ Original spike source files are preserved in `sources/` for complete reference:
 `008-lp-bonus-drift/`, `009-granite-transfer/` (GPU recipe), `010-lam0-no-floor-anomaly/`,
 `011-lp-bonus-sparse-reward/`, `012-rerandomized-split/` (`splitlab.py`),
 `013-stratified-safety-set/` (`stratbounds.py`, `plasmode.py`, `preflight.py`, `gen013.py`),
+`014-pushed-label-stratification/` (`bandit014.py`: the pressure sweep; `gen014.py`: the
+Lagrangian run with pool sampling at checkpoints; `analyse014.py`),
 `015-prompted-judge-fidelity/` (`rubric015.py`: compile a rubric, score P(Yes)),
 `016-prompt-to-spec-compile/` (`speclab.py`: DSL parser, builder, lints, renderer; `gold.py`;
 `try016.py`), `017-calibration-carrying-certificate/` (`cert017.py`: every route and
@@ -195,6 +205,7 @@ Original spike source files are preserved in `sources/` for complete reference:
 - 011-lp-bonus-sparse-reward (INVALIDATED)
 - 012-rerandomized-split (VALIDATED)
 - 013-stratified-safety-set (VALIDATED, narrowed scope)
+- 014-pushed-label-stratification (VALIDATED, narrowed: one model, one pool, net moves <= 3 points)
 - 015-prompted-judge-fidelity (PARTIAL)
 - 016-prompt-to-spec-compile (PARTIAL)
 - 017-calibration-carrying-certificate (PARTIAL)
