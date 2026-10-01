@@ -149,10 +149,12 @@ rests on the Wilson-type `b1w`, whose coverage holds in the cells that show the 
 | C2 encoded, gated harm | 2% | 0.50 | 1.0-1.07 | **no, for any design** | don't; rare-rate labels need an exact bound, and exact bounds gain nothing from strata |
 | C3 plain harm | 1% | 0.33 | 1.0 | **no, for any design** | don't (same reason) |
 | placebo covariate | - | - | 1.0 | yes | the negative control behaves |
+| C4 over-refusal pushed by the Lagrangian (spike 014) | refusal, 18% | 0.72 | 2.1-2.2 | yes | **use it**; rho 0.92, no compression; `preflight.py --pushed` |
 
 **Where to use it:**
-- per-response 0/1 labels with rates of roughly 5-90%, high prompt-level ICC, and a label
-  the training does not target directly (rho stayed 0.8-1.0 here);
+- per-response 0/1 labels with rates of roughly 5-90% and high prompt-level ICC; a label the
+  training targets directly is fine too (spike 014: rho 0.92 under the Lagrangian on this
+  pool, 0.69-0.98 in the bandit, set by ICC_ref rather than by the pressure; no compression);
 - with an approximate bound (`b1w`);
 - 8 equal rank strata of an 8-sample reference rate, random tie-breaking;
 - a prompt pool much larger than the safety set, or the two-phase cap
@@ -165,12 +167,12 @@ rests on the Wilson-type `b1w`, whose coverage holds in the cells that show the 
   here beat pooling);
 - when labels are cheap (enlarge D_s instead).
 
-**Not tested:** a label that training pushes directly (the design's optional C4; rho may
-decay); the Qwen3-1.7B replication (the stage-2 overrun left no budget); a population
+**Not tested:** the Qwen3-1.7B replication (the stage-2 overrun left no budget); a population
 target on real data (the plasmode certifies the pool).
 
 **Pre-flight:** `preflight.py` computes G from k reference samples and gives the predicted
-gain for rho 1 and 0.8, with the two-phase cap and the verdict above. Read the prediction as
+gain for rho 1 and 0.8, with the two-phase cap and the verdict above; `--pushed` uses spike
+014's rho-by-ICC_ref table for a label the training targets. Read the prediction as
 optimistic by up to about 20% at H = 8, and trust its ranking.
 
 **Deviations from DESIGN.md, all reported:**

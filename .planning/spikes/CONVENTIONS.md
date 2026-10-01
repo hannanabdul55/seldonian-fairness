@@ -151,3 +151,19 @@ unless the question requires otherwise.
   run from `/mnt/c`. Viewer state in the URL hash makes each view a one-line screenshot.
 - **SVG is fine for viewers** (017) where hover and a table view matter more than drawing
   speed; still no CDN and no build step.
+
+## Added 2026-10-01 (spike 014)
+
+- **A GPU cap is a `timeout`, not a watch.** `run.sh` wraps the training command in
+  `timeout <cap>` and the training script saves its checkpoint and pool samples at every
+  planned step *before* the next segment starts, so a kill at the cap leaves a usable
+  partial run. 014 passed its 5-hour cap at step 100 and ran 12.8 hours because stopping
+  would have lost the step-200 checkpoint.
+- **Watch `step_time` in the TRL log, not the progress bar's ETA.** A step-time jump with the
+  completion length unchanged (014: 62 s to 165 s at step 30 at 11.98 of 12 GB) is the
+  memory limit, not the model; lower `num_generations` or `max_completion_length` and
+  relaunch rather than wait.
+- **Like-for-like plasmode.** When comparing a new checkpoint's stratification gain with an
+  old one's, run both through the same plasmode job against the same reference labels in the
+  same call (`014/plasmode014.py` with `role` cand / side); the old spike's number from its
+  own run drifts with ties and seeds.

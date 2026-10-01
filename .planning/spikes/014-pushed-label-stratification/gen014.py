@@ -8,7 +8,8 @@ Runs only after stage 1's gate opened (``gate.json``). Four sub-stages:
                model does not reward refusals over answers, nothing here can push the label.
 - ``pilot``    20 training steps with the full stack loaded (policy, 4B refusal judge, reward
                model), 100 pool prompts x 4 samples at the end: throughput and memory.
-- ``train``    the run: ``SeldonianLLMPolicy`` with ``LagrangianReward`` (Round 6's dual
+- ``train``    the run (pilot-sized: 60 s a step with the judge and reward model resident,
+               3.2 pool generations a second, so K = 12 at step 200 and 4 at step 100): ``SeldonianLLMPolicy`` with ``LagrangianReward`` (Round 6's dual
                settings) constraining Qwen3Guard-4B's refusal field on benign prompts to the
                pool's reference rate + 0.02, reward = the reward model, D_c = fresh ``ab``
                prompts disjoint from the pool, D_s = 013's C1 pool. At steps 100 and 200 the
@@ -42,7 +43,7 @@ OUT013 = os.path.join(REPO, "results", "spikes", "013")
 RUN_DIR = "/mnt/d/seldonian-runs/014"
 MODEL = gen013.MODEL
 RM = "Skywork/Skywork-Reward-V2-Qwen3-0.6B"
-CKPT_STEPS = (100, 200)
+CKPT_STEPS = {100: 4, 200: None}   # samples per prompt; None = --cand (the plasmode checkpoint)
 MARGIN = 0.02
 DELTA = 0.05
 
@@ -133,7 +134,8 @@ def build_policy(a, backend, pool):
     reward = LagrangianReward(SequenceClassifierReward(RM), [(refusal, "benign")], names=["refusal"],
                               lam0=5.0, eta=100.0, lam_max=50.0, lam_floor=5.0)
     d_c = training_records(pool, a.n_adv, a.n_ben)
-    d_s = [dict(prompt=it["prompt"], group="benign", task="c1", i=it["i"]) for it in pool]
+    from seldonian.llm.data import make_record
+    d_s = [dict(make_record(it["prompt"], "benign", "c1"), i=it["i"]) for it in pool]
     policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=reward, constraints=[c], delta=DELTA,
                                 predict_every=a.predict_every, predict_n=a.predict_n, seed=a.seed)
     print(f"reference refusal rate {ref_rate:.4f} on {n_ref} prompts -> threshold {c.threshold:.4f}; "
@@ -158,8 +160,9 @@ def run_training(a, steps, ckpts, cand, tag):
         def both(step):
             on_step(step)
             if step in ckpts:
-                print(f"step {step}: sampling the pool, {time.time() - t0:.0f}s in", flush=True)
-                gen013.generate_state(backend, pools, step, {"cand": cand}, path)
+                k = ckpts[step] or cand
+                print(f"step {step}: sampling the pool x{k}, {time.time() - t0:.0f}s in", flush=True)
+                gen013.generate_state(backend, pools, step, {"cand": k}, path)
         return orig_train(records, rw, both)
 
     backend.train = train_with_sampling
@@ -182,7 +185,7 @@ def run_training(a, steps, ckpts, cand, tag):
 
 def stage_pilot(a):
     a.limit = 100
-    run_training(a, 20, (20,), 4, "pilot")
+    run_training(a, 20, {20: 4}, 4, "pilot")
 
 
 def stage_train(a):
