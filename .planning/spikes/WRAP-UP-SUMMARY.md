@@ -115,3 +115,28 @@ claim in itself.
 **Open (not spiked):** 004, logging per-completion residuals and lambda in the LLM backend
 to check whether the synthetic conclusions transfer; and whether a positive-only bonus
 drives a value head towards pessimism, which this testbed's fixed-feature critic cannot show.
+
+## Wrap-up 2026-09-30 (spikes 015-017)
+
+**Spikes processed:** 3
+**Feature areas:** prompted constraints, sentence to certified g_hat (one new reference)
+**Skill output:** `./.claude/skills/spike-findings-seldonian-fairness/` (1 new reference,
+SKILL.md updated, sources for 015-017)
+
+| # | Name | Type | Verdict | Feature Area |
+|---|------|------|---------|--------------|
+| 015 | prompted-judge-fidelity | standard | PARTIAL | Prompted constraints |
+| 016 | prompt-to-spec-compile | standard | PARTIAL | Prompted constraints |
+| 017 | calibration-carrying-certificate | standard | PARTIAL | Prompted constraints |
+
+### Key findings
+- A compiled judge ranks responses well and labels them badly; a verifiable property must
+  compile to code. Its false alarms fall on refusals, the opposite of the guard's.
+- The deterministic half of the compiler is exact; the LLM half works only behind a flat
+  registry, lints and a second compile, and "relative to the reference" is three different
+  certificates.
+- The certificate is gold labels on the responses being certified with the judge as a
+  variance reducer: PPI++ on the logit with a bootstrap-t limit, or Clopper-Pearson on the
+  labels below 10 in the rarer class. Normal limits, finite-sample judge-assisted bounds
+  and carried calibrations all failed one way or another. The human sheet is stratified and
+  must be weighted.

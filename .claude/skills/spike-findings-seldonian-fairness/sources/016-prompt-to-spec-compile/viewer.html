@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spike 016: sentence to constraint</title>
+<style>
+:root {
+  --bg: #f7f6f2; --panel: #ffffff; --ink: #1d1f24; --muted: #646a76; --line: #dcdad2;
+  --good: #1f7a4d; --good-bg: #e2f3ea; --mid: #8a6100; --mid-bg: #fbf0d2;
+  --bad: #a8322a; --bad-bg: #fbe3e0; --ask: #2b5ea8; --ask-bg: #e1ebfa; --code: #f0eee8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15171b; --panel: #1e2126; --ink: #e8e6e0; --muted: #9aa0ab; --line: #32363d;
+    --good: #6fd09b; --good-bg: #163524; --mid: #e3bd5c; --mid-bg: #3a2f10;
+    --bad: #f08a80; --bad-bg: #421a17; --ask: #8fb6f2; --ask-bg: #172a47; --code: #262a31;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+       font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+p.lede { color: var(--muted); margin: 0 0 20px; max-width: 70ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+            padding: 12px 14px; background: var(--panel); border: 1px solid var(--line);
+            border-radius: 10px; position: sticky; top: 8px; z-index: 2; }
+.controls label { font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+select { font: inherit; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line);
+         background: var(--bg); color: var(--ink); }
+.tally { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;
+         margin: 16px 0; }
+.tile { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.tile b { font-size: 22px; display: block; font-variant-numeric: tabular-nums; }
+.tile span { font-size: 12px; color: var(--muted); }
+.item { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+        padding: 14px 16px; margin: 12px 0; }
+.item h2 { font-size: 15px; margin: 0 0 2px; font-weight: 600; }
+.meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.gold { font-size: 12px; color: var(--muted); margin: 6px 0 10px; }
+.arms { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px; }
+.arm { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; min-width: 0; }
+.arm .head { display: flex; justify-content: space-between; align-items: center; gap: 8px;
+             font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+code, .dsl { font: 12.5px/1.45 ui-monospace, "SF Mono", Consolas, monospace; }
+.dsl { background: var(--code); border-radius: 6px; padding: 6px 8px; overflow-x: auto;
+       white-space: pre-wrap; word-break: break-word; }
+.eng { font-size: 13px; margin-top: 6px; color: var(--ink); }
+.badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+.same_g { color: var(--good); background: var(--good-bg); }
+.same_point { color: var(--mid); background: var(--mid-bg); }
+.wrong, .fail, .invented { color: var(--bad); background: var(--bad-bg); }
+.ask, .asked { color: var(--ask); background: var(--ask-bg); }
+.empty { color: var(--muted); padding: 24px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+<h1>Spike 016: from a sentence to a constraint</h1>
+<p class="lede">Each card is one requirement in English. Under it, what each arm of the compiler
+wrote: the constraint line, and the English restatement a developer would be asked to confirm.
+The badge scores the line against the gold constraint by what it computes on cached responses.</p>
+<div class="controls">
+  <label>Prompt <select id="ver"></select></label>
+  <label>Set <select id="set"></select></label>
+  <label>Show <select id="lvl">
+    <option value="">every item</option>
+    <option value="wrong">items with a silent error</option>
+    <option value="split">items where arms disagree</option>
+  </select></label>
+  <span id="count" style="font-size:13px;color:var(--muted)"></span>
+</div>
+<div class="tally" id="tally"></div>
+<div id="list"></div>
+</main>
+<script src="viewer_data.js"></script>
+<script>
+const LABEL = {same_g: "same certificate", same_point: "same requirement, other bound",
+               wrong: "silent error", fail: "no valid spec", ask: "asked", asked: "asked (right)",
+               invented: "invented a limit"};
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;"}[c]));
+function fill(sel, vals, names) {
+  sel.innerHTML = vals.map(v => `<option value="${v}">${esc(names?.[v] ?? v)}</option>`).join("");
+}
+const versions = Object.keys(DATA.rows);
+fill($("ver"), versions, DATA.versions);
+function sets() {
+  const s = [...new Set(DATA.rows[$("ver").value].map(r => r.set))];
+  fill($("set"), [""].concat(s), {"": "all sets"});
+}
+function render() {
+  const rows = DATA.rows[$("ver").value].filter(r => !$("set").value || r.set === $("set").value);
+  const arms = [...new Set(rows.map(r => r.arm))];
+  const items = new Map();
+  for (const r of rows) {
+    const k = `${r.set}|${r.key}|${r.wording}`;
+    if (!items.has(k)) items.set(k, {set: r.set, key: r.key, wording: r.wording, text: r.text,
+                                     fidelity: r.fidelity, arms: {}});
+    items.get(k).arms[r.arm] = r;
+  }
+  let list = [...items.values()];
+  const mode = $("lvl").value;
+  if (mode === "wrong") list = list.filter(it => Object.values(it.arms).some(r => ["wrong", "invented"].includes(r.level)));
+  if (mode === "split") list = list.filter(it => new Set(Object.values(it.arms).map(r => r.dsl || r.level)).size > 1);
+  $("tally").innerHTML = arms.map(a => {
+    const rs = rows.filter(r => r.arm === a);
+    const good = rs.filter(r => ["same_g", "asked"].includes(r.level)).length;
+    const bad = rs.filter(r => ["wrong", "invented"].includes(r.level)).length;
+    return `<div class="tile"><b>${good}/${rs.length}</b><span>${esc(a)}: as wanted, ${bad} silent</span></div>`;
+  }).join("");
+  $("count").textContent = `${list.length} item${list.length === 1 ? "" : "s"}`;
+  $("list").innerHTML = list.length ? list.map(it => `
+    <div class="item">
+      <h2>${esc(it.text)}</h2>
+      <div class="meta">${esc(it.set)} · ${esc(it.key)}${it.set === "main" ? ` · wording ${it.wording}${it.wording ? ` (paraphrase, audited ${esc(it.fidelity)})` : " (canonical)"}` : ""}</div>
+      ${DATA.gold[it.key] ? `<div class="gold">gold: <code>${esc(DATA.gold[it.key])}</code></div>` : ""}
+      <div class="arms">${arms.map(a => { const r = it.arms[a]; if (!r) return ""; return `
+        <div class="arm">
+          <div class="head"><span>${esc(a)}${r.repaired ? " · after a repair turn" : ""}</span>
+            <span class="badge ${r.level}">${esc(LABEL[r.level] || r.level)}</span></div>
+          ${r.dsl ? `<div class="dsl">${esc(r.dsl)}</div><div class="eng">${esc(r.english)}</div>`
+                  : r.question ? `<div class="eng">Asked: ${esc(r.question)}</div>`
+                  : `<div class="eng">Rejected: ${esc(r.error2 || r.error1)}</div>`}
+        </div>`; }).join("")}</div>
+    </div>`).join("") : `<div class="empty">Nothing matches.</div>`;
+}
+$("ver").onchange = () => { sets(); render(); };
+$("set").onchange = render;
+$("lvl").onchange = render;
+sets(); render();
+</script>
+</body>
+</html>

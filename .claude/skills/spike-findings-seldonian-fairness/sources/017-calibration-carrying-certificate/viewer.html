@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spike 017: certificate explorer</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f3ef; --surface-1: #fcfcfb; --text-primary: #0b0b0b; --text-secondary: #52514e;
+  --text-muted: #7a7972; --grid: #e6e4de; --line: #dcdad2;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #eda100;
+  --good: #0ca30c; --critical: #d03b3b; --wash: #eaf2fc;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --bg: #121211; --surface-1: #1a1a19; --text-primary: #ffffff; --text-secondary: #c3c2b7;
+    --text-muted: #8f8e85; --grid: #2b2b29; --line: #383835;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500;
+    --good: #0ca30c; --critical: #d03b3b; --wash: #15253a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121211; --surface-1: #1a1a19; --text-primary: #ffffff; --text-secondary: #c3c2b7;
+  --text-muted: #8f8e85; --grid: #2b2b29; --line: #383835;
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500;
+  --good: #0ca30c; --critical: #d03b3b; --wash: #15253a;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text-primary);
+       font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1040px; margin: 0 auto; padding: 24px 16px 72px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 36px 0 4px; }
+p.lede, p.note { color: var(--text-secondary); margin: 0 0 16px; max-width: 78ch; }
+p.note { font-size: 13px; margin-top: 8px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 12px 14px;
+            background: var(--surface-1); border: 1px solid var(--line); border-radius: 10px; }
+.controls label { font-size: 13px; color: var(--text-secondary); display: flex; gap: 6px; align-items: center; }
+select, input[type=number], button { font: inherit; padding: 4px 8px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--text-primary); }
+input[type=number] { width: 72px; }
+button { cursor: pointer; }
+button:hover { background: var(--wash); }
+.sentence { font-size: 14px; margin: 12px 2px; color: var(--text-secondary); }
+.sentence b { color: var(--text-primary); font-weight: 600; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.tile { background: var(--surface-1); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-width: 0; }
+.tile .label { font-size: 12px; color: var(--text-secondary); }
+.tile .value { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.tile .value.small { font-size: 15px; }
+.tile.hero .value { font-size: 48px; line-height: 1.1; }
+.tile .sub { font-size: 12px; color: var(--text-muted); }
+.status { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.status i { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center;
+            color: #fff; font-style: normal; font-size: 12px; }
+.status.good i { background: var(--good); } .status.bad i { background: var(--critical); }
+.card { background: var(--surface-1); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+.card h3 { font-size: 14px; margin: 0 0 2px; }
+.card .cap { font-size: 12px; color: var(--text-secondary); margin: 0 0 8px; }
+svg { display: block; width: 100%; min-width: 680px; height: auto; overflow: visible; }
+svg text { fill: var(--text-secondary); font: 12px system-ui, sans-serif; }
+svg text.strong { fill: var(--text-primary); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--text-secondary); margin: 4px 0 8px; }
+.legend span::before { content: ""; display: inline-block; width: 14px; height: 2px; margin-right: 6px;
+                       vertical-align: middle; background: var(--c); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 5px 10px 5px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--text-secondary); font-weight: 500; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.chosen td { font-weight: 600; }
+details { margin-top: 10px; } summary { cursor: pointer; font-size: 13px; color: var(--text-secondary); }
+.scroll { overflow-x: auto; }
+#tip { position: fixed; pointer-events: none; background: var(--surface-1); border: 1px solid var(--line);
+       border-radius: 8px; padding: 6px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.18);
+       display: none; z-index: 5; max-width: 300px; }
+#tip b { font-size: 14px; display: block; color: var(--text-primary); }
+#tip span { color: var(--text-secondary); display: block; }
+</style>
+</head>
+<body>
+<main>
+<h1>Spike 017: what can this constraint certify?</h1>
+<p class="lede">A compiled constraint measures a rate through a judge. This page takes spike 015's real
+judge scores and a gold label on every response, hands the certificate only some of the gold labels, and
+shows the upper bound each route gives at 95% confidence. The route is picked by a rule fixed in advance,
+never by which bound came out smaller.</p>
+
+<div class="controls" id="controls">
+  <label>Constraint <select id="task"><option value="refusal">refusal (semantic)</option>
+    <option value="brevity">brevity (verifiable)</option></select></label>
+  <label>Wording <select id="wording"></select></label>
+  <label>Judge feature <select id="feat"><option value="logit">logit of p</option>
+    <option value="p">p</option><option value="f01">0/1 label (p &gt; 0.5)</option></select></label>
+  <label>Gold labels <input type="range" id="n" min="30" max="400" step="5" value="225">
+    <output id="nout">225</output></label>
+  <label>Threshold <input type="number" id="tau" min="0" max="1" step="0.01" value="0.25"></label>
+  <button id="draw" type="button">Draw new labels</button>
+</div>
+<p class="sentence" id="sentence"></p>
+
+<div class="tiles" id="tiles"></div>
+
+<div class="card">
+  <h3>Upper bound on the true rate, by route</h3>
+  <p class="cap" id="cap1"></p>
+  <div class="scroll"><svg id="chart1" role="img" aria-label="Estimate and upper bound for each route"></svg></div>
+  <details><summary>Table view</summary><div class="scroll"><table id="table1"></table></div></details>
+</div>
+<p class="note" id="note1"></p>
+
+<h2>Harm: what the 225 human labels can certify</h2>
+<p class="lede">The human sheet is a stratified sample of 4,800 screened responses with 3 positives.
+The rule sends it to the labels, weighted by the sampling design. A calibration carried from another
+population is refused below 30 human positives; the chart shows why.</p>
+<div class="tiles" id="harmtiles"></div>
+<div class="card">
+  <h3>Bound from a carried calibration, by number of human positives</h3>
+  <p class="cap">Median upper bound on a candidate whose true harm rate is 0, with 2,000 judged responses
+  and 222 human negatives. Best case: the judge behaves the same on the candidate as on the sheet.</p>
+  <div class="legend" id="legend2"></div>
+  <div class="scroll"><svg id="chart2" role="img" aria-label="Median carried bound against number of human positives"></svg></div>
+  <details><summary>Table view</summary><div class="scroll"><table id="table2"></table></div></details>
+</div>
+<div class="card">
+  <h3>Every route on the real sheet, and on sheets re-drawn with planted labels</h3>
+  <p class="cap">Canonical wording, 0/1 judge. Miss is the share of re-drawn sheets whose bound fell below
+  the planted rate; the target is at most 0.05.</p>
+  <div class="scroll"><table id="table3"></table></div>
+</div>
+</main>
+<div id="tip"></div>
+
+<script src="viewer_data.js"></script>
+<script>
+"use strict";
+const D = window.DATA, DELTA = 0.05, Z = 1.6448536269514722, NS = "http://www.w3.org/2000/svg";
+const $ = id => document.getElementById(id);
+const fmt = (x, d = 3) => (x === null || x === undefined || Number.isNaN(x)) ? "n/a" : x.toFixed(d);
+let seed = 2026;
+
+function rngFrom(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function gauss(r) { let u = 0; while (u === 0) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); }
+const mean = a => a.reduce((s, v) => s + v, 0) / a.length;
+function variance(a) { const m = mean(a); return a.reduce((s, v) => s + (v - m) * (v - m), 0) / (a.length - 1); }
+function lgamma(x) { const g = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155,
+  0.1208650973866179e-2, -0.5395239384953e-5]; let y = x, t = x + 5.5; t -= (x + 0.5) * Math.log(t);
+  let s = 1.000000000190015; for (const c of g) s += c / ++y; return -t + Math.log(2.5066282746310005 * s / x); }
+function binomCdf(k, n, p) { if (p <= 0) return 1; if (p >= 1) return k >= n ? 1 : 0; let s = 0;
+  for (let i = 0; i <= k; i++) s += Math.exp(lgamma(n + 1) - lgamma(i + 1) - lgamma(n - i + 1)
+    + i * Math.log(p) + (n - i) * Math.log(1 - p)); return Math.min(s, 1); }
+function cpUpper(k, n, d) { if (k >= n) return 1; let lo = k / n, hi = 1;
+  for (let i = 0; i < 50; i++) { const m = (lo + hi) / 2; if (binomCdf(k, n, m) > d) lo = m; else hi = m; } return hi; }
+function feature(p, kind) { if (kind === "f01") return p > 0.5 ? 1 : 0; if (kind === "p") return p;
+  const e = Math.exp(-11.5) / (1 + Math.exp(-11.5)); const q = Math.min(Math.max(p, e), 1 - e);
+  return (Math.log(q / (1 - q)) + 11.5) / 23; }
+function ppi(y, fl, fbarU, varFu, nu) {
+  const n = y.length, ym = mean(y), fm = mean(fl);
+  let cov = 0; for (let i = 0; i < n; i++) cov += (y[i] - ym) * (fl[i] - fm); cov /= (n - 1);
+  const lam = varFu > 0 ? cov / ((1 + n / nu) * varFu) : 0;
+  const d = y.map((v, i) => v - lam * fl[i]);
+  return { est: ym + lam * (fbarU - fm), v: variance(d) / n + lam * lam * varFu / nu, lam };
+}
+function bootT(y, fl, fu, r, B = 400) {
+  const n = y.length, nu = fu.length, fbarU = mean(fu), varFu = variance(fu), base = ppi(y, fl, fbarU, varFu, nu);
+  const t = [];
+  for (let b = 0; b < B; b++) {
+    const ys = new Array(n), fs = new Array(n);
+    for (let i = 0; i < n; i++) { const j = Math.floor(r() * n); ys[i] = y[j]; fs[i] = fl[j]; }
+    const q = ppi(ys, fs, fbarU + Math.sqrt(varFu / nu) * gauss(r), varFu, nu);
+    t.push(q.v > 0 ? (q.est - base.est) / Math.sqrt(q.v) : (q.est < base.est ? -Infinity : Infinity));
+  }
+  t.sort((a, b) => a - b);
+  const q = t[Math.max(0, Math.floor(DELTA * (B - 1)))];
+  return Object.assign(base, { upper: Number.isFinite(q) ? Math.min(1, base.est - q * Math.sqrt(base.v)) : 1 });
+}
+function plasmodeMiss(task, variant, w, n, method, feat) {
+  let best = null;
+  for (const r of D.plasmode) if (r.task === task && r.variant === variant && r.wording === w &&
+      r.method === method && r.feat === feat && (best === null || Math.abs(r.n - n) < Math.abs(best.n - n))) best = r;
+  return best;
+}
+function el(tag, attrs, text) { const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]); if (text !== undefined) e.textContent = text; return e; }
+function tip(ev, title, lines) { const t = $("tip"); t.replaceChildren();
+  const b = document.createElement("b"); b.textContent = title; t.appendChild(b);
+  for (const l of lines) { const s = document.createElement("span"); s.textContent = l; t.appendChild(s); }
+  t.style.display = "block"; const x = Math.min(ev.clientX + 14, window.innerWidth - 310);
+  t.style.left = x + "px"; t.style.top = (ev.clientY + 14) + "px"; }
+function hideTip() { $("tip").style.display = "none"; }
+function tile(parent, label, value, sub, cls) { const d = document.createElement("div"); d.className = "tile " + (cls || "");
+  const l = document.createElement("div"); l.className = "label"; l.textContent = label; d.appendChild(l);
+  const v = document.createElement("div"); v.className = "value"; if (value instanceof Node) v.appendChild(value); else v.textContent = value;
+  if (typeof value === "string" && value.length > 14) v.classList.add("small"); d.appendChild(v);
+  if (sub) { const s = document.createElement("div"); s.className = "sub"; s.textContent = sub; d.appendChild(s); }
+  parent.appendChild(d); }
+function status(ok, yes, no) { const s = document.createElement("span"); s.className = "status " + (ok ? "good" : "bad");
+  const i = document.createElement("i"); i.textContent = ok ? "✓" : "✕"; s.appendChild(i);
+  s.appendChild(document.createTextNode(ok ? yes : no)); return s; }
+function table(id, head, rows, chosen) { const t = $(id); t.replaceChildren(); const tr = document.createElement("tr");
+  head.forEach((h, i) => { const th = document.createElement("th"); th.textContent = h; if (i) th.className = "num"; tr.appendChild(th); });
+  t.appendChild(tr);
+  rows.forEach((r, ri) => { const row = document.createElement("tr"); if (ri === chosen) row.className = "chosen";
+    r.forEach((c, i) => { const td = document.createElement("td"); td.textContent = c; if (i) td.className = "num"; row.appendChild(td); });
+    t.appendChild(row); }); }
+
+function fillWordings() {
+  const task = $("task").value, sel = $("wording"); sel.replaceChildren();
+  for (let w = 0; w < 6; w++) { const o = document.createElement("option"); o.value = "rubric|" + w;
+    o.textContent = w === 0 ? "rubric 0 (canonical)" : "rubric " + w + " (paraphrase)"; sel.appendChild(o); }
+  const o = document.createElement("option"); o.value = "raw|0"; o.textContent = "bare sentence, no rubric"; sel.appendChild(o);
+  $("tau").value = task === "refusal" ? 0.25 : 0.45;
+}
+
+function render() {
+  const task = $("task").value, [variant, ws] = $("wording").value.split("|"), w = +ws, kind = $("feat").value;
+  const n = +$("n").value, tau = +$("tau").value; $("nout").textContent = n;
+  const pool = D.pools[task + "|" + variant + "|" + w], N = pool.y.length, r = rngFrom(seed);
+  const idx = pool.y.map((_, i) => i); for (let i = N - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  const lab = idx.slice(0, n), unl = idx.slice(n);
+  const y = lab.map(i => pool.y[i]), fl = lab.map(i => feature(pool.p[i], kind)), fu = unl.map(i => feature(pool.p[i], kind));
+  const truth = mean(pool.y), k = y.reduce((s, v) => s + v, 0);
+  const f01all = pool.p.map(p => p > 0.5 ? 1 : 0), kj = f01all.reduce((s, v) => s + v, 0);
+  const cl = cpUpper(k, n, DELTA), p0 = ppi(y, fl, mean(fu), variance(fu), fu.length), bt = bootT(y, fl, fu, rngFrom(seed + 7));
+  const verifiable = task === "brevity";
+  const routes = [
+    { key: "naive", name: "Judge alone (0/1 label, all " + N + ")", est: kj / N, upper: cpUpper(kj, N, DELTA), m: ["naive", "f01"] },
+    { key: "labels", name: "Gold labels alone, exact (" + n + ")", est: k / n, upper: cl, m: ["classical", "-"] },
+    { key: "normal", name: "PPI++, normal limit", est: p0.est, upper: Math.min(1, p0.est + Z * Math.sqrt(p0.v)), m: ["ppi++", kind] },
+    { key: "boot", name: "PPI++, bootstrap-t limit", est: bt.est, upper: bt.upper, m: ["boot", kind] }];
+  if (verifiable) { const kt = pool.y.reduce((s, v) => s + v, 0);
+    routes.unshift({ key: "code", name: "Word count by code, exact (all " + N + ")", est: kt / N, upper: cpUpper(kt, N, DELTA), m: null }); }
+  const rare = Math.min(k, n - k) < D.k0;
+  const chosenKey = verifiable ? "code" : (rare ? "labels" : "boot");
+  const ci = routes.findIndex(q => q.key === chosenKey), ch = routes[ci];
+  for (const q of routes) q.pm = q.m ? plasmodeMiss(task, variant, w, n, q.m[0], q.m[1]) : null;
+
+  const text = variant === "raw" ? D.text[task][0] : D.text[task][w];
+  const s = $("sentence"); s.replaceChildren(); const b = document.createElement("b"); b.textContent = "The constraint as written: ";
+  s.appendChild(b); s.appendChild(document.createTextNode("“" + text + "” Gold label: " +
+    (task === "refusal" ? "Qwen3Guard-4B's refusal field, standing in for a human." : "more than 80 words, counted by code.")));
+
+  const tiles = $("tiles"); tiles.replaceChildren();
+  tile(tiles, "Upper bound on the true rate", fmt(ch.upper), "true rate of all " + N + ": " + fmt(truth), "hero");
+  tile(tiles, "Threshold " + fmt(tau, 2), status(ch.upper <= tau, "certified", "not certified"), "smallest threshold this data certifies: " + fmt(ch.upper));
+  tile(tiles, "Route chosen by the rule", verifiable ? "deterministic feature" : (rare ? "labels only" : "PPI++, bootstrap-t"),
+    verifiable ? "verifiable property: code, no judge, no labels" : (rare ? "fewer than " + D.k0 + " labels in the rarer class" : k + " positives among " + n + " labels"));
+  if (!verifiable && !rare) {
+    const worth = Math.pow((cl - k / n) / Math.max(bt.upper - bt.est, 1e-9), 2) * n;
+    tile(tiles, "The judge is worth", Math.round(worth) + " labels", "against the " + n + " spent; λ = " + fmt(bt.lam, 2));
+    const d = y.map((v, i) => v - (lab.map(j => f01all[j]))[i]), rect = mean(d), margin = Z * Math.sqrt(variance(d) / n);
+    tile(tiles, "Same test on the judged rate", "≤ " + fmt(tau - rect - margin), "0/1 judge: threshold " + fmt(tau, 2) + " moves by " + (rect >= 0 ? "−" : "+") + fmt(Math.abs(rect)) + " and a margin of " + fmt(margin));
+  } else { tile(tiles, "Labels used by the route", verifiable ? "0" : String(n), verifiable ? "every response is measured" : "the judge is not used"); }
+  tile(tiles, "Judged rate, uncorrected", fmt(kj / N), "what the constraint would report with no correction");
+
+  // chart
+  const svg = $("chart1"); svg.replaceChildren(); const W = 960, rowH = 40, left = 300, right = 150, top = 28;
+  const H = top + routes.length * rowH + 34; svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  const xmax = Math.min(1, Math.max(tau, truth, ...routes.map(q => q.upper)) * 1.12), X = v => left + (W - left - right) * Math.min(v, xmax) / xmax;
+  const step = xmax > 0.6 ? 0.2 : xmax > 0.3 ? 0.1 : 0.05;
+  for (let v = 0; v <= xmax + 1e-9; v += step) { svg.appendChild(el("line", { x1: X(v), x2: X(v), y1: top, y2: H - 30, stroke: "var(--grid)" }));
+    svg.appendChild(el("text", { x: X(v), y: H - 12, "text-anchor": "middle" }, v.toFixed(2))); }
+  const ref = (v, label, up) => { svg.appendChild(el("line", { x1: X(v), x2: X(v), y1: top - 6, y2: H - 30, stroke: "var(--text-secondary)", "stroke-width": 1 }));
+    svg.appendChild(el("text", { x: X(v), y: up ? 10 : 22, "text-anchor": "middle", class: "strong" }, label + " " + fmt(v, 3))); };
+  ref(truth, "true rate", true); ref(tau, "threshold", false);
+  routes.forEach((q, i) => { const yy = top + i * rowH + rowH / 2;
+    svg.appendChild(el("text", { x: left - 12, y: yy + 4, "text-anchor": "end", class: i === ci ? "strong" : "" }, q.name));
+    svg.appendChild(el("line", { x1: X(q.est), x2: X(q.upper), y1: yy, y2: yy, stroke: "var(--series-1)", "stroke-width": i === ci ? 6 : 2, "stroke-linecap": "round" }));
+    svg.appendChild(el("circle", { cx: X(q.est), cy: yy, r: 5, fill: "var(--series-1)", stroke: "var(--surface-1)", "stroke-width": 2 }));
+    svg.appendChild(el("line", { x1: X(q.upper), x2: X(q.upper), y1: yy - 8, y2: yy + 8, stroke: "var(--series-1)", "stroke-width": 2 }));
+    svg.appendChild(el("text", { x: W - right + 12, y: yy + 4, class: i === ci ? "strong" : "" }, fmt(q.upper) + (i === ci ? "  chosen" : "")));
+    const hit = el("rect", { x: 0, y: yy - rowH / 2, width: W, height: rowH, fill: "transparent", tabindex: 0 });
+    const show = ev => tip(ev.clientX ? ev : { clientX: 320, clientY: svg.getBoundingClientRect().top + yy }, fmt(q.upper) + " upper bound",
+      [q.name, "estimate " + fmt(q.est), q.upper < truth ? "below the true rate: this bound is wrong here" : "covers the true rate",
+       q.pm ? "misses in " + (100 * q.pm.miss).toFixed(1) + "% of 4,000 draws at n = " + q.pm.n : "exact on every response"]);
+    hit.addEventListener("pointermove", show); hit.addEventListener("focus", show);
+    hit.addEventListener("pointerleave", hideTip); hit.addEventListener("blur", hideTip); svg.appendChild(hit); });
+  $("cap1").textContent = "Dot: estimate. Bar end: 95% upper bound. The thick bar is the route the rule chose. N = " + N + " scored, " + n + " with a gold label.";
+  table("table1", ["Route", "Estimate", "Upper bound", "Covers the true rate here", "Miss rate over 4,000 draws (target 0.05)"],
+    routes.map(q => [q.name, fmt(q.est), fmt(q.upper), q.upper >= truth ? "yes" : "no", q.pm ? fmt(q.pm.miss) + " at n = " + q.pm.n : "exact"]), ci);
+  const nv = routes.find(q => q.key === "normal"), nvpm = nv.pm;
+  $("note1").textContent = verifiable
+    ? "Brevity is decidable by counting, so the compiled judge is never consulted. Its scores carry no information about the count here (try the other routes: PPI++ sets λ near 0 and returns the labels-alone answer)."
+    : "The normal limit is the narrowest honest-looking bar and the one that fails: " + (nvpm ? "it missed in " + (100 * nvpm.miss).toFixed(1) + "% of draws at n = " + nvpm.n : "") +
+      ". The bootstrap-t limit keeps most of the gain and holds its level. Change the wording: the judged rate jumps, the certified estimate barely moves.";
+}
+
+function renderHarm() {
+  const real = D.harm.real.filter(r => r.wording === 0 && r.feat === "f01"), pl = D.harm.planted.filter(r => r.feat === "f01" && r.wording === 0);
+  const get = name => real.find(r => r.route === name), wl = get("weighted labels, b1w"), tiles = $("harmtiles");
+  tile(tiles, "Upper bound on the harm rate", fmt(wl.upper), "design-weighted labels, stratified score bound", "hero");
+  tile(tiles, "Threshold 0.05", status(wl.upper <= 0.05, "certified", "not certified"), "for the 4,800 screened responses only");
+  tile(tiles, "Human labels", "225", "3 positive; worth about 131 equal-weight labels");
+  tile(tiles, "Judge used", "no", "rho² with the human label is 0.02");
+  tile(tiles, "Carried calibration", status(false, "", "refused"), "3 human positives; 30 needed");
+  const routes = ["sheet as i.i.d.", "weighted labels, normal", "weighted labels, b1w", "PPI as i.i.d.", "weighted PPI", "weighted PPI++"];
+  const names = { "sheet as i.i.d.": "Sheet read as an i.i.d. sample", "weighted labels, normal": "Design-weighted labels, normal limit",
+    "weighted labels, b1w": "Design-weighted labels, stratified score bound", "PPI as i.i.d.": "PPI, sheet read as i.i.d.",
+    "weighted PPI": "Design-weighted PPI", "weighted PPI++": "Design-weighted PPI++" };
+  const miss = (route, rate) => { const r = pl.find(q => q.route === route && q.rate === rate); return fmt(r.miss) + " (" + fmt(r.bound) + ")"; };
+  table("table3", ["Route", "Real sheet: estimate", "Real sheet: upper bound", "Planted 0.013: miss (mean bound)", "Planted 0.05", "Planted 0.2"],
+    routes.map(r => [names[r], fmt(get(r).est, 4), fmt(get(r).upper, 4), miss(r, 0.013), miss(r, 0.05), miss(r, 0.2)]), 2);
+
+  const judges = [...new Set(D.carried.map(r => r.judge))], ks = [3, 10, 30, 100, 300], cols = ["--series-1", "--series-2", "--series-3", "--series-4"];
+  const lg = $("legend2"); judges.forEach((j, i) => { const s = document.createElement("span"); s.style.setProperty("--c", "var(" + cols[i] + ")"); s.textContent = j; lg.appendChild(s); });
+  const svg = $("chart2"), W = 960, H = 320, L = 56, R = 190, T = 16, B = 40; svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  const X = i => L + (W - L - R) * i / (ks.length - 1), Y = v => T + (H - T - B) * (1 - v);
+  for (const v of [0, 0.25, 0.5, 0.75, 1]) { svg.appendChild(el("line", { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: "var(--grid)" }));
+    svg.appendChild(el("text", { x: L - 8, y: Y(v) + 4, "text-anchor": "end" }, v.toFixed(2))); }
+  ks.forEach((k, i) => svg.appendChild(el("text", { x: X(i), y: H - 16, "text-anchor": "middle" }, k + " positives")));
+  svg.appendChild(el("line", { x1: L, x2: W - R, y1: Y(0.05), y2: Y(0.05), stroke: "var(--text-secondary)" }));
+  svg.appendChild(el("text", { x: (X(3) + X(4)) / 2, y: Y(0.05) - 6, "text-anchor": "middle", class: "strong" }, "threshold 0.05"));
+  const series = judges.map(j => ks.map(k => D.carried.find(r => r.judge === j && r.k === k && r.rate === 0)));
+  let placed = [];
+  series.forEach((s, i) => { const c = "var(" + cols[i] + ")";
+    svg.appendChild(el("path", { d: s.map((r, m) => (m ? "L" : "M") + X(m) + " " + Y(r.median)).join(" "), fill: "none", stroke: c, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    s.forEach((r, m) => svg.appendChild(el("circle", { cx: X(m), cy: Y(r.median), r: 4, fill: c, stroke: "var(--surface-1)", "stroke-width": 2 })));
+    const ye = Y(s[s.length - 1].median); if (placed.every(p => Math.abs(p - ye) > 14)) { placed.push(ye);
+      svg.appendChild(el("text", { x: X(ks.length - 1) + 12, y: ye + 4 }, judges[i] + "  " + fmt(s[s.length - 1].median))); } });
+  const cross = el("line", { y1: T, y2: H - B, stroke: "var(--text-secondary)", visibility: "hidden" }); svg.appendChild(cross);
+  const hit = el("rect", { x: L - 20, y: T, width: W - L - R + 40, height: H - T - B, fill: "transparent" });
+  hit.addEventListener("pointermove", ev => { const bb = svg.getBoundingClientRect(), x = (ev.clientX - bb.left) * W / bb.width;
+    const i = Math.max(0, Math.min(ks.length - 1, Math.round((x - L) / ((W - L - R) / (ks.length - 1)))));
+    cross.setAttribute("x1", X(i)); cross.setAttribute("x2", X(i)); cross.setAttribute("visibility", "visible");
+    tip(ev, ks[i] + " human positives", judges.map((j, m) => fmt(series[m][i].median) + "  " + j + " (certifies 0.05 in " + Math.round(100 * series[m][i].certify05) + "% of draws)")); });
+  hit.addEventListener("pointerleave", () => { cross.setAttribute("visibility", "hidden"); hideTip(); }); svg.appendChild(hit);
+  table("table2", ["Judge"].concat(ks.map(k => k + " positives")), judges.map((j, m) => [j].concat(series[m].map(r => fmt(r.median) + " (" + Math.round(100 * r.certify05) + "%)"))));
+}
+
+$("task").addEventListener("change", () => { fillWordings(); render(); });
+for (const id of ["wording", "feat", "n", "tau"]) $(id).addEventListener("input", render);
+$("draw").addEventListener("click", () => { seed += 1; render(); });
+fillWordings();
+// optional state in the hash, e.g. viewer.html#task=brevity&n=100&theme=dark
+for (const kv of location.hash.slice(1).split("&")) { const [k, v] = kv.split("=");
+  if (k === "theme") document.documentElement.dataset.theme = v;
+  else if (k === "task") { $("task").value = v; fillWordings(); }
+  else if (k === "seed") seed = +v;
+  else if (k && $(k)) $(k).value = decodeURIComponent(v); }
+render(); renderHarm();
+</script>
+</body>
+</html>
