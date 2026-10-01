@@ -8,6 +8,8 @@ gold label (Qwen3Guard-4B's refusal field) known on both sides:
 
 - ``source``   xstest <-> orbench, inside 013's over-refusal pool at step 0 (015's scores);
 - ``training`` the over-refusal pool at step 0 -> the same prompts after 200 GRPO steps;
+- ``training, constrained`` (E8, 2026-10-01) step 0 -> spike 014's checkpoints at steps 100
+  and 200, where ``LagrangianReward`` drove the refusal label;
 - ``pool``     over-refusal prompts (rate 0.20) <-> plain harmful prompts (rate 0.65).
 
 For every shift and refusal wording: recall and false-alarm rate on both sides with a Fisher
@@ -94,7 +96,12 @@ def main():
               ("source: orbench -> xstest", lambda w: (sub(("c1_0", w), "orbench"), sub(("c1_0", w), "xstest"))),
               ("training: step 0 -> step 200", lambda w: (full(("c1_0", w)), full(("c1_200", w)))),
               ("pool: over-refusal -> harmful", lambda w: (full(("c1_0", w)), full(("c3_0", w)))),
-              ("pool: harmful -> over-refusal", lambda w: (full(("c3_0", w)), full(("c1_0", w))))]
+              ("pool: harmful -> over-refusal", lambda w: (full(("c3_0", w)), full(("c1_0", w)))),
+              # E8 (2026-10-01): spike 014's Lagrangian-constrained checkpoints, same prompts and ids
+              ("training, constrained (014): step 0 -> step 100", lambda w: (full(("c1_0", w)), full(("c1_014_100", w)))),
+              ("training, constrained (014): step 0 -> step 200", lambda w: (full(("c1_0", w)), full(("c1_014_200", w))))]
+    shifts = [(n, f) for n, f in shifts if all(k in d for k in (("c1_0", 0),)) and
+              (not n.startswith("training, constrained") or (f"c1_014_{n[-3:]}", 0) in d)]
     L = ["# Spike 017, stage E: carrying a calibration across populations", "",
          "Compiled refusal judge (015's rubrics, label = p > 0.5), gold = Qwen3Guard-4B's refusal "
          "field. Rates with 90% Clopper-Pearson intervals. `p(same)` = Fisher exact test that "

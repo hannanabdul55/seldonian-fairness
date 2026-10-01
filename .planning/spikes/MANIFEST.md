@@ -180,7 +180,11 @@ question is this measurement, but proprietary and unmeasured on safety.
   with the judge as a variance reducer. A calibration measured elsewhere is not carried across
   prompt populations: the compiled refusal judge's recall differed between prompt sources in
   4 of 6 wordings and a carried Youden bound missed in up to 94% of draws (017). Across 200
-  training steps on the same prompts it held, in one run where the rate barely moved.
+  training steps on the same prompts it held only for side-effect training; when the
+  training targets the label (014's Lagrangian run) the compiled judge's recall on the
+  guard's refusals fell from 0.21 to 0.03 and the carried bound missed in 80% of draws, with
+  the rate back at the reference (017 E8). The constrained policy learns refusal-prefixed
+  answers, the form the two judges split on. Labels are taken on the policy being certified.
 - The route is fixed by the data's shape before any bound is computed (017): a verifiable
   property is measured by code on every response; with fewer than 10 labels in the rarer class
   the bound is Clopper-Pearson on the labels and the judge is unused; otherwise PPI++ with a

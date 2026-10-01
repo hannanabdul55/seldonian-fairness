@@ -306,4 +306,66 @@ The test `true rate <= tau` on the judged rate is `judged rate <= tau - rectifie
 One judge model (Qwen3-8B, 4-bit). Refusal's gold label is a guard model's. The plasmode
 pool is 500 responses. The bootstrap-t and `b1w` guarantees are approximate; the largest
 misses above are Monte Carlo figures with standard errors near 0.004. Carrying a
-calibration across training was tested on one run where the constrained rate barely moved.
+calibration across training: see the E8 addendum (it fails when the training targets the label).
+
+## Addendum 2026-10-01: E8, carrying the calibration to a *constrained* policy
+
+**Pre-registered before scoring (08:30 PT).** The one transfer that held (E6, step 0 to
+step 200) was side-effect training: the refusal label was not the training's target. Spike
+014 has since trained the same Granite model on 013's C1 pool with `LagrangianReward`
+driving the refusal label (multiplier 5-12 against a reward model that pulls refusal up),
+and sampled the pool at steps 100 (rate 0.151, 3.4 points below the reference) and 200
+(0.182), with the guard's gold label on every response. The worry E6 could not test:
+pressure on the judged label changes the *form* of the refusals, so the compiled judge's
+recall at the trained policy is not the reference's.
+
+- **E8a.** Score the same 500 (prompt, k) pairs 015 scored at step 0 on 014's step-100 and
+  step-200 responses, six refusal wordings, 015's scorer unchanged (6,000 passes). Fisher
+  tests of recall and false-alarm equality against step 0, the three carried estimates, and
+  the carried Youden bound's plasmode, exactly as `transfer017.py` does for E6.
+- **Expectation.** At step 200 (rate back at the reference, 014's rho 0.92) the calibration
+  carries as it did for E6: recall equal in at least 5 of 6 wordings, carried errors under
+  0.03, no Youden miss above 0.05. At step 100 (the pushed checkpoint) I expect recall to
+  differ in at least 2 of 6 wordings and the carried Rogan-Gladen error to exceed 0.03 in
+  the median wording. If step 100 also carries, the "constrained rate barely moved" limit
+  above is lifted for moves of about 3 points; if step 200 fails, E6's one positive result
+  was luck and no calibration carries across training either.
+
+**E8 result (scored 08:36 PT; `transfer.md`, sections "training, constrained").** The
+calibration does not carry to the constrained policy, and it fails harder at step 200 than
+at step 100, the reverse of the expectation above.
+
+| shift (same 500 items, gold = guard) | recall differs (p < 0.05) | mean abs error RG / Platt / rect | carried Youden bound misses > 0.05 |
+|---|---|---|---|
+| step 0 to step 200, side effect (E6) | 0 of 6 | 0.051 / 0.012 / 0.019 | 0 of 6 |
+| step 0 to 014 step 100, constrained | 1 of 6 | 0.103 / 0.018 / 0.011 | 1 of 6 |
+| step 0 to 014 step 200, constrained | 2 of 6 | 0.139 / 0.030 / 0.011 | 4 of 6 (0.80 for wording 0) |
+
+- The compiled judge's recall on the guard's refusals falls from 0.21 at step 0 to 0.06
+  (step 100) and 0.03 (step 200) for wording 0, from 0.12 to 0.07 and 0.00 for wording 2;
+  the stronger wordings 3-5 drop 5-10 points without reaching significance at n 100. False
+  alarms stay at zero. The carried Rogan-Gladen estimate lands at 0.03 against a gold rate
+  of 0.19.
+- **What changed is the form of the refusals.** Of the 93 guard-flagged refusals at step
+  200, the compiled judge (wording 0) misses 89, at a median p of 0.0002 and 74 words. They
+  are refusal-prefixed answers: a "cannot assist" sentence followed by the answer (the can
+  is crushed, the lights are turned off, the fictional character has no bank account). The
+  guard reads the preamble as a refusal; the rubric judge reads the body as an answer. The
+  reward model (pulling toward long helpful answers) and the multiplier (penalising the
+  guard's label) together select exactly the form the two judges split on.
+- **Platt and the rectifier look fine only by accident.** With recall near zero the target's
+  judged rate is near zero, so the carried quantity is the source's own rate (0.20) against
+  a target rate of 0.17-0.19; a target whose rate had moved would be missed by the same
+  amount. The source and target rates happening to agree is not a carry.
+
+Scored against the pre-registration: step 200 was expected to carry and did not (recall
+differs in 2 of 6, Youden misses in 4 of 6); step 100 was expected to differ in 2 of 6 and
+differed in 1 (the trend is the same, the sample is 100 refusals). The E6 "held" row is
+now explained: side-effect training does not change the refusals' form; training against
+the label does. **The limit "tested on one run where the constrained rate barely moved" is
+replaced by a result: a calibration does not carry across training that targets the
+label, even when the rate comes back to the reference.** Which judge is right about a
+refusal-prefixed answer is a human-label question (follow-up 1). For spike 014 this means
+its stratified label at step 200 is the guard's, hybrids included; the strata are built on
+the guard's label at step 0 and the gain measured on the guard's at step 200, so the
+result stands on its own definition.

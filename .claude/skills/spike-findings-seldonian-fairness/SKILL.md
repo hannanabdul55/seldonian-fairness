@@ -85,7 +85,8 @@ Spike sessions wrapped: 2026-09-21 (001, 002, 003a-c); 2026-09-28 (004-013); 202
     gold labels on the responses being certified plus the judge as a variance reducer:
     PPI++ on the judge's logit with a bootstrap-t limit above 10 labels in the rarer class,
     Clopper-Pearson below, code for verifiable properties. A calibration measured on another
-    prompt population does not carry.
+    prompt population does not carry, nor across training that targets the label (the
+    constrained policy's refusals change form; 017 E8 on 014's checkpoints).
 </context>
 
 <requirements>

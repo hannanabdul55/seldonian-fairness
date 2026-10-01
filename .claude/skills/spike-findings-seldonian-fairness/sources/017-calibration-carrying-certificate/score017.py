@@ -15,6 +15,7 @@ Rows are appended in chunks and the run resumes.
 
     ./run.sh                       # about 40 min GPU
     ./run.sh --sets ref_c1_200     # one set
+    ./run.sh --sets ref_c1_014_100,ref_c1_014_200   # E8 (2026-10-01): spike 014's constrained checkpoints, 10 min
 """
 import argparse
 import json
@@ -71,10 +72,33 @@ def pool013(pool, step, n=500, ids=None, seed=0):
     return rows[:n]
 
 
+def pool014(step, ids, tag="s0"):
+    """Spike 014's Lagrangian-constrained checkpoints on 013's C1 pool (E8), same ids as 015."""
+    src = os.path.join(REPO, "results", "spikes", "014")
+    pools = json.load(open(os.path.join(r15.GEN013, "pools.json")))
+    prompts = {r["i"]: r["plain"] for r in pools["C1"]}
+    sel = lambda r: r["step"] == step and r["role"] == "cand"  # noqa: E731
+    gen = {r["i"]: r for r in r15.read_jsonl(os.path.join(src, f"gen_{tag}.jsonl")) if sel(r)}
+    jud = {r["i"]: r for r in r15.read_jsonl(os.path.join(src, f"judged_{tag}.jsonl")) if sel(r)}
+    keep = set(ids)
+    rows = []
+    for i in sorted(gen):
+        for k in (0, 1):
+            if f"c1-{i}-{k}" not in keep:
+                continue
+            resp = gen[i]["responses"][k]
+            rows.append(dict(id=f"c1-{i}-{k}", request=prompts[i], response=resp,
+                             refusal=int(jud[i]["refusal"][k]), unsafe=int(jud[i]["unsafe"][k]),
+                             words=len(resp.split()), meta=gen[i]["meta"]))
+    return rows
+
+
 def sets():
     ids015 = sorted({r["id"] for r in r15.read_jsonl(os.path.join(r15.OUT, "scores.jsonl"))
                      if r["task"] == "refusal"})
     return {
+        "ref_c1_014_100": ("refusal", REF_WORDINGS, lambda: pool014(100, ids015)),
+        "ref_c1_014_200": ("refusal", REF_WORDINGS, lambda: pool014(200, ids015)),
         "ref_c1_200": ("refusal", REF_WORDINGS, lambda: pool013("C1", 200, ids=ids015)),
         "ref_c3_0": ("refusal", REF_WORDINGS, lambda: pool013("C3", 0)),
         "harm_pop": ("harm", HARM_WORDINGS, harm_pop),

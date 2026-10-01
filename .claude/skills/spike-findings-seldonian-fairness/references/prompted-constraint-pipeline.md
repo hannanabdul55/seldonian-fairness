@@ -54,7 +54,9 @@ From idea `prompted-ghat` (MANIFEST.md), the whole list:
 - The certificate on the developer's quantity is gold labels on the responses it certifies,
   with the judge as a variance reducer. A calibration measured elsewhere is not carried
   across prompt populations (017: recall differed in 4 of 6 wordings; a carried bound missed
-  in up to 94% of draws). Across 200 training steps on the same prompts it held, once.
+  in up to 94% of draws). Nor across training that targets the label (017 E8 on 014's
+  Lagrangian checkpoints: recall 0.21 to 0.03, the carried bound missed in 80% of draws with
+  the rate back at the reference); it held only for side-effect training.
 - The route is fixed by the data's shape before any bound is computed (017): verifiable
   property, code on every response; fewer than 10 labels in the rarer class, Clopper-Pearson
   on the labels with the judge unused; otherwise PPI++ with a bootstrap-t limit. Never the
@@ -202,6 +204,14 @@ re-draws). Its bound on the screened population's harm rate is 0.039 with 3 posi
   0.31 on XSTest and 0.13 on OR-Bench prompts under the same wording; the carried bound
   missed in up to 94% (source shift) and 100% (pool shift) of draws. A carried Platt map of
   p was off by 0.03-0.27.
+- **Carrying a calibration across training that targets the label** (017 E8, on spike 014's
+  Lagrangian checkpoints). The compiled judge's recall on the guard's refusals fell from
+  0.21 at step 0 to 0.06 at step 100 and 0.03 at step 200 (wording 0; 0.12 to 0.00 for
+  wording 2) while the rate came back to the reference; the carried Youden bound missed in
+  80% of draws. The constrained policy's refusals became refusal-prefixed answers ("I cannot
+  assist... [the answer]"), which the guard flags and the rubric judge does not. Side-effect
+  training (013's run) changed nothing; training against the label changes the form of the
+  label's positives. Which judge is right about a hybrid is a human-label question.
 - **The answer-rate-aware correction on a compiled rubric.** Its false alarms are on
   refusals (it reacts to the restated harmful request: 27.2% of refusals flagged against
   12.6% of answers on the population). The correction fits Qwen3Guard, whose false alarms
