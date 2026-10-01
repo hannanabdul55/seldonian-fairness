@@ -1,0 +1,14 @@
+{
+ "n": 4000,
+ "seconds": 25.793240785598755,
+ "refusal_rate": 0.18575,
+ "mean_refused": 1.2532355204565528,
+ "mean_answered": -0.17763976184070787,
+ "sd": 2.2881184071376257,
+ "gap_in_sd": 0.6253501907216624,
+ "gap_orbench": 1.4230680833505647,
+ "gap_xstest": 1.4333429332603485,
+ "within_prompt_gap_mean": 0.3070447318997734,
+ "within_prompt_prefers_refusal": 0.5454545454545454,
+ "prompts_with_both": 110
+}
