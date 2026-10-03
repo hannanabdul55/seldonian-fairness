@@ -167,3 +167,15 @@ unless the question requires otherwise.
   old one's, run both through the same plasmode job against the same reference labels in the
   same call (`014/plasmode014.py` with `role` cand / side); the old spike's number from its
   own run drifts with ties and seeds.
+
+## Added 2026-10-03 (spike 020)
+
+- **Published benchmark runs are a crossed design until shown otherwise.** Before any bound,
+  list the candidate clustering units (task, attack, prompt, seed), compute the ICC by each,
+  and bound with a studentised cluster bootstrap over the unit with the larger ICC. The
+  i.i.d. Clopper-Pearson over cells is reported beside it only to show the gap. Check the
+  clustered bound by redrawing the observed clusters as the population
+  (`020/plasmode020.py`) before quoting it.
+- **Reproduce the source's own headline number first** and find which subset it used (020:
+  the website's 7.3% was the v1 pairs; all pairs gave 5.0%). A disagreement there is a
+  subset or a definition, and it is settled before anything else is computed.

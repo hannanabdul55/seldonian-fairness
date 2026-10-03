@@ -1,0 +1,80 @@
+{
+ "Meta-SecAlign-70B": {
+  "truth": 0.022128556375131718,
+  "miss_naive": 0.275,
+  "miss_wilson": 0.275,
+  "miss_t_user": 0.02,
+  "miss_t_inj": 0.1225,
+  "miss_twoway": 0.17,
+  "med_naive": 0.02925532767638043,
+  "med_wilson": 0.02913546255506608,
+  "med_t_user": 0.08351493208549471,
+  "med_t_inj": 0.03867838350246749,
+  "med_twoway": 0.03785386084461269
+ },
+ "claude-3-5-sonnet-20241022": {
+  "truth": 0.011128775834658187,
+  "miss_naive": 0.0475,
+  "miss_wilson": 0.0475,
+  "miss_t_user": 0.0325,
+  "miss_t_inj": 0.0075,
+  "miss_twoway": 0.1025,
+  "med_naive": 0.019529579537184927,
+  "med_wilson": 0.01922460541707168,
+  "med_t_user": 0.024339679768082885,
+  "med_t_inj": 0.054584859567440094,
+  "med_twoway": 0.019885661564821987
+ },
+ "claude-3-7-sonnet-20250219": {
+  "truth": 0.04952581664910432,
+  "miss_naive": 0.1075,
+  "miss_wilson": 0.1075,
+  "miss_t_user": 0.0425,
+  "miss_t_inj": 0.0,
+  "miss_twoway": 0.0125,
+  "med_naive": 0.06394212438075376,
+  "med_wilson": 0.06374556223801714,
+  "med_t_user": 0.07097763969238281,
+  "med_t_inj": 0.10747659092864761,
+  "med_twoway": 0.08220590025125413
+ },
+ "gpt-4o-2024-05-13-tool_filter": {
+  "truth": 0.06836248012718601,
+  "miss_naive": 0.08,
+  "miss_wilson": 0.08,
+  "miss_t_user": 0.0525,
+  "miss_t_inj": 0.0,
+  "miss_twoway": 0.005,
+  "med_naive": 0.0863243941940248,
+  "med_wilson": 0.08604608994064024,
+  "med_t_user": 0.09010187891188795,
+  "med_t_inj": 0.1141790500126543,
+  "med_twoway": 0.1045113664755764
+ },
+ "gemini-2.0-flash-001": {
+  "truth": 0.14120126448893572,
+  "miss_naive": 0.2225,
+  "miss_wilson": 0.2225,
+  "miss_t_user": 0.06,
+  "miss_t_inj": 0.015,
+  "miss_twoway": 0.025,
+  "med_naive": 0.16228872691853985,
+  "med_wilson": 0.1619789322377525,
+  "med_t_user": 0.18855161632537587,
+  "med_t_inj": 0.21586477667770318,
+  "med_twoway": 0.20507458251702979
+ },
+ "gpt-4o-2024-05-13": {
+  "truth": 0.4769475357710652,
+  "miss_naive": 0.1675,
+  "miss_wilson": 0.175,
+  "miss_t_user": 0.0325,
+  "miss_t_inj": 0.0,
+  "miss_twoway": 0.0,
+  "med_naive": 0.5100477048367833,
+  "med_wilson": 0.5092932887108839,
+  "med_t_user": 0.5364430787598768,
+  "med_t_inj": 0.5912620782171125,
+  "med_twoway": 0.5994193465728664
+ }
+}

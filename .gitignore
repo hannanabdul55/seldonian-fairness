@@ -148,3 +148,4 @@ temp/
 .cache/
 results/llm/
 results/llm_*/
+results/spikes/020/episodes.jsonl
