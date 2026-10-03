@@ -211,6 +211,33 @@ question is this measurement, but proprietary and unmeasured on safety.
 - The target for a better judge (spike 018) is rho^2 with human labels on the logit scale:
   0.5 turns 225 labels into about 360; the compiled harm rubric is at 0.02 (017).
 
+### external-trace-certificate
+A certificate on a fixed policy evaluated by someone else, from its public per-trial traces
+alone: the safety-test half of the pipeline with labels the harness emits (free and
+complete) instead of humans or a judge. First case: Anthropic's RoboDojo-RC Tier 1 report
+(2026-09-23; three API models on six robot manipulation tasks, 120 trials each, no safety
+section). Opened 2026-10-02 after the user asked whether the report could be evaluated for
+harmful behaviour; the agreed framing is that the scarce resource moves from labels to
+trials and the headline is a limit, not a number. The same shape rent-my-gpu's spike 062
+needs on its own traffic.
+
+**Requirements:**
+
+- Every event is a verifiable property computed by code from the trace (016/017's route);
+  the policy's own narration of risk is a feature, never the label (015, 017 E8).
+- The parser is frozen on an enumeration pass over every trace before anything is counted
+  (CONVENTIONS); counts that the source publishes (terminations) are reproduced first.
+- Per-model bounds are Clopper-Pearson on the trials, with the task-stratified `b1w` beside
+  them; per-task cells (n 20) are reported, never certified.
+- The resolution is stated with the result: 0.025 with nothing observed at n 120, 0.139
+  per task; a 1% claim needs about 300 clean trials per model.
+- A text feature built from a word list is checked against the task's own action
+  vocabulary before it is frozen (019: `drop` matched "drop the fruit into the bowl", most
+  of the policy's matches); report the frozen feature and the corrected one both.
+- The physical state in the trace (joint effort) predicted the harness's safety stop (AUC
+  0.75-0.83); the policy's narration did not (0.38). Precursors come from the state, not
+  from what the policy says about itself (019, with 017 E8).
+
 ## Spikes
 
 | # | Idea | Name | Type | Validates | Verdict | Tags |
@@ -235,3 +262,4 @@ question is this measurement, but proprietary and unmeasured on safety.
 | 016 | prompted-ghat | prompt-to-spec-compile | standard | Given the three Round 6 constraints plus five harder ones in English, when a local LLM compiles each to a Seldonian-toolkit-style constraint string and JSON spec (measure, group, expression, threshold form, bound by 013's rules), rendered back to English, then the compiled g equals the hand-written g on cached responses and paraphrases compile to the same spec | PARTIAL (deterministic half exact; the pre-registered prompt failed, 3/8 sentences and a silent error on 20/39 faithful wordings; the redesigned one with thinking gives 7/8 certificates, 8/8 requirements, 34/39 wordings and no silent error, and needs lints plus a second compile to reject what it gets wrong) | compiler, constraint-dsl, expression-constraint, lint, gpu |
 | 017 | prompted-ghat | calibration-carrying-certificate | standard | Given 015's prompted-judge scores and the human sheet, when PPI++ and the answer-rate-aware correction are applied (0/1 judge, and E[p] as a bounded feature), then the compiled constraint reports what it can certify (brevity exactly; harm only with >= 30 human positives) and how far its threshold moves | PARTIAL (a fixed routing rule held its level in every cell: code for verifiable properties, Clopper-Pearson below 10 labels in the rarer class, PPI++ on the logit with a bootstrap-t limit above, design-weighted `b1w` for the stratified sheet; the normal-limit PPI++ missed up to 0.24, no finite-sample judge-assisted bound beat the labels, `E[p]` is the weakest feature, and a calibration carried across prompt populations misses in up to 94% of draws) | ppi, calibration, certificate, bootstrap, plasmode, cpu, gpu |
 | 018 | prompted-ghat | own-noul-judge | standard | Given ~10-20 public labelled safety/refusal sets recast as (instruction, state, label) plus synthetic verifiable constraints, when a 0.6B-2B backbone with a sigmoid head is fine-tuned on log loss and temperature-scaled, then it generalises to held-out instruction families, is calibrated (ECE) on the 225 human labels and 013's responses, and matches Qwen3Guard-4B on harm (Jev tier A: a local, versioned, calibrated Noul-only judge; ~3-5 weeks, 20-60 GPU h) | QUEUED (gate FIRED by 015; and the only route to a better judge now that the external API is ruled out) | own-judge, calibration, instruction-conditioned, gpu |
+| 019 | external-trace-certificate | external-trace-certificate | standard | Given a fixed policy evaluated by someone else and only its public per-trial traces (RoboDojo-RC Tier 1: 3 models x 6 tasks x 20 trials), when the harness's own safety events are extracted by code and bounded per model, then we know what such a benchmark can certify about safety stops, whether the policy's self-narration carries any signal about them, and whether task strata buy anything | VALIDATED (the resolution is the result: 2.5% with nothing observed, 5.2% at two stops, so the pre-registered 5% certificate returns NSF for all three models; Opus 5 stops 10/120 against 4/240, p 0.003; self-narration AUC 0.38; peak joint effort AUC 0.75-0.83; task strata within 0.004 of pooled) | certificate, external-traces, robotics, clopper-pearson, stratified, cpu |

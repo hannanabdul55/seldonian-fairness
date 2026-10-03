@@ -1,0 +1,361 @@
+task,model,started_at,score,cost_usd,cost_basis,cache_read_input_tokens,cache_creation_input_tokens,input_tokens,output_tokens,wall_s,llm_calls,termination,status,run_id
+Store In Safe,gpt-6-astra,2026-09-22T16:13:28.056817+00:00,0,0.76485,standard_input_output_rates_without_caching,34465,33485,67980,1701,94.30192655097926,10,give_up,success,adhoc_b3fed07e
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T16:13:30.844642+00:00,0.1,3.75523,standard_input_output_rates_without_caching,117443,238997,356533,3798,270.9391675410443,31,give_up,success,adhoc_1e88ab05
+Stack Bowls,gpt-6-astra,2026-09-22T16:13:32.176681+00:00,0.75,2.9204,standard_input_output_rates_without_caching,98562,175390,274030,3602,226.64604755298933,26,done,success,adhoc_84213354
+Stand Up Bottles,gpt-6-astra,2026-09-22T16:13:36.502264+00:00,0,3.06163,standard_input_output_rates_without_caching,98143,188704,286928,3847,245.0113201480126,27,give_up,success,adhoc_0b7a1dcf
+Cap Pen,gpt-6-astra,2026-09-22T16:13:37.499397+00:00,0.5,4.28055,standard_input_output_rates_without_caching,117437,277560,395090,6593,346.12319120700704,31,give_up,success,adhoc_860edee9
+Stand Up Bottles,gpt-6-astra,2026-09-22T16:19:32.740479+00:00,0.1,1.97622,standard_input_output_rates_without_caching,75610,106542,182212,3082,187.54161733703222,20,give_up,success,adhoc_b9d42309
+Store In Safe,gpt-6-astra,2026-09-22T16:20:12.776620+00:00,0.5,4.45657,standard_input_output_rates_without_caching,132510,294547,427162,3699,285.8563292119652,35,give_up,success,adhoc_e3395e6b
+Cap Pen,gpt-6-astra,2026-09-22T16:20:22.444725+00:00,0.2,2.51415,standard_input_output_rates_without_caching,91041,145397,236510,2981,215.9894699700526,24,give_up,success,adhoc_ea4ce6d5
+Store In Safe,gpt-6-astra,2026-09-22T16:26:02.792590+00:00,0.25,3.62848,standard_input_output_rates_without_caching,117424,228961,346478,3274,228.7727892329567,31,give_up,success,adhoc_76312ad0
+Stand Up Bottles,gpt-6-astra,2026-09-22T16:26:04.588769+00:00,0,2.03742,standard_input_output_rates_without_caching,75610,110252,185922,3564,194.78061682695989,20,give_up,success,adhoc_006960bb
+Cap Pen,gpt-6-astra,2026-09-22T16:26:05.665113+00:00,0.5,2.51135,standard_input_output_rates_without_caching,87267,144499,231835,3860,219.43194004503312,23,give_up,success,adhoc_03070594
+Stack Bowls,gpt-6-astra,2026-09-22T16:28:13.964781+00:00,0.75,2.52824,standard_input_output_rates_without_caching,91023,146854,237949,2975,200.43627264798852,24,done,success,adhoc_5dbfc05f
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T16:28:15.218806+00:00,0.3,4.44211,standard_input_output_rates_without_caching,128757,293777,422636,4315,320.72040298098,34,give_up,success,adhoc_8176242a
+Store In Safe,gpt-6-astra,2026-09-22T16:31:07.506222+00:00,0.5,4.05649,standard_input_output_rates_without_caching,124969,263001,388069,3516,240.54874403600115,33,give_up,success,adhoc_ebeff3ff
+Cap Pen,gpt-6-astra,2026-09-22T16:31:14.380489+00:00,0.2,0.68745,standard_input_output_rates_without_caching,34471,25367,59865,1776,95.83369383501122,9,give_up,success,adhoc_39fc5465
+Stand Up Bottles,gpt-6-astra,2026-09-22T16:31:15.421138+00:00,0.1,3.21044,standard_input_output_rates_without_caching,101896,195677,297654,4678,266.978283553035,27,give_up,success,adhoc_9a75f48a
+Stack Bowls,gpt-6-astra,2026-09-22T16:32:36.840961+00:00,0.75,2.32561,standard_input_output_rates_without_caching,87244,132528,219841,2544,186.24923034699168,23,done,success,adhoc_4ebd22d9
+Cap Pen,gpt-6-astra,2026-09-22T16:33:57.411688+00:00,0.2,3.66779,standard_input_output_rates_without_caching,113666,233323,347079,3940,256.86923691799166,30,give_up,success,adhoc_384197c1
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T16:34:36.710753+00:00,0.1,3.80794,standard_input_output_rates_without_caching,121214,244079,365389,3081,250.17931028001476,32,give_up,success,adhoc_c41bb949
+Store In Safe,gpt-6-astra,2026-09-22T16:39:35.247065+00:00,0.25,3.48552,standard_input_output_rates_without_caching,113657,218120,331867,3337,244.02960109105334,30,give_up,success,adhoc_05fab2b6
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T16:39:37.983307+00:00,0.3,5.40626,standard_input_output_rates_without_caching,147612,370137,517866,4552,339.4627265249728,39,give_up,success,adhoc_79ea898c
+Stack Bowls,gpt-6-astra,2026-09-22T16:39:39.027737+00:00,0.75,3.93841,standard_input_output_rates_without_caching,121187,253008,374291,3910,275.4174875600147,32,done,success,adhoc_82cb1cee
+Cap Pen,gpt-6-astra,2026-09-22T16:39:45.161104+00:00,0.2,4.28657,standard_input_output_rates_without_caching,124975,280438,405512,4629,298.8969011310255,33,give_up,success,adhoc_bafd221b
+Stand Up Bottles,gpt-6-astra,2026-09-22T16:39:46.406982+00:00,0,4.67377,standard_input_output_rates_without_caching,128180,311280,439562,5563,318.7064609900117,34,give_up,success,adhoc_7a89a22a
+Store In Safe,gpt-6-astra,2026-09-22T16:48:10.454789+00:00,1,5.46882,standard_input_output_rates_without_caching,151367,375250,526737,4029,271.2692773180315,40,give_up,success,adhoc_29b81aa0
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T16:48:13.033177+00:00,0.5,4.51853,standard_input_output_rates_without_caching,132529,298984,431618,4047,284.68759113998385,35,give_up,success,adhoc_db8da7fd
+Stack Bowls,gpt-6-astra,2026-09-22T16:48:14.141820+00:00,0.75,2.95477,standard_input_output_rates_without_caching,98555,179029,277662,3563,230.09453972801566,26,done,success,adhoc_744c9a12
+Stand Up Bottles,gpt-6-astra,2026-09-22T16:48:17.327093+00:00,0,1.36844,standard_input_output_rates_without_caching,56837,65737,122619,2845,164.20424200204434,15,give_up,success,adhoc_e73ab824
+Cap Pen,gpt-6-astra,2026-09-22T16:48:18.451103+00:00,0.2,4.1953,standard_input_output_rates_without_caching,121205,273229,394530,5000,284.085235356004,32,give_up,success,adhoc_a1042bd3
+Stand Up Bottles,gpt-6-astra,2026-09-22T16:57:12.269693+00:00,0,2.26507,standard_input_output_rates_without_caching,83121,126650,209837,3334,203.62018697801977,22,give_up,success,adhoc_0967e483
+Cap Pen,gpt-6-astra,2026-09-22T16:57:13.373087+00:00,0.5,4.58169,standard_input_output_rates_without_caching,128748,303509,432359,5162,268.0475580160273,34,give_up,success,adhoc_c90697a3
+Store In Safe,gpt-6-astra,2026-09-22T17:02:50.158515+00:00,0.5,4.02586,standard_input_output_rates_without_caching,124972,260590,385661,3385,231.53149004495936,33,give_up,success,adhoc_92b0e8f2
+Stack Bowls,gpt-6-astra,2026-09-22T17:02:53.558028+00:00,0.75,2.47714,standard_input_output_rates_without_caching,91018,143294,234384,2666,175.53515137097565,24,done,success,adhoc_0c744180
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:02:57.313179+00:00,0.1,2.7971,standard_input_output_rates_without_caching,98592,166985,265655,2811,215.57366851100232,26,give_up,success,adhoc_7b7a59f4
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:03:00.641360+00:00,0,1.69755,standard_input_output_rates_without_caching,64351,87183,151585,3634,194.49024291301612,17,give_up,success,adhoc_d2a0d4ef
+Cap Pen,gpt-6-astra,2026-09-22T17:03:01.490248+00:00,0.5,1.96992,standard_input_output_rates_without_caching,75953,106479,182492,2900,168.16067842097254,20,give_up,success,adhoc_52b4224f
+Store In Safe,gpt-6-astra,2026-09-22T17:10:43.069749+00:00,0.75,5.51202,standard_input_output_rates_without_caching,151368,378609,530097,4221,304.30420683999546,40,give_up,success,adhoc_6d847f17
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:10:45.818773+00:00,0.1,3.46522,standard_input_output_rates_without_caching,113674,217023,330787,3147,245.95013295300305,30,give_up,success,adhoc_b2c02190
+Stack Bowls,gpt-6-astra,2026-09-22T17:10:46.936820+00:00,0.75,2.59491,standard_input_output_rates_without_caching,91014,151830,242916,3315,184.52914203196997,24,done,success,adhoc_6264db49
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:10:51.250507+00:00,0,3.75892,standard_input_output_rates_without_caching,113166,239456,352712,4636,275.22322808904573,30,give_up,success,adhoc_525a1b6c
+Cap Pen,gpt-6-astra,2026-09-22T17:10:52.295565+00:00,0.5,2.62993,standard_input_output_rates_without_caching,87268,154811,242148,4169,231.4745050679776,23,give_up,success,adhoc_1ed52a2d
+Store In Safe,gpt-6-astra,2026-09-22T17:17:21.675869+00:00,0.25,3.09686,standard_input_output_rates_without_caching,106114,188278,294476,3042,195.79441802797373,28,give_up,success,adhoc_9fb0ac79
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:17:24.567066+00:00,0.1,2.84933,standard_input_output_rates_without_caching,98585,168895,267558,3475,229.85200636897935,26,give_up,success,adhoc_d93ff36e
+Stack Bowls,gpt-6-astra,2026-09-22T17:17:25.521332+00:00,1,2.32706,standard_input_output_rates_without_caching,87249,132438,219756,2590,160.37772981799208,23,done,success,adhoc_8987b031
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:17:31.709486+00:00,0,3.33419,standard_input_output_rates_without_caching,105654,205916,311654,4353,249.30384141998366,28,give_up,success,adhoc_33149326
+Cap Pen,gpt-6-astra,2026-09-22T17:17:32.645407+00:00,0.5,3.42623,standard_input_output_rates_without_caching,106129,213220,319433,4638,251.55519903003005,28,give_up,success,adhoc_64cc6e67
+Stack Bowls,gpt-6-astra,2026-09-22T17:20:54.319720+00:00,1,2.5996,standard_input_output_rates_without_caching,94787,152348,247210,2550,171.0449805079843,25,done,success,adhoc_2190daaf
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:23:26.302372+00:00,0.3,5.19669,standard_input_output_rates_without_caching,143841,353104,497059,4522,314.05276137200417,38,give_up,success,adhoc_104a1ad2
+Store In Safe,gpt-6-astra,2026-09-22T17:23:53.857087+00:00,0.5,3.60586,standard_input_output_rates_without_caching,117432,227941,345466,3024,212.2181180450134,31,give_up,success,adhoc_e712ce01
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:24:00.635488+00:00,0,1.65334,standard_input_output_rates_without_caching,64349,84794,149194,3228,171.88659686595201,17,give_up,success,adhoc_6b42cafa
+Cap Pen,gpt-6-astra,2026-09-22T17:24:01.708172+00:00,0.5,4.14377,standard_input_output_rates_without_caching,121208,269583,390887,4698,260.8229444780154,32,give_up,success,adhoc_5c003223
+Stack Bowls,gpt-6-astra,2026-09-22T17:25:34.255015+00:00,1,4.19065,standard_input_output_rates_without_caching,128729,272174,401005,3612,247.92924189695623,34,done,success,adhoc_b7f0d5d3
+Store In Safe,gpt-6-astra,2026-09-22T17:33:14.983035+00:00,0.5,4.28973,standard_input_output_rates_without_caching,128739,280942,409783,3838,242.88898470799904,34,give_up,success,adhoc_463f5d04
+Stack Bowls,gpt-6-astra,2026-09-22T17:33:18.408032+00:00,0.75,3.21873,standard_input_output_rates_without_caching,106104,198255,304443,3486,210.97571320598945,28,done,success,adhoc_88a31f16
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:33:21.806870+00:00,0.3,4.15332,standard_input_output_rates_without_caching,124984,269609,394692,4128,269.3961571829859,33,give_up,success,adhoc_25c95925
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:33:23.838042+00:00,0,2.00749,standard_input_output_rates_without_caching,75612,109042,184714,3207,187.93045828700997,20,give_up,success,adhoc_c1c1e28a
+Cap Pen,gpt-6-astra,2026-09-22T17:33:24.766638+00:00,0.5,4.3061,standard_input_output_rates_without_caching,124980,282311,407390,4644,265.5012239239877,33,give_up,success,adhoc_8c374bd7
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:38:46.959424+00:00,0,2.61484,standard_input_output_rates_without_caching,90637,151700,242409,3815,227.02827944396995,24,give_up,success,adhoc_990dac28
+Cap Pen,gpt-6-astra,2026-09-22T17:38:48.362397+00:00,0.2,1.30472,standard_input_output_rates_without_caching,57097,62675,119817,2131,128.755031357985,15,give_up,success,adhoc_3725eacb
+Store In Safe,gpt-6-astra,2026-09-22T17:38:50.972951+00:00,0.25,4.05296,standard_input_output_rates_without_caching,121195,261320,382611,4537,266.4887501000194,32,give_up,success,adhoc_f2e41a82
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:38:53.175142+00:00,0,0.84478,standard_input_output_rates_without_caching,42030,34490,76553,1585,124.57387512101559,11,give_up,success,adhoc_4bb21963
+Stack Bowls,gpt-6-astra,2026-09-22T17:38:54.866356+00:00,0.5,4.19097,standard_input_output_rates_without_caching,121180,270666,391942,5431,292.80544024601113,32,give_up,success,adhoc_8bd38133
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:41:57.306524+00:00,0.1,3.8541,standard_input_output_rates_without_caching,121219,247660,368975,3287,226.1846891209716,32,give_up,success,adhoc_d946f7ca
+Cap Pen,gpt-6-astra,2026-09-22T17:42:17.250086+00:00,0.5,4.06149,standard_input_output_rates_without_caching,117440,260821,378354,5559,278.84868044999894,31,give_up,success,adhoc_fd46061e
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:43:21.861279+00:00,0,3.68329,standard_input_output_rates_without_caching,113167,232357,345614,4543,282.7494394420064,30,give_up,success,adhoc_7e97033d
+Store In Safe,gpt-6-astra,2026-09-22T17:45:13.613211+00:00,0.75,4.71299,standard_input_output_rates_without_caching,140056,314567,454734,3313,238.18175297003472,37,give_up,success,adhoc_eb89c04e
+Stack Bowls,gpt-6-astra,2026-09-22T17:45:17.088709+00:00,0.5,4.57341,standard_input_output_rates_without_caching,128724,301555,430381,5392,289.59386240900494,34,give_up,success,adhoc_d426b9ec
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:46:27.368730+00:00,0.3,4.42026,standard_input_output_rates_without_caching,128756,292793,421651,4075,264.03573014598805,34,give_up,success,adhoc_8f185abc
+Cap Pen,gpt-6-astra,2026-09-22T17:48:02.277146+00:00,0.5,2.53109,standard_input_output_rates_without_caching,87269,146181,233519,3918,208.31018956500338,23,give_up,success,adhoc_056dd208
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:48:46.276914+00:00,0,1.73997,standard_input_output_rates_without_caching,68102,89706,157862,3227,189.21026904904284,18,give_up,success,adhoc_f2186810
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:51:29.893181+00:00,0.1,0.63804,standard_input_output_rates_without_caching,34483,23334,57844,1192,104.7160117070307,9,overheat,success,adhoc_15dbcc03
+Stack Bowls,gpt-6-astra,2026-09-22T17:51:44.642943+00:00,0.75,3.62567,standard_input_output_rates_without_caching,113644,229798,343532,3807,218.40618070500204,30,done,success,adhoc_75a90497
+Store In Safe,gpt-6-astra,2026-09-22T17:52:04.557803+00:00,0.5,3.68445,standard_input_output_rates_without_caching,117429,233618,351140,3461,211.51682755502407,31,give_up,success,adhoc_cf827508
+Cap Pen,gpt-6-astra,2026-09-22T17:52:19.111287+00:00,0.5,4.06483,standard_input_output_rates_without_caching,117436,261669,379198,5457,270.61993215599796,31,give_up,success,adhoc_6b26663f
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:52:35.118703+00:00,0.1,4.27185,standard_input_output_rates_without_caching,120671,279623,400390,5359,328.6400598990149,32,give_up,success,adhoc_2fe7a8f5
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:54:24.629026+00:00,0.1,2.04251,standard_input_output_rates_without_caching,79734,112459,192256,2399,158.18857309699524,21,give_up,success,adhoc_6dbd1ae8
+Store In Safe,gpt-6-astra,2026-09-22T17:56:59.636902+00:00,0.75,5.50874,standard_input_output_rates_without_caching,151369,378640,530129,4149,275.7594321320066,40,give_up,success,adhoc_0365171f
+Stack Bowls,gpt-6-astra,2026-09-22T17:57:02.867907+00:00,0.75,3.37565,standard_input_output_rates_without_caching,109872,210461,320420,3429,245.43278283299878,29,done,success,adhoc_68dd7ddb
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T17:57:38.336323+00:00,0.3,3.96774,standard_input_output_rates_without_caching,121218,256985,378299,3695,283.8494643080048,32,give_up,success,adhoc_6ca104ed
+Cap Pen,gpt-6-astra,2026-09-22T17:58:02.881096+00:00,0.5,4.20242,standard_input_output_rates_without_caching,121204,274737,396037,4841,271.2745915049454,32,give_up,success,adhoc_75a68a5f
+Stand Up Bottles,gpt-6-astra,2026-09-22T17:59:27.505175+00:00,0.1,4.65006,standard_input_output_rates_without_caching,128188,308736,437026,5596,333.03473513701465,34,give_up,success,adhoc_46998b33
+Stack Bowls,gpt-6-astra,2026-09-22T18:01:56.238084+00:00,0.75,2.36211,standard_input_output_rates_without_caching,87242,135405,222716,2699,181.9914233069867,23,done,success,adhoc_244563fd
+Store In Safe,gpt-6-astra,2026-09-22T18:02:12.511787+00:00,0.5,4.19025,standard_input_output_rates_without_caching,128742,273286,402130,3379,283.401745884039,34,give_up,success,adhoc_294bea6e
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T18:02:55.575183+00:00,0,0.46984,standard_input_output_rates_without_caching,26937,14656,41614,1074,106.2400487610139,7,overheat,success,adhoc_77ba9459
+Cap Pen,gpt-6-astra,2026-09-22T18:03:18.338898+00:00,0.5,3.27246,standard_input_output_rates_without_caching,102350,201425,303856,4678,266.6585208369652,27,give_up,success,adhoc_7bf854fd
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T18:05:21.493237+00:00,0.1,4.65762,standard_input_output_rates_without_caching,132527,310795,443427,4467,311.8237851259764,35,give_up,success,adhoc_97b0fdaa
+Stack Bowls,gpt-6-astra,2026-09-22T18:05:59.852854+00:00,0,4.5614,standard_input_output_rates_without_caching,128729,301724,430555,5117,309.3880768090021,34,give_up,success,adhoc_c894aefc
+Stand Up Bottles,gpt-6-astra,2026-09-22T18:06:02.570166+00:00,0,4.89829,standard_input_output_rates_without_caching,131941,328968,461014,5763,357.4294190540095,35,give_up,success,adhoc_0e28d23e
+Store In Safe,gpt-6-astra,2026-09-22T18:08:58.482543+00:00,0.75,4.97658,standard_input_output_rates_without_caching,143821,335253,479188,3694,277.7884986909921,38,give_up,success,adhoc_d8570335
+Cap Pen,gpt-6-astra,2026-09-22T18:09:05.368752+00:00,0.5,3.28368,standard_input_output_rates_without_caching,102347,201385,303813,4911,280.25038895901525,27,give_up,success,adhoc_cfdac569
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T18:12:21.998263+00:00,0.1,2.48868,standard_input_output_rates_without_caching,91047,144334,235453,2683,228.48143404402072,24,give_up,success,adhoc_b0eb34ca
+Stack Bowls,gpt-6-astra,2026-09-22T18:12:34.728591+00:00,0,3.15855,standard_input_output_rates_without_caching,102334,192740,295155,4140,268.7259089190047,27,give_up,success,adhoc_fc5c5d74
+Stand Up Bottles,gpt-6-astra,2026-09-22T18:12:55.193617+00:00,0,2.04926,standard_input_output_rates_without_caching,75614,110577,186251,3735,268.2512484890176,20,give_up,success,adhoc_09287e7e
+Store In Safe,gpt-6-astra,2026-09-22T18:17:13.868146+00:00,0.75,4.46827,standard_input_output_rates_without_caching,132510,294817,427432,3879,280.6214756940026,35,give_up,success,adhoc_d1e173f9
+Pack And Pour Fruit,gpt-6-astra,2026-09-22T18:17:17.806790+00:00,0.1,3.27824,standard_input_output_rates_without_caching,109902,203065,313054,2954,245.14500033500372,29,give_up,success,adhoc_81f38b50
+Stack Bowls,gpt-6-astra,2026-09-22T18:17:56.441589+00:00,0,4.13993,standard_input_output_rates_without_caching,121189,267743,389028,4993,311.2670071069733,32,give_up,success,adhoc_9f711f10
+Stand Up Bottles,gpt-6-astra,2026-09-22T18:18:02.151978+00:00,0.1,3.08222,standard_input_output_rates_without_caching,98138,186231,284447,4755,312.6294389429968,26,give_up,success,adhoc_b044a3e4
+Cap Pen,claude-opus-5-5,2026-09-22T18:18:29.669733+00:00,0.2,3.220952,standard_input_output_rates_without_caching,599146,110288,709558,19136,328.39621060702484,31,give_up,success,adhoc_16760f6f
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T18:22:03.617071+00:00,0.3,2.659064,standard_input_output_rates_without_caching,535361,82709,618206,9312,216.55166303599253,34,give_up,success,adhoc_ab652ee7
+Store In Safe,gpt-6-astra,2026-09-22T18:22:39.687371+00:00,1,5.52534,standard_input_output_rates_without_caching,151365,380864,532349,4037,350.59822301304666,40,give_up,success,adhoc_8deefa55
+Stack Bowls,gpt-6-astra,2026-09-22T18:23:56.787366+00:00,0.75,3.8745,standard_input_output_rates_without_caching,117412,249265,366770,4136,253.28635881101945,31,done,success,adhoc_eb8a7c3b
+Stand Up Bottles,claude-opus-5-5,2026-09-22T18:24:28.876330+00:00,0,3.114492,standard_input_output_rates_without_caching,606143,100399,706678,14389,242.7477103379788,34,give_up,success,adhoc_b5e10867
+Cap Pen,claude-opus-5-5,2026-09-22T18:24:56.503619+00:00,0.5,3.418264,standard_input_output_rates_without_caching,661266,106335,767741,17365,305.29576871101744,35,give_up,success,adhoc_2db99b64
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T18:26:28.203696+00:00,0.1,2.627708,standard_input_output_rates_without_caching,519829,82105,602062,10973,239.34116563101998,32,give_up,success,adhoc_f9147747
+Stack Bowls,claude-opus-5-5,2026-09-22T18:28:58.206731+00:00,0.75,3.371064,standard_input_output_rates_without_caching,671977,99210,771331,14287,259.6392896579928,36,done,success,adhoc_72a90a0a
+Store In Safe,gpt-6-astra,2026-09-22T18:29:25.899476+00:00,0.5,4.58423,standard_input_output_rates_without_caching,132518,305115,437738,4137,280.4504004319897,35,give_up,success,adhoc_c6f29938
+Stand Up Bottles,claude-opus-5-5,2026-09-22T18:29:51.389760+00:00,0,3.091736,standard_input_output_rates_without_caching,594819,97428,692379,16111,271.25590819102945,33,give_up,success,adhoc_132c8a88
+Cap Pen,claude-opus-5-5,2026-09-22T18:31:24.203355+00:00,0.5,3.852316,standard_input_output_rates_without_caching,745670,117115,862929,20030,316.45177655195585,36,give_up,success,adhoc_3cc20a62
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T18:32:31.662879+00:00,0.3,3.684608,standard_input_output_rates_without_caching,734146,108394,842692,15692,284.61748767702375,38,done,success,adhoc_bb2e2b47
+Stand Up Bottles,claude-opus-5-5,2026-09-22T18:35:19.896011+00:00,0,3.87382,standard_input_output_rates_without_caching,782214,107185,889555,15780,278.5514687730465,39,done,success,adhoc_14f73148
+Stack Bowls,claude-opus-5-5,2026-09-22T18:35:24.830437+00:00,0.25,3.337172,standard_input_output_rates_without_caching,673566,95789,769503,12958,238.93444148701383,37,done,success,adhoc_b5fa8b20
+Store In Safe,claude-opus-5-5,2026-09-22T18:35:41.980935+00:00,0.75,3.1031,standard_input_output_rates_without_caching,633974,89599,723725,10410,206.17646526399767,38,done,success,adhoc_74de7d67
+Classify Objects,gpt-6-astra,2026-09-22T18:39:51.741905+00:00,0.5,5.43326,standard_input_output_rates_without_caching,143832,370325,514271,5811,399.88114199094707,38,give_up,success,adhoc_0956b213
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T18:40:22.445310+00:00,0.5,3.784044,standard_input_output_rates_without_caching,779653,104238,884051,12392,270.88631495804293,40,give_up,success,adhoc_a38ee5da
+Stack Bowls,claude-opus-5-5,2026-09-22T18:40:47.051343+00:00,0,3.353804,standard_input_output_rates_without_caching,664177,99975,764296,14831,266.0993117709877,36,done,success,adhoc_7d4116c2
+Stand Up Bottles,claude-opus-5-5,2026-09-22T18:44:27.784321+00:00,0,3.90554,standard_input_output_rates_without_caching,774076,112127,886355,18006,303.25266516400734,38,give_up,success,adhoc_c21c86c2
+Cap Pen,claude-opus-5-5,2026-09-22T18:45:00.755624+00:00,0.5,2.410612,standard_input_output_rates_without_caching,420822,84877,505803,19370,281.2295868420042,26,give_up,success,adhoc_67e593e3
+Store In Safe,claude-opus-5-5,2026-09-22T18:45:11.860773+00:00,0.25,2.907696,standard_input_output_rates_without_caching,570607,91136,661879,13009,244.39870973100187,34,done,success,adhoc_46ab2c83
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T18:45:44.533035+00:00,0.3,3.611456,standard_input_output_rates_without_caching,737763,103776,841699,12233,250.50449667597422,40,give_up,success,adhoc_58c79a28
+Stack Bowls,claude-opus-5-5,2026-09-22T18:46:06.416307+00:00,0.75,2.678376,standard_input_output_rates_without_caching,524269,84161,608554,12208,223.0967783969827,31,done,success,adhoc_fa110597
+Classify Objects,gpt-6-astra,2026-09-22T18:47:59.539131+00:00,0.5,4.27335,standard_input_output_rates_without_caching,128754,280139,408995,3668,358.25314286502544,34,give_up,success,adhoc_0eeed5bb
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T18:50:57.220749+00:00,0.1,3.297108,standard_input_output_rates_without_caching,666328,96576,763052,12245,265.11238922399934,37,give_up,success,adhoc_82b96a61
+Stack Bowls,claude-opus-5-5,2026-09-22T18:51:21.595158+00:00,0,3.55556,standard_input_output_rates_without_caching,703260,105297,808705,16037,297.32727451599203,37,give_up,success,adhoc_c97eb33b
+Stand Up Bottles,claude-opus-5-5,2026-09-22T18:51:23.471666+00:00,0,3.374344,standard_input_output_rates_without_caching,648873,103626,752631,18191,361.7553331590025,33,give_up,success,adhoc_9fc8a745
+Store In Safe,claude-opus-5-5,2026-09-22T18:51:45.375901+00:00,0,2.19488,standard_input_output_rates_without_caching,421610,73563,495285,10687,197.51809765899088,28,give_up,success,adhoc_9d0c7c76
+Cap Pen,claude-opus-5-5,2026-09-22T18:51:52.228063+00:00,0.5,3.044204,standard_input_output_rates_without_caching,599737,93868,693741,13462,235.75234541203827,34,give_up,success,adhoc_7a6d1e50
+Classify Objects,gpt-6-astra,2026-09-22T18:55:17.799578+00:00,0.33,4.09601,standard_input_output_rates_without_caching,124975,265647,390721,3776,306.19235995499184,33,give_up,success,adhoc_e3a65067
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T18:56:09.000936+00:00,0.1,2.515016,standard_input_output_rates_without_caching,501031,80055,581214,9508,205.6303366580396,32,give_up,success,adhoc_dbe5a8c1
+Store In Safe,claude-opus-5-5,2026-09-22T18:56:33.390566+00:00,0.75,3.020776,standard_input_output_rates_without_caching,596208,93221,689569,13125,256.98989452800015,35,give_up,success,adhoc_e3463608
+Cap Pen,claude-opus-5-5,2026-09-22T18:56:42.734626+00:00,0.75,3.646808,standard_input_output_rates_without_caching,697925,114002,812067,19927,323.2290622460423,35,give_up,success,adhoc_2cfa2a56
+Stack Bowls,claude-opus-5-5,2026-09-22T18:57:25.546518+00:00,0.5,3.895184,standard_input_output_rates_without_caching,792557,107574,900291,14701,304.4020095419837,40,give_up,success,adhoc_9327e2e7
+Stand Up Bottles,claude-opus-5-5,2026-09-22T18:58:35.844980+00:00,0,4.095532,standard_input_output_rates_without_caching,802156,118480,920788,20619,342.82178800198017,38,give_up,success,adhoc_b85d2168
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T19:00:34.400869+00:00,0.3,3.176176,standard_input_output_rates_without_caching,619923,100391,720454,14718,281.6893873049994,35,give_up,success,adhoc_edd7154c
+Classify Objects,gpt-6-astra,2026-09-22T19:01:19.678726+00:00,0.5,4.08341,standard_input_output_rates_without_caching,124982,263540,388621,3944,306.6800129339681,33,give_up,success,adhoc_3e6cb784
+Store In Safe,claude-opus-5-5,2026-09-22T19:01:58.408808+00:00,0.75,2.65464,standard_input_output_rates_without_caching,524082,84876,609090,10914,232.71726098202635,33,overheat,success,adhoc_0d5a923a
+Stack Bowls,claude-opus-5-5,2026-09-22T19:03:10.636346+00:00,0,3.270956,standard_input_output_rates_without_caching,643682,98582,742404,15067,263.3551604410168,35,give_up,success,adhoc_1a7007be
+Cap Pen,claude-opus-5-5,2026-09-22T19:03:28.729557+00:00,0.75,3.771424,standard_input_output_rates_without_caching,730674,113873,844691,19633,312.6169984549633,36,give_up,success,adhoc_82007e65
+Stand Up Bottles,claude-opus-5-5,2026-09-22T19:05:17.157308+00:00,0,2.919024,standard_input_output_rates_without_caching,541133,98373,639626,18026,296.4519529850222,30,give_up,success,adhoc_cb1b67d7
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T19:05:58.781476+00:00,0.3,2.864916,standard_input_output_rates_without_caching,562629,90628,653389,12568,251.8936954009696,33,give_up,success,adhoc_8de99531
+Store In Safe,claude-opus-5-5,2026-09-22T19:06:36.028572+00:00,0.5,3.461892,standard_input_output_rates_without_caching,693827,100144,794123,14270,269.692064183997,38,done,success,adhoc_901e49d8
+Classify Objects,gpt-6-astra,2026-09-22T19:08:14.650600+00:00,0.67,5.68288,standard_input_output_rates_without_caching,151376,393207,544703,4717,348.1780349580222,40,give_up,success,adhoc_27a06023
+Stack Bowls,claude-opus-5-5,2026-09-22T19:09:09.533412+00:00,0,3.435584,standard_input_output_rates_without_caching,680092,100410,780646,15650,268.41409038496204,36,give_up,success,adhoc_dc9d3cf7
+Cap Pen,claude-opus-5-5,2026-09-22T19:09:28.722290+00:00,0.75,3.413008,standard_input_output_rates_without_caching,638239,112336,750707,20509,337.82651949103456,33,give_up,success,adhoc_3a8878be
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T19:11:51.609385+00:00,0.3,3.108216,standard_input_output_rates_without_caching,601836,98127,700099,15391,306.1434918289888,34,overheat,success,adhoc_7a7c815d
+Stand Up Bottles,claude-opus-5-5,2026-09-22T19:12:09.410245+00:00,0,4.089,standard_input_output_rates_without_caching,815950,113227,929325,18585,304.4811053960002,37,done,success,adhoc_a1fd08bf
+Store In Safe,claude-opus-5-5,2026-09-22T19:12:25.484045+00:00,0.75,2.959812,standard_input_output_rates_without_caching,595890,88659,684693,11052,244.08566030004295,36,done,success,adhoc_64352e5f
+Stack Bowls,claude-opus-5-5,2026-09-22T19:14:40.042353+00:00,0,3.42458,standard_input_output_rates_without_caching,675483,103474,779105,15408,277.085507032054,37,give_up,success,adhoc_8087bad6
+Classify Objects,gpt-6-astra,2026-09-22T19:15:08.588886+00:00,0.67,4.77015,standard_input_output_rates_without_caching,136293,318434,454835,4436,305.08338797994656,36,give_up,success,adhoc_771d6c1d
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T19:18:03.950921+00:00,0.3,3.332648,standard_input_output_rates_without_caching,667794,98665,766607,13311,301.13543706398923,37,done,success,adhoc_12ad972c
+Stand Up Bottles,claude-opus-5-5,2026-09-22T19:18:20.625819+00:00,0,4.094356,standard_input_output_rates_without_caching,782701,123208,906049,23508,357.96000220201677,35,give_up,success,adhoc_e3b14824
+Store In Safe,claude-opus-5-5,2026-09-22T19:18:38.757254+00:00,1,2.954188,standard_input_output_rates_without_caching,590163,90220,680527,11604,239.2342752100085,36,done,success,adhoc_118b151b
+Cap Pen,claude-opus-5-5,2026-09-22T19:18:45.417523+00:00,0.75,3.265412,standard_input_output_rates_without_caching,618740,103729,722593,18752,298.7523962900159,31,give_up,success,adhoc_80d8f14e
+Stack Bowls,claude-opus-5-5,2026-09-22T19:21:45.553843+00:00,0.25,3.436676,standard_input_output_rates_without_caching,652892,111958,764994,18835,325.26511776901316,36,done,success,adhoc_6d8903ca
+Stack Bowls,claude-opus-5-5,2026-09-22T19:41:39.376954+00:00,0.75,3.762576,standard_input_output_rates_without_caching,738822,114053,853019,17525,285.12781705497764,36,done,success,adhoc_570715d2
+Stand Up Bottles,claude-opus-5-5,2026-09-22T19:41:42.800715+00:00,0.1,2.358516,standard_input_output_rates_without_caching,429611,87290,517009,14524,234.84203146101208,27,give_up,success,adhoc_9a96764d
+Classify Objects,gpt-6-astra,2026-09-22T19:42:23.490947+00:00,0.5,3.65612,standard_input_output_rates_without_caching,113668,230994,344752,4172,298.78025898803025,30,give_up,success,adhoc_81e337c6
+Classify Objects,gpt-6-astra,2026-09-22T19:49:58.455621+00:00,0.67,4.28268,standard_input_output_rates_without_caching,128753,281738,410593,3535,279.31829457898857,34,give_up,success,adhoc_3d89896a
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T19:50:00.266074+00:00,0.5,3.255804,standard_input_output_rates_without_caching,654957,96766,751871,12416,255.12675208598375,37,done,success,adhoc_ad505183
+Stand Up Bottles,claude-opus-5-5,2026-09-22T19:50:21.677743+00:00,0,3.039688,standard_input_output_rates_without_caching,588559,98896,687587,14467,249.76034064701525,33,give_up,success,adhoc_236a45d9
+Stack Bowls,claude-opus-5-5,2026-09-22T19:50:23.618470+00:00,0.5,3.816908,standard_input_output_rates_without_caching,763007,107918,871077,16630,296.79721745400457,38,done,success,adhoc_c35330bc
+Store In Safe,claude-opus-5-5,2026-09-22T19:50:46.802771+00:00,0.5,3.329348,standard_input_output_rates_without_caching,672128,96356,768632,12741,240.16414862900274,37,done,success,adhoc_c5d84aa1
+Cap Pen,claude-opus-5-5,2026-09-22T19:50:54.333741+00:00,0.75,1.356352,standard_input_output_rates_without_caching,233345,56887,290308,9756,165.85510076902574,19,done,success,adhoc_6afdf1a7
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T19:55:02.118511+00:00,0.1,2.997572,standard_input_output_rates_without_caching,589894,93653,683683,13142,268.74140903900843,34,give_up,success,adhoc_d8dd3c32
+Store In Safe,claude-opus-5-5,2026-09-22T19:56:05.084666+00:00,0.25,2.48296,standard_input_output_rates_without_caching,491997,79175,571300,9888,201.5503977559856,32,give_up,success,adhoc_e82cd960
+Stack Bowls,claude-opus-5-5,2026-09-22T19:56:09.080368+00:00,0.5,3.685216,standard_input_output_rates_without_caching,741005,104507,845664,15128,259.5442970719887,38,done,success,adhoc_b46c8b4c
+Cap Pen,claude-opus-5-5,2026-09-22T19:56:13.358744+00:00,0.5,3.583504,standard_input_output_rates_without_caching,664503,116084,780711,23033,348.1598138100235,31,give_up,success,adhoc_0278a4ba
+Stand Up Bottles,claude-opus-5-5,2026-09-22T19:56:15.167442+00:00,0,3.850048,standard_input_output_rates_without_caching,740192,116405,856737,21155,319.3151509449817,35,give_up,success,adhoc_a9d5bc4b
+Classify Objects,gpt-6-astra,2026-09-22T19:56:53.070776+00:00,0.5,4.06872,standard_input_output_rates_without_caching,124979,264384,389462,3482,273.9023158189957,33,give_up,success,adhoc_6b46479f
+Store In Safe,claude-opus-5-5,2026-09-22T20:00:25.215727+00:00,0.5,3.158596,standard_input_output_rates_without_caching,635595,93921,729664,11997,261.7080644299858,37,done,success,adhoc_8b93656c
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T20:00:29.032121+00:00,0.3,2.47154,standard_input_output_rates_without_caching,462707,85592,548415,13894,255.5481732150074,29,give_up,success,adhoc_7750019e
+Stack Bowls,claude-opus-5-5,2026-09-22T20:01:10.169441+00:00,0.75,1.990112,standard_input_output_rates_without_caching,382294,67720,450118,9482,195.5527934799902,26,done,success,adhoc_5fa3cc62
+Classify Objects,gpt-6-astra,2026-09-22T20:02:30.835952+00:00,0.17,3.67275,standard_input_output_rates_without_caching,117433,232659,350185,3418,265.6888497030013,31,give_up,success,adhoc_30e8354a
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:02:48.087854+00:00,0,3.13026,standard_input_output_rates_without_caching,588822,101094,690040,18505,305.803866887989,31,give_up,success,adhoc_271513da
+Cap Pen,claude-opus-5-5,2026-09-22T20:03:11.506580+00:00,0.75,3.95222,standard_input_output_rates_without_caching,761481,118449,880070,21597,325.2966336060199,35,give_up,success,adhoc_a28b56df
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T20:05:30.394348+00:00,0.1,2.311044,standard_input_output_rates_without_caching,451511,76465,528096,9933,241.69676690001506,30,give_up,success,adhoc_1726b2db
+Stack Bowls,claude-opus-5-5,2026-09-22T20:05:31.628202+00:00,0.75,2.279024,standard_input_output_rates_without_caching,442519,75146,517781,10395,197.1113740259898,29,done,success,adhoc_d34c98e6
+Store In Safe,claude-opus-5-5,2026-09-22T20:05:48.365040+00:00,0.25,2.432264,standard_input_output_rates_without_caching,484235,77443,561806,9252,216.9011943200021,32,give_up,success,adhoc_fba6820e
+Classify Objects,gpt-6-astra,2026-09-22T20:07:53.427209+00:00,0,0.54784,standard_input_output_rates_without_caching,30701,18654,49379,1081,78.06579345697537,8,give_up,success,adhoc_16c5f77d
+Stack Bowls,claude-opus-5-5,2026-09-22T20:09:36.872866+00:00,0.5,3.041536,standard_input_output_rates_without_caching,579265,97261,676654,16746,279.93762705102563,32,done,success,adhoc_edc23234
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:09:40.463885+00:00,0,2.514204,standard_input_output_rates_without_caching,458373,87850,546331,16444,261.84806278394535,27,give_up,success,adhoc_22e090b4
+Classify Objects,gpt-6-astra,2026-09-22T20:09:59.954778+00:00,0.5,4.14149,standard_input_output_rates_without_caching,121209,267164,388469,5136,337.7223967149621,32,give_up,success,adhoc_da102096
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T20:10:30.973542+00:00,0.3,2.813032,standard_input_output_rates_without_caching,568350,86083,654573,9737,213.76747773203533,35,give_up,success,adhoc_ef6726f8
+Store In Safe,claude-opus-5-5,2026-09-22T20:10:59.553843+00:00,0.5,2.332644,standard_input_output_rates_without_caching,460704,75428,536256,9381,212.07155627699103,31,give_up,success,adhoc_3d70e589
+Cap Pen,claude-opus-5-5,2026-09-22T20:11:06.093927+00:00,0.5,3.756544,standard_input_output_rates_without_caching,717622,116970,834736,20880,342.7681031689863,36,give_up,success,adhoc_4212d51a
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T20:15:37.783996+00:00,0.1,2.68928,standard_input_output_rates_without_caching,532861,85162,618155,10833,246.29925087897573,33,give_up,success,adhoc_3778a415
+Stack Bowls,claude-opus-5-5,2026-09-22T20:15:55.041476+00:00,0.75,1.221672,standard_input_output_rates_without_caching,222412,48390,270878,6908,136.86110310896765,19,done,success,adhoc_a8091683
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:15:57.687362+00:00,0,3.025344,standard_input_output_rates_without_caching,594827,91607,686566,13954,244.10386332095368,33,give_up,success,adhoc_1c817a13
+Classify Objects,gpt-6-astra,2026-09-22T20:16:26.048684+00:00,0,0.55918,standard_input_output_rates_without_caching,30706,19093,49823,1219,74.86470032704528,8,give_up,success,adhoc_b1004444
+Store In Safe,claude-opus-5-5,2026-09-22T20:16:45.298453+00:00,0.5,3.16098,standard_input_output_rates_without_caching,638692,92690,731530,11743,243.32497201103251,37,give_up,success,adhoc_fd4aac8b
+Classify Objects,gpt-6-astra,2026-09-22T20:18:27.100860+00:00,0.5,3.68008,standard_input_output_rates_without_caching,117436,234204,351733,3255,257.72518922400195,31,give_up,success,adhoc_e6a44f0a
+Cap Pen,claude-opus-5-5,2026-09-22T20:18:45.481535+00:00,0.75,3.968804,standard_input_output_rates_without_caching,755876,123606,879626,22515,332.5801274399855,36,give_up,success,adhoc_45536686
+Stack Bowls,claude-opus-5-5,2026-09-22T20:19:04.715753+00:00,0.75,2.593068,standard_input_output_rates_without_caching,498085,85162,583367,12980,221.5879481099546,30,done,success,adhoc_2fa6b10e
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T20:21:12.688261+00:00,0.1,3.584756,standard_input_output_rates_without_caching,742916,99358,842434,10751,217.24310392292682,40,give_up,success,adhoc_5a09ba17
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:25:22.009353+00:00,0,2.418512,standard_input_output_rates_without_caching,456990,85207,542313,12463,209.23960659402655,29,give_up,success,adhoc_0d5425e8
+Store In Safe,claude-opus-5-5,2026-09-22T20:26:32.182473+00:00,0.75,3.00594,standard_input_output_rates_without_caching,612563,88169,700880,10121,220.13068762101466,37,give_up,success,adhoc_e2b1634c
+Stack Bowls,claude-opus-5-5,2026-09-22T20:26:39.323672+00:00,0.75,4.061632,standard_input_output_rates_without_caching,825205,111643,937008,15680,310.1341898890678,40,give_up,success,adhoc_fcffc9d2
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T20:26:40.486270+00:00,0.1,2.461944,standard_input_output_rates_without_caching,491244,78614,569986,9100,200.46847303700633,32,give_up,success,adhoc_dc5cfd2c
+Classify Objects,gpt-6-astra,2026-09-22T20:26:48.477557+00:00,0.83,4.64253,standard_input_output_rates_without_caching,132524,309289,441918,4467,318.7123339601094,35,give_up,success,adhoc_a48432e5
+Cap Pen,claude-opus-5-5,2026-09-22T20:26:52.311574+00:00,0.5,2.74364,standard_input_output_rates_without_caching,481996,100257,582365,20709,324.88685860397527,28,give_up,success,adhoc_9ea13997
+Pack And Pour Fruit,claude-opus-5-5,2026-09-22T20:30:59.542991+00:00,0.3,3.32626,standard_input_output_rates_without_caching,669612,98335,768095,12694,259.52833252900746,37,done,success,adhoc_1c824ede
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:31:24.760571+00:00,0,2.175328,standard_input_output_rates_without_caching,407991,75118,483217,12123,207.6375238149776,27,give_up,success,adhoc_7f971858
+Store In Safe,claude-opus-5-5,2026-09-22T20:31:42.569898+00:00,0.25,2.149004,standard_input_output_rates_without_caching,416680,72515,489311,9588,192.91454200301087,29,give_up,success,adhoc_21c02a64
+Stack Bowls,claude-opus-5-5,2026-09-22T20:32:35.945943+00:00,0,3.84678,standard_input_output_rates_without_caching,766639,109869,876660,17007,298.64672602305654,38,done,success,adhoc_758bdf6c
+Classify Objects,gpt-6-astra,2026-09-22T20:33:11.359328+00:00,0.33,3.66082,standard_input_output_rates_without_caching,113668,230989,344747,4267,299.61223430605605,30,give_up,success,adhoc_b718e614
+Cap Pen,claude-opus-5-5,2026-09-22T20:33:36.540021+00:00,0.75,3.094016,standard_input_output_rates_without_caching,590608,100649,691389,16423,269.4957111830008,33,give_up,success,adhoc_f1d6d538
+Store In Safe,claude-opus-5-5,2026-09-22T20:36:37.200101+00:00,0,1.806776,standard_input_output_rates_without_caching,336750,65834,402684,9802,184.10765185003402,25,give_up,success,adhoc_9e35bf03
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:36:45.009702+00:00,0,3.069808,standard_input_output_rates_without_caching,591106,95338,686572,16176,269.25549196096836,32,give_up,success,adhoc_fdff5e0a
+Classify Objects,gpt-6-astra,2026-09-22T20:40:18.711129+00:00,0.17,4.26578,standard_input_output_rates_without_caching,124977,279487,404563,4403,306.75726583600044,33,give_up,success,adhoc_fddf8e11
+Pack And Pour Fruit,claude-opus-5,2026-09-22T20:40:21.286540+00:00,0.1,4.790265,standard_input_output_rates_without_caching,748537,118137,866748,18261,370.96449159202166,37,done,success,adhoc_ab097f2e
+Stack Bowls,claude-opus-5,2026-09-22T20:40:35.085248+00:00,0.5,5.386635,standard_input_output_rates_without_caching,856196,120788,977062,20053,403.7008269400103,39,done,success,adhoc_cd59a127
+Store In Safe,claude-opus-5-5,2026-09-22T20:41:55.718990+00:00,0.5,3.329184,standard_input_output_rates_without_caching,672966,96043,769161,12627,268.186328701966,38,give_up,success,adhoc_275a33d3
+Cap Pen,claude-opus-5-5,2026-09-22T20:42:05.307082+00:00,0.2,2.526024,standard_input_output_rates_without_caching,484022,83544,567686,12764,222.88035621400923,30,give_up,success,adhoc_e2fb52a9
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:42:16.669716+00:00,0,2.597704,standard_input_output_rates_without_caching,506277,83821,590226,11840,216.5535559420241,32,give_up,success,adhoc_a527ea18
+Classify Objects,gpt-6-astra,2026-09-22T20:46:21.537302+00:00,0,4.02921,standard_input_output_rates_without_caching,117439,260214,377746,5035,314.4165118309902,31,give_up,success,adhoc_d84a5998
+Stand Up Bottles,claude-opus-5-5,2026-09-22T20:46:56.105287+00:00,0,2.933572,standard_input_output_rates_without_caching,542802,99431,642353,18208,298.6958608870045,30,give_up,success,adhoc_72237537
+Cap Pen,claude-opus-5-5,2026-09-22T20:46:56.871595+00:00,0.5,3.017468,standard_input_output_rates_without_caching,564492,101727,666347,17604,293.50692786299624,32,give_up,success,adhoc_f668d60f
+Pack And Pour Fruit,claude-opus-5,2026-09-22T20:47:10.286434+00:00,0.1,4.575155,standard_input_output_rates_without_caching,707083,113751,820906,18825,376.5134457850363,36,done,success,adhoc_db53cc41
+Store In Safe,claude-opus-5-5,2026-09-22T20:47:19.569229+00:00,0.5,3.569024,standard_input_output_rates_without_caching,722497,100612,823261,13799,255.44061392196454,38,done,success,adhoc_9b50f232
+Stack Bowls,claude-opus-5,2026-09-22T20:50:04.675837+00:00,0,5.399315,standard_input_output_rates_without_caching,803698,136140,939908,27991,490.208865466062,35,give_up,success,adhoc_745609e7
+Classify Objects,gpt-6-astra,2026-09-22T20:54:36.675132+00:00,0.5,4.70614,standard_input_output_rates_without_caching,128751,313421,442274,5668,372.8611912189517,34,give_up,success,adhoc_a52eacc7
+Pack And Pour Fruit,claude-opus-5,2026-09-22T20:54:38.678845+00:00,0.3,5.651215,standard_input_output_rates_without_caching,892239,130744,1023063,21436,413.6090534849791,40,give_up,success,adhoc_3fa1032a
+Stand Up Bottles,claude-opus-5,2026-09-22T20:54:55.552738+00:00,0.1,5.935445,standard_input_output_rates_without_caching,824092,166792,990944,39229,657.7628458580002,30,give_up,success,adhoc_20f29643
+Store In Safe,claude-opus-5-5,2026-09-22T21:56:24.491013+00:00,0.5,3.269628,standard_input_output_rates_without_caching,664488,98027,762667,10948,250.1411740499898,38,done,success,adhoc_73a0135c
+Pack And Pour Fruit,claude-opus-5,2026-09-22T21:56:26.496861+00:00,0.3,5.18227,standard_input_output_rates_without_caching,799551,130992,930619,21167,396.22919801599346,38,done,success,adhoc_49d399f0
+Stack Bowls,claude-opus-5,2026-09-22T21:56:27.645601+00:00,0,5.61138,standard_input_output_rates_without_caching,827671,147250,974991,29457,506.4795562890358,35,give_up,success,adhoc_2735a941
+Cap Pen,claude-opus-5-5,2026-09-22T21:56:32.469164+00:00,0.5,2.897204,standard_input_output_rates_without_caching,542305,97622,640051,16850,280.6662575319642,31,give_up,success,adhoc_e51c38e8
+Stand Up Bottles,claude-opus-5,2026-09-22T21:56:33.452823+00:00,0.1,5.702755,standard_input_output_rates_without_caching,871494,140173,1011741,25762,490.4459763409686,37,give_up,success,adhoc_a5cf3430
+Classify Objects,gpt-6-astra,2026-09-22T21:56:34.928020+00:00,0.34,4.11366,standard_input_output_rates_without_caching,121210,270722,392031,3867,298.6959125129506,33,give_up,success,adhoc_9fe28652
+Classify Objects,claude-opus-5-5,2026-09-22T22:03:17.682505+00:00,0.17,2.845888,standard_input_output_rates_without_caching,558726,88784,647642,12766,262.70241082506254,33,give_up,success,adhoc_a256663e
+Store In Safe,claude-opus-5,2026-09-22T22:03:18.128708+00:00,0,3.103705,standard_input_output_rates_without_caching,463539,85249,548846,14379,318.489052458026,29,overheat,success,adhoc_c01371fc
+Cap Pen,claude-opus-5-5,2026-09-22T22:03:19.872094+00:00,0.5,4.16616,standard_input_output_rates_without_caching,802902,125580,928630,22582,352.69999232998816,37,give_up,success,adhoc_088677f8
+Pack And Pour Fruit,claude-opus-5,2026-09-22T22:04:01.881771+00:00,0.1,4.871265,standard_input_output_rates_without_caching,783046,111434,894558,15939,330.2456893880153,39,done,success,adhoc_46aa3c65
+Stack Bowls,claude-opus-5,2026-09-22T22:05:37.138167+00:00,1,5.31432,standard_input_output_rates_without_caching,813533,125886,939489,24675,417.0256563370349,35,done,success,adhoc_0533a42b
+Stand Up Bottles,claude-opus-5,2026-09-22T22:05:41.845837+00:00,0.1,4.79229,standard_input_output_rates_without_caching,692808,125732,818598,27972,446.60996700497344,29,give_up,success,adhoc_58096a0b
+Classify Objects,claude-opus-5-5,2026-09-22T22:08:45.344010+00:00,0.66,3.716584,standard_input_output_rates_without_caching,757085,103245,860486,13732,274.459975189995,39,done,success,adhoc_3c29b401
+Store In Safe,claude-opus-5,2026-09-22T22:09:41.438773+00:00,0.75,5.04381,standard_input_output_rates_without_caching,811932,113520,925532,16646,368.5346800099942,40,give_up,success,adhoc_8eca0a87
+Cap Pen,claude-opus-5,2026-09-22T22:09:56.525636+00:00,0.2,3.508235,standard_input_output_rates_without_caching,498123,100518,598697,20590,348.80272088904167,28,done,success,adhoc_7a164900
+Pack And Pour Fruit,claude-opus-5,2026-09-22T22:11:55.978301+00:00,0.1,5.38886,standard_input_output_rates_without_caching,860149,121225,981452,19264,399.6807708920678,39,done,success,adhoc_254594ef
+Classify Objects,claude-opus-5-5,2026-09-22T22:14:10.781301+00:00,0,3.885756,standard_input_output_rates_without_caching,782939,109164,892259,15836,326.3816348420223,39,give_up,success,adhoc_c8090456
+Stand Up Bottles,claude-opus-5,2026-09-22T22:14:46.534864+00:00,0,6.074065,standard_input_output_rates_without_caching,953627,134158,1087863,25390,477.02087310003117,39,done,success,adhoc_bac591f8
+Stack Bowls,claude-opus-5,2026-09-22T22:14:48.656018+00:00,0,6.195905,standard_input_output_rates_without_caching,914593,153965,1068626,34111,606.5144603570225,34,give_up,success,adhoc_5e27c80f
+Pack And Pour Fruit,claude-opus-5,2026-09-22T22:19:27.333766+00:00,0.3,5.50675,standard_input_output_rates_without_caching,887732,121973,1009785,18313,348.9462344000349,40,give_up,success,adhoc_66a5e17c
+Store In Safe,claude-opus-5,2026-09-22T22:19:53.617474+00:00,0.5,5.207125,standard_input_output_rates_without_caching,842808,114987,957875,16710,359.51280287397094,40,give_up,success,adhoc_bc295a83
+Cap Pen,claude-opus-5,2026-09-22T22:20:00.671961+00:00,0.2,5.1257,standard_input_output_rates_without_caching,800244,119599,919915,21045,384.58179409999866,36,give_up,success,adhoc_e40cb2c0
+Classify Objects,claude-opus-5-5,2026-09-22T22:20:55.267263+00:00,0.5,3.587192,standard_input_output_rates_without_caching,729260,100836,830248,13310,283.7481972189853,38,done,success,adhoc_690d0a9c
+Stand Up Bottles,claude-opus-5,2026-09-22T22:25:07.081145+00:00,0.1,5.067955,standard_input_output_rates_without_caching,761708,124917,886691,25380,456.25532271602424,33,give_up,success,adhoc_90322df9
+Stack Bowls,claude-opus-5,2026-09-22T22:25:29.860991+00:00,0.25,5.66087,standard_input_output_rates_without_caching,843033,139341,982444,29946,526.5564728279132,35,done,success,adhoc_15e45bc4
+Pack And Pour Fruit,claude-opus-5,2026-09-22T22:26:08.647461+00:00,0.5,5.48762,standard_input_output_rates_without_caching,878885,122894,1001859,19133,373.66952035506256,40,give_up,success,adhoc_7b9f11b7
+Classify Objects,claude-opus-5-5,2026-09-22T22:26:38.394059+00:00,0.83,3.681588,standard_input_output_rates_without_caching,751761,101105,853022,13475,312.8111539289821,39,done,success,adhoc_0fab5548
+Cap Pen,claude-opus-5,2026-09-22T22:27:18.320395+00:00,0.2,3.8765,standard_input_output_rates_without_caching,546025,108869,654950,24070,427.1308079030132,28,give_up,success,adhoc_111ef97d
+Store In Safe,claude-opus-5,2026-09-22T22:27:53.223689+00:00,0.5,5.2725,standard_input_output_rates_without_caching,848605,116240,964925,17915,390.1663547960343,40,give_up,success,adhoc_b6b2e4eb
+Classify Objects,claude-opus-5-5,2026-09-22T22:32:59.667361+00:00,0.33,2.884896,standard_input_output_rates_without_caching,572213,89065,661414,11962,260.22193357592914,34,give_up,success,adhoc_9ee913e3
+Pack And Pour Fruit,claude-opus-5,2026-09-22T22:33:42.402725+00:00,0.1,4.44384,standard_input_output_rates_without_caching,655545,118367,773978,22958,428.72844278404955,33,overheat,success,adhoc_1409e28d
+Stand Up Bottles,claude-opus-5,2026-09-22T22:34:10.569364+00:00,0,6.461865,standard_input_output_rates_without_caching,967531,153867,1121468,34181,572.4630068640108,35,give_up,success,adhoc_b53a7bfa
+Stack Bowls,claude-opus-5,2026-09-22T22:34:52.378184+00:00,1,3.29561,standard_input_output_rates_without_caching,485289,89361,574702,16884,298.4937997190282,26,done,success,adhoc_76335623
+Store In Safe,claude-opus-5,2026-09-22T22:35:24.663860+00:00,0,5.63683,standard_input_output_rates_without_caching,897547,125449,1023076,20858,402.8133709349786,40,give_up,success,adhoc_813f863c
+Cap Pen,claude-opus-5,2026-09-22T22:35:34.424137+00:00,0,5.670205,standard_input_output_rates_without_caching,845232,141451,986751,29458,528.5078572609928,34,give_up,success,adhoc_619478b2
+Classify Objects,claude-opus-5-5,2026-09-22T22:40:18.286134+00:00,0.5,3.05566,standard_input_output_rates_without_caching,611272,90432,701840,12415,269.79170159995556,34,done,success,adhoc_0d529075
+Stack Bowls,claude-opus-5,2026-09-22T22:40:42.942971+00:00,0.25,5.769455,standard_input_output_rates_without_caching,880170,137307,1017551,27268,479.7299256750848,37,done,success,adhoc_a735fa5e
+Pack And Pour Fruit,claude-opus-5,2026-09-22T22:41:46.461986+00:00,0.1,5.380665,standard_input_output_rates_without_caching,843080,124982,968138,21599,418.0564614679897,38,done,success,adhoc_098b31bf
+Store In Safe,claude-opus-5,2026-09-22T22:54:21.007864+00:00,0,4.049095,standard_input_output_rates_without_caching,606451,111817,718334,18297,343.87353180599166,33,done,success,adhoc_15cdeaed
+Cap Pen,claude-opus-5,2026-09-22T22:54:22.798042+00:00,0,6.061005,standard_input_output_rates_without_caching,916543,149666,1066281,29184,516.0877009570249,36,give_up,success,adhoc_254802b3
+Stack Bowls,claude-opus-5,2026-09-22T22:54:27.493683+00:00,0.5,6.006355,standard_input_output_rates_without_caching,952848,132193,1085121,23230,445.92847450403497,40,give_up,success,adhoc_76bcd18e
+Stand Up Bottles,claude-opus-5,2026-09-22T22:54:29.122526+00:00,0.1,6.38485,standard_input_output_rates_without_caching,963814,155144,1119030,31588,546.0510116140358,36,give_up,success,adhoc_b91e77ec
+Classify Objects,claude-opus-5-5,2026-09-22T22:54:30.984612+00:00,0.5,3.4116,standard_input_output_rates_without_caching,686417,103686,790255,12529,279.09612779703457,38,done,success,adhoc_fbc95441
+Pack And Pour Fruit,claude-opus-5,2026-09-22T22:54:32.674830+00:00,0.3,5.547335,standard_input_output_rates_without_caching,885926,120590,1006592,20575,393.94150823599193,38,done,success,adhoc_060ca989
+Classify Objects,claude-opus-5-5,2026-09-22T23:01:23.090895+00:00,0.5,3.514872,standard_input_output_rates_without_caching,712490,98911,811553,13433,286.4729830001015,38,give_up,success,adhoc_6860b8a2
+Store In Safe,claude-opus-5,2026-09-22T23:04:19.613316+00:00,0,5.488535,standard_input_output_rates_without_caching,860623,126171,986872,22167,431.1751076770015,39,give_up,success,adhoc_e58aea82
+Cap Pen,claude-opus-5,2026-09-22T23:04:46.171082+00:00,0,4.88344,standard_input_output_rates_without_caching,719690,125544,845298,26278,470.11237693199655,32,give_up,success,adhoc_f29a9d88
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:05:44.835175+00:00,0,5.59846,standard_input_output_rates_without_caching,887566,126603,1014247,21089,412.5343188730767,39,give_up,success,adhoc_b34911dd
+Stack Bowls,claude-opus-5,2026-09-22T23:05:47.895098+00:00,0.75,5.504705,standard_input_output_rates_without_caching,841698,128227,969991,26190,417.2370668039657,33,done,success,adhoc_7e19792c
+Stand Up Bottles,claude-opus-5,2026-09-22T23:05:57.541718+00:00,0,8.612305,standard_input_output_rates_without_caching,1312826,191855,1504761,43540,742.7964005430113,40,give_up,success,adhoc_0857509d
+Classify Objects,claude-opus-5-5,2026-09-22T23:09:33.492483+00:00,0.34,3.460872,standard_input_output_rates_without_caching,683552,103037,786733,15697,313.9638714980101,36,done,success,adhoc_f0755aa7
+Classify Objects,claude-opus-5-5,2026-09-22T23:15:45.364874+00:00,0.33,3.234836,standard_input_output_rates_without_caching,643852,95998,739994,13743,276.3455204979982,36,give_up,success,adhoc_27954a23
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:15:47.868130+00:00,0,2.26615,standard_input_output_rates_without_caching,294656,76102,370800,16486,310.6269070969429,21,overheat,success,adhoc_40ba07a9
+Stack Bowls,claude-opus-5,2026-09-22T23:16:01.457926+00:00,0.25,5.83742,standard_input_output_rates_without_caching,915306,132798,1048184,23860,399.80709379399195,40,give_up,success,adhoc_2a28d514
+Store In Safe,claude-opus-5,2026-09-22T23:16:54.622158+00:00,0.5,5.02513,standard_input_output_rates_without_caching,794413,115567,910056,18994,375.0019785250188,38,done,success,adhoc_43ad72fc
+Cap Pen,claude-opus-5,2026-09-22T23:16:56.321487+00:00,0,5.099315,standard_input_output_rates_without_caching,787980,121236,909288,22115,396.02286901301704,36,give_up,success,adhoc_3d90fe06
+Classify Objects,claude-opus-5-5,2026-09-22T23:22:11.409802+00:00,0.83,3.423928,standard_input_output_rates_without_caching,695956,97589,793697,12457,271.33427370805293,38,done,success,adhoc_d3478f90
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:22:14.984775+00:00,0.1,5.209665,standard_input_output_rates_without_caching,833986,117474,951538,18079,340.93852395098656,39,done,success,adhoc_0b0acbb8
+Stand Up Bottles,claude-opus-5,2026-09-22T23:22:45.307227+00:00,0,5.12399,standard_input_output_rates_without_caching,748728,129972,878758,29208,477.87818157096626,29,done,success,adhoc_c0470b46
+Stack Bowls,claude-opus-5,2026-09-22T23:23:34.915973+00:00,0,4.9492,standard_input_output_rates_without_caching,739503,123431,863000,25368,456.7028713331092,33,give_up,success,adhoc_4236fcc4
+Store In Safe,claude-opus-5,2026-09-22T23:24:51.343447+00:00,0,4.489415,standard_input_output_rates_without_caching,680388,115380,795838,20409,450.53453986300156,35,give_up,success,adhoc_478fd2f0
+Cap Pen,claude-opus-5,2026-09-22T23:25:07.889189+00:00,0,5.864185,standard_input_output_rates_without_caching,859619,149193,1008882,32791,551.3553390860325,35,give_up,success,adhoc_80b6b381
+Classify Objects,claude-opus-5-5,2026-09-22T23:27:59.034066+00:00,0.34,4.106108,standard_input_output_rates_without_caching,829125,113512,942797,16746,331.35955866705626,40,done,success,adhoc_40938102
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:28:32.903419+00:00,0.5,6.02123,standard_input_output_rates_without_caching,940892,137253,1078221,25205,497.0151954649482,38,done,success,adhoc_995f5d45
+Stand Up Bottles,claude-opus-5,2026-09-22T23:31:50.298981+00:00,0,6.045175,standard_input_output_rates_without_caching,937341,136958,1074375,26932,482.2505089910119,38,give_up,success,adhoc_a3e316a1
+Stack Bowls,claude-opus-5,2026-09-22T23:31:54.407772+00:00,0.5,6.684235,standard_input_output_rates_without_caching,993659,160591,1154322,36505,612.566628927947,36,done,success,adhoc_62211a47
+Classify Objects,claude-opus-5-5,2026-09-22T23:35:58.885961+00:00,0.34,3.64298,standard_input_output_rates_without_caching,732675,103407,836230,14903,294.38601866795216,37,done,success,adhoc_7c3c3d9c
+Store In Safe,claude-opus-5,2026-09-22T23:36:23.495095+00:00,0.5,4.70256,standard_input_output_rates_without_caching,734265,111570,845907,18921,394.224529300991,36,done,success,adhoc_86c2e282
+Cap Pen,claude-opus-5,2026-09-22T23:36:26.830213+00:00,0.2,6.40757,standard_input_output_rates_without_caching,995166,145498,1140744,28154,507.58993026503595,40,give_up,success,adhoc_feb61fcd
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:37:41.884954+00:00,0.1,5.48414,standard_input_output_rates_without_caching,874960,124048,999088,19548,398.0608910530573,40,give_up,success,adhoc_c4cf5e1c
+Classify Objects,claude-opus-5-5,2026-09-22T23:42:27.442694+00:00,0.33,3.899964,standard_input_output_rates_without_caching,761303,114773,876216,19755,340.6072159350151,35,done,success,adhoc_417c1918
+Stand Up Bottles,claude-opus-5,2026-09-22T23:42:30.627477+00:00,0,7.171935,standard_input_output_rates_without_caching,1085712,161056,1246842,37509,669.5178702500416,37,done,success,adhoc_d9940578
+Stack Bowls,claude-opus-5,2026-09-22T23:42:48.496998+00:00,0,6.243575,standard_input_output_rates_without_caching,933685,151110,1084865,32770,570.1706532619428,35,done,success,adhoc_aa147130
+Store In Safe,claude-opus-5,2026-09-22T23:44:02.435694+00:00,0.5,4.97989,standard_input_output_rates_without_caching,807887,110076,918043,15587,382.80276790901553,40,give_up,success,adhoc_4ae92aac
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:45:05.451996+00:00,0.1,4.924375,standard_input_output_rates_without_caching,771112,115839,887025,19570,343.2141655710293,37,done,success,adhoc_9977d4e9
+Cap Pen,claude-opus-5,2026-09-22T23:46:17.270501+00:00,0.75,5.63361,standard_input_output_rates_without_caching,849912,137440,987422,27860,473.600358324009,35,done,success,adhoc_90ec2c99
+Classify Objects,claude-opus-5-5,2026-09-22T23:48:59.793141+00:00,0.33,3.89602,standard_input_output_rates_without_caching,790697,107652,898505,15100,304.1762223589467,39,done,success,adhoc_5f58faf8
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:51:54.533932+00:00,0.1,5.77777,standard_input_output_rates_without_caching,921756,127188,1049024,21306,414.63491412298754,40,give_up,success,adhoc_671c63f9
+Store In Safe,claude-opus-5,2026-09-22T23:52:07.406462+00:00,0.25,5.401515,standard_input_output_rates_without_caching,848418,124942,973438,21373,433.890898032987,39,done,success,adhoc_00188e02
+Stack Bowls,claude-opus-5,2026-09-22T23:53:02.525057+00:00,0.5,7.41188,standard_input_output_rates_without_caching,1157048,159938,1317066,33062,601.5529073789949,40,give_up,success,adhoc_d9994827
+Stand Up Bottles,claude-opus-5,2026-09-22T23:54:46.647554+00:00,0.1,5.191855,standard_input_output_rates_without_caching,778151,130137,908356,26003,446.65012311696773,34,give_up,success,adhoc_b1f8db16
+Classify Objects,claude-opus-5-5,2026-09-22T23:55:31.713413+00:00,0.17,3.335108,standard_input_output_rates_without_caching,666636,97397,764177,13920,297.42615508206654,36,done,success,adhoc_fb431dca
+Cap Pen,claude-opus-5,2026-09-22T23:55:55.968849+00:00,0.75,4.701285,standard_input_output_rates_without_caching,692965,122083,815112,25029,428.8247662629583,32,done,success,adhoc_37e4bbbb
+Pack And Pour Fruit,claude-opus-5,2026-09-22T23:59:24.235419+00:00,0.1,5.553555,standard_input_output_rates_without_caching,869434,130797,1000311,22080,452.2648671269417,40,done,success,adhoc_b029a695
+Store In Safe,claude-opus-5,2026-09-23T00:00:00.348903+00:00,0,0.553365,standard_input_output_rates_without_caching,62665,22947,85628,5009,108.89115056704031,8,overheat,success,adhoc_9d99ae23
+Classify Objects,claude-opus-5-5,2026-09-23T00:03:24.685925+00:00,0.5,3.145168,standard_input_output_rates_without_caching,629844,92968,722952,12668,332.0347421579063,35,done,success,adhoc_bfbbcd79
+Store In Safe,claude-opus-5,2026-09-23T00:04:15.249132+00:00,0.5,4.54388,standard_input_output_rates_without_caching,711619,108140,819831,17789,381.01948361098766,36,done,success,adhoc_e7afdd0d
+Stack Bowls,claude-opus-5,2026-09-23T00:04:19.303959+00:00,0.25,5.900055,standard_input_output_rates_without_caching,918106,133331,1051511,25700,511.42904703703243,37,done,success,adhoc_5bb09466
+Cap Pen,claude-opus-5,2026-09-23T00:04:26.752476+00:00,0.2,6.87374,standard_input_output_rates_without_caching,1059336,157522,1216938,31562,565.837369492976,40,give_up,success,adhoc_8e745851
+Stand Up Bottles,claude-opus-5,2026-09-23T00:04:28.266097+00:00,0.1,6.701845,standard_input_output_rates_without_caching,1028003,152950,1181029,31868,573.119291199022,38,give_up,success,adhoc_fba279c0
+Pack And Pour Fruit,claude-opus-5,2026-09-23T00:07:35.938617+00:00,0.1,4.94795,standard_input_output_rates_without_caching,749742,124238,874050,23108,449.3921882499708,35,done,success,adhoc_fd95a478
+Classify Objects,claude-opus-5-5,2026-09-23T00:09:56.989893+00:00,0.66,2.568136,standard_input_output_rates_without_caching,507983,80503,588614,10684,223.32126245100517,32,done,success,adhoc_5368719f
+Store In Safe,claude-opus-5,2026-09-23T00:12:38.087874+00:00,0,2.263795,standard_input_output_rates_without_caching,328350,67131,395529,11446,229.95188481395599,24,overheat,success,adhoc_7af13ec9
+Classify Objects,claude-opus-5-5,2026-09-23T00:14:45.833486+00:00,0.5,3.129248,standard_input_output_rates_without_caching,628503,92975,721622,12138,268.5670243699569,36,done,success,adhoc_0f51c8e7
+Stack Bowls,claude-opus-5,2026-09-23T00:15:09.181609+00:00,0,5.208855,standard_input_output_rates_without_caching,782792,130782,913646,25625,465.6501237680204,36,done,success,adhoc_8df2c275
+Stand Up Bottles,claude-opus-5,2026-09-23T00:15:14.392733+00:00,0.1,5.11851,standard_input_output_rates_without_caching,783238,123744,907052,23330,442.933873425005,35,give_up,success,adhoc_705ad400
+Cap Pen,claude-opus-5,2026-09-23T00:15:32.803352+00:00,0.2,5.295485,standard_input_output_rates_without_caching,789245,133244,922557,27308,499.11186417599674,34,give_up,success,adhoc_59550648
+Store In Safe,claude-opus-5,2026-09-23T00:18:16.661211+00:00,0,5.041505,standard_input_output_rates_without_caching,799957,115496,915531,18554,395.3942662799964,39,done,success,adhoc_c138ba80
+Classify Objects,claude-opus-5,2026-09-23T00:24:47.411542+00:00,0.17,4.54195,standard_input_output_rates_without_caching,707395,109095,816560,18366,363.7870252809953,35,done,success,adhoc_a53093ac
+Stand Up Bottles,claude-opus-5,2026-09-23T00:25:16.765645+00:00,0,7.110165,standard_input_output_rates_without_caching,1104633,155882,1260593,32288,529.9370593010099,39,done,success,adhoc_f451f55f
+Stack Bowls,claude-opus-5,2026-09-23T00:25:25.585060+00:00,0.25,5.52012,standard_input_output_rates_without_caching,852494,128638,981204,24564,446.2433265000582,36,done,success,adhoc_9d6a3f38
+Store In Safe,claude-opus-5,2026-09-23T00:25:44.980132+00:00,0.5,5.030395,standard_input_output_rates_without_caching,798993,115858,914929,18230,360.4262269209721,39,done,success,adhoc_3f7bb941
+Cap Pen,claude-opus-5,2026-09-23T00:25:52.863462+00:00,0.5,3.77551,standard_input_output_rates_without_caching,493251,118786,612087,28603,468.14205519499956,25,overheat,success,adhoc_4875311c
+Classify Objects,claude-opus-5,2026-09-23T00:31:47.448309+00:00,0.17,5.679255,standard_input_output_rates_without_caching,904828,126918,1031826,20805,430.0929824040504,40,give_up,success,adhoc_77534b74
+Store In Safe,claude-opus-5,2026-09-23T00:32:57.747422+00:00,0,3.929755,standard_input_output_rates_without_caching,603553,100525,704146,16361,322.35990599304205,34,done,success,adhoc_27e0c67f
+Stack Bowls,claude-opus-5,2026-09-23T00:33:38.765851+00:00,0,5.51397,standard_input_output_rates_without_caching,853125,131346,984549,23649,400.65178005502094,39,give_up,success,adhoc_264a8a61
+Cap Pen,claude-opus-5,2026-09-23T00:34:21.391641+00:00,0,5.602355,standard_input_output_rates_without_caching,878898,127737,1006711,22752,427.48499657202046,38,done,success,adhoc_0b9dad84
+Stand Up Bottles,claude-opus-5,2026-09-23T00:35:20.478813+00:00,0.1,6.481765,standard_input_output_rates_without_caching,985033,150978,1136083,32054,584.9862012719968,36,give_up,success,adhoc_4d360671
+Classify Objects,claude-opus-5,2026-09-23T00:41:40.046529+00:00,0.17,4.793545,standard_input_output_rates_without_caching,747368,114194,861634,19415,387.30094912310597,36,done,success,adhoc_5295496a
+Stack Bowls,claude-opus-5,2026-09-23T00:41:55.457320+00:00,0,6.92546,standard_input_output_rates_without_caching,1023533,168452,1192057,38607,661.0505586459767,36,done,success,adhoc_16022541
+Store In Safe,claude-opus-5,2026-09-23T00:42:24.002471+00:00,0.5,4.839775,standard_input_output_rates_without_caching,770596,111038,881710,17249,355.3217504780041,38,done,success,adhoc_9b37e6ab
+Cap Pen,claude-opus-5,2026-09-23T00:42:34.837379+00:00,0.2,4.457855,standard_input_output_rates_without_caching,647365,120716,768141,24686,416.42729664896615,30,give_up,success,adhoc_6e292210
+Stand Up Bottles,claude-opus-5,2026-09-23T00:46:42.204100+00:00,0,5.883775,standard_input_output_rates_without_caching,907122,135241,1042435,26864,491.35322168900166,36,give_up,success,adhoc_dd6198e7
+Classify Objects,claude-opus-5,2026-09-23T00:48:49.765171+00:00,0.34,4.13523,standard_input_output_rates_without_caching,642884,102004,744956,16418,345.21068671997637,34,done,success,adhoc_805fd3d0
+Store In Safe,claude-opus-5,2026-09-23T00:49:08.224557+00:00,0,1.58837,standard_input_output_rates_without_caching,226020,52426,278484,7838,183.69177421199856,19,overheat,success,adhoc_ec8dc88e
+Cap Pen,claude-opus-5,2026-09-23T00:50:49.357539+00:00,0,6.062185,standard_input_output_rates_without_caching,921968,143562,1065602,29367,511.4625501910341,36,give_up,success,adhoc_c6006876
+Classify Objects,claude-opus-5,2026-09-23T00:57:08.720082+00:00,0.17,5.794345,standard_input_output_rates_without_caching,880820,137059,1017949,28184,533.1349997739308,35,done,success,adhoc_dd131c4b
+Stand Up Bottles,claude-opus-5,2026-09-23T00:57:30.711579+00:00,0,1.66533,standard_input_output_rates_without_caching,172398,67959,240381,18537,323.18038692197297,12,overheat,success,adhoc_4b133657
+Cap Pen,claude-opus-5,2026-09-23T01:02:28.271737+00:00,0,5.87345,standard_input_output_rates_without_caching,897150,139113,1036335,27671,503.35170105303405,36,give_up,success,adhoc_9cedc351
+Stand Up Bottles,claude-opus-5,2026-09-23T01:04:12.688885+00:00,0.1,6.047185,standard_input_output_rates_without_caching,935387,137421,1072882,27311,493.896338696999,37,give_up,success,adhoc_9970d85d
+Classify Objects,claude-opus-5,2026-09-23T01:07:37.195138+00:00,0.34,5.12472,standard_input_output_rates_without_caching,822345,115199,937624,17464,362.52939584001433,40,give_up,success,adhoc_40fec2a0
+Classify Objects,claude-opus-5,2026-09-23T01:14:42.027764+00:00,0,4.821365,standard_input_output_rates_without_caching,765945,110724,876743,17506,384.21200755797327,37,done,success,adhoc_5c9710f9
+Stand Up Bottles,claude-opus-5,2026-09-23T01:14:59.304064+00:00,0,7.44583,standard_input_output_rates_without_caching,1138784,168369,1307231,36387,637.4709347320022,39,give_up,success,adhoc_30d8a194
+Cap Pen,claude-opus-5,2026-09-23T01:15:17.724953+00:00,0.2,5.286525,standard_input_output_rates_without_caching,805474,128151,933695,24722,399.1778997670044,35,give_up,success,adhoc_fd61e0e4
+Classify Objects,claude-opus-5,2026-09-23T01:24:02.439529+00:00,0,4.821715,standard_input_output_rates_without_caching,742607,117171,859848,20899,401.1557173060719,35,done,success,adhoc_9cf0c286
+Cap Pen,claude-opus-5,2026-09-23T01:24:17.424577+00:00,0.5,2.131755,standard_input_output_rates_without_caching,270364,72544,342946,16681,290.8707687080023,19,overheat,success,adhoc_373156b8
+Classify Objects,claude-opus-5,2026-09-23T01:41:39.059550+00:00,0.66,5.54959,standard_input_output_rates_without_caching,887901,127192,1015173,18949,393.7160594119923,40,give_up,success,adhoc_71cab9b8
+Classify Objects,claude-opus-5,2026-09-23T01:51:40.603319+00:00,0.17,4.834845,standard_input_output_rates_without_caching,776090,109008,885174,16359,323.87124147301074,38,done,success,adhoc_c6ad5dfe
+Classify Objects,claude-opus-5,2026-09-23T01:59:38.146112+00:00,0.33,5.237465,standard_input_output_rates_without_caching,839804,117409,957293,18040,372.74211230000947,40,done,success,adhoc_59d12b51
+Classify Objects,claude-opus-5,2026-09-23T02:06:29.663527+00:00,0,5.50567,standard_input_output_rates_without_caching,836597,132727,969394,26348,518.9451399639947,35,give_up,success,adhoc_eb266140
+Classify Objects,claude-opus-5,2026-09-23T02:16:23.183183+00:00,0.34,4.816355,standard_input_output_rates_without_caching,752848,114036,866956,19263,514.0638148109429,36,done,success,adhoc_0c61efcf
+Classify Objects,claude-opus-5,2026-09-23T02:28:02.679190+00:00,0,1.621885,standard_input_output_rates_without_caching,214551,56302,270887,10698,241.60140065394808,17,overheat,success,adhoc_4bc3d71a
+Classify Objects,claude-opus-5,2026-09-23T02:33:31.542891+00:00,0.17,4.293305,standard_input_output_rates_without_caching,661441,107452,768961,17940,343.2127747980412,34,done,success,adhoc_5f0bcacf
+Classify Objects,claude-opus-5,2026-09-23T02:41:14.993114+00:00,0.66,5.119685,standard_input_output_rates_without_caching,822288,113283,935647,17658,375.15572183800396,38,done,success,adhoc_f1d10fd8
+Classify Objects,claude-opus-5,2026-09-23T02:53:06.731061+00:00,0.33,4.55939,standard_input_output_rates_without_caching,703433,116315,819818,18412,345.2581309740199,35,done,success,adhoc_74ec52e1
+Classify Objects,claude-opus-5,2026-09-23T02:59:50.183155+00:00,0.17,6.18818,standard_input_output_rates_without_caching,975710,136911,1112701,24987,497.33997733995784,40,give_up,success,adhoc_90bb448e
+Classify Objects,claude-opus-5,2026-09-23T03:10:23.521025+00:00,0,5.02592,standard_input_output_rates_without_caching,791319,116546,907939,19449,393.7468963449355,37,give_up,success,adhoc_edc19690
+Classify Objects,claude-opus-5,2026-09-23T03:19:52.459104+00:00,0.17,5.604365,standard_input_output_rates_without_caching,893900,125158,1019138,20347,467.6289587189676,40,give_up,success,adhoc_2d769f62
