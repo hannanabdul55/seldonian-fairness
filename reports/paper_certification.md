@@ -478,24 +478,44 @@ fail.
 
 *Table 9. Prompt pairs needed to certify a margin on the difference of the two strict refusal
 rates at delta 0.05, from the rates of section 8.3 [P9 budget]. A design calculation: normal-type
-limits, pairing correlation 0.66 (the guard's flags on the same prompts), guard `rho^2` 0.6.*
+limits, pairing correlation 0.66 (the guard's flags on the same prompts), guard `rho^2` 0.6. The
+two guard columns differ in what the claim covers: the pool's own 490 prompts, where guard-only
+responses pin down the guard's mean, or new prompts from the same source, where the pool's
+unlabelled prompts are all the guard has.*
 
-| margin | chance of certifying | labels alone, unpaired | labels alone, paired by prompt | paired, guard's logit as predictor |
-|---|---|---|---|---|
-| 0.02 | 50% | 1,226 | 416 | 167 |
-| 0.02 | 80% | 2,801 | 950 | 380 |
-| 0.03 | 80% | 1,266 | 429 | 172 |
-| 0.05 | 80% | 462 | 157 | 63 |
+| margin | chance of certifying | labels alone, unpaired | labels alone, paired by prompt | with the guard, pool rate | with the guard, new prompts |
+|---|---|---|---|---|---|
+| 0.02 | 50% | 1,226 | 416 | 167 | 339 |
+| 0.02 | 80% | 2,801 | 950 | 380 | not within 490 prompts |
+| 0.03 | 80% | 1,266 | 429 | 172 | 362 |
+| 0.05 | 80% | 462 | 157 | 63 | 78 |
 
-Pairing the two policies on the same prompts cuts the budget threefold and the guard cuts it
-again by 2.5, so a certificate that would take 2,800 unpaired pairs takes 380. A sample of 300
-pairs is expected to certify a margin of 0.024 with labels alone and 0.015 with the guard.
+Pairing the two policies on the same prompts cuts the budget threefold. What the guard adds
+depends on the claim. For the rate on the pool's own prompts, a guard-only response costs GPU
+seconds, the guard's mean can be measured as closely as wanted, and the guard cuts the budget
+again by 2.5: a certificate that would take 2,800 unpaired pairs takes 380. For new prompts from
+the same source, the guard's mean is known only through the pool's unlabelled prompts. With 300
+of 490 labelled it removes 23% of the variance, not 60%, and the 2-point margin at an 80% chance
+is out of reach inside the pool. A predictor removes label noise. It does not remove the
+uncertainty of a small prompt set.
 
-`[GAP: P9]` The measured result: 300 prompt pairs of fresh responses from the returned policy of
-one training run and from its reference, labelled blind by the one annotator; the certified
-margin (the upper bound at delta 0.05 on the difference) by the betting bound on the paired
-differences and by PPI++ on the guard's logit with a bootstrap-t limit, beside the 0.02 target.
-The rules were fixed before any of these labels existed (plan section 6, version 2).
+`[GAP: P9]` The measured result: 300 prompt pairs of fresh responses (256 tokens) from the
+returned policy of one training run and from its reference, labelled blind by the one annotator,
+with 8 further responses per policy on each of the 490 pool prompts that only the guard reads.
+Four upper limits at delta 0.05 on the difference, each computed once on the full sample: (a)
+labels alone, the betting bound (exact); (a') labels alone, bootstrap-t (approximate, the
+like-for-like comparator); (b1) with the guard, for the pool rate, PPI++ with a bootstrap-t limit;
+(b2) with the guard, for new prompts, the same with the other 190 prompts' pairs as the unlabelled
+data. The headline is (a) beside (b1), with the 0.02 target. The rules and the analysis script
+were fixed before any of these labels existed (plan section 6, version 2 and amendment 2.1).
+A check of the whole design on the guard's real scores, with synthetic labels drawn from the
+guard's logit at the rates of section 8.3, puts the miss rates of the four limits at 0.001,
+0.040, 0.045 and 0.042 for the pool rate against a level of 0.05, and their mean certified
+margins at 0.065, 0.037, 0.032 and 0.035 [P9 design check]. The exact bound is about twice as
+wide as the approximate ones: with some 30 discordant pairs in 300, exactness is the larger
+cost, and the guard's gain is the smaller one. Two limits of the measurement: one annotator,
+and the reference writes longer responses than the trained policy (57% against 32% of the
+sheet's items run to the token limit), so length is a weak cue to the policy.
 
 ## 9. Limits
 
@@ -597,6 +617,7 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 | [019] | `.planning/spikes/019-external-trace-certificate/README.md` | yes; transcripts on the D: drive |
 | [P6] | `results/labels/refusal/analysis.md` (`scripts/refusal_labels.py analyze`; labels in `labels_ah.jsonl`, design in `design.json`) | yes |
 | [P9 budget] | `results/paper/p9_budget.md` (`scripts/p9_budget.py`) | yes |
+| [P9 design check] | `results/labels/p9/design_check.md` (`scripts/p9_certificate.py check`) | yes |
 | [P14] | `results/paper/stratppi.md`, `stratppi.json` (`scripts/stratppi_baseline.py`; 5,000 draws per cell in part A, 4,000 in part B) | yes, CPU, about 5 minutes |
 | [P15] | `results/labels/xstest/analysis.md` (`scripts/xstest_guard.py`; guard scores and human labels in `guard_scores.jsonl`) | yes; XSTest's completions are fetched from its repository and kept outside this one |
 | [020], [020 P] | `.planning/spikes/020-agentdojo-injection-certificate/README.md` and `plasmode.md` | yes |

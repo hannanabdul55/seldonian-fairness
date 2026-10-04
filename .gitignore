@@ -150,3 +150,8 @@ results/llm/
 results/llm_*/
 results/spikes/020/episodes.jsonl
 results/spikes/021/prefixes_base3b.jsonl
+
+# P9: the raw responses are kept as gen.jsonl.xz; the guard input is derived from them
+results/labels/p9/gen.jsonl
+results/labels/p9/guard_in.jsonl
+results/labels/p9/*.log

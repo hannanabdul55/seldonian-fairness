@@ -97,7 +97,8 @@ def main():
             url = "file://" + path
             if CHROME.startswith("/mnt/"):       # Windows Chrome reads the WSL file through its UNC path
                 url = "file:///" + subprocess.run(["wslpath", "-w", path], capture_output=True, text=True).stdout.strip().replace("\\", "/")
-            r = subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--virtual-time-budget=20000", "--dump-dom", url],
+            budget = max(20000, 30 * presses + 8000)     # the driver waits 30 ms a key press; a 600-item pass needs 26 s
+            r = subprocess.run([CHROME, "--headless=new", "--disable-gpu", f"--virtual-time-budget={budget}", "--dump-dom", url],
                                capture_output=True, text=True, timeout=180, cwd="/mnt/c" if CHROME.startswith("/mnt/") else None)
             m = re.search(r'<pre id="result">(.*?)</pre>', r.stdout, re.S)
             res = json.loads(H.unescape(m.group(1))) if m else None

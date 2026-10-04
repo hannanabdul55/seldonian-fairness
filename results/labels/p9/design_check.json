@@ -1,0 +1,67 @@
+{
+ "truth": 0.00634920634920635,
+ "reps": 2000,
+ "n": 300,
+ "delta": 0.05,
+ "boots": 300,
+ "label_model": {
+  "edges": [
+   0.0,
+   10.0
+  ],
+  "p": [
+   0.0017260283662858598,
+   0.16511167656205825,
+   0.7623160588611644
+  ]
+ },
+ "rate_ref": 0.09478458049886622,
+ "rate_trained": 0.10113378684807256,
+ "guard_null_logits": 0,
+ "schemes": {
+  "pool": {
+   "a": {
+    "miss": 0.0005,
+    "mean_margin": 0.0648247486352285,
+    "under_target": 0.0065
+   },
+   "a2": {
+    "miss": 0.04,
+    "mean_margin": 0.036899638501715626,
+    "under_target": 0.171
+   },
+   "b1": {
+    "miss": 0.0455,
+    "mean_margin": 0.03201261103963053,
+    "under_target": 0.222
+   },
+   "b2": {
+    "miss": 0.0415,
+    "mean_margin": 0.03492747216609692,
+    "under_target": 0.1825
+   }
+  },
+  "new prompts": {
+   "a": {
+    "miss": 0.0005,
+    "mean_margin": 0.06495984165275095,
+    "under_target": 0.0095
+   },
+   "a2": {
+    "miss": 0.0515,
+    "mean_margin": 0.037135893217651345,
+    "under_target": 0.189
+   },
+   "b1": {
+    "miss": 0.063,
+    "mean_margin": 0.032058510490803376,
+    "under_target": 0.2345
+   },
+   "b2": {
+    "miss": 0.052,
+    "mean_margin": 0.0350129709636293,
+    "under_target": 0.205
+   }
+  }
+ }
+}
