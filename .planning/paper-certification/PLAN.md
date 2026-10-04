@@ -76,5 +76,9 @@ measure.
 
 ## 5. Tracking
 
-Each step gets a line in this file when done (date, output path, one-line result). The paper
+Each step gets a line in this file when done (date, output path, one-line result).
+
+- 2026-10-04 decisions: refuse-then-answer is its own label (`h`); two annotators now, more later (slot/K scheme).
+- 2026-10-04 P4 draft: `results/labels/refusal/GUIDELINE.md` (four labels r/a/h/u, three tests, ten worked examples). Harm guideline extension pending.
+- 2026-10-04 P5 built: `results/labels/refusal/sheet.jsonl` (200 items, 8 strata by step x guard x hybrid shape, weights in `key.jsonl`, 40 shared), page https://claude.ai/artifact/RrKcGyzaQT9PHm41ErphGx (db rules: labels read/write owner, labels/{self} interact), `scripts/refusal_labels.py` (flatten, analyze). Labelling not started. The paper
 draft carries `[GAP: Pn]` markers until the step lands. Commits outside weekday 9-5 PT.
