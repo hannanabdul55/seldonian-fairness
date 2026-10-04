@@ -149,3 +149,4 @@ temp/
 results/llm/
 results/llm_*/
 results/spikes/020/episodes.jsonl
+results/spikes/021/prefixes_base3b.jsonl

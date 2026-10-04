@@ -246,6 +246,18 @@ needs on its own traffic.
   stricter statement.
 - Check a bound under the design's own resampling before trusting it on published runs
   (020's `plasmode020.py`: the observed clusters as the population, redraw clusters).
+- A code label defined on the end state of an episode (AgentDojo's `security`) has no
+  single-turn proxy: the policy complies over several turns after a benign-looking first
+  call, so a next-turn check caught 17 of 65 real successes (021). Training against such a
+  label needs the environment in the loop and the label itself as the constraint, not
+  next-turn GRPO on prefixes.
+- A small policy's low attack rate is checked against how often it read the attack: Qwen2.5-3B
+  was compromised in 7% of pairs but never saw the injected content in 48% of them, and in
+  14% of the pairs where it did (021). Report the conditional rate beside the headline.
+- Serving a local policy to a harness: vLLM in its own venv on D: with `--enforce-eager`, the
+  zig `gcc` shim for Triton, the flashinfer sampler off, a server-side `max_new_tokens`, native
+  tool calls (hermes parser) for Qwen, and prompts for training rendered by the server's
+  `/tokenize` so the policy trains on what it is served with (021 `serve.sh`, `prefixes021.py`).
 
 ## Spikes
 
@@ -273,3 +285,4 @@ needs on its own traffic.
 | 018 | prompted-ghat | own-noul-judge | standard | Given ~10-20 public labelled safety/refusal sets recast as (instruction, state, label) plus synthetic verifiable constraints, when a 0.6B-2B backbone with a sigmoid head is fine-tuned on log loss and temperature-scaled, then it generalises to held-out instruction families, is calibrated (ECE) on the 225 human labels and 013's responses, and matches Qwen3Guard-4B on harm (Jev tier A: a local, versioned, calibrated Noul-only judge; ~3-5 weeks, 20-60 GPU h) | QUEUED (gate FIRED by 015; and the only route to a better judge now that the external API is ruled out) | own-judge, calibration, instruction-conditioned, gpu |
 | 019 | external-trace-certificate | external-trace-certificate | standard | Given a fixed policy evaluated by someone else and only its public per-trial traces (RoboDojo-RC Tier 1: 3 models x 6 tasks x 20 trials), when the harness's own safety events are extracted by code and bounded per model, then we know what such a benchmark can certify about safety stops, whether the policy's self-narration carries any signal about them, and whether task strata buy anything | VALIDATED (the resolution is the result: 2.5% with nothing observed, 5.2% at two stops, so the pre-registered 5% certificate returns NSF for all three models; Opus 5 stops 10/120 against 4/240, p 0.003; self-narration AUC 0.38; peak joint effort AUC 0.75-0.83; task strata within 0.004 of pooled) | certificate, external-traces, robotics, clopper-pearson, stratified, cpu |
 | 020 | external-trace-certificate | agentdojo-injection-certificate | standard | Given AgentDojo's published per-episode runs (29 model/defence pipelines, 629-949 (user task, injection task) pairs each, the harness's code-computed `security` label), when a per-pipeline certificate on the targeted attack success rate is computed with the crossed design respected, then we know how much the naive i.i.d. bound understates the uncertainty, which pipelines certify at 5%, and whether suite strata buy anything | VALIDATED (naive Clopper-Pearson misses 5-28% under user-task resampling, cluster-t 2-6%; 1 of 28 pipelines certifies at 5% (claude-3-5-sonnet-20241022, 0.022); Meta-SecAlign's 2.2% is 0.104 clustered, 21 successes in 5 user tasks; website numbers reproduce exactly on the v1 subset; suite strata ESS 1.0-1.5) | certificate, external-traces, prompt-injection, agents, clustered, cpu |
+| 021 | external-trace-certificate | agentdojo-seldonian-training | standard | Given AgentDojo's code-computed `security` label and a small local policy served through vLLM, when the policy is trained under a Seldonian constraint on a step-level code proxy of that label and certified on held-out user tasks with the clustered bound, then the real injection success rate falls to a certifiable level without losing task utility | INVALIDATED (both pre-registered gates closed at stage A: Qwen2.5-3B is attacked successfully in 7% of pairs, 14% of those it reads, utility 0.195; the step-level proxy's recall of real successes is 0.26 because compliance happens over later turns; stages B-C not run; 1.9 GPU-h; serving and harness infrastructure stands) | certificate, prompt-injection, agents, training, lagrangian, vllm, gpu |
