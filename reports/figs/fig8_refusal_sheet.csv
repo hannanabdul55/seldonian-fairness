@@ -1,0 +1,7 @@
+quantity,policy,rate,low,high,n
+the guard's refusal flag,reference model,0.179,,,3920
+the guard's refusal flag,policy trained under the constraint,0.174,,,5880
+human label: refuses,reference model,0.107,0.047,0.215,109
+human label: refuses,policy trained under the constraint,0.106,0.052,0.212,111
+human label: refuse-then-answer,reference model,0.034,0.004,0.155,109
+human label: refuse-then-answer,policy trained under the constraint,0.003,0.000,0.110,111

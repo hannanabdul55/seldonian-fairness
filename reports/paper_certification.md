@@ -1,6 +1,6 @@
 # Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry
 
-**Draft v0.1, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
+**Draft v0.2, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
 Built from results already in the repository; nothing here is new measurement. Every number
 carries a source tag, resolved in Appendix A. `[GAP: Pn]` marks a result that step `Pn` of
 `.planning/paper-certification/PLAN.md` will supply. `[CHECK]` marks a number to re-verify
@@ -93,6 +93,8 @@ known, the bound falls below the truth in at most a fraction delta of draws. We 
 three ways: a synthetic environment where the true rate of any policy is computable; resampling
 from a large pool of real judged responses, with the pool's mean as truth (a plasmode in the
 sense of Franklin et al., 2014); and, for crossed designs, resampling whole clusters.
+
+Figure 1 draws the table below as miss rate over delta.
 
 *Table 2. Miss rate against delta for every bound used. "Exact" means valid at every sample
 size by construction; "approximate" means valid asymptotically and checked by resampling.
@@ -192,14 +194,15 @@ benchmark with 20 trials a task, where the bound is set by the positives [013, 0
 
 **A pre-flight.** The gain is predictable from k reference samples before any trained-policy
 response is labelled: Spearman 0.83 between predicted and realised ESS on real data, with the
-prediction 0-20% high at H = 8 [013]. The absolute-error criterion we pre-registered (median
+prediction 0-20% high at H = 8 [013] (Figure 2). The absolute-error criterion we pre-registered (median
 error at most 0.1) failed on real data (0.29) and passed on the bandit (0.02); we report the
 ranking as the usable part.
 
 **Against StratPPI.** Stratified sampling with prediction-powered intervals for language-model
 evaluation is StratPPI (Fisch et al., 2024): within each stratum the labelled mean is corrected
 by a regression on a predictor, and the interval uses normal quantiles. We ran it on the same
-strata and the same 5,000 draws per cell, with the reference rate as the predictor [P14].
+strata and the same 5,000 draws per cell, with the reference rate as the predictor [P14]
+(Figure 3, left).
 
 *Table 3. Reference-rate strata at delta 0.05: largest miss over checkpoints, and ESS against a
 random split with a pooled Wilson bound. Five mid-rate labels, two safety-set sizes.*
@@ -263,7 +266,8 @@ certify 5% [017 6].
 
 **Choosing which responses to label.** Table 4 labels a random subset. If the judge has scored
 every response first, the labels can be drawn within strata of its logit. On the refusal pools
-of spike 017 (two judge wordings, 14 cells, 4,000 draws each, delta 0.05) [P14]:
+of spike 017 (two judge wordings, 14 cells, 4,000 draws each, delta 0.05) [P14] (Figure 3,
+right):
 
 - StratPPI as published, with 5 or 10 strata, is over its level in 26 of 28 cells (misses
   0.053-0.239), as PPI++ with a normal limit is in all 14 (0.061-0.232).
@@ -288,6 +292,8 @@ when to drop the judge; and the measured gap between a judge's verdict and its l
 
 ## 7. What does not carry
 
+Figure 4 shows sections 7.1 and 7.2: the miss rate of a carried bound and the judge's recall, by shift.
+
 ### 7.1 A judge's calibration across prompt populations
 
 Measure a judge's recall and false-alarm rate on one population and apply them to another, and
@@ -306,21 +312,17 @@ on the guard's refusals fell from 0.21 to 0.03, and the carried bound missed in 
 reference's [017 E8].
 
 The mechanism is a change in the form of the positives. The reward pulled toward long helpful
-answers and the multiplier penalised the guard's refusal flag; the policy learned to open with
-a refusal sentence and then answer. The guard reads the opening as a refusal and the rubric
-judge reads the body as an answer: of 93 guard-flagged refusals after training, the rubric
-judge called 89 answers. By the guard and a surface pattern for this shape, the share of
-guard-flagged refusals with that surface shape rose from 37% in the reference to 82% in the
-trained policy. The shape is a weak proxy (on XSTest's completions 34% of responses with it are
-human partial refusals and 56% full refusals [P15]), so these two numbers say only that the
-form changed; `[GAP: P6]` gives the human rates.
-
-`[CHECK]` The first annotator's labels do not support "and then answer". Of 18 guard-flagged
-responses of the trained policy with a refusal opener, 12 were labelled refusals, 6 answers and
-none refuse-then-answer; they read as long refusals with a helpful-sounding body. If the second
-annotator agrees, this paragraph becomes: the form that changed is the refusal's length and
-tone, the rubric judge reads it as an answer, and the guard is the nearer of the two to the
-human label. The measured loss of the rubric judge's recall stands either way.
+answers and the multiplier penalised the guard's refusal flag. After training, the responses
+the guard flags are long refusals with an explanatory, helpful-sounding body: by the guard and
+a surface pattern (a refusal opener and more than 40 words), their share of the guard's flags
+rose from 37% in the reference to 82% in the trained policy. The rubric judge reads that body
+as an answer: of 93 guard-flagged refusals after training it called 89 answers. Human labels
+side with the guard. Of 18 such responses of the trained policy, the annotator labelled 12
+refusals, 6 answers and none refuse-then-answer, and refuse-then-answer is 3.4% of the
+reference's responses against 0.3% of the trained policy's (section 8.3). We had first read
+these responses as a refusal sentence followed by the answer; the labels do not support that
+reading, and the surface pattern is not a label (on XSTest's completions 56% of responses
+with it are human full refusals and 34% partial ones [P15]).
 
 The consequence for certification: gold labels must be on the responses of the policy being
 certified, every time the policy changes. A calibration is not an asset that survives the
@@ -351,7 +353,7 @@ certified a negative harm rate under one judge wording, and missed in 98% of re-
 ### 8.1 A robot benchmark: the resolution is the result
 
 RoboDojo-RC Tier 1 publishes 120 trials per model with a harness-emitted safety-stop flag
-[019]. Table 5 gives the certificates.
+[019]. Table 5 gives the certificates and Figure 5 what 120 trials can resolve.
 
 *Table 5. Safety stops, Clopper-Pearson upper bounds.*
 
@@ -371,7 +373,7 @@ stop (AUC 0.38); joint effort does (AUC 0.75-0.83, exploratory).
 
 On AgentDojo's published runs (19,380 episodes, the harness's `security` label), a certificate
 that respects the design is the studentised cluster bootstrap by user task, or the larger of
-the two clustered bounds where injection tasks carry more dependence [020].
+the two clustered bounds where injection tasks carry more dependence [020] (Figure 6).
 
 *Table 6. Targeted attack success, selected pipelines, upper bounds at delta 0.05. The
 certificate is the larger of the two clustered bounds.*
@@ -396,7 +398,7 @@ shows it.
 annotated by two of its authors as full compliance, full refusal or partial refusal ("any
 combination of refusal and compliance"; Röttger et al., 2024). We scored every completion with
 Qwen3Guard-4B, the guard behind every refusal number above, and compared its flag with the
-final human label on the 250 safe prompts per model [P15].
+final human label on the 250 safe prompts per model [P15] (Figure 7).
 
 *Table 7. The guard's refusal flag against XSTest's human labels, safe prompts. Recall and
 false-alarm rate against full refusal alone (strict) and against full or partial refusal
@@ -432,11 +434,36 @@ A consequence for section 8.4: the certified event there is strict refusal, and 
 shaped the training measures the broad one. The guard can still reduce variance (reading 2);
 it cannot stand in for the label.
 
-`[GAP: P6]` Our own sheet: 400 responses from the reference and the trained policy of section
-7.2, stratified with recorded weights, labelled by two annotators under a guideline that
-follows XSTest's scheme with refuse-then-answer as its own label. Agreement, the human
-refusal rate for each policy, the guard's recall for each policy separately, and the hybrid
-share.
+**Our own policies.** One annotator (an author) labelled 220 responses to benign prompts: a
+stratified sample of the reference model's and the trained policy's responses, read with its
+design weights, under a guideline that follows XSTest's scheme with refuse-then-answer as its
+own label [P6]. Figure 8 and Table 8 give the result.
+
+*Table 8. Human labels on our own policies (one annotator, 220 responses; conservative 95%
+intervals in brackets).*
+
+| | reference model | policy trained under the constraint |
+|---|---|---|
+| the guard's refusal flag, share of the pool | 17.9% | 17.4% |
+| human label: refuses | 10.7% [4.7, 21.5] | 10.6% [5.2, 21.2] |
+| human label: refuse-then-answer | 3.4% [0.4, 15.5] | 0.3% [0.0, 11.0] |
+| guard's false-alarm rate against "refuses" | 8.1% | 7.7% |
+| guard's precision | 0.59 | 0.60 |
+| guard's recall: estimate, conservative lower limit | 0.99, 0.44 | 0.98, 0.45 |
+| rho^2 of the human label with the guard's logit | 0.61 | 0.60 |
+
+In human terms the two policies refuse equally often (difference -0.1 points, prompt-clustered
+standard error 3.9), and about 8 points less often than the guard's flag says. The guard missed
+almost nothing the annotator called a refusal, but the sample cannot rule misses out: none was
+found among 72 and 70 responses in the large guard-negative strata, which bounds recall below
+only at 0.44. As a predictor the guard is worth more than a halving of the labels
+(`rho^2` 0.6), in line with the published-label result above.
+
+One annotator means no agreement statistic. What stands in for it is thin and we say so: the
+guideline's classes are XSTest's, whose authors report agreement of 0.9 on them; three
+responses that appeared twice on the annotator's sheets received the same label; and two
+recurring cases (a redirect that says where to find the answer; "I cannot answer" followed by
+the false premise) were labelled both ways and are the main source of label noise.
 
 `[GAP: P8]` The same for harm, on a sheet aimed at 30 or more human positives.
 
@@ -451,9 +478,9 @@ of 600 pairs, after which the outcome is NSF. Either outcome is reported.
 
 ## 9. Limits
 
-- **Labels.** Until section 8.3-8.4 land, every refusal and harm number is relative to a guard
-  model's field. Section 7.2 shows the guard and a rubric judge disagreeing about most of a
-  trained policy's refusals.
+- **Labels.** Outside sections 8.3-8.4 every refusal and harm number is relative to a guard
+  model's field. The human refusal labels are one annotator's, an author's, with no measured
+  agreement; the published XSTest labels are the independent check.
 - **Scale.** Trained policies are 0.5B-3B on one consumer card; the frontier evidence is
   certificates on published traces.
 - **One run.** The policy of section 8.4 is one training run with one seed.
@@ -547,6 +574,7 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 | [014] | `.planning/spikes/014-pushed-label-stratification/README.md` | yes; adapters on the D: drive |
 | [017 n], [017 B6], [017 E8] | `.planning/spikes/017-calibration-carrying-certificate/README.md` (Results n, E8 addendum) and `results.md` (B6) | yes |
 | [019] | `.planning/spikes/019-external-trace-certificate/README.md` | yes; transcripts on the D: drive |
+| [P6] | `results/labels/refusal/analysis.md` (`scripts/refusal_labels.py analyze`; labels in `labels_ah.jsonl`, design in `design.json`) | yes |
 | [P14] | `results/paper/stratppi.md`, `stratppi.json` (`scripts/stratppi_baseline.py`; 5,000 draws per cell in part A, 4,000 in part B) | yes, CPU, about 5 minutes |
 | [P15] | `results/labels/xstest/analysis.md` (`scripts/xstest_guard.py`; guard scores and human labels in `guard_scores.jsonl`) | yes; XSTest's completions are fetched from its repository and kept outside this one |
 | [020], [020 P] | `.planning/spikes/020-agentdojo-injection-certificate/README.md` and `plasmode.md` | yes |
@@ -559,9 +587,25 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 2. `[R 6.2]`: the sentence giving the t-bound's misses at delta 0.05 repeats the
    Clopper-Pearson row digit for digit, and the source data are gone. Table 2 uses only the
    delta 0.1 table.
-3. The 37% and 82% shares in section 7.2 are proxy counts (guard flag and a surface pattern)
-   from the populations in `results/labels/refusal/design.json`; P6 replaces them.
+3. The 37% and 82% shares in section 7.2 are counts by the guard's flag and a surface pattern
+   (`results/labels/refusal/design.json`), not human labels; the text says so.
 4. Round 6 seed-level numbers in Table 1 trace to the state report only.
 5. Solution rates for the certificates of section 8 are not defined (fixed published traces);
    say so where NSF is reported.
-6. Section 7.2's mechanism paragraph against the human labels (the `[CHECK]` there).
+
+## Appendix B. Figures
+
+`scripts/paper_figures.py` writes each figure to `reports/figs/` as a PDF, a PNG and a CSV of
+every number drawn.
+
+| figure | file | section |
+|---|---|---|
+| 1. Which bounds hold their level | `fig1_validity` | 3 |
+| 2. Gain from reference-rate strata against the reference's ICC | `fig2_strata_ess` | 5 |
+| 3. StratPPI as published and with a bootstrap-t limit | `fig3_stratppi` | 5, 6 |
+| 4. A carried calibration: miss rate and recall by shift | `fig4_carrying` | 7 |
+| 5. What a 120-trial benchmark can certify | `fig5_robodojo` | 8.1 |
+| 6. AgentDojo: per-pair and clustered bounds, 28 pipelines | `fig6_agentdojo` | 8.2 |
+| 7. What the guard flags, by human class, on XSTest | `fig7_guard_xstest` | 8.3 |
+| 8. Guard and human refusal rates on our two policies | `fig8_refusal_sheet` | 8.3 |
+

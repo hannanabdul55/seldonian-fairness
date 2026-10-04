@@ -1,0 +1,73 @@
+panel,method,cell,largest miss,ESS vs baseline
+reference-rate strata,stratified Wilson-type bound,C1:refusal  n=100,0.023,2.39
+reference-rate strata,stratified Wilson-type bound,C1:refusal  n=200,0.024,2.30
+reference-rate strata,stratified Wilson-type bound,C2:refusal  n=100,0.054,0.96
+reference-rate strata,stratified Wilson-type bound,C2:refusal  n=200,0.045,1.12
+reference-rate strata,stratified Wilson-type bound,C2:unsafe  n=100,0.034,1.38
+reference-rate strata,stratified Wilson-type bound,C2:unsafe  n=200,0.027,1.36
+reference-rate strata,stratified Wilson-type bound,C3:refusal  n=100,0.047,4.75
+reference-rate strata,stratified Wilson-type bound,C3:refusal  n=200,0.040,5.19
+reference-rate strata,stratified Wilson-type bound,C1:refusal pushed n=100,0.024,2.19
+reference-rate strata,stratified Wilson-type bound,C1:refusal pushed n=200,0.023,2.13
+reference-rate strata,StratPPI as published,C1:refusal  n=100,0.066,4.11
+reference-rate strata,StratPPI as published,C1:refusal  n=200,0.052,3.46
+reference-rate strata,StratPPI as published,C2:refusal  n=100,0.032,0.78
+reference-rate strata,StratPPI as published,C2:refusal  n=200,0.026,0.92
+reference-rate strata,StratPPI as published,C2:unsafe  n=100,0.086,2.59
+reference-rate strata,StratPPI as published,C2:unsafe  n=200,0.063,2.11
+reference-rate strata,StratPPI as published,C3:refusal  n=100,0.056,6.30
+reference-rate strata,StratPPI as published,C3:refusal  n=200,0.045,6.29
+reference-rate strata,StratPPI as published,C1:refusal pushed n=100,0.056,3.24
+reference-rate strata,StratPPI as published,C1:refusal pushed n=200,0.045,2.85
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C1:refusal  n=100,0.042,2.58
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C1:refusal  n=200,0.042,3.10
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C2:refusal  n=100,0.031,0.83
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C2:refusal  n=200,0.033,1.03
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C2:unsafe  n=100,0.045,1.43
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C2:unsafe  n=200,0.041,1.59
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C3:refusal  n=100,0.033,1.77
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C3:refusal  n=200,0.034,5.35
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C1:refusal pushed n=100,0.036,2.43
+reference-rate strata,"StratPPI estimator, bootstrap-t limit",C1:refusal pushed n=200,0.037,2.49
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|rubric|0 rate=0.200 n=100,0.042,1.61
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|rubric|0 rate=0.200 n=225,0.040,1.61
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|rubric|0 rate=0.200 n=500,0.042,1.50
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|rubric|0 rate=0.050 n=225,0.033,1.60
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|rubric|0 rate=0.050 n=1000,0.043,1.49
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|rubric|0 rate=0.013 n=225,0.008,0.00
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|rubric|0 rate=0.013 n=1000,0.029,1.32
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|raw|0 rate=0.200 n=100,0.046,2.12
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|raw|0 rate=0.200 n=225,0.052,1.96
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|raw|0 rate=0.200 n=500,0.050,1.73
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|raw|0 rate=0.050 n=225,0.029,1.23
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|raw|0 rate=0.050 n=1000,0.050,1.29
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|raw|0 rate=0.013 n=225,0.000,0.00
+judge-logit strata,"PPI++, bootstrap-t limit",refusal|raw|0 rate=0.013 n=1000,0.031,1.10
+judge-logit strata,StratPPI as published,refusal|rubric|0 rate=0.200 n=100,0.084,3.53
+judge-logit strata,StratPPI as published,refusal|rubric|0 rate=0.200 n=225,0.064,3.19
+judge-logit strata,StratPPI as published,refusal|rubric|0 rate=0.200 n=500,0.053,2.87
+judge-logit strata,StratPPI as published,refusal|rubric|0 rate=0.050 n=225,0.100,3.78
+judge-logit strata,StratPPI as published,refusal|rubric|0 rate=0.050 n=1000,0.072,2.45
+judge-logit strata,StratPPI as published,refusal|rubric|0 rate=0.013 n=225,0.239,6.74
+judge-logit strata,StratPPI as published,refusal|rubric|0 rate=0.013 n=1000,0.109,3.07
+judge-logit strata,StratPPI as published,refusal|raw|0 rate=0.200 n=100,0.086,4.24
+judge-logit strata,StratPPI as published,refusal|raw|0 rate=0.200 n=225,0.068,3.31
+judge-logit strata,StratPPI as published,refusal|raw|0 rate=0.200 n=500,0.061,3.14
+judge-logit strata,StratPPI as published,refusal|raw|0 rate=0.050 n=225,0.093,3.20
+judge-logit strata,StratPPI as published,refusal|raw|0 rate=0.050 n=1000,0.066,2.23
+judge-logit strata,StratPPI as published,refusal|raw|0 rate=0.013 n=225,0.182,4.52
+judge-logit strata,StratPPI as published,refusal|raw|0 rate=0.013 n=1000,0.091,2.25
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|rubric|0 rate=0.200 n=100,0.052,2.11
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|rubric|0 rate=0.200 n=225,0.050,2.56
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|rubric|0 rate=0.200 n=500,0.044,2.52
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|rubric|0 rate=0.050 n=225,0.033,1.99
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|rubric|0 rate=0.050 n=1000,0.050,1.91
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|rubric|0 rate=0.013 n=225,0.012,0.00
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|rubric|0 rate=0.013 n=1000,0.039,1.19
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|raw|0 rate=0.200 n=100,0.049,2.48
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|raw|0 rate=0.200 n=225,0.049,2.58
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|raw|0 rate=0.200 n=500,0.053,2.77
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|raw|0 rate=0.050 n=225,0.037,1.78
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|raw|0 rate=0.050 n=1000,0.048,1.84
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|raw|0 rate=0.013 n=225,0.003,0.00
+judge-logit strata,"StratPPI estimator, bootstrap-t limit",refusal|raw|0 rate=0.013 n=1000,0.033,1.20

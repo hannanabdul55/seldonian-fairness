@@ -1,0 +1,23 @@
+group,bound and setting,delta,lowest miss,highest miss,highest miss / delta,source
+exact,Clopper-Pearson · harm labels at 3.4%,0.1,0.067,0.084,0.84,training paper 6.2
+exact,Clopper-Pearson · refusal pools,0.05,0.000,0.051,1.02,"017 B6, P14"
+exact,Bentkus · harm labels at 3.4%,0.1,0.023,0.035,0.35,training paper 6.2
+exact,betting mixture · harm labels at 3.4%,0.1,0.007,0.016,0.16,training paper 6.2
+exact,"Hoeffding, Anderson · harm labels at 3.4%",0.1,0.000,0.000,0.00,training paper 6.2
+approximate,stratified Wilson-type (b1w) · mid-rate labels,0.05,0.023,0.054,1.08,013 validity_H8
+approximate,b1w · mid-rate labels,0.1,0.069,0.097,0.97,013 validity_H8
+approximate,b1w · label pushed by training,0.05,0.011,0.023,0.46,014
+approximate,b1w · design-weighted labelling sheet,0.05,0.001,0.059,1.18,017 Results 4
+approximate,"PPI++, bootstrap-t limit",0.05,0.000,0.053,1.06,"017 B6, P14"
+approximate,"StratPPI estimator, bootstrap-t · reference-rate strata",0.05,0.025,0.045,0.90,P14
+approximate,"StratPPI estimator, bootstrap-t · judge strata",0.05,0.001,0.056,1.12,P14
+approximate,cluster bootstrap-t by user task · AgentDojo,0.05,0.020,0.060,1.20,020 plasmode
+fails,"Student-t · harm labels at 3.4%, n up to 800",0.1,0.115,0.184,1.84,training paper 6.2
+fails,StratPPI as published · reference-rate strata,0.05,0.024,0.086,1.72,P14
+fails,StratPPI as published · judge strata,0.05,0.053,0.239,4.77,P14
+fails,"PPI++, normal limit",0.05,0.061,0.241,4.82,"017 B6, P14"
+fails,two-way bootstrap · AgentDojo,0.05,0.000,0.170,3.40,020 plasmode
+fails,Clopper-Pearson over pairs · AgentDojo (crossed design),0.05,0.048,0.275,5.50,020 plasmode
+fails,"b1w at 1-2% rates, 100 safety prompts",0.05,0.238,0.443,8.86,013 validity_H8
+fails,stratified sheet read as a random sample,0.05,0.005,0.980,19.60,017 Results 4
+fails,the judge's rate alone,0.05,1.000,1.000,20.00,017 B6
