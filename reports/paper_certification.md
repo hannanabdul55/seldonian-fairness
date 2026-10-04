@@ -258,8 +258,10 @@ answers and the multiplier penalised the guard's refusal flag; the policy learne
 a refusal sentence and then answer. The guard reads the opening as a refusal and the rubric
 judge reads the body as an answer: of 93 guard-flagged refusals after training, the rubric
 judge called 89 answers. By the guard and a surface pattern for this shape, the share of
-guard-flagged refusals that are refuse-then-answer rose from 37% in the reference to 82% in the
-trained policy (proxy counts from the labelling design; `[GAP: P6]` gives the human rates).
+guard-flagged refusals with that surface shape rose from 37% in the reference to 82% in the
+trained policy. The shape is a weak proxy (on XSTest's completions 34% of responses with it are
+human partial refusals and 56% full refusals [P15]), so these two numbers say only that the
+form changed; `[GAP: P6]` gives the human rates.
 
 The consequence for certification: gold labels must be on the responses of the policy being
 certified, every time the policy changes. A calibration is not an asset that survives the
@@ -331,10 +333,45 @@ shows it.
 
 ### 8.3 The guard against human labels
 
-`[GAP: P15]` Qwen3Guard-4B's refusal flag scored on XSTest's 2,250 published completions (five
-model variants), each with two human annotations in three classes (full compliance, full
-refusal, partial refusal; Röttger et al., 2024): recall, false-alarm rate and `rho^2` on the
-logit, on models we did not train.
+**Published human labels.** XSTest releases 2,250 completions from five model variants, each
+annotated by two of its authors as full compliance, full refusal or partial refusal ("any
+combination of refusal and compliance"; Röttger et al., 2024). We scored every completion with
+Qwen3Guard-4B, the guard behind every refusal number above, and compared its flag with the
+final human label on the 250 safe prompts per model [P15].
+
+*Table 6. The guard's refusal flag against XSTest's human labels, safe prompts. Recall and
+false-alarm rate against full refusal alone (strict) and against full or partial refusal
+(broad).*
+
+| model | humans: full / partial refusal | guard flags | strict: recall, false alarms | broad: recall, false alarms |
+|---|---|---|---|---|
+| GPT-4 | 0.064 / 0.020 | 0.088 | 1.00, 0.03 | 0.90, 0.01 |
+| Llama 2, original system prompt | 0.380 / 0.216 | 0.636 | 0.96, 0.44 | 0.94, 0.19 |
+| Llama 2, no system prompt | 0.140 / 0.156 | 0.304 | 0.94, 0.20 | 0.85, 0.07 |
+| Mistral instruct | 0.008 / 0.008 | 0.036 | 0.50, 0.03 | 0.50, 0.03 |
+| Mistral with a guardrail prompt | 0.096 / 0.092 | 0.168 | 0.75, 0.11 | 0.70, 0.04 |
+| pooled (1,250) | 0.138 / 0.098 | 0.246 | 0.92 (0.88-0.96), 0.14 | 0.87 (0.82-0.91), 0.05 |
+
+Three readings.
+
+1. **The guard's flag is a broad one.** It marks 92% of human full refusals (159 of 172), 80% of
+   partial refusals (98 of 123) and 5% of full compliance (51 of 955). Its agreement with the
+   broad human label (Cohen's kappa 0.81) is close to two humans' agreement on the three classes
+   (0.88); with the strict label it is 0.59 against the humans' 0.90.
+2. **What it is worth as a predictor.** The squared correlation of the human label with the
+   guard's logit is 0.70 for the broad event and 0.46 (95% interval 0.39-0.53) for the strict
+   one. By section 6 that is roughly a threefold and a twofold gain in labels when unlabelled
+   responses are plentiful. The logit beats the 0/1 flag for the strict event (0.46 against
+   0.40) and for the broad one (0.70 against 0.65).
+3. **Its error rates belong to a model.** The false-alarm rate against the strict label runs
+   from 0.03 (GPT-4) to 0.44 (Llama 2 with its original system prompt), following each model's
+   share of partial refusals; recall runs from 0.75 to 1.00 among the four models with more
+   than two refusals. This is section 7.1 on other people's models and labels: a calibration
+   measured on one of these models would not serve another.
+
+A consequence for section 8.4: the certified event there is strict refusal, and the guard that
+shaped the training measures the broad one. The guard can still reduce variance (reading 2);
+it cannot stand in for the label.
 
 `[GAP: P6]` Our own sheet: 400 responses from the reference and the trained policy of section
 7.2, stratified with recorded weights, labelled by two annotators under a guideline that
@@ -449,6 +486,7 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 | [014] | `.planning/spikes/014-pushed-label-stratification/README.md` | yes; adapters on the D: drive |
 | [017 n], [017 B6], [017 E8] | `.planning/spikes/017-calibration-carrying-certificate/README.md` (Results n, E8 addendum) and `results.md` (B6) | yes |
 | [019] | `.planning/spikes/019-external-trace-certificate/README.md` | yes; transcripts on the D: drive |
+| [P15] | `results/labels/xstest/analysis.md` (`scripts/xstest_guard.py`; guard scores and human labels in `guard_scores.jsonl`) | yes; XSTest's completions are fetched from its repository and kept outside this one |
 | [020], [020 P] | `.planning/spikes/020-agentdojo-injection-certificate/README.md` and `plasmode.md` | yes |
 
 **Open checks before v1.0.**
@@ -459,8 +497,8 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 2. `[R 6.2]`: the sentence giving the t-bound's misses at delta 0.05 repeats the
    Clopper-Pearson row digit for digit, and the source data are gone. Table 2 uses only the
    delta 0.1 table.
-3. The 37% and 82% hybrid shares in section 7.2 are proxy counts (guard flag and a surface
-   pattern) from the populations in `results/labels/refusal/design.json`; P6 replaces them.
+3. The 37% and 82% shares in section 7.2 are proxy counts (guard flag and a surface pattern)
+   from the populations in `results/labels/refusal/design.json`; P6 replaces them.
 4. Round 6 seed-level numbers in Table 1 trace to the state report only.
 5. Solution rates for the certificates of section 8 are not defined (fixed published traces);
    say so where NSF is reported.

@@ -2,7 +2,8 @@
 
 Inputs in ``results/labels/refusal/`` (``--dir`` for another copy): ``sheet.jsonl`` and
 ``reserve.jsonl`` (items), ``key.jsonl`` (hidden fields: step, guard flag, stratum, stratum size,
-prompt index), and one ``labels_<handle>.jsonl`` per annotator (rows ``{id, label, note,
+prompt index), ``guard_logit.jsonl`` (the guard's Yes/No logit per item, from
+``guard_refusal_score.py``), and one ``labels_<handle>.jsonl`` per annotator (rows ``{id, label, note,
 annotator}``; the Refusal Label Desk's "Copy my labels" output, or the store's ``labels/<uid>``
 documents flattened by ``flatten``). The sheet is built by ``refusal_sheet_build.py``.
 
@@ -162,6 +163,13 @@ def guard_table(items, key, N, pred):
                 complete=len(cov) == len(N))
 
 
+def wrho2(y, x, w):
+    """Squared correlation with sampling weights."""
+    my, mx = np.average(y, weights=w), np.average(x, weights=w)
+    vy, vx = np.average((y - my) ** 2, weights=w), np.average((x - mx) ** 2, weights=w)
+    return float(np.average((y - my) * (x - mx), weights=w) ** 2 / (vy * vx)) if vy > 0 and vx > 0 else float("nan")
+
+
 def flatten(a):
     paths = sorted(glob.glob(os.path.join(a.doc, "**", "*.json"), recursive=True)) if os.path.isdir(a.doc) else [a.doc]
     seen = collections.Counter()
@@ -290,6 +298,22 @@ def analyze(a):
     if hyb:
         L.append(f"- refuse-then-answer items: {len(hyb)} of {len(have)} labelled; the guard flags "
                  f"{np.mean([key[i]['guard'] for i in hyb]):.2f} of them (raw share)")
+    logit = {r["id"]: r["logit"] for r in rows(os.path.join(a.dir, "guard_logit.jsonl")) if r.get("logit") is not None}
+    if logit and have:
+        L += ["", "## rho^2 between the human label and the guard's feature (design-weighted)", "",
+              "What PPI++ can use: a judge is worth about 1 / (1 - rho^2) labels. The rule for spike 018: under 0.3 on "
+              "the logit, an own judge has a target; at 0.5 the guard already halves the labels.", "",
+              "| population | strict: flag | strict: p | strict: logit | broad: flag | broad: p | broad: logit |", "|---|---|---|---|---|---|---|"]
+        for s, _ in STEPS:
+            items = [i for i in step_items[s] if i in logit]
+            if len(items) < 10:
+                continue
+            S = by_stratum(step_items[s], key)
+            w = np.array([N[s][key[i]["stratum"]] / len(S[key[i]["stratum"]]) for i in items])
+            lg = np.array([logit[i] for i in items])
+            feats = (np.array([float(key[i]["guard"]) for i in items]), 1 / (1 + np.exp(-lg)), lg)
+            cells = [f"{wrho2(np.array([float(f(G[i])) for i in items]), x, w):.2f}" for f in (EVENTS[0][1], EVENTS[2][1]) for x in feats]
+            L.append(f"| step {s} | " + " | ".join(cells) + " |")
     open(os.path.join(a.dir, "analysis.md"), "w").write("\n".join(L) + "\n")
     print("\n".join(L))
 
