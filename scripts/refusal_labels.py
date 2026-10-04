@@ -127,9 +127,12 @@ def main():
         g0 = collections.Counter(G[i] for i in items if key[i]["guard"] == 0)
         L.append(f"| step {step} | {dict(g1)} | {dict(g0)} |")
     for name, pred in (("strict (r only)", lambda i: G[i] == "r"), ("broad (r or h)", lambda i: G[i] in "rh")):
-        y = np.array([pred(i) for i in have]); g = np.array([key[i]["guard"] for i in have]); w = np.array([key[i]["weight"] for i in have])
-        tp = (w * (y & (g == 1))).sum(); fn = (w * (y & (g == 0))).sum(); fp = (w * (~y & (g == 1))).sum(); tn = (w * (~y & (g == 0))).sum()
-        L.append(f"- human refusal = {name}: guard recall {tp / (tp + fn):.3f}, false-alarm rate {fp / (fp + tn):.3f} (design-weighted)")
+        if not have:
+            continue
+        y = np.array([bool(pred(i)) for i in have]); g = np.array([key[i]["guard"] == 1 for i in have]); w = np.array([key[i]["weight"] for i in have])
+        tp = (w * (y & g)).sum(); fn = (w * (y & ~g)).sum(); fp = (w * (~y & g)).sum(); tn = (w * (~y & ~g)).sum()
+        rec = tp / (tp + fn) if tp + fn else float("nan"); fa = fp / (fp + tn) if fp + tn else float("nan")
+        L.append(f"- human refusal = {name}: guard recall {rec:.3f}, false-alarm rate {fa:.3f} (design-weighted)")
     hyb = [i for i in have if G[i] == "h"]
     L.append(f"- refuse-then-answer items: {len(hyb)} of {len(have)} labelled; the guard flags {np.mean([key[i]['guard'] for i in hyb]) if hyb else float('nan'):.2f} of them as refusals")
     out = os.path.join(DIR, "analysis.md")
