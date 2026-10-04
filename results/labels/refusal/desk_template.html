@@ -64,6 +64,8 @@
     <div class="status" id="status">loading</div>
   </header>
 
+  <div class="warn" id="alert" role="alert" hidden></div>
+
   <section class="panel setup" id="setup">
     <p class="eyebrow">Before you start</p>
     <p style="margin:0 0 12px">Read the guideline once. Then enter your initials and your slot. Everyone labels the same 40 shared items first; the rest are split by slot so two people do not label the same item.</p>
@@ -112,6 +114,10 @@
       </div>
       <span class="note">Keys: r a h u, Enter saves the note and moves on, arrows move.</span>
     </div>
+    <div class="row" style="margin-top:10px">
+      <span class="note" id="copynote2">A backup you can take at any time.</span>
+      <button class="btn" id="copy2">Copy my labels so far</button>
+    </div>
   </section>
 
   <section class="panel" id="done" hidden>
@@ -130,13 +136,40 @@
 <script id="sheet" type="application/json">__SHEET_JSON__</script>
 <script>
 (() => {
+  'use strict';
   const SHEET = JSON.parse(document.getElementById('sheet').textContent);
+  const SHEET_VERSION = 2;            // labels made on an earlier sheet used the same ids for other items
   const $ = (id) => document.getElementById(id);
-  const LS_KEY = 'refusal-desk-v2';
+  const LS_KEY = 'refusal-desk-v3';
   let db = null, uid = null, docRef = null;
-  let state = { handle: '', slot: 1, K: 2, pos: 0, labels: {} };
+  let state = { handle: '', slot: 1, K: 2, pos: 0, labels: {}, sheet: SHEET_VERSION };
   let order = [];
-  let saveTimer = null;
+  let saveTimer = null, writing = false, dirty = false, storeCount = null, storeErr = '';
+
+  function alertUser(msg) { const el = $('alert'); el.textContent = msg; el.hidden = false; }
+  window.addEventListener('error', () => alertUser('Something went wrong on this page. Your last label may not be saved: press "Copy my labels so far" and send the text to the sheet owner before going on.'));
+
+  // The store hands out read-only snapshots: always work on a copy.
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  // A stored copy of this annotator's state, made usable. Labels from another sheet version are set aside.
+  function adopt(src) {
+    if (!src) return null;
+    const s = clone(src);
+    const out = { handle: s.handle || '', slot: s.slot || 1, K: s.K || 2, pos: 0, labels: {}, sheet: SHEET_VERSION };
+    if (s.sheet === SHEET_VERSION) { out.labels = s.labels || {}; if (s.labels_v1) out.labels_v1 = s.labels_v1; }
+    else if (s.labels && Object.keys(s.labels).length) out.labels_v1 = s.labels;
+    else if (s.labels_v1) out.labels_v1 = s.labels_v1;
+    return out;
+  }
+  // Two copies of the same annotator's state (this browser, the store): keep every label, the newer one per item.
+  function merge(a, b) {
+    if (!a) return b; if (!b) return a;
+    const out = { ...a, labels: { ...a.labels } };
+    for (const [id, v] of Object.entries(b.labels)) { const cur = out.labels[id]; if (!cur || (v.t || '') > (cur.t || '')) out.labels[id] = v; }
+    if (!out.handle) { out.handle = b.handle; out.slot = b.slot; out.K = b.K; }
+    if (!out.labels_v1 && b.labels_v1) out.labels_v1 = b.labels_v1;
+    return out;
+  }
 
   // fixed shuffle of the sheet (seeded), shared first
   function seeded(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
@@ -148,28 +181,61 @@
     const mine = REST.filter(x => (x.d % state.K) === (state.slot - 1));
     order = SHARED.concat(mine);
   }
+  const has = (x) => !!(state.labels[x.id] && state.labels[x.id].label);
+  function firstUnlabelled() { const i = order.findIndex(x => !has(x)); return i < 0 ? order.length : i; }
 
   function loadLocal() { try { const raw = localStorage.getItem(LS_KEY); if (raw) return JSON.parse(raw); } catch (e) {} return null; }
   function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+  // One write at a time; a change made while a write is in flight is written right after it.
   async function saveRemote() {
     if (!docRef) return;
-    try { await docRef.set({ ...state, updated: new Date().toISOString() }); setStatus(); }
-    catch (e) { $('status').textContent = 'saved in this browser only (' + (e && e.code || 'store error') + ')'; }
+    if (writing) { dirty = true; return; }
+    writing = true;
+    try {
+      do {
+        dirty = false;
+        const body = clone({ ...state, updated: new Date().toISOString() });
+        await docRef.set(body);
+        storeCount = order.filter(x => body.labels[x.id] && body.labels[x.id].label).length; storeErr = '';
+      } while (dirty);
+    } catch (e) {
+      storeErr = (e && e.code) || 'store error';
+      alertUser('The store did not accept the last save (' + storeErr + '). Your labels are kept in this browser: press "Copy my labels so far" and send the text to the sheet owner.');
+    }
+    writing = false; setStatus();
   }
   function save() { saveLocal(); if (saveTimer) clearTimeout(saveTimer); saveTimer = setTimeout(saveRemote, 400); }
 
-  function labelled() { return order.filter(x => state.labels[x.id] && state.labels[x.id].label).length; }
+  function labelled() { return order.filter(has).length; }
   function setStatus() {
+    if (!order.length) { $('status').textContent = docRef ? 'ready' : 'ready (browser only)'; return; }
     const n = labelled();
-    $('status').textContent = (state.handle ? state.handle + ' · ' : '') + n + ' of ' + order.length + ' labelled' + (docRef ? ' · saved to the store' : ' · this browser only');
+    const where = !docRef ? ' · this browser only' : storeErr ? ' · this browser only (' + storeErr + ')'
+      : storeCount === null ? '' : storeCount === n ? ' · all ' + n + ' saved to the store' : ' · ' + storeCount + ' saved to the store, saving';
+    $('status').textContent = (state.handle ? state.handle + ' · ' : '') + n + ' of ' + order.length + ' labelled' + where;
     $('barfill').style.width = order.length ? (100 * n / order.length) + '%' : '0%';
   }
 
+  async function finish() {
+    const n = labelled();
+    const u = order.filter(x => (state.labels[x.id] || {}).label === 'u').length;
+    let text = n + ' of ' + order.length + ' items labelled' + (u ? ', ' + u + ' marked unsure' : '') + '.';
+    if (n < order.length) text += ' ' + (order.length - n) + ' have no label yet: "Review from the start" takes you to the first one.';
+    $('donetext').textContent = text;
+    if (docRef) {
+      try {
+        await new Promise(r => setTimeout(r, 900));           // let the last save land
+        const snap = await docRef.get();
+        const got = snap.exists ? clone(snap.data()).labels || {} : {};
+        const m = order.filter(x => got[x.id] && got[x.id].label).length;
+        $('donetext').textContent = text + ' The store holds ' + m + ' of them' + (m === n ? '. Thank you.' : ': that is fewer than you labelled. Copy your labels below and send them to the sheet owner.');
+        if (m !== n) alertUser('Only ' + m + ' of your ' + n + ' labels are in the store. Copy your labels below and send them to the sheet owner.');
+      } catch (e) { $('donetext').textContent = text + ' The store could not be checked: copy your labels below as a backup.'; }
+    } else { $('donetext').textContent = text + ' They are in this browser only: copy them below and send them.'; }
+  }
+
   function render() {
-    if (state.pos >= order.length) { $('work').hidden = true; $('done').hidden = false;
-      const u = order.filter(x => (state.labels[x.id] || {}).label === 'u').length;
-      $('donetext').textContent = labelled() + ' of ' + order.length + ' items labelled' + (u ? ', ' + u + ' marked unsure' : '') + '. Thank you. Copy your labels below as a backup.';
-      setStatus(); return; }
+    if (state.pos >= order.length) { $('work').hidden = true; $('done').hidden = false; setStatus(); finish(); return; }
     $('done').hidden = true; $('work').hidden = false;
     const it = order[state.pos];
     $('where').textContent = 'Item ' + (state.pos + 1) + ' of ' + order.length + (it.s ? ' · shared set' : '');
@@ -183,44 +249,47 @@
 
   function choose(l) {
     const it = order[state.pos]; if (!it) return;
-    const prev = state.labels[it.id] || {};
     state.labels[it.id] = { label: l, note: $('notebox').value.trim(), t: new Date().toISOString() };
+    if ((state.labels[it.id] || {}).label !== l) { alertUser('That label was not recorded. Stop here and tell the sheet owner.'); return; }
     if (l === 'u' && !state.labels[it.id].note) { document.querySelectorAll('.lbl').forEach(b => b.classList.toggle('on', b.dataset.l === l)); $('notebox').focus(); $('notebox').placeholder = 'A note is required for unsure'; save(); return; }
-    save(); state.pos += 1; save(); render();
+    state.pos += 1; save(); render();
   }
   function noteOnly() { const it = order[state.pos]; if (!it) return; const cur = state.labels[it.id]; if (cur) { cur.note = $('notebox').value.trim(); save(); } }
 
   document.querySelectorAll('.lbl').forEach(b => b.addEventListener('click', () => choose(b.dataset.l)));
   $('prev').addEventListener('click', () => { noteOnly(); if (state.pos > 0) { state.pos -= 1; save(); render(); } });
   $('skip').addEventListener('click', () => { noteOnly(); state.pos += 1; save(); render(); });
-  $('notebox').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); const it = order[state.pos]; const cur = it && state.labels[it.id]; if (cur && cur.label) { cur.note = $('notebox').value.trim(); save(); state.pos += 1; save(); render(); } } });
+  $('notebox').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); const it = order[state.pos]; const cur = it && state.labels[it.id]; if (cur && cur.label) { cur.note = $('notebox').value.trim(); state.pos += 1; save(); render(); } } });
   document.addEventListener('keydown', (e) => {
     if ($('work').hidden || e.target === $('notebox') || e.metaKey || e.ctrlKey) return;
-    if ('rahu'.includes(e.key)) { e.preventDefault(); choose(e.key); }
+    if (e.key.length === 1 && 'rahu'.includes(e.key)) { e.preventDefault(); choose(e.key); }
     else if (e.key === 'ArrowLeft') { $('prev').click(); } else if (e.key === 'ArrowRight') { $('skip').click(); }
   });
-  $('review').addEventListener('click', () => { state.pos = 0; save(); render(); });
-  $('copy').addEventListener('click', async () => {
-    const lines = order.filter(x => state.labels[x.id] && state.labels[x.id].label)
+  $('review').addEventListener('click', () => { state.pos = firstUnlabelled() < order.length ? firstUnlabelled() : 0; save(); render(); });
+  async function copyLabels(noteEl, holder) {
+    const lines = order.filter(has)
       .map(x => JSON.stringify({ id: x.id, label: state.labels[x.id].label, note: state.labels[x.id].note || '', annotator: state.handle, slot: state.slot, K: state.K, t: state.labels[x.id].t }));
     const text = lines.join('\n');
-    try { await navigator.clipboard.writeText(text); $('copynote').textContent = lines.length + ' lines copied. Paste them into a message or a file named labels_' + (state.handle || 'me') + '.jsonl.'; }
-    catch (e) { const ta = document.createElement('textarea'); ta.value = text; ta.style.width = '100%'; ta.rows = 8; $('done').appendChild(ta); ta.select(); $('copynote').textContent = 'Copy blocked here; select the text above and copy it.'; }
-  });
+    try { await navigator.clipboard.writeText(text); noteEl.textContent = lines.length + ' lines copied. Paste them into a message or a file named labels_' + (state.handle || 'me') + '.jsonl.'; }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = text; ta.style.width = '100%'; ta.rows = 8; holder.appendChild(ta); ta.select(); noteEl.textContent = 'Copy blocked here; select the text below and copy it.'; }
+  }
+  $('copy').addEventListener('click', () => copyLabels($('copynote'), $('done')));
+  $('copy2').addEventListener('click', () => copyLabels($('copynote2'), $('work')));
 
   $('start').addEventListener('click', () => {
     state.handle = $('handle').value.trim().toLowerCase().slice(0, 8);
     state.slot = Math.max(1, parseInt($('slot').value || '1', 10));
     state.K = Math.max(state.slot, parseInt($('kk').value || '2', 10));
     if (!state.handle) { $('handle').focus(); $('setupnote').textContent = 'Initials are needed so your labels can be told apart.'; return; }
-    buildOrder(); state.pos = Math.min(state.pos, order.length);
+    buildOrder(); state.pos = firstUnlabelled();
     save(); $('setup').hidden = true; render();
   });
 
   async function boot() {
-    const local = loadLocal();
-    if (local) { state = { ...state, ...local }; $('handle').value = state.handle || ''; $('slot').value = state.slot; $('kk').value = state.K; }
+    const local = adopt(loadLocal());
+    if (local) state = local;
     $('status').textContent = 'connecting';
+    let stale = false;
     try {
       const [d, u] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
       if (d && u) {
@@ -228,15 +297,20 @@
         if (uid) {
           db = d; docRef = db.doc('labels/' + uid);
           const snap = await docRef.get();
-          if (snap.exists) { const remote = snap.data(); if (!local || (remote.updated || '') > (local.updated || '')) { state = { ...state, ...remote }; } }
-          $('setupnote').textContent = 'Signed in: labels save to the store after every answer, and to this browser.';
+          const raw = snap.exists ? snap.data() : null;
+          const merged = merge(local, adopt(raw));
+          if (merged) state = merged;
+          // the store's copy is behind this browser's, or is from an earlier sheet: bring it up to date once
+          stale = !!raw && (raw.sheet !== SHEET_VERSION || Object.keys(state.labels).length !== Object.keys(raw.labels || {}).length);
+          $('setupnote').textContent = 'Signed in: labels save to the store after every answer, and to this browser.'
+            + (state.labels_v1 && !Object.keys(state.labels).length ? ' Labels you made on the earlier sheet are set aside; this sheet starts fresh.' : '');
         }
       }
     } catch (e) { docRef = null; }
     if (!docRef) { $('setupnote').textContent = 'Store unavailable here: labels save in this browser only. Use "Copy my labels" at the end.'; }
     $('handle').value = state.handle || ''; $('slot').value = state.slot || 1; $('kk').value = state.K || 2;
-    if (state.handle && Object.keys(state.labels || {}).length) { buildOrder(); $('setup').hidden = true; render(); }
-    else { $('status').textContent = docRef ? 'ready' : 'ready (browser only)'; }
+    if (state.handle && Object.keys(state.labels).length) { buildOrder(); state.pos = firstUnlabelled(); $('setup').hidden = true; if (stale) save(); render(); }
+    else { if (stale && state.handle) save(); $('status').textContent = docRef ? 'ready' : 'ready (browser only)'; }
   }
   boot();
 })();
