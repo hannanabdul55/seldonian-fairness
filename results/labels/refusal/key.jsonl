@@ -1,200 +1,440 @@
-{"id": "q000", "i": 6, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q001", "i": 484, "k": 4, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q002", "i": 60, "k": 9, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q003", "i": 475, "k": 3, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q004", "i": 262, "k": 4, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q005", "i": 144, "k": 1, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q006", "i": 6, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q007", "i": 310, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q008", "i": 388, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q009", "i": 243, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q010", "i": 396, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q011", "i": 119, "k": 2, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q012", "i": 299, "k": 9, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q013", "i": 339, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q014", "i": 14, "k": 3, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q015", "i": 158, "k": 5, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q016", "i": 60, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q017", "i": 415, "k": 10, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q018", "i": 385, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q019", "i": 350, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q020", "i": 440, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q021", "i": 47, "k": 4, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q022", "i": 219, "k": 4, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q023", "i": 483, "k": 9, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q024", "i": 133, "k": 3, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q025", "i": 440, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q026", "i": 168, "k": 5, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q027", "i": 325, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q028", "i": 402, "k": 9, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q029", "i": 272, "k": 9, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q030", "i": 60, "k": 6, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q031", "i": 198, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q032", "i": 330, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q033", "i": 48, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q034", "i": 316, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q035", "i": 417, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q036", "i": 401, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q037", "i": 434, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q038", "i": 304, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q039", "i": 444, "k": 7, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q040", "i": 122, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q041", "i": 363, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q042", "i": 491, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q043", "i": 201, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q044", "i": 223, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q045", "i": 325, "k": 3, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q046", "i": 499, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q047", "i": 264, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q048", "i": 144, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q049", "i": 466, "k": 4, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q050", "i": 420, "k": 6, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q051", "i": 69, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q052", "i": 472, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q053", "i": 305, "k": 7, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q054", "i": 299, "k": 4, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q055", "i": 62, "k": 4, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q056", "i": 266, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q057", "i": 445, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q058", "i": 437, "k": 4, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q059", "i": 404, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q060", "i": 169, "k": 1, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q061", "i": 401, "k": 10, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q062", "i": 20, "k": 1, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q063", "i": 362, "k": 5, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q064", "i": 455, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q065", "i": 465, "k": 6, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q066", "i": 457, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q067", "i": 376, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q068", "i": 418, "k": 6, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q069", "i": 279, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q070", "i": 229, "k": 5, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q071", "i": 471, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q072", "i": 412, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q073", "i": 136, "k": 11, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q074", "i": 489, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q075", "i": 391, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q076", "i": 98, "k": 10, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q077", "i": 240, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q078", "i": 160, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q079", "i": 457, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q080", "i": 348, "k": 11, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q081", "i": 265, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q082", "i": 449, "k": 4, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q083", "i": 367, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q084", "i": 299, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q085", "i": 463, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q086", "i": 290, "k": 6, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q087", "i": 219, "k": 5, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q088", "i": 464, "k": 7, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q089", "i": 127, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q090", "i": 289, "k": 7, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q091", "i": 140, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q092", "i": 292, "k": 4, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q093", "i": 447, "k": 1, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q094", "i": 128, "k": 10, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q095", "i": 1, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q096", "i": 144, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q097", "i": 299, "k": 0, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q098", "i": 499, "k": 5, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q099", "i": 229, "k": 1, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q100", "i": 487, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q101", "i": 298, "k": 4, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q102", "i": 242, "k": 3, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q103", "i": 73, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q104", "i": 283, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q105", "i": 305, "k": 6, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q106", "i": 308, "k": 8, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q107", "i": 215, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q108", "i": 294, "k": 1, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q109", "i": 413, "k": 5, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q110", "i": 246, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q111", "i": 460, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q112", "i": 54, "k": 5, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q113", "i": 493, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q114", "i": 388, "k": 6, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q115", "i": 449, "k": 5, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q116", "i": 225, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q117", "i": 312, "k": 0, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q118", "i": 152, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q119", "i": 425, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q120", "i": 251, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q121", "i": 98, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q122", "i": 339, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q123", "i": 447, "k": 2, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q124", "i": 198, "k": 3, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q125", "i": 98, "k": 4, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q126", "i": 447, "k": 3, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q127", "i": 499, "k": 3, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q128", "i": 289, "k": 5, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q129", "i": 447, "k": 9, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q130", "i": 52, "k": 11, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q131", "i": 378, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q132", "i": 367, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q133", "i": 462, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q134", "i": 399, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q135", "i": 484, "k": 5, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q136", "i": 83, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q137", "i": 427, "k": 4, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q138", "i": 336, "k": 3, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q139", "i": 131, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q140", "i": 381, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q141", "i": 348, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q142", "i": 447, "k": 1, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q143", "i": 426, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q144", "i": 64, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q145", "i": 404, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q146", "i": 229, "k": 3, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q147", "i": 98, "k": 1, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q148", "i": 359, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q149", "i": 262, "k": 3, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q150", "i": 496, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q151", "i": 46, "k": 5, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q152", "i": 325, "k": 11, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q153", "i": 390, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q154", "i": 208, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q155", "i": 299, "k": 1, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q156", "i": 310, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q157", "i": 158, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q158", "i": 265, "k": 9, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q159", "i": 381, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q160", "i": 54, "k": 3, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q161", "i": 384, "k": 6, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q162", "i": 171, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q163", "i": 242, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q164", "i": 67, "k": 9, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q165", "i": 136, "k": 9, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q166", "i": 224, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q167", "i": 299, "k": 0, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 32, "n_stratum": 10, "weight": 3.2}
-{"id": "q168", "i": 5, "k": 2, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q169", "i": 443, "k": 5, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 55, "n_stratum": 15, "weight": 3.6666666666666665}
-{"id": "q170", "i": 407, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q171", "i": 364, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q172", "i": 430, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q173", "i": 11, "k": 0, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q174", "i": 26, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q175", "i": 465, "k": 3, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q176", "i": 388, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q177", "i": 39, "k": 5, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q178", "i": 167, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q179", "i": 243, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q180", "i": 323, "k": 7, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q181", "i": 139, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q182", "i": 154, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q183", "i": 198, "k": 5, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q184", "i": 442, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q185", "i": 344, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q186", "i": 477, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q187", "i": 418, "k": 9, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 889, "n_stratum": 30, "weight": 29.633333333333333}
-{"id": "q188", "i": 182, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q189", "i": 321, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q190", "i": 62, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q191", "i": 144, "k": 5, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 471, "n_stratum": 25, "weight": 18.84}
-{"id": "q192", "i": 80, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q193", "i": 217, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
-{"id": "q194", "i": 241, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q195", "i": 255, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q196", "i": 26, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4852, "n_stratum": 35, "weight": 138.62857142857143}
-{"id": "q197", "i": 418, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 272, "n_stratum": 25, "weight": 10.88}
-{"id": "q198", "i": 98, "k": 5, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 204, "n_stratum": 20, "weight": 10.2}
-{"id": "q199", "i": 197, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3225, "n_stratum": 40, "weight": 80.625}
+{"id": "q000", "i": 371, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 646695, "cut_off": 1}
+{"id": "q001", "i": 254, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 8278, "cut_off": 1}
+{"id": "q002", "i": 369, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 287134, "cut_off": 0}
+{"id": "q003", "i": 272, "k": 4, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 732982, "cut_off": 0}
+{"id": "q004", "i": 350, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 104101, "cut_off": 1}
+{"id": "q005", "i": 280, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 266977, "cut_off": 1}
+{"id": "q006", "i": 232, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 257696, "cut_off": 0}
+{"id": "q007", "i": 229, "k": 1, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q008", "i": 472, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 25935, "cut_off": 0}
+{"id": "q009", "i": 331, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 499827, "cut_off": 1}
+{"id": "q010", "i": 133, "k": 3, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q011", "i": 484, "k": 7, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 615878, "cut_off": 0}
+{"id": "q012", "i": 95, "k": 3, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 357273, "cut_off": 1}
+{"id": "q013", "i": 30, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q014", "i": 220, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 574465, "cut_off": 1}
+{"id": "q015", "i": 183, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 554244, "cut_off": 1}
+{"id": "q016", "i": 304, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q017", "i": 351, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 777665, "cut_off": 1}
+{"id": "q018", "i": 229, "k": 5, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 398909, "cut_off": 0}
+{"id": "q019", "i": 314, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 157922, "cut_off": 1}
+{"id": "q020", "i": 126, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 680069, "cut_off": 0}
+{"id": "q021", "i": 428, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 447809, "cut_off": 1}
+{"id": "q022", "i": 353, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 363604, "cut_off": 1}
+{"id": "q023", "i": 222, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 322472, "cut_off": 1}
+{"id": "q024", "i": 54, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q025", "i": 88, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q026", "i": 394, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 616554, "cut_off": 1}
+{"id": "q027", "i": 198, "k": 2, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 663747, "cut_off": 0}
+{"id": "q028", "i": 204, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q029", "i": 388, "k": 3, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 247234, "cut_off": 1}
+{"id": "q030", "i": 373, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 724925, "cut_off": 0}
+{"id": "q031", "i": 227, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 79824, "cut_off": 1}
+{"id": "q032", "i": 437, "k": 8, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q033", "i": 187, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q034", "i": 301, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 694770, "cut_off": 0}
+{"id": "q035", "i": 319, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 437488, "cut_off": 0}
+{"id": "q036", "i": 241, "k": 0, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q037", "i": 225, "k": 7, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q038", "i": 53, "k": 5, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q039", "i": 11, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q040", "i": 441, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 428518, "cut_off": 1}
+{"id": "q041", "i": 498, "k": 8, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q042", "i": 44, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q043", "i": 47, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 731469, "cut_off": 0}
+{"id": "q044", "i": 187, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 214121, "cut_off": 1}
+{"id": "q045", "i": 30, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 162834, "cut_off": 1}
+{"id": "q046", "i": 157, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q047", "i": 437, "k": 7, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 10575, "cut_off": 0}
+{"id": "q048", "i": 383, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 828920, "cut_off": 1}
+{"id": "q049", "i": 404, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 470428, "cut_off": 1}
+{"id": "q050", "i": 197, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 575443, "cut_off": 1}
+{"id": "q051", "i": 286, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 319214, "cut_off": 1}
+{"id": "q052", "i": 130, "k": 6, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q053", "i": 236, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 629057, "cut_off": 1}
+{"id": "q054", "i": 413, "k": 11, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 32416, "cut_off": 1}
+{"id": "q055", "i": 366, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 596470, "cut_off": 1}
+{"id": "q056", "i": 154, "k": 6, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 542314, "cut_off": 0}
+{"id": "q057", "i": 336, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 261353, "cut_off": 1}
+{"id": "q058", "i": 62, "k": 3, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q059", "i": 30, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 835641, "cut_off": 0}
+{"id": "q060", "i": 260, "k": 9, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 670827, "cut_off": 0}
+{"id": "q061", "i": 230, "k": 8, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 472237, "cut_off": 0}
+{"id": "q062", "i": 349, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 324332, "cut_off": 1}
+{"id": "q063", "i": 323, "k": 0, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 821430, "cut_off": 0}
+{"id": "q064", "i": 431, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 737538, "cut_off": 1}
+{"id": "q065", "i": 475, "k": 1, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q066", "i": 186, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 668529, "cut_off": 1}
+{"id": "q067", "i": 77, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 354565, "cut_off": 1}
+{"id": "q068", "i": 236, "k": 8, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 810263, "cut_off": 0}
+{"id": "q069", "i": 88, "k": 0, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": 721741, "cut_off": 0}
+{"id": "q070", "i": 229, "k": 11, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 693748, "cut_off": 1}
+{"id": "q071", "i": 223, "k": 0, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 281065, "cut_off": 1}
+{"id": "q072", "i": 407, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 446823, "cut_off": 1}
+{"id": "q073", "i": 293, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 588112, "cut_off": 1}
+{"id": "q074", "i": 76, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q075", "i": 491, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 338357, "cut_off": 0}
+{"id": "q076", "i": 304, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 807963, "cut_off": 1}
+{"id": "q077", "i": 470, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 389759, "cut_off": 1}
+{"id": "q078", "i": 318, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 693123, "cut_off": 0}
+{"id": "q079", "i": 292, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 534277, "cut_off": 1}
+{"id": "q080", "i": 14, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 651884, "cut_off": 1}
+{"id": "q081", "i": 434, "k": 5, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 490459, "cut_off": 0}
+{"id": "q082", "i": 51, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 320697, "cut_off": 0}
+{"id": "q083", "i": 303, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 541677, "cut_off": 1}
+{"id": "q084", "i": 443, "k": 5, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 484581, "cut_off": 1}
+{"id": "q085", "i": 406, "k": 7, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q086", "i": 268, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 260315, "cut_off": 1}
+{"id": "q087", "i": 481, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 593938, "cut_off": 1}
+{"id": "q088", "i": 493, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 830761, "cut_off": 0}
+{"id": "q089", "i": 292, "k": 4, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 482306, "cut_off": 1}
+{"id": "q090", "i": 155, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 412447, "cut_off": 0}
+{"id": "q091", "i": 24, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 114145, "cut_off": 0}
+{"id": "q092", "i": 114, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 606387, "cut_off": 0}
+{"id": "q093", "i": 216, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 72271, "cut_off": 1}
+{"id": "q094", "i": 90, "k": 4, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 737422, "cut_off": 0}
+{"id": "q095", "i": 466, "k": 1, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q096", "i": 305, "k": 0, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 291134, "cut_off": 0}
+{"id": "q097", "i": 328, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 547339, "cut_off": 0}
+{"id": "q098", "i": 4, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 22787, "cut_off": 1}
+{"id": "q099", "i": 360, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 521520, "cut_off": 0}
+{"id": "q100", "i": 425, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 148494, "cut_off": 1}
+{"id": "q101", "i": 373, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 494812, "cut_off": 1}
+{"id": "q102", "i": 19, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q103", "i": 434, "k": 7, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q104", "i": 243, "k": 6, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 343715, "cut_off": 0}
+{"id": "q105", "i": 206, "k": 2, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": 38817, "cut_off": 0}
+{"id": "q106", "i": 456, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 546885, "cut_off": 1}
+{"id": "q107", "i": 320, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 717460, "cut_off": 1}
+{"id": "q108", "i": 301, "k": 0, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q109", "i": 100, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 334193, "cut_off": 0}
+{"id": "q110", "i": 188, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 213395, "cut_off": 1}
+{"id": "q111", "i": 384, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q112", "i": 271, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 269689, "cut_off": 1}
+{"id": "q113", "i": 126, "k": 0, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 478704, "cut_off": 0}
+{"id": "q114", "i": 460, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 763462, "cut_off": 1}
+{"id": "q115", "i": 269, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 677742, "cut_off": 1}
+{"id": "q116", "i": 46, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 245989, "cut_off": 1}
+{"id": "q117", "i": 264, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 72895, "cut_off": 1}
+{"id": "q118", "i": 235, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 307486, "cut_off": 1}
+{"id": "q119", "i": 130, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 152316, "cut_off": 0}
+{"id": "q120", "i": 250, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 509740, "cut_off": 1}
+{"id": "q121", "i": 101, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 830607, "cut_off": 1}
+{"id": "q122", "i": 49, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 558610, "cut_off": 1}
+{"id": "q123", "i": 449, "k": 3, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 241813, "cut_off": 1}
+{"id": "q124", "i": 325, "k": 2, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q125", "i": 337, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 469622, "cut_off": 1}
+{"id": "q126", "i": 172, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 62930, "cut_off": 0}
+{"id": "q127", "i": 380, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 282351, "cut_off": 1}
+{"id": "q128", "i": 308, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 225892, "cut_off": 0}
+{"id": "q129", "i": 464, "k": 5, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q130", "i": 308, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 113466, "cut_off": 1}
+{"id": "q131", "i": 300, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 327438, "cut_off": 0}
+{"id": "q132", "i": 47, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 335013, "cut_off": 0}
+{"id": "q133", "i": 295, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 5088, "cut_off": 1}
+{"id": "q134", "i": 119, "k": 6, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 684883, "cut_off": 0}
+{"id": "q135", "i": 333, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 514988, "cut_off": 0}
+{"id": "q136", "i": 232, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 133607, "cut_off": 0}
+{"id": "q137", "i": 175, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 813226, "cut_off": 1}
+{"id": "q138", "i": 330, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 306485, "cut_off": 0}
+{"id": "q139", "i": 260, "k": 0, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q140", "i": 146, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 434351, "cut_off": 1}
+{"id": "q141", "i": 435, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 168016, "cut_off": 1}
+{"id": "q142", "i": 443, "k": 5, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q143", "i": 323, "k": 11, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 544473, "cut_off": 0}
+{"id": "q144", "i": 328, "k": 8, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 230309, "cut_off": 0}
+{"id": "q145", "i": 409, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q146", "i": 301, "k": 6, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 701687, "cut_off": 0}
+{"id": "q147", "i": 347, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q148", "i": 449, "k": 4, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 180268, "cut_off": 0}
+{"id": "q149", "i": 261, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 264433, "cut_off": 1}
+{"id": "q150", "i": 397, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 336086, "cut_off": 1}
+{"id": "q151", "i": 185, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 777012, "cut_off": 1}
+{"id": "q152", "i": 145, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 377152, "cut_off": 0}
+{"id": "q153", "i": 135, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 126020, "cut_off": 1}
+{"id": "q154", "i": 426, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 109122, "cut_off": 1}
+{"id": "q155", "i": 160, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 782819, "cut_off": 0}
+{"id": "q156", "i": 270, "k": 5, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q157", "i": 127, "k": 5, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 394112, "cut_off": 0}
+{"id": "q158", "i": 378, "k": 5, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 576983, "cut_off": 0}
+{"id": "q159", "i": 46, "k": 5, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q160", "i": 217, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 119101, "cut_off": 1}
+{"id": "q161", "i": 118, "k": 0, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q162", "i": 149, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 436884, "cut_off": 1}
+{"id": "q163", "i": 174, "k": 1, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 488776, "cut_off": 0}
+{"id": "q164", "i": 292, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q165", "i": 210, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 73770, "cut_off": 0}
+{"id": "q166", "i": 413, "k": 7, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q167", "i": 266, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 759266, "cut_off": 1}
+{"id": "q168", "i": 269, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 828236, "cut_off": 1}
+{"id": "q169", "i": 466, "k": 6, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 672747, "cut_off": 0}
+{"id": "q170", "i": 148, "k": 6, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 684885, "cut_off": 0}
+{"id": "q171", "i": 355, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 675355, "cut_off": 1}
+{"id": "q172", "i": 254, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 116821, "cut_off": 0}
+{"id": "q173", "i": 274, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 740936, "cut_off": 1}
+{"id": "q174", "i": 71, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 229331, "cut_off": 0}
+{"id": "q175", "i": 330, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 492361, "cut_off": 0}
+{"id": "q176", "i": 300, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 401640, "cut_off": 1}
+{"id": "q177", "i": 356, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 132845, "cut_off": 1}
+{"id": "q178", "i": 29, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 359594, "cut_off": 1}
+{"id": "q179", "i": 189, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 662865, "cut_off": 1}
+{"id": "q180", "i": 223, "k": 10, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q181", "i": 137, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 228300, "cut_off": 0}
+{"id": "q182", "i": 445, "k": 9, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q183", "i": 156, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 462731, "cut_off": 1}
+{"id": "q184", "i": 468, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 557695, "cut_off": 1}
+{"id": "q185", "i": 348, "k": 1, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 238232, "cut_off": 1}
+{"id": "q186", "i": 301, "k": 5, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 401795, "cut_off": 0}
+{"id": "q187", "i": 485, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 453042, "cut_off": 0}
+{"id": "q188", "i": 350, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 223438, "cut_off": 1}
+{"id": "q189", "i": 229, "k": 3, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": 557098, "cut_off": 1}
+{"id": "q190", "i": 44, "k": 1, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 15626, "cut_off": 1}
+{"id": "q191", "i": 167, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 254387, "cut_off": 1}
+{"id": "q192", "i": 76, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 553468, "cut_off": 0}
+{"id": "q193", "i": 308, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 556182, "cut_off": 1}
+{"id": "q194", "i": 339, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 154456, "cut_off": 0}
+{"id": "q195", "i": 367, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 231042, "cut_off": 1}
+{"id": "q196", "i": 18, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 501312, "cut_off": 1}
+{"id": "q197", "i": 162, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 788782, "cut_off": 1}
+{"id": "q198", "i": 201, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 664327, "cut_off": 1}
+{"id": "q199", "i": 254, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 387261, "cut_off": 1}
+{"id": "q200", "i": 416, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 410030, "cut_off": 1}
+{"id": "q201", "i": 266, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 628979, "cut_off": 1}
+{"id": "q202", "i": 46, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 186396, "cut_off": 1}
+{"id": "q203", "i": 267, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 698723, "cut_off": 1}
+{"id": "q204", "i": 312, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 816599, "cut_off": 1}
+{"id": "q205", "i": 19, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 22788, "cut_off": 0}
+{"id": "q206", "i": 320, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q207", "i": 322, "k": 3, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q208", "i": 395, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 674599, "cut_off": 1}
+{"id": "q209", "i": 10, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 87184, "cut_off": 1}
+{"id": "q210", "i": 403, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 100703, "cut_off": 0}
+{"id": "q211", "i": 427, "k": 3, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 252150, "cut_off": 0}
+{"id": "q212", "i": 442, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 253580, "cut_off": 1}
+{"id": "q213", "i": 3, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q214", "i": 276, "k": 4, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 399269, "cut_off": 0}
+{"id": "q215", "i": 220, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 12623, "cut_off": 1}
+{"id": "q216", "i": 269, "k": 7, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q217", "i": 381, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 593033, "cut_off": 0}
+{"id": "q218", "i": 293, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 625729, "cut_off": 1}
+{"id": "q219", "i": 489, "k": 3, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q220", "i": 425, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 335256, "cut_off": 1}
+{"id": "q221", "i": 126, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q222", "i": 87, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 38678, "cut_off": 1}
+{"id": "q223", "i": 464, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 719910, "cut_off": 1}
+{"id": "q224", "i": 214, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 614702, "cut_off": 1}
+{"id": "q225", "i": 479, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 388946, "cut_off": 0}
+{"id": "q226", "i": 117, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 382480, "cut_off": 0}
+{"id": "q227", "i": 420, "k": 6, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q228", "i": 129, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 477902, "cut_off": 1}
+{"id": "q229", "i": 462, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 146892, "cut_off": 1}
+{"id": "q230", "i": 336, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 137836, "cut_off": 0}
+{"id": "q231", "i": 13, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 25101, "cut_off": 1}
+{"id": "q232", "i": 471, "k": 0, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q233", "i": 22, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 621493, "cut_off": 1}
+{"id": "q234", "i": 185, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 104196, "cut_off": 1}
+{"id": "q235", "i": 136, "k": 3, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 105988, "cut_off": 0}
+{"id": "q236", "i": 319, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 328371, "cut_off": 0}
+{"id": "q237", "i": 246, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 470218, "cut_off": 1}
+{"id": "q238", "i": 88, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q239", "i": 390, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 55449, "cut_off": 1}
+{"id": "q240", "i": 489, "k": 1, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q241", "i": 299, "k": 0, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q242", "i": 122, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 464418, "cut_off": 0}
+{"id": "q243", "i": 197, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 598751, "cut_off": 1}
+{"id": "q244", "i": 12, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 187148, "cut_off": 0}
+{"id": "q245", "i": 223, "k": 6, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 67716, "cut_off": 0}
+{"id": "q246", "i": 118, "k": 3, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q247", "i": 270, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q248", "i": 103, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 837352, "cut_off": 0}
+{"id": "q249", "i": 335, "k": 7, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q250", "i": 408, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 646839, "cut_off": 1}
+{"id": "q251", "i": 497, "k": 9, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 163663, "cut_off": 1}
+{"id": "q252", "i": 133, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 429180, "cut_off": 1}
+{"id": "q253", "i": 341, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 281324, "cut_off": 1}
+{"id": "q254", "i": 278, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 304183, "cut_off": 0}
+{"id": "q255", "i": 390, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 569365, "cut_off": 1}
+{"id": "q256", "i": 385, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 259494, "cut_off": 1}
+{"id": "q257", "i": 331, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 824947, "cut_off": 1}
+{"id": "q258", "i": 240, "k": 6, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q259", "i": 273, "k": 3, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 151946, "cut_off": 0}
+{"id": "q260", "i": 344, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 444202, "cut_off": 0}
+{"id": "q261", "i": 448, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 299141, "cut_off": 1}
+{"id": "q262", "i": 194, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 92326, "cut_off": 1}
+{"id": "q263", "i": 166, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 443191, "cut_off": 0}
+{"id": "q264", "i": 292, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 128608, "cut_off": 1}
+{"id": "q265", "i": 49, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q266", "i": 306, "k": 5, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q267", "i": 11, "k": 6, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 393630, "cut_off": 1}
+{"id": "q268", "i": 310, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 263843, "cut_off": 1}
+{"id": "q269", "i": 361, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 135926, "cut_off": 1}
+{"id": "q270", "i": 15, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 754389, "cut_off": 1}
+{"id": "q271", "i": 492, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 557641, "cut_off": 1}
+{"id": "q272", "i": 377, "k": 5, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 478477, "cut_off": 1}
+{"id": "q273", "i": 399, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 101576, "cut_off": 0}
+{"id": "q274", "i": 225, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 451364, "cut_off": 0}
+{"id": "q275", "i": 393, "k": 7, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q276", "i": 6, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 83175, "cut_off": 1}
+{"id": "q277", "i": 330, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q278", "i": 270, "k": 0, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q279", "i": 282, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 626646, "cut_off": 1}
+{"id": "q280", "i": 124, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 91483, "cut_off": 1}
+{"id": "q281", "i": 314, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 807300, "cut_off": 1}
+{"id": "q282", "i": 438, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 316594, "cut_off": 0}
+{"id": "q283", "i": 418, "k": 5, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 596078, "cut_off": 0}
+{"id": "q284", "i": 202, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 87266, "cut_off": 1}
+{"id": "q285", "i": 435, "k": 3, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q286", "i": 355, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 682953, "cut_off": 1}
+{"id": "q287", "i": 291, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 251866, "cut_off": 0}
+{"id": "q288", "i": 288, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 55353, "cut_off": 0}
+{"id": "q289", "i": 48, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 524920, "cut_off": 1}
+{"id": "q290", "i": 409, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 44619, "cut_off": 1}
+{"id": "q291", "i": 213, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 271217, "cut_off": 1}
+{"id": "q292", "i": 198, "k": 8, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q293", "i": 477, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 466068, "cut_off": 1}
+{"id": "q294", "i": 8, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 457717, "cut_off": 1}
+{"id": "q295", "i": 465, "k": 5, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 83069, "cut_off": 0}
+{"id": "q296", "i": 471, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 2430, "cut_off": 1}
+{"id": "q297", "i": 357, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 776048, "cut_off": 1}
+{"id": "q298", "i": 447, "k": 10, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q299", "i": 302, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 787161, "cut_off": 1}
+{"id": "q300", "i": 492, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 250392, "cut_off": 1}
+{"id": "q301", "i": 51, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 636543, "cut_off": 1}
+{"id": "q302", "i": 255, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 502371, "cut_off": 0}
+{"id": "q303", "i": 242, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 235486, "cut_off": 1}
+{"id": "q304", "i": 153, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 660149, "cut_off": 0}
+{"id": "q305", "i": 492, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 532682, "cut_off": 1}
+{"id": "q306", "i": 326, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 423417, "cut_off": 0}
+{"id": "q307", "i": 426, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 804797, "cut_off": 1}
+{"id": "q308", "i": 118, "k": 2, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": 800700, "cut_off": 0}
+{"id": "q309", "i": 203, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q310", "i": 481, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 832443, "cut_off": 1}
+{"id": "q311", "i": 314, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 643457, "cut_off": 1}
+{"id": "q312", "i": 105, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 413162, "cut_off": 1}
+{"id": "q313", "i": 354, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 661973, "cut_off": 1}
+{"id": "q314", "i": 381, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 619979, "cut_off": 1}
+{"id": "q315", "i": 269, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 407464, "cut_off": 1}
+{"id": "q316", "i": 138, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 115791, "cut_off": 0}
+{"id": "q317", "i": 485, "k": 4, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 283239, "cut_off": 0}
+{"id": "q318", "i": 167, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 192423, "cut_off": 0}
+{"id": "q319", "i": 298, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q320", "i": 461, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 773505, "cut_off": 1}
+{"id": "q321", "i": 447, "k": 8, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q322", "i": 489, "k": 2, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 565221, "cut_off": 1}
+{"id": "q323", "i": 322, "k": 3, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 184698, "cut_off": 1}
+{"id": "q324", "i": 223, "k": 4, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q325", "i": 441, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q326", "i": 133, "k": 9, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 568341, "cut_off": 0}
+{"id": "q327", "i": 74, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 817375, "cut_off": 1}
+{"id": "q328", "i": 303, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q329", "i": 436, "k": 5, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 651497, "cut_off": 0}
+{"id": "q330", "i": 357, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 824974, "cut_off": 1}
+{"id": "q331", "i": 247, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 630692, "cut_off": 1}
+{"id": "q332", "i": 57, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 572090, "cut_off": 1}
+{"id": "q333", "i": 245, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 35978, "cut_off": 1}
+{"id": "q334", "i": 262, "k": 3, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q335", "i": 348, "k": 5, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q336", "i": 162, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 12693, "cut_off": 1}
+{"id": "q337", "i": 94, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 439429, "cut_off": 0}
+{"id": "q338", "i": 92, "k": 2, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 318035, "cut_off": 0}
+{"id": "q339", "i": 465, "k": 10, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 189498, "cut_off": 0}
+{"id": "q340", "i": 257, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 91655, "cut_off": 1}
+{"id": "q341", "i": 18, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 141020, "cut_off": 1}
+{"id": "q342", "i": 452, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 470440, "cut_off": 1}
+{"id": "q343", "i": 431, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 724831, "cut_off": 0}
+{"id": "q344", "i": 249, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "orbench", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 478694, "cut_off": 0}
+{"id": "q345", "i": 18, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 471095, "cut_off": 1}
+{"id": "q346", "i": 103, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 634899, "cut_off": 0}
+{"id": "q347", "i": 170, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 105117, "cut_off": 1}
+{"id": "q348", "i": 452, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 575475, "cut_off": 1}
+{"id": "q349", "i": 440, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 642476, "cut_off": 0}
+{"id": "q350", "i": 241, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 865, "cut_off": 0}
+{"id": "q351", "i": 461, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 116838, "cut_off": 1}
+{"id": "q352", "i": 240, "k": 7, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 80928, "cut_off": 0}
+{"id": "q353", "i": 445, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 279997, "cut_off": 0}
+{"id": "q354", "i": 447, "k": 7, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 346824, "cut_off": 0}
+{"id": "q355", "i": 207, "k": 3, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 579760, "cut_off": 0}
+{"id": "q356", "i": 483, "k": 6, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 494071, "cut_off": 0}
+{"id": "q357", "i": 420, "k": 3, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 427830, "cut_off": 0}
+{"id": "q358", "i": 461, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 444254, "cut_off": 1}
+{"id": "q359", "i": 418, "k": 9, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 231504, "cut_off": 0}
+{"id": "q360", "i": 88, "k": 11, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 424943, "cut_off": 0}
+{"id": "q361", "i": 57, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 525032, "cut_off": 0}
+{"id": "q362", "i": 355, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 443424, "cut_off": 1}
+{"id": "q363", "i": 477, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 822196, "cut_off": 0}
+{"id": "q364", "i": 427, "k": 4, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "main", "deal": 468059, "cut_off": 0}
+{"id": "q365", "i": 354, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 570221, "cut_off": 0}
+{"id": "q366", "i": 263, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 408178, "cut_off": 0}
+{"id": "q367", "i": 421, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 90569, "cut_off": 0}
+{"id": "q368", "i": 478, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 751727, "cut_off": 1}
+{"id": "q369", "i": 396, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 515679, "cut_off": 0}
+{"id": "q370", "i": 362, "k": 5, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 270385, "cut_off": 1}
+{"id": "q371", "i": 262, "k": 4, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 169587, "cut_off": 0}
+{"id": "q372", "i": 201, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 354499, "cut_off": 1}
+{"id": "q373", "i": 92, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 227548, "cut_off": 0}
+{"id": "q374", "i": 64, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 429253, "cut_off": 0}
+{"id": "q375", "i": 321, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 698766, "cut_off": 1}
+{"id": "q376", "i": 196, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 764497, "cut_off": 1}
+{"id": "q377", "i": 299, "k": 0, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q378", "i": 443, "k": 2, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 230902, "cut_off": 0}
+{"id": "q379", "i": 286, "k": 7, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "orbench", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": 189750, "cut_off": 1}
+{"id": "q380", "i": 61, "k": 3, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q381", "i": 422, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q382", "i": 202, "k": 6, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q383", "i": 450, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 695607, "cut_off": 1}
+{"id": "q384", "i": 353, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 459307, "cut_off": 1}
+{"id": "q385", "i": 230, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 280675, "cut_off": 0}
+{"id": "q386", "i": 174, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "reserve", "deal": null, "cut_off": 0}
+{"id": "q387", "i": 79, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 38475, "cut_off": 1}
+{"id": "q388", "i": 364, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 443517, "cut_off": 1}
+{"id": "q389", "i": 306, "k": 11, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 103820, "cut_off": 0}
+{"id": "q390", "i": 119, "k": 2, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 18636, "cut_off": 0}
+{"id": "q391", "i": 204, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 132638, "cut_off": 0}
+{"id": "q392", "i": 495, "k": 7, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 366244, "cut_off": 1}
+{"id": "q393", "i": 314, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 387354, "cut_off": 1}
+{"id": "q394", "i": 413, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 670591, "cut_off": 1}
+{"id": "q395", "i": 266, "k": 10, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 463519, "cut_off": 1}
+{"id": "q396", "i": 125, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 786356, "cut_off": 0}
+{"id": "q397", "i": 103, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 492914, "cut_off": 0}
+{"id": "q398", "i": 443, "k": 3, "step": "200", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g1_h1", "N_stratum": 840, "n_stratum": 30, "set": "main", "deal": 535593, "cut_off": 1}
+{"id": "q399", "i": 442, "k": 1, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q400", "i": 402, "k": 0, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 102761, "cut_off": 0}
+{"id": "q401", "i": 98, "k": 4, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 414399, "cut_off": 0}
+{"id": "q402", "i": 298, "k": 2, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 446318, "cut_off": 0}
+{"id": "q403", "i": 231, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 720648, "cut_off": 1}
+{"id": "q404", "i": 309, "k": 3, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 417405, "cut_off": 0}
+{"id": "q405", "i": 81, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 730630, "cut_off": 0}
+{"id": "q406", "i": 129, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 803984, "cut_off": 1}
+{"id": "q407", "i": 333, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 122491, "cut_off": 0}
+{"id": "q408", "i": 312, "k": 3, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q409", "i": 94, "k": 1, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 307310, "cut_off": 1}
+{"id": "q410", "i": 276, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 673760, "cut_off": 1}
+{"id": "q411", "i": 1, "k": 3, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 808928, "cut_off": 1}
+{"id": "q412", "i": 324, "k": 0, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 147752, "cut_off": 0}
+{"id": "q413", "i": 279, "k": 0, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 147124, "cut_off": 1}
+{"id": "q414", "i": 497, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 793800, "cut_off": 1}
+{"id": "q415", "i": 460, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 823241, "cut_off": 1}
+{"id": "q416", "i": 318, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 797214, "cut_off": 0}
+{"id": "q417", "i": 105, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 839875, "cut_off": 1}
+{"id": "q418", "i": 105, "k": 2, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 755050, "cut_off": 1}
+{"id": "q419", "i": 494, "k": 4, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 299817, "cut_off": 1}
+{"id": "q420", "i": 235, "k": 6, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 224976, "cut_off": 1}
+{"id": "q421", "i": 443, "k": 7, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": null, "cut_off": 1}
+{"id": "q422", "i": 384, "k": 4, "step": "0", "guard": 1, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g1_h1", "N_stratum": 258, "n_stratum": 25, "set": "main", "deal": 375391, "cut_off": 1}
+{"id": "q423", "i": 22, "k": 5, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 728999, "cut_off": 0}
+{"id": "q424", "i": 46, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 802229, "cut_off": 1}
+{"id": "q425", "i": 437, "k": 7, "step": "0", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s0_g0_h1", "N_stratum": 29, "n_stratum": 10, "set": "reserve", "deal": null, "cut_off": 1}
+{"id": "q426", "i": 299, "k": 1, "step": "200", "guard": 0, "hyb_shape": 1, "meta": "xstest", "stratum": "s200_g0_h1", "N_stratum": 49, "n_stratum": 15, "set": "main", "deal": null, "cut_off": 0}
+{"id": "q427", "i": 81, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 73153, "cut_off": 0}
+{"id": "q428", "i": 386, "k": 8, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 530813, "cut_off": 0}
+{"id": "q429", "i": 191, "k": 11, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 125059, "cut_off": 1}
+{"id": "q430", "i": 459, "k": 5, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 169771, "cut_off": 0}
+{"id": "q431", "i": 215, "k": 0, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 15786, "cut_off": 1}
+{"id": "q432", "i": 350, "k": 4, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 63938, "cut_off": 1}
+{"id": "q433", "i": 11, "k": 7, "step": "0", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g1_h0", "N_stratum": 442, "n_stratum": 25, "set": "main", "deal": 700832, "cut_off": 0}
+{"id": "q434", "i": 359, "k": 2, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 506585, "cut_off": 1}
+{"id": "q435", "i": 344, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 171394, "cut_off": 0}
+{"id": "q436", "i": 66, "k": 6, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 84831, "cut_off": 1}
+{"id": "q437", "i": 207, "k": 4, "step": "200", "guard": 1, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g1_h0", "N_stratum": 182, "n_stratum": 20, "set": "main", "deal": 344554, "cut_off": 0}
+{"id": "q438", "i": 16, "k": 7, "step": "200", "guard": 0, "hyb_shape": 0, "meta": "xstest", "stratum": "s200_g0_h0", "N_stratum": 4809, "n_stratum": 135, "set": "main", "deal": 140144, "cut_off": 0}
+{"id": "q439", "i": 89, "k": 1, "step": "0", "guard": 0, "hyb_shape": 0, "meta": "orbench", "stratum": "s0_g0_h0", "N_stratum": 3191, "n_stratum": 140, "set": "main", "deal": 504922, "cut_off": 1}

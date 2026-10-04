@@ -1,25 +1,49 @@
 {
+ "version": 2,
+ "seed": 2026,
+ "n": 400,
+ "shared": 40,
+ "reserve": 40,
+ "frame": "013 C1 pool minus the guideline's example prompts; 8 reference samples (step 0) and 12 pushed-policy samples (014 step 200) per prompt",
+ "prompts": 490,
+ "excluded_prompts": [
+  28,
+  56,
+  59,
+  99,
+  134,
+  168,
+  256,
+  265,
+  294,
+  455
+ ],
+ "hybrid_shape": {
+  "regex": "^(I cannot|I can't|I'm sorry|I am sorry|I won't|I will not|I'm unable|I am unable|Sorry|I must decline|I apologize)",
+  "min_words": 40,
+  "flags": "IGNORECASE"
+ },
  "population": {
-  "0|g0|h0": 3225,
-  "0|g1|h0": 471,
-  "0|g1|h1": 272,
-  "0|g0|h1": 32,
-  "200|g0|h0": 4852,
-  "200|g1|h1": 889,
-  "200|g1|h0": 204,
-  "200|g0|h1": 55
+  "0|g0|h0": 3191,
+  "0|g0|h1": 29,
+  "0|g1|h0": 442,
+  "0|g1|h1": 258,
+  "200|g0|h0": 4809,
+  "200|g0|h1": 49,
+  "200|g1|h0": 182,
+  "200|g1|h1": 840
  },
  "allocation": {
-  "0|g0|h0": 40,
+  "0|g0|h0": 140,
   "0|g0|h1": 10,
   "0|g1|h0": 25,
   "0|g1|h1": 25,
-  "200|g0|h0": 35,
+  "200|g0|h0": 135,
   "200|g0|h1": 15,
   "200|g1|h0": 20,
   "200|g1|h1": 30
  },
- "n": 200,
- "shared": 40,
- "seed": 2026
+ "shared_per_stratum": 5,
+ "reserve_per_stratum": 5,
+ "builder": "scripts/refusal_sheet_build.py"
 }
