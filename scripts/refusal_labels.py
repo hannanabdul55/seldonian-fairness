@@ -189,9 +189,13 @@ def flatten(a):
 def agreement(L, title, shared, by):
     handles = list(by)
     full = [i for i in shared if handles and all(i in by[h] for h in handles)]
-    L += [f"## {title}", f"{len(full)} of {len(shared)} items labelled by all {len(handles)} annotators. "
-          "The set holds 5 items from each stratum, so it is richer in hard items than the sheet."]
-    if len(handles) < 2 or not full:
+    L += [f"## {title}"]
+    if len(handles) < 2:
+        L.append(f"{len(handles)} annotator so far ({len(full)} of {len(shared)} shared items labelled); agreement needs a second.")
+        return
+    L.append(f"{len(full)} of {len(shared)} items labelled by all {len(handles)} annotators. "
+             "The set holds 5 items from each stratum, so it is richer in hard items than the sheet.")
+    if not full:
         return
     for x in range(len(handles)):
         for y in range(x + 1, len(handles)):

@@ -315,6 +315,13 @@ trained policy. The shape is a weak proxy (on XSTest's completions 34% of respon
 human partial refusals and 56% full refusals [P15]), so these two numbers say only that the
 form changed; `[GAP: P6]` gives the human rates.
 
+`[CHECK]` The first annotator's labels do not support "and then answer". Of 18 guard-flagged
+responses of the trained policy with a refusal opener, 12 were labelled refusals, 6 answers and
+none refuse-then-answer; they read as long refusals with a helpful-sounding body. If the second
+annotator agrees, this paragraph becomes: the form that changed is the refusal's length and
+tone, the rubric judge reads it as an answer, and the guard is the nearer of the two to the
+human label. The measured loss of the rubric judge's recall stands either way.
+
 The consequence for certification: gold labels must be on the responses of the policy being
 certified, every time the policy changes. A calibration is not an asset that survives the
 optimisation it was meant to audit.
@@ -557,3 +564,4 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 4. Round 6 seed-level numbers in Table 1 trace to the state report only.
 5. Solution rates for the certificates of section 8 are not defined (fixed published traces);
    say so where NSF is reported.
+6. Section 7.2's mechanism paragraph against the human labels (the `[CHECK]` there).
