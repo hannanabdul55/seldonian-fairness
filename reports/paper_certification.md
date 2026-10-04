@@ -26,7 +26,7 @@ trained policies reach, judge-assisted finite-sample bounds, and a stratified la
 read as a random sample. On AgentDojo's published runs
 the usual per-pair bound misses in 5-28% of resamples at a nominal 5%, and one of 28 pipelines
 certifies a 5% attack success rate once the design is respected. `[GAP: P9]` supplies the
-certificate in human terms.
+margin a human-labelled sample certifies, with and without the guard.
 
 ## 1. Claim and scope
 
@@ -463,18 +463,39 @@ One annotator means no agreement statistic. What stands in for it is thin and we
 guideline's classes are XSTest's, whose authors report agreement of 0.9 on them; three
 responses that appeared twice on the annotator's sheets received the same label; and two
 recurring cases (a redirect that says where to find the answer; "I cannot answer" followed by
-the false premise) were labelled both ways and are the main source of label noise.
+the false premise) were labelled both ways and are the main source of label noise. `[GAP: P16]`
+adds the annotator's agreement with XSTest's two-annotator labels on 60 of its completions.
 
 `[GAP: P8]` The same for harm, on a sheet aimed at 30 or more human positives.
 
-### 8.4 One policy certified in human terms
+### 8.4 What a human-labelled sample certifies
 
-`[GAP: P9]` The analysis is fixed before any label exists (plan section 6): the returned policy
-of one training run against its reference; the event is a human label of strict refusal, with
-refuse-then-answer reported beside it; the constraint is on the difference of the two rates
-with the training margin of 0.02; one fresh response per policy per prompt, labelled blind; a
-betting bound on the paired difference, so the bound may be recomputed as labels arrive; a cap
-of 600 pairs, after which the outcome is NSF. Either outcome is reported.
+The constraint of the trained policy is relative: its refusal rate may exceed the reference's
+by at most a margin of 0.02. Section 8.3 puts the two human-terms rates at 10.7% and 10.6%. With
+a true difference near zero, whether a sample certifies the margin is a question about the
+label budget, so we report the budget and the margin a fixed sample certifies, not a pass or a
+fail.
+
+*Table 9. Prompt pairs needed to certify a margin on the difference of the two strict refusal
+rates at delta 0.05, from the rates of section 8.3 [P9 budget]. A design calculation: normal-type
+limits, pairing correlation 0.66 (the guard's flags on the same prompts), guard `rho^2` 0.6.*
+
+| margin | chance of certifying | labels alone, unpaired | labels alone, paired by prompt | paired, guard's logit as predictor |
+|---|---|---|---|---|
+| 0.02 | 50% | 1,226 | 416 | 167 |
+| 0.02 | 80% | 2,801 | 950 | 380 |
+| 0.03 | 80% | 1,266 | 429 | 172 |
+| 0.05 | 80% | 462 | 157 | 63 |
+
+Pairing the two policies on the same prompts cuts the budget threefold and the guard cuts it
+again by 2.5, so a certificate that would take 2,800 unpaired pairs takes 380. A sample of 300
+pairs is expected to certify a margin of 0.024 with labels alone and 0.015 with the guard.
+
+`[GAP: P9]` The measured result: 300 prompt pairs of fresh responses from the returned policy of
+one training run and from its reference, labelled blind by the one annotator; the certified
+margin (the upper bound at delta 0.05 on the difference) by the betting bound on the paired
+differences and by PPI++ on the guard's logit with a bootstrap-t limit, beside the 0.02 target.
+The rules were fixed before any of these labels existed (plan section 6, version 2).
 
 ## 9. Limits
 
@@ -575,6 +596,7 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 | [017 n], [017 B6], [017 E8] | `.planning/spikes/017-calibration-carrying-certificate/README.md` (Results n, E8 addendum) and `results.md` (B6) | yes |
 | [019] | `.planning/spikes/019-external-trace-certificate/README.md` | yes; transcripts on the D: drive |
 | [P6] | `results/labels/refusal/analysis.md` (`scripts/refusal_labels.py analyze`; labels in `labels_ah.jsonl`, design in `design.json`) | yes |
+| [P9 budget] | `results/paper/p9_budget.md` (`scripts/p9_budget.py`) | yes |
 | [P14] | `results/paper/stratppi.md`, `stratppi.json` (`scripts/stratppi_baseline.py`; 5,000 draws per cell in part A, 4,000 in part B) | yes, CPU, about 5 minutes |
 | [P15] | `results/labels/xstest/analysis.md` (`scripts/xstest_guard.py`; guard scores and human labels in `guard_scores.jsonl`) | yes; XSTest's completions are fetched from its repository and kept outside this one |
 | [020], [020 P] | `.planning/spikes/020-agentdojo-injection-certificate/README.md` and `plasmode.md` | yes |
