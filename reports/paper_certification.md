@@ -1,7 +1,9 @@
 # Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry
 
-**Draft v0.5, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
-v0.5 (after an independent rigor review of v0.3: weak accept, 1 critical and 9 major findings):
+**Draft v0.6, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
+v0.6: every validity table recounted under one rule; the AgentDojo check redone on all 28
+pipelines and the certificate restated; StratPPI validated against other implementations and
+run with its own allocation rules; the judge scored against human labels. v0.5 (after an independent rigor review of v0.3: weak accept, 1 critical and 9 major findings):
 claims in sections 5, 7 and 8 narrowed to what their evidence shows. v0.4: an introduction and a conclusion added, a shorter abstract, 22 references
 re-checked against arXiv and CrossRef, and some 25 numbers or statements corrected after a
 source-by-source audit. The certificate in human labels (section 8.4) is costed and prepared
@@ -23,14 +25,14 @@ threshold, wrong with probability at most delta, with "no solution found" as a p
 answer. This is the safety test of the Seldonian framework (Thomas et al., 2019) applied to a
 fixed policy. We audit it end to end. Every bound we use is checked against a known truth: in
 synthetic environments, by resampling real judged responses, and on published traces of
-frontier models. Exact bounds hold their level. The normal-quantile intervals of PPI++ and
-StratPPI, in our implementation, miss in up to 24% of draws at a nominal 5%, and a bootstrap-t limit restores
-the level. Stratifying the safety set by the reference model's own per-prompt rate multiplies
+frontier models. No exact bound was over its level in any cell. The normal-quantile intervals
+of PPI++ and StratPPI miss in up to 24% of draws at a nominal 5%; a bootstrap-t limit is over
+its level in no cell when labels are allocated in proportion to stratum size. Stratifying the safety set by the reference model's own per-prompt rate multiplies
 the effective sample by 1.4 to 5.3. Three things do not carry: a judge's calibration, across
 prompt populations or across training that targets the label; independent-sample bounds on
 crossed benchmark designs; and a stratified labelling sheet read as a random sample. On
-AgentDojo's published runs the usual per-pair bound misses in 5-28% of resamples, and one of 28
-pipelines certifies a 5% attack success rate once the design is respected. A certificate of a
+AgentDojo's published runs the usual per-pair bound is over its level for 27 of 28 pipelines,
+and one of 28 certifies a 5% attack success rate under a bound clustered by user task. A certificate of a
 trained policy in human labels is costed and prepared, not run: from one annotator's measured
 rates, a 2-point refusal margin takes about 420 labelled prompt pairs for an even chance of
 passing if the two policies refuse equally often, and nearly twice that if the trained one
@@ -60,9 +62,10 @@ below the truth. A bound "holds" if that happens in at most a fraction delta of 
 Our contributions:
 
 - **Which bounds hold.** One table (Table 2) gives the measured miss rate of every bound we
-  use. Exact bounds hold everywhere we test. The normal-quantile intervals of PPI++ and
-  StratPPI, in our implementation, miss in up to 24% of draws at a nominal 5% at safety-test sizes; a bootstrap-t
-  limit on the same estimators holds (sections 3 to 6).
+  use, under one rule. No exact bound is over its level anywhere we test. The normal-quantile
+  intervals of PPI++ and StratPPI miss in up to 24% of draws at a nominal 5% at safety-test
+  sizes, and so does PPBoot's percentile limit; a bootstrap-t limit on the same estimators is
+  over its level in no cell under proportional allocation (sections 3 to 6).
 - **What a label budget buys.** A safety set stratified by the reference model's own
   per-prompt rate is worth 1.4 to 5.3 times its size. A judge's logit, used as a variance
   reducer under a routing rule fixed in advance, is worth 1.4 to 2.5 times the labels alone on
@@ -73,7 +76,7 @@ Our contributions:
   certify a negative rate (section 7).
 - **Certificates on published traces.** On a robot benchmark, 120 trials per model cannot
   certify a 5% safety-stop rate after two events. On AgentDojo, one of 28 pipelines certifies a
-  5% attack success rate under a bound that respects the design, and a defended model with a
+  5% attack success rate under a bound clustered by user task, and a defended model with a
   raw rate of 2.2% does not (sections 8.1 and 8.2).
 - **The price of human terms.** We measure a guard model against human refusal labels and cost
   a certificate of a trained policy in those labels: about 420 labelled prompt pairs for an
@@ -155,31 +158,47 @@ holds. We have not corrected for the number of cells inspected.
 
 Figure 1 draws the table below as miss rate over delta.
 
-*Table 2. Miss rate against delta for every bound used. "Exact" means valid at every sample
-size by construction; "approximate" means valid asymptotically and checked by resampling.
-Monte Carlo standard errors are 0.003-0.004 for 5,000 resamples and 0.011 for 400.*
+*Table 2. Miss rate against delta for every bound used, with one rule for every row. Cells are
+counted as over / unresolved / at or under delta (section 3's rule). "Exact" means valid at
+every sample size by construction; "approximate" means valid asymptotically and checked by
+resampling. Draws per cell are 5,000 for [013], [014], [R 6.2] and the reference-rate strata,
+4,000 for the judge-logit strata, the sheets and AgentDojo, and 1,000 or 4,000 for spike 017's
+plasmodes. The [R 6.2] rows are printed rates whose draws were lost. AgentDojo schemes: (a)
+user tasks resampled, injection tasks fixed; (b) the reverse; (c) both. The rows on StratPPI's
+own allocations count 26 reference-strata cells: one checkpoint at a 95% rate is left out.*
 
-| bound | kind | setting | delta | miss | source |
-|---|---|---|---|---|---|
-| Clopper-Pearson | exact (binary labels) | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.10 | 0.067-0.084 | [R 6.2] |
-| Clopper-Pearson | exact | spike 017 plasmodes, every cell | 0.05 | at most 0.051 | [017 B6] |
-| betting mixture | exact (bounded) | same pool as row 1 | 0.10 | 0.007-0.016 | [R 6.2] |
-| Bentkus | exact (bounded) | same pool | 0.10 | 0.023-0.035 | [R 6.2] |
-| Hoeffding, Anderson | exact (bounded) | same pool | 0.10 | 0.000 | [R 6.2] |
-| stratified Wilson-type `b1w` | approximate | 4 mid-rate labels (9-94%), real Granite-3.3-2B responses, n_s 100-200 | 0.05 / 0.10 | 0.023-0.054 / 0.069-0.097 | [013 H8] |
-| `b1w` | approximate | label pushed by the Lagrangian, n_s 200 | 0.05 / 0.10 | 0.011-0.023 / 0.040-0.064 | [014] |
-| `b1w` on a design-weighted sheet | approximate | sheets re-drawn by their real sampling rule | 0.05 | 0.001-0.059 | [017 4] |
-| PPI++ with a bootstrap-t limit | approximate (second order) | spike 017 plasmodes, every cell and feature | 0.05 | at most 0.053 | [017 B6] |
-| cluster bootstrap-t, by user task | approximate | AgentDojo, 6 pipelines, user tasks resampled | 0.05 | 0.020-0.060 | [020 P] |
-| StratPPI estimator with a bootstrap-t limit | approximate | reference-rate strata, 5 mid-rate labels, n_s 100-200; judge-logit strata, 14 cells, n 100-1,000 | 0.05 | at most 0.045; at most 0.056 | [P14] |
-| **Student-t** | fails at low rates | same pool as row 1, n 200-800 | 0.10 | **0.115-0.184** | [R 6.2] |
-| **`b1w` and the pooled Wilson bound at rare rates** | fail | harm labels at 1-2%, n_s 100, any design | 0.05 | **0.24-0.44** | [013 H8] |
-| **PPI++ with a normal limit** | fails | spike 017 plasmodes | 0.05 | **up to 0.241** | [017 B6] |
-| **StratPPI as published (normal limit)** | fails at these sizes | reference-rate strata: over its level in 4 of 10 mid-rate cells; judge-logit strata: in 26 of 28 | 0.05 | **up to 0.086; up to 0.239** | [P14] |
-| **Clopper-Pearson over pairs** | fails on a crossed design | AgentDojo, user tasks resampled | 0.05 | **0.048-0.275** | [020 P] |
-| **two-way bootstrap** | fails where positives sit in few clusters | AgentDojo | 0.05 | **up to 0.170** | [020 P] |
-| **stratified sheet read as an i.i.d. sample** | fails | PPI on the sheet, one judge wording | 0.05 | **up to 0.98** | [017 4] |
-| **the judge's rate alone** | fails | spike 017 plasmodes | 0.05 | **1.000** | [017 B6] |
+| bound | kind | setting | delta | miss, per cell | cells over / unresolved / at or under | source |
+|---|---|---|---|---|---|---|
+| Clopper-Pearson | exact (binary labels) | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.10 | 0.067-0.084 | 0 / 0 / 5 | [R 6.2] |
+| Clopper-Pearson | exact | spike 017 plasmodes, every cell | 0.05 | 0-0.052 | 0 / 2 / 40 | [017 B6] |
+| betting mixture | exact (bounded) | same pool as row 1 | 0.10 | 0.007-0.016 | 0 / 0 / 5 | [R 6.2] |
+| Bentkus | exact (bounded) | same pool | 0.10 | 0.023-0.035 | 0 / 0 / 5 | [R 6.2] |
+| Hoeffding, Anderson | exact (bounded) | same pool | 0.10 | 0.000 | 0 / 0 / 5 | [R 6.2] |
+| stratified Wilson-type `b1w` | approximate | 4 mid-rate labels (9-94%), real Granite-3.3-2B responses, n_s 100-200, 3 checkpoints | 0.05 / 0.10 | 0.017-0.054 / 0.058-0.097 | 0 / 3 / 21; 0 / 0 / 24 | [013 H8] |
+| `b1w` | approximate | label pushed by the Lagrangian, n_s 200 | 0.05 / 0.10 | 0.011-0.023 / 0.040-0.064 | 0 / 0 / 2; 0 / 0 / 2 | [014] |
+| `b1w` on a design-weighted sheet | approximate | sheets re-drawn by their real sampling rule | 0.05 | 0.001-0.060 | 1 / 1 / 16 | [017 4] |
+| PPI++ with a bootstrap-t limit | approximate (second order) | spike 017 plasmodes, every cell and feature | 0.05 | 0-0.053 | 0 / 12 / 156 | [017 B6] |
+| cluster bootstrap-t, by user task | approximate | AgentDojo, 28 pipelines, scheme (a) | 0.05 | 0.013-0.051 | 0 / 2 / 26 | [AgentDojo recheck] |
+| StratPPI estimator with a bootstrap-t limit, proportional allocation | approximate | reference-rate strata, 5 mid-rate labels, n_s 100-200; judge-logit strata, n 100-1,000 | 0.05 | 0.024-0.045; 0.001-0.056 | 0 / 0 / 28; 0 / 5 / 23 | [P14] |
+| **Student-t** | fails at low rates | same pool as row 1, n 200-2,400 | 0.10 | **0.101-0.184** | 3 / 2 / 0 | [R 6.2] |
+| **`b1w` and the pooled Wilson bound at rare rates** | fail | harm labels at 1-2%, n_s 100, any design | 0.05 | **0.076-0.448** | 12 / 0 / 0 | [013 H8] |
+| **PPI++ with a normal limit** | fails in most cells | spike 017 plasmodes | 0.05 | **0.041-0.241** | 119 / 32 / 17 | [017 B6] |
+| **StratPPI's normal limit, proportional allocation** | fails at these sizes | reference-rate strata; judge-logit strata | 0.05 | **0.024-0.086; 0.054-0.239** | 9 / 5 / 14; 26 / 2 / 0 | [P14] |
+| **StratPPI's normal limit, the paper's allocations (oracle; heuristic)** | fails | reference-rate strata; judge-logit strata | 0.05 | **up to 0.110; 0.217; up to 0.219; 0.90** | 9 / 3 / 14; 11 / 0 / 15; 28 / 0 / 0; 24 / 1 / 3 | [StratPPI validation] |
+| **StratPPI estimator with a bootstrap-t limit, oracle or heuristic allocation** | fails | the same cells | 0.05 | **up to 0.078; 0.174; up to 0.083; 0.90** | 6 / 3 / 17; 11 / 1 / 14; 14 / 11 / 3; 14 / 0 / 14 | [StratPPI validation] |
+| **PPBoot, percentile limit (basic; power-tuned)** | fails at these sizes | judge-logit cells, unstratified | 0.05 | **up to 0.133; 0.148** | 7 / 6 / 1; 12 / 2 / 0 | [StratPPI validation] |
+| **Clopper-Pearson over pairs** | fails on a crossed design | AgentDojo, 28 pipelines, schemes (a); (b); (c) | 0.05 | **0.042-0.268; 0.060-0.340; 0.195-0.350** | 27 / 0 / 1; 28 / 0 / 0; 28 / 0 / 0 | [AgentDojo recheck] |
+| **cluster bootstrap-t by user task, injection tasks also sampled** | fails | AgentDojo, schemes (b); (c) | 0.05 | **up to 0.258; 0.275** | 21 / 0 / 7; 24 / 0 / 4 | [AgentDojo recheck] |
+| **larger of the two clustered bounds** | holds under (a) only | AgentDojo, schemes (a); (b); (c) | 0.05 | at most 0.029; **up to 0.066; 0.089** | 0 / 0 / 28; 4 / 0 / 24; 16 / 3 / 9 | [AgentDojo recheck] |
+| **two-way bootstrap** | fails | AgentDojo, schemes (a); (b); (c) | 0.05 | **up to 0.174; 0.178; 0.278** | 5 / 0 / 23; 14 / 1 / 13; 27 / 0 / 1 | [AgentDojo recheck] |
+| **stratified sheet read as an i.i.d. sample** | fails | PPI on the sheet, three judge wordings | 0.05 | **0-0.989** | 7 / 0 / 11 | [017 4] |
+| **the judge's rate alone** | fails | spike 017 plasmodes | 0.05 | **0-1.000** | 30 / 0 / 12 | [017 B6] |
+
+The one cell over its level in a row we call valid is `b1w` on a design-weighted sheet (0.0595
+at 4,000 draws). It is not over after a correction for the row's 18 cells, and a second,
+independent run of the same cell gave 0.0485 [validity recount]. Every row we call failing has
+at least one cell over, and most also have cells that are not: a failing bound fails somewhere,
+not everywhere.
 
 Three readings of Table 2.
 
@@ -191,10 +210,10 @@ Three readings of Table 2.
 2. **The t-test is the wrong default.** It is anti-conservative exactly where trained policies
    sit (harm rates of 3-6%), and its width is zero at a rate of 0 or 1, which lets candidate
    selection win by driving a subgroup rate to the boundary [R 6.2, 012].
-3. **"Approximate" has a number attached.** In Table 2 the approximate bounds we use miss at
-   most one percentage point over delta (the largest is 0.060 at delta 0.05). Inside the full
-   training loop the stratified test reached 0.116 at delta 0.1, with a Monte Carlo standard
-   error of 0.013 (section 4).
+3. **"Approximate" has a number attached.** The approximate bounds we use are over their level
+   in 1 of 322 cells and unresolved in 23; the largest miss at delta 0.05 is 0.060. Inside the
+   full training loop the stratified test reached 0.116 at delta 0.1 on 500 runs, which is
+   unresolved (section 4).
 
 The StratPPI rows (Fisch et al., 2024) are our implementation of its estimator and interval on
 the same draws as the rows above them; sections 5 and 6 give the comparison.
@@ -264,7 +283,11 @@ ranking as the usable part.
 evaluation is StratPPI (Fisch et al., 2024): within each stratum the labelled mean is corrected
 by a regression on a predictor, and the interval uses normal quantiles. We ran it on the same
 strata and the same 5,000 draws per cell, with the reference rate as the predictor [P14]
-(Figure 3, left).
+(Figure 3, left). The implementation is ours; the authors have released no code. It agrees
+with an independent rewrite of their Algorithm 1 to rounding error and reproduces the widths of
+their own simulation, and the counts below are the same or worse under the conventions of two
+public libraries (`ppi_py` and GLIDE) [StratPPI validation]. The predictor here is constant in
+5 to 7 of the 8 strata.
 
 *Table 3. Reference-rate strata at delta 0.05: largest miss over checkpoints, and ESS against a
 random split with a pooled Wilson bound. Five mid-rate labels, two safety-set sizes. The rates
@@ -287,19 +310,26 @@ for the same labels, which differ by a point.*
 Bold: more than two Monte Carlo standard errors over delta. Three things follow.
 
 1. **StratPPI's bound is shorter, and part of that is the normal limit running over its level.**
-   It exceeds delta in 4 of 10 cells at delta 0.05 (one of them marginally, at 0.056; 3 of 10 at
-   delta 0.1), most at the 9% label, and in every rare-label cell; `b1w` fails in three of
+   It is over its level in 4 of 10 cells at delta 0.05 when a cell is the largest miss over
+   checkpoints (one of them marginally, at 0.056; 3 of 10 at delta 0.1), and in 9 of 26 cells
+   counted by checkpoint (leaving out one at a 95% rate), most at the 9% label, and in every rare-label cell; `b1w` fails in three of
    those four.
-2. **With an honest limit the two are close.** The same estimator with a bootstrap-t limit holds
-   in all ten cells (largest miss 0.045) and its median ESS is 2.10 against 2.16 for `b1w`. It
-   is ahead in seven cells, by 3-35%, and far behind in one (1.77 against 4.75). We attribute
-   that cell, without a test, to strata of about twelve labels on a heavily tied predictor.
+   The paper's own allocation rules do not repair it: 9 of 26 over with the oracle rule, 11
+   with the heuristic.
+2. **With an honest limit the two are close.** With labels allocated in proportion to stratum
+   size, the same estimator with a bootstrap-t limit is over its level in none of the ten
+   cells (largest miss 0.045). With the oracle allocation it is over in 6 of 26 cells, and
+   with the heuristic in 11, so the repair depends on the allocation. Under proportional
+   allocation and its median ESS is 2.10 against 2.16 for `b1w`. It
+   is ahead in seven cells, by 3-35%, and far behind in one (1.77 against 4.75). A sweep places
+   that drop at a safety set of 100 with 8 or 16 strata; with 4 strata, or with a safety set
+   of 200 at any stratum count, it is absent [StratPPI validation].
    A stratified Wald-t limit on the same strata also held in all ten cells (largest miss
    0.036, median ESS 2.06).
 3. **So the gain here is the stratification.** The within-stratum regression on the reference
    rate adds little once the limit is valid. We keep `b1w` as the bound for reference-rate
-   strata at these sizes and note the bootstrap-t StratPPI as the candidate for larger strata:
-   it was ahead where strata held 25 labels, the larger of the two sizes we ran.
+   strata at these sizes and note the bootstrap-t StratPPI as the narrower choice at a safety
+   set of 200 or with 4 strata, where its median ESS is 2.6-2.7 against 1.8-2.2 for `b1w`.
 
 **What the gain costs.** The strata are built from k = 8 judged reference responses on each
 of the pool's 500 prompts, 4,000 in all, and the ESS counts only the safety set's labels. An
@@ -308,11 +338,11 @@ the trained policy costs far more than the stratifier's, for instance a human la
 on a guard's reference rate. We did not test that case, and section 8.3 shows the guard and
 the annotator disagree on about 40% of the guard's flags. Where both are the same cheap judge,
 enlarging the safety set is the better use of the budget. In our predictor comparison the
-predictor is the same reference rate that defines the strata, which leaves the regression
-little to add.
+predictor is the same reference rate that defines the strata; splitting the reference samples,
+four for the strata and four for the predictor, did not change the picture (median ESS 1.97
+against 2.10).
 
-We did not run StratPPI's optimal allocation, and the implementation is ours, written from the
-paper's equations. `[GAP: P10]` (optional) adds a second policy model.
+`[GAP: P10]` (optional) adds a second policy model.
 
 ## 6. What a judge buys: a routing rule
 
@@ -347,25 +377,35 @@ of spike 017 (two judge wordings, 14 cells, 4,000 draws each, delta 0.05) [P14] 
 right):
 
 - StratPPI as published, with 5 or 10 strata, is over its level in 26 of 28 cells (misses
-  0.059-0.239 in those 26), as PPI++ with a normal limit is in all 14 (0.061-0.232).
-- The StratPPI estimator with a bootstrap-t limit holds in all 28 (largest miss 0.056) and is
-  the most efficient valid route: with 10 strata its median ESS against the labels alone is
+  0.059-0.239 in those 26), as PPI++ with a normal limit is in all 14 (0.061-0.232). The count
+  is 26 of 28 under each library's conventions, 28 of 28 with the paper's oracle allocation
+  and 24 with its heuristic. The cleanest evidence is the judge wording with no constant
+  stratum: 13 of 14 cells over, misses 0.056-0.187 [StratPPI validation].
+- With proportional allocation the StratPPI estimator with a bootstrap-t limit is over its
+  level in none of the 28 (5 unresolved, largest miss 0.056; with the oracle allocation it is
+  over in 14). It is the narrowest such route with 5 or 10 strata: with 10 strata its median ESS against the labels alone is
   2.54 at a 20% rate and 1.87 at 5% (2.47 and 1.76 with 5 strata), where unstratified PPI++
   with the same limit gives 1.67 and 1.39.
-- Stratifying on the judge and ignoring it within strata (`b1w`) also holds (largest miss
-  0.053), at 2.41 and 1.42 with 10 strata (2.24 and 1.26 with 5).
+- Stratifying on the judge and ignoring it within strata (`b1w`) is also over in none (1
+  unresolved, largest miss 0.053), at 2.41 and 1.42 with 10 strata (2.24 and 1.26 with 5).
+  With 20 strata, and wherever strata hold about ten labels or fewer, `b1w` is the narrower.
+- PPBoot's percentile limit (Zrnic, 2024), on the 14 unstratified cells, is over its level in
+  7 with the basic estimator and 12 with the power-tuned one.
 - At a 1.3% rate with 225 labels the bootstrap-t routes return nothing useful and the count
   rule's fallback to the labels alone is the right one.
 
 So the third row of Table 4 has a better form when labelling can follow scoring: stratify on
-the judge's logit, StratPPI's estimator, a bootstrap-t limit. The count threshold stays.
+the judge's logit, StratPPI's estimator, a bootstrap-t limit, with labels allocated in
+proportion to stratum size and about 45 or more per stratum. Below that, `b1w` on the same
+strata is narrower. The count threshold stays.
 
 **Position.** Choosing which items go to humans from a model's confidence, with valid
 intervals, is Active Statistical Inference (Zrnic and Candès, 2024) and Confidence-Driven
 Inference (Gligorić et al., 2025); PPI for model evaluation is Boyeau et al. (2025); a bootstrap
 for PPI is PPBoot (Zrnic, 2024). Our contribution in this section is narrower: evidence that
 the published normal-quantile intervals, stratified or not, do not hold their level at the
-sample sizes and rates of a safety test; a studentised bootstrap that does; a count rule for
+sample sizes and rates of a safety test, and that PPBoot's percentile limit does not either; a
+studentised bootstrap that is over its level in no cell under proportional allocation; a count rule for
 when to drop the judge; and the measured gap between a judge's verdict and its logit.
 
 ## 7. What does not carry
@@ -396,6 +436,13 @@ wording, recall differed in 2 of 6 wordings, and the carried bound was over its 
 returned to the reference's [017 E8]. At step 100, where the rate had moved by 3.4 points, 1
 of 6 failed.
 
+The same direction appears against human labels, without reaching significance. We scored
+the annotator's 220 labelled responses with the same judge. Its recall on the annotator's
+strict refusals is 3 of 18 for the reference and 0 of 18 for the trained policy under the
+canonical wording, and lower after training in 5 of 6 wordings (Fisher p from 0.18 to 1.0).
+The guard's recall and precision against the same labels do not move (17 of 18 and 16 of 18;
+0.59 and 0.60), so the fall is not the guard flagging a different mix [judge on labels].
+
 What this does not show is the cause. The two runs differ in reward and set-up as well as in
 the constraint, each has one seed, the gold label is the guard's, and the judge misses most of
 the guard's positives to begin with. We wrote down beforehand that a failure at step 200 would
@@ -424,7 +471,8 @@ the policy changes.
 
 AgentDojo crosses user tasks with injection tasks; a pipeline's attack successes cluster by
 both. Design effects by user task ran 1.4-8.7 and by injection task 2.6-15.5 [020]. The
-per-pair Clopper-Pearson bound missed in 5-28% of resamples at delta 0.05 (Table 2). Section
+per-pair Clopper-Pearson bound was over its level for 27 of 28 pipelines with user tasks
+resampled (misses up to 27%) and for all 28 once injection tasks are resampled too (Table 2). Section
 8.2 gives the consequence for a published leaderboard.
 
 ### 7.4 Normal limits and judge-assisted exact bounds
@@ -462,29 +510,41 @@ stop (AUC 0.38); joint effort does (AUC 0.75-0.83, exploratory).
 
 ### 8.2 An agent-security benchmark: one of 28
 
-On AgentDojo's published runs (19,380 episodes, the harness's `security` label), a certificate
-that respects the design is the studentised cluster bootstrap by user task, or the larger of
-the two clustered bounds where injection tasks carry more dependence [020] (Figure 6). The
-check behind this is narrow: 6 of the 28 pipelines, 400 resamples each (standard error 0.011),
-and user tasks resampled with injection tasks held fixed, although injection tasks carry the
-larger design effects. The larger-of-two rule itself was not resampled.
+On AgentDojo's published runs (19,380 episodes, the harness's `security` label), what a
+certificate can say depends on what is taken as sampled. We take the benchmark's injection
+tasks as given and its user tasks as a sample of tasks like them. The certificate is then the
+studentised cluster bootstrap by user task [020] (Figure 6). Resampling all 28 pipelines 4,000
+times each, that bound is over its level for none (2 unresolved) [AgentDojo recheck].
+
+It does not extend to new injection tasks. When injection tasks are resampled as well, the
+same bound is over its level for 24 of 28 pipelines. So are the others we had: the bootstrap
+by injection task (23), a two-way bootstrap (27), and the larger of the two clustered bounds,
+which an earlier draft used here (16). A bound that adds the
+two clustered margins in quadrature was over for none in this one check; we did not specify
+it in advance and do not rely on it.
 
 *Table 6. Targeted attack success, selected pipelines, upper bounds at delta 0.05. The
-certificate is the larger of the two clustered bounds; taking the dominant cluster's bound, as
-the source analysis does, gives the same verdicts.*
+certificate is the bound clustered by user task, with injection tasks taken as fixed. The
+verdicts are the same under the larger of the two clustered bounds, at 30 further bootstrap
+seeds, and with 200,000 bootstrap draws.*
 
 | pipeline | pairs | rate | per-pair bound | clustered by user task | clustered by injection task | "at most 5%" |
 |---|---|---|---|---|---|---|
 | claude-3-5-sonnet-20241022 | 629 | 0.011 | 0.021 | 0.022 | 0.034 | pass |
-| Meta-SecAlign-70B | 949 | 0.022 | 0.032 | 0.104 | 0.035 | NSF |
+| Meta-SecAlign-70B | 949 | 0.022 | 0.032 | 0.061 | 0.035 | NSF |
 | command-r | 629 | 0.033 | 0.048 | 0.062 | 0.054 | NSF |
 | claude-3-7-sonnet-20250219 | 949 | 0.050 | 0.063 | 0.070 | 0.106 | NSF |
 | gpt-4o + tool_filter | 629 | 0.068 | 0.087 | 0.092 | 0.106 | NSF |
 | gpt-4o-2024-05-13 | 629 | 0.477 | 0.511 | 0.538 | 0.586 | NSF |
 
-One pipeline of 28 certifies. A defended model whose raw rate is 2.2% does not: its 21
-successes sit in 5 of 97 user tasks (ICC 0.72), so the clustered bound is 0.104. The failures
-that remain are concentrated, and only a bound that respects the design shows it.
+One pipeline of 28 certifies, and it is the same one under every clustered rule we tried. Its
+pass rests on 7 successes in 6 user tasks. A defended model whose raw rate is 2.2% does not
+certify: its 21 successes sit in 5 of 97 user tasks (ICC 0.72), and the bound clustered by
+user task is 0.061 against 0.032 per pair. That bound is sensitive to the size of the
+bootstrap when a handful of clusters hold every success: at 4,000 draws it ranged from 0.058
+to 0.107 over 30 seeds, and an earlier draft reported 0.104. The value here is from 200,000
+draws; the other rows move by at most 0.013 across seeds. Five pipelines pass the per-pair
+bound, and four of those passes do not survive clustering.
 
 ### 8.3 The guard against human labels
 
@@ -646,12 +706,14 @@ weak cue to the policy.
   certificates on published traces.
 - **One run.** The policy that section 8.4's samples come from is one training run with one
   seed, and so is each side of the contrast in section 7.2.
-- **Our implementation of others' methods.** The StratPPI and PPI++ intervals are ours,
-  written from the papers' equations, with proportional allocation, and not checked against
-  the authors' code. PPBoot was not run.
+- **Our implementation of others' methods.** StratPPI's authors have released no code. Ours
+  matches an independent rewrite of their algorithm and two public libraries' conventions, which
+  cannot rule out a choice in the authors' own code that none of these makes. The finding is a
+  finite-sample one and does not contradict the method's asymptotic guarantee.
 - **Validity checks do not prove validity.** A cell within two standard errors of delta is
-  unresolved. The AgentDojo check covers 6 of 28 pipelines and resamples one of the two
-  crossed factors.
+  unresolved, and we did not correct for the number of cells.
+- **Crossed designs.** The AgentDojo certificate takes the benchmark's injection tasks as
+  fixed. No bound we specified in advance held when they are treated as sampled.
 - **Benchmarks are not deployments.** Sections 8.1-8.2 certify a rate over a benchmark's task
   distribution. The clustered bound treats user tasks as sampled from a population of tasks
   like them; nothing is claimed about tasks unlike them.
@@ -689,7 +751,8 @@ with many model predictions; Boyeau et al. (2025) apply it to model evaluation; 
 items to label; Zrnic (2024) gives a bootstrap; Csillag et al. (2025) give e-value versions.
 Sections 5 and 6 sit inside this line. What we add is evidence on when the intervals hold at
 the sample sizes and rates of a safety test (the normal-quantile intervals of PPI++ and
-StratPPI do not; their estimators with a bootstrap-t limit do), a stratifier that a relative
+StratPPI are over their level; their estimators with a bootstrap-t limit and proportional
+allocation are not), a stratifier that a relative
 constraint supplies for free, and the negative of section 7.2: the predictions' relation to
 the label is not stable under training that targets the label.
 
@@ -706,8 +769,8 @@ Qwen3Guard (Zhao et al., 2025) is the guard.
 
 A rate with an error bar is not a certificate. The guarantee belongs to the whole pipeline: how
 the policy was chosen, how the sample was drawn, and what produced the label. Where we could
-check against a known truth, exact bounds and design-respecting resampling held, and three
-common shortcuts failed by wide margins: a normal quantile at small rates, a per-pair bound on
+check against a known truth, no exact bound was over its level, and three common shortcuts
+were, in their worst cells by wide margins: a normal quantile at small rates, a per-pair bound on
 a crossed design, and a judge calibration carried to a policy it was not measured on. The last
 has a practical consequence. Gold labels belong on the responses of the policy being
 certified, each time the policy changes. What this paper does not contain is a certificate of a
@@ -755,6 +818,10 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 | [017 n], [017 B6], [017 E8] | `.planning/spikes/017-calibration-carrying-certificate/README.md` (Results n, E8 addendum) and `results.md` (B6) | yes |
 | [019] | `.planning/spikes/019-external-trace-certificate/README.md` | yes; transcripts on the D: drive |
 | [P6] | `results/labels/refusal/analysis.md` (`scripts/refusal_labels.py analyze`; labels in `labels_ah.jsonl`, design in `design.json`) | yes |
+| [validity recount] | `results/paper/validity_recount.md` (`scripts/validity_recount.py`) | yes |
+| [AgentDojo recheck] | `results/paper/agentdojo_recheck.md` (`scripts/agentdojo_recheck.py`) | yes |
+| [StratPPI validation] | `results/paper/stratppi_validate.md` (`scripts/stratppi_validate.py`) | yes; the library comparison needs the environment on D: |
+| [judge on labels] | `results/labels/refusal/rubric_vs_human.md` (`scripts/judge_on_labels.py`) | the analysis yes; the scores need the GPU |
 | [P9 budget] | `results/paper/p9_budget.md` (`scripts/p9_budget.py`) | yes |
 | [P9 design check] | `results/labels/p9/design_check.md` (`scripts/p9_certificate.py check`) | yes |
 | [P9 data] | `results/labels/p9/` (`scripts/p9_sample.py`, `p9_sheet_build.py`; analysis fixed in `p9_certificate.py`) | the sheet and scores yes; the samples need the GPU |
@@ -784,6 +851,10 @@ section 5 and the medians of section 6 (`results/paper/stratppi.json`). Not yet 
 their sources: the one-line descriptions of cited papers in sections 6 and 10.
 
 ## Appendix B. Figures
+
+Figures 1, 3 and 6 were drawn before v0.6 and do not yet show the recounted Table 2, the
+allocation and PPBoot arms, or the corrected AgentDojo bounds. Where a figure and the text
+differ, the text is current.
 
 `scripts/paper_figures.py` writes each figure to `reports/figs/` as a PDF, a PNG and a CSV of
 every number drawn.
