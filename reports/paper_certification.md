@@ -1,6 +1,8 @@
 # Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry
 
-**Draft v0.2, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
+**Draft v0.3, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
+v0.3: the certificate in human labels (section 8.4) is costed and prepared but not run; open
+gaps are P8, P10 and P16.
 Built from results already in the repository; nothing here is new measurement. Every number
 carries a source tag, resolved in Appendix A. `[GAP: Pn]` marks a result that step `Pn` of
 `.planning/paper-certification/PLAN.md` will supply. `[CHECK]` marks a number to re-verify
@@ -25,8 +27,11 @@ label, independent-sample bounds on crossed benchmark designs, normal limits at 
 trained policies reach, judge-assisted finite-sample bounds, and a stratified labelling sheet
 read as a random sample. On AgentDojo's published runs
 the usual per-pair bound misses in 5-28% of resamples at a nominal 5%, and one of 28 pipelines
-certifies a 5% attack success rate once the design is respected. `[GAP: P9]` supplies the
-margin a human-labelled sample certifies, with and without the guard.
+certifies a 5% attack success rate once the design is respected. A certificate of a trained
+policy in human labels is costed and prepared, not run: from one annotator's measured rates a
+2-point refusal margin takes about 420 labelled prompt pairs for an even chance of passing and
+950 for an 80% chance, and a guard used as predictor cuts that by 2.5 only when the claim is
+about a fixed pool of prompts.
 
 ## 1. Claim and scope
 
@@ -37,15 +42,16 @@ go further, and what does not carry.
 
 **Scope, stated once.**
 
-- The label is a guard model's or the benchmark harness's unless marked human. Human-label
-  results are sections 8.3-8.4 and are gaps in this draft.
+- The label is a guard model's or the benchmark harness's unless marked human. The human-label
+  results are in section 8.3. Section 8.4 costs a certificate in human labels and does not
+  compute one.
 - Policies trained here are 0.5B to 3B parameters on one 12 GB card. The frontier-model results
   are certificates on other people's published traces, not training.
 - A certificate is about the label as defined and the population the safety sample was drawn
   from. It says nothing about other prompts or about the policy after further training.
 - How the certified policies were trained is the training paper's subject. This paper needs
-  training in two places only: the policy certified in section 8.4, and the negative result of
-  section 7.2, which exists because training targeted the label.
+  training in two places only: the policy whose human-terms certificate section 8.4 costs, and
+  the negative result of section 7.2, which exists because training targeted the label.
 
 ## 2. The certificate
 
@@ -83,8 +89,9 @@ result: 10 of 10 on a brevity constraint, 2 of 3 on over-refusal [SR 2.1].
 
 **Relative thresholds.** Several constraints here are relative: the trained policy's rate may
 exceed the reference model's by at most a margin. In the experiments cited the reference rate
-was measured once on candidate data and then treated as a constant. Section 8.4 does not do
-that: in human terms the reference rate is unknown and is estimated from labels like the other.
+was measured once on candidate data and then treated as a constant. Section 8.4's design does
+not do that: in human terms the reference rate is unknown and is estimated from labels like the
+other.
 
 ## 3. Which bounds hold their level
 
@@ -468,13 +475,13 @@ adds the annotator's agreement with XSTest's two-annotator labels on 60 of its c
 
 `[GAP: P8]` The same for harm, on a sheet aimed at 30 or more human positives.
 
-### 8.4 What a human-labelled sample certifies
+### 8.4 What a certificate in human labels costs
 
 The constraint of the trained policy is relative: its refusal rate may exceed the reference's
 by at most a margin of 0.02. Section 8.3 puts the two human-terms rates at 10.7% and 10.6%. With
 a true difference near zero, whether a sample certifies the margin is a question about the
-label budget, so we report the budget and the margin a fixed sample certifies, not a pass or a
-fail.
+label budget. We report that budget and the margin a fixed sample would be expected to
+certify. We prepared the measurement and did not run it.
 
 *Table 9. Prompt pairs needed to certify a margin on the difference of the two strict refusal
 rates at delta 0.05, from the rates of section 8.3 [P9 budget]. A design calculation: normal-type
@@ -499,32 +506,45 @@ of 490 labelled it removes 23% of the variance, not 60%, and the 2-point margin 
 is out of reach inside the pool. A predictor removes label noise. It does not remove the
 uncertainty of a small prompt set.
 
-`[GAP: P9]` The measured result: 300 prompt pairs of fresh responses (256 tokens) from the
-returned policy of one training run and from its reference, labelled blind by the one annotator,
-with 8 further responses per policy on each of the 490 pool prompts that only the guard reads.
-Four upper limits at delta 0.05 on the difference, each computed once on the full sample: (a)
-labels alone, the betting bound (exact); (a') labels alone, bootstrap-t (approximate, the
-like-for-like comparator); (b1) with the guard, for the pool rate, PPI++ with a bootstrap-t limit;
-(b2) with the guard, for new prompts, the same with the other 190 prompts' pairs as the unlabelled
-data. The headline is (a) beside (b1), with the 0.02 target. The rules and the analysis script
-were fixed before any of these labels existed (plan section 6, version 2 and amendment 2.1).
+**Prepared, not run.** We drew 300 prompt pairs of fresh responses (256 tokens) from the
+returned policy of one training run and from its reference, with 8 further responses per policy
+on each of the 490 pool prompts that only the guard reads, and scored all 8,820 responses with
+the guard [P9 data]. The analysis was fixed before any label: four upper limits at delta 0.05
+on the difference, each computed once on the full sample. (a) Labels alone, the betting bound
+(exact). (a') Labels alone, bootstrap-t (approximate, the like-for-like comparator). (b1) With
+the guard, for the pool rate, PPI++ with a bootstrap-t limit. (b2) With the guard, for new
+prompts, the same with the other 190 prompts' pairs as the unlabelled data.
+
 A check of the whole design on the guard's real scores, with synthetic labels drawn from the
 guard's logit at the rates of section 8.3, puts the miss rates of the four limits at 0.001,
 0.040, 0.045 and 0.042 for the pool rate against a level of 0.05, and their mean certified
 margins at 0.065, 0.037, 0.032 and 0.035 [P9 design check]. The exact bound is about twice as
 wide as the approximate ones: with some 30 discordant pairs in 300, exactness is the larger
-cost, and the guard's gain is the smaller one. Two limits of the measurement: one annotator,
-and the reference writes longer responses than the trained policy (57% against 32% of the
-sheet's items run to the token limit), so length is a weak cue to the policy.
+cost and the guard's gain is the smaller one. The synthetic labels disagree with the guard
+independently across the two policies, which weakens both the pairing and the guard, so these
+margins are on the wide side and those of Table 9 on the narrow side.
+
+On either set of figures a sample of 300 pairs is expected to certify a margin of 2.4 to 6.5
+points with labels alone, not the 2-point target. The 600 labels were not collected. The
+samples, the guard's scores, the blind sheet and the analysis script are in the repository, so
+the certificate can be computed from 600 labels with no design choice left open. One property
+of the sheet would limit that measurement: the reference writes longer responses than the
+trained policy (57% against 32% of the sheet's items run to the token limit), so length is a
+weak cue to the policy.
 
 ## 9. Limits
 
-- **Labels.** Outside sections 8.3-8.4 every refusal and harm number is relative to a guard
-  model's field. The human refusal labels are one annotator's, an author's, with no measured
-  agreement; the published XSTest labels are the independent check.
+- **Labels.** Outside section 8.3, and the budget of section 8.4 computed from it, every
+  refusal and harm number is relative to a guard model's field. The human refusal labels are
+  one annotator's, an author's, with no measured agreement; the published XSTest labels are
+  the independent check.
+- **No certificate of a trained policy in human labels.** Section 8.4 costs one and prepares
+  it; the labels were not collected. Every certificate of a trained policy in this paper is in
+  a guard model's terms.
 - **Scale.** Trained policies are 0.5B-3B on one consumer card; the frontier evidence is
   certificates on published traces.
-- **One run.** The policy of section 8.4 is one training run with one seed.
+- **One run.** The policy that section 8.4's samples come from is one training run with one
+  seed.
 - **Benchmarks are not deployments.** Sections 8.1-8.2 certify a rate over a benchmark's task
   distribution. The clustered bound treats user tasks as sampled from a population of tasks
   like them; nothing is claimed about tasks unlike them.
@@ -618,6 +638,7 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 | [P6] | `results/labels/refusal/analysis.md` (`scripts/refusal_labels.py analyze`; labels in `labels_ah.jsonl`, design in `design.json`) | yes |
 | [P9 budget] | `results/paper/p9_budget.md` (`scripts/p9_budget.py`) | yes |
 | [P9 design check] | `results/labels/p9/design_check.md` (`scripts/p9_certificate.py check`) | yes |
+| [P9 data] | `results/labels/p9/` (`scripts/p9_sample.py`, `p9_sheet_build.py`; analysis fixed in `p9_certificate.py`) | the sheet and scores yes; the samples need the GPU |
 | [P14] | `results/paper/stratppi.md`, `stratppi.json` (`scripts/stratppi_baseline.py`; 5,000 draws per cell in part A, 4,000 in part B) | yes, CPU, about 5 minutes |
 | [P15] | `results/labels/xstest/analysis.md` (`scripts/xstest_guard.py`; guard scores and human labels in `guard_scores.jsonl`) | yes; XSTest's completions are fetched from its repository and kept outside this one |
 | [020], [020 P] | `.planning/spikes/020-agentdojo-injection-certificate/README.md` and `plasmode.md` | yes |
