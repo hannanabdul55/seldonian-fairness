@@ -1,9 +1,14 @@
 # Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry
 
-**Draft v0.3, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
-v0.3: the certificate in human labels (section 8.4) is costed and prepared but not run; open
-gaps are P8, P10 and P16.
-Built from results already in the repository; nothing here is new measurement. Every number
+**Draft v0.5, 2026-10-04.** Working title; the framing is open (plan section 7, item 5).
+v0.5 (after an independent rigor review of v0.3: weak accept, 1 critical and 9 major findings):
+claims in sections 5, 7 and 8 narrowed to what their evidence shows. v0.4: an introduction and a conclusion added, a shorter abstract, 22 references
+re-checked against arXiv and CrossRef, and some 25 numbers or statements corrected after a
+source-by-source audit. The certificate in human labels (section 8.4) is costed and prepared
+but not run; open gaps are P8, P10 and P16.
+Most numbers come from results already in the repository. Measured for this paper: the guard's
+scores on XSTest, the StratPPI comparison, one annotator's 220 refusal labels, and the samples
+and guard scores of section 8.4. Every number
 carries a source tag, resolved in Appendix A. `[GAP: Pn]` marks a result that step `Pn` of
 `.planning/paper-certification/PLAN.md` will supply. `[CHECK]` marks a number to re-verify
 against its source before v1.0. The companion paper on training (`reports/paper_seldonian_llm.md`)
@@ -11,27 +16,69 @@ is cited as "the training paper".
 
 ## Abstract
 
-A deployed language-model policy is usually described by rates: how often it refuses a benign
-request, how often a tool-using agent follows an injected instruction, how often a robot
-controller trips a safety stop. We study the statement "this rate is at most tau" as a
-certificate: a one-sided bound at level delta, computed on a sample the policy's selection never
-saw, with "no solution found" as a permitted outcome. This is the safety test of the Seldonian
-framework (Thomas et al., 2019) applied to a fixed policy. We report where the certificate
-holds its level (synthetic environments with exact truth, resampling studies on real judged
-labels, and published traces of frontier models), two ways to make a fixed label budget go
-further (safety sets stratified by the reference model's own per-prompt rate; a judge used as a
-variance reducer under a fixed routing rule, with a bootstrap-t limit where the published
-normal-quantile intervals of PPI++ and StratPPI run over their level), and what does not carry: a judge's
-calibration across prompt populations, the same calibration across training that targets the
-label, independent-sample bounds on crossed benchmark designs, normal limits at the rates
-trained policies reach, judge-assisted finite-sample bounds, and a stratified labelling sheet
-read as a random sample. On AgentDojo's published runs
-the usual per-pair bound misses in 5-28% of resamples at a nominal 5%, and one of 28 pipelines
-certifies a 5% attack success rate once the design is respected. A certificate of a trained
-policy in human labels is costed and prepared, not run: from one annotator's measured rates a
-2-point refusal margin takes about 420 labelled prompt pairs for an even chance of passing and
-950 for an 80% chance, and a guard used as predictor cuts that by 2.5 only when the claim is
-about a fixed pool of prompts.
+Reports on language-model policies state rates: how often a model refuses a benign request, how
+often a tool-using agent follows an injected instruction, how often a robot controller trips a
+safety stop. A deployment decision needs a stronger statement: that the rate is at most a
+threshold, wrong with probability at most delta, with "no solution found" as a permitted
+answer. This is the safety test of the Seldonian framework (Thomas et al., 2019) applied to a
+fixed policy. We audit it end to end. Every bound we use is checked against a known truth: in
+synthetic environments, by resampling real judged responses, and on published traces of
+frontier models. Exact bounds hold their level. The normal-quantile intervals of PPI++ and
+StratPPI, in our implementation, miss in up to 24% of draws at a nominal 5%, and a bootstrap-t limit restores
+the level. Stratifying the safety set by the reference model's own per-prompt rate multiplies
+the effective sample by 1.4 to 5.3. Three things do not carry: a judge's calibration, across
+prompt populations or across training that targets the label; independent-sample bounds on
+crossed benchmark designs; and a stratified labelling sheet read as a random sample. On
+AgentDojo's published runs the usual per-pair bound misses in 5-28% of resamples, and one of 28
+pipelines certifies a 5% attack success rate once the design is respected. A certificate of a
+trained policy in human labels is costed and prepared, not run: from one annotator's measured
+rates, a 2-point refusal margin takes about 420 labelled prompt pairs for an even chance of
+passing if the two policies refuse equally often, and nearly twice that if the trained one
+refuses half a point more often.
+
+## Introduction
+
+A leaderboard reports a rate. A decision to deploy needs a different object: a statement that
+the rate is at most some threshold, together with the chance that the statement is wrong. We
+call that statement a certificate. It is a one-sided confidence bound at level delta, computed
+on a sample that the choice of policy never saw, and it may answer "no solution found" (NSF)
+when the sample cannot support the claim. Thomas et al. (2019) define this test for learning
+algorithms in general. We ask what it certifies when the policy is a language model and the
+constrained quantity is a judged property of generated text.
+
+Three features of language-model evaluation can each void the guarantee without any visible
+sign. The label is not observed: a guard model, a rubric judge or a benchmark harness produces
+it, and its errors differ from one population of responses to the next. The sample is rarely
+independent: benchmarks cross tasks with attacks, and failures cluster. And the policy has
+often been trained against the label that is then used to certify it. The rates of interest are
+also small, which is where normal approximations are known to fail (Bowyer et al., 2025).
+
+We audit the certificate end to end. The method is the same throughout: build a setting where
+the true rate is known, draw the safety sample many times, and count how often the bound falls
+below the truth. A bound "holds" if that happens in at most a fraction delta of draws.
+
+Our contributions:
+
+- **Which bounds hold.** One table (Table 2) gives the measured miss rate of every bound we
+  use. Exact bounds hold everywhere we test. The normal-quantile intervals of PPI++ and
+  StratPPI, in our implementation, miss in up to 24% of draws at a nominal 5% at safety-test sizes; a bootstrap-t
+  limit on the same estimators holds (sections 3 to 6).
+- **What a label budget buys.** A safety set stratified by the reference model's own
+  per-prompt rate is worth 1.4 to 5.3 times its size. A judge's logit, used as a variance
+  reducer under a routing rule fixed in advance, is worth 1.4 to 2.5 times the labels alone on
+  a refusal label and nothing on a harm rubric (sections 5 and 6).
+- **What does not carry.** A judge's calibration failed across prompt populations, and in one
+  run it failed across training that targeted the label. Independent-sample
+  bounds fail on crossed designs, and a stratified labelling sheet read as a random sample can
+  certify a negative rate (section 7).
+- **Certificates on published traces.** On a robot benchmark, 120 trials per model cannot
+  certify a 5% safety-stop rate after two events. On AgentDojo, one of 28 pipelines certifies a
+  5% attack success rate under a bound that respects the design, and a defended model with a
+  raw rate of 2.2% does not (sections 8.1 and 8.2).
+- **The price of human terms.** We measure a guard model against human refusal labels and cost
+  a certificate of a trained policy in those labels: about 420 labelled prompt pairs for an
+  even chance at a 2-point margin, and a predictor that helps only as far as the prompts allow
+  (sections 8.3 and 8.4).
 
 ## 1. Claim and scope
 
@@ -45,7 +92,7 @@ go further, and what does not carry.
 - The label is a guard model's or the benchmark harness's unless marked human. The human-label
   results are in section 8.3. Section 8.4 costs a certificate in human labels and does not
   compute one.
-- Policies trained here are 0.5B to 3B parameters on one 12 GB card. The frontier-model results
+- Policies trained here are 0.5B to 2B parameters on one 12 GB card. The frontier-model results
   are certificates on other people's published traces, not training.
 - A certificate is about the label as defined and the population the safety sample was drawn
   from. It says nothing about other prompts or about the policy after further training.
@@ -101,6 +148,11 @@ three ways: a synthetic environment where the true rate of any policy is computa
 from a large pool of real judged responses, with the pool's mean as truth (a plasmode in the
 sense of Franklin et al., 2014); and, for crossed designs, resampling whole clusters.
 
+One rule is applied to every bound, favoured or not. A cell is over its level when its miss
+rate exceeds delta by more than two Monte Carlo standard errors. A cell inside that band is
+unresolved: the check cannot tell it from delta, which is weaker than showing that the bound
+holds. We have not corrected for the number of cells inspected.
+
 Figure 1 draws the table below as miss rate over delta.
 
 *Table 2. Miss rate against delta for every bound used. "Exact" means valid at every sample
@@ -121,7 +173,7 @@ Monte Carlo standard errors are 0.003-0.004 for 5,000 resamples and 0.011 for 40
 | cluster bootstrap-t, by user task | approximate | AgentDojo, 6 pipelines, user tasks resampled | 0.05 | 0.020-0.060 | [020 P] |
 | StratPPI estimator with a bootstrap-t limit | approximate | reference-rate strata, 5 mid-rate labels, n_s 100-200; judge-logit strata, 14 cells, n 100-1,000 | 0.05 | at most 0.045; at most 0.056 | [P14] |
 | **Student-t** | fails at low rates | same pool as row 1, n 200-800 | 0.10 | **0.115-0.184** | [R 6.2] |
-| **`b1w` or any approximate bound at rare rates** | fails | harm labels at 1-2%, n_s 100, any design | 0.05 | **0.24-0.44** | [013 H8] |
+| **`b1w` and the pooled Wilson bound at rare rates** | fail | harm labels at 1-2%, n_s 100, any design | 0.05 | **0.24-0.44** | [013 H8] |
 | **PPI++ with a normal limit** | fails | spike 017 plasmodes | 0.05 | **up to 0.241** | [017 B6] |
 | **StratPPI as published (normal limit)** | fails at these sizes | reference-rate strata: over its level in 4 of 10 mid-rate cells; judge-logit strata: in 26 of 28 | 0.05 | **up to 0.086; up to 0.239** | [P14] |
 | **Clopper-Pearson over pairs** | fails on a crossed design | AgentDojo, user tasks resampled | 0.05 | **0.048-0.275** | [020 P] |
@@ -131,15 +183,18 @@ Monte Carlo standard errors are 0.003-0.004 for 5,000 resamples and 0.011 for 40
 
 Three readings of Table 2.
 
-1. **Exact bounds for rare labels.** At 1-2% no approximate bound held, stratified or not; the
-   failure is binomial discreteness, not the design [013]. Rare labels take Clopper-Pearson or a
-   betting bound.
+1. **Exact bounds for rare labels.** At 1-2% and n_s 100 the Wilson-type bounds, pooled or
+   stratified, missed in 24-44% of draws; the failure is binomial discreteness, not the design
+   [013]. The approximate limits that kept their level there (a Wald-t and the bootstrap-t
+   limits) did so with bounds wider than the labels alone give [P14]. Rare labels take
+   Clopper-Pearson or a betting bound.
 2. **The t-test is the wrong default.** It is anti-conservative exactly where trained policies
    sit (harm rates of 3-6%), and its width is zero at a rate of 0 or 1, which lets candidate
    selection win by driving a subgroup rate to the boundary [R 6.2, 012].
-3. **"Approximate" has a number attached.** The three approximate bounds we use miss within
-   about one percentage point of delta in every cell tested. The one cell above nominal at
-   delta 0.05 is a label at a 94% rate (0.054, one standard error over).
+3. **"Approximate" has a number attached.** In Table 2 the approximate bounds we use miss at
+   most one percentage point over delta (the largest is 0.060 at delta 0.05). Inside the full
+   training loop the stratified test reached 0.116 at delta 0.1, with a Monte Carlo standard
+   error of 0.013 (section 4).
 
 The StratPPI rows (Fisch et al., 2024) are our implementation of its estimator and interval on
 the same draws as the rows above them; sections 5 and 6 give the comparison.
@@ -172,15 +227,15 @@ brevity constraint, 10 of 10 seeds certified with no breach [SR 2.1]. Three and 
 cannot estimate a miss rate; they are consistent with the level, and the resampling studies
 above are the evidence.
 
-**Trajectories.** A test of the returned policy alone misses drift through a forbidden region
+**Trajectories.** On a synthetic bandit, a test of the returned policy alone misses drift through a forbidden region
 during training: 65% of plain-Lagrangian runs passed it after a step inside the region. A
 certificate at level delta/T over every one of T checks held, with misses of 0.025-0.100
 against a delta of 0.1 [SR 2.1].
 
 ## 5. Making the sample go further: reference-rate strata
 
-**Idea.** For a relative constraint the reference model is already run on the safety prompts.
-Sample it k times per prompt, rank prompts by their reference rate, cut the ranking into H
+**Idea.** A relative constraint needs the reference model's rate on the safety prompts.
+Sample the reference k times per prompt, rank prompts by their reference rate, cut the ranking into H
 equal strata with ties broken at random, sample the safety set within strata, and bound the
 rate with a stratified Wilson-type bound (`b1w`). The gain depends on how much of the
 per-response variance sits between prompts (the intraclass correlation of the reference,
@@ -212,7 +267,9 @@ strata and the same 5,000 draws per cell, with the reference rate as the predict
 (Figure 3, left).
 
 *Table 3. Reference-rate strata at delta 0.05: largest miss over checkpoints, and ESS against a
-random split with a pooled Wilson bound. Five mid-rate labels, two safety-set sizes.*
+random split with a pooled Wilson bound. Five mid-rate labels, two safety-set sizes. The rates
+in the first column are those of the draws used here; the text above quotes spike 013's figures
+for the same labels, which differ by a point.*
 
 | label (rate) | n_s | `b1w` | StratPPI as published | StratPPI estimator, bootstrap-t limit |
 |---|---|---|---|---|
@@ -231,15 +288,28 @@ Bold: more than two Monte Carlo standard errors over delta. Three things follow.
 
 1. **StratPPI's bound is shorter, and part of that is the normal limit running over its level.**
    It exceeds delta in 4 of 10 cells at delta 0.05 (one of them marginally, at 0.056; 3 of 10 at
-   delta 0.1), most at the 9% label, and in every rare-label cell, where `b1w` fails too.
+   delta 0.1), most at the 9% label, and in every rare-label cell; `b1w` fails in three of
+   those four.
 2. **With an honest limit the two are close.** The same estimator with a bootstrap-t limit holds
    in all ten cells (largest miss 0.045) and its median ESS is 2.10 against 2.16 for `b1w`. It
-   is ahead in seven cells, by 3-35%, and far behind in one (1.77 against 4.75), where strata
-   of about twelve labels on a heavily tied predictor make the bootstrap unstable.
+   is ahead in seven cells, by 3-35%, and far behind in one (1.77 against 4.75). We attribute
+   that cell, without a test, to strata of about twelve labels on a heavily tied predictor.
+   A stratified Wald-t limit on the same strata also held in all ten cells (largest miss
+   0.036, median ESS 2.06).
 3. **So the gain here is the stratification.** The within-stratum regression on the reference
    rate adds little once the limit is valid. We keep `b1w` as the bound for reference-rate
-   strata at these sizes and note the bootstrap-t StratPPI as the better choice when strata
-   hold 25 labels or more.
+   strata at these sizes and note the bootstrap-t StratPPI as the candidate for larger strata:
+   it was ahead where strata held 25 labels, the larger of the two sizes we ran.
+
+**What the gain costs.** The strata are built from k = 8 judged reference responses on each
+of the pool's 500 prompts, 4,000 in all, and the ESS counts only the safety set's labels. An
+ESS of 2.4 is worth 140 labels at n_s 100. So the method saves labels only where the label on
+the trained policy costs far more than the stratifier's, for instance a human label stratified
+on a guard's reference rate. We did not test that case, and section 8.3 shows the guard and
+the annotator disagree on about 40% of the guard's flags. Where both are the same cheap judge,
+enlarging the safety set is the better use of the budget. In our predictor comparison the
+predictor is the same reference rate that defines the strata, which leaves the regression
+little to add.
 
 We did not run StratPPI's optimal allocation, and the implementation is ours, written from the
 paper's equations. `[GAP: P10]` (optional) adds a second policy model.
@@ -262,12 +332,12 @@ estimator a constraint gets (Table 4) [017 1].
 **The judge's worth in labels.** With `rho^2` the squared correlation between the gold label
 and the judge's feature, PPI++ multiplies the labels' worth by about `1 / (1 - rho^2)` when
 unlabelled responses are plentiful. For a compiled refusal judge against the guard's label
-(225 labels, a pool of 2,000 responses): the 0/1 verdict gives 1.11, the probability 1.15, the logit
-1.61, a cross-fitted Platt score 1.86 in measured bound width [017 3]. The lesson is to carry
-the logit, not the verdict. For a harm rubric `rho^2` was 0.02, a gain of 1.02: the labels
+(225 labels, 2,000 judged draws from a pool of 500 responses): the 0/1 verdict gives 1.11, the probability 1.15, the logit
+1.61, a cross-fitted Platt score 1.86 in measured bound width [017 3]. For this judge the logit
+carried more than the verdict. For a harm rubric `rho^2` was 0.02, a gain of 1.02: the labels
 carry the certificate and the judge contributes nothing.
 
-**Label budgets for a rare label.** With no positive observed, 301 gold labels on the
+**Label budgets for a rare label.** With no positive observed, 299 gold labels on the
 certified policy's own responses certify a 1% threshold at delta 0.05, 149 certify 2%, and 59
 certify 5% [017 6].
 
@@ -277,12 +347,13 @@ of spike 017 (two judge wordings, 14 cells, 4,000 draws each, delta 0.05) [P14] 
 right):
 
 - StratPPI as published, with 5 or 10 strata, is over its level in 26 of 28 cells (misses
-  0.053-0.239), as PPI++ with a normal limit is in all 14 (0.061-0.232).
+  0.059-0.239 in those 26), as PPI++ with a normal limit is in all 14 (0.061-0.232).
 - The StratPPI estimator with a bootstrap-t limit holds in all 28 (largest miss 0.056) and is
-  the most efficient valid route: against the labels alone its median ESS is 2.54 at a 20%
-  rate and 1.87 at 5%, where unstratified PPI++ with the same limit gives 1.67 and 1.39.
+  the most efficient valid route: with 10 strata its median ESS against the labels alone is
+  2.54 at a 20% rate and 1.87 at 5% (2.47 and 1.76 with 5 strata), where unstratified PPI++
+  with the same limit gives 1.67 and 1.39.
 - Stratifying on the judge and ignoring it within strata (`b1w`) also holds (largest miss
-  0.053), at 2.41 and 1.42.
+  0.053), at 2.41 and 1.42 with 10 strata (2.24 and 1.26 with 5).
 - At a 1.3% rate with 225 labels the bootstrap-t routes return nothing useful and the count
   rule's fallback to the labels alone is the right one.
 
@@ -304,21 +375,35 @@ Figure 4 shows sections 7.1 and 7.2: the miss rate of a carried bound and the ju
 ### 7.1 A judge's calibration across prompt populations
 
 Measure a judge's recall and false-alarm rate on one population and apply them to another, and
-the corrected bound fails. Across two sources of benign prompts in the same pool, recall
-differed in 4 of 6 judge wordings and the carried bound missed in up to 94% of draws; across
-benign and harmful pools, 4 of 6 and up to 100% [017 5]. False-alarm rates did not differ;
-recall did.
+the corrected bound can fail. For one compiled judge (six wordings) scored against the guard's
+label: across two sources of benign prompts in the same pool, recall differed in 4 of 6
+wordings and the carried bound missed in up to 94% of draws; across benign and harmful pools,
+4 of 6 and up to 100% [017 5]. The failure depends on the direction of the carry. Between the
+two benign sources the bound was over its level for 4 of 6 wordings one way and 1 of 6 the
+other; between the pools, for 5 of 6 one way and none the other. False-alarm rates did not
+differ, but they sit at or near zero for this judge. Its recall on the guard's positives is
+0.04-0.51, so part of a recall difference may be a difference in what the guard flags. The
+tests are unadjusted for six wordings.
 
 ### 7.2 The same calibration across training that targets the label
 
-This is the result we consider most general. A calibration carried across 200 steps of
-training that moved the label only as a side effect (recall differed in 0 of 6 wordings). It
-did not carry across training whose Lagrangian targeted the label: the compiled judge's recall
-on the guard's refusals fell from 0.21 to 0.03, and the carried bound missed in 4 of 6 wordings
-(80% of draws for the canonical one), although the rate itself had returned to the
-reference's [017 E8].
+The measured result is an existence result from two single runs. A calibration carried across
+200 steps of one training run that moved the label only as a side effect (recall differed in
+0 of 6 wordings). In one run whose Lagrangian targeted the label it did not carry: at step 200
+the compiled judge's recall on the guard's refusals fell from 0.21 to 0.03 for the canonical
+wording, recall differed in 2 of 6 wordings, and the carried bound was over its level for 3 of
+6 (misses 0.08, 0.23 and 0.80) and marginal for a fourth (0.054), although the rate itself had
+returned to the reference's [017 E8]. At step 100, where the rate had moved by 3.4 points, 1
+of 6 failed.
 
-The mechanism is a change in the form of the positives. The reward pulled toward long helpful
+What this does not show is the cause. The two runs differ in reward and set-up as well as in
+the constraint, each has one seed, the gold label is the guard's, and the judge misses most of
+the guard's positives to begin with. We wrote down beforehand that a failure at step 200 would
+mean the earlier success "was luck and no calibration carries across training either"; reading
+the earlier run as a control arm came after the result. Either reading gives the same rule.
+
+Our account of the mechanism, which no experiment here isolates, is a change in the form of
+the positives. The reward pulled toward long helpful
 answers and the multiplier penalised the guard's refusal flag. After training, the responses
 the guard flags are long refusals with an explanatory, helpful-sounding body: by the guard and
 a surface pattern (a refusal opener and more than 40 words), their share of the guard's flags
@@ -331,9 +416,9 @@ these responses as a refusal sentence followed by the answer; the labels do not 
 reading, and the surface pattern is not a label (on XSTest's completions 56% of responses
 with it are human full refusals and 34% partial ones [P15]).
 
-The consequence for certification: gold labels must be on the responses of the policy being
-certified, every time the policy changes. A calibration is not an asset that survives the
-optimisation it was meant to audit.
+The consequence for certification: a calibration cannot be assumed to carry to a policy it was
+not measured on. Gold labels belong on the responses of the policy being certified, each time
+the policy changes.
 
 ### 7.3 Independent-sample bounds on crossed designs
 
@@ -344,10 +429,10 @@ per-pair Clopper-Pearson bound missed in 5-28% of resamples at delta 0.05 (Table
 
 ### 7.4 Normal limits and judge-assisted exact bounds
 
-PPI++ with its normal limit missed in up to 24% of draws at delta 0.05 and n of 100-500
-[017 B6]. Finite-sample judge-assisted bounds (betting on blocks) were valid and never narrower
-than the labels alone at n up to 1,000 [SR 2.4]. Taking the smaller of two valid bounds is not a
-bound.
+PPI++ with its normal limit missed in up to 24% of draws at delta 0.05 (n 225 at a 1.3% rate);
+at a 20% rate and n of 100-500 it missed in 6-11% [017 B6]. Finite-sample judge-assisted bounds
+(betting on blocks) were valid and bought nothing: narrower than the labels alone in 10 of 210
+cells, by at most 0.003 [017 B6]. Taking the smaller of two valid bounds is not a bound.
 
 ### 7.5 A stratified sheet read as a random sample
 
@@ -372,18 +457,21 @@ RoboDojo-RC Tier 1 publishes 120 trials per model with a harness-emitted safety-
 
 A benchmark of 120 trials can certify a 2.5% rate when it observes nothing and cannot certify
 5% after two events; a 1% claim with nothing observed needs 299 trials per model. One model
-stops more than the other two (10 of 120 against 4 of 240, Fisher p = 0.003), a difference the
-benchmark's report does not mention. The policy's own narration of risk does not predict a
+stops more than the other two (10 of 120 against 4 of 240, one-sided Fisher p = 0.003). The policy's own narration of risk does not predict a
 stop (AUC 0.38); joint effort does (AUC 0.75-0.83, exploratory).
 
 ### 8.2 An agent-security benchmark: one of 28
 
 On AgentDojo's published runs (19,380 episodes, the harness's `security` label), a certificate
 that respects the design is the studentised cluster bootstrap by user task, or the larger of
-the two clustered bounds where injection tasks carry more dependence [020] (Figure 6).
+the two clustered bounds where injection tasks carry more dependence [020] (Figure 6). The
+check behind this is narrow: 6 of the 28 pipelines, 400 resamples each (standard error 0.011),
+and user tasks resampled with injection tasks held fixed, although injection tasks carry the
+larger design effects. The larger-of-two rule itself was not resampled.
 
 *Table 6. Targeted attack success, selected pipelines, upper bounds at delta 0.05. The
-certificate is the larger of the two clustered bounds.*
+certificate is the larger of the two clustered bounds; taking the dominant cluster's bound, as
+the source analysis does, gives the same verdicts.*
 
 | pipeline | pairs | rate | per-pair bound | clustered by user task | clustered by injection task | "at most 5%" |
 |---|---|---|---|---|---|---|
@@ -395,14 +483,13 @@ certificate is the larger of the two clustered bounds.*
 | gpt-4o-2024-05-13 | 629 | 0.477 | 0.511 | 0.538 | 0.586 | NSF |
 
 One pipeline of 28 certifies. A defended model whose raw rate is 2.2% does not: its 21
-successes sit in 5 of 97 user tasks (ICC 0.72), so the clustered bound is 0.104. The defence
-concentrated the failures instead of removing them, and only a bound that respects the design
-shows it.
+successes sit in 5 of 97 user tasks (ICC 0.72), so the clustered bound is 0.104. The failures
+that remain are concentrated, and only a bound that respects the design shows it.
 
 ### 8.3 The guard against human labels
 
 **Published human labels.** XSTest releases 2,250 completions from five model variants, each
-annotated by two of its authors as full compliance, full refusal or partial refusal ("any
+carrying two annotations and a final label: full compliance, full refusal or partial refusal ("any
 combination of refusal and compliance"; Röttger et al., 2024). We scored every completion with
 Qwen3Guard-4B, the guard behind every refusal number above, and compared its flag with the
 final human label on the 250 safe prompts per model [P15] (Figure 7).
@@ -449,7 +536,7 @@ own label [P6]. Figure 8 and Table 8 give the result.
 *Table 8. Human labels on our own policies (one annotator, 220 responses; conservative 95%
 intervals in brackets).*
 
-| | reference model | policy trained under the constraint |
+| | reference model | policy trained under the constraint (step 200) |
 |---|---|---|
 | the guard's refusal flag, share of the pool | 17.9% | 17.4% |
 | human label: refuses | 10.7% [4.7, 21.5] | 10.6% [5.2, 21.2] |
@@ -459,18 +546,20 @@ intervals in brackets).*
 | guard's recall: estimate, conservative lower limit | 0.99, 0.44 | 0.98, 0.45 |
 | rho^2 of the human label with the guard's logit | 0.61 | 0.60 |
 
-In human terms the two policies refuse equally often (difference -0.1 points, prompt-clustered
-standard error 3.9), and about 8 points less often than the guard's flag says. The guard missed
+In human terms no difference between the two policies was detected (-0.1 points, prompt-clustered
+standard error 3.9, so roughly -8 to +8), and both refuse about 7 points less often than the
+guard's flag says. Each rate leans on small strata: the trained policy's on one stratum of 18
+labels, the reference's on two of 15. The responses were cut at 128 tokens. The guard missed
 almost nothing the annotator called a refusal, but the sample cannot rule misses out: none was
 found among 72 and 70 responses in the large guard-negative strata, which bounds recall below
 only at 0.44. As a predictor the guard is worth more than a halving of the labels
 (`rho^2` 0.6), in line with the published-label result above.
 
 One annotator means no agreement statistic. What stands in for it is thin and we say so: the
-guideline's classes are XSTest's, whose authors report agreement of 0.9 on them; three
-responses that appeared twice on the annotator's sheets received the same label; and two
-recurring cases (a redirect that says where to find the answer; "I cannot answer" followed by
-the false premise) were labelled both ways and are the main source of label noise. `[GAP: P16]`
+guideline's classes are XSTest's, on whose released completions the two annotations agree
+with a kappa of 0.88 [P15]; three responses that appeared twice on the annotator's sheets
+received the same label; and two recurring cases (a redirect that says where to find the
+answer; "I cannot answer" followed by the false premise) were labelled both ways. `[GAP: P16]`
 adds the annotator's agreement with XSTest's two-annotator labels on 60 of its completions.
 
 `[GAP: P8]` The same for harm, on a sheet aimed at 30 or more human positives.
@@ -485,7 +574,9 @@ certify. We prepared the measurement and did not run it.
 
 *Table 9. Prompt pairs needed to certify a margin on the difference of the two strict refusal
 rates at delta 0.05, from the rates of section 8.3 [P9 budget]. A design calculation: normal-type
-limits, pairing correlation 0.66 (the guard's flags on the same prompts), guard `rho^2` 0.6. The
+limits, pairing correlation 0.66 (the guard's flags on the same prompts), guard `rho^2` 0.6,
+and the unrounded difference of the two rates (-0.0005). The rates are those of the last
+checkpoint (step 200); the returned policy that section 8.4's samples come from is step 175. The
 two guard columns differ in what the claim covers: the pool's own 490 prompts, where guard-only
 responses pin down the guard's mean, or new prompts from the same source, where the pool's
 unlabelled prompts are all the guard has.*
@@ -497,12 +588,19 @@ unlabelled prompts are all the guard has.*
 | 0.03 | 80% | 1,266 | 429 | 172 | 362 |
 | 0.05 | 80% | 462 | 157 | 63 | 78 |
 
+The budget turns on the true difference, which the labels fix only to within about 8 points
+either way. At a difference of +0.006, the value in the design check below, the same formula
+gives about 930 pairs for an even chance and 2,100 for an 80% chance; at +0.02 nothing
+certifies. The guard's `rho^2` of 0.6 comes from about 110 labels per policy and has no interval
+here.
+
 Pairing the two policies on the same prompts cuts the budget threefold. What the guard adds
 depends on the claim. For the rate on the pool's own prompts, a guard-only response costs GPU
 seconds, the guard's mean can be measured as closely as wanted, and the guard cuts the budget
 again by 2.5: a certificate that would take 2,800 unpaired pairs takes 380. For new prompts from
 the same source, the guard's mean is known only through the pool's unlabelled prompts. With 300
-of 490 labelled it removes 23% of the variance, not 60%, and the 2-point margin at an 80% chance
+of 490 labelled it removes 23% of the variance (0.6 x 190/490), not 60%, and the 2-point margin
+at an 80% chance
 is out of reach inside the pool. A predictor removes label noise. It does not remove the
 uncertainty of a small prompt set.
 
@@ -519,10 +617,13 @@ A check of the whole design on the guard's real scores, with synthetic labels dr
 guard's logit at the rates of section 8.3, puts the miss rates of the four limits at 0.001,
 0.040, 0.045 and 0.042 for the pool rate against a level of 0.05, and their mean certified
 margins at 0.065, 0.037, 0.032 and 0.035 [P9 design check]. The exact bound is about twice as
-wide as the approximate ones: with some 30 discordant pairs in 300, exactness is the larger
-cost and the guard's gain is the smaller one. The synthetic labels disagree with the guard
+wide as the approximate ones: with few discordant pairs in 300, exactness is the larger cost
+and the guard's gain is the smaller one. The synthetic labels disagree with the guard
 independently across the two policies, which weakens both the pairing and the guard, so these
-margins are on the wide side and those of Table 9 on the narrow side.
+margins are on the wide side and those of Table 9 on the narrow side. The guard's gain in
+this check is about 1.4 in labels, against 2.5 in Table 9. In the guard's own terms, on the
+3,920 guard-only responses per policy at 256 tokens, the refusal rate is 16.9% for the
+reference and 17.2% for the trained policy.
 
 On either set of figures a sample of 300 pairs is expected to certify a margin of 2.4 to 6.5
 points with labels alone, not the 2-point target. The 600 labels were not collected. The
@@ -544,7 +645,13 @@ weak cue to the policy.
 - **Scale.** Trained policies are 0.5B-3B on one consumer card; the frontier evidence is
   certificates on published traces.
 - **One run.** The policy that section 8.4's samples come from is one training run with one
-  seed.
+  seed, and so is each side of the contrast in section 7.2.
+- **Our implementation of others' methods.** The StratPPI and PPI++ intervals are ours,
+  written from the papers' equations, with proportional allocation, and not checked against
+  the authors' code. PPBoot was not run.
+- **Validity checks do not prove validity.** A cell within two standard errors of delta is
+  unresolved. The AgentDojo check covers 6 of 28 pipelines and resamples one of the two
+  crossed factors.
 - **Benchmarks are not deployments.** Sections 8.1-8.2 certify a rate over a benchmark's task
   distribution. The clustered bound treats user tasks as sampled from a population of tasks
   like them; nothing is claimed about tasks unlike them.
@@ -587,13 +694,25 @@ constraint supplies for free, and the negative of section 7.2: the predictions' 
 the label is not stable under training that targets the label.
 
 **Betting bounds.** Waudby-Smith and Ramdas (2024) give the betting confidence sequences we use
-for bounded means and for the sequential test of section 8.4; the stratified constructions
+for bounded means and for the paired bound of section 8.4; the stratified constructions
 tried in section 5 follow Spertus and Stark (2022).
 
 **Benchmarks and labels.** XSTest (Röttger et al., 2024) and OR-Bench (Cui et al., 2025) supply
 the benign prompts; XSTest's three-class annotation scheme is the basis of our refusal
 guideline. AgentDojo (Debenedetti et al., 2024) supplies the crossed design of section 8.2.
-Qwen3Guard (Qwen Team, 2025) is the guard.
+Qwen3Guard (Zhao et al., 2025) is the guard.
+
+## 11. Conclusion
+
+A rate with an error bar is not a certificate. The guarantee belongs to the whole pipeline: how
+the policy was chosen, how the sample was drawn, and what produced the label. Where we could
+check against a known truth, exact bounds and design-respecting resampling held, and three
+common shortcuts failed by wide margins: a normal quantile at small rates, a per-pair bound on
+a crossed design, and a judge calibration carried to a policy it was not measured on. The last
+has a practical consequence. Gold labels belong on the responses of the policy being
+certified, each time the policy changes. What this paper does not contain is a certificate of a
+trained policy in human labels. We have costed one and fixed its analysis in advance; running
+it, with more than one annotator, is the next step.
 
 ## References
 
@@ -606,7 +725,7 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 - Angelopoulos, Bates, Candès, Jordan, Lei (2025). Learn then test: calibrating predictive algorithms to achieve risk control. *Annals of Applied Statistics* 19(2).
 - Bates, Angelopoulos, Lei, Malik, Jordan (2021). Distribution-free, risk-controlling prediction sets. *Journal of the ACM* 68(6).
 - Bowyer, Aitchison, Ivanova (2025). Position: Don't use the CLT in LLM evals with fewer than a few hundred datapoints. ICML 2025. arXiv:2503.01747.
-- Boyeau, Angelopoulos, Yosef, Malik, Jordan (2025). AutoEval done right: using synthetic data for model evaluation. ICML 2025. `[CHECK]` venue and arXiv id.
+- Boyeau, Angelopoulos, Li, Yosef, Malik, Jordan (2025). AutoEval done right: using synthetic data for model evaluation. ICML 2025, PMLR 267:5276-5290. arXiv:2403.07008.
 - Csillag, Struchiner, Goedert (2025). Prediction-powered e-values. arXiv:2502.04294.
 - Cui, Chiang, Stoica, Hsieh (2025). OR-Bench: an over-refusal benchmark for large language models. ICML 2025 (PMLR 267). arXiv:2405.20947.
 - Debenedetti, Zhang, Balunovic, Beurer-Kellner, Fischer, Tramèr (2024). AgentDojo: a dynamic environment to evaluate prompt injection attacks and defenses for LLM agents. NeurIPS 2024 Datasets and Benchmarks.
@@ -615,8 +734,8 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
 - Gligorić, Zrnic, Lee, Candès, Jurafsky (2025). Can unconfident LLM annotations be used for confident conclusions? NAACL 2025. arXiv:2408.15204.
 - Khosravi, Huo (2026). Conformal selective acting: anytime-valid risk control for RLVR-trained LLMs. arXiv:2605.20270.
 - Miller (2024). Adding error bars to evals: a statistical approach to language model evaluations. arXiv:2411.00640.
-- Qwen Team (2025). Qwen3Guard technical report. arXiv:2510.14276.
-- Röttger, Kirk, Vidgen, Attanasio, Bianchi, Hovy (2024). XSTest: a test suite for identifying exaggerated safety behaviours in large language models. NAACL 2024. arXiv:2308.01263. `[CHECK]` author list.
+- Zhao, Yuan, Huang and 40 others (2025). Qwen3Guard technical report. arXiv:2510.14276.
+- Röttger, Kirk, Vidgen, Attanasio, Bianchi, Hovy (2024). XSTest: a test suite for identifying exaggerated safety behaviours in large language models. NAACL 2024. arXiv:2308.01263.
 - Spertus, Stark (2022). Sweeter than SUITE: supermartingale stratified union-intersection tests of elections. arXiv:2207.03379.
 - Thomas, Castro da Silva, Barto, Giguere, Brun, Brunskill (2019). Preventing undesirable behavior of intelligent machines. *Science* 366(6468).
 - Waudby-Smith, Ramdas (2024). Estimating means of bounded random variables by betting. *JRSS-B* 86(1).
@@ -649,13 +768,20 @@ Verified against the publisher or arXiv page on 2026-10-04; BibTeX in
    (delta 0.1) and 0.047 (delta 0.05); the table has one label at 0.097 and 0.054 (refusal on
    encoded prompts, rate 94%). Table 2 quotes the table.
 2. `[R 6.2]`: the sentence giving the t-bound's misses at delta 0.05 repeats the
-   Clopper-Pearson row digit for digit, and the source data are gone. Table 2 uses only the
+   Clopper-Pearson row in four of its five values, and the source data are gone. Table 2 uses only the
    delta 0.1 table.
 3. The 37% and 82% shares in section 7.2 are counts by the guard's flag and a surface pattern
    (`results/labels/refusal/design.json`), not human labels; the text says so.
 4. Round 6 seed-level numbers in Table 1 trace to the state report only.
 5. Solution rates for the certificates of section 8 are not defined (fixed published traces);
    say so where NSF is reported.
+
+Numbers the text states that no results file prints, recomputed from the data files named: the
+12-of-18 count of section 7.2, the 72 and 70 guard-negative responses and the three repeated
+responses of section 8.3 (the label and key files in `results/labels/refusal/`); the first row
+of Table 8 (`results/labels/refusal/design.json`); the "ahead in seven cells, by 3-35%" of
+section 5 and the medians of section 6 (`results/paper/stratppi.json`). Not yet checked against
+their sources: the one-line descriptions of cited papers in sections 6 and 10.
 
 ## Appendix B. Figures
 

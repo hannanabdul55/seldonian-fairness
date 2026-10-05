@@ -102,6 +102,8 @@ draft carries `[GAP: Pn]` markers until the step lands. Commits outside weekday 
 
 - 2026-10-04 **decision by the user: skip P9's labelling** ("skip labeling", after the design check's expected margins; no reason was stated). P9 closes as costed and prepared, not run. What the paper keeps (v0.3, section 8.4, retitled "What a certificate in human labels costs"): the budget table from P6's rates, the frozen design with its four limits, the design check's miss rates and expected margins, and the statement that the 600 labels were not collected. What it loses: any human-terms certificate of a trained policy; the abstract, the scope list and the limits say so. Affected: P13's venue rule (P9 is not in, so workshop by the plan's own rule; the user has not confirmed the target); the critical path P4 -> P5 -> P6 -> P9 ends at P6. Still possible at no design cost: the sample, sheet, guard scores and frozen script stand and no label has been seen, so 600 labels at https://claude.ai/artifact/Dv2NdRKbHGkXmA4soXq7Xq would give the certificate as specified. The choice between (b1) and (b2) as headline is moot while there is no measured result; the paper's Table 9 shows both. A by-product not yet looked at: in guard terms at 256 tokens the two policies' rates are 0.169 (reference) and 0.172 (trained), where 014's own test at 128 tokens had the trained policy at 0.168 against a reference of 0.186. P16 (60 XSTest items) is separate and still open.
 
+- 2026-10-04 **P13 started** (the user: "install ml-paper-writing and ara-rigor-reviewer and start P13"). Skills installed in `~/.claude/skills/` from Orchestra-Research/AI-Research-SKILLs at commit 773a529 after a full read: `ml-paper-writing`, `ara-rigor-reviewer`, and `ara-compiler` (the reviewer's prerequisite). Done the same day: (1) every bib entry checked against arXiv and CrossRef with `scripts/bib_check.py`; one real error (the ICML version of AutoEval has a sixth author, Tianle Li), both CHECK fields closed, Qwen3Guard's authors named. (2) A fresh agent compiled v0.3 into the reviewer's format and audited every number against its source: 17 mismatches and 18 untraced statements, checked by hand and about 25 corrected (v0.4). (3) A second fresh agent, reading only the compiled artifact, reviewed it: weak accept, mean 3.17 of 5, 1 critical and 9 major findings (`review/level2_report_v0.3.json`); claims narrowed in sections 5, 7 and 8 (v0.5). (4) Introduction, conclusion and a shorter abstract added. Section 8 below has the triage and what is left.
+
 ## 6. P9 analysis rules (fixed 2026-10-04, before any label exists)
 
 1. **Policy.** The returned policy of spike 014's run (`/mnt/d/seldonian-runs/014/s0/checkpoints/feasible-step175`), against the untrained base model as the reference. One training run, one seed: the paper says so, and presents the certificate as one worked case. Round 6's returned policy cannot be used: no Round 6 results or adapters survived the 2026-09-19 loss.
@@ -168,3 +170,33 @@ Every limit holds its level for the claim it is built for (Monte Carlo se 0.005)
 | 12 | The sheet could not be rebuilt | builder and page template in the repo |
 | 14 | (found 2026-10-04, after the review) The labelling page was only ever tested on a first visit | `scripts/refusal_desk_test.py`; run it before any labelling page goes to annotators |
 | 13 | The `h` label had no outside standing | guideline tied to XSTest's scheme |
+
+## 8. P13: review triage, venue, and what v1.0 still needs (2026-10-04)
+
+### Review findings (independent, on v0.3) and what was done
+
+| finding | what it said | status |
+|---|---|---|
+| F01 critical | Section 7.2 stated a cause and a general rule from two single runs; "most general" | reworded to an existence result with the confounds and the pre-registered reading stated (v0.5). **Open:** an isolating comparison (a second seed of the constrained run, or the judge's recall against human labels at both checkpoints) |
+| F02, F03 | "one cell above nominal" and "no approximate bound held" contradicted the paper's own tables | corrected (v0.4) |
+| F04 | the strata's ESS ignores the 4,000 reference labels that build them; no equal-cost baseline | cost stated, claim narrowed to expensive-label regimes (v0.5). **Open:** ESS per label spent and an equal-cost baseline (CPU) |
+| F05 | the label budget is a point estimate on a difference known to +-8 points; 2.5-fold guard gain against 1.4 in the design check | sensitivity and both figures stated (v0.5). **Open:** a budget table over the difference and rho^2 (CPU, small) |
+| F06 | "StratPPI as published" rests on our implementation, proportional allocation, no check against the authors' code, no PPBoot | qualified in abstract, intro and limits (v0.5). **Open:** validate against the authors' code or a known-answer case; optimal allocation; PPBoot (CPU) |
+| F07 | "refuse equally often" is a non-detection (-8 to +8); one annotator; 128-token cut; small strata | reworded (v0.5). **Open, the user's:** P16, a second annotator |
+| F08 | AgentDojo validity check: 6 of 28 pipelines, 400 resamples, one factor resampled; the rule used was not checked; 0.104 against 0.057 for near-identical counts | scope of the check stated (v0.5). **Open:** all 28 pipelines, 4,000 resamples, both factors, the larger-of-two rule (CPU; traces on D:) |
+| F09 | no single validity rule; 0.054 counted as a failure for a rejected bound and as holding for a favoured one | one rule stated in section 3; 7.2 recounted to 3 of 6 plus one marginal (v0.5). **Open:** recount every table under the rule with cell counts and pooled miss rates (CPU) |
+| F10 | section 7.1: one judge with recall 0.04-0.51 against a guard's label; direction-dependent; unadjusted tests | scoped, both directions reported (v0.5). **Open:** repeat with human gold (XSTest's five model variants) (CPU with the guard's scores on D:) |
+| minor F11-F28 | wording, missing counts, unreported arms | F11, F14, F17-F20, F22 and part of F23 fixed; the rest are in the report |
+| F29 | P9 was closed after the design check predicted no certificate; collecting the labels and reporting the margin either way would be the clean outcome | the user's decision stands (section 5); the paper says the labels were not collected |
+
+### Venue, checked 2026-10-04
+
+Closed: NeurIPS 2026 workshops (30 Aug to 6 Sep, including one on reliable evaluation of language models), ICLR 2027 (25 Sep), SaTML 2027 (29 Sep), AISTATS 2027 (abstracts 29 Sep). Open: ARR October cycle for NAACL and COLING 2027 (12 Oct), AAAI-27 workshops (20 Nov; which fit is not checked), ICML 2027 (abstract 16 Jan, paper 22 Jan 2027). TMLR takes submissions at any time (not re-verified today). The venue is the user's call; the draft is not ready for 12 Oct.
+
+### Still needed for v1.0
+
+1. The user: target venue; the one-sentence contribution (proposed in the introduction: an audit of the certificate, what holds, what a label buys, what does not carry); P16's 60 labels; whether P8 (harm sheet) is dropped.
+2. The CPU analyses marked Open above, in this order: F09 recount, F05 budget table, F04 equal-cost baseline, F08 AgentDojo, F10 human-gold carry, F06 StratPPI checks.
+3. One-line descriptions of cited papers checked against the papers (sections 6 and 10).
+4. LaTeX: no TeX on this machine. The skill ships templates for NeurIPS 2025, ICML 2026, ICLR 2026, ACL, AAAI 2026, COLM 2025; convert once the venue is chosen. Main text against appendix by the venue's page limit (the draft is about 9,500 words).
+5. Anonymisation for review: repository paths in Appendix A, "the training paper".
