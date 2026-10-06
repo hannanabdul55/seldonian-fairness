@@ -3,7 +3,7 @@
     uv run scripts/md2html.py reports/paper_seldonian_llm.md out.html "Tab title" "Summary box text" "eyebrow"
 
 Handles headings (with ids), paragraphs, bullet and numbered lists, pipe tables
-(numeric cells right-aligned), fenced code, inline code / bold / italic. The
+(numeric cells right-aligned), fenced code, images on their own line, inline code / bold / italic. The
 first H1 becomes the page header; the summary is shown in a box under it.
 """
 import html
@@ -41,6 +41,9 @@ td strong{color:var(--accent-ink)}
 a{color:var(--accent)}
 .summary{background:var(--panel);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:0 0 1.5rem;border-radius:0 4px 4px 0}
 .summary p{margin:0}
+/* figures are drawn on a light surface, so they keep a light card in both themes */
+figure{margin:1.4rem 0 .5rem;padding:.5rem;background:#fcfcfb;border:1px solid var(--rule);border-radius:4px}
+figure img{display:block;width:100%;height:auto}
 @media (max-width:640px){body{font-size:16px} h1{font-size:1.6rem}}
 """
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -147,6 +150,12 @@ def convert(src):
             tag = "ol" if ordered else "ul"
             out.append(f"<{tag}>" + "".join(f"<li>{inline(x)}</li>" for x in items) + f"</{tag}>")
             i = j
+            continue
+        m = re.match(r"^!\[(.*?)\]\((\S+)\)\s*$", line)
+        if m:
+            flush()
+            out.append(f"<figure><img src='{html.escape(m.group(2))}' alt='{html.escape(m.group(1))}'></figure>")
+            i += 1
             continue
         if not line.strip():
             flush()

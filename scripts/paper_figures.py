@@ -206,12 +206,15 @@ def fig2():
 # ---------------------------------------------------------------------------------------- fig 3
 def fig3():
     """AgentDojo: the per-pair bound against the clustered one, per pipeline."""
-    c = json.load(open(os.path.join(SP, "020-agentdojo-injection-certificate", "cert.json")))
+    # certificates from 200,000 bootstrap draws (agentdojo_recheck.py); the spike's cert.json used 4,000,
+    # which is too few where a handful of user tasks hold every success
+    R = json.load(open(os.path.join(ROOT, "results", "paper", "agentdojo_recheck.json")))
+    c = {k: dict(v, **R["converged"][k]) for k, v in R["certificates"].items()}
     P = sorted(c.items(), key=lambda kv: kv[1]["rate"])
     fig, ax = plt.subplots(figsize=(8.6, 8.2))
     table = []
     for y, (name, r) in enumerate(P):
-        cl = max(r["t_user"], r["t_inj"])
+        cl = r["t_user"]            # the certificate: user tasks sampled, injection tasks fixed
         ax.plot([r["rate"], cl], [y, y], color=GRID, linewidth=1.6, zorder=1)
         ax.plot([r["rate"]], [y], marker="o", color=CONTEXT, zorder=2, **DOT)
         ax.plot([r["naive"]], [y], marker="o", color=BLUE, zorder=3, **DOT)
@@ -221,9 +224,9 @@ def fig3():
     ax.axvline(0.05, color=INK2, linewidth=1.0)
     ax.text(0.0535, len(P) - 0.15, "5% threshold", ha="left", va="center", fontsize=8, color=INK2)
     idx = {n: i for i, (n, _) in enumerate(P)}
-    for n, txt in (("claude-3-5-sonnet-20241022", "the one pipeline that certifies"), ("Meta-SecAlign-70B", "2.2% raw, 10.4% once clustered:\n21 successes in 5 of 97 user tasks")):
+    for n, txt in (("claude-3-5-sonnet-20241022", "the one pipeline that certifies"), ("Meta-SecAlign-70B", "2.2% raw, 6.2% once clustered:\n21 successes in 5 of 97 user tasks")):
         r = c[n]
-        ax.annotate(txt, xy=(max(r["t_user"], r["t_inj"]), idx[n]), xytext=(0.135, idx[n] + (0.05 if "one" in txt else 0.85)), fontsize=8, color=INK2,
+        ax.annotate(txt, xy=(r["t_user"], idx[n]), xytext=(0.135, idx[n] + (0.05 if "one" in txt else 0.85)), fontsize=8, color=INK2,
                     va="center", ha="left", arrowprops=dict(arrowstyle="-", color=MUTED, linewidth=0.7, shrinkA=0, shrinkB=4))
     ax.set_xscale("log"); ax.set_xlim(0.008, 1.0); ax.set_ylim(-0.7, len(P) + 0.4)
     ax.set_xticks([0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0]); ax.set_xticklabels(["1%", "2%", "5%", "10%", "20%", "50%", "100%"]); ax.minorticks_off()
@@ -231,10 +234,10 @@ def fig3():
     ax.set_xlabel("targeted attack success rate (upper bounds at δ 0.05)")
     style(ax, "x")
     h = [plt.Line2D([], [], marker="o", color=k, label=l, **DOT) for k, l in ((CONTEXT, "observed rate"), (BLUE, "bound treating pairs as independent"),
-                                                                                (ORANGE, "bound respecting the crossed design"))]
+                                                                                (ORANGE, "bound clustered by user task"))]
     top = heading(fig, "On AgentDojo's published runs, one pipeline in 28 certifies a 5% attack success rate",
-                  "The usual bound treats every user-task and injection-task pair as independent. The clustered bound is the larger of two cluster "
-                  "bootstraps, by user task and by injection task.", h)
+                  "The usual bound treats every user-task and injection-task pair as independent. The clustered bound is a cluster bootstrap "
+                  "by user task, with the benchmark's injection tasks taken as fixed.", h)
     fig.subplots_adjust(left=0.43, right=0.97, top=top, bottom=0.07)
     save(fig, "fig6_agentdojo", ["pipeline", "pairs", "rate", "per-pair bound", "clustered by user task", "clustered by injection task", "certificate", "at 5%"], table)
 
