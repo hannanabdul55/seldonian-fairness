@@ -97,6 +97,50 @@ spike 017 `harm017.py` and `cards017.py`; spike 019 `bounds019.py`; spike 020 `c
 only if some draws have no positive in any stratum, so mid-rate cells should be unchanged and
 rare-rate and sheet cells may move.
 
+### Does this make the paper's case stronger or weaker?
+
+Mixed. It removes one negative finding, leaves the headline results untouched, and makes the
+paper's own bound look better than the draft says.
+
+**Weaker.**
+
+- One exhibit for "normal approximations fail at small rates" is gone. Student's t and the
+  normal limits of PPI++ and StratPPI still fail there, so the theme survives, but the Wilson
+  bound is no longer an example of it.
+- The advice "rare labels take Clopper-Pearson or a betting bound" loses most of its evidence.
+  What remains is 17 cells over their level at delta 0.10 (misses of 0.112-0.139) and none at
+  delta 0.05.
+- A cost in credibility. The paper is an audit of bounds, and its own bound had an untested edge
+  case that became a reported finding. A referee found it from the text alone. The correction
+  should say so.
+
+**Stronger.**
+
+- `b1w` now holds over the whole range tested at delta 0.05, not only on mid-rate labels. In the
+  StratPPI comparison (part A, 40 cells) it goes from 9 cells over to none.
+- The comparison with StratPPI improves. Before, both failed on rare labels. Now `b1w` holds
+  there and StratPPI's published normal limit still does not (its cells are unchanged by the
+  fix).
+- The exclusion in the 322-cell summary ("leaves out the rare labels, where `b1w` fails") is no
+  longer needed.
+
+**Unchanged.**
+
+- The stratification gain of 1.4 to 5.3 on mid-rate labels: those cells reproduce exactly.
+- The normal limits of PPI++ and StratPPI failing, and the bootstrap-t limit repairing them.
+- AgentDojo, the carried-calibration negatives, the costing in human labels.
+- Stratification still gives no gain on rare labels (C3:unsafe step 0, n_s 100: width 0.0313
+  stratified against 0.0315 pooled). "Does not help for rare labels" stays true; the reason
+  becomes "no gain", not "invalid".
+
+**The larger threat is a different finding** (section 5.3, item 12). The harness draws 20-40% of
+a 500-prompt pool without replacement, which makes every bound look more conservative than it
+would be on a large population. Redrawn with replacement, the mid-rate `b1w` row goes from 0
+cells over of 24 to 4 of 24. That weakens "holds" for the paper's own bound by more than the
+Wilson fix strengthens it, and it is a question of design that the fix does not touch. The
+bootstrap-t StratPPI limit stayed at 0 over of 28 under that test, so it may be the more robust
+recommendation.
+
 ## 4. Reruns (all CPU)
 
 The GPU was used only to generate and judge responses (`gen013.py`, `gen014.py`). Everything
