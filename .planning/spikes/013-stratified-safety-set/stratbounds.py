@@ -96,6 +96,9 @@ def b1w(s, n, W, delta, N=None):
     ph = np.clip(p[None, :] + (m - mu)[:, None], 0.0, 1.0)
     V = np.sum(W[None, :] ** 2 * ph * (1 - ph) / n[None, :], axis=1) + extra
     ok = (m - mu) >= z * np.sqrt(V)
+    # m = mu is not a root: it passes as 0 >= 0 when V(mu) = 0 (every stratum all-zero or
+    # all-one), which made the bound collapse onto the estimate at zero positives
+    ok[0] = mu >= 1.0
     return float(m[np.argmax(ok)]) if ok.any() else 1.0
 
 

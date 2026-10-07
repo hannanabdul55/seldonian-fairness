@@ -7,6 +7,19 @@ import numpy as np
 
 import stratbounds as SB
 
+# b1w at one stratum is the Wilson upper limit at every count, zero positives included
+# (closed form z^2 / (n + z^2) there); the grid in b1w has step <= 1 / 4000
+from scipy.stats import norm
+for delta in (0.05, 0.1):
+    z = norm.ppf(1 - delta)
+    for n_ in (25, 100, 200, 400):
+        k_ = np.arange(n_ + 1)
+        p_ = k_ / n_
+        wil = (p_ + z * z / (2 * n_) + z * np.sqrt(p_ * (1 - p_) / n_ + z * z / (4 * n_ * n_))) / (1 + z * z / n_)
+        got = np.array([SB.b1w(k, n_, 1.0, delta) for k in k_])
+        assert np.all(got >= wil - 1e-9) and np.all(got - wil <= 2.6e-4), (delta, n_)
+    assert SB.b1w([0, 0, 0, 0], [25] * 4, [0.25] * 4, delta) > 0.0
+
 rng = np.random.default_rng(1)
 configs = {
     "H4 spread": [0.02, 0.15, 0.4, 0.8], "H4 flat": [0.3] * 4, "H8 spread": list(np.linspace(0, 0.9, 8)),
