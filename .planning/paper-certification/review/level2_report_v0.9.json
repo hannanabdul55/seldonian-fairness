@@ -1,0 +1,525 @@
+{
+  "artifact": "ara_paper_cert_v09 (Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry; draft of 2026-10-06)",
+  "artifact_dir": "/tmp/claude-1000/-home-hannanabdul-seldonian-fairness/7d6bd08c-7147-49c9-b474-eff8af75b2a9/scratchpad/ara_paper_cert_v09/",
+  "review_version": "3.0.0",
+  "prerequisite": "Level 1 passed (1,630 checks, 0 failures, as reported to the reviewer; the validator was not re-run and no structural check was repeated)",
+
+  "overall": {
+    "grade": "Weak Accept",
+    "mean_score": 3.67,
+    "one_line_summary": "A carefully audited validity study whose core (one miss-rate rule applied to every bound against known truths, and the crossed-design result on public AgentDojo runs) is sound and unusually candid, but whose draft still carries several statements that its own sources contradict or narrow, three of them bearing directly on claims, and whose training-side and human-label results rest on single runs, one annotator and partly lost data.",
+    "strengths_summary": [
+      "One pre-stated validity rule (over / unresolved / at or under, with a Monte Carlo standard error) is applied to favoured and unfavoured bounds alike against known truths, and the paper reports its own bound's one over cell and its 23 unresolved cells.",
+      "Baselines and ablations are real: PPI++, StratPPI and PPBoot are implemented and checked against an independent rewrite, two libraries' conventions and the StratPPI paper's own simulation; limit, estimator and allocation are varied separately; a placebo covariate and both directions of a carried calibration are run.",
+      "Negative, null and unrun results are reported as such (a failed pre-registered criterion, a pre-registered expectation that was contradicted, a control arm named as post hoc, a mechanism given status 'hypothesis', a human-terms certificate 'costed and prepared, not run'), and the artifact attaches to every claim its source line and an Audit pointer to 45 disagreements and 11 untraced statements."
+    ],
+    "weaknesses_summary": [
+      "Three statements change what a claim says once set against the sources: the 'real training loop' check is a synthetic bandit with 4 strata and is unresolved above delta (C07/E08); the human-label check of the guard covers the 4B guard, not the 0.6B guard behind the companion-paper refusal results (C08, C27); the design check's 'at or under 0.045' holds for one of two schemes only (C25).",
+      "Headline numbers are drawn from the favourable end of what was measured: the 1.4 to 5.3 gain comes from a strata rule chosen after the pre-registered rule failed on the same pools (not disclosed in the paper); '1 of 322 cells' depends on an after-the-fact partition of b1w's cells with no stated applicability rule; 'about 420 pairs' is a normal-limit calculation at an assumed zero difference that the labels fix only to within about 8 points.",
+      "Evidence behind the training-side and human-terms claims is thin and partly unrecoverable: one run and one seed per arm for the calibration-across-training result, one annotator (an author), a guard as gold label almost everywhere, and printed rates from an uncited companion paper whose draws were lost."
+    ]
+  },
+
+  "dimensions": {
+    "D1_evidence_relevance": {
+      "score": 4,
+      "strengths": [
+        "Validity claims (C02-C06, C18, C20, C21) are tested with the design their type calls for: a population with a known rate (exact expectation, plasmode pool, resampled crossed table) and a miss rate per cell, not agreement in prose.",
+        "Comparative claims have same-draw comparisons: C12 and C14 compute b1w, StratPPI (normal and bootstrap-t), PPI++ and PPBoot on the same strata and draws; C10 has a random-split baseline and a placebo covariate that returns ESS 1.0.",
+        "Attribution claims are backed by isolating arms: C06 separates the limit from the estimator and then from the allocation (proportional against oracle and heuristic); C15 runs every carry in both directions.",
+        "C17 is given status 'hypothesis' and says that 'no experiment here isolates' the mechanism, so a causal account is not passed off as supported.",
+        "Descriptive claims on public data (C19, C22, C23) rest on full enumerations (all 28 pipelines in Figure 5's data, all 1,250 safe-prompt completions) and not on selected rows."
+      ],
+      "weaknesses": [
+        "C07's in-loop evidence (E08) is a synthetic bandit and its largest cell is above delta (unresolved); it is the only evidence that an approximate stratified bound survives selection (see F01).",
+        "C08's '0 of 3 breaches' for the Seldonian arm is uninformative if a breach is read on the safety set, where a returned policy passes by construction (F08).",
+        "C27 states a direction ('optimistic') from two runs while the same companion experiment has a seed of the opposite sign that Table 2 does not show (F12).",
+        "C12's attribution ('the gain here is the stratification') rests on an unpaired median over ten heterogeneous cells with an ESS computed differently from the paper's definition (F14).",
+        "C07 and C09 have no table or per-cell data in the evidence layer; they are grounded in running text and in the derived ledger's quoted source lines only (F16)."
+      ],
+      "suggestions": [
+        "Re-run the in-loop check with the strata rule the paper recommends (H = 8) and enough runs to resolve 0.116 against 0.10, and head it as synthetic.",
+        "Report the synthetic pipeline's miss rate where the test is stressed (candidates at or just above the threshold; the companion's 'stress at margin 0' result), not only the unconditional 0.000-0.002.",
+        "Give Section 7.2's studies a table of cells (runs, miss, class) as Table 4 does for Section 7.1, so that C07 and C09 have raw evidence."
+      ]
+    },
+    "D2_falsifiability": {
+      "score": 4,
+      "strengths": [
+        "Most criteria name a measurable quantity and a threshold taken from Section 6.1's rule (for example C02, C06: a cell with m_hat > delta + 2 se), so an independent researcher knows what would count as failure.",
+        "C05 and C17 offer a second, design-level route to refutation (a difference between the authors' StratPPI code and the implementation used; an experiment that varies the form of flagged responses with the constraint held fixed).",
+        "Claims on public data (C18, C19, C22, C23, C26) can be tested without the authors' systems: AgentDojo's published runs, XSTest's released completions, published counts and closed-form arithmetic."
+      ],
+      "weaknesses": [
+        "C08's criterion cannot be met by construction as written (F08).",
+        "C04's criterion is a recount of the paper's own table, which tests bookkeeping and not the claim that the approximate bounds hold where they are used; C22's criterion covers the Clopper-Pearson bounds only and not the Fisher comparison or the two AUC statements bundled into the claim (F09).",
+        "C16's criterion (replications in which the calibration carries) would not refute an existence result; it fits the general reading the abstract gives (F11). C11 ('near zero') and C25 ('far outside the predicted range') set no threshold.",
+        "About half the criteria need the authors' own pools, judge scores or adapters (C10-C16, C20, C21, C24), and the harm-pool rows behind C02 and C03 cannot be re-tested because the draws were lost."
+      ],
+      "suggestions": [
+        "For C04, state the region in which each approximate bound is claimed valid (rate, expected count in the rarer class, n_s, number of strata) and make the criterion 'a new cell inside that region that is over'.",
+        "For C08, name the data on which a breach is read (an independent test set, or the exact rate in the synthetic analogue) or drop the Seldonian half of the count from the claim.",
+        "Split C22 into the certificate (bounds, NSF) and the exploratory comparisons, each with its own criterion; give C11 a numeric floor for the rank correlation."
+      ]
+    },
+    "D3_scope_calibration": {
+      "score": 3,
+      "strengths": [
+        "The four assumptions (A1-A4) are stated, each with how it fails and where it is tested, and the certificate's reach is bounded in words: 'It says nothing about other prompts or about the policy after further training.'",
+        "The limits section is long and specific (guard labels, one annotator, one run, own implementation of others' methods, approximate bounds checked by resampling only, crossed designs, benchmarks are not deployments, lost provenance).",
+        "Individual claims carry their own boundaries: C10 lists four cases where strata do not help and says of the one case that would save labels 'We did not test that case'; C19 says the certificate 'does not extend to new injection tasks'; C16 calls itself 'an existence result from two single runs'."
+      ],
+      "weaknesses": [
+        "The sentence that the 4B guard is 'the guard behind every refusal number above' extends the human-label check to results obtained with a different guard (F02).",
+        "'1 of 322 cells' is a ratio over a set of cells partitioned after the fact; tested b1w cells in which it is over are in neither that set nor the failing row, and no applicability rule is stated (F05).",
+        "'About 420 labelled prompt pairs' is the favourable end of the paper's own calculations and is conditional on a difference the data do not fix (F06).",
+        "C02's statement and the abstract's 'No exact bound was over its level in any cell' omit the condition (an independent sample) under which it is true; Table 4 has Clopper-Pearson over for 27 and 28 of 28 pipelines against a known truth (F10).",
+        "AUDIT.md lists 20 places where the paper's wording covers more than the source row (for example 24-44% for a per-cell range of 0.076-0.448; 'harm rates of 3-6%' from one pool at 0.034; '98% of re-drawn sheets' for one cell of 18)."
+      ],
+      "suggestions": [
+        "Carry the qualifiers that are already in the body into the abstract and the claims summary: 'on independent samples' for the exact bounds, 'an existence result from single runs' for training that targets the label, and a range with its conditions for the label budget.",
+        "State which guard (model size and quantisation) produced each number, and say that the human-label check covers the 4B guard only.",
+        "Locate b1w's validity boundary between the 2% and 9% labels and report every tested cell, including the n_s 200 cells and the rare-rate profiles the audit mentions."
+      ]
+    },
+    "D4_argument_coherence": {
+      "score": 4,
+      "strengths": [
+        "The arc is clear and closed: six observations lead to four gaps; the key insight (the safety test alone is a certificate for any fixed policy and can be audited assumption by assumption) follows from O1 and O6; the architecture implements it; the claims map onto the five stated contributions.",
+        "Each of A1-A4 is tied to the sections that test it, and every gap has claims that address it (G1: C01-C09; G2: C10-C14, C20, C26; G3: C15-C21); G4 is stated as open and is not presented as solved.",
+        "The paper's use of its own rule is consistent in the main: bounds it favours are reported in the same table and classified by the same rule as those it rejects."
+      ],
+      "weaknesses": [
+        "C19 says the certifying pipeline is 'the same one under every clustered rule we tried' while Table 7's own injection-task column passes a second pipeline (F07).",
+        "Several numbers disagree between two places in the paper or with the artifact's own evidence files: 'lower after training in 5 of 6 wordings' against six of six in the source; recall '0.04-0.51' against 0.537 in Figure 3's data; Section 8.1's ESS against Table A1's for the same labels; 28 against 26 reference-strata cells; 89 against 90 missed refusals (F22).",
+        "The paper's thesis is that normal-type limits and independent-sample bounds mislead at these sizes, yet its headline label budget is computed with normal-type limits (F06) and the robot-benchmark certificate applies Clopper-Pearson over trials without examining the benchmark's task structure (F18).",
+        "The ESS used in the StratPPI comparison (distance from the truth to the bound, against Clopper-Pearson on the labels in Section 8.2) is not the ESS defined in Section 6.4 (AUDIT A7)."
+      ],
+      "suggestions": [
+        "Correct the sentence in C19 to name the rules under which only one pipeline passes, and say that the injection-task and two-way bootstraps pass three.",
+        "Reconcile the duplicated numbers (one source per number) and state in Table A1's caption which ESS definition and which checkpoint each cell uses.",
+        "Add one sentence to Section 10.1 on what is treated as sampled in the robot benchmark, as Section 10.2 does for AgentDojo."
+      ]
+    },
+    "D5_exploration_integrity": {
+      "score": 4,
+      "strengths": [
+        "Dead ends carry specific failure modes with numbers (N05: misses 0.101-0.184 at delta 0.10; N17: over in 6 and 11 of 26 and 14 and 14 of 28; N19: narrower in 10 of 210 cells by at most 0.003) and lessons that transfer.",
+        "Results against the authors' own expectations are in the tree: N11 (a pre-registered criterion that failed), N22 ('The pre-registered expectation was that step 200 would carry'), N30 (no pre-specified bound held with injection tasks sampled), N23 (a reading of the responses abandoned when the labels did not support it).",
+        "Key decisions list real alternatives with reasons (N13: three candidate bounds for reference-rate strata; N14: three rejected routes; N28: four alternative clusterings, one of them post hoc and named as not relied on).",
+        "No claim advocates an approach the tree marks as a dead end; where the same bound is both used and rejected (b1w at mid-rate and rare labels) the tree says where."
+      ],
+      "weaknesses": [
+        "The tree is a reconstruction in the paper's logical order, not a record of the process, as its header says; about half of the 11 dead ends are findings about other people's methods and not paths the authors took and abandoned (F20).",
+        "A dead end the audit documents is absent: the pre-registered strata rule that collapsed to 1-2 strata on real data and was replaced (AUDIT A45), with the five listed deviations from the design (F04, F20).",
+        "N10's failure mode is a quotation with no measurement, and N02's alternatives are disclaimers and not options that were weighed (F21)."
+      ],
+      "suggestions": [
+        "Add the replaced strata rule and the redefined coverage truth as a dead end and a decision under N09, with what was tried, what failed and when the choice was made relative to the data.",
+        "Type baseline failures as experiments with a negative result, and keep 'dead_end' for the authors' own abandoned paths.",
+        "Give N10 the number that shows exact stratified bounds 'did not beat pooling' (widths or ESS against the pooled bound)."
+      ]
+    },
+    "D6_methodological_rigor": {
+      "score": 3,
+      "strengths": [
+        "Statistical reporting in the validity core is careful: replications per cell, a standard error, a three-way classification, interval on the largest miss, and an explicit statement that no correction for the number of cells was applied.",
+        "Baselines are the published methods closest to the proposal, implemented by the authors because no code was released, with the implementation checked three ways and the residual risk stated.",
+        "Sensitivity to analysis choices is measured where it matters: 200,000 bootstrap draws against 30 seeds at 4,000 for AgentDojo; three resampling schemes; 5, 10 and 20 strata; three allocations.",
+        "The human-terms analysis was frozen before any label, computes each limit once, refuses a partial sample, and uses design weights and a prompt-clustered standard error."
+      ],
+      "weaknesses": [
+        "The in-loop check is described as the real training loop but ran on a synthetic environment with 4 strata, and E08 does not state the environment (F01).",
+        "The design check of the prepared certificate is reported for one of its two schemes; under the other, three of four limits are above 0.05 and one is over by the paper's own rule (F03).",
+        "The strata rule behind the headline gain and the validity truth were changed after the first results on the same pools, which the paper does not report (F04).",
+        "Results on training rest on one run and one seed per arm with a control read after the result; the human refusal labels are one annotator's, an author's; the gold label elsewhere is a guard model's.",
+        "Reproducibility gaps: harm-pool and parts of Section 7.2 are printed rates from an uncited companion paper whose draws were lost (F16); the number of bootstrap resamples is not given in the paper and is 300 in the code (F17); the robot benchmark has no reference (F18); replications fall to 200 per cell for C09 (F13).",
+        "The definition of a plasmode ('only the sampling is simulated') does not hold for the cells with an imposed rate or planted labels, which include the cells behind 'up to 24%' and '98%' (F15)."
+      ],
+      "suggestions": [
+        "Run more seeds of the label-targeting run and a matched control that differs in the constraint only; this is the experiment C16's own falsification criterion asks for.",
+        "Report both schemes of the design check and classify each limit by Section 6.1's rule.",
+        "State B for every bootstrap limit, show that the validity cells do not change at a larger B, and give replications per row in Table 4.",
+        "Regenerate the synthetic-bandit results of Section 7.2 from code (they are CPU jobs) so that C07 does not depend on lost data, and cite the companion paper."
+      ]
+    }
+  },
+
+  "findings": [
+    {
+      "finding_id": "F01",
+      "dimension": "D6_methodological_rigor",
+      "severity": "major",
+      "target_file": "logic/experiments.md",
+      "target_entity": "E08",
+      "evidence_span": "Model: `SeldonianLLMPolicy` in the loop",
+      "observation": "E08 (and C07's sentence 'With `SeldonianLLMPolicy` in the loop, 500 runs per cell') gives no environment. AUDIT.md A20 (rated high) records that the paragraph is headed 'The real training loop' in the paper, that the runs are on a synthetic bandit (`HeteroEnv`) with H = 4 strata, and that the random split is 0.090-0.100 while the stratified test 'has the one cell above delta' (0.116, unresolved at 500 runs).",
+      "reasoning": "This is the only evidence that an approximate stratified bound keeps its level after selection (A1 and A3 together). It was not run with a language model, not with the H = 8 rule the paper recommends, and its largest cell is above delta without being resolved. A reader of C07 or E08 would take it for a check of the real pipeline. 'The same as a random split' is 'not distinguishable at 500 runs'.",
+      "suggestion": "State the environment and H in E08 and in Section 7.2, head the paragraph as synthetic, and either raise the runs until 0.116 against 0.10 resolves (about 2,000 runs gives a threshold near 0.113) or report the in-loop stratified test as unresolved in the claim itself and not only in its caveats."
+    },
+    {
+      "finding_id": "F02",
+      "dimension": "D3_scope_calibration",
+      "severity": "major",
+      "target_file": "logic/claims.md",
+      "target_entity": "C08",
+      "evidence_span": "these runs used Qwen3Guard-Gen-0.6B, not the 4B guard that Section 10.3 calls \"the guard behind every refusal number above\"",
+      "observation": "The paper calls Qwen3Guard-4B 'the guard behind every refusal number above' (quoted in src/configs/model.md). AUDIT.md A14 (rated high) shows that the over-refusal seeds of C08, Table 2's 0.133 against 0.184 (C27) and '2 of 3 on over-refusal' used the 0.6B guard, and that the 4B guard was run 4-bit quantised, which the paper does not say.",
+      "reasoning": "Section 10.3 is the paper's only check of the label against humans (C23, C24). The sentence extends that check to results it does not cover, and for the 0.6B guard the artifact holds no human comparison at all. Every certificate of a trained policy is in a guard's terms, so which guard, and how well it tracks humans, is part of what each such claim means.",
+      "suggestion": "Replace the sentence with a table of which guard (size, quantisation) labelled each result; say that the human check covers the quantised 4B guard only; either score XSTest's completions with the 0.6B guard as well or mark C08 and C27 as resting on an unvalidated label."
+    },
+    {
+      "finding_id": "F03",
+      "dimension": "D6_methodological_rigor",
+      "severity": "major",
+      "target_file": "logic/claims.md",
+      "target_entity": "C25",
+      "evidence_span": "A design check on the guard's real scores with synthetic labels puts the miss rates of the four limits at or under 0.045 against 0.05",
+      "observation": "AUDIT.md A18 (rated high): the source file has two schemes. Under 'pool' the misses are 0.001, 0.040, 0.045, 0.042; under 'new prompts' they are 0.001, 0.051, 0.063, 0.052. Section 10.4 reports the first without naming it and neither section reports the second. With 2,000 repetitions the paper's rule puts the 'over' line at about 0.060, so 0.063 is over and 0.051 and 0.052 are unresolved, including the limit built for new prompts.",
+      "reasoning": "The paper's method is one rule applied to every bound, 'favoured or not'. Here the scheme in which its own prepared limits do less well is left out, and the limit meant for new prompts is not shown at or under its level for the population it is for. The check also ran with 300 bootstrap resamples while the frozen script uses 10,000 (A15), so it validates a slightly different procedure.",
+      "suggestion": "Report both schemes in Section 10.4 and Appendix C with each limit classified by Section 6.1's rule; say that limit (b1) is not meant for new prompts; rerun the check at the frozen script's B."
+    },
+    {
+      "finding_id": "F04",
+      "dimension": "D6_methodological_rigor",
+      "severity": "major",
+      "target_file": "logic/claims.md",
+      "target_entity": "C10",
+      "evidence_span": "With k = 8 and H = 8 on real Granite-3.3-2B responses, the ESS against a random split was 2.4 for over-refusal",
+      "observation": "AUDIT.md A45: the design's pre-registered rule (ties kept, quantile cuts, strata merged below 20 expected prompts) 'collapses to 1-2 strata, and often to ESS 1.00'; equal rank strata with random ties at H = 8 were then run beside it and found 'best and most consistent'; the coverage truth was redefined after the first results; five deviations are listed in the spike. 'The strata rule behind the 1.4 to 5.3 was chosen after the pre-registered rule was seen to fail on the real data, and the validity truth was changed; the spike reports both, the paper does not.' Separately, Table A1 shows a fifth mid-rate label (refusal on encoded prompts, 0.93) with ESS 0.96 and 1.12, outside the quoted range.",
+      "reasoning": "The abstract's 'multiplies the effective sample by 1.4 to 5.3' is a gain measured on the pools on which the rule was selected, from three of five tested mid-rate labels. The paper reports one departure from its pre-registration in this section (the absolute-error criterion), which invites the reading that the rest followed the plan. Selection among strata rules on a handful of pools can only bias the gain upward; Table A1's second set of draws shows resampling noise is small, but it does not address selection across rules or pools.",
+      "suggestion": "Report in Section 8.1 that the strata rule and the coverage truth were changed after first results, give the pre-registered rule's ESS beside the chosen rule's, state the range over all five mid-rate labels (about 1.0 to 5.3), and confirm the chosen rule on a pool that played no part in choosing it."
+    },
+    {
+      "finding_id": "F05",
+      "dimension": "D3_scope_calibration",
+      "severity": "major",
+      "target_file": "logic/claims.md",
+      "target_entity": "C04",
+      "evidence_span": "The approximate bounds we use are over their level in 1 of 322 cells and unresolved in 23",
+      "observation": "The 322 cells are Table 4's rows 6 to 11. The same bound, b1w, also appears in a failing row (12 of 12 cells over at 1-2% and n_s 100). AUDIT.md adds tested b1w cells that are in neither set: A22, 'At n_s 200, which the row leaves out, `b1w` is over for the 1% label'; A13, 'In rare-rate profiles (0-7%), pooled and stratified alike overshoot in some cells (up to 0.122 at delta 0.05)'. The cells counted as valid include a 9% label at n_s 100 and a label near 94-95% (the row's three unresolved cells), each with fewer than 10 expected labels in the rarer class. A10 and B1: the delta 0.10 cells reuse the draws of the delta 0.05 cells, row 8's 18 cells are 9 settings run twice, and the 'second, independent run' offered in mitigation of the one over cell is itself one of the 18; the two together give 0.0540, 'unresolved, above delta'.",
+      "reasoning": "What the ratio means depends on which cells count as 'bounds we use', and that set is drawn after the results with no stated rule (rate, count or n_s) that tells a user when b1w is inside it. The boundary of b1w's validity lies somewhere between a 2% and a 9% label and is not located, although failures up to 7% were observed. For a paper whose first contribution is which bounds hold at the rates of a safety test, this is the number a practitioner most needs. The cells are also not independent, so 322 overstates the amount of evidence.",
+      "suggestion": "State an applicability rule for b1w before counting (for example a minimum expected count in the rarer class per stratum or overall), report every tested cell inside and outside it including n_s 200 and the rare-rate profiles, count distinct settings and not repeated or shared-draw cells, and describe the one over cell by its combined result (0.054 of 8,000 draws, unresolved)."
+    },
+    {
+      "finding_id": "F06",
+      "dimension": "D3_scope_calibration",
+      "severity": "major",
+      "target_file": "logic/claims.md",
+      "target_entity": "C25",
+      "evidence_span": "about 420 labelled prompt pairs for an even chance",
+      "observation": "The figure is the paired, labels-alone column of Table 10 (416), computed with normal-type limits at a difference of -0.0005. The claim's own caveats say the budget 'turns on the true difference, which the labels fix only to within about 8 points either way', that at +0.006 it is about 930 and 2,100 pairs, and that at +0.02 nothing certifies. At 300 pairs the formula predicts a certified margin of 0.024 (paired, labels alone) while the design check's limits give 0.037 (bootstrap-t) and 0.065 (exact betting bound); the check's guard gain is about 1.4 against 2.5 in Table 10 (AUDIT B3). By the reviewer's arithmetic from these numbers, and allowing for the check's true difference of +0.006, the check's half-widths are about 1.25 and 2.4 times the formula's, which is roughly 1.6 and 5 to 6 times the pairs.",
+      "reasoning": "The abstract and the claims summary give one number. It is the favourable end of the paper's own range, it uses the kind of limit the paper shows to be over its level elsewhere, and it is conditional on equal rates when the margin (2 points) is a quarter of the uncertainty in the difference (about 8 points). An exact guarantee, which is what the paper says a Seldonian test needs, would cost several times more by the paper's own check. The body says most of this; the headline does not.",
+      "suggestion": "State the budget as a range with its conditions (limit type, assumed difference), add a column to Table 10 for the exact betting limit, and replace the abstract's figure with something like 'from about 420 pairs under a normal-type limit and equal rates to several times that under an exact limit; not certifiable if the trained policy refuses 2 points more often'."
+    },
+    {
+      "finding_id": "F07",
+      "dimension": "D4_argument_coherence",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C19",
+      "evidence_span": "and it is the same one under every clustered rule we tried",
+      "observation": "Table 7 in the artifact gives Meta-SecAlign-70B a bound clustered by injection task of 0.035, under the 5% threshold, and AUDIT.md A17 quotes the source: the injection-task bootstrap and the two-way bootstrap each pass three pipelines (Meta-SecAlign-70B, its repeat_user_prompt variant, and claude-3-5-sonnet-20241022).",
+      "reasoning": "The sentence overstates how robust the verdict is to the clustering rule, and it does so for a named third-party system that the claim then says 'does not certify'. The verdict under the user-task rule, the only one the paper validated for its stated population, is unaffected; the statement about the other rules is wrong as written.",
+      "suggestion": "Say 'the same one under the user-task bound and the larger of the two clustered bounds; the injection-task and two-way bootstraps, which are over their level under scheme (a) or untested there, pass three', and note that Meta-SecAlign-70B's verdict depends on which factor is treated as sampled."
+    },
+    {
+      "finding_id": "F08",
+      "dimension": "D2_falsifiability",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C08",
+      "evidence_span": "A seed of the Seldonian arm that returns a policy whose rate on the safety set exceeds the threshold.",
+      "observation": "A policy is returned only if its upper bound on the safety set is at most the threshold, so its rate on the safety set cannot exceed the threshold. The artifact does not say on what data a 'breach' was read for any arm (E09 lists 'seeds breaching the threshold' as a metric with no data named).",
+      "reasoning": "As written the criterion cannot be met, and if breaches are read on the safety set the Seldonian arm's '0 of 3' and '10 of 10 with no breach' follow from the construction and carry no information about validity. The baselines' breaches (3 of 3, 1 of 3) remain informative. The paper's own caveat ('the resampling studies above are the evidence') already limits the weight placed here.",
+      "suggestion": "Name the data on which a breach is measured. If it is the safety set, restate the claim as being about the baselines and the solution rate; if an independent sample exists, use it and say so in E09."
+    },
+    {
+      "finding_id": "F09",
+      "dimension": "D2_falsifiability",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C04",
+      "evidence_span": "A recount of the rows of Table 4 the paper calls valid approximate bounds that gives a different total, or more than one cell over.",
+      "observation": "The criterion tests the arithmetic of the paper's own table. C22's criterion ('A recomputation of the Clopper-Pearson bounds from the published counts that differs') covers the bounds and not the Fisher comparison or the two AUC statements in the same claim. C11 ('A rank correlation near zero on new pools') and C25 ('far outside the predicted range') set no threshold.",
+      "reasoning": "A claim that approximate bounds hold where they are used should be refutable by a new cell in which one does not; a recount cannot do that. A claim that bundles a certificate with exploratory comparisons needs a criterion for each part, or the untested parts ride on the tested one.",
+      "suggestion": "Re-state C04's criterion over new cells inside a declared applicability region (see F05); split C22; give C11 a numeric floor (for example a Spearman correlation below 0.5 on new pools) and C25 a numeric range."
+    },
+    {
+      "finding_id": "F10",
+      "dimension": "D3_scope_calibration",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C02",
+      "evidence_span": "Where a truth was known, no exact bound (Clopper-Pearson, betting mixture, Bentkus, Hoeffding, Anderson) was over its level in any cell",
+      "observation": "Table 4 has a row for Clopper-Pearson, an exact bound, against a known truth (the AgentDojo table rate), over for 27, 28 and 28 of 28 pipelines. The condition that reconciles the two (an independent sample) is in C02's caveats, not in its statement, and the abstract's 'No exact bound was over its level in any cell' has no condition.",
+      "reasoning": "Read alone, the statement is contradicted by the paper's own table. The distinction between a bound that fails and a sample that violates the bound's assumption is the paper's central point, so the headline sentence should carry it.",
+      "suggestion": "Add 'on an independent sample' to the statement and the abstract. Note also that four of the five exact bounds were tested in five cells each, on one pool at one rate, from draws that no longer exist."
+    },
+    {
+      "finding_id": "F11",
+      "dimension": "D3_scope_calibration",
+      "severity": "minor",
+      "target_file": "PAPER.md",
+      "target_entity": "C16",
+      "evidence_span": "Three things do not carry: a judge's calibration, across prompt populations or across training that targets the label",
+      "observation": "C16 scopes the training result as 'an existence result from two single runs', with one seed per arm, arms that 'differ in reward and set-up as well as in the constraint', a control read as such 'after the result', a judge whose recall on the gold label is 0.21 before training, and a human-label check that does not reach significance (3 of 18 against 0 of 18). The abstract field states it without the qualifier, and C16's falsification criterion (replications in which the calibration carries) fits the general reading and would not refute an existence result.",
+      "reasoning": "One counterexample is enough to say a calibration cannot be assumed to carry, which is the rule the paper draws, and the body says so with care. The unqualified abstract reads as a general finding about training that targets a label, which one run of one judge on one model cannot support.",
+      "suggestion": "Use the body's wording in the abstract ('in one run whose Lagrangian targeted the label it did not carry'), and either make the criterion match an existence claim (an error in this run's scoring, or the same run re-scored giving equal recall) or raise the claim to the general one and run the seeds it needs."
+    },
+    {
+      "finding_id": "F12",
+      "dimension": "D1_evidence_relevance",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C27",
+      "evidence_span": "so its predicted rate is optimistic",
+      "observation": "The support is two runs (0.133 against 0.184; 0.141 against 0.168). AUDIT.md A40: in the same three-seed experiment 'the predicted test was pessimistic by the same 0.01-0.02 it had been optimistic at seed 1', a case Table 2 does not show (at that seed no checkpoint was predicted feasible, so selection was not in play). A44: each predicted test draws fresh responses, so the stated reason ('data the optimiser and the selection rule have both seen') describes the prompts and not the judged responses.",
+      "reasoning": "The direction is what selection of the best-looking checkpoint predicts, but two runs do not establish it as a measured regularity, the reported cases were not all the cases, and the mechanism is described more strongly than the code supports. Status 'supported' is generous for the empirical part.",
+      "suggestion": "Report all three seeds, give the gap between predicted and safety-set rates for every selected checkpoint available (the synthetic environment can supply hundreds), and reword the reason as selection over checkpoints on prompts the optimiser trained on."
+    },
+    {
+      "finding_id": "F13",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C09",
+      "evidence_span": "A certificate at level delta/T over every one of T checks held, with misses of 0.025-0.100 against a delta of 0.1",
+      "observation": "AUDIT.md A24: 200 runs per cell, the largest cell exactly at delta (20 of 200), and 'At 200 runs a cell the check resolves only a miss above 0.1424'; the 65% figure is one of two check intervals (50% at the other). E10 gives 'Dataset: Not specified in paper' and no T, runs per cell or number of cells.",
+      "reasoning": "'Held' at this resolution means only that no cell was shown to be over; a true miss rate of 0.13 would look the same. The experiment cannot be repeated from its description.",
+      "suggestion": "Give T, the check intervals, the runs per cell and the cell count in E10, raise the runs (the environment is a CPU bandit), and word the result as 'at or under delta in every cell at 200 runs'."
+    },
+    {
+      "finding_id": "F14",
+      "dimension": "D1_evidence_relevance",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C12",
+      "evidence_span": "So the gain here is the stratification",
+      "observation": "The attribution rests on medians of 2.10 (StratPPI estimator, bootstrap-t) against 2.16 (b1w) over ten cells. In Table A1 the StratPPI estimator is ahead in seven of the ten cells (by 3 to 35%) and its median is set by one anomalous cell (1.77 at n_s 100 for a label where it gives 5.35 at n_s 200). AUDIT.md A7 and A32: these ESS are computed from the bound's distance to the truth, not as Section 6.4 defines ESS; each is the last checkpoint's; the baseline (random split with a pooled Wilson bound) is itself marked invalid in one row; four bold cells print an ESS where the source prints 'invalid'.",
+      "reasoning": "The design is the right one for the question (same strata, same draws, with and without the within-stratum regression), and a paired reading still supports 'adds little' (a median ratio near 1.06 by the reviewer's arithmetic from Table A1). The unpaired median, however, hides that the regression helps in most cells and fails badly in one, and the ESS in this comparison is not the quantity the paper defines.",
+      "suggestion": "Report the paired ratio per cell with its range, explain the 1.77 cell, compute ESS as defined in Section 6.4 or rename the quantity, and leave out ESS for arms and baselines that are not valid in that cell."
+    },
+    {
+      "finding_id": "F15",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "logic/concepts.md",
+      "target_entity": "Plasmode",
+      "evidence_span": "The responses, the judge's scores and their dependence are real; only the sampling is simulated.",
+      "observation": "AUDIT.md A9: in the cells at rates 0.2, 0.05 and 0.013 the label is drawn as Bernoulli(rate) and the score from the pool's scores with that label, so the truth is an imposed rate and Table 3's 'pool mean' does not describe them. A10: the sheet study uses planted labels, and its 4,000 draws are '20 plantings x 200 draws'. The abstract's 'up to 24%' is the cell at 'n 225 at a 1.3% rate' (about three expected positives) and '98% of re-drawn sheets' is one planted-label cell (A36).",
+      "reasoning": "Reweighting a pool to a lower prevalence is a legitimate stress, but it is a semi-synthetic population and the paper's definition says otherwise. The two most quoted failure figures come from such cells, and the 24% is in a regime the paper's own count rule sends to Clopper-Pearson; at a 20% rate the same limit missed 6-11%. With 200 draws nested in each of 20 plantings the standard error of Section 6.1 is understated for the sheet rows.",
+      "suggestion": "Describe the imposed-rate and planted-label cells as such in Section 6.2 and Table 3, quote the typical excess beside the worst case, and compute the sheet rows' standard error over plantings."
+    },
+    {
+      "finding_id": "F16",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "logic/solution/constraints.md",
+      "target_entity": "E01",
+      "evidence_span": "those numbers trace to that paper's tables and cannot be regenerated without retraining",
+      "observation": "Rows 1, 3, 4, 5 and 12 of Table 4 (C02, C03) and parts of Section 7.2 (C07, C08, C27) are printed rates from a companion paper that 'is not in the References list' (related_work.md). E01 gives no number of draws for these rows, although the over / unresolved classification depends on it. C07 and C09 have no table in the evidence layer.",
+      "reasoning": "The paper discloses the loss, and the validity of exact bounds on independent draws is a theorem, so little turns on rows 1 to 5. The Student-t row and the whole-pipeline results are empirical, and a reader can neither check them nor find the document they come from. The synthetic-bandit studies are CPU jobs and could be regenerated.",
+      "suggestion": "Cite the companion paper, state the draws per cell for the harm-pool rows, regenerate the synthetic results of Section 7.2 from code, and mark in Table 4 which rows are not reproducible."
+    },
+    {
+      "finding_id": "F17",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "src/configs/training.md",
+      "target_entity": "E05",
+      "evidence_span": "`B` for the bootstrap-t limits of Sections 8 and 10.4: Not specified in paper",
+      "observation": "The source code uses 300 resamples for the bootstrap-t limits whose validity fills Table 4 rows 9 and 11; the prepared certificate uses 10,000 and its design check 300 (AUDIT.md A15). E03 and E05 do not state B.",
+      "reasoning": "A 5% quantile from 300 resamples is noisy, and that noise is part of the procedure whose miss rate was measured. The validity results therefore describe the limit at B = 300, and a user who runs it at a larger B is using a procedure that was not checked. The paper itself shows (Meta-SecAlign-70B: 0.058 to 0.107 over 30 seeds at 4,000 draws) that bootstrap size can move a bound.",
+      "suggestion": "State B wherever a bootstrap limit is used, and repeat a subset of the validity cells at a larger B to show that the classification does not change."
+    },
+    {
+      "finding_id": "F18",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "logic/experiments.md",
+      "target_entity": "E14",
+      "evidence_span": "Dataset: RoboDojo-RC Tier 1, 120 trials per model, harness-emitted safety-stop flag",
+      "observation": "E14 does not describe the benchmark's task structure, and none of the 22 references in related_work.md is the robot benchmark or its traces. C10's caveats mention 'task strata with 20 trials a task', which suggests a benchmark of tasks with repeated trials. C22 applies Clopper-Pearson over trials.",
+      "reasoning": "Section 9.3 shows that an independent-sample bound over the units of a structured benchmark can be far over its level. If the 120 trials are a few tasks with repeated trials, the Clopper-Pearson bound is valid for those tasks taken as fixed but not for 'a benchmark's task distribution', and the resolution figures (2.5% with nothing observed; 299 trials for 1%) are lower limits on what is needed. The NSF verdicts at delta 0.05 are robust to this, since clustering only widens a bound; the two passes at delta 0.10 are not. Without a reference the 'published counts' of the falsification criterion cannot be found.",
+      "suggestion": "Cite the benchmark and its trace release, state the number of tasks and trials per task, say what is treated as sampled, and report the design effect by task or a task-clustered bound beside Table 6."
+    },
+    {
+      "finding_id": "F19",
+      "dimension": "D1_evidence_relevance",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C20",
+      "evidence_span": "narrower than the labels alone in 10 of 210 cells, by at most 0.003",
+      "observation": "AUDIT.md B6: the recount file lists 84 block-PPI cells, the plasmode files hold 84, 10 of them narrower with a largest gap of 0.0026, and 'The denominator 210 could not be reproduced.' The companion sentence 'Taking the smaller of two valid bounds is not a bound' is supported by a code docstring only.",
+      "reasoning": "The conclusion (the finite-sample judge-assisted bound buys nothing at these sizes) holds with either denominator, but the count as stated has no traceable source, and 10 of 84 is a different picture from 10 of 210.",
+      "suggestion": "Give the count from the stored cells (10 of 84, or explain the other 126), and add the 'smaller of two bounds' result as a row of Table 4 with its cells."
+    },
+    {
+      "finding_id": "F20",
+      "dimension": "D5_exploration_integrity",
+      "severity": "minor",
+      "target_file": "trace/exploration_tree.yaml",
+      "target_entity": "N09",
+      "evidence_span": "The order is the paper's logical order, not a session log: the paper does not give a chronology.",
+      "observation": "The tree is rebuilt from the paper's text. Six of its eleven dead ends (N05, N17, N18, N21, N24, N25) are the paper's findings that a standard or published method fails, not paths the authors followed and gave up. The replaced strata rule, the redefined coverage truth and the five deviations from the design that AUDIT.md A45 documents are absent, as is the tight Wald test with 3 of 42 cells unresolved after an adversarial split (A25).",
+      "reasoning": "The header is honest about what the tree is, and the negative results in it are specific. But a tree in logical order cannot show which choices were made before and which after the data, and that ordering is what the strata result (F04) and the control arm of Section 9.2 turn on. Counting baseline failures as dead ends makes the record of the authors' own abandoned paths look larger than it is.",
+      "suggestion": "Add nodes for the choices the audit found (the pre-registered strata rule as a dead end, the change of rule and of truth as a decision with its timing), mark for each decision whether it preceded the results it bears on, and type baseline failures as experiments."
+    },
+    {
+      "finding_id": "F21",
+      "dimension": "D5_exploration_integrity",
+      "severity": "minor",
+      "target_file": "trace/exploration_tree.yaml",
+      "target_entity": "N10",
+      "evidence_span": "failure_mode: \"'exact stratified bounds did not beat pooling'.\"",
+      "observation": "N10's failure mode is a quotation with no measurement, construction or setting. N02's two alternatives ('A new training method', 'A study of NSF for its own sake') are things the paper says it is not. N03's one alternative (a correction for the number of cells) is recorded as not done, with no reason.",
+      "reasoning": "A reader cannot tell how close the exact stratified constructions came to pooling, or in which cells, so cannot judge whether the route is closed or was only tried briefly. Since exact stratified bounds would remove the paper's reliance on approximate ones, this is the dead end most worth documenting. Alternatives that were never options do not show that the main framing was weighed against anything.",
+      "suggestion": "Give N10 the constructions tried, the cells and the widths against the pooled exact bound; replace N02's alternatives with real ones (for example a certificate with a carried judge correction, or a certificate over the whole trajectory); give N03 the reason no correction was applied."
+    },
+    {
+      "finding_id": "F22",
+      "dimension": "D4_argument_coherence",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C16",
+      "evidence_span": "lower after training in 5 of 6 wordings",
+      "observation": "AUDIT.md A16: the source table shows recall lower in all six wordings. Other places where the paper disagrees with itself or with the artifact's evidence files: recall '0.04-0.51' against 0.537 and 0.472 in Figure 3's data (A34); Section 8.1's ESS (2.4, 5.1-5.3, 1.4) against Table A1's b1w column (2.39 / 2.30, 4.75 / 5.19, 1.38 / 1.36) (A28); 28 against 26 reference-strata cells for the same arms (A27); 'called 89 answers' against a recall of 0.03 on 93 (A33); '24-44%' against a per-cell range of 0.076-0.448 (A22); 'Every number in this paper is written by a script' against numbers no script prints (A43).",
+      "reasoning": "None of these changes a conclusion, and some run against the paper's own interest. Together they show a draft whose numbers have more than one source of truth, which matters for a paper whose subject is the reliability of reported numbers.",
+      "suggestion": "Generate each number from one file, state in captions which measurement a table uses, and soften the reproducibility sentence in Appendix D to what is true."
+    },
+    {
+      "finding_id": "F23",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C24",
+      "evidence_span": "both refuse about 7 points less often than the guard's flag says",
+      "observation": "The human rates are 10.7% [4.7, 21.5] and 10.6% [5.2, 21.2]; the guard's are 17.9% and 17.4%, inside both intervals. The gap is given as a point value with no interval. The labels are one annotator's, an author's; each rate 'leans on small strata' of 15 to 18 labels; two recurring cases 'were labelled both ways'.",
+      "reasoning": "The gap is plausible because the guard's precision is about 0.6 with recall near 1 (17 of 30 and 16 of 31 flagged responses are human refusals), so there is evidence for it, but the reported intervals do not exclude a gap of zero and the claim gives no interval of its own. The paper states the single-annotator limit plainly; the point here is only that the 7 points should not be quoted without its uncertainty.",
+      "suggestion": "Report the gap with a design-based interval (it can be had from the precision and recall strata), and collect a second annotator's labels on the same 220 responses so that an agreement statistic exists."
+    },
+    {
+      "finding_id": "F24",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "logic/solution/constraints.md",
+      "target_entity": "C16",
+      "evidence_span": "The two runs differ in reward and set-up as well as in the constraint, each has one seed, the gold label is the guard's, and the judge misses most of the guard's positives to begin with.",
+      "observation": "The contrast behind C16 has one run and one seed per arm, arms that differ in more than the constraint, a control so read 'after the result', Fisher tests unadjusted for six wordings, and a judge whose recall on the gold label starts at 0.21. The same single run supplies the policy of C24 and C25 and the pushed-label gain in C10.",
+      "reasoning": "The paper says all of this, and an existence result needs only one case. The weakness is that four claims share one training run, so a peculiarity of that run (its reward, its 128-token responses, its guard) would propagate to all four, and that nothing separates 'training that targets the label' from 'this run'.",
+      "suggestion": "Run at least three seeds of the label-targeting arm and a control that differs in the constraint alone, score them with the same judge, and include a judge with high recall on the gold label to see whether the loss of calibration is specific to a weak judge."
+    },
+    {
+      "finding_id": "F25",
+      "dimension": "D3_scope_calibration",
+      "severity": "suggestion",
+      "target_file": "evidence/tables/table4_miss_rate_every_bound.md",
+      "target_entity": "E03",
+      "evidence_span": "| **the judge's rate alone** | fails | the plasmodes of section 8.2 | 0.05 | **0-1.000** | 30 / 0 / 12 |",
+      "observation": "Table 4's last row (an uncorrected judge's rate used as the certificate: over in 30 of 42 cells, misses up to 1.000) is in E03's expected outcomes but in no claim. The Wald-t bound that 'held in all ten' cells and the quadrature bound are likewise evidence without a claim.",
+      "reasoning": "The uncorrected judge is the most common practice the paper argues against, and its failure is among the largest effects in the table. Leaving it out of the claims under-states a result the evidence supports.",
+      "suggestion": "Add a claim for the judge's rate alone, with its 12 passing cells explained (when does an uncorrected judge happen to hold?), or fold it into C13."
+    },
+    {
+      "finding_id": "F26",
+      "dimension": "D6_methodological_rigor",
+      "severity": "suggestion",
+      "target_file": "logic/solution/heuristics.md",
+      "target_entity": "H09",
+      "evidence_span": "\"about 45 or more per stratum. Below that, `b1w` on the same strata is narrower\"",
+      "observation": "The threshold of about 45 labels per stratum (H09) and the count threshold of 10 in the rarer class (H07, 'Sensitivity: Not specified in paper') are read off the same cells on which the routes are then evaluated (two judge wordings, 14 cells per strata count). The routing rule is described as fixed in advance, and Section 8.2 then proposes 'a better form' of its third row from these results.",
+      "reasoning": "Thresholds tuned and assessed on the same cells will look better than they are, and a rule revised after the experiment is no longer the rule that was fixed in advance for that experiment.",
+      "suggestion": "Report validity and width at neighbouring thresholds (5, 10, 20 in the rarer class; 20, 45, 90 per stratum), and test the revised routing rule on a judge and pool that were not used to form it."
+    },
+    {
+      "finding_id": "F27",
+      "dimension": "D1_evidence_relevance",
+      "severity": "suggestion",
+      "target_file": "logic/experiments.md",
+      "target_entity": "E06",
+      "evidence_span": "Estimate `P(returned and truly violating)` at delta 0.10 across bounds, reward pressures, sample sizes and judge noise levels.",
+      "observation": "The Seldonian arm's 0.000-0.002 against a delta of 0.10 is the Lagrangian arm's in two one-way sweeps; the filter-only variant reached 0.028 and a 'stress at margin 0' gave 1.2% (AUDIT.md A21); the sample-size sweep used the t bound that the paper calls 'the wrong default'.",
+      "reasoning": "A joint probability fifty times below delta mostly shows that the search rarely proposes a violating candidate; it says little about whether the test would stop one. C01's guarantee is stressed only when the candidate's true rate is at or above the threshold.",
+      "suggestion": "Report the pass rate conditional on a truly violating candidate (or with the candidate's true rate placed at the threshold), for every Seldonian variant and with an exact bound, and quote the margin-0 stress result in Section 7.2."
+    },
+    {
+      "finding_id": "F28",
+      "dimension": "D6_methodological_rigor",
+      "severity": "suggestion",
+      "target_file": "logic/solution/constraints.md",
+      "target_entity": "H04",
+      "evidence_span": "A cell within two standard errors of delta is unresolved, and there is no correction for the number of cells.",
+      "observation": "The rule is applied per cell with no multiplicity correction, and cells are not independent (delta 0.10 cells reuse the draws of delta 0.05 cells; repeated settings; nested plantings).",
+      "reasoning": "The absence of a correction works against the paper's favoured bounds (more of their cells would be flagged by chance) and for its findings that other limits fail, though failures in 119 of 168 cells are not a multiplicity artefact. A family-level summary would let a reader see at a glance which rows are compatible with exact validity.",
+      "suggestion": "Add to each row of Table 4 the number of cells expected over by chance at exact validity, or a row-level test (for example a binomial test of the count of cells above delta), computed over independent settings."
+    },
+    {
+      "finding_id": "F29",
+      "dimension": "D4_argument_coherence",
+      "severity": "suggestion",
+      "target_file": "logic/related_work.md",
+      "target_entity": "RW13",
+      "evidence_span": "Verified against the publisher or arXiv page on 2026-10-04",
+      "observation": "AUDIT.md B8 and B10: no stored report of the reference check was found, one reference (Khosravi and Huo, 2026) could not be checked against anything, and the one-line descriptions of others' work are, by the working draft's own note, 'Not yet checked against their sources'. The companion paper and the robot benchmark are not in the reference list.",
+      "reasoning": "The paper reports that three published intervals are over their level at these sizes. Its descriptions of those methods, and its statement that StratPPI's authors have released no code, should be checked against the sources before that finding is published.",
+      "suggestion": "Store the reference-check report with the paper, check each description of a cited method against its source, and add the missing references."
+    }
+  ],
+
+  "questions_for_authors": [
+    "In Section 7.2's language-model seeds (C08), on which data is a 'breach' read for each arm? If it is the safety set, the Seldonian arm cannot breach by construction; is there an independent sample on which the returned policies' rates were measured?",
+    "For b1w, at what rate or expected count does it lose its level? The audit reports it over at n_s 200 for the 1% label and in rare-rate profiles up to 7% (misses up to 0.122 at delta 0.05), cells that are in neither the 322 nor the failing row of Table 4. What rule should a user apply before choosing b1w, and was that rule fixed before these cells were run?",
+    "What ESS does the pre-registered strata rule give on the real pools, how many strata rules were compared before 'equal rank strata with random ties at H = 8' was chosen, and does the 1.4 to 5.3 range hold on a pool that played no part in that choice? Why is the fifth mid-rate label (0.93, ESS 0.96 and 1.12) outside the quoted range?",
+    "Why is the in-loop check on a synthetic environment headed 'The real training loop', and why was it run with H = 4 when the paper recommends H = 8? Can it be run long enough to resolve 0.116 against 0.10?",
+    "Under the design check's 'new prompts' scheme three of four limits miss above 0.05 and one is over by your own rule. Why is that scheme not reported, and what does 0.052 for the limit built for new prompts imply for the prepared certificate? Was the check repeated at the frozen script's 10,000 resamples?",
+    "Which guard model, size and quantisation produced each refusal and harm number in the paper? Is there any human-label comparison for the 0.6B guard behind the companion-paper results?",
+    "What label budget does Table 10's calculation give with the exact betting limit that the frozen script also computes, and why does the abstract quote the normal-limit figure when the design check's margins at 300 pairs (0.037 and 0.065) are well above the formula's 0.024?",
+    "What is RoboDojo-RC's task structure (tasks, trials per task), where are its traces published, and what is the design effect by task? Is the Clopper-Pearson bound over trials a statement about the benchmark's fixed tasks or about a task distribution?",
+    "For the label-targeting run (C16): are further seeds and a control differing in the constraint alone planned? The judge's recall on the gold label is 0.21 before training; do you expect a judge with high recall to lose its calibration in the same way, and has one been tried?",
+    "How many bootstrap resamples (B) were used for the bootstrap-t limits in Table 4, and is the classification of those cells stable at a larger B?",
+    "The synthetic-bandit results of Section 7.2 are CPU jobs. Why were they cited as printed rates from the companion paper and not regenerated, and how many draws per cell lie behind the harm-pool rows of Table 4?",
+    "Where does the denominator 210 for the block-PPI cells come from, given that the stored files hold 84?",
+    "Is a second annotator planned for the 220 refusal labels, and how were the two recurring cases that 'were labelled both ways' handled in the rates of Table 9?"
+  ],
+
+  "read_order": [
+    "PAPER.md",
+    "logic/claims.md",
+    "logic/experiments.md",
+    "logic/problem.md",
+    "logic/concepts.md",
+    "logic/solution/architecture.md",
+    "logic/solution/algorithm.md",
+    "logic/solution/constraints.md",
+    "logic/solution/heuristics.md",
+    "logic/related_work.md",
+    "trace/exploration_tree.yaml",
+    "evidence/README.md",
+    "AUDIT.md",
+    "evidence/tables/table4_miss_rate_every_bound.md",
+    "evidence/tables/table2_lagrangian_vs_certificate.md",
+    "evidence/tables/table3_evaluation_settings.md",
+    "evidence/tables/table5_routing_rule.md",
+    "evidence/tables/table6_robodojo_safety_stops.md",
+    "evidence/tables/table7_agentdojo_selected_pipelines.md",
+    "evidence/tables/table8_guard_vs_xstest_humans.md",
+    "evidence/tables/table9_human_labels_own_policies.md",
+    "evidence/tables/table10_label_budget.md",
+    "evidence/tables/tableA1_stratppi_reference_strata.md",
+    "evidence/tables/unnumbered_reproduction_scripts.md",
+    "evidence/tables/table1_seldonian_instantiation.md",
+    "evidence/tables/unnumbered_assumptions_a1_a4.md",
+    "evidence/tables/derived_source_ledger_sections_7_to_10_and_appendices.md",
+    "evidence/figures/figure3_carried_calibration.md",
+    "evidence/figures/figure4_robodojo_resolution.md",
+    "evidence/figures/figure5_agentdojo_28_pipelines.md",
+    "evidence/figures/figure6_guard_flags_by_human_class.md",
+    "evidence/figures/figure7_refusal_rates_guard_vs_human.md",
+    "evidence/figures/figure1_strata_ess_vs_icc.md (first rows)",
+    "evidence/figures/figure2_stratppi_normal_vs_bootstrap_t.md (first rows)",
+    "src/configs/training.md",
+    "src/configs/model.md",
+    "src/environment.md"
+  ]
+}

@@ -2,9 +2,8 @@
 
 Reads the working draft, ``reports/paper_certification.md``, and writes
 ``reports/paper_certification_clean.md``: no draft header, no source tags, no gap or check
-markers, no references to the plan or to spike numbers, the introduction numbered as section 1 with
-the scope list inside it, figures placed where they are first cited, and a short appendix on
-reproducing the numbers. The working draft stays the source: edit it and run this again.
+markers, no references to the plan or to spike numbers, figures placed where they are first
+cited, and a short appendix on reproducing the numbers. The working draft stays the source: edit it and run this again.
 
     python3 scripts/paper_clean.py
 """
@@ -16,7 +15,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 SRC = os.path.join(ROOT, "reports", "paper_certification.md")
 DST = os.path.join(ROOT, "reports", "paper_certification_clean.md")
 
-TAG = r"(?:[ \t]+|\n)?\[(?:R |SR |P\d|0\d\d|StratPPI validation|AgentDojo recheck|validity recount|judge on labels)[^\]]*\]"
+TAG = r"(?:\n[ \t]*|[ \t]+)?\[(?:R |SR |P\d|0\d\d|StratPPI validation|AgentDojo recheck|validity recount|judge on labels)[^\]]*\]"
 # old figure number -> (file, caption); Figure 1 of the draft (Table 2 redrawn) is left out
 FIGS = {2: ("fig2_strata_ess", "Gain from reference-rate strata against the reference model's intraclass correlation."),
         3: ("fig3_stratppi", "StratPPI's normal limit and the same estimator with a bootstrap-t limit, with labels allocated in "
@@ -28,39 +27,40 @@ FIGS = {2: ("fig2_strata_ess", "Gain from reference-rate strata against the refe
         7: ("fig7_guard_xstest", "What the guard flags, by human class, on XSTest's published completions."),
         8: ("fig8_refusal_sheet", "Refusal rates of the reference model and the trained policy, by the guard's flag and by human label.")}
 PHRASES = [
-    (r"spike 017 plasmodes", "the plasmodes of section 6"),
+    (r"spike 017 plasmodes", "the plasmodes of section 8.2"),
     (r"the refusal pools\s+of spike 017", "the refusal pools of those plasmodes"),
     (r"spike 013's figures", "an earlier measurement's figures"),
-    (r"\(spike 014\)", "(the constrained run of section 7.2)"),
+    (r"\(spike 014\)", "(the constrained run of section 9.2)"),
     (r"\(Round 6, seed 1\)", "(one run of the companion paper)"),
     (r"the project's `SeldonianLLMPolicy`", "our `SeldonianLLMPolicy`"),
     (r",\s+which an earlier draft used here \((\d+)\)", r" (\1)"),
     (r", and an earlier draft reported 0\.104", ""),
     (r"the training paper's", "the companion paper's"),
     (r"the training paper", "the companion paper"),
-    (r"\(Appendix A\)", "(Appendix)"),
+    (r"\(Draft notes 1\)", "(Appendix D)"),
 ]
-APPENDIX = """## Appendix. Reproducing the numbers
+APPENDIX = """## Appendix D. Reproducing the numbers
 
-Every number in this paper is written by a script in the repository. The working draft carries a
-source tag on each number and a table that resolves each tag to a file.
+The numbers in this paper come from the scripts below, apart from those cited from the companion
+paper and a few recomputed from the data files. The working draft carries a source tag on each
+number and a table that resolves each tag to a file.
 
 | what | script | output |
 |---|---|---|
-| Table 2, every validity cell under one rule | `scripts/validity_recount.py` | `results/paper/validity_recount.md` |
-| sections 5 and 6, the StratPPI comparison | `scripts/stratppi_baseline.py` | `results/paper/stratppi.md` |
-| sections 5 and 6, implementation check, allocations, PPBoot, sweeps | `scripts/stratppi_validate.py` | `results/paper/stratppi_validate.md` |
-| section 7.2, the judge against human labels | `scripts/judge_on_labels.py` | `results/labels/refusal/rubric_vs_human.md` |
-| section 8.2, AgentDojo | `scripts/agentdojo_recheck.py` | `results/paper/agentdojo_recheck.md` |
-| section 8.3, the guard on XSTest | `scripts/xstest_guard.py` | `results/labels/xstest/analysis.md` |
-| section 8.3, the refusal sheet | `scripts/refusal_sheet_build.py`, `scripts/refusal_labels.py` | `results/labels/refusal/analysis.md` |
-| section 8.4, the label budget | `scripts/p9_budget.py` | `results/paper/p9_budget.md` |
-| section 8.4, the prepared certificate and its design check | `scripts/p9_sample.py`, `scripts/p9_certificate.py` | `results/labels/p9/design_check.md` |
+| Table 4, every validity cell under one rule | `scripts/validity_recount.py` | `results/paper/validity_recount.md` |
+| sections 8.1 and 8.2, the StratPPI comparison | `scripts/stratppi_baseline.py` | `results/paper/stratppi.md` |
+| sections 8.1 and 8.2, implementation check, allocations, PPBoot, sweeps | `scripts/stratppi_validate.py` | `results/paper/stratppi_validate.md` |
+| section 9.2, the judge against human labels | `scripts/judge_on_labels.py` | `results/labels/refusal/rubric_vs_human.md` |
+| section 10.2, AgentDojo | `scripts/agentdojo_recheck.py` | `results/paper/agentdojo_recheck.md` |
+| section 10.3, the guard on XSTest | `scripts/xstest_guard.py` | `results/labels/xstest/analysis.md` |
+| section 10.3, the refusal sheet | `scripts/refusal_sheet_build.py`, `scripts/refusal_labels.py` | `results/labels/refusal/analysis.md` |
+| section 10.4, the label budget | `scripts/p9_budget.py` | `results/paper/p9_budget.md` |
+| section 10.4, the prepared certificate and its design check | `scripts/p9_sample.py`, `scripts/p9_certificate.py` | `results/labels/p9/design_check.md` |
 | figures | `scripts/paper_figures.py` | `reports/figs/` |
 | references checked against arXiv and CrossRef | `scripts/bib_check.py` | printed report |
 
-Results cited from the companion paper on training (the rows of Table 2 on a trained-policy harm
-pool, and parts of section 4) are printed rates whose per-draw data were lost; they cannot be
+Results cited from the companion paper on training (the rows of Table 4 on a trained-policy harm
+pool, and parts of section 7.2) are printed rates whose per-draw data were lost; they cannot be
 regenerated without retraining.
 """
 
@@ -72,12 +72,8 @@ def drop_last_column(block):
 def main():
     s = open(SRC).read()
     title = s[:s.index("\n")]
-    s = s[s.index("## Abstract"):s.index("## Appendix A.")]
-    # introduction as section 1, with the scope list inside it
-    s = s.replace("## Introduction\n", "## 1. Introduction\n", 1)
-    a, b = s.index("## 1. Claim and scope"), s.index("**Scope, stated once.**")
-    s = s[:a] + "**Scope.**" + s[b + len("**Scope, stated once.**"):]
-    # Table 2: its caption names sources, and its last column is the source tag
+    s = s[s.index("## Abstract"):s.index("## Draft notes 1.")]
+    # the validity table: its caption names sources, and its last column is the source tag
     cap = re.search(r"Draws per cell are 5,000 for .*?were lost\.", s, re.S)
     s = s.replace(cap.group(0), "Draws per cell are between 1,000 and 5,000 (4,000 for AgentDojo). The rows on a trained-policy\n"
                                 "harm pool are printed rates from the companion paper whose draws were lost.")
@@ -102,11 +98,11 @@ def main():
                 name, caption = FIGS[n]
                 out.append(f"![Figure {n - 1}](figs/{name}.png)\n\n*Figure {n - 1}. {caption}*")
     s = "\n\n".join(out)
-    head = (f"{title}\n\n*Draft of 2026-10-05, not formatted for any venue. Generated from the working draft by\n"
+    head = (f"{title}\n\n*Draft of 2026-10-06, not formatted for any venue. Generated from the working draft by\n"
             "`scripts/paper_clean.py`; to change the text, edit the working draft and run the script again.*\n\n")
     s = head + s.rstrip() + "\n\n" + APPENDIX
     s = re.sub(r"\n{3,}", "\n\n", s)
-    left = [w for w in ("[GAP", "[CHECK", "spike", "PLAN.md", "earlier draft", "training paper", "Appendix A", "Appendix B") if w in s]
+    left = [w for w in ("[GAP", "[CHECK", "spike", "PLAN.md", "earlier draft", "training paper", "Draft notes") if w in s]
     left += sorted(set(re.findall(TAG, s)))
     missing = sorted(set(FIGS) - placed)
     open(DST, "w").write(s)
