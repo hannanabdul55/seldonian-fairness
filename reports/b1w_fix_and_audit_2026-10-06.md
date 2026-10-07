@@ -4,8 +4,9 @@ Scope: the stratified Wilson-type bound `b1w` of spike 013, every result that ca
 read-only audit of the bound implementations, the `seldonian/llm` safety-test path and the
 validation harness behind Table 4 of `reports/paper_certification.md`.
 
-Status: the bound is fixed and checked. **The stored results and the paper text are not yet
-regenerated**; section 4 lists what to rerun. None of it needs a GPU.
+Status: the bound is fixed and checked, and every caller that could be rerun on a CPU has been
+(section 4). **Still open:** `scripts/stratppi_validate.py` and `scripts/validity_recount.py`
+need the PC (section 4.2), and the paper text is unchanged (section 3). None of it needs a GPU.
 
 ## 1. How it was found
 
@@ -47,8 +48,8 @@ strata give a bound above zero. The assertions fail on the old code.
 ## 3. Effect on stored results
 
 `real_plasmode.py --reps 5000 --ties random` was rerun with the fixed bound (CPU, 8 minutes on
-8 cores) and saved beside the original as
-`results/spikes/013/real_plasmode_randomties_b1wfix.json.xz`. The original file is unchanged.
+8 cores) and now replaces `results/spikes/013/real_plasmode_randomties.json.xz` (the old file is
+in git history at 3d1714e).
 
 - All 1,200 `b1` cells and all 804 mid-rate `b1w` cells are identical to the stored file, so the
   two files differ only where the bug acted.
@@ -96,28 +97,50 @@ spike 017 `harm017.py` and `cards017.py`; spike 019 `bounds019.py`; spike 020 `c
 only if some draws have no positive in any stratum, so mid-rate cells should be unchanged and
 rare-rate and sheet cells may move.
 
-## 4. What to rerun (all CPU)
+## 4. Reruns (all CPU)
 
 The GPU was used only to generate and judge responses (`gen013.py`, `gen014.py`). Everything
-below resamples stored labels.
+below resamples stored labels. Each rerun used the original seeds, so a cell that does not call
+`b1w` should come back identical; that is the check that the rerun is the same experiment.
 
-```
-cd .planning/spikes/013-stratified-safety-set
-../../../.venv/bin/python check_b1.py > check_b1.md
-../../../.venv/bin/python real_plasmode.py --reps 5000 --ties random --out real_plasmode_randomties.json
-#   then xz it over results/spikes/013/real_plasmode_randomties.json.xz
-#   (or adopt real_plasmode_randomties_b1wfix.json.xz, which is this run)
-#   the other stored variants (default ties, --ties value, --target truth_half, --swap) likewise
-../../../.venv/bin/python inloop.py ...                 # as in the spike README
-cd ../014-pushed-label-stratification && ../../../.venv/bin/python analyse014.py --tag s0 --plasmode plasmode.json
-cd ../017-calibration-carrying-certificate && ../../../.venv/bin/python harm017.py
-cd ../019-external-trace-certificate && ../../../.venv/bin/python bounds019.py
-cd ../020-agentdojo-injection-certificate && ../../../.venv/bin/python cert020.py
-cd ../../.. && .venv/bin/python scripts/stratppi_baseline.py
-.venv/bin/python scripts/stratppi_validate.py
-.venv/bin/python scripts/validity_recount.py           # hard-codes verdict="fails" for the rare rows: edit first
-.venv/bin/python scripts/paper_clean.py                 # after the paper text is corrected
-```
+### 4.1 Done on 2026-10-06 (Apple silicon, 8 cores)
+
+| rerun | arms that do not call `b1w` | what changed | installed |
+|---|---|---|---|
+| 013 `real_plasmode.py`, default ties | identical (1,200 `b1` cells) | rare-label `b1w`: 244 over / 17 / 135 becomes 16 / 17 / 363; 4 mid-rate cells move by a draw | yes, with `plasmode_real.md` |
+| 013 `real_plasmode.py --ties random` | identical | rare-label `b1w`: 245 / 10 / 141 becomes 17 / 10 / 369; mid-rate cells identical | yes, with `plasmode_real_randomties.md`, `plasmode_real_d05.md` |
+| 013 `real_plasmode.py --ties value` | identical | rare-label `b1w`: 244 / 17 / 135 becomes 16 / 17 / 363; 6 mid-rate cells move by a draw | yes, with `plasmode_real_value.md` |
+| 013 `inloop.py --seeds 500` | identical | nothing: all 8,000 runs equal in every field | not needed |
+| 014 `plasmode014.py`, `analyse014.py` | identical | 6 `b1w` widths in the last digits; no miss, no class | yes (`plasmode.json`) |
+| 017 `harm017.py`, `cards017.py`, `report017.py` | identical | sheet `b1w`: 6 cells at the 1.3% rate go from 0.001-0.008 to 0.000; range 0.001-0.059 becomes 0.000-0.059; still 1 / 1 / 16 | yes (`harm.json`, `harm.md`, six rows of `results.md`) |
+| 019 `bounds019.py` | identical | nothing | not needed |
+| 020 `plasmode020.py --reps 400` | identical to the last float digit | nothing | not needed |
+| `scripts/stratppi_baseline.py` | identical, parts A and B | part A, delta 0.05, 40 cells: `b1w` 9 / 3 / 28 becomes 0 / 3 / 37 (largest miss 0.443 to 0.054); pooled Wilson 10 / 0 / 30 becomes 1 / 0 / 39 (0.448 to 0.057). Judge-strata `b1w` unchanged (largest miss 0.049 and 0.053) | yes (`results/paper/stratppi.json`, `.md`) |
+
+`cert020.py` reads the raw AgentDojo runs, which are not on this machine. It does not need a
+rerun: the bug needs a pipeline with no success, and the fewest is 7.
+
+Not regenerated, and now stale in their rare-label `b1w` cells: `validity_real.md`,
+`validity_H8.md` and the README of spike 013 (hand-assembled), and `check_b1.md`.
+
+### 4.2 Could not be completed here
+
+- **`scripts/stratppi_validate.py`.** Ran (task 1 kept from the stored file, since it needs the
+  off-repo reference environment). Part A reproduces the stored file exactly outside `b1w`; over
+  the whole file 39 `b1w` cells and 9 pooled-Wilson cells go from over to at or under. Part B on the
+  raw-logit refusal pool does **not** reproduce on this machine: 130 rows of the StratPPI and
+  PPBoot arms differ, by at most 0.011 in miss, and a few change class. The stored file is
+  therefore left as it is. Rerun on the PC: `OMP_NUM_THREADS=1 .venv/bin/python
+  scripts/stratppi_validate.py` (about 20 minutes).
+- **`scripts/validity_recount.py`.** Reads result files that are not in git
+  (`.planning/spikes/004-forbidden-capability/results.json` is the first). It also asserts the
+  old result (line 688: every rare-label cell at n_s 100 is over) and that its quotations are in
+  the paper word for word (line 942), and it hard-codes `verdict="fails"` for the rare rows
+  (lines 219, 221). It has to be edited together with the paper text.
+- **Two stored files that current code does not reproduce**, with or without the fix:
+  `results/spikes/013/real_plasmode_truthhalf.json.xz` and `..._truthhalf_swap.json.xz` (written
+  by an earlier harness; they lack the `truth_half` field) and
+  `results/spikes/013/bandit_plasmode.json.xz` (`b1` differs too). Left untouched.
 
 ## 5. Audit: other blind spots
 
