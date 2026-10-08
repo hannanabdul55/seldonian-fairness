@@ -1,6 +1,6 @@
 # Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry
 
-*Draft of 2026-10-07, not formatted for any venue. Generated from the working draft by
+*Draft of 2026-10-08, not formatted for any venue. Generated from the working draft by
 `scripts/paper_clean.py`; to change the text, edit the working draft and run the script again.*
 
 ## Abstract
@@ -15,7 +15,8 @@ cell where its sampling assumption held, and the checks put its miss rate under 
 nominal 5% (the largest upper limit of a 95% interval over cells). The normal-quantile
 intervals of PPI++ and StratPPI miss in up to 24% of draws at a nominal 5%; with labels
 allocated in proportion to stratum size and strata that are fixed, a bootstrap-t limit is
-over its level in no cell, with a miss rate under 0.064 by the same measure. Stratifying the safety set by the reference model's own per-prompt
+over its level in no cell of the pools it was developed on, with a miss rate under 0.064 by
+the same measure. Stratifying the safety set by the reference model's own per-prompt
 rate multiplies the effective sample by 1.4 to 5.3 at delta 0.10 (1.4 to 5.1 at 0.05) for labels at rates of 9% to 66%, under a
 strata rule chosen on the same data. Those gains are for the rate over the prompt pool itself,
 and the bound behind them is approximate. It kept its
@@ -23,7 +24,13 @@ level where the safety set was 20-40% of its prompt pool; with a much larger poo
 to 1.2 points over a 5% level on labels at rates of 65% and above, which is where the largest
 gains are. For the rate over the source the pool was drawn from, the gain on the same labels
 is 1.3 to 2.4 at delta 0.05, under a limit with an added term that was over its level in none
-of the mid-rate cells there; the bootstrap-t limit fails for that claim. Three things do not carry: a judge's
+of the mid-rate cells there; the bootstrap-t limit fails for that claim. On three new prompt
+pools, with eight predictions registered first, six were kept: the gain was 1.5 to 1.6 (1.2
+to 1.3 for the source), within 20% of a pre-flight prediction, and the Wilson-type bound was
+again over its level at a high rate and not at a low one. Two were refuted: a bootstrap-t
+limit was over in one mid-rate cell of eight, and the Wilson-type bound with the added term
+was over at the high rate. A stratified Wald-t limit was over in none of the mid-rate
+cells, with no gain at the high rate. Three things do not carry: a judge's
 calibration, across prompt populations or across training that targets the label;
 independent-sample bounds on crossed benchmark designs; and a stratified labelling sheet read
 as a random sample. On AgentDojo's published runs the usual per-pair bound is over its level
@@ -770,7 +777,8 @@ one or two strata here, because 73-97% of prompts have an 8-sample reference rat
 0 or 1, and often gave no gain. Equal rank strata with random ties were compared with it on
 the same pools and adopted, and the truth used for coverage was changed to the mean of the
 half of the responses the draws come from. The gains above are therefore measured on the data
-that chose the rule, and have not been checked on a pool that played no part in the choice.
+that chose the rule; the confirmation at the end of this section checks them on pools that
+played no part in the choice.
 
 **A claim about the prompt source.** The gains above are for the rate over the pool's own 500
 prompts. If the claim is about the source the prompts were drawn from, the pool is a sample
@@ -794,7 +802,9 @@ where it is. Section 6.4's cap gives 1.84 and 1.54,
 and missed by about a tenth at 66%. Two limits that serve for the pool's rate do not serve
 here. `b1w` without the term is over in 17 of the 28 cells (misses up to 0.170). So is the
 bootstrap-t StratPPI limit, in 21 (up to 0.166): its variance has a term for the unlabelled
-sample inside fixed strata and none for strata that are rebuilt on each pool.
+sample inside fixed strata and none for strata that are rebuilt on each pool. On the confirmation pools at the end of this section `b1w` with the term
+is itself over at an 82% rate, and the Wald-t limit with the term is not: for the source's
+rate at a rate above one half, the Wald-t limit is the one the evidence supports.
 
 **Where it does not help.** Rare labels (the gain is 1.01-1.09 at rates of 1-2%, and exact
 stratified bounds did not beat pooling); labels near 0 or 1 (0.96 to 1.12 at a 93% rate, Table A1); a claim about the population the pool was drawn from when the safety set is a large share
@@ -844,7 +854,8 @@ Appendix A). Three things follow.
    limits are what the evidence supports. On the 65% label, where `b1w`'s gain is largest
    and its level is not kept, they give 2.6 and 3.6 (Wald-t) and 1.5 and 5.5 (bootstrap-t
    StratPPI) at n_s 100 and 200. Like the strata rule, this is read off the cells it
-   describes.
+   describes; the confirmation at the end of this section bears it out for `b1w` and
+   qualifies it for the bootstrap-t limit.
 
 **What the gain costs.** The strata are built from k = 8 judged reference responses on each
 of the pool's 500 prompts, 4,000 in all, and the ESS counts only the safety set's labels. An
@@ -853,6 +864,45 @@ the trained policy costs far more than the stratifier's, for instance a human la
 on a guard's reference rate. We did not test that case, and section 10.3 shows the guard and
 the annotator disagree on about 40% of the guard's flags. Where both are the same cheap judge,
 enlarging the safety set is the better use of the budget.
+
+**Confirmation on new prompts.** Everything above was chosen on the pools that measure it. We
+therefore registered eight predictions (Appendix D) and tested them on three pools of 400
+prompts that no earlier pool, training set or result had used: benign prompts of OR-Bench's
+80K set, its hard-1K set and its toxic set. The model, the strata rule, the checks and the
+scoring code are the ones above; the trained policy is that of section 9.2's constrained
+run. Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%
+and that range stays untested; two labels from the guard's safety field were rare (3.2% and
+1.6%). Six predictions were kept and two refuted.
+
+- *Kept.* With a large pool `b1w` is over its level in none of the 4 cells at the 12% rate
+  and in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10). Its gain is
+  within 20% of the pre-flight's prediction, 2% to 16% under it: 1.53 and 1.62 at 12%, 1.49
+  and 1.62 at 82%, for safety sets of 100 and 200. For the prompt source the limits without
+  the sampled-pool term fail again (`b1w` in 3 of 4 cells at delta 0.05, the bootstrap-t
+  StratPPI limit in 4 of 4), and the gain with the term is 1.20 to 1.32, within 15% of the
+  cap. On the rare labels the strata gain nothing (1.01 to 1.11) and Clopper-Pearson is over
+  in no cell.
+- *Refuted.* With a large pool the bootstrap-t StratPPI limit is over in 1 of 8 mid-rate
+  cells (0.105 at delta 0.10 on the 82% label), and in one more at the 98% rate (0.052 at
+  delta 0.05); the stratified Wald-t limit is over in none of the 8. And for the prompt
+  source `b1w` with the term is over at the 82% rate with a safety set of 100 (0.058 at
+  delta 0.05 and 0.117 at 0.10; unresolved at 200, 0.052), where the Wald-t limit with the
+  term is over in none of 8.
+
+Three things follow. The gains on new prompts are 1.5 to 1.6, at the low end of the 1.5 to
+5.0 that the same measure gives on the pools that chose the rule, and at these two rates the
+pre-flight said so before a trained response was labelled. Outside the mid range the
+pre-flight is not usable: it predicts 2.67 at the 98% rate, where the strata lose under
+every limit (0.55 and 0.63 for `b1w`), and 2.47 on a rare label where nothing is gained.
+Second, the stratified Wald-t limit is the only stratified limit that kept its level in
+every mid-rate cell on real responses, here and on the earlier pools (on the synthetic grid
+of section 7.1 it did not), but at a high rate it pays for that: its gain at 82% is 0.86 and
+1.13, against 1.47 and 1.73 at 12%. Third, the recommendation changes. `b1w` is supported
+only at rates well under one half (9% to 18% tested); at a higher rate, or where the rate is
+not known in advance, the limit to use is the Wald-t one, with the sampled-pool term for a
+claim about the source, and little or no gain should be expected from it. `b1w`'s excess is
+not simply increasing in the rate: at 98% it is over in none of its 4 cells. The
+confirmation is one model, one trained policy and one family of prompts.
 
 ### 8.2 What a judge buys: a routing rule
 
@@ -1281,7 +1331,9 @@ weak cue to the policy.
 - **A rule chosen on the data.** The strata rule of section 8.1 replaced the registered one
   after the first results on the same pools, and the cells that count as approximate bounds
   "we use" (section 7.1) were grouped after the results. Appendix D lists what was fixed in
-  advance, and which of those records carry a timestamp independent of the result.
+  advance, and which of those records carry a timestamp independent of the result. The
+  registered confirmation of section 8.1 kept six of eight predictions; it covers refusal
+  rates of 12% and 82% and two rare labels on one model, and no rate between 18% and 65%.
 - **Scale.** Trained policies are 0.5B to 2B on one consumer card; the frontier evidence is
   certificates on published traces.
 - **One run.** The policy that section 10.4's samples come from is one training run with one
@@ -1538,6 +1590,7 @@ table says so.
 | the reading of a failure at step 200 | 9.2 | a note dated before scoring, committed together with the result on 2026-10-01 (`3f89e98`): no independent timestamp |
 | the hypotheses for the robot benchmark, against which the result on joint effort is marked exploratory | 10.1 | a note written after the termination counts and 12 transcripts had been seen, committed together with the results on 2026-10-02 (`50863a4`): no independent timestamp |
 | the two-way bounds: definitions, fallbacks, seed, sizes and reading | 10.2 | a registration committed with its script on 2026-10-07 (`cb50927`), before the script was run on the benchmark's tables |
+| the confirmation pool: prompts, labels, class limits, checks, sizes, the GPU cap, eight predictions and their scoring code | 8.1 | a registration committed and pushed with the scripts and the prompts on 2026-10-08 (`9fb817d`), before any response was generated |
 | the analysis of the human-label certificate | 10.4 | the rules and the analysis script, committed on 2026-10-04 (`9e45371`, `e076974`) before any label. The treatment of a zero-variance resample in the approximate limits was amended once, on 2026-10-07 (`a5bd04b`), also before any label, with the design check unchanged. No label has been collected |
 
 ## Appendix E. Reproducing the numbers
@@ -1554,6 +1607,7 @@ number and a table that resolves each tag to a file.
 | Table 4, the labels-alone rows by enumeration | `scripts/binomial_rows.py` | `results/paper/binomial_rows.md` |
 | Table 4, the four judge-plasmode cells with 20,000 unlabelled responses, at 4,000 draws | `scripts/plasmode017_big.py` | `results/paper/plasmode017_big.json` |
 | section 8.1, the strata for a claim about the prompt source | `scripts/twophase_check.py` | `results/paper/twophase_check.md` |
+| section 8.1, the confirmation on new prompts (registered) | `scripts/confirm_pool.py` | `results/paper/confirm/confirm.md` |
 | end-point tests of every bound used | `tests/test_bound_endpoints.py` | run with `pytest` |
 | sections 8.1 and 8.2, the StratPPI comparison | `scripts/stratppi_baseline.py` | `results/paper/stratppi.md` |
 | sections 8.1 and 8.2, implementation check, allocations, PPBoot, sweeps | `scripts/stratppi_validate.py` | `results/paper/stratppi_validate.md` |

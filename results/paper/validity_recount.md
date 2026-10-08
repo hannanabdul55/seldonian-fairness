@@ -1,6 +1,6 @@
 # Validity recount under one rule
 
-`scripts/validity_recount.py`; source: `reports/paper_certification.md` (draft v0.9.5) and the result files it cites. Nothing was simulated: 4,726 cells and 39,328,000 draws are counted from existing files, or read from the training paper's printed tables where the data are lost (marked `~`). The script stops if a printed number of Table 4, or one of the sentences of section (c), does not agree with the files.
+`scripts/validity_recount.py`; source: `reports/paper_certification.md` (draft v0.9.6) and the result files it cites. Nothing was simulated: 4,726 cells and 39,328,000 draws are counted from existing files, or read from the training paper's printed tables where the data are lost (marked `~`). The script stops if a printed number of Table 4, or one of the sentences of section (c), does not agree with the files.
 
 **The rule.** A cell is one resampling study: R draws at level delta, miss m. With se = sqrt(delta (1 - delta) / R): *over* if m > delta + 2 se; *unresolved, above delta* if delta < m <= delta + 2 se; *at or under delta* if m <= delta. The exact one-sided binomial p-value of H0 'true miss <= delta' and a 95% Clopper-Pearson interval are in the JSON for every cell, and below for the cells that matter. *Over after Bonferroni*: the 2 se replaced by z(1 - a / C) se for the C cells of the row, a = 1 - Phi(2) = 0.0228, so one cell gives the rule itself.
 
@@ -317,7 +317,7 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
 6. **abstract.**
    > the checks put its miss rate under 0.059 at a nominal 5% (the largest upper limit of a 95% interval over cells)
-   > a bootstrap-t limit is over its level in no cell, with a miss rate under 0.064 by the same measure
+   > a bootstrap-t limit is over its level in no cell of the pools it was developed on, with a miss rate under 0.064 by the same measure
 
    Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's plasmodes and on the random draws with replacement): largest upper limit 0.0588. Bootstrap-t limits at delta 0.05: PPI++ with a bootstrap-t limit (017_boot) 0.0609, StratPPI estimator with a bootstrap-t limit (p14_a_sboot_mid_0.05) 0.0513, StratPPI estimator with a bootstrap-t limit (p14_b_sboot) 0.0636, StratPPI estimator with a bootstrap-t limit, redrawn with replacement (rep_sboot_mid_0.05) 0.0518, cluster bootstrap-t, by user task (ad_t_user_a) 0.0577. None of these groups has a cell over.
 
@@ -384,21 +384,38 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
    10,000 two-phase replications a cell. `b1w` with the term: 0 / 4 / 24 at delta 0.05, 1 / 0 / 27 at 0.10 (the cell over: C2:refusal, n_s 100, step 100, 0.1116 (1,116 of 10,000; p < 0.0001; 95% interval 0.1055-0.1179)). Wald-t with the term: 0 / 1 / 27 and 0 / 0 / 28. Without the term: 17 / 1 / 10; bootstrap-t StratPPI: 21 / 2 / 5. Clopper-Pearson on a random sample of the pool, the control: over in none at either delta. ESS and caps are medians over a label's checkpoints, from the file's `ess` table.
 
-16. **sections 9.1 and 9.2.**
+16. **section 8.1, confirmation on new prompts; abstract; section 11.**
+   > Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%
+   > Six predictions were kept and two refuted
+   > in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10)
+   > 1.53 and 1.62 at 12%, 1.49 and 1.62 at 82%
+   > is over in 1 of 8 mid-rate cells (0.105 at delta 0.10 on the 82% label)
+   > its gain at 82% is 0.86 and 1.13, against 1.47 and 1.73 at 12%
+   > six were kept: the gain was 1.5 to 1.6 (1.2 to 1.3 for the source)
+   > kept six of eight predictions; it covers refusal rates of 12% and 82% and two rare labels on one model
+   > and in one more at the 98% rate (0.052 at delta 0.05)
+   > (0.058 at delta 0.05 and 0.117 at 0.10; unresolved at 200, 0.052)
+   > it predicts 2.67 at the 98% rate, where the strata lose under every limit (0.55 and 0.63 for `b1w`), and 2.47 on a rare label
+   > at 98% it is over in none of its 4 cells
+   > at the low end of the 1.5 to 5.0 that the same measure gives on the pools that chose the rule
+
+   The registered run (`results/paper/confirm/confirm.md`): P1 refuted (Wald-t b1: 0 of 8 over; StratPPI estimator, bootstrap-t: 1 of 8 over); P2a kept (0 of 4 cells over on 1 such labels); P2b kept (K2:refusal: 4 of 4); P3 kept (K1:refusal n_s 100: 1.53 against 1.82; K1:refusal n_s 200: 1.62 against 1.82; K2:refusal n_s 100: 1.49 against 1.65; K2:refusal n_s 200: 1.62 against 1.65); P4a refuted (`b1w`: 1 of 4; Wald-t: 0 of 8); P4b kept (no term: 3 of 4; bootstrap-t StratPPI: 4 of 4); P4c kept (K1:refusal n_s 100: 1.32 against 1.35; K1:refusal n_s 200: 1.22 against 1.24; K2:refusal n_s 100: 1.22 against 1.33; K2:refusal n_s 200: 1.20 against 1.24); P5 kept (K2:unsafe n_s 100: 1.06; K2:unsafe n_s 200: 1.11; K3:unsafe n_s 100: 1.01; K3:unsafe n_s 200: 1.07; Clopper-Pearson 0 of 8 over).
+
+17. **sections 9.1 and 9.2.**
    > Between the two benign sources the bound was over its level for 4 of 6 wordings one way and 1 of 6 the other; between the pools, for 5 of 6 one way and none the other.
    > the carried bound was over its level for 3 of 6 (misses 0.08, 0.23 and 0.80) and marginal for a fourth (0.054)
    > of 6 failed.
 
    4, 1, 5 and 0 of 6 over between populations. Constrained run: 3 over at step 200, 1 unresolved (0.0537 (215 of 4,000; p = 0.15; 95% interval 0.0470-0.0612)); 1 of 6 over at step 100. The side-effect run: 6 of 6 at or under delta.
 
-17. **section 10.2; abstract.**
+18. **section 10.2; abstract.**
    > that bound is over its level for none (2 unresolved, neither of them the pipeline that certifies below)
    > same bound is over its level for 24 of 28 pipelines. So are the others we had: the bootstrap by injection task (23), the pigeonhole bootstrap of Owen (2007) with a basic limit, which resamples both kinds of task (27), the bound clustered in the direction of the larger intraclass correlation (22), and the larger of the two clustered bounds
    > the usual per-pair bound is over its level for 27 of 28 pipelines
 
    Scheme (a): cluster bootstrap-t by user task 0 / 2 / 26; per-pair Clopper-Pearson over for 27 of 28. Scheme (c): 24, 23, 27 and 16 of 28 over; the quadrature bound 0. The two-way bootstrap returns 0 when a redrawn table has no success; such tables are at most 0.7%, 1.2% and 5.8% of a cell's draws under the three schemes, and taking them out of the misses leaves its counts of cells over unchanged (5, 14, 27).
 
-18. **section 10.2; section 12; abstract.**
+19. **section 10.2; section 12; abstract.**
    > multiway limit is over its level for 26 of 28 pipelines when both kinds of task are resampled (misses up to 0.18)
    > The pigeonhole bootstrap-t is over for none under any of the three schemes (largest miss 0.042)
    > (median ratio 2.05), and no pipeline certifies 5% under it
@@ -410,7 +427,7 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
    Scheme (c), 4,000 resampled tables a pipeline: multiway-t 26 / 1 / 1 (largest 0.1787); pigeonhole bootstrap-t 0 / 0 / 28, and (a) 0 / 0 / 28; (b) 0 / 0 / 28; quadrature 1 / 1 / 26 (claude-3-haiku-20240307, 0.0580 (232 of 4,000; p = 0.012; 95% interval 0.0510-0.0657)), against 0 over on the earlier draws. On the published tables the pigeonhole bootstrap-t's margin is 2.05 times the user-task bound's at the median (1.17 to 87.49), 0 pipelines certify 5% and 1 gets no limit. Table 7's last column is asserted against the same file.
 
-19. **section 10.4; Appendix C.**
+20. **section 10.4; Appendix C.**
    > puts the miss rates of the four limits at or under 0.045 for the pool rate against a level of 0.05
    > puts the miss rates of the four limits at 0.001, 0.040, 0.045 and 0.042 for the pool rate against a level of 0.05
    > the four miss rates are 0.001, 0.051, 0.063 and 0.052

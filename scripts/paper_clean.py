@@ -15,7 +15,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 SRC = os.path.join(ROOT, "reports", "paper_certification.md")
 DST = os.path.join(ROOT, "reports", "paper_certification_clean.md")
 
-TAG = r"(?:\n[ \t]*|[ \t]+)?\[(?:R |SR |P\d|0\d\d|StratPPI validation|AgentDojo recheck|validity recount|judge on labels|replacement check|Wilson exact|robot sampling|binomial rows|StratPPI heuristic cell|two-way bounds|two-phase check)[^\]]*\]"
+TAG = r"(?:\n[ \t]*|[ \t]+)?\[(?:R |SR |P\d|0\d\d|StratPPI validation|AgentDojo recheck|validity recount|judge on labels|replacement check|Wilson exact|robot sampling|binomial rows|StratPPI heuristic cell|two-way bounds|two-phase check|confirmation pool)[^\]]*\]"
 # old figure number -> (file, caption); Figure 1 of the draft (Table 2 redrawn) is left out
 FIGS = {2: ("fig2_strata_ess", "Gain from reference-rate strata against the reference model's intraclass correlation."),
         3: ("fig3_stratppi", "StratPPI's normal limit and the same estimator with a bootstrap-t limit, with labels allocated in "
@@ -53,6 +53,7 @@ number and a table that resolves each tag to a file.
 | Table 4, the labels-alone rows by enumeration | `scripts/binomial_rows.py` | `results/paper/binomial_rows.md` |
 | Table 4, the four judge-plasmode cells with 20,000 unlabelled responses, at 4,000 draws | `scripts/plasmode017_big.py` | `results/paper/plasmode017_big.json` |
 | section 8.1, the strata for a claim about the prompt source | `scripts/twophase_check.py` | `results/paper/twophase_check.md` |
+| section 8.1, the confirmation on new prompts (registered) | `scripts/confirm_pool.py` | `results/paper/confirm/confirm.md` |
 | end-point tests of every bound used | `tests/test_bound_endpoints.py` | run with `pytest` |
 | sections 8.1 and 8.2, the StratPPI comparison | `scripts/stratppi_baseline.py` | `results/paper/stratppi.md` |
 | sections 8.1 and 8.2, implementation check, allocations, PPBoot, sweeps | `scripts/stratppi_validate.py` | `results/paper/stratppi_validate.md` |
@@ -106,7 +107,7 @@ def main():
                 name, caption = FIGS[n]
                 out.append(f"![Figure {n - 1}](figs/{name}.png)\n\n*Figure {n - 1}. {caption}*")
     s = "\n\n".join(out)
-    head = (f"{title}\n\n*Draft of 2026-10-07, not formatted for any venue. Generated from the working draft by\n"
+    head = (f"{title}\n\n*Draft of 2026-10-08, not formatted for any venue. Generated from the working draft by\n"
             "`scripts/paper_clean.py`; to change the text, edit the working draft and run the script again.*\n\n")
     s = head + s.rstrip() + "\n\n" + APPENDIX
     s = re.sub(r"\n{3,}", "\n\n", s)

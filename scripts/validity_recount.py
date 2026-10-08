@@ -841,7 +841,8 @@ def claims():
     assert all(n3(i)[1] == 0 for i in list(bt) + ["017_classical", "rep_cp_mid_0.05"])
     say("abstract",
         ["the checks put its miss rate under 0.059 at a nominal 5% (the largest upper limit of a 95% interval over cells)",
-         "a bootstrap-t limit is over its level in no cell, with a miss rate under 0.064 by the same measure"],
+         "a bootstrap-t limit is over its level in no cell of the pools it was developed on, with a miss rate under 0.064 by "
+         "the same measure"],
         f"Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's plasmodes and on the random draws with replacement): largest "
         f"upper limit {f4(ex)}. Bootstrap-t limits at delta 0.05: " + ", ".join(f"{G[i]['bound']} ({i}) {f4(v)}" for i, v in bt.items())
         + ". None of these groups has a cell over.")
@@ -981,6 +982,57 @@ def claims():
         f"{w1[1]} / {w1[2]} / {w1[3]}. Without the term: {n0[1]} / {n0[2]} / {n0[3]}; bootstrap-t StratPPI: {sb5[1]} / {sb5[2]} / "
         f"{sb5[3]}. Clopper-Pearson on a random sample of the pool, the control: over in none at either delta. ESS and caps are "
         "medians over a label's checkpoints, from the file's `ess` table.")
+
+    # --- section 8.1, the registered confirmation pool
+    cf = jload("results/paper/confirm/confirm.json")
+    kept = {x["tag"]: x["kept"] for x in cf["scored"]}
+    assert kept == dict(P1=False, P2a=True, P2b=True, P3=True, P4a=False, P4b=True, P4c=True, P5=True) and cf["gap_labels"] == []
+    assert (cf["seed"], cf["reps_large"], cf["reps_two"]) == (20261008, 40000, 10000)
+    rate = {(x["pool"], x["label"]): x["rate"] for x in cf["preflight"]}
+    assert [round(100 * rate[k_]) for k_ in (("K1", "refusal"), ("K2", "refusal"), ("K3", "refusal"))] == [12, 82, 98]
+    assert [round(rate[k_], 3) for k_ in (("K2", "unsafe"), ("K3", "unsafe"))] == [0.032, 0.016]
+    L_ = {(x["env"], x["n"], x["delta"], x["arm"]): x for x in cf["replacement"] if x["draw"] == "large"}
+    T_ = {(x["env"], x["n"], x["delta"], x["arm"]): x for x in cf["twophase"]}
+
+    def gain(G_, env, n_, arm_, d_=0.05):
+        return round((G_[(env, n_, d_, "pooled Wilson")]["excess"] / G_[(env, n_, d_, arm_)]["excess"]) ** 2, 2)
+    b82 = [round(L_[("K2:refusal", n_, d_, "b1w")]["miss"], 3) for d_ in (0.05, 0.1) for n_ in (100, 200)]
+    assert b82 == [0.062, 0.062, 0.113, 0.111] and round(L_[("K2:refusal", 100, 0.1, "StratPPI estimator, bootstrap-t")]["miss"], 3) == 0.105
+    assert [gain(L_, e_, n_, "b1w") for e_ in ("K1:refusal", "K2:refusal") for n_ in (100, 200)] == [1.53, 1.62, 1.49, 1.62]
+    assert [gain(L_, e_, n_, "Wald-t b1") for e_ in ("K2:refusal", "K1:refusal") for n_ in (100, 200)] == [0.86, 1.13, 1.47, 1.73]
+    assert [gain(L_, "K3:refusal", n_, "b1w") for n_ in (100, 200)] == [0.55, 0.63]
+    src = [gain(T_, e_, n_, "b1w, sampled-pool term") for e_ in ("K1:refusal", "K2:refusal") for n_ in (100, 200)]
+    assert (min(src), max(src)) == (1.20, 1.32) and round(T_[("K2:refusal", 100, 0.05, "b1w, sampled-pool term")]["miss"], 3) == 0.058
+    rg = [gain(L_, e_, n_, "b1w") for e_ in ("K2:unsafe", "K3:unsafe") for n_ in (100, 200)]
+    se4 = lambda d_: float(np.sqrt(d_ * (1 - d_) / 40000))                         # noqa: E731
+    c98 = [(n_, d_) for n_ in (100, 200) for d_ in (0.05, 0.1)]
+    sb98 = [(n_, d_) for n_, d_ in c98 if L_[("K3:refusal", n_, d_, "StratPPI estimator, bootstrap-t")]["miss"] > d_ + 2 * se4(d_)]
+    assert sb98 == [(100, 0.05)] and round(L_[("K3:refusal", 100, 0.05, "StratPPI estimator, bootstrap-t")]["miss"], 3) == 0.052
+    assert not [1 for n_, d_ in c98 if L_[("K3:refusal", n_, d_, "b1w")]["miss"] > d_ + 2 * se4(d_)]
+    t82 = [round(T_[("K2:refusal", n_, d_, "b1w, sampled-pool term")]["miss"], 3) for n_, d_ in ((100, 0.05), (100, 0.1), (200, 0.05))]
+    assert t82 == [0.058, 0.117, 0.052]
+    pfp = {(x["pool"], x["label"]): round(x["pf_ess_pred"], 2) for x in cf["preflight"]}
+    assert (pfp[("K3", "refusal")], pfp[("K3", "unsafe")]) == (2.67, 2.47)
+    old = [e[f"{lab}|{n}"]["large"] for lab in ("C1:refusal", "C1:refusal (014)", "C3:refusal", "C2:unsafe") for n in (100, 200)]
+    assert (round(min(old), 1), round(max(old), 1)) == (1.5, 5.0)           # the large-pool gain, as on the new pools
+    assert (min(rg), max(rg)) == (1.01, 1.11)
+    say("section 8.1, confirmation on new prompts; abstract; section 11",
+        ["Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%",
+         "Six predictions were kept and two refuted",
+         "in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10)",
+         "1.53 and 1.62 at 12%, 1.49 and 1.62 at 82%",
+         "is over in 1 of 8 mid-rate cells (0.105 at delta 0.10 on the 82% label)",
+         "its gain at 82% is 0.86 and 1.13, against 1.47 and 1.73 at 12%",
+         "six were kept: the gain was 1.5 to 1.6 (1.2 to 1.3 for the source)",
+         "kept six of eight predictions; it covers refusal rates of 12% and 82% and two rare labels on one model",
+         "and in one more at the 98% rate (0.052 at delta 0.05)",
+         "(0.058 at delta 0.05 and 0.117 at 0.10; unresolved at 200, 0.052)",
+         "it predicts 2.67 at the 98% rate, where the strata lose under every limit (0.55 and 0.63 for `b1w`), and 2.47 on a rare "
+         "label",
+         "at 98% it is over in none of its 4 cells",
+         "at the low end of the 1.5 to 5.0 that the same measure gives on the pools that chose the rule"],
+        "The registered run (`results/paper/confirm/confirm.md`): " + "; ".join(
+            f"{x['tag']} {'kept' if x['kept'] else 'refuted'} ({x['found']})" for x in cf["scored"]) + ".")
 
     # --- section 9
     k = {i: n3(f"017_carry_{i}") for i in ("x2o", "o2x", "h2r", "r2h", "side", "c100", "c200")}
