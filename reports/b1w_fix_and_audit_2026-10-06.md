@@ -5,8 +5,10 @@ read-only audit of the bound implementations, the `seldonian/llm` safety-test pa
 validation harness behind Table 4 of `reports/paper_certification.md`.
 
 Status: the bound is fixed and checked, and every caller that could be rerun on a CPU has been
-(section 4). **Still open:** `scripts/stratppi_validate.py` and `scripts/validity_recount.py`
-need the PC (section 4.2), and the paper text is unchanged (section 3). None of it needs a GPU.
+(section 4). The items left open here on 2026-10-06 (`scripts/stratppi_validate.py`,
+`scripts/validity_recount.py`, the paper text) were done on the PC on 2026-10-07, with the
+with-replacement check of item 12 and several of the audit's fixes: **section 7**. Sections 1
+to 6 are as written on 2026-10-06.
 
 ## 1. How it was found
 
@@ -289,3 +291,171 @@ unless marked otherwise. They have not been fixed.
 - A surprising failure of a standard method is a reason to check a hand calculation before it
   becomes a finding. The check here was one line.
 - NaN must fail closed in any pass/fail decision.
+
+## 7. Follow-up on the PC (2026-10-07)
+
+Nothing here needed a GPU. Nothing is committed yet. The user's five decisions of 2026-10-07 on the open points are in the paper plan's log and are reflected in the table of section 7.4; the plan for the review's remaining major points is the plan's section 9.
+
+### 7.1 The two reruns of section 4.2
+
+- **`scripts/stratppi_validate.py`** ran in full, task 1 included (the reference environment is
+  on this machine). Every arm other than `b1w` and the pooled Wilson bound is identical to the
+  stored file, part B and task 1 as well, so the stored part B does reproduce here. 39 `b1w`
+  cells and 9 pooled-Wilson cells go from over to at or under, as section 4.2 predicted; 14
+  `b1w` cells of part B (the 1.3% rate) move by at most 0.047 with no change of class. The new
+  file is installed.
+- **`scripts/validity_recount.py`** was rewritten for the current draft. Its inputs were all on
+  this machine. It no longer asserts the old result: the rare-label groups are at both deltas
+  (delta 0.05: 0 / 0 / 24 for the two bounds together; delta 0.10: 2 / 1 / 21). It now also
+  reads `stratppi_validate.json`, `agentdojo_recheck.json` and `replacement_check.json`, reads
+  Table 4 from the draft and asserts all 28 rows against the files (each printed miss rate to
+  its printed digits, each count of cells exactly), and asserts 15 groups of count-bearing
+  sentences, which must also be in the draft word for word. That closes item 14 of the audit.
+  The review of v0.5's wording that the script used to carry is gone; it is in git history.
+
+### 7.2 Item 12, sampling without replacement: measured
+
+`scripts/replacement_check.py` draws each of the 40 cells of part A three ways
+(`results/paper/replacement_check.md`): as stored (without replacement, 5,000 draws, the
+baseline's seeds; its arms reproduce to the last digit, asserted), with replacement on the
+same seeds, and with replacement at 40,000 draws from seeds of its own. With replacement the
+pool is unbounded for StratPPI too (its N_h is infinite). The 40,000-draw pass is the one to
+quote: at 5,000 draws the largest miss over 28 cells reads too high (0.065 against 0.062) and
+cells one point over their level stay unresolved.
+
+| bound, delta 0.05 | labels | stored, 5,000 | with replacement, 5,000 | with replacement, 40,000 | largest miss, 40,000 |
+|---|---|---|---|---|---|
+| `b1w` | 5 mid-rate, 28 cells | 0 / 3 / 25 | 5 / 5 / 18 | 7 / 1 / 20 | 0.062 |
+| `b1w` | 2 rare, 12 cells | 0 / 0 / 12 | 0 / 1 / 11 | 1 / 0 / 11 | 0.055 |
+| pooled Wilson | mid-rate | 1 / 0 / 27 | 6 / 3 / 19 | 6 / 0 / 22 | 0.069 |
+| Clopper-Pearson on the random draw | mid-rate | 0 / 0 / 28 | 0 / 2 / 26 | 0 / 0 / 28 | 0.050 |
+| Wald-t `b1` | mid-rate | 0 / 0 / 28 | 0 / 0 / 28 | 0 / 0 / 28 | 0.038 |
+| StratPPI, normal limit | mid-rate | 9 / 5 / 14 | 18 / 4 / 6 | 20 / 1 / 7 | 0.096 |
+| StratPPI estimator, bootstrap-t | mid-rate | 0 / 0 / 28 | 0 / 2 / 26 | 0 / 0 / 28 | 0.050 |
+
+- The audit's reading holds, and more strongly at the higher resolution: `b1w` is over its
+  level in 7 of 28 mid-rate cells when the pool is large. All seven are on the two labels at
+  rates of 65% and above; the 16 cells at 9-18% are at or under delta (largest 0.034). The
+  bootstrap-t StratPPI limit and the Wald-t limit are over in none. No label between 18% and
+  65% was tested.
+- The gains do not depend on the draw: `b1w`'s ESS at n_s 100 is 2.29, 1.38 and 4.73 with
+  replacement against 2.39, 1.38 and 4.74 without; the medians over ten cells are 2.16 and
+  2.16.
+- Control: with replacement the random draw is i.i.d. at the pool's rate, so the miss of the
+  pooled Wilson bound and of Clopper-Pearson is a binomial sum. Over 160 cells of the
+  40,000-draw pass the simulated miss minus the exact one has mean -0.05 and standard
+  deviation 0.94 in standard errors; the largest (2.7) was redrawn twice and came back on the
+  exact value.
+- On the synthetic i.i.d. grid of spike 013 (`check_b1.md`, now printed to four decimals)
+  `b1w` is over in 5 of 36 cells and the Wald-t limit in 10, so neither is clean there.
+- In the stored file itself, at the eleven settings of reference samples and strata other
+  than the one the paper uses, `b1w` is over in 8 of 528 mid-rate cells, all at n_s 100 on the
+  same two labels.
+
+### 7.3 The Wilson limit, exactly
+
+`scripts/wilson_exact.py` enumerates the binomial (`results/paper/wilson_exact.md`). The
+one-sided Wilson limit's miss probability is a step function of the true rate, largest just
+above each value the limit can take. Just above the zero-count limit it is 0.069 at n 100 and
+tends to exp(-z^2): 0.067 at delta 0.05, 0.194 at delta 0.10. Averaged over rates it is under
+delta below one half and over it above, which is the pattern of section 7.2. This is the
+finding that replaces "Wilson fails at rare rates", and it answers the reviewer's question of
+where `b1w` begins to hold: for one stratum there is no such point, only an excess that
+shrinks with n.
+
+### 7.4 What was fixed from section 5, and what was not
+
+| item | action |
+|---|---|
+| 1, NaN passes the safety test | **Fixed.** `policy.py`: a NaN `g` counts as infinite. `calibration.youden` raises on NaN. Tests for both orders of the constraints. |
+| 2, Student's t is the default bound | **Changed** (the user's decision, 2026-10-07). A 0/1 rate now defaults to `clopper_pearson` and a bounded score or paired difference to `bentkus`; `run_llm_rl.py --bound` defaults to `clopper_pearson`. The scripts of rounds 1 to 4 pass `--bound ttest`, so their commands reproduce. |
+| 3, relative thresholds ignore the reference's sampling error | Not changed. The paper states it (section 4.2). |
+| 4, the safety test is not strictly one-shot | **Fixed** for the counter: it moves before D_s is sampled, so a test that raises is spent. `evaluate(prompts_s)` on an unsealed policy still works; not changed. |
+| 5, 6 | Not changed (not called; no violation found). |
+| 7, paired-difference bootstrap-t with a negative estimate | **Fixed** (the user's decision, 2026-10-07; amendment 2.2 in the paper plan, section 6). A zero-variance resample goes to the lower tail whatever its sign, in `pool_upper` and, through `cert017.ppipp_boot(..., degenerate="low")`, in `new_prompts_upper`. The design check reruns byte-identical. |
+| 8, negative Rogan-Gladen clipped to 0 | `certify_carried` now refuses a negative estimate. The estimator in the stored studies is unchanged, so they still reproduce. Measured on the transfer study: refusing moves three of 42 cells, by at most 0.044 in miss, and no cell changes class. |
+| 9, two-way bootstrap returns 0 at zero successes | Left as the method under test (the paper lists it as failing) and pinned by a test. Zero-success resamples are at most 0.7%, 1.2% and 5.8% of a cell's draws under the three schemes; taking them out leaves the counts of cells over at 5, 14 and 27. |
+| 10, a NaN bound scored as no miss | **Fixed** in both StratPPI harnesses. All three reruns are identical, so no NaN had occurred. |
+| 11, a single cluster divides by zero | Not changed (a crash, not a wrong value). |
+| 12 | Measured: section 7.2. |
+| 13, the 322 cells are correlated | Disclosed in the paper (reading 3 of section 7.1): 42 sets of draws behind the 168 PPI++ cells, shared seeds between rows. |
+| 14, Table 4 partly hand-carried | **Closed**: section 7.1. |
+| 15, seed reuse | **Measured for the row it could touch, and it does not matter.** Spike 017's two plasmode files were replayed (identical in every arm) and rerun with a bootstrap stream that cannot coincide with the one that drew the data. PPI++ with a bootstrap-t limit stays at 0 / 12 / 156 over its 168 cells; ten cells swap between unresolved and at or under, the mean change in miss is 0.0001 and the largest 0.008 (0.058 at 1,000 draws is the new largest, still unresolved). Not written to the stored files. The collision of `step + n_s` in `stratppi_baseline.py` is on an arm the paper does not quote. `replacement_check.py`'s 40,000-draw pass puts the label in its seeds. |
+
+Lesson 1 of section 6 is now a test file: `tests/test_bound_endpoints.py` checks every bound
+the paper uses at zero positives, and at all positives where that can occur, against a closed
+form or the vacuous value, and pins the four bounds that return 0 there (Student's t, the two
+normal limits, the two-way bootstrap), all of which the paper lists as failing.
+
+### 7.5 The paper (v0.9.3) and the notes around it
+
+- Table 4: the rare-rate row is corrected and four rows are added for the redraw with
+  replacement (`b1w`, the pooled Wilson bound, the bootstrap-t StratPPI limit, and
+  Clopper-Pearson as the control). Reading 1 of section 7.1 is rewritten around the correction,
+  the exact calculation and the redraw; reading 3 says what the 322-cell count does and does
+  not cover. Sections 6.2, 6.3, 6.4, 8.1 (a fourth item: which bound to use depends on the
+  pool), 11 (two bullets) and Appendix A follow. The abstract carries one clause on `b1w`.
+- From the outside review, four statements were corrected as plain errors: section 5's "a
+  method that must return something cannot promise anything" (it can, with a known feasible
+  fallback), GRPO "ranking" (it is differences, scaled within the group), the Lagrangian
+  saddle-point sentence (convex case), and "a stratifier supplied for free".
+- Figure 1 is now drawn from the recount's file, one bar a row of Table 4 and delta.
+- Regenerated or corrected: `check_b1.md`, `validity_H8.md`, the first table of
+  `validity_real.md`, the README of spike 013 (a corrections block, both copies), the
+  spike-findings skill and its safety-set reference, and the rare-harm seed.
+
+### 7.6 An independent check of the new text
+
+A fresh agent, shown none of the earlier reviews, checked every number in the rewritten
+passages against the files and read the two new scripts. It confirmed all 28 rows of Table 4
+and the exact Wilson numbers by its own recomputation, and found two high and eight medium
+problems in the text. All are acted on:
+
+- the definitions of the two Wilson-type bounds in section 6.3 said "smallest m >= estimate",
+  which admits the trivial root that was the bug (now "m > estimate", in the docstring too);
+- the stratification gains of section 8.1 and the abstract (1.4 to 5.3) are at delta 0.10 and
+  were quoted beside a 5% level (both deltas are now given: 1.4 to 5.1 at 0.05);
+- "5 of 28" and "1.5 points" were artefacts of 5,000 draws (the 40,000-draw pass above);
+- StratPPI kept the finite pool's N_h under replacement (now unbounded);
+- the guidance on which bound to use went beyond its cells (now stated as tested ranges, with
+  the Wald-t limit named beside the bootstrap-t one, and the synthetic grid's counts given);
+- "a little over their level" left out the Wilson limit's larger excess at high rates;
+- the 322-cell count is for one setting of the strata (the other settings are now given);
+- the end-point tests have two recorded exceptions, the frozen paired limits and the clipped
+  carried estimate, which the limits section now names.
+
+The audit's own report is `.planning/paper-certification/review/audit_v0.9.3.md`.
+
+### 7.7 A blind review of the corrected paper
+
+A second fresh agent read only the clean copy and its figures
+(`.planning/paper-certification/review/blind_review_v0.9.3.md`). Verdict: **weak accept,
+borderline, mean 3.83 of 5** (evidence relevance 4, falsifiability 4, scope calibration 4,
+argument coherence 3, exploration integrity 5, methodological rigor 3). The same procedure
+gave 3.67 for v0.9 and 3.17 for v0.3; the outside review by `gpt-6-astra` of v0.9.2 was a
+reject. It recomputed the Wilson numbers, the zero-count sample sizes, Tables 6 to 10 and the
+row sums of Table 4, and found them right.
+
+Its major points, none of which a text edit closes:
+
+1. The top of the headline gain (5.1 to 5.3) is on the 65% label, which is where `b1w` is over
+   its level for a large pool. The abstract and section 8.1 now say so and give the gain under
+   the two limits that kept their level there (2.6 and 3.6 for the Wald-t limit, 1.5 and 5.5
+   for the bootstrap-t StratPPI limit, at n_s 100 and 200).
+2. Every positive recommendation (the strata rule, the allocation, which bound at which rate)
+   was chosen on the cells that validate it. A pool that played no part in the choice needs
+   new generations, so a GPU run and a go-ahead.
+3. The three-class rule under-reports uncertainty; interval estimates of each miss rate would
+   say more. The recount's JSON already holds a 95% interval for every cell.
+4. Single pools, single seeds, one author-annotator, reimplemented baselines.
+5. The robot benchmark (section 10.1) applies a binomial bound to 120 trials without saying
+   what is sampled.
+6. Section 10.2 does not engage the literature on two-way clustering (multiway cluster
+   variance, the pigeonhole bootstrap).
+7. No trained policy is certified in human terms.
+
+Of the eleven inconsistencies it listed, the plain errors are corrected (a figure subtitle
+that still said no approximate bound holds at rare rates; "9 of 26" against Table 4's 28; a
+bold and a plain 0.056 in Table A1; the source of the 2.6-2.7 medians; the abstract's "no
+exact bound" against the per-pair row). Three are left in the draft's open checks.
+

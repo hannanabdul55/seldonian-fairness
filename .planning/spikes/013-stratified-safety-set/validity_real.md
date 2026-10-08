@@ -10,22 +10,24 @@
 | C2:unsafe | 0.098 | 100 | 0.1 | 0.088 | 0.065 | 0.087 | 0.083 | 0.097 | 0.091 |
 | C2:unsafe | 0.098 | 200 | 0.05 | 0.025 | 0.021 | 0.030 | 0.032 | 0.028 | 0.029 |
 | C2:unsafe | 0.098 | 200 | 0.1 | 0.084 | 0.065 | 0.071 | 0.070 | 0.081 | 0.070 |
-| C2:gated | 0.019 | 100 | 0.05 | 0.240 | 0.225 | 0.235 | 0.214 | 0.242 | 0.231 |
-| C2:gated | 0.019 | 100 | 0.1 | 0.240 | 0.225 | 0.235 | 0.214 | 0.242 | 0.231 |
+| C2:gated | 0.019 | 100 | 0.05 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| C2:gated | 0.019 | 100 | 0.1 | 0.126 | 0.120 | 0.120 | 0.104 | 0.129 | 0.120 |
 | C2:gated | 0.019 | 200 | 0.05 | 0.048 | 0.045 | 0.045 | 0.042 | 0.045 | 0.043 |
 | C2:gated | 0.019 | 200 | 0.1 | 0.079 | 0.070 | 0.066 | 0.098 | 0.070 | 0.072 |
 | C2:refusal | 0.942 | 100 | 0.05 | 0.057 | 0.050 | 0.053 | 0.050 | 0.062 | 0.046 |
 | C2:refusal | 0.942 | 100 | 0.1 | 0.114 | 0.101 | 0.106 | 0.118 | 0.122 | 0.099 |
 | C2:refusal | 0.942 | 200 | 0.05 | 0.043 | 0.032 | 0.043 | 0.054 | 0.040 | 0.043 |
 | C2:refusal | 0.942 | 200 | 0.1 | 0.087 | 0.080 | 0.087 | 0.103 | 0.090 | 0.083 |
-| C3:unsafe | 0.011 | 100 | 0.05 | 0.448 | 0.440 | 0.452 | - | 0.434 | 0.435 |
-| C3:unsafe | 0.011 | 100 | 0.1 | 0.448 | 0.440 | 0.452 | - | 0.434 | 0.435 |
-| C3:unsafe | 0.011 | 200 | 0.05 | 0.178 | 0.182 | 0.182 | - | 0.185 | 0.185 |
-| C3:unsafe | 0.011 | 200 | 0.1 | 0.178 | 0.182 | 0.182 | - | 0.185 | 0.185 |
+| C3:unsafe | 0.011 | 100 | 0.05 | 0.000 | 0.000 | 0.000 | - | 0.000 | 0.000 |
+| C3:unsafe | 0.011 | 100 | 0.1 | 0.000 | 0.000 | 0.000 | - | 0.000 | 0.000 |
+| C3:unsafe | 0.011 | 200 | 0.05 | 0.000 | 0.000 | 0.000 | - | 0.000 | 0.000 |
+| C3:unsafe | 0.011 | 200 | 0.1 | 0.102 | 0.096 | 0.097 | - | 0.106 | 0.097 |
 | C3:refusal | 0.659 | 100 | 0.05 | 0.042 | 0.002 | 0.043 | - | 0.044 | 0.046 |
 | C3:refusal | 0.659 | 100 | 0.1 | 0.091 | 0.008 | 0.094 | - | 0.089 | 0.100 |
 | C3:refusal | 0.659 | 200 | 0.05 | 0.026 | 0.000 | 0.024 | - | 0.024 | 0.021 |
 | C3:refusal | 0.659 | 200 | 0.1 | 0.072 | 0.004 | 0.073 | - | 0.063 | 0.072 |
+
+The table above was regenerated on 2026-10-07 from `results/spikes/013/real_plasmode_randomties.json.xz` after the correction of `b1w` at zero positives (`reports/b1w_fix_and_audit_2026-10-06.md`). Only six rows changed: before it C2:gated read 0.21-0.24 at n_s 100 and C3:unsafe 0.43-0.45 at n_s 100 and 0.18 at n_s 200, at both deltas, which was the chance of drawing no positive. The table below is from an earlier harness whose files current code does not reproduce; its rare-label rows still carry the error and it is kept only as the record of the pre-registered truth.
 
 ### Coverage failure, b1w, k=8, H=4, max over the 3 checkpoints; truth = truth-half mean (pre-registered; carries +-0.004 fixed noise)
 

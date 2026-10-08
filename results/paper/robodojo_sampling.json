@@ -1,0 +1,420 @@
+{
+ "tasks": [
+  "Cap Pen",
+  "Classify Objects",
+  "Pack And Pour Fruit",
+  "Stack Bowls",
+  "Stand Up Bottles",
+  "Store In Safe"
+ ],
+ "n_trials": 360,
+ "models": {
+  "claude-opus-5": {
+   "name": "Claude Opus 5",
+   "n": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "s": [
+    2,
+    1,
+    2,
+    0,
+    1,
+    4
+   ],
+   "N": 120,
+   "k": 10,
+   "rate": 0.08333333333333333,
+   "perm_p": 0.36996,
+   "icc": 0.011026486302148482,
+   "deff": 1.2218181818181821,
+   "cp": {
+    "0.05": 0.13725175565741904,
+    "0.1": 0.12548570847690738
+   },
+   "sampled": {
+    "0.05": {
+     "Hoeffding (exact)": 0.5829775628902244,
+     "Anderson (exact)": 0.5663286847457132,
+     "Bentkus (exact)": 0.5522947885227398,
+     "betting mixture (exact)": 0.4803008398822618,
+     "Student-t on task rates (approximate)": 0.13953034751667512,
+     "cluster bootstrap-t (approximate)": 0.15895710108108585
+    },
+    "0.1": {
+     "Hoeffding (exact)": 0.521376814146411,
+     "Anderson (exact)": 0.5078079734390906,
+     "Bentkus (exact)": 0.48624824092123864,
+     "betting mixture (exact)": 0.41124671978420246,
+     "Student-t on task rates (approximate)": 0.12449377291502366,
+     "cluster bootstrap-t (approximate)": 0.13425084105506488
+    }
+   },
+   "fixed_miss": {
+    "0.05": [
+     {
+      "shape": "even over tasks",
+      "mean": 0.08333333333333333,
+      "miss": 0.02461452166937072
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.08333333333333333,
+      "miss": 0.022030201739813068
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.08333333333333333,
+      "miss": 0.005908966064453124
+     },
+     {
+      "shape": "even over tasks",
+      "mean": 0.05,
+      "miss": 0.015527224559949778
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.05,
+      "miss": 0.014511585952348853
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.05,
+      "miss": 0.007637259774199989
+     }
+    ],
+    "0.1": [
+     {
+      "shape": "even over tasks",
+      "mean": 0.08333333333333333,
+      "miss": 0.059167229441778775
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.08333333333333333,
+      "miss": 0.05460562439853041
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.08333333333333333,
+      "miss": 0.02069473266601562
+     },
+     {
+      "shape": "even over tasks",
+      "mean": 0.05,
+      "miss": 0.05750540833807981
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.05,
+      "miss": 0.054957990312672116
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.05,
+      "miss": 0.03548313229846864
+     }
+    ]
+   }
+  },
+  "claude-opus-5-5": {
+   "name": "Claude Opus 5.5",
+   "n": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "s": [
+    0,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "N": 120,
+   "k": 2,
+   "rate": 0.016666666666666666,
+   "perm_p": 1.0,
+   "icc": -0.010101010101010093,
+   "deff": 0.8135593220338985,
+   "cp": {
+    "0.05": 0.05153371368637799,
+    "0.1": 0.043742293483754455
+   },
+   "sampled": {
+    "0.05": {
+     "Hoeffding (exact)": 0.5163108962235577,
+     "Anderson (exact)": 0.5163108962235576,
+     "Bentkus (exact)": 0.440126245715057,
+     "betting mixture (exact)": 0.4413922876835509,
+     "Student-t on task rates (approximate)": 0.03790714151716551,
+     "cluster bootstrap-t (approximate)": 1.0
+    },
+    "0.1": {
+     "Hoeffding (exact)": 0.45471014747974436,
+     "Anderson (exact)": 0.4547101474797445,
+     "Bentkus (exact)": 0.368430745895288,
+     "betting mixture (exact)": 0.3671859396590208,
+     "Student-t on task rates (approximate)": 0.03222385052198839,
+     "cluster bootstrap-t (approximate)": 0.027207592200561265
+    }
+   },
+   "fixed_miss": {
+    "0.05": [
+     {
+      "shape": "even over tasks",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "even over tasks",
+      "mean": 0.05,
+      "miss": 0.015527224559949778
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.05,
+      "miss": 0.012106780660889783
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.05,
+      "miss": 0.007637259774199989
+     }
+    ],
+    "0.1": [
+     {
+      "shape": "even over tasks",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "even over tasks",
+      "mean": 0.05,
+      "miss": 0.05750540833807981
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.05,
+      "miss": 0.04859866569285469
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.05,
+      "miss": 0.03548313229846864
+     }
+    ]
+   }
+  },
+  "gpt-6-astra": {
+   "name": "GPT-6 Astra",
+   "n": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "s": [
+    0,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "N": 120,
+   "k": 2,
+   "rate": 0.016666666666666666,
+   "perm_p": 0.157905,
+   "icc": 0.05263157894736844,
+   "deff": 2.0338983050847466,
+   "cp": {
+    "0.05": 0.05153371368637799,
+    "0.1": 0.043742293483754455
+   },
+   "sampled": {
+    "0.05": {
+     "Hoeffding (exact)": 0.5163108962235577,
+     "Anderson (exact)": 0.5163108962235576,
+     "Bentkus (exact)": 0.440126245715057,
+     "betting mixture (exact)": 0.4416362920726209,
+     "Student-t on task rates (approximate)": 0.05025080622221706,
+     "cluster bootstrap-t (approximate)": 1.0
+    },
+    "0.1": {
+     "Hoeffding (exact)": 0.45471014747974436,
+     "Anderson (exact)": 0.4547101474797445,
+     "Bentkus (exact)": 0.368430745895288,
+     "betting mixture (exact)": 0.36745841187359063,
+     "Student-t on task rates (approximate)": 0.0412647341470747,
+     "cluster bootstrap-t (approximate)": 1.0
+    }
+   },
+   "fixed_miss": {
+    "0.05": [
+     {
+      "shape": "even over tasks",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "even over tasks",
+      "mean": 0.05,
+      "miss": 0.015527224559949778
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.05,
+      "miss": 0.007637259774199989
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.05,
+      "miss": 0.007637259774199989
+     }
+    ],
+    "0.1": [
+     {
+      "shape": "even over tasks",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.016666666666666666,
+      "miss": 0.0
+     },
+     {
+      "shape": "even over tasks",
+      "mean": 0.05,
+      "miss": 0.05750540833807981
+     },
+     {
+      "shape": "in the observed shares",
+      "mean": 0.05,
+      "miss": 0.03548313229846864
+     },
+     {
+      "shape": "all on one task",
+      "mean": 0.05,
+      "miss": 0.03548313229846864
+     }
+    ]
+   }
+  }
+ },
+ "seed": 20261007,
+ "perms": 200000,
+ "boots": 200000,
+ "fixed_worst": {
+  "0.05": {
+   "even": 0.04995124418233926,
+   "on_one_task": 0.038759531084514354,
+   "on_two_tasks": 0.044225149487289665
+  },
+  "0.1": {
+   "even": 0.09992064380032371,
+   "on_one_task": 0.08302599166945641,
+   "on_two_tasks": 0.08970424062469683
+  }
+ },
+ "floor_six_zero": {
+  "0.05": 0.39303776899708276,
+  "0.1": 0.31870793094203864
+ },
+ "floor_zero_120": {
+  "0.05": 0.024655401055656376,
+  "0.1": 0.019005287273122663
+ },
+ "order": {
+  "claude-opus-5": {
+   "first": "2026-09-22T20:40:21.286540+00:00",
+   "last": "2026-09-23T03:19:52.459104+00:00",
+   "hours_from": 4.4481193675,
+   "hours_to": 11.106778413055554,
+   "stops_first_half": 3,
+   "stops_second_half": 7,
+   "ranksum_p": 0.23340216645125567,
+   "adjacent_stops": 0,
+   "adjacent_perm_p": 1.0
+  },
+  "claude-opus-5-5": {
+   "first": "2026-09-22T18:18:29.669733+00:00",
+   "last": "2026-09-23T00:14:45.833486+00:00",
+   "hours_from": 2.0837813655555557,
+   "hours_to": 8.021604630277778,
+   "stops_first_half": 2,
+   "stops_second_half": 0,
+   "ranksum_p": 0.3333333333333336,
+   "adjacent_stops": 0,
+   "adjacent_perm_p": 1.0
+  },
+  "gpt-6-astra": {
+   "first": "2026-09-22T16:13:28.056817+00:00",
+   "last": "2026-09-22T21:56:34.928020+00:00",
+   "hours_from": 0.0,
+   "hours_to": 5.718575334166666,
+   "stops_first_half": 0,
+   "stops_second_half": 2,
+   "ranksum_p": 0.5179271708683478,
+   "adjacent_stops": 0,
+   "adjacent_perm_p": 1.0
+  },
+  "max_concurrent": 6,
+  "max_concurrent_same_task": 1,
+  "task_orders": [
+   [
+    "gpt-6-astra",
+    "claude-opus-5-5",
+    "claude-opus-5"
+   ]
+  ],
+  "task_block_overlaps": 0
+ }
+}

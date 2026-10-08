@@ -56,8 +56,9 @@ scope** (Results, below).
    undercovers at low rates (0.154 at delta 0.1), exactly as the pooled Wald does. The
    Wilson-type `b1w` fixes most of that. Its coverage sits at delta in spread, flat and mid
    profiles, equal to its pooled version everywhere. In rare-rate profiles (0-7%), pooled
-   and stratified alike overshoot in some cells (up to 0.122 at delta 0.05). That is
-   binomial discreteness, and it matches the use case the design already excludes.
+   and stratified alike overshoot in some cells at delta 0.1 (0.135). **Corrected
+   2026-10-06:** the 0.122 at delta 0.05 first written here was not discreteness. `b1w`
+   returned its estimate when no positive was drawn (Corrections, below).
 3. **The bandit's heterogeneity was capped** at ICC 0.22: the uniform reference averages
    four independent per-action violation curves. `heteroenv.py` adds a violation direction
    shared across actions, which reaches ICC 0.05-0.75 and covers the real range.
@@ -131,9 +132,33 @@ scope** (Results, below).
 through its B1 clause: no distribution-free stratified bound helped (step 1), so the go
 rests on the Wilson-type `b1w`, whose coverage holds in the cells that show the gain.
 
+**Corrections (2026-10-06 and 2026-10-07).**
+
+1. `b1w` returned its estimate when a sample held no positive: the grid search accepted
+   `m = mu_hat` as a root when every stratum was all-zero or all-one. The rare-label failures
+   first reported in this README (0.24-0.45 at n_s 100) were that bug; they equalled the chance
+   of drawing no positive. It is fixed in `stratbounds.py`, asserted in `check_b1.py` and in
+   `tests/test_bound_endpoints.py`, and every caller was rerun with its seeds. Mid-rate cells
+   came back unchanged. See `reports/b1w_fix_and_audit_2026-10-06.md`.
+2. The plasmode draws 20-40% of a 500-prompt pool without replacement and scores against the
+   pool's rate, which flatters every bound. Redrawn with replacement
+   (`scripts/replacement_check.py`, `results/paper/replacement_check.md`, 40,000 draws a
+   cell), `b1w` at H 8 is over its level in 7 of 28 mid-rate cells at delta 0.05 (largest miss
+   0.062), all on the labels at 65% and above, and at or under delta in all 16 cells at 9-18%.
+   The pooled Wilson bound is over in 6 of 28; the StratPPI estimator with a bootstrap-t limit
+   and the Wald-t `b1` in none. The gains are the same with replacement (2.29, 4.73 and 1.38
+   at n_s 100, delta 0.05). So "coverage holds" below means: for the pool's own rate when the
+   safety set is 20-40% of the pool, or, for a large pool, on the labels at 9-18%. No label
+   between 18% and 65% was tested. On the synthetic i.i.d. grid of `check_b1.md` `b1w` is
+   over in 5 of 36 cells and the Wald-t `b1` in 10.
+4. The gains quoted in this README (2.40/2.42, 5.13/5.33, 1.42/1.43) are at delta 0.1. At
+   delta 0.05 they are 2.30/2.35, 4.79/5.14 and 1.39/1.41.
+3. The exact miss probability of the pooled Wilson bound is in `results/paper/wilson_exact.md`:
+   0.069 just above the zero-count limit at delta 0.05 and n 100, and 0.196 at delta 0.1.
+
 | hypothesis | result |
 |---|---|
-| H1 validity | **holds at mid rates.** S2 (8 strata, k 8) misses <= 0.093 at delta 0.1 and <= 0.047 at 0.05 on every label with rate 9-94%, beside R's 0.066-0.114. **Fails at rare rates for every arm, the random-split baseline included**: C3 harm (1%) misses 0.44 at n_s 100, C2 gated harm (2%) 0.24. That is the approximate bound, not the strata. |
+| H1 validity | **holds at mid rates.** S2 (8 strata, k 8) misses <= 0.093 at delta 0.1 and <= 0.047 at 0.05 on every label with rate 9-94%, beside R's 0.066-0.114. **Corrected 2026-10-06: the failure at rare rates first reported here (0.44 and 0.24 at n_s 100, for every arm) was a bug in `b1w` at zero positives.** With the bound fixed no rare-label cell of this setting is over at delta 0.05; at delta 0.1 one of twelve is (C2 gated harm at n_s 100, 0.126), and so is the random-split baseline. |
 | H2 where it works | **holds.** ESS vs a random split (step 200, n_s 100/200, H 8): C1 over-refusal 2.40/2.42; C3 refusal 5.13/5.33; C2 encoded non-refusal 1.42/1.43. Pass rate at tau = truth + 0.02 (random split -> S2 H 8, n_s 100 / 200): C1 0.19 -> 0.26 / 0.23 -> 0.41; C3 refusal 0.18 -> 0.35 / 0.20 -> 0.56; C2 non-refusal 0.27 -> 0.26 (a small *loss* at n_s 100, despite narrower mean width) / 0.29 -> 0.38. Null cells: C3 harm 0.97-1.03, placebo 0.98-1.03, C2 gated 1.00-1.07. |
 | H3 predictability | **fails in absolute terms** (median error 0.29), **passes in ranking** (Spearman 0.83); over-prediction is 0-20% at H = 8 and more at H = 2/4. On the bandit, with no ties, it passed (0.02, 0.99). |
 | H4 covariate precision | **holds.** ESS grows with k (C1, H 8: 1.61 at k 1 -> 2.40 at k 8; C3 refusal 2.92 -> 5.13). k = 1 captures under half of the k = 8 gain. |
@@ -146,8 +171,8 @@ rests on the Wilson-type `b1w`, whose coverage holds in the cells that show the 
 | C3 plain harmful requests | refusal, 66% | 0.86 | 5.1-5.3 | yes | **use it** |
 | C2 encoded harmful requests | non-refusal, 9% | 0.50 | 1.4 | yes | use it; encoding strata alone give 1.2 |
 | C2 encoded harmful requests | refusal, 94% | 0.47 | 1.05-1.18 | yes | not worth it (rate near 1, few non-refusing prompts) |
-| C2 encoded, gated harm | 2% | 0.50 | 1.0-1.07 | **no, for any design** | don't; rare-rate labels need an exact bound, and exact bounds gain nothing from strata |
-| C3 plain harm | 1% | 0.33 | 1.0 | **no, for any design** | don't (same reason) |
+| C2 encoded, gated harm | 2% | 0.50 | 1.0-1.09 | yes at delta 0.05, one cell over at 0.1 (corrected 2026-10-06) | don't: no gain; a rare label takes an exact bound, and exact bounds gain nothing from strata |
+| C3 plain harm | 1% | 0.33 | 1.0 | yes (corrected 2026-10-06) | don't (same reason) |
 | placebo covariate | - | - | 1.0 | yes | the negative control behaves |
 
 **Where to use it:**
@@ -159,7 +184,8 @@ rests on the Wilson-type `b1w`, whose coverage holds in the cells that show the 
   `1 / (1 - G + G n_s / N)` eats the gain.
 
 **Where not to use it:**
-- rare labels (the approximate bound is invalid there, stratified or not);
+- rare labels (no gain there, 1.0-1.09; corrected 2026-10-06: the bound is not invalid at
+  delta 0.05);
 - labels near 0 or 1;
 - when an exact small-sample guarantee is required (no distribution-free stratified bound
   here beat pooling);

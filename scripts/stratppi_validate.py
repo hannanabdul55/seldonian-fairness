@@ -172,7 +172,8 @@ def ppboot(y, f, fu, rng, B=1000, B_lam=50):
 
 def summ(ub, est, truth, lo=None):
     ub, est = np.asarray(ub, dtype=float), np.asarray(est, dtype=float)
-    out = dict(miss=float((ub < truth).mean()), excess=float(ub.mean() - truth), width=float((ub - est).mean()))
+    # a NaN bound counts as a miss (ub < truth is False for NaN)
+    out = dict(miss=float((~(ub >= truth)).mean()), excess=float(ub.mean() - truth), width=float((ub - est).mean()))
     if lo is not None:
         out["miss_lo"] = float((np.asarray(lo) > truth).mean())
     return out

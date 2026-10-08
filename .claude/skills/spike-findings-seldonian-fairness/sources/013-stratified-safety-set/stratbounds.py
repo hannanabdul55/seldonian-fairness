@@ -80,8 +80,8 @@ def b1(s, n, W, delta, N=None):
 
 def b1w(s, n, W, delta, N=None):
     """
-    Stratified Wilson-type score bound: the smallest ``m >= mu_hat`` with
-    ``m - mu_hat >= z * sqrt(V(m))``, where ``V(m)`` puts every stratum at its estimate
+    Stratified Wilson-type score bound: the smallest ``m > mu_hat`` with
+    ``m - mu_hat >= z * sqrt(V(m))`` (1 when ``mu_hat`` is 1), where ``V(m)`` puts every stratum at its estimate
     shifted by ``m - mu_hat`` (clipped to [0, 1]). Evaluating the variance at the
     hypothesis, not the estimate, avoids the Wald under-coverage at low rates. At one
     stratum it is the Wilson upper bound. ``N`` adds the two-phase term.

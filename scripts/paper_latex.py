@@ -197,6 +197,10 @@ def esc(text):
 
 
 def inline(text, heading=False):
+    if "**" in text:
+        # bold first, so that a bold span holding a code span (**`b1w` at rare rates**) is still one span
+        return "".join(rf"\textbf{{{inline(p, heading)}}}" if i % 2 else inline(p, heading)
+                       for i, p in enumerate(re.split(r"\*\*(.+?)\*\*", text)) if p)
     parts = re.split(r"(`[^`]*`)", text)
     out = []
     for p in parts:
@@ -225,7 +229,8 @@ def table(rows, caption):
     w = []
     for i in range(n):
         lens = [len(r[i]) for r in plain if i < len(r)]
-        w.append(min(max(0.5 * max(lens) + 0.5 * sum(lens) / len(lens), 6.5), 42.0))
+        w.append(min(max(0.5 * max(lens) + 0.5 * sum(lens) / len(lens), 8.5), 42.0))
+    w = [max(x, 0.06 * sum(w)) for x in w]            # no column narrower than a short number
     scale = (1.0 - 0.018 * n) / sum(w)
     spec = "".join(rf">{{\raggedright\arraybackslash}}p{{{x * scale:.3f}\linewidth}}" for x in w)
 
@@ -290,7 +295,8 @@ def convert(src):
             j = i + 1
             while not lines[j].startswith("```"):
                 j += 1
-            if out and not out[-1].startswith("\\") and out[-1].endswith("\n"):
+            # a display joins the paragraph before it; a paragraph may open with a bold run-in, a block (\begin, \section) may not
+            if out and not re.match(r"\\(?!textbf|emph|texttt)", out[-1]) and out[-1].endswith("\n"):
                 out[-1] = out[-1].rstrip("\n") + "\n" + display(lines[i + 1:j])
             else:
                 out.append(display(lines[i + 1:j]))

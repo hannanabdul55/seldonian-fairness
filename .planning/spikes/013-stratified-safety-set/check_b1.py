@@ -46,6 +46,6 @@ for name, mu_h in configs.items():
                     u = fn(sh.sum(), n.sum(), 1.0, delta); miss[k + "_pool"] += truth > u
                     wid[k + "_pool"] += u - sh.sum() / n.sum()
             f = {k: v / reps for k, v in miss.items()}
-            print(f"| {name} | {n_s} | {delta} | {f['b1']:.3f} | {f['b1w']:.3f} | {f['b1_pool']:.3f} "
-                  f"| {f['b1w_pool']:.3f} | {(wid['b1_pool'] / wid['b1']) ** 2:.2f} "
+            print(f"| {name} | {n_s} | {delta} | {f['b1']:.4f} | {f['b1w']:.4f} | {f['b1_pool']:.4f} "
+                  f"| {f['b1w_pool']:.4f} | {(wid['b1_pool'] / wid['b1']) ** 2:.2f} "
                   f"| {(wid['b1w_pool'] / wid['b1w']) ** 2:.2f} |")

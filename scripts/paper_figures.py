@@ -80,70 +80,59 @@ def cp(x, n, a):
 
 # ---------------------------------------------------------------------------------------- fig 1
 def fig1():
-    """Miss rate over delta for every bound in the paper's Table 2."""
-    S = json.load(open(os.path.join(ROOT, "results", "paper", "stratppi.json")))["rows"]
-    mid = lambda r: r["part"] == "A" and 0.05 <= r["truth"] <= 0.95 and r["delta"] == 0.05
-    rng = lambda arm, part: (min(r["miss"] for r in S if r["arm"] == arm and (mid(r) if part == "A" else r["part"] == "B")),
-                             max(r["miss"] for r in S if r["arm"] == arm and (mid(r) if part == "A" else r["part"] == "B")))
-    b_pub = [r["miss"] for r in S if r["part"] == "B" and r["arm"] in ("StratPPI, K=5", "StratPPI, K=10")]
-    b_boot = [r["miss"] for r in S if r["part"] == "B" and r["arm"].startswith("StratPPI, bootstrap-t")]
-    rows = [  # group, bound and setting, delta, lowest miss, highest miss, source
-        ("exact", "Clopper-Pearson · harm labels at 3.4%", 0.10, 0.067, 0.084, "training paper 6.2"),
-        ("exact", "Clopper-Pearson · refusal pools", 0.05, 0.000, 0.051, "017 B6, P14"),
-        ("exact", "Bentkus · harm labels at 3.4%", 0.10, 0.023, 0.035, "training paper 6.2"),
-        ("exact", "betting mixture · harm labels at 3.4%", 0.10, 0.007, 0.016, "training paper 6.2"),
-        ("exact", "Hoeffding, Anderson · harm labels at 3.4%", 0.10, 0.000, 0.000, "training paper 6.2"),
-        ("approximate", "stratified Wilson-type (b1w) · mid-rate labels", 0.05, 0.023, 0.054, "013 validity_H8"),
-        ("approximate", "b1w · mid-rate labels", 0.10, 0.069, 0.097, "013 validity_H8"),
-        ("approximate", "b1w · label pushed by training", 0.05, 0.011, 0.023, "014"),
-        ("approximate", "b1w · design-weighted labelling sheet", 0.05, 0.001, 0.059, "017 Results 4"),
-        ("approximate", "PPI++, bootstrap-t limit", 0.05, 0.000, 0.053, "017 B6, P14"),
-        ("approximate", "StratPPI estimator, bootstrap-t · reference-rate strata", 0.05, *rng("S2 + StratPPI, bootstrap-t", "A"), "P14"),
-        ("approximate", "StratPPI estimator, bootstrap-t · judge strata", 0.05, min(b_boot), max(b_boot), "P14"),
-        ("approximate", "cluster bootstrap-t by user task · AgentDojo", 0.05, 0.020, 0.060, "020 plasmode"),
-        ("fails", "Student-t · harm labels at 3.4%, n up to 800", 0.10, 0.115, 0.184, "training paper 6.2"),
-        ("fails", "StratPPI as published · reference-rate strata", 0.05, *rng("S2 + StratPPI", "A"), "P14"),
-        ("fails", "StratPPI as published · judge strata", 0.05, min(b_pub), max(b_pub), "P14"),
-        ("fails", "PPI++, normal limit", 0.05, 0.061, 0.241, "017 B6, P14"),
-        ("fails", "two-way bootstrap · AgentDojo", 0.05, 0.000, 0.170, "020 plasmode"),
-        ("fails", "Clopper-Pearson over pairs · AgentDojo (crossed design)", 0.05, 0.048, 0.275, "020 plasmode"),
-        ("fails", "b1w at 1-2% rates, 100 safety prompts", 0.05, 0.238, 0.443, "013 validity_H8"),
-        ("fails", "stratified sheet read as a random sample", 0.05, 0.005, 0.980, "017 Results 4"),
-        ("fails", "the judge's rate alone", 0.05, 1.000, 1.000, "017 B6"),
-    ]
+    """Miss rate over delta for every row of the paper's Table 4, read from the recount (which asserts the table
+    against the result files): one bar a row and delta, from its lowest cell to its highest."""
+    T = json.load(open(os.path.join(ROOT, "results", "paper", "validity_recount.json")))["table4"]
+    rows = []
+    for r in T:
+        bold = r["bound"].startswith("**")
+        name = r["bound"].replace("*", "").replace("`", "")
+        g = "fails" if bold else "exact" if r["kind"].startswith("exact") else "approximate"
+        deltas = [float(x) for x in r["delta"].split("/")]
+        parts = r["parts"]
+        # a row with two deltas prints one part a delta; otherwise its parts are settings at the one delta
+        split = [[p["sum"]] for p in parts] if len(deltas) == len(parts) and len(deltas) > 1 else [[p["sum"] for p in parts]]
+        for d, ss in zip(deltas, split):
+            rows.append((g, name, d, min(x["lowest"] for x in ss), max(x["largest"] for x in ss), r["source"].strip("[]"),
+                         sum(x["counts"]["over"] for x in ss), sum(x["cells"] for x in ss), max(x["hi_max"] for x in ss)))
     col = {"exact": BLUE, "approximate": AQUA, "fails": ORANGE}
-    names = {"exact": "exact at every sample size", "approximate": "approximate, holds where tested", "fails": "does not hold"}
-    fig, ax = plt.subplots(figsize=(8.6, 8.2))
+    names = {"exact": "exact at every sample size", "approximate": "approximate, used in the paper",
+             "fails": "over its level in some setting (bold in Table 4)"}
+    fig, ax = plt.subplots(figsize=(9.8, 11.6))
     LEFT = 0.04
     y, ticks, labels = 0, [], []
     for g in ("exact", "approximate", "fails"):
-        ax.text(-0.02, y - 0.05, names[g].upper(), transform=ax.get_yaxis_transform(), ha="right", va="center", fontsize=7.6,
-                color=MUTED, fontweight="semibold")
+        ax.text(-0.02, y - 0.05, names[g].split(",")[0].split(" (")[0].upper(), transform=ax.get_yaxis_transform(), ha="right",
+                va="center", fontsize=7.6, color=MUTED, fontweight="semibold")
         y += 1
-        for _, label, d, lo, hi, _ in [r for r in rows if r[0] == g]:
-            a, b = max(lo / d, LEFT), max(hi / d, LEFT)
+        for _, label, d, lo, hi, _, over, cells, top in [r for r in rows if r[0] == g]:
+            a, b, w = max(lo / d, LEFT), max(hi / d, LEFT), max(top / d, LEFT)
             ax.plot([a, b], [y, y], color=col[g], linewidth=3, solid_capstyle="round", alpha=0.45)
+            ax.plot([b, w], [y, y], color=INK2, linewidth=0.9, zorder=4)          # to the largest 95% upper limit of a cell
+            ax.plot([w, w], [y - 0.22, y + 0.22], color=INK2, linewidth=0.9, zorder=4)
             ax.plot([b], [y], marker="o", color=col[g], clip_on=False, zorder=5, **DOT)
-            if hi == 0:
-                ax.text(LEFT * 1.18, y, "no miss", fontsize=8, color=INK2, va="center", ha="left")
+            ax.text(max(w, LEFT) * 1.16, y, "no miss" if hi == 0 else f"{over} of {cells} over", fontsize=7.2, color=INK2, va="center",
+                    ha="left")
             ticks.append(y); labels.append(f"{label}  (δ {d:.2f})")
             y += 1
         y += 0.5
     ax.axvline(1, color=INK2, linewidth=1.0)
     ax.text(1.07, -0.62, "the level the bound claims", ha="left", va="center", fontsize=8, color=INK2)
-    ax.set_xscale("log"); ax.set_xlim(LEFT, 28); ax.set_ylim(y - 0.6, -1.0)
+    ax.set_xscale("log"); ax.set_xlim(LEFT * 0.86, 60); ax.set_ylim(y - 0.6, -1.0)
     ax.set_xticks([0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20]); ax.set_xticklabels(["0.05", "0.1", "0.2", "0.5", "1", "2", "5", "10", "20"])
-    ax.set_yticks(ticks); ax.set_yticklabels(labels)
+    ax.set_yticks(ticks); ax.set_yticklabels(labels, fontsize=7.6)
     ax.set_xlabel("miss rate ÷ δ  (1 = the level the bound claims)")
     style(ax, "x")
     ax.minorticks_off()
     h = [plt.Line2D([], [], marker="o", color=col[g], label=names[g], **DOT) for g in col]
-    top = heading(fig, "Which bounds hold their level", "Each row is a bound in one setting. The bar runs from its best cell to its worst and the dot is the "
-                  "worst; at or left of the line the bound holds. The approximate bounds' worst cells sit at 0.5 to 1.2 times the level, "
-                  "within about two Monte Carlo standard errors of it.", h)
-    fig.subplots_adjust(left=0.495, right=0.975, top=top, bottom=0.075)
-    save(fig, "fig1_validity", ["group", "bound and setting", "delta", "lowest miss", "highest miss", "highest miss / delta", "source"],
-         [(g, l, d, f"{lo:.3f}", f"{hi:.3f}", f"{hi / d:.2f}", s) for g, l, d, lo, hi, s in rows])
+    top = heading(fig, "Which bounds are over their level", "Each bar is one row of Table 4 at one delta, from its lowest cell to its "
+                  "highest; the dot is the highest, and the whisker runs to the largest upper end of a 95% interval for a "
+                  "cell's miss rate. A cell is over its level only when its miss exceeds delta by more than two Monte Carlo "
+                  "standard errors; the count beside each bar gives the cells over.", h)
+    fig.subplots_adjust(left=0.50, right=0.975, top=top, bottom=0.06)
+    save(fig, "fig1_validity", ["group", "bound and setting", "delta", "lowest miss", "highest miss", "highest miss / delta", "source",
+                                "cells over", "cells", "largest 95% upper limit"],
+         [(g, l, d, f"{lo:.4f}", f"{hi:.4f}", f"{hi / d:.2f}", s, o, c, f"{t:.4f}") for g, l, d, lo, hi, s, o, c, t in rows])
 
 
 # ---------------------------------------------------------------------------------------- fig 2
@@ -198,7 +187,7 @@ def fig2():
          plt.Line2D([], [], marker="o", color=BLUE, label="real label, side effect of training", **DOT),
          plt.Line2D([], [], marker="o", color=ORANGE, label="real label, targeted by training", **DOT)]
     top = heading(fig, "The gain from reference-rate strata can be predicted before labelling",
-                  "8 strata of an 8-sample reference rate, 200 safety prompts, δ 0.1, 200 training steps. Labels with rates of 1-2% are left out: no approximate bound holds there.", h)
+                  "8 strata of an 8-sample reference rate, 200 safety prompts, δ 0.1, 200 training steps. Labels with rates of 1-2% are left out: the strata give no gain there.", h)
     fig.subplots_adjust(left=0.085, right=0.975, top=top, bottom=0.11)
     save(fig, "fig2_strata_ess", ["series", "label or environment", "checkpoint", "ICC_ref", "ESS"], table)
 

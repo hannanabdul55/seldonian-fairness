@@ -87,10 +87,26 @@ Use it only when `preflight.py` says YES (see Constraints).
 | refusal, plain PKU requests | 66% | 0.86 | 5.13 / 5.33 | 0.20 -> 0.56 |
 | non-refusal, encoded PKU | 9% | 0.50 | 1.42 / 1.43 (encoding strata alone: 1.2) | 0.29 -> 0.38 |
 | refusal, encoded PKU | 94% | 0.47 | 1.05 / 1.18 | - |
-| gated harm / plain harm | 1-2% | 0.33-0.50 | 1.0 | invalid for every design |
+| gated harm / plain harm | 1-2% | 0.33-0.50 | 1.0-1.09 | no gain; use an exact bound (not "invalid": see the correction below) |
 
-Coverage of this recipe holds on every mid-rate label: at most 0.093 misses at delta 0.1
-and at most 0.047 at 0.05, beside the random split's 0.066-0.114.
+Coverage of this recipe on every mid-rate label: at most 0.093 misses at delta 0.1 and at
+most 0.047 at 0.05, beside the random split's 0.066-0.114. **That is in a pool the safety set
+is 20-40% of.** Two corrections of 2026-10-06/07 apply (`reports/b1w_fix_and_audit_2026-10-06.md`):
+
+- `b1w` used to return its estimate at zero positives, and the rare-label failures first
+  reported for it (0.24-0.45 at n_s 100) were that bug. Fixed and rerun: no rare-label cell
+  is over at delta 0.05, one of twelve at 0.1. Any new bound gets an end-point test first
+  (`tests/test_bound_endpoints.py`).
+- Redrawn with replacement, the limit of a pool far larger than the safety set
+  (`scripts/replacement_check.py`, 40,000 draws a cell), `b1w` is over its level in 7 of 28
+  mid-rate cells at delta 0.05 (largest 0.062), all at rates of 65% and above, and in none of
+  16 at 9-18%; no label between 18% and 65% was tested. The StratPPI estimator with a
+  bootstrap-t limit and the Wald-t `b1` are over in none. Use `b1w` for the pool's own rate
+  when the safety set is a large share of the pool; for a large pool use it only at low
+  rates, and otherwise the bootstrap-t StratPPI limit (`scripts/stratppi_baseline.py`) or
+  the Wald-t `b1`. The gains are the same either way (and the ESS table above is at delta
+  0.1; at 0.05 it reads 2.30/2.35, 4.79/5.14, 1.39/1.41). The pooled Wilson bound's exact miss probability is in
+  `results/paper/wilson_exact.md` (0.069 just above the zero-count limit at delta 0.05).
 
 ### 3. Testing a split or bound: the plasmode
 

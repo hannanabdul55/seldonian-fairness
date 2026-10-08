@@ -95,7 +95,7 @@ The published interval in the validity cells, by whose plug-in choices are used:
 Two-sided, as the interval is published (90%, nominal miss 0.10, over if above 0.1085 in A): A 12 of 26 over (largest 0.133); B 22 of 28 (largest 0.251).
 The lower limit alone misses up to 0.088 in A (on the 93% label, the mirror image) and 0.058 in B.
 By the paper's Table 3 counting (largest miss over checkpoints, 10 label-by-size cells) the baseline's arm is over in 4 of 10.
-Per cell it is over in 9 of 26: 6 of the 6 cells of C2:unsafe (the 9% label) and 3 of the other 20, all at n_s 100. Rare labels (under 5%): over in 12 of 12 cells (misses 0.096-0.445); `b1w` in 9, the bootstrap-t limit in 0.
+Per cell it is over in 9 of 26: 6 of the 6 cells of C2:unsafe (the 9% label) and 3 of the other 20, all at n_s 100. Rare labels (under 5%): over in 12 of 12 cells (misses 0.096-0.445); `b1w` in 0, the bootstrap-t limit in 0.
 
 **Verdict.** Our implementation is Algorithm 1 of the paper to rounding error (6e-17 on the upper limit). The largest discrepancy from someone else's code is against `ppi_py` composed within strata: 0.017 on the estimate, 9% on the variance and 0.016 on the upper limit, all of it `ppi_py`'s clipping of lam to [0, 1] and its division by n; against GLIDE it is 0.0010 on the upper limit. Our unstratified PPI++ equals GLIDE's to rounding error and differs from `ppi_py` by the same two choices. On the paper's own simulation ours gives its Figure 2 widths at proportional allocation to the third decimal and its coverage (0.885-0.901 against a nominal 0.90); at the oracle allocation it matches at n 200 and 1,000 and is 0.231 against 0.222 at n 100, where `ppi_py`'s conventions give 0.206. None of this lowers a count: in part B the published interval is over in 26 of 28 cells under our choices, 26 under `ppi_py`'s, 26 under GLIDE's and 26 with the judge's probability as the predictor (the paper's set-up); in part A in 9 of 26 (baseline), 9, 9 and 12 with the unlabelled set drawn as the paper draws it. What the comparison cannot rule out is a choice in the authors' unreleased code that neither library makes.
 
@@ -131,7 +131,7 @@ and `opt` are run with at least 2 labels per stratum and `heur10` with at least 
 | B, K = 5 and 10: StratPPI estimator, bootstrap-t, heur10 | 28 | 11 / 0 / 17 | 0.655 | 1.71 |
 | B, K = 5 and 10: StratPPI estimator, bootstrap-t, opt | 28 | 14 / 11 / 3 | 0.083 | 3.75 |
 | B, K = 5 and 10: b1w, prop | 28 | 0 / 1 / 27 | 0.053 | 1.42 |
-| B, K = 5 and 10: b1w, heur | 28 | 0 / 0 / 28 | 0.022 | 0.18 |
+| B, K = 5 and 10: b1w, heur | 28 | 0 / 0 / 28 | 0.011 | 0.18 |
 | B, K = 5 and 10: b1w, heur10 | 28 | 1 / 0 / 27 | 0.065 | 0.60 |
 | B, K = 5 and 10: b1w, opt | 28 | 0 / 0 / 28 | 0.042 | 0.56 |
 
@@ -198,7 +198,7 @@ the baseline (both on all 8) and a control (both on samples 1-4).
 | C2:refusal (0.93) | 200 | 0.045; 1.12 | 0.029; 1.03 | 0.034; 1.05 | 0.025; 0.99 | 0.017; 0.82 |
 | C2:unsafe (0.09) | 100 | 0.018; 1.38 | 0.034; 1.43 | 0.020; 1.31 | 0.026; 1.27 | 0.040; 1.56 |
 | C2:unsafe (0.09) | 200 | 0.024; 1.36 | 0.036; 1.59 | 0.024; 1.36 | 0.033; 1.55 | 0.035; 1.62 |
-| C3:refusal (0.65) | 100 | 0.047; 4.75 | 0.033; 1.77 | 0.041; 4.39 | 0.034; 2.42 | 0.023; 1.48 |
+| C3:refusal (0.65) | 100 | 0.047; 4.74 | 0.033; 1.77 | 0.041; 4.39 | 0.034; 2.42 | 0.023; 1.48 |
 | C3:refusal (0.65) | 200 | 0.040; 5.19 | 0.034; 5.35 | 0.040; 4.79 | 0.033; 5.28 | 0.031; 4.95 |
 | C1:refusal pushed (0.18) | 100 | 0.024; 2.19 | 0.036; 2.43 | 0.026; 2.13 | 0.041; 2.23 | 0.053; 2.75 |
 | C1:refusal pushed (0.18) | 200 | 0.023; 2.13 | 0.037; 2.49 | 0.024; 1.99 | 0.034; 2.27 | 0.038; 2.32 |
@@ -247,7 +247,7 @@ ESS at each label's last checkpoint, bootstrap-t StratPPI / `b1w`:
 | C1:refusal (0.16) | 3.37 / 1.93 | 2.58 / 2.39 | 1.42 / 2.49 | 3.08 / 1.92 | 3.10 / 2.30 | 2.94 / 2.51 |
 | C2:refusal (0.93) | 0.85 / 0.87 | 0.83 / 0.96 | 0.66 / 0.96 | 1.05 / 1.01 | 1.03 / 1.12 | 1.03 / 1.13 |
 | C2:unsafe (0.09) | 1.28 / 1.16 | 1.43 / 1.38 | 1.06 / 1.46 | 1.50 / 1.21 | 1.59 / 1.36 | 1.58 / 1.47 |
-| C3:refusal (0.65) | 4.97 / 3.05 | 1.77 / 4.75 | 1.60 / 5.53 | 5.35 / 3.32 | 5.35 / 5.19 | 5.76 / 5.77 |
+| C3:refusal (0.65) | 4.97 / 3.05 | 1.77 / 4.74 | 1.60 / 5.52 | 5.35 / 3.32 | 5.35 / 5.19 | 5.76 / 5.77 |
 | C1:refusal pushed (0.18) | 2.61 / 1.89 | 2.43 / 2.19 | 2.03 / 2.23 | 2.46 / 1.83 | 2.49 / 2.13 | 2.37 / 2.12 |
 
 Part B: proportional allocation, K = 5, 10 or 20 strata of the judge's logit; cells grouped by labels per stratum (n / K).
@@ -267,9 +267,9 @@ Part B: proportional allocation, K = 5, 10 or 20 strata of the judge's logit; ce
 | 100-200 | (1000, 10), (1000, 5), (500, 5) | StratPPI as published | 9 / 1 / 0 | 0.109 | 2.94 | - |
 | 100-200 | (1000, 10), (1000, 5), (500, 5) | StratPPI estimator, bootstrap-t | 0 / 1 / 9 | 0.053 | 1.78 | 10 of 10 |
 
-Median ESS in part B by rate (20%, 5%, 1.3%): bootstrap-t StratPPI K = 5: 2.47, 1.76, 0.54; bootstrap-t StratPPI K = 10: 2.54, 1.87, 0.60; bootstrap-t StratPPI K = 20: 2.51, 1.64, 0.63; `b1w` K = 5: 2.24, 1.26, 1.16; `b1w` K = 10: 2.41, 1.42, 1.20; `b1w` K = 20: 2.60, 1.70, 1.28.
+Median ESS in part B by rate (20%, 5%, 1.3%): bootstrap-t StratPPI K = 5: 2.47, 1.76, 0.54; bootstrap-t StratPPI K = 10: 2.54, 1.87, 0.60; bootstrap-t StratPPI K = 20: 2.51, 1.64, 0.63; `b1w` K = 5: 2.24, 1.26, 1.13; `b1w` K = 10: 2.41, 1.42, 1.17; `b1w` K = 20: 2.59, 1.70, 1.25.
 
-**Verdict.** *Where each arm holds.* The published interval is over in every block: 28 of 78 cells of A, from 2 of 13 at 50 labels per stratum to 10 of 13 at 6, and 39 of 42 of B, still 9 of 10 at 100-200 labels per stratum (largest 0.109, at the 1.3% rate). More labels per stratum shrink the excess and do not remove it at these rates. The bootstrap-t limit on the same estimator is not over in any cell at any size (0 / 0 / 78 in A, 0 / 8 / 34 in B, largest 0.057). `b1w` is 1 / 4 / 73 in A, its one cell over at 6 labels per stratum (0.058), and 0 / 1 / 41 in B. *Which is narrowest.* In A the bootstrap-t StratPPI has the larger median ESS in four of the six blocks: with 4 strata at either size (2.65 against 1.88 for `b1w` at 25 labels per stratum, 2.63 against 1.83 at 50) and at n_s 200 with 8 or 16 strata (2.70 against 2.13 at 25, 2.63 against 2.23 at 12.5). `b1w` is ahead at n_s 100 with 8 or 16 strata (2.19 against 1.77 at 12.5, 2.35 against 1.37 at 6). So 25 labels per stratum is not the dividing line: 12.5 is enough at n_s 200 and not at n_s 100. The cell the paper singles out (refusal on harmful prompts, n_s 100, 8 strata: 1.77 against 4.75) is 5.76 against 5.77 at the same 12.5 labels per stratum with n_s 200, and 4.97 against 3.05 at n_s 100 with 4 strata. Cell by cell the bootstrap-t StratPPI is the narrowest of the three in 12 and 13 of 13 cells with 4 strata, 7 and 11 of 13 cells with 8 strata, 1 and 9 of 13 cells with 16 strata (n_s 100 and 200), so at n_s 100 with 8 strata the two are level by cells (7 and 6) and `b1w` leads on the median because the bootstrap-t limit loses badly on the two high-rate labels. In B `b1w` is the narrowest in 10 of 10 cells at 5-11 labels per stratum and 4 of 10 at 20-25; the bootstrap-t StratPPI in 10 of 12 at 45-50 and 10 of 10 at 100-200. At the 1.3% rate it is useless at any size (ESS 0.60 at K = 10) and `b1w` is not (1.20).
+**Verdict.** *Where each arm holds.* The published interval is over in every block: 28 of 78 cells of A, from 2 of 13 at 50 labels per stratum to 10 of 13 at 6, and 39 of 42 of B, still 9 of 10 at 100-200 labels per stratum (largest 0.109, at the 1.3% rate). More labels per stratum shrink the excess and do not remove it at these rates. The bootstrap-t limit on the same estimator is not over in any cell at any size (0 / 0 / 78 in A, 0 / 8 / 34 in B, largest 0.057). `b1w` is 1 / 4 / 73 in A, its one cell over at 6 labels per stratum (0.058), and 0 / 1 / 41 in B. *Which is narrowest.* In A the bootstrap-t StratPPI has the larger median ESS in four of the six blocks: with 4 strata at either size (2.65 against 1.88 for `b1w` at 25 labels per stratum, 2.63 against 1.83 at 50) and at n_s 200 with 8 or 16 strata (2.70 against 2.13 at 25, 2.63 against 2.23 at 12.5). `b1w` is ahead at n_s 100 with 8 or 16 strata (2.19 against 1.77 at 12.5, 2.35 against 1.37 at 6). So 25 labels per stratum is not the dividing line: 12.5 is enough at n_s 200 and not at n_s 100. The cell the paper singles out (refusal on harmful prompts, n_s 100, 8 strata: 1.77 against 4.74) is 5.76 against 5.77 at the same 12.5 labels per stratum with n_s 200, and 4.97 against 3.05 at n_s 100 with 4 strata. Cell by cell the bootstrap-t StratPPI is the narrowest of the three in 12 and 13 of 13 cells with 4 strata, 7 and 11 of 13 cells with 8 strata, 1 and 9 of 13 cells with 16 strata (n_s 100 and 200), so at n_s 100 with 8 strata the two are level by cells (7 and 6) and `b1w` leads on the median because the bootstrap-t limit loses badly on the two high-rate labels. In B `b1w` is the narrowest in 10 of 10 cells at 5-11 labels per stratum and 4 of 10 at 20-25; the bootstrap-t StratPPI in 10 of 12 at 45-50 and 10 of 10 at 100-200. At the 1.3% rate it is useless at any size (ESS 0.60 at K = 10) and `b1w` is not (1.17).
 
 ## Does the claim survive?
 
@@ -325,11 +325,11 @@ Quoted as they stand, with what the evidence above supports instead.
    the same limit gives 1.67 and 1.39."
    - "Holds in all 28" should read: not over in any of 28, unresolved above delta in 5 (largest 0.056), and add "with proportional allocation":
      with the paper's oracle allocation it is over in 14 of 28 (largest 0.083). "The most efficient valid route" is true among 5 and 10 strata;
-     with 20 strata `b1w` gives 2.60 at the 20% rate against 2.51 for the bootstrap-t StratPPI (and 1.70 against 1.64 at 5%).
+     with 20 strata `b1w` gives 2.59 at the 20% rate against 2.51 for the bootstrap-t StratPPI (and 1.70 against 1.64 at 5%).
      PPBoot belongs in this list and is not a valid route: over in 7 of 14 cells in its basic form and 12 power-tuned (largest 0.133 and 0.148).
 10. "Stratifying on the judge and ignoring it within strata (`b1w`) also holds (largest miss 0.053), at 2.41 and 1.42 with 10 strata (2.24 and
     1.26 with 5)."
-    - By the one rule: 0 / 1 / 27 of 28. Add 20 strata (2.60 and 1.70) and that at 5-11 labels per stratum `b1w` is
+    - By the one rule: 0 / 1 / 27 of 28. Add 20 strata (2.59 and 1.70) and that at 5-11 labels per stratum `b1w` is
       narrower than the bootstrap-t StratPPI in 10 of 10 cells.
 11. "So the third row of Table 4 has a better form when labelling can follow scoring: stratify on the judge's logit, StratPPI's estimator, a
     bootstrap-t limit."

@@ -107,7 +107,8 @@ def stratppi_boot(y, f, st, pool, W, deltas, rng, boots=300):
 
 def summarise(ub, est, truth):
     ub = np.asarray(ub)
-    return dict(miss=float((ub < truth).mean()), excess=float(ub.mean() - truth),
+    # a NaN bound counts as a miss (ub < truth is False for NaN)
+    return dict(miss=float((~(ub >= truth)).mean()), excess=float(ub.mean() - truth),
                 width=float((ub - np.asarray(est)).mean()), pass02=float((ub <= truth + 0.02).mean()))
 
 

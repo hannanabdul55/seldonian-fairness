@@ -66,8 +66,11 @@ Spike sessions wrapped: 2026-09-21 (001, 002, 003a-c); 2026-09-28 (004-013); 202
    adversaries. They pay only when balancing outcome-like covariates.
 9. For an LLM safety set on a heterogeneous mid-rate label, 8 equal rank strata of an
    8-sample reference rate plus the stratified Wilson-type bound `b1w` give 1.4-5.3x
-   effective safety samples with coverage held. Rare labels (1-2%) break approximate
-   bounds for every design, and no distribution-free stratified bound beat pooling.
+   effective safety samples. Coverage held where the safety set is 20-40% of its pool;
+   redrawn with replacement `b1w` is over its level in 7 of 28 cells, all at rates of 65% and
+   above, where the bootstrap-t StratPPI limit and the Wald-t `b1` are over in none. Rare labels (1-2%) get no
+   gain and take an exact bound; the "rare labels break `b1w`" finding was a bug at zero
+   positives, corrected 2026-10-06. No distribution-free stratified bound beat pooling.
 10. The gain survives a label the Lagrangian targets directly: no compression of the
     per-prompt rates, rho 0.92 on Granite (set by ICC_ref, not by the pressure), ESS
     2.1-2.2 against 2.4-2.5 as a side effect. Score the pre-flight at the measured

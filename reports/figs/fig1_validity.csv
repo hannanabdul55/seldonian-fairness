@@ -1,23 +1,39 @@
-group,bound and setting,delta,lowest miss,highest miss,highest miss / delta,source
-exact,Clopper-Pearson · harm labels at 3.4%,0.1,0.067,0.084,0.84,training paper 6.2
-exact,Clopper-Pearson · refusal pools,0.05,0.000,0.051,1.02,"017 B6, P14"
-exact,Bentkus · harm labels at 3.4%,0.1,0.023,0.035,0.35,training paper 6.2
-exact,betting mixture · harm labels at 3.4%,0.1,0.007,0.016,0.16,training paper 6.2
-exact,"Hoeffding, Anderson · harm labels at 3.4%",0.1,0.000,0.000,0.00,training paper 6.2
-approximate,stratified Wilson-type (b1w) · mid-rate labels,0.05,0.023,0.054,1.08,013 validity_H8
-approximate,b1w · mid-rate labels,0.1,0.069,0.097,0.97,013 validity_H8
-approximate,b1w · label pushed by training,0.05,0.011,0.023,0.46,014
-approximate,b1w · design-weighted labelling sheet,0.05,0.001,0.059,1.18,017 Results 4
-approximate,"PPI++, bootstrap-t limit",0.05,0.000,0.053,1.06,"017 B6, P14"
-approximate,"StratPPI estimator, bootstrap-t · reference-rate strata",0.05,0.025,0.045,0.90,P14
-approximate,"StratPPI estimator, bootstrap-t · judge strata",0.05,0.001,0.056,1.12,P14
-approximate,cluster bootstrap-t by user task · AgentDojo,0.05,0.020,0.060,1.20,020 plasmode
-fails,"Student-t · harm labels at 3.4%, n up to 800",0.1,0.115,0.184,1.84,training paper 6.2
-fails,StratPPI as published · reference-rate strata,0.05,0.024,0.086,1.72,P14
-fails,StratPPI as published · judge strata,0.05,0.053,0.239,4.77,P14
-fails,"PPI++, normal limit",0.05,0.061,0.241,4.82,"017 B6, P14"
-fails,two-way bootstrap · AgentDojo,0.05,0.000,0.170,3.40,020 plasmode
-fails,Clopper-Pearson over pairs · AgentDojo (crossed design),0.05,0.048,0.275,5.50,020 plasmode
-fails,"b1w at 1-2% rates, 100 safety prompts",0.05,0.238,0.443,8.86,013 validity_H8
-fails,stratified sheet read as a random sample,0.05,0.005,0.980,19.60,017 Results 4
-fails,the judge's rate alone,0.05,1.000,1.000,20.00,017 B6
+group,bound and setting,delta,lowest miss,highest miss,highest miss / delta,source,cells over,cells,largest 95% upper limit
+exact,Clopper-Pearson,0.1,0.0670,0.0840,0.84,0.092 (0),0,5,0.0920
+exact,Clopper-Pearson,0.05,0.0000,0.0515,1.03,0.059 (0),0,42,0.0588
+exact,betting mixture,0.1,0.0070,0.0160,0.16,0.020 (0),0,5,0.0199
+exact,Bentkus,0.1,0.0230,0.0350,0.35,0.040 (0),0,5,0.0405
+exact,"Hoeffding, Anderson",0.1,0.0000,0.0000,0.00,0.001 (0),0,5,0.0007
+approximate,stratified Wilson-type b1w,0.05,0.0166,0.0542,1.08,0.061 (0); 0.106 (0),0,24,0.0608
+approximate,stratified Wilson-type b1w,0.1,0.0576,0.0970,0.97,0.061 (0); 0.106 (0),0,24,0.1055
+approximate,b1w,0.05,0.0110,0.0228,0.46,0.027 (0); 0.071 (0),0,2,0.0273
+approximate,b1w,0.1,0.0398,0.0642,0.64,0.027 (0); 0.071 (0),0,2,0.0714
+approximate,b1w on a design-weighted sheet,0.05,0.0000,0.0595,1.19,0.067 (0),1,18,0.0673
+approximate,PPI++ with a bootstrap-t limit,0.05,0.0000,0.0535,1.07,0.061 (0),0,168,0.0609
+approximate,"cluster bootstrap-t, by user task",0.05,0.0130,0.0505,1.01,0.058 (0),0,28,0.0577
+approximate,"StratPPI estimator with a bootstrap-t limit, proportional allocation",0.05,0.0008,0.0560,1.12,0.051 (0); 0.064 (0),0,56,0.0636
+approximate,"the same estimator and limit, redrawn with replacement",0.05,0.0295,0.0496,0.99,0.052 (0); 0.103 (0),0,28,0.0518
+approximate,"the same estimator and limit, redrawn with replacement",0.1,0.0694,0.1003,1.00,0.052 (0); 0.103 (0),0,28,0.1033
+exact,"Clopper-Pearson, random draws with replacement (the control)",0.05,0.0293,0.0497,0.99,0.052 (0); 0.100 (0),0,28,0.0518
+exact,"Clopper-Pearson, random draws with replacement (the control)",0.1,0.0497,0.0970,0.97,0.052 (0); 0.100 (0),0,28,0.1000
+approximate,pigeonhole bootstrap-t,0.05,0.0000,0.0418,0.83,0.007 (0); 0.043 (0); 0.048 (0),0,84,0.0484
+fails,Student-t,0.1,0.1010,0.1840,1.84,0.195 (3),3,5,0.1950
+fails,b1w and the pooled Wilson bound at rare rates,0.05,0.0000,0.0478,0.96,0.054 (0); 0.136 (2),0,24,0.0541
+fails,b1w and the pooled Wilson bound at rare rates,0.1,0.0000,0.1260,1.26,0.054 (0); 0.136 (2),2,24,0.1355
+fails,"b1w, redrawn with replacement",0.05,0.0171,0.0624,1.25,0.065 (7); 0.116 (4),7,28,0.0648
+fails,"b1w, redrawn with replacement",0.1,0.0563,0.1128,1.13,0.065 (7); 0.116 (4),6,28,0.1159
+fails,"pooled Wilson bound, random draws with replacement",0.05,0.0312,0.0689,1.38,0.071 (6); 0.131 (10),6,28,0.0714
+fails,"pooled Wilson bound, random draws with replacement",0.1,0.0686,0.1275,1.28,0.071 (6); 0.131 (10),10,28,0.1309
+fails,PPI++ with a normal limit,0.05,0.0408,0.2412,4.82,0.255 (87),126,168,0.2548
+fails,"StratPPI's normal limit, proportional allocation",0.05,0.0238,0.2387,4.77,0.094 (7); 0.252 (25),35,56,0.2523
+fails,"StratPPI's normal limit, the paper's allocations (oracle; heuristic)",0.05,0.0022,0.9025,18.05,0.119 (8); 0.229 (11); 0.232 (25); 0.912 (24),72,108,0.9115
+fails,"StratPPI estimator with a bootstrap-t limit, oracle or heuristic allocation",0.05,0.0064,0.9012,18.02,0.086 (5); 0.185 (11); 0.092 (9); 0.910 (14),45,108,0.9103
+fails,"PPBoot, percentile limit (basic; power-tuned)",0.05,0.0498,0.1482,2.96,0.144 (5); 0.160 (11),19,28,0.1596
+fails,Clopper-Pearson over pairs,0.05,0.0418,0.3500,7.00,0.282 (26); 0.355 (27); 0.365 (28),83,84,0.3650
+fails,"cluster bootstrap-t by user task, when injection tasks are sampled",0.05,0.0008,0.2745,5.49,0.272 (20); 0.289 (24),45,56,0.2886
+fails,larger of the two clustered bounds,0.05,0.0000,0.0890,1.78,0.034 (0); 0.074 (3); 0.098 (15),20,84,0.0983
+fails,"pigeonhole bootstrap, basic limit",0.05,0.0000,0.2777,5.55,0.187 (5); 0.190 (10); 0.292 (26),46,84,0.2919
+fails,stratified sheet read as an i.i.d. sample,0.05,0.0000,0.9892,19.78,0.992 (7),7,18,0.9922
+fails,the judge's rate alone,0.05,0.0000,1.0000,20.00,1.000 (30),30,42,1.0000
+fails,multiway cluster variance with a t quantile,0.05,0.0000,0.1787,3.57,0.147 (5); 0.187 (7); 0.191 (25),39,84,0.1910
+fails,two clustered margins added in quadrature,0.05,0.0000,0.0580,1.16,0.020 (0); 0.053 (0); 0.066 (0),1,84,0.0657
