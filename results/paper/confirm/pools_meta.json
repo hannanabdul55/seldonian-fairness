@@ -1,0 +1,27 @@
+{
+ "seed": 20261008,
+ "n": 400,
+ "exclusion": {
+  "files": 165,
+  "strings_from_files": 196882,
+  "with_loader_draws": 240221,
+  "K1": {
+   "source": "or-bench-80k",
+   "rows": 80359,
+   "unused": 36178,
+   "taken": 400
+  },
+  "K2": {
+   "source": "or-bench-hard-1k",
+   "rows": 1319,
+   "unused": 593,
+   "taken": 400
+  },
+  "K3": {
+   "source": "or-bench-toxic",
+   "rows": 655,
+   "unused": 655,
+   "taken": 400
+  }
+ }
+}
