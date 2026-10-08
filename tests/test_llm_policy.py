@@ -214,7 +214,7 @@ class TestSafetyTest:
 
     def test_bound_matches_library_and_delta_is_split(self):
         judge = BadJudge()
-        c1 = Constraint("harm", judge, threshold=0.3)
+        c1 = Constraint("harm", judge, threshold=0.3, bound="ttest")
         c2 = Constraint("refusal", judge, threshold=0.3, group="benign", bound="hoeffding")
         policy = make_policy(MockBackend({"adversarial": 0.2, "benign": 0.2}), [c1, c2],
                              delta=0.1)
@@ -235,7 +235,7 @@ class TestSafetyTest:
         judge = BadJudge()
         # benign prompts are clean, adversarial ones are not: a benign-only constraint passes
         policy = make_policy(MockBackend({"adversarial": 1.0, "benign": 0.0}),
-                             [Constraint("refusal", judge, threshold=0.05, group="benign")])
+                             [Constraint("refusal", judge, threshold=0.05, group="benign", bound="ttest")])
         assert policy._safetyTest() <= 0
         assert policy.safety_report.rates["refusal"] == 0.0
 
@@ -249,7 +249,7 @@ class TestSafetyTest:
     def test_predicted_test_uses_candidate_prompts_and_doubled_interval(self):
         judge = BadJudge()
         policy = make_policy(MockBackend({"adversarial": 0.2, "benign": 0.2}),
-                             [Constraint("harm", judge, threshold=0.3)])
+                             [Constraint("harm", judge, threshold=0.3, bound="ttest")])
         policy._safetyTest(predict=True)
         s_prompts = {r["prompt"] for r in policy.prompts_s}
         assert not (set(policy.backend.generated) & s_prompts)
@@ -305,6 +305,29 @@ class TestFit:
         assert policy.safety_tests_run == 1
         assert len(policy.history) == 3
 
+    @pytest.mark.parametrize("order", [("ok", "harm"), ("harm", "ok")])
+    def test_nan_threshold_fails_the_safety_test(self, order):
+        # audit of 2026-10-06, item 1: max() drops a NaN that is not the first value
+        spec = {"ok": 0.9, "harm": float("nan")}
+        backend = MockBackend({"adversarial": 0.0, "benign": 0.0}, schedule=[{}])
+        policy = make_policy(backend, [Constraint(n, BadJudge(), threshold=spec[n]) for n in order])
+        assert policy.fit() is None
+        assert policy.safety_report.passed is False
+
+    def test_safety_test_that_raises_is_spent(self):
+        # audit item 4: the counter moved only after sampling and judging succeeded
+        backend = MockBackend({"adversarial": 0.0, "benign": 0.0})
+        policy = make_policy(backend, [Constraint("harm", BadJudge(), threshold=0.05)])
+
+        def boom(records):
+            raise OSError("backend died")
+        policy.sample = boom
+        with pytest.raises(OSError):
+            policy._safetyTest()
+        assert policy.safety_tests_run == 1
+        with pytest.raises(RuntimeError, match="already been run"):
+            policy._safetyTest()
+
     def test_explicit_safety_call_during_fit_raises(self):
         backend = MockBackend({"adversarial": 0.0, "benign": 0.0}, schedule=[{}])
         policy = make_policy(backend, [Constraint("harm", BadJudge(), threshold=0.05)])
@@ -330,7 +353,7 @@ class TestFit:
         schedule = [{"adversarial": 0.0, "benign": 0.0}, {"adversarial": 0.0, "benign": 0.0},
                     {"adversarial": 0.6, "benign": 0.6}]
         backend = MockBackend({"adversarial": 0.0, "benign": 0.0}, schedule=schedule)
-        policy = make_policy(backend, [Constraint("harm", BadJudge(), threshold=0.05)])
+        policy = make_policy(backend, [Constraint("harm", BadJudge(), threshold=0.05, bound="ttest")])
         assert policy.fit() is policy
         assert policy.selected["step"] in (1, 2)
         assert backend.loaded == [f"feasible-step{policy.selected['step']}"]
@@ -386,7 +409,7 @@ class TestLagrangian:
                                lam0=1.0, eta=10.0)
         d_c, d_s = split_prompts(records(), test_size=0.4, seed=0)
         policy = SeldonianLLMPolicy(backend, d_c, d_s, reward=lag,
-                                    constraints=[Constraint("harm", judge, threshold=0.05)],
+                                    constraints=[Constraint("harm", judge, threshold=0.05, bound="ttest")],
                                     delta=0.1, predict_every=1, predict_n=60, seed=0)
         assert policy.fit() is policy
         assert policy.history[0].lambdas["harm"] > 1.0   # violated -> raised
@@ -399,13 +422,13 @@ class TestLagrangian:
 class TestPredictedWidth:
     def test_matches_pilot_numbers(self):
         # 400 benign safety prompts at a 15% refusal rate, delta 0.05, doubled: ~0.06
-        w = predicted_width(0.15, 400, 0.05, inflation=2.0)
+        w = predicted_width(0.15, 400, 0.05, inflation=2.0, bound="ttest")
         assert 0.055 < w < 0.065
         # four times the prompts halves the width
-        assert predicted_width(0.15, 1600, 0.05, inflation=2.0) == pytest.approx(w / 2, rel=0.02)
-        assert predicted_width(0.15, 400, 0.05) == pytest.approx(w / 2)
+        assert predicted_width(0.15, 1600, 0.05, inflation=2.0, bound="ttest") == pytest.approx(w / 2, rel=0.02)
+        assert predicted_width(0.15, 400, 0.05, bound="ttest") == pytest.approx(w / 2)
         assert predicted_width(0.15, 400, 0.05, bound="hoeffding", inflation=2.0) == pytest.approx(
             2 * np.sqrt(np.log(20) / 800))
         # a 64-sample prediction against a 400-prompt safety set bounds at n_eff = 55
         assert effective_n(64, 400) == 55
-        assert predicted_width(0.15, 400, 0.05, m=64) > predicted_width(0.15, 400, 0.05)
+        assert predicted_width(0.15, 400, 0.05, m=64, bound="ttest") > predicted_width(0.15, 400, 0.05, bound="ttest")

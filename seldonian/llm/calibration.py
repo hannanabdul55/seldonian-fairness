@@ -42,7 +42,7 @@ from seldonian.llm.policy import BOUNDS
 def youden(sensitivity, specificity):
     """Youden's index ``s + p - 1``; raises if the judge is uninformative."""
     j = float(sensitivity) + float(specificity) - 1.0
-    if j <= 0:
+    if not j > 0:           # also true of NaN (an empty calibration stratum)
         raise ValueError(f"judge is uninformative: sensitivity {sensitivity} + specificity "
                          f"{specificity} - 1 = {j:.3f} <= 0")
     return j

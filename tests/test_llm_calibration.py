@@ -13,6 +13,8 @@ def test_youden_and_margin():
     assert judge_margin(0.03, 0.8, 0.95) == pytest.approx(0.03 * 0.75)
     with pytest.raises(ValueError):
         youden(0.5, 0.5)
+    with pytest.raises(ValueError):          # NaN from an empty stratum must not pass as informative
+        youden(float("nan"), 0.9)
 
 
 def test_relative_correction_matches_the_identity():

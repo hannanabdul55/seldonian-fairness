@@ -233,7 +233,7 @@ class TestExpressionConstraint:
         judge = BadJudge()
         total = ExpressionConstraint(
             "total", {"A": Measure("A", judge, "adversarial"), "B": Measure("B", judge, "benign")},
-            lambda m: m["A"] + m["B"], 1.0, monotone=True)
+            lambda m: m["A"] + m["B"], 1.0, monotone=True, bound="ttest")
         _, rate, upper, _ = total.measure(recs, responses, 0.1, prompts_s)
         assert rate == pytest.approx(a.mean() + b.mean())
         assert upper == pytest.approx(one_sample_interval(a, 0.05, 500, "ttest")[1]
@@ -280,8 +280,8 @@ class TestPairedDifference:
         recs, resps = paired_records(400, seed=1)
         # make group b worse: every b response is bad
         resps = [("BAD" if r["group"] == "b" else x) for r, x in zip(recs, resps)]
-        signed = PairedDifferenceConstraint("gap", BadJudge(), "a", "b", 0.1, absolute=False)
-        absolute = PairedDifferenceConstraint("gap", BadJudge(), "a", "b", 0.1)
+        signed = PairedDifferenceConstraint("gap", BadJudge(), "a", "b", 0.1, absolute=False, bound="ttest")
+        absolute = PairedDifferenceConstraint("gap", BadJudge(), "a", "b", 0.1, bound="ttest")
         g_s, rate_s, up_s, _ = signed.measure(recs, resps, 0.1, recs)
         g_a, rate_a, up_a, _ = absolute.measure(recs, resps, 0.1, recs)
         assert rate_s < -0.3 and rate_a == pytest.approx(-rate_s)
@@ -294,12 +294,12 @@ class TestPairedDifference:
     def test_tighter_than_two_sample_on_the_same_data(self):
         recs, resps = paired_records(600, flip=0.05, seed=2)
         judge = BadJudge()
-        paired = PairedDifferenceConstraint("gap", judge, "a", "b", 0.1)
+        paired = PairedDifferenceConstraint("gap", judge, "a", "b", 0.1, bound="ttest")
         others = [TwoSampleDifferenceConstraint("gap", judge, "a", "b", 0.1),
                   TwoSampleDifferenceConstraint("gap", judge, "a", "b", 0.1, bound="ttest"),
                   ExpressionConstraint("gap", {"A": Measure("A", judge, "a"),
                                                "B": Measure("B", judge, "b")},
-                                       lambda m: abs(m["A"] - m["B"]), 0.1)]
+                                       lambda m: abs(m["A"] - m["B"]), 0.1, bound="ttest")]
         _, rate, upper, n = paired.measure(recs, resps, 0.1, recs)
         width = upper - rate
         assert n == 600
@@ -359,7 +359,7 @@ def test_predict_mode_uses_effective_n():
     # paired: the effective size of (prediction pairs, safety pairs)
     p_recs, p_resps = paired_records(100, seed=3)
     s_recs, _ = paired_records(300, seed=4)
-    c = PairedDifferenceConstraint("gap", BadJudge(), "a", "b", 0.1)
+    c = PairedDifferenceConstraint("gap", BadJudge(), "a", "b", 0.1, bound="ttest")
     _, rate, upper, n = c.measure(p_recs, p_resps, 0.1, s_recs, predict=True, inflation=1.0)
     d = c.differences(p_recs, p_resps)
     lo, hi = one_sample_interval(d, 0.05, effective_n(100, 300), "ttest", -1, 1)

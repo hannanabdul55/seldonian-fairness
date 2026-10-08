@@ -26,7 +26,7 @@ import numpy as np
 
 from seldonian.bounds import RandomVariable, bentkus_diff_bounds, convex_order_diff_bounds
 from seldonian.llm.judges import Judge
-from seldonian.llm.policy import BOUNDS, effective_n
+from seldonian.llm.policy import BOUNDS, DEFAULT_BOUND, DEFAULT_BOUNDED, effective_n
 
 #: two-sample bounds a :class:`TwoSampleDifferenceConstraint` may name
 TWO_SAMPLE_BOUNDS = {"bentkus_diff": bentkus_diff_bounds,
@@ -187,7 +187,7 @@ class ExpressionConstraint:
         hold simultaneously with probability at least ``1 - delta`` (union bound).
     """
 
-    def __init__(self, name, measures, expr, threshold, bound="ttest", monotone=False):
+    def __init__(self, name, measures, expr, threshold, bound=DEFAULT_BOUNDED, monotone=False):
         self.name = name
         self.measures = dict(measures)
         self.expr = expr
@@ -237,7 +237,7 @@ class ExpressionConstraint:
         return upper - self.threshold, rate, upper, min(ns)
 
 
-def rate_constraint(name, judge, threshold, group=None, bound="ttest"):
+def rate_constraint(name, judge, threshold, group=None, bound=DEFAULT_BOUND):
     """The built-in rate constraint expressed as an :class:`ExpressionConstraint`."""
     return ExpressionConstraint(name, {"rate": Measure("rate", judge, group)},
                                 lambda m: m["rate"], threshold, bound=bound, monotone=True)
@@ -258,7 +258,7 @@ class PairedDifferenceConstraint:
     """
 
     def __init__(self, name, feature, group_a, group_b, threshold, pair_key="pair_id",
-                 bound="ttest", absolute=True):
+                 bound=DEFAULT_BOUNDED, absolute=True):
         self.name = name
         self.feature = as_feature(feature)
         self.group_a = group_a

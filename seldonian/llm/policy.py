@@ -24,6 +24,10 @@ from seldonian.bounds import BOUNDS as _LIBRARY_BOUNDS, hoeffdings_bounds, ttest
 #: :data:`seldonian.bounds.BOUNDS` plus the short alias ``"hoeffding"``
 BOUNDS = dict(_LIBRARY_BOUNDS)
 BOUNDS.update({"ttest": ttest_bounds, "hoeffding": hoeffdings_bounds})
+#: default bound for a 0/1 rate (exact), and for a bounded score or a paired difference
+#: (distribution-free). Student's t, the default until 2026-10-07, is still available by name.
+DEFAULT_BOUND = "clopper_pearson"
+DEFAULT_BOUNDED = "bentkus"
 
 
 def effective_n(m, n_s):
@@ -35,10 +39,10 @@ def effective_n(m, n_s):
     return max(int(1.0 / (1.0 / m + 1.0 / n_s)), 2)
 
 
-def predicted_width(rate, n_s, delta, bound="ttest", inflation=1.0, m=None):
+def predicted_width(rate, n_s, delta, bound=DEFAULT_BOUND, inflation=1.0, m=None):
     """
     Expected one-sided width the *predicted* safety test adds to a 0/1 rate: the
-    Student-t (or Hoeffding) interval at :func:`effective_n` (``m`` prediction
+    bound's interval at :func:`effective_n` (``m`` prediction
     samples, ``n_s`` safety prompts; ``m=None`` means the safety-set size alone),
     times ``inflation``. A relative-threshold margin smaller than this cannot be
     satisfied by a policy at the reference rate.
@@ -67,14 +71,16 @@ class Constraint:
     :param threshold: tau; set it after measuring the reference policy for a
         relative constraint (see :meth:`SeldonianLLMPolicy.evaluate`)
     :param group: restrict to prompt records with this ``group``; ``None`` = all
-    :param bound: name of a one-sample bound in :data:`BOUNDS` (``"ttest"`` by
-        default; ``"bentkus"``, ``"betting_mixture"``, ... are distribution-free)
+    :param bound: name of a one-sample bound in :data:`BOUNDS`. The default is
+        ``"clopper_pearson"``, exact for a 0/1 label. ``"ttest"`` was the default until
+        2026-10-07; it returns an upper bound of 0 when no violation is sampled, so a
+        policy at a true rate of 1% passes a 0.5% threshold 37% of the time at n = 100
     """
     name: str
     judge: object
     threshold: float
     group: str = None
-    bound: str = "ttest"
+    bound: str = DEFAULT_BOUND
 
     def select(self, records):
         if self.group is None:
@@ -323,17 +329,20 @@ class SeldonianLLMPolicy(SeldonianAlgorithm):
                 raise RuntimeError("D_s is sealed during candidate selection")
             if self.safety_tests_run >= 1:
                 raise RuntimeError("the safety test has already been run once for this policy")
+            # counted before D_s is touched, so a test that raises part-way is still spent
+            self.safety_tests_run += 1
             records = self.prompts_s
         responses = self.sample(records)
         g, rates, upper, ns = self.constraint_values(records, responses, predict=predict, ub=ub)
         rewards = self.score_reward(records, responses)
-        worst = max(g.values()) if g else 0.0
+        # a NaN g (an undefined threshold, say) fails the test: max() would drop it unless it
+        # came first, and the policy would be returned on the other constraints alone
+        worst = max(v if v == v else np.inf for v in g.values()) if g else 0.0
         if predict:
             self._last_prediction = PredictedTest(
                 step=-1, g=g, rates=rates, upper=upper, reward=float(np.nanmean(rewards)) if len(rewards) else np.nan,
                 feasible=bool(worst <= 0), seconds=time.time() - t0, n_samples=len(records))
         else:
-            self.safety_tests_run += 1
             self.safety_report = SafetyReport(
                 g=g, rates=rates, upper=upper, n=ns, passed=bool(worst <= 0),
                 reward=float(np.nanmean(rewards)) if len(rewards) else np.nan,

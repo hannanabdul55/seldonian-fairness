@@ -16,7 +16,7 @@ run() {  # run <out> <task> <method> <seed> <model> [extra args...]
   mkdir -p "$out/logs"
   echo "=== $(date '+%F %T') start $out $task $method seed$seed ($model)"
   flock "$LOCK" bash -c "echo 'seldonian-fairness-c3 pid=$$ $task/$method/seed$seed started $(date '+%T')' > $LOCK.info; \
-    $PY scripts/run_llm_rl.py --task $task --method $method --seed $seed --model $model \
+    $PY scripts/run_llm_rl.py --bound ttest --task $task --method $method --seed $seed --model $model \
       --steps-per-generation 4 --out $out --quiet $* > $out/logs/${task}_${method}_seed${seed}.log 2>&1"
   local rc=$?
   echo "=== $(date '+%F %T') end   $out $task $method seed$seed exit=$rc"

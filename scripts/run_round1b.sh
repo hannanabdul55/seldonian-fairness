@@ -12,7 +12,7 @@ for seed in 0 1 2; do
   dir="$OUT/ab/$method/seed$seed"
   if [ -f "$dir/result.json" ]; then echo "skip $method seed$seed"; continue; fi
   echo "=== $(date '+%F %T') start $method seed$seed"
-  $PY scripts/run_llm_rl.py --task ab --method "$method" --seed "$seed" --steps "$STEPS" \
+  $PY scripts/run_llm_rl.py --bound ttest --task ab --method "$method" --seed "$seed" --steps "$STEPS" \
       --lam0 2 --eta 20 --predict-every 20 --out "$OUT" --quiet \
       > "$OUT/logs/${method}_seed${seed}.log" 2>&1
   echo "=== $(date '+%F %T') end   $method seed$seed exit=$?"
