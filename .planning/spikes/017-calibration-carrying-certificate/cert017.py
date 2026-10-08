@@ -99,11 +99,14 @@ def rates(y_lab, f_lab):
     return (y * f).sum(1), pos, ((1 - y) * f).sum(1), y.shape[1] - pos
 
 
-def youden(y_lab, f_lab, f_all, delta, cal=None):
+def youden(y_lab, f_lab, f_all, delta, cal=None, refuse_negative=False):
     """
     Rogan-Gladen with one-sided limits. ``cal`` = (tp, n_pos, fp, n_neg) overrides the
     counts from ``y_lab``/``f_lab`` (calibration carried from another population).
-    Returns 1 (vacuous) where ``sens_lo <= FA_lo``.
+    Returns 1 (vacuous) where ``sens_lo <= FA_lo``. A negative value (the flag rate's upper
+    limit is under the false-alarm rate's lower limit, which the model ``q = s p + a (1 - p)``
+    rules out) is clipped to 0, the usual estimator and what the stored studies measure;
+    ``refuse_negative`` returns 1 there instead, which is what a certificate should do.
     """
     (fa_,) = _2d(f_all)
     tp, pos, fp, neg = cal if cal is not None else rates(y_lab, f_lab)
@@ -113,10 +116,12 @@ def youden(y_lab, f_lab, f_all, delta, cal=None):
     j = s_lo - a_lo
     with np.errstate(divide="ignore", invalid="ignore"):
         u = np.where(j > 0, (q_hi - a_lo) / j, 1.0)
+    if refuse_negative:
+        u = np.where(u < 0, 1.0, u)
     return np.clip(u, 0.0, 1.0)
 
 
-def answer_aware(f_all, ans_all, delta, cal):
+def answer_aware(f_all, ans_all, delta, cal, refuse_negative=False):
     """
     Spike 006's correction. ``cal`` = (tp, n_pos, fp_answered, n_neg_answered): recall, and
     the false-alarm rate among *answered* non-violations. Model: a refusal is never flagged
@@ -131,6 +136,8 @@ def answer_aware(f_all, ans_all, delta, cal):
     j = s_lo - a_lo
     with np.errstate(divide="ignore", invalid="ignore"):
         u = np.where(j > 0, (q_hi - a_lo * w_lo) / j, 1.0)
+    if refuse_negative:
+        u = np.where(u < 0, 1.0, u)
     return np.clip(u, 0.0, 1.0)
 
 
@@ -178,8 +185,14 @@ def ppipp_wilson(y_lab, f_lab, f_unl, delta, lam=None):
     return np.clip((-b + np.sqrt(disc)) / (2 * a), e, 1.0)
 
 
-def ppipp_boot(y_lab, f_lab, f_unl, delta, lam=None, boots=300, seed=0):
-    """Bootstrap-t upper bound for PPI++ (``lam=None``) or PPI (``lam=1.0``); loops over reps."""
+def ppipp_boot(y_lab, f_lab, f_unl, delta, lam=None, boots=300, seed=0, degenerate="sign"):
+    """Bootstrap-t upper bound for PPI++ (``lam=None``) or PPI (``lam=1.0``); loops over reps.
+
+    A resample with zero variance has no studentised statistic. ``degenerate="sign"`` sends it
+    to -inf when its estimate is under the sample's and to +inf otherwise, which is the
+    conservative side for a rate (the resample is all zeros). ``"low"`` sends every one to
+    -inf; use it when the labels are differences, where an all-zero resample can sit above a
+    negative estimate and the sign rule would drop it from the lower tail."""
     y, fl, fu = _2d(y_lab, f_lab, f_unl)
     reps, n = y.shape
     nu = fu.shape[1]
@@ -202,7 +215,8 @@ def ppipp_boot(y_lab, f_lab, f_unl, delta, lam=None, boots=300, seed=0):
         eb = ym + lb * (fub - fm)
         vb = (ys - lb[:, None] * fs).var(axis=1, ddof=1) / n + lb ** 2 * var_fu[r] / nu
         with np.errstate(divide="ignore", invalid="ignore"):
-            t = np.where(vb > 0, (eb - est[r]) / np.sqrt(vb), np.where(eb < est[r], -np.inf, np.inf))
+            t = np.where(vb > 0, (eb - est[r]) / np.sqrt(vb),
+                         np.where((eb < est[r]) | (degenerate == "low"), -np.inf, np.inf))
         q = np.quantile(t, delta, method="lower")
         out[r] = est[r] - q * se[r] if np.isfinite(q) else 1.0
     return np.clip(out, 0.0, 1.0)
@@ -365,9 +379,10 @@ def certify_carried(tau, delta, f_all, cal, answered=None):
         card.update(upper=1.0, certified=False, smallest_tau=1.0,
                     refused=f"{int(pos)} human positives; {K_CARRY} needed to bound recall")
         return card
+    # a negative estimate contradicts the carried rates, so it refuses (audit of 2026-10-06, item 8)
     if answered is None:
-        u = float(youden(None, None, f_all, delta, cal=cal)[0])
+        u = float(youden(None, None, f_all, delta, cal=cal, refuse_negative=True)[0])
     else:
-        u = float(answer_aware(f_all, answered, delta, cal)[0])
+        u = float(answer_aware(f_all, answered, delta, cal, refuse_negative=True)[0])
     card.update(upper=u, certified=bool(u <= tau), smallest_tau=u)
     return card

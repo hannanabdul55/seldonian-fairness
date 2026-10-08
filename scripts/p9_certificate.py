@@ -125,7 +125,9 @@ def pool_upper(d, f, F, VF, delta, boots=BOOTS, seed=SEED):
     Fb = F + np.sqrt(VF) * rng.standard_normal(boots)
     eb, vb, _ = _point(d[idx], f[idx], Fb, VF)
     with np.errstate(divide="ignore", invalid="ignore"):
-        t = np.where(vb > 0, (eb - est) / np.sqrt(vb), np.where(eb < est, -np.inf, np.inf))
+        # a zero-variance resample goes to the lower tail whatever its sign: the differences can be
+        # all zero above a negative estimate (amended 2026-10-07, before any P9 label; audit item 7)
+        t = np.where(vb > 0, (eb - est) / np.sqrt(vb), -np.inf)
     q = np.quantile(t, delta, method="lower")
     up = est - q * np.sqrt(var) if np.isfinite(q) else 1.0
     return float(np.clip(up, -1.0, 1.0)), est, lam
@@ -134,7 +136,7 @@ def pool_upper(d, f, F, VF, delta, boots=BOOTS, seed=SEED):
 def new_prompts_upper(d, f_lab, f_unl, delta, boots=BOOTS, seed=SEED):
     """(b2): spike 017's ``ppipp_boot`` on (d + 1) / 2, mapped back."""
     x = (np.asarray(d, float) + 1) / 2
-    return 2.0 * float(cert017.ppipp_boot(x, f_lab, f_unl, delta, boots=boots, seed=seed)[0]) - 1.0
+    return 2.0 * float(cert017.ppipp_boot(x, f_lab, f_unl, delta, boots=boots, seed=seed, degenerate="low")[0]) - 1.0
 
 
 def three(d, f_lab, f_unl, F, VF, delta, boots=BOOTS, seed=SEED):
