@@ -1,6 +1,8 @@
 # Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry
 
-**Draft v0.9.6, 2026-10-08.** Working title; the framing is open (plan section 7, item 5).
+**Draft v0.9.7, 2026-10-08.** Working title; the framing is open (plan section 7, item 5).
+v0.9.7: step R5b, a fourth pool, registered separately, mixed from two sources to land at a mid rate (46%); nine of its ten
+predictions kept, one with no label to test it (section 8.1, the abstract, the limits, Appendix D).
 v0.9.6: step R5, the registered confirmation pool (section 8.1, last paragraphs; the abstract; Appendix D).
 v0.9.5: steps R1 to R4 of the plan's section 9. Section 10.1 says what the robot benchmark samples (six
 selected tasks, taken as fixed) and that its between-model contrast is confounded with run order. Section
@@ -72,11 +74,14 @@ gains are. For the rate over the source the pool was drawn from, the gain on the
 is 1.3 to 2.4 at delta 0.05, under a limit with an added term that was over its level in none
 of the mid-rate cells there; the bootstrap-t limit fails for that claim. On three new prompt
 pools, with eight predictions registered first, six were kept: the gain was 1.5 to 1.6 (1.2
-to 1.3 for the source), within 20% of a pre-flight prediction, and the Wilson-type bound was
+to 1.3 for the source), within 20% of a formula's prediction, and the Wilson-type bound was
 again over its level at a high rate and not at a low one. Two were refuted: a bootstrap-t
 limit was over in one mid-rate cell of eight, and the Wilson-type bound with the added term
 was over at the high rate. A stratified Wald-t limit was over in none of the mid-rate
-cells, with no gain at the high rate. Three things do not carry: a judge's
+cells, with no gain at the high rate. On a fourth pool, mixed from two of these
+sources to a 46% rate and registered after the same analysis of a re-mix of the earlier
+responses, all nine testable predictions were kept, and that limit held with a gain of 2.1
+to 2.6 (1.3 to 1.5 for the source). Three things do not carry: a judge's
 calibration, across prompt populations or across training that targets the label;
 independent-sample bounds on crossed benchmark designs; and a stratified labelling sheet read
 as a random sample. On AgentDojo's published runs the usual per-pair bound is over its level
@@ -583,8 +588,7 @@ rank the prompts by the share flagged, and cut the ranking into `H` equal strata
 broken at random. This happens before training and uses no response of the
 trained policy. The resampling studies of section 8.1 hold the candidate fixed, so they do not
 test a candidate trained on the pool's other prompts; the in-loop check of section 7.2 does, on
-a synthetic environment. `G` can be predicted before any trained response is labelled
-[013]:
+a synthetic environment. `G` follows a formula [013]:
 
 ```
 G ~ ICC_cand * rho^2 * rel(k) * c_H,        rel(k) = k ICC_ref / (1 + (k - 1) ICC_ref),
@@ -592,7 +596,9 @@ G ~ ICC_cand * rho^2 * rel(k) * c_H,        rel(k) = k ICC_ref / (1 + (k - 1) IC
 
 where `ICC_cand` is the trained policy's intraclass correlation, `rho` the correlation between
 a prompt's reference rate and its rate under the trained policy, `rel(k)` the reliability of a
-`k`-sample reference rate, and `c_H` the share a cut into `H` strata keeps. When the pool of
+`k`-sample reference rate, and `c_H` the share a cut into `H` strata keeps. `ICC_cand` and `rho` belong to the trained
+policy. Before one of its responses is labelled they have to be assumed (our tool takes
+`ICC_cand = ICC_ref` and `rho` of 1 or 0.8); section 8.1 measures both readings. When the pool of
 `N` prompts is itself a sample of the population the claim is about, the gain is capped at
 about `1 / (1 - G + G n_s / N)`; section 8.1 measures that case.
 
@@ -868,9 +874,12 @@ stratified bounds did not beat pooling); labels near 0 or 1 (0.96 to 1.12 at a 9
 of the pool (the gain is then capped at `1 / (1 - G + G n_s / N)`); and task strata on a
 benchmark with 20 trials a task, where the bound is set by the positives [013, 019].
 
-**A pre-flight.** The gain is predictable from k reference samples before any trained-policy
-response is labelled: Spearman 0.83 between predicted and realised ESS on real data, with the
-prediction 0-20% high at H = 8 [013] (Figure 2). The absolute-error criterion we pre-registered (median
+**A pre-flight.** The gain is predictable from the k reference samples and the two
+quantities of the trained policy in section 6.4's formula, measured on responses the draws
+do not use: Spearman 0.83 between predicted and realised ESS on real data, with the
+prediction 0-20% high at H = 8 [013] (Figure 2). Before any trained-policy response is
+labelled those two have to be assumed; with `rho = 1` the prediction ran well above the
+realised gain on new prompts (the confirmation below). The absolute-error criterion we pre-registered (median
 error at most 0.1) failed on real data (0.29) and passed on the bandit (0.02); we report the
 ranking as the usable part.
 
@@ -899,8 +908,8 @@ Appendix A). Three things follow.
    replacement and without is 2.29 and 2.39 for over-refusal, and 4.73 and 4.74 for refusal
    of harmful requests [replacement check]. So for a pool much larger than the safety set,
    `b1w` kept its level at rates of 9-18% and not at 65% and above, which is the asymmetry
-   of the Wilson limit. No label between those rates was tested, and there the other two
-   limits are what the evidence supports. On the 65% label, where `b1w`'s gain is largest
+   of the Wilson limit. No label between those rates was tested on these pools, and there the
+   other two limits are what the evidence supports. On the 65% label, where `b1w`'s gain is largest
    and its level is not kept, they give 2.6 and 3.6 (Wald-t) and 1.5 and 5.5 (bootstrap-t
    StratPPI) at n_s 100 and 200. Like the strata rule, this is read off the cells it
    describes; the confirmation at the end of this section bears it out for `b1w` and
@@ -919,8 +928,8 @@ therefore registered eight predictions (Appendix D) and tested them on three poo
 prompts that no earlier pool, training set or result had used: benign prompts of OR-Bench's
 80K set, its hard-1K set and its toxic set. The model, the strata rule, the checks and the
 scoring code are the ones above; the trained policy is that of section 9.2's constrained
-run. Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%
-and that range stays untested; two labels from the guard's safety field were rare (3.2% and
+run. Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%,
+the range no earlier pool had tested either; two labels from the guard's safety field were rare (3.2% and
 1.6%). Six predictions were kept and two refuted [confirmation pool].
 
 - *Kept.* With a large pool `b1w` is over its level in none of the 4 cells at the 12% rate
@@ -935,23 +944,64 @@ and that range stays untested; two labels from the guard's safety field were rar
   cells (0.105 at delta 0.10 on the 82% label), and in one more at the 98% rate (0.052 at
   delta 0.05); the stratified Wald-t limit is over in none of the 8. And for the prompt
   source `b1w` with the term is over at the 82% rate with a safety set of 100 (0.058 at
-  delta 0.05 and 0.117 at 0.10; unresolved at 200, 0.052), where the Wald-t limit with the
+  delta 0.05 and 0.117 at 0.10; unresolved at 200 and delta 0.05, 0.052), where the Wald-t limit with the
   term is over in none of 8.
 
-Three things follow. The gains on new prompts are 1.5 to 1.6, at the low end of the 1.5 to
-5.0 that the same measure gives on the pools that chose the rule, and at these two rates the
-pre-flight said so before a trained response was labelled. Outside the mid range the
+**A pool aimed at the gap.** No part of OR-Bench that we sampled is both in that range for
+this policy and large enough to make a pool. By prompt category the three pools' refusal
+rates run from 0% to 22%, from 46% to 89% and from 87% to 100%; three categories fall inside
+the range, with 47, 20 and 17 prompts. We
+therefore registered a fourth pool separately, as a fixed mixture: the 193 hard-1K prompts still unused
+and 207 unused benign prompts of the 80K set, with ten predictions (Appendix D). It is weaker
+evidence than the three pools above, in three ways. Its rate was aimed at, not found. Its
+predictions were written after the same analysis had been run on a re-mix of the first two
+pools' responses in the same proportions. That loosened one prediction, added one and set
+the floor of a third, and as finally worded all nine that could be tested already held on
+the re-mix. And the reference rate largely sorts the two sources into different strata, so
+part of the gain is the gain of knowing the source: the variance of a random draw is 1.93 times that of a stratified one
+with two strata, the two sources, and 2.90 times with the 8 strata of the reference rate.
+
+The refusal rate came out at 46% (81% on the hard prompts, 12% on the others). Nine
+predictions were kept, none was refuted, and one had no label to test it [mid-rate pool].
+With a large pool the Wald-t limit is over its level in none of its 4 cells (misses 0.026
+and 0.036 at delta 0.05), the bootstrap-t StratPPI limit in none (three cells unresolved,
+the largest miss 0.001 above its level), and `b1w` in none (0.044 and 0.045 at delta 0.05,
+0.096 at 0.10). On the re-mix, at a rate of 48%, `b1w` sat at its level (0.051 and 0.102,
+unresolved). The gain of `b1w` is 2.78 and 2.97 against a pre-flight of 2.79, and that of the
+Wald-t limit 2.09 and 2.56. For the prompt source the Wald-t limit with the sampled-pool
+term is over in none of 4 cells, with a gain of 1.49 and 1.34, 7% to 9% under its cap; `b1w`
+with the term is over in none either (one cell unresolved, 0.102 at delta 0.10), and the
+limits without the term fail in both cells at delta 0.05 (misses 0.079 to 0.120). The
+baseline of these gains, the pooled Wilson limit, is itself over its level at a safety set
+of 200 and delta 0.05 (0.053, and 0.057 for the source), so the gains at 200 are if anything
+understated. The safety-field label was rare (1.9%) and the strata gained nothing on it
+(1.00 and 1.08); there `b1w` and the pooled Wilson limit are both over at a safety set of
+100 and delta 0.10 (0.140 and 0.142), and Clopper-Pearson is not.
+
+Three things follow. The gains on new prompts from one source are 1.5 to 1.6, at the low end
+of the 1.5 to 5.0 that the same measure gives at rates of 9% to 66% on the pools that chose
+the rule; the mixed pool's 2.8 to 3.0 is in large part what two unlike sources in one pool
+give. At all three mid rates, 12%, 46% and 82%, the pre-flight was within 20%, with the
+trained policy's two quantities measured on 8 of its responses a prompt that the draws do
+not use. From the reference samples alone, with `rho = 1`, it predicts 2.58, 4.12 and 2.22,
+and the realised gains are 27% to 41% lower. Outside the mid range the
 pre-flight is not usable: it predicts 2.67 at the 98% rate, where the strata lose under
 every limit (0.55 and 0.63 for `b1w`), and 2.47 on a rare label where nothing is gained.
-Second, the stratified Wald-t limit is the only stratified limit that kept its level in
-every mid-rate cell on real responses, here and on the earlier pools (on the synthetic grid
-of section 7.1 it did not), but at a high rate it pays for that: its gain at 82% is 0.86 and
-1.13, against 1.47 and 1.73 at 12%. Third, the recommendation changes. `b1w` is supported
-only at rates well under one half (9% to 18% tested); at a higher rate, or where the rate is
-not known in advance, the limit to use is the Wald-t one, with the sampled-pool term for a
-claim about the source, and little or no gain should be expected from it. `b1w`'s excess is
-not simply increasing in the rate: at 98% it is over in none of its 4 cells. The
-confirmation is one model, one trained policy and one family of prompts.
+Second, with the 8 strata of the rule the stratified Wald-t limit is the only stratified
+limit that was over its level in no mid-rate cell on real responses, here and on the earlier
+pools. With 4 strata it was over in 1 cell of 13 (0.062 at delta 0.05, on the 9% label), and
+on the synthetic grid of section 7.1 it did not hold. At a high rate it pays for holding:
+its gain at 82% is 0.86 and 1.13 with a large pool and 0.75 and 0.89 for the source, against
+1.47 and 1.73 at 12% and 2.09 and 2.56 on the mixed pool at 46%. Third, the
+recommendation changes. `b1w` is supported only at rates under one half: it kept its level
+at 9% to 18% and, by about half a point at delta 0.05, at 46%; it sat at its level on the
+re-mix at 48% and is over it in cells at rates of 65% to 95%. For a mid-rate label near or
+above one half, the limit to use is the Wald-t one with 8 strata, with the sampled-pool term
+for a claim about the source. At 46% it kept 75% to 86% of `b1w`'s gain; at 82% it gave
+none or lost. Where the label may be rare or near one, the exact limit on a random draw
+remains the one to use (section 7.1). `b1w`'s excess is not simply increasing in the rate: at 98% it is
+over in none of its 4 cells. The confirmation is one model, one trained policy and one
+family of prompts, and between 18% and 65% it holds one rate, from a mixture.
 
 `[GAP: P10]` (optional) adds a second policy model.
 
@@ -1370,7 +1420,9 @@ weak cue to the policy.
   "we use" (section 7.1) were grouped after the results. Appendix D lists what was fixed in
   advance, and which of those records carry a timestamp independent of the result. The
   registered confirmation of section 8.1 kept six of eight predictions; it covers refusal
-  rates of 12% and 82% and two rare labels on one model, and no rate between 18% and 65%.
+  rates of 12%, 82% and 98% and two rare labels on one model. Between 18% and 65% there is one
+  rate, 46%, from a fourth pool mixed from two sources, whose predictions were written after
+  a re-mix of the first pools' responses had been analysed.
 - **Scale.** Trained policies are 0.5B to 2B on one consumer card; the frontier evidence is
   certificates on published traces.
 - **One run.** The policy that section 10.4's samples come from is one training run with one
@@ -1630,6 +1682,7 @@ table says so.
 | the hypotheses for the robot benchmark, against which the result on joint effort is marked exploratory | 10.1 | a note written after the termination counts and 12 transcripts had been seen, committed together with the results on 2026-10-02 (`50863a4`): no independent timestamp |
 | the two-way bounds: definitions, fallbacks, seed, sizes and reading | 10.2 | a registration committed with its script on 2026-10-07 (`cb50927`), before the script was run on the benchmark's tables |
 | the confirmation pool: prompts, labels, class limits, checks, sizes, the GPU cap, eight predictions and their scoring code | 8.1 | a registration committed and pushed with the scripts and the prompts on 2026-10-08 (`9fb817d`), before any response was generated |
+| the mid-rate pool: the mixture, labels, checks, sizes, the GPU cap, ten predictions and their scoring code | 8.1 | a registration committed and pushed with the scripts, the prompts and the re-mix analysis on 2026-10-08 (`d56feb6`), before any response on its prompts was generated. The predictions were written after the same analysis of a re-mix of the first two pools' responses, which loosened one (the bootstrap-t StratPPI limit may be over in one cell, by at most 0.01), added one (`b1w` within 0.01 of its level at a rate between 0.45 and 0.55) and set the floor of a third (the Wald-t limit's gain, raised from 1.5 to 1.7); the registration names the first two as changes and gives the third's origin |
 | the analysis of the human-label certificate | 10.4 | the rules and the analysis script, committed on 2026-10-04 (`9e45371`, `e076974`) before any label. The treatment of a zero-variance resample in the approximate limits was amended once, on 2026-10-07 (`a5bd04b`), also before any label, with the design check unchanged. No label has been collected |
 
 ## Draft notes 1. Where each number comes from
@@ -1652,6 +1705,7 @@ table says so.
 | [P6] | `results/labels/refusal/analysis.md` (`scripts/refusal_labels.py analyze`; labels in `labels_ah.jsonl`, design in `design.json`) | yes |
 | [validity recount] | `results/paper/validity_recount.md` (`scripts/validity_recount.py`; it asserts Table 4 and the counts quoted in the text against the files) | yes |
 | [confirmation pool] | `results/paper/confirm/confirm.md` (`scripts/confirm_pool.py`; registered in `.planning/paper-certification/R5_registration.md`; responses and labels in `results/paper/confirm/`) | the analysis yes, CPU, 15 minutes; the responses need the GPU, 2 hours |
+| [mid-rate pool] | `results/paper/confirm/mid/confirm.md` (`scripts/confirm_mid.py`; registered in `.planning/paper-certification/R5b_registration.md`; the re-mix analysis in `preview.md` beside it) | the analysis yes, CPU, 5 minutes; the responses need the GPU, 45 minutes |
 | [two-phase check] | `results/paper/twophase_check.md` (`scripts/twophase_check.py`; 10,000 two-phase replications a cell) | yes, CPU, about 20 minutes on 6 cores |
 | [replacement check] | `results/paper/replacement_check.md` (`scripts/replacement_check.py`; 40,000 draws per cell with replacement, beside 5,000 on the stored seeds) | yes, CPU, about 15 minutes on 12 cores |
 | [Wilson exact] | `results/paper/wilson_exact.md` (`scripts/wilson_exact.py`; an enumeration, nothing simulated) | yes, seconds |

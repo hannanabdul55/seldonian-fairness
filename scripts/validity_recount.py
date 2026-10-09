@@ -1002,6 +1002,7 @@ def claims():
     assert [gain(L_, e_, n_, "Wald-t b1") for e_ in ("K2:refusal", "K1:refusal") for n_ in (100, 200)] == [0.86, 1.13, 1.47, 1.73]
     assert [gain(L_, "K3:refusal", n_, "b1w") for n_ in (100, 200)] == [0.55, 0.63]
     src = [gain(T_, e_, n_, "b1w, sampled-pool term") for e_ in ("K1:refusal", "K2:refusal") for n_ in (100, 200)]
+    assert [gain(T_, "K2:refusal", n_, "Wald-t b1, sampled-pool term") for n_ in (100, 200)] == [0.75, 0.89]
     assert (min(src), max(src)) == (1.20, 1.32) and round(T_[("K2:refusal", 100, 0.05, "b1w, sampled-pool term")]["miss"], 3) == 0.058
     rg = [gain(L_, e_, n_, "b1w") for e_ in ("K2:unsafe", "K3:unsafe") for n_ in (100, 200)]
     se4 = lambda d_: float(np.sqrt(d_ * (1 - d_) / 40000))                         # noqa: E731
@@ -1022,17 +1023,128 @@ def claims():
          "in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10)",
          "1.53 and 1.62 at 12%, 1.49 and 1.62 at 82%",
          "is over in 1 of 8 mid-rate cells (0.105 at delta 0.10 on the 82% label)",
-         "its gain at 82% is 0.86 and 1.13, against 1.47 and 1.73 at 12%",
+         "its gain at 82% is 0.86 and 1.13 with a large pool and 0.75 and 0.89 for the source, against 1.47 and 1.73 at 12%",
          "six were kept: the gain was 1.5 to 1.6 (1.2 to 1.3 for the source)",
-         "kept six of eight predictions; it covers refusal rates of 12% and 82% and two rare labels on one model",
+         "kept six of eight predictions; it covers refusal rates of 12%, 82% and 98% and two rare labels on one model",
          "and in one more at the 98% rate (0.052 at delta 0.05)",
-         "(0.058 at delta 0.05 and 0.117 at 0.10; unresolved at 200, 0.052)",
+         "(0.058 at delta 0.05 and 0.117 at 0.10; unresolved at 200 and delta 0.05, 0.052)",
          "it predicts 2.67 at the 98% rate, where the strata lose under every limit (0.55 and 0.63 for `b1w`), and 2.47 on a rare "
          "label",
          "at 98% it is over in none of its 4 cells",
-         "at the low end of the 1.5 to 5.0 that the same measure gives on the pools that chose the rule"],
+         "at the low end of the 1.5 to 5.0 that the same measure gives at rates of 9% to 66% on the pools that chose the rule"],
         "The registered run (`results/paper/confirm/confirm.md`): " + "; ".join(
             f"{x['tag']} {'kept' if x['kept'] else 'refuted'} ({x['found']})" for x in cf["scored"]) + ".")
+
+    # --- section 8.1, the registered mid-rate pool (a mixture of two sources)
+    cm = jload("results/paper/confirm/mid/confirm.json")
+    pv = jload("results/paper/confirm/mid/preview.json")
+    assert not cm["preview"] and pv["preview"] and (cm["seed"], cm["reps_large"], cm["reps_two"]) == (20261009, 40000, 10000)
+    mk = {x["tag"]: x["kept"] for x in cm["scored"]}
+    assert mk == dict(M1=True, M2=True, M3a=None, M3b=True, M4=True, M5=True, M6=True, M7=True, M8=True, M9=True)
+    assert cm["in_gap"] and cm["b1w_term_over"] == 0
+    mr = {x["label"]: x for x in cm["preflight"]}
+    ds = cm["describe"]["refusal"]
+    assert (round(100 * mr["refusal"]["rate"]), round(mr["unsafe"]["rate"], 3), round(mr["refusal"]["pf_ess_pred"], 2)) == (46, 0.019, 2.79)
+    assert [(v["n"], round(100 * v["rate"])) for v in (ds["by_source"]["hard-1k"], ds["by_source"]["80k"])] == [(193, 81), (207, 12)]
+    assert (round(ds["var_ratio_source"], 2), round(ds["var_ratio_strata"], 2)) == (1.93, 2.90)
+    ML = {(x["env"], x["n"], x["delta"], x["arm"]): x for x in cm["replacement"] if x["draw"] == "large"}
+    MT = {(x["env"], x["n"], x["delta"], x["arm"]): x for x in cm["twophase"]}
+    PL = {(x["env"], x["n"], x["delta"], x["arm"]): x for x in pv["replacement"] if x["draw"] == "large"}
+    c4 = [(n_, d_) for d_ in (0.05, 0.1) for n_ in (100, 200)]
+
+    def mm(G_, arm_, env="K4:refusal"):
+        return [round(G_[(env, n_, d_, arm_)]["miss"], 3) for n_, d_ in c4]
+
+    def cl(G_, arm_, R_, env="K4:refusal"):
+        return [classify(G_[(env, n_, d_, arm_)]["miss"], d_, R_) for n_, d_ in c4]
+    assert mm(ML, "Wald-t b1") == [0.026, 0.036, 0.063, 0.083] and cl(ML, "Wald-t b1", 40000).count(OVER) == 0
+    sb_ = cl(ML, "StratPPI estimator, bootstrap-t", 40000)
+    assert sb_.count(OVER) == 0 and sb_.count(UNRES) == 3
+    assert round(max(ML[("K4:refusal", n_, d_, "StratPPI estimator, bootstrap-t")]["miss"] - d_ for n_, d_ in c4), 3) == 0.001
+    assert mm(ML, "b1w") == [0.044, 0.045, 0.096, 0.096] and cl(ML, "b1w", 40000).count(OVER) == 0
+    assert mm(PL, "b1w") == [0.051, 0.051, 0.102, 0.102] and cl(PL, "b1w", 40000) == [UNRES] * 4
+    assert round(100 * {x["label"]: x for x in pv["preflight"]}["refusal"]["rate"]) == 48
+    assert [gain(ML, "K4:refusal", n_, a_) for a_ in ("b1w", "Wald-t b1") for n_ in (100, 200)] == [2.78, 2.97, 2.09, 2.56]
+    assert [round(100 * cm["gains"][f"refusal|{n_}"]["wald"] / cm["gains"][f"refusal|{n_}"]["ess"]) for n_ in (100, 200)] == [75, 86]
+    assert cl(MT, "Wald-t b1, sampled-pool term", 10000).count(OVER) == 0 and cl(MT, "b1w, sampled-pool term", 10000).count(OVER) == 0
+    assert [gain(MT, "K4:refusal", n_, "Wald-t b1, sampled-pool term") for n_ in (100, 200)] == [1.49, 1.34]
+    under = [1 - cm["caps"][f"refusal|{n_}|0.05"]["wald"]["ess"] / cm["caps"][f"refusal|{n_}|0.05"]["wald"]["cap"] for n_ in (100, 200)]
+    assert [round(100 * u_) for u_ in under] == [9, 7]
+    nt = [round(MT[("K4:refusal", n_, 0.05, a_)]["miss"], 3) for a_ in ("b1w, no term", "StratPPI estimator, bootstrap-t") for n_ in (100, 200)]
+    assert (min(nt), max(nt)) == (0.079, 0.120)
+    assert all(classify(MT[("K4:refusal", n_, 0.05, a_)]["miss"], 0.05, 10000) == OVER
+               for a_ in ("b1w, no term", "StratPPI estimator, bootstrap-t") for n_ in (100, 200))
+    assert [gain(ML, "K4:unsafe", n_, "b1w") for n_ in (100, 200)] == [1.00, 1.08]
+    assert all(abs(gain(L_, f"{x['pool']}:refusal", n_, "b1w") / x["pf_ess_pred"] - 1) <= 0.20
+               for x in cf["preflight"] if x["label"] == "refusal" and x["pool"] in ("K1", "K2") for n_ in (100, 200))
+    # the three first pools by prompt category (the trained policy's 16 responses a prompt)
+    cat = collections.defaultdict(list)
+    for line in open(os.path.join(ROOT, "results/paper/confirm/judged.jsonl")):
+        x = json.loads(line)
+        if x["role"] == "cand":
+            cat[(x["pool"], x["meta"])].append(np.mean(x["refusal"]))
+    rng_ = {p_: sorted((round(100 * float(np.mean(v))), len(v)) for (q_, _), v in cat.items() if q_ == p_) for p_ in ("K1", "K2", "K3")}
+    assert [(rng_[p_][0][0], rng_[p_][-1][0]) for p_ in ("K1", "K2", "K3")] == [(0, 22), (46, 89), (87, 100)]
+    inside = sorted(len(v) for v in cat.values() if 0.18 < float(np.mean(v)) < 0.65)
+    assert inside == [17, 20, 47]
+    # the pre-flight from the reference samples alone (rho = 1, ICC_cand = ICC_ref), as spike 013's tool computes it
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, ".planning/spikes/013-stratified-safety-set"))
+    import preflight as PF013
+
+    def ref_only(rel_, pool_):
+        ref = {}
+        for line in open(os.path.join(ROOT, rel_)):
+            x = json.loads(line)
+            if x["pool"] == pool_ and x["role"] == "cov":
+                ref[x["i"]] = x["refusal"]
+        return PF013.assess([ref[i_] for i_ in sorted(ref)], 200, rho=1.0)["ess_pool"]
+    ro = [ref_only("results/paper/confirm/judged.jsonl", "K1"), ref_only("results/paper/confirm/mid/judged.jsonl", "K4"),
+          ref_only("results/paper/confirm/judged.jsonl", "K2")]
+    assert [round(x, 2) for x in ro] == [2.58, 4.12, 2.22]
+    low = [1 - g_ / r_ for r_, gs in zip(ro, ([gain(L_, "K1:refusal", n_, "b1w") for n_ in (100, 200)],
+                                              [gain(ML, "K4:refusal", n_, "b1w") for n_ in (100, 200)],
+                                              [gain(L_, "K2:refusal", n_, "b1w") for n_ in (100, 200)])) for g_ in gs]
+    assert (round(100 * min(low)), round(100 * max(low))) == (27, 41)
+    assert [round(ML[("K4:refusal", 200, 0.05, "pooled Wilson")]["miss"], 3), round(MT[("K4:refusal", 200, 0.05, "pooled Wilson")]["miss"], 3)] == [0.053, 0.057]
+    assert classify(ML[("K4:refusal", 200, 0.05, "pooled Wilson")]["miss"], 0.05, 40000) == OVER
+    assert classify(MT[("K4:refusal", 200, 0.05, "pooled Wilson")]["miss"], 0.05, 10000) == OVER
+    assert [round(ML[("K4:unsafe", 100, 0.1, a_)]["miss"], 3) for a_ in ("b1w", "pooled Wilson")] == [0.140, 0.142]
+    assert not [1 for n_, d_ in c4 if classify(ML[("K4:unsafe", n_, d_, "Clopper-Pearson")]["miss"], d_, 40000) == OVER]
+    bt = [(n_, d_, round(MT[("K4:refusal", n_, d_, "b1w, sampled-pool term")]["miss"], 3)) for n_, d_ in c4
+          if classify(MT[("K4:refusal", n_, d_, "b1w, sampled-pool term")]["miss"], d_, 10000) == UNRES]
+    assert bt == [(200, 0.1, 0.102)]
+    w4 = [r for r in jload("results/paper/stratppi_validate.json")["rows"] if r["arm"] == "Wald-t b1" and r["n"] == 100 and r["H"] == 4
+          and 0.05 <= r["truth"] <= 0.95]
+    w4o = [r for r in w4 if classify(r["miss"], 0.05, r["reps"]) == OVER]
+    assert len(w4) == 13 and len(w4o) == 1 and round(w4o[0]["miss"], 3) == 0.062 and round(100 * w4o[0]["truth"]) == 9
+    say("section 8.1, a pool aimed at the gap; abstract; section 11",
+        ["By prompt category the three pools' refusal rates run from 0% to 22%, from 46% to 89% and from 87% to 100%; three categories "
+         "fall inside the range, with 47, 20 and 17 prompts",
+         "From the reference samples alone, with `rho = 1`, it predicts 2.58, 4.12 and 2.22, and the realised gains are 27% to 41% lower",
+         "(one cell unresolved, 0.102 at delta 0.10)",
+         "is itself over its level at a safety set of 200 and delta 0.05 (0.053, and 0.057 for the source)",
+         "are both over at a safety set of 100 and delta 0.10 (0.140 and 0.142), and Clopper-Pearson is not",
+         "With 4 strata it was over in 1 cell of 13 (0.062 at delta 0.05, on the 9% label)",
+         "the 193 hard-1K prompts still unused and 207 unused benign prompts of the 80K set",
+         "is 1.93 times that of a stratified one with two strata, the two sources, and 2.90 times with the 8 strata",
+         "The refusal rate came out at 46% (81% on the hard prompts, 12% on the others)",
+         "Nine predictions were kept, none was refuted, and one had no label to test it",
+         "(misses 0.026 and 0.036 at delta 0.05)",
+         "(three cells unresolved, the largest miss 0.001 above its level)",
+         "(0.044 and 0.045 at delta 0.05, 0.096 at 0.10)",
+         "On the re-mix, at a rate of 48%, `b1w` sat at its level (0.051 and 0.102, unresolved)",
+         "The gain of `b1w` is 2.78 and 2.97 against a pre-flight of 2.79, and that of the Wald-t limit 2.09 and 2.56",
+         "with a gain of 1.49 and 1.34, 7% to 9% under its cap",
+         "fail in both cells at delta 0.05 (misses 0.079 to 0.120)",
+         "The safety-field label was rare (1.9%) and the strata gained nothing on it (1.00 and 1.08)",
+         "At all three mid rates, 12%, 46% and 82%, the pre-flight was within 20%",
+         "against 1.47 and 1.73 at 12% and 2.09 and 2.56 on the mixed pool at 46%",
+         "At 46% it kept 75% to 86% of `b1w`'s gain",
+         "all nine testable predictions were kept, and that limit held with a gain of 2.1 to 2.6 (1.3 to 1.5 for the source)",
+         "Between 18% and 65% there is one rate, 46%, from a fourth pool mixed from two sources"],
+        "The registered run (`results/paper/confirm/mid/confirm.md`): " + "; ".join(
+            f"{x['tag']} {'no label' if x['kept'] is None else 'kept' if x['kept'] else 'refuted'} ({x['found']})" for x in cm["scored"]) + ".")
 
     # --- section 9
     k = {i: n3(f"017_carry_{i}") for i in ("x2o", "o2x", "h2r", "r2h", "side", "c100", "c200")}
