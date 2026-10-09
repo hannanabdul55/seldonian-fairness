@@ -1,0 +1,22 @@
+{
+ "seed": 20261009,
+ "n": 400,
+ "exclusion": {
+  "files": 165,
+  "strings_from_files": 196897,
+  "with_loader_draws": 240236,
+  "r5_pool_prompts": 1200,
+  "K4": {
+   "hard-1k": {
+    "rows": 1319,
+    "unused": 193,
+    "taken": 193
+   },
+   "80k": {
+    "rows": 80359,
+    "unused": 35778,
+    "taken": 207
+   }
+  }
+ }
+}
