@@ -96,7 +96,7 @@ def fig1():
             rows.append((g, name, d, min(x["lowest"] for x in ss), max(x["largest"] for x in ss), r["source"].strip("[]"),
                          sum(x["counts"]["over"] for x in ss), sum(x["cells"] for x in ss), max(x["hi_max"] for x in ss)))
     col = {"exact": BLUE, "approximate": AQUA, "fails": ORANGE}
-    names = {"exact": "exact at every sample size", "approximate": "approximate, used in the paper",
+    names = {"exact": "exact at every sample size", "approximate": "approximate, measured in the paper",
              "fails": "over its level in some setting (bold in Table 4)"}
     fig, ax = plt.subplots(figsize=(9.8, 11.6))
     LEFT = 0.04
@@ -186,7 +186,7 @@ def fig2():
     h = [plt.Line2D([], [], marker="o", color=CONTEXT, label="synthetic bandit cells", markersize=4.5, markeredgecolor=SURFACE, markeredgewidth=0.6, linestyle="none"),
          plt.Line2D([], [], marker="o", color=BLUE, label="real label, side effect of training", **DOT),
          plt.Line2D([], [], marker="o", color=ORANGE, label="real label, targeted by training", **DOT)]
-    top = heading(fig, "The gain from reference-rate strata can be predicted before labelling",
+    top = heading(fig, "The gain from reference-rate strata can be ranked in advance; its size is over-predicted",
                   "8 strata of an 8-sample reference rate, 200 safety prompts, δ 0.1, 200 training steps. Labels with rates of 1-2% are left out: the strata give no gain there.", h)
     fig.subplots_adjust(left=0.085, right=0.975, top=top, bottom=0.11)
     save(fig, "fig2_strata_ess", ["series", "label or environment", "checkpoint", "ICC_ref", "ESS"], table)
@@ -301,7 +301,7 @@ def fig5():
         style(a, "x")
     h = [plt.Line2D([], [], marker="o", color=CONTEXT, label="recall where the calibration was measured", **DOT),
          plt.Line2D([], [], marker="o", color=BLUE, label="where it was applied (both panels)", **DOT)]
-    top = heading(fig, "A judge's calibration does not carry, least of all across training that targets the label",
+    top = heading(fig, "A judge's calibration does not carry across prompt populations, nor, in one run, across training that targets the label",
                   "A rubric judge's recall and false-alarm rate are measured on one population and used to bound the refusal rate of another. "
                   "Left: how often that bound falls below the truth, one dot per wording of the judge's rubric. Right: what happened to the judge's recall.", h)
     fig.subplots_adjust(left=0.375, right=0.98, top=top, bottom=0.13, wspace=0.12)
@@ -354,8 +354,8 @@ def fig6():
     h = [plt.Line2D([], [], marker="o", color=BLUE, label="this paper's bound for the setting: stratified Wilson-type (left), PPI++ with a bootstrap-t limit (right)", **DOT),
          plt.Line2D([], [], marker="o", color=ORANGE, label="StratPPI as published, with its normal-quantile limit", **DOT),
          plt.Line2D([], [], marker="o", color=AQUA, label="StratPPI's estimator with a bootstrap-t limit", **DOT)]
-    top = heading(fig, "StratPPI's interval is shorter partly because it runs over its level; with an honest limit its estimator holds",
-                  "Each dot is one cell (a label and a sample size). Right of the line the bound misses more often than it claims. "
+    top = heading(fig, "StratPPI's interval is shorter partly because it runs over its level; with a bootstrap-t limit its estimator is not over on these pools",
+                  "Each dot is one cell (a label and a sample size). Right of the line the miss rate is above delta (within two standard errors it is unresolved). "
                   "Baseline: a random split with a pooled Wilson bound (left), the labels alone (right).", h, ncol=1)
     fig.subplots_adjust(left=0.07, right=0.985, top=top - 0.045, bottom=0.11, wspace=0.17)
     save(fig, "fig3_stratppi", ["panel", "method", "cell", "largest miss", "ESS vs baseline"], table)
@@ -431,7 +431,7 @@ def fig8():
     ax.set_xlabel("share of responses to benign prompts")
     style(ax, "x")
     h = [plt.Line2D([], [], marker="o", color=col, label=lab, **DOT) for _, col, lab in steps]
-    top = heading(fig, "In human terms the two policies refuse equally often, and less often than the guard says",
+    top = heading(fig, "In human terms no difference between the two policies is detected, and both refuse less often than the guard says",
                   "220 responses labelled by one annotator, a stratified sample read with its design weights; bars are conservative 95% intervals. "
                   "The guard's rate is its share of the whole pool, so it has no interval.", h)
     fig.subplots_adjust(left=0.345, right=0.97, top=top, bottom=0.145)

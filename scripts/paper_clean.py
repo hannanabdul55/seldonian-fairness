@@ -41,8 +41,11 @@ PHRASES = [
 ]
 APPENDIX = """## Appendix E. Reproducing the numbers
 
-The numbers in this paper come from the scripts below, apart from those cited from the companion
-paper and a few recomputed from the data files. The working draft carries a source tag on each
+The numbers in this paper come from the scripts below and from the scripts of three earlier
+measurements kept with their results (the carried calibration and the sheets of sections 9.1,
+9.2, 9.4 and 9.5; the robot benchmark's counts of section 10.1; the design effects of
+section 9.3), apart from those cited from the companion paper and a few recomputed from the
+data files. The scripts that sample or judge responses need a GPU. The working draft carries a source tag on each
 number and a table that resolves each tag to a file.
 
 | what | script | output |
@@ -108,7 +111,7 @@ def main():
                 name, caption = FIGS[n]
                 out.append(f"![Figure {n - 1}](figs/{name}.png)\n\n*Figure {n - 1}. {caption}*")
     s = "\n\n".join(out)
-    head = (f"{title}\n\n*Draft of 2026-10-08, not formatted for any venue. Generated from the working draft by\n"
+    head = (f"{title}\n\n*Draft of 2026-10-10, not formatted for any venue. Generated from the working draft by\n"
             "`scripts/paper_clean.py`; to change the text, edit the working draft and run the script again.*\n\n")
     s = head + s.rstrip() + "\n\n" + APPENDIX
     s = re.sub(r"\n{3,}", "\n\n", s)
