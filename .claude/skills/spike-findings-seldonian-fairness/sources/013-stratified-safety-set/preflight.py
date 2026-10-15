@@ -9,7 +9,16 @@ when the certificate targets the population the pool was drawn from, and a verdi
 spike 013's use-case map. The formula over-predicts by about 0-20% at H = 8 on real data
 (spike 013 stage 3). Treat the result as an upper estimate and a ranking.
 
-    ../../../.venv/bin/python preflight.py ref_labels.jsonl --n-s 200 [--pushed]
+    ../../../.venv/bin/python preflight.py ref_labels.jsonl --n-s 200 [--pushed] [--source]
+
+The verdict follows the rule of the certification paper (section 8.1, after the confirmation
+pools R5 and R5b): no strata and an exact bound on a random draw for a rare or near-one label;
+no strata above about 80% (the gain under the Wald-t limit was 0.75 to 1.13 at 82% and 0.4 to
+0.65 at 93%); otherwise strata with the stratified Wald-t limit (``stratbounds.b1``), with
+the sampled-pool term (``N=``) when ``--source`` says the certificate is about the population
+the pool was drawn from. ``b1w`` is narrower, but once the pool is much larger than the safety
+set it kept its level only at rates under one half. The Wald-t limit has no finite-sample
+guarantee: on synthetic i.i.d. data it was over its level in 10 of 36 cells.
 
 ``--pushed``: the constraint label is one the training targets directly (a Lagrangian
 multiplier against a reward that pulls the other way). Spike 014 found no compression of
@@ -47,16 +56,24 @@ def assess(Y, n_s, H=8, rho=1.0):
                 ess_pool=1 / (1 - G), ess_population=1 / (1 - G + G * n_s / N))
 
 
-def verdict(r, pushed=False):
+def verdict(r, pushed=False, source=False):
     if not 0.05 <= r["rate"] <= 0.95:
-        return ("NO: rate outside 5-95%; approximate bounds miss far more than delta here "
-                "(013: up to 0.45 at 1% rates), with or without strata")
+        return ("NO: rate outside 5-95%; no strata, Clopper-Pearson or a betting bound on a random "
+                "draw (approximate bounds miss far more than delta here, 013: up to 0.45 at 1% rates)")
+    if r["rate"] > 0.80:
+        return ("NO: rate above 80%; under the Wald-t limit the strata gained nothing or lost "
+                "(0.75-1.13 at 82%, 0.4-0.65 at 93%), so draw the safety set at random")
     if r["ess_pool"] < 1.2:
         return "NO: predicted gain under 1.2x; not worth the reference samples"
+    bound = ("the stratified Wald-t limit (b1) with the sampled-pool term (N = pool size)" if source
+             else "the stratified Wald-t limit (b1)")
+    out = (f"YES: stratify on the reference rate (8 equal strata, random ties), use {bound}; "
+           "it has no finite-sample guarantee (over in 10 of 36 synthetic cells)")
+    if r["rate"] < 0.5 and not source:
+        out += "; b1w is narrower and, with a pool much larger than the safety set, kept its level in our tests only at rates under one half"
     if pushed:
-        return ("YES: stratify on the reference rate (8 equal strata, random ties), use b1w; the label "
-                f"is pushed, so rho {r['rho']:.2f} from spike 014's table (one real point ran 13% under it)")
-    return "YES: stratify on the reference rate (8 equal strata, random ties), use b1w"
+        out += f"; the label is pushed, so rho {r['rho']:.2f} from spike 014's table (one real point ran 13% under it)"
+    return out
 
 
 def main():
@@ -65,6 +82,8 @@ def main():
     ap.add_argument("--n-s", type=int, default=200, help="planned safety-set size")
     ap.add_argument("--pushed", action="store_true",
                     help="the training targets this label directly (spike 014's rho table)")
+    ap.add_argument("--source", action="store_true",
+                    help="the certificate is about the prompt source the pool was drawn from")
     a = ap.parse_args()
     Y = [json.loads(l)["labels"] for l in open(a.path)]
     for rho in (1.0, 0.8):
@@ -73,9 +92,9 @@ def main():
     if a.pushed:
         r = assess(Y, a.n_s, rho=pushed_rho(assess(Y, a.n_s)["icc_ref"]))
         print("pushed: " + ", ".join(f"{k} {v:.3f}" for k, v in r.items()))
-        print(verdict(r, pushed=True))
+        print(verdict(r, pushed=True, source=a.source))
     else:
-        print(verdict(assess(Y, a.n_s)))
+        print(verdict(assess(Y, a.n_s), source=a.source))
 
 
 if __name__ == "__main__":

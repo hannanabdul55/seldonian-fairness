@@ -71,6 +71,8 @@ Spike sessions wrapped: 2026-09-21 (001, 002, 003a-c); 2026-09-28 (004-013); 202
    above, where the bootstrap-t StratPPI limit and the Wald-t `b1` are over in none. Rare labels (1-2%) get no
    gain and take an exact bound; the "rare labels break `b1w`" finding was a bug at zero
    positives, corrected 2026-10-06. No distribution-free stratified bound beat pooling.
+   Since R5/R5b (paper section 8.1) the default limit is the Wald-t `b1` (with `N` for the
+   prompt source), no strata above about 80%; `preflight.py` prints that rule (2026-10-14).
 10. The gain survives a label the Lagrangian targets directly: no compression of the
     per-prompt rates, rho 0.92 on Granite (set by ICC_ref, not by the pressure), ESS
     2.1-2.2 against 2.4-2.5 as a side effect. Score the pre-flight at the measured

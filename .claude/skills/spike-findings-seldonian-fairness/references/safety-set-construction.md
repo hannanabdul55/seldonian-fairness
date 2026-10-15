@@ -66,7 +66,14 @@ Use it only when `preflight.py` says YES (see Constraints).
    ```
 3. **Split.** Within each stratum, send the fraction f to D_s (proportional allocation).
    The rule depends only on `r_ref`, so D_s is independent of training given the strata.
-4. **Bound.** Use `013/stratbounds.py b1w(s, n, W, delta, N=None)`, the stratified
+4. **Bound.** Since the confirmation pools R5 and R5b (2026-10-08/09; paper section 8.1, "The
+   rule, in one place"), the default is the stratified Wald-t limit `013/stratbounds.py
+   b1(s, n, W, delta, N=None)`, with `N` for a claim about the prompt source; no strata above
+   about 80% (gain 0.75-1.13 at 82%, 0.4-0.65 at 93%) and none for a rare or near-one label.
+   `b1` has no finite-sample guarantee (over in 10 of 36 synthetic i.i.d. cells; one in-loop
+   cell at 0.132). `preflight.py` prints this rule since 2026-10-14 (`--source` for the
+   prompt source). The older default, still right when the safety set is a large share of
+   the pool or the rate is under one half: `b1w(s, n, W, delta, N=None)`, the stratified
    Wilson-type score bound: the smallest `m >= mu_hat` with `m - mu_hat >= z sqrt(V(m))`,
    where `V(m)` shifts every stratum by `m - mu_hat`. `W_h` are the strata's pool shares.
    Pass `N` = pool size when the certificate targets the population the pool was drawn
