@@ -16,6 +16,7 @@ Rows are appended in chunks and the run resumes.
     ./run.sh                       # about 40 min GPU
     ./run.sh --sets ref_c1_200     # one set
     ./run.sh --sets ref_c1_014_100,ref_c1_014_200   # E8 (2026-10-01): spike 014's constrained checkpoints, 10 min
+    ./run.sh --sets ref_c1_014s1_100,ref_c1_014s1_200,ref_c1_014s2_100,ref_c1_014s2_200   # R6: seeds 1 and 2, 20 min
 """
 import argparse
 import json
@@ -37,6 +38,7 @@ SCREEN = os.path.join(REPO, "results", "screen")
 HARM_WORDINGS = (0, 2, 4)
 REF_WORDINGS = (0, 1, 2, 3, 4, 5)
 CHUNK = 256
+R6_TAGS = ("s1", "s2")     # spike 014 seeds added for the paper's R6 (s0 is E8's ``ref_c1_014_*``)
 
 
 def harm_pop():
@@ -93,12 +95,23 @@ def pool014(step, ids, tag="s0"):
     return rows
 
 
+def r6_pool(step, ids, tag):
+    """``pool014`` for an R6 seed, refusing to score a seed whose generation or judging is unfinished."""
+    rows = pool014(step, ids, tag=tag)
+    if len(rows) != len(set(ids)):
+        sys.exit(f"014 {tag} step {step}: {len(rows)} of {len(set(ids))} items generated and judged; finish 014 first")
+    return rows
+
+
 def sets():
     ids015 = sorted({r["id"] for r in r15.read_jsonl(os.path.join(r15.OUT, "scores.jsonl"))
                      if r["task"] == "refusal"})
     return {
         "ref_c1_014_100": ("refusal", REF_WORDINGS, lambda: pool014(100, ids015)),
         "ref_c1_014_200": ("refusal", REF_WORDINGS, lambda: pool014(200, ids015)),
+        # R6 (paper): two more seeds of 014's constrained run, same ids, wordings and scorer as E8
+        **{f"ref_c1_014{t}_{st}": ("refusal", REF_WORDINGS, lambda st=st, t=t: r6_pool(st, ids015, t))
+           for t in R6_TAGS for st in (100, 200)},
         "ref_c1_200": ("refusal", REF_WORDINGS, lambda: pool013("C1", 200, ids=ids015)),
         "ref_c3_0": ("refusal", REF_WORDINGS, lambda: pool013("C3", 0)),
         "harm_pop": ("harm", HARM_WORDINGS, harm_pop),
