@@ -1,0 +1,734 @@
+{
+ "cells": [
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 417,
+   "miss": 0.052125,
+   "cls": "unresolved",
+   "width": 0.028183743948818462
+  },
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 453,
+   "miss": 0.056625,
+   "cls": "over",
+   "width": 0.028346868465754103
+  },
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 336,
+   "miss": 0.042,
+   "cls": "under",
+   "width": 0.02976016765625
+  },
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 374,
+   "miss": 0.04675,
+   "cls": "under",
+   "width": 0.02992684375
+  },
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 363,
+   "miss": 0.045375,
+   "cls": "under",
+   "width": 0.030194406562499998
+  },
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 309,
+   "miss": 0.038625,
+   "cls": "under",
+   "width": 0.030194406562499998
+  },
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 508,
+   "miss": 0.0635,
+   "cls": "over",
+   "width": 0.02768582871107062
+  },
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 497,
+   "miss": 0.062125,
+   "cls": "over",
+   "width": 0.027662399826661577
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 802,
+   "miss": 0.10025,
+   "cls": "unresolved",
+   "width": 0.02194207534128752
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 857,
+   "miss": 0.107125,
+   "cls": "over",
+   "width": 0.0220690706082116
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 736,
+   "miss": 0.092,
+   "cls": "under",
+   "width": 0.022779675625
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 775,
+   "miss": 0.096875,
+   "cls": "under",
+   "width": 0.022909622890625002
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 788,
+   "miss": 0.0985,
+   "cls": "under",
+   "width": 0.023135882734375
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 726,
+   "miss": 0.09075,
+   "cls": "under",
+   "width": 0.023135882734375
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 933,
+   "miss": 0.116625,
+   "cls": "over",
+   "width": 0.021556412598436644
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 919,
+   "miss": 0.114875,
+   "cls": "over",
+   "width": 0.02153817067747726
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 343,
+   "miss": 0.042875,
+   "cls": "under",
+   "width": 0.03043863495530497
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 423,
+   "miss": 0.052875,
+   "cls": "unresolved",
+   "width": 0.03158077047631208
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 299,
+   "miss": 0.037375,
+   "cls": "under",
+   "width": 0.0316340790625
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 381,
+   "miss": 0.047625,
+   "cls": "under",
+   "width": 0.032796762109374995
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 384,
+   "miss": 0.048,
+   "cls": "under",
+   "width": 0.034415047109375
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 291,
+   "miss": 0.036375,
+   "cls": "under",
+   "width": 0.034415047109375
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 482,
+   "miss": 0.06025,
+   "cls": "over",
+   "width": 0.032415097169309716
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 407,
+   "miss": 0.050875,
+   "cls": "unresolved",
+   "width": 0.032439060486741805
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 705,
+   "miss": 0.088125,
+   "cls": "under",
+   "width": 0.023694892339564587
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 799,
+   "miss": 0.099875,
+   "cls": "under",
+   "width": 0.024583955240716854
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 652,
+   "miss": 0.0815,
+   "cls": "under",
+   "width": 0.024328156171875
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 756,
+   "miss": 0.0945,
+   "cls": "under",
+   "width": 0.02523574609375
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 779,
+   "miss": 0.097375,
+   "cls": "under",
+   "width": 0.026515594687499998
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 625,
+   "miss": 0.078125,
+   "cls": "under",
+   "width": 0.026515594687499998
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 885,
+   "miss": 0.110625,
+   "cls": "over",
+   "width": 0.02523865968731679
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 758,
+   "miss": 0.09475,
+   "cls": "under",
+   "width": 0.025257317722197536
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 278,
+   "miss": 0.03475,
+   "cls": "under",
+   "width": 0.028457397661573503
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 390,
+   "miss": 0.04875,
+   "cls": "under",
+   "width": 0.03266757336432975
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 254,
+   "miss": 0.03175,
+   "cls": "under",
+   "width": 0.02886453921875
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 368,
+   "miss": 0.046,
+   "cls": "under",
+   "width": 0.033178791015625
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 390,
+   "miss": 0.04875,
+   "cls": "under",
+   "width": 0.038552141953124994
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 208,
+   "miss": 0.026,
+   "cls": "under",
+   "width": 0.038552141953124994
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 459,
+   "miss": 0.057375,
+   "cls": "over",
+   "width": 0.037288840872012854
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 252,
+   "miss": 0.0315,
+   "cls": "under",
+   "width": 0.03732250750176374
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 614,
+   "miss": 0.07675,
+   "cls": "under",
+   "width": 0.022149060943039617
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 762,
+   "miss": 0.09525,
+   "cls": "under",
+   "width": 0.025425778608962335
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 598,
+   "miss": 0.07475,
+   "cls": "under",
+   "width": 0.022276481953125
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 743,
+   "miss": 0.092875,
+   "cls": "under",
+   "width": 0.02564259328125
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 799,
+   "miss": 0.099875,
+   "cls": "under",
+   "width": 0.029841757734375002
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 533,
+   "miss": 0.066625,
+   "cls": "under",
+   "width": 0.029841757734375002
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 848,
+   "miss": 0.106,
+   "cls": "unresolved",
+   "width": 0.02903339638279057
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 552,
+   "miss": 0.069,
+   "cls": "under",
+   "width": 0.029059609495978637
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 231,
+   "miss": 0.028875,
+   "cls": "under",
+   "width": 0.02265788366078326
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 372,
+   "miss": 0.0465,
+   "cls": "under",
+   "width": 0.030913299288055158
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 238,
+   "miss": 0.02975,
+   "cls": "under",
+   "width": 0.0224279028125
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 354,
+   "miss": 0.04425,
+   "cls": "under",
+   "width": 0.031056160546875
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 403,
+   "miss": 0.050375,
+   "cls": "unresolved",
+   "width": 0.040112707734374996
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 179,
+   "miss": 0.022375,
+   "cls": "under",
+   "width": 0.040112707734374996
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 439,
+   "miss": 0.054875,
+   "cls": "over",
+   "width": 0.03931686579301469
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 129,
+   "miss": 0.016125,
+   "cls": "under",
+   "width": 0.03934538559296827
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, pool rate",
+   "R": 8000,
+   "k": 572,
+   "miss": 0.0715,
+   "cls": "under",
+   "width": 0.017628105665261903
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "Wald-t, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 744,
+   "miss": 0.093,
+   "cls": "under",
+   "width": 0.024050523920436256
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, pool rate",
+   "R": 8000,
+   "k": 613,
+   "miss": 0.076625,
+   "cls": "under",
+   "width": 0.017289722890625
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "b1w, 8 strata, sampled-pool term, source rate",
+   "R": 8000,
+   "k": 741,
+   "miss": 0.092625,
+   "cls": "under",
+   "width": 0.023995569375
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, source rate",
+   "R": 8000,
+   "k": 826,
+   "miss": 0.10325,
+   "cls": "unresolved",
+   "width": 0.031134384296874998
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "pooled Wilson, random split, pool rate",
+   "R": 8000,
+   "k": 477,
+   "miss": 0.059625,
+   "cls": "under",
+   "width": 0.031134384296874998
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "t-test, random split, source rate",
+   "R": 8000,
+   "k": 869,
+   "miss": 0.108625,
+   "cls": "over",
+   "width": 0.030612433167755818
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "bound": "t-test, 8 strata, source rate",
+   "R": 8000,
+   "k": 395,
+   "miss": 0.049375,
+   "cls": "under",
+   "width": 0.030634638917182364
+  }
+ ],
+ "ess": [
+  {
+   "env": "icc05",
+   "delta": 0.05,
+   "pop": 1.1346001061950688,
+   "pool": 1.1477720048210591,
+   "rho": 0.4327669556403911
+  },
+  {
+   "env": "icc05",
+   "delta": 0.1,
+   "pop": 1.0990161145953614,
+   "pool": 1.1117745925787994,
+   "rho": 0.4327669556403911
+  },
+  {
+   "env": "icc26",
+   "delta": 0.05,
+   "pop": 1.1875483325056788,
+   "pool": 1.2783400405833754,
+   "rho": 0.7187987286338735
+  },
+  {
+   "env": "icc26",
+   "delta": 0.1,
+   "pop": 1.1633200964147679,
+   "pool": 1.2522564121274158,
+   "rho": 0.7187987286338735
+  },
+  {
+   "env": "icc55",
+   "delta": 0.05,
+   "pop": 1.392718275813179,
+   "pool": 1.8352982876106745,
+   "rho": 0.8796876309462323
+  },
+  {
+   "env": "icc55",
+   "delta": 0.1,
+   "pop": 1.3775275025175244,
+   "pool": 1.8152571848635248,
+   "rho": 0.8796876309462323
+  },
+  {
+   "env": "icc75",
+   "delta": 0.05,
+   "pop": 1.6837330678387958,
+   "pool": 3.134189659041975,
+   "rho": 0.9769067400217831
+  },
+  {
+   "env": "icc75",
+   "delta": 0.1,
+   "pop": 1.675835863540534,
+   "pool": 3.1193871100695745,
+   "rho": 0.9769067400217831
+  }
+ ],
+ "predictions": [
+  {
+   "id": "Q1",
+   "text": "Wald-t, 8 strata, pool rate: over in at most 1 of 8 cells",
+   "kept": true
+  },
+  {
+   "id": "Q2",
+   "text": "Wald-t, 8 strata, sampled-pool term, source rate: over in at most 2 of 8 cells",
+   "kept": true
+  },
+  {
+   "id": "Q3",
+   "text": "the same at icc05, delta 0.10: over (the 4-strata in-loop cell was over)",
+   "kept": true
+  },
+  {
+   "id": "Q4",
+   "text": "pooled Wilson on a random split, source rate: over in at most 2 of 8 cells",
+   "kept": true
+  },
+  {
+   "id": "Q5",
+   "text": "gain of the Wald-t source-rate limit against the pooled Wilson bound, delta 0.10: at least 1.6 at icc75",
+   "kept": true
+  },
+  {
+   "id": "Q6",
+   "text": "the same gain at icc05 between 0.9 and 1.15",
+   "kept": true
+  }
+ ]
+}

@@ -328,3 +328,22 @@ Sources, all in `review/`: `blind_review_v0.9.8.md` (a fresh agent, the clean co
 | O11 | The paper grew from 21,900 to 25,500 words with the corrections and Table D1; the reviewer already found it long | blind W12 | an editing decision |
 
 Closed by earlier decisions and not reopened: cutting sections 2 to 4 (kept as is, 2026-10-07); a second annotator (declined 2026-10-04); the P9 labels (closed without labels). Before any submission: the clean copy's first line and the reference list's verification note are process notes and come out; `fig1_validity` is not in the clean copy by design, so the figure files are numbered one above the figures.
+
+## 11. Work on O1-O11 (2026-10-14; the user: "work on all the remaining steps")
+
+Registered and pushed before each run: O2 (`O2_registration.md`, `bf7f5dc`), O3 (same commit),
+O4 (`1b1185f`), R6 (`3703288`), O6 (`56fbeda`).
+
+| item | state |
+|---|---|
+| O1 | done: method names in brackets in the abstract |
+| O2 | run: Q1-Q6 kept; in the draft (7.2, 7, 11, Table 4 rows 37-38) |
+| O3 | run: Y2, Y3, Y4, Y6 kept; Y1 refuted (Wald-t over in 3 of 20 cells, by at most 0.008), Y5 refuted (stratifier A did not beat B); median Wald-t gain 1.18 at n_s 100, `b1w` strata gain 1.10-1.49 on mid labels; in the draft (8.1.4, Table 4 row 39) |
+| O4 | run 2026-10-15 13:11-13:52: Z1-Z3, Z5, Z6 kept; Z4 refuted (cluster bootstrap-t over in 11 of 28 under (b_s), not >= 15). Deviation: the waiter that was to start O4 after O2 matched its own command line in `pgrep -f` and never started it; O4 was started by hand 19 h late, unchanged |
+| O5 | done: 29 verified references, citations at 13 places, three related-work paragraphs; Anderson (1969) unverified, cited through Learned-Miller and Thomas (2019) |
+| O6 | run 2026-10-14 18:24-21:03 (pilot 9.25 GiB, 1.52 h projected): V3, V4, V5 kept; V1 refuted (rho 0.84), V2 refuted (UP refusal fell 0.169 -> 0.148, DOWN rose 0.225 -> 0.235; the reward-model term rose about 5 points and swamped the +/-3 flag), V6 refuted (gain 1.77 > 1.6). The manipulation check failed, so the run is a second model family, not a policy moved far. Deviations: training cap set to 6 h (TRAIN_CAP 21600) as registered, in `run_o6.sh`; the queue's parser called system python3 without numpy, fixed to `.venv/bin/python` before the full run |
+| O7 | done: Table 4's training-paper rows are exact enumerations at pool counts 121-124; Student-t over in all 20 cells (0.104-0.195), where the printed rates had 3 over and 2 unresolved |
+| O8 | in progress (8.1 into 8.1.1-8.1.5, one ESS definition, notation, undefined terms) |
+| O9 / R6 | run: seeds 1, 2 trained (13.0 h, 10.8 h), judged, scored 2026-10-15 21:48; S1-S4 kept (carried bound over in 3, 3, 2 of 6 wordings at step 200 for seeds 0, 1, 2; recall 0.21 -> 0.03, 0.07, 0.05). Not predicted: Seldonian safety test passed for seed 0 only (seed 1 upper 0.232, seed 2 0.2064, threshold 0.20575). Forced deviation: seed 1's first attempt crashed at step 12 (CUDA "device not ready" at 11.8 GB); `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`, registered as set, was unset for both seeds; the partial run was moved aside, nothing from it is used |
+| O10 | done (`dbba1e1`): `preflight.py` prints the paper's rule, `--source` |
+| O11 | with O8 for section 8.1; abstract after the results |

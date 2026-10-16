@@ -48,7 +48,9 @@ SCORE_CAP=3600           # E8: 475 s for 6,000 passes; here 12,000
 DRY=${DRY:-0}
 
 export HF_HOME=/mnt/d/hf-cache
-export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+# 2026-10-14 18:20: removed after seed 1's first attempt died at step 12 with "CUDA driver error:
+# device not ready" at 11.8 GB in use; seed 0 ran without it (a forced deviation, PLAN.md section 11).
+unset PYTORCH_CUDA_ALLOC_CONF
 mkdir -p "$LOGDIR"
 QLOG="$LOGDIR/queue.log"
 
@@ -92,7 +94,7 @@ stage() {   # <log name> <cap> <dir> <args...>: one spike stage through its own 
   return $rc
 }
 
-say "R6 queue start (pid $$, DRY=$DRY, HF_HOME=$HF_HOME, PYTORCH_CUDA_ALLOC_CONF=$PYTORCH_CUDA_ALLOC_CONF)"
+say "R6 queue start (pid $$, DRY=$DRY, HF_HOME=$HF_HOME, no PYTORCH_CUDA_ALLOC_CONF)"
 disk_ok || exit 1
 grep -q '"verdict": *"OPEN' "$S014/gate.json" || { say "STOP: spike 014's gate.json is not OPEN"; exit 1; }
 [ -d "$HF_HOME/hub" ] || { say "STOP: $HF_HOME/hub missing (is D: mounted?)"; exit 1; }
