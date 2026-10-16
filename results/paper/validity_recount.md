@@ -380,7 +380,7 @@ correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10)
    Registered rows with cells over (cells over, after Bonferroni): {38: (2, 1), 39: (3, 2), 46: (1, 1)}; interval ends {0.05: 0.061915859142313484, 0.1: 0.11773008335265213}.
 
 2. **section 7.1, below Table 4; section 11.**
-   > In the other rows we call valid no cell stays over its level after the correction, and the largest miss rate a cell's interval leaves open is 0.067 at delta 0.05 and 0.106 at 0.10.
+   > In the remaining rows, which we treat as valid, no cell stays over its level after the correction, and the largest miss rate a cell's interval leaves open is 0.067 at delta 0.05 and 0.106 at 0.10.
    > One cell there is over under the uncorrected rule: `b1w` on a design-weighted sheet, 0.0595 at 4,000 draws.
    > the other run of the same setting gave 0.0485, and the two together give 0.054, which is unresolved
    > for the bounds we use its largest value is 0.067 at a nominal 0.05
@@ -420,7 +420,7 @@ correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10)
 7. **abstract.**
    > promised to be wrong in at most 5% of repeated trials, the standard one (Clopper-Pearson) was wrong in at most 5.3% of ours, a difference within the noise of the check
 
-   Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's plasmodes and on the random draws with replacement): largest upper limit 0.0588. Bootstrap-t limits at delta 0.05: PPI++ with a bootstrap-t limit (017_boot) 0.0609, StratPPI estimator with a bootstrap-t limit (p14_a_sboot_mid_0.05) 0.0513, StratPPI estimator with a bootstrap-t limit (p14_b_sboot) 0.0636, StratPPI estimator with a bootstrap-t limit, redrawn with replacement (rep_sboot_mid_0.05) 0.0518, cluster bootstrap-t, by user task (ad_t_user_a) 0.0577. None of these groups has a cell over.
+   Largest Clopper-Pearson miss at delta 0.05 outside the AgentDojo per-pair rows: 0.0528 (the replacement check's paired random draws, 5,000 a cell; not over by the cell rule). Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's plasmodes and on the random draws with replacement): largest upper limit of a cell's interval 0.0588. Bootstrap-t limits at delta 0.05: PPI++ with a bootstrap-t limit (017_boot) 0.0609, StratPPI estimator with a bootstrap-t limit (p14_a_sboot_mid_0.05) 0.0513, StratPPI estimator with a bootstrap-t limit (p14_b_sboot) 0.0636, StratPPI estimator with a bootstrap-t limit, redrawn with replacement (rep_sboot_mid_0.05) 0.0518, cluster bootstrap-t, by user task (ad_t_user_a) 0.0577. None of these groups has a cell over.
 
 8. **section 7.2.**
    > with Clopper-Pearson a candidate that passed and truly violated was returned in at most 1 of 2,000 runs in any cell
@@ -577,8 +577,8 @@ registered in advance, 39 held, 9 failed and one could not be tested
 0.08, 0.23 and 0.80, and marginal for a fourth at 0.054; the largest in seeds 1 and 2 are 0.399
 and 0.625), although the pool's rate was within 1.4 points of the reference's in each seed
    > At step 100 the bound was over for 1, 1 and 4 of 6.
-   > returned NSF (their candidates, steps 200 and 175, had upper bounds 0.232 and 0.2064 against a
-threshold of 0.20575; seed 0's step 175 had 0.198 and was returned)
+   > returned NSF (their candidates, steps 200 and 175, had upper bounds 0.2317 and 0.2064 against a
+threshold of 0.2058; seed 0's step 175 had 0.1979 and was returned)
    > for 2 of the 3 seeds of the constrained run of section 9.2
    > rose from 37% in the reference to 82% in the trained policy, and to 76% and 82% in the two
 further seeds
@@ -627,8 +627,8 @@ fell on the categories the reward pushed up (16.9% to 14.8%) and rose on those i
   0.046 at delta 0.05 and 0.092 at 0.10), and `b1w` in none (at most 0.041 and 0.092), where
   StratPPI's normal limit is over in all 8 and the pooled Wilson baseline in 4
    > the Wald-t limit's gain is 1.52 and 1.77 at safety sets of 100 and 200
-   > `b1w`'s 1.60 and 1.70 against a pre-flight of 1.73 at the
-  measured moderators; from the reference samples alone the pre-flight predicted 1.55, or 1.30
+   > `b1w`'s 1.60 and 1.70
+  against a pre-flight of 1.73 with `ICC_cand` and `omega` measured; from the reference samples alone the pre-flight predicted 1.55, or 1.30
   with the pushed-label rho
    > rho fell from 0.88 to 0.84 and the Wald-t limit's gain at a safety
   set of 200 from 1.84 to 1.77

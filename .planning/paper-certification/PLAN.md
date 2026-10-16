@@ -352,3 +352,19 @@ Draft v0.9.10 (2026-10-16, `1f7a636`): O2, O3, O4, O6 and R6 written into sectio
 Table 4 rows 37-46, Table 7's exact column, Appendix D (records and Table D2: 46 registered predictions, 37 held, 8
 failed, 1 untested). Results committed in `3460a59`. Next: fresh-agent source check of the whole draft, fixes, blind
 review, reading page.
+
+**Blind review of v0.9.10 (2026-10-16): weak reject, 2 of 5** (evidence 4, falsifiability 4, scope 3, coherence 2,
+integrity 4, rigour 3; report in the session scratchpad, summarised here). Plain errors E1-E18 fixed the same day
+(abstract qualifiers, Figures 3 and 4 redrawn, Table 4 numbered with bold defined, conclusion, related work,
+references, wording); E19 (split Table 4's kind column) not done. Open checklist, the major items:
+
+| # | item | what would resolve it |
+|---|---|---|
+| B1 | length (30,900 words in the clean copy) and no single thesis; the stated proposal (the safety test as a certificate) is not new | restructure to venue length around the three findings; move sub-studies to appendices |
+| B2 | the recommended Wald-t limit has no guarantee (10 of 36 synthetic, 3 of 64 costly-label cells over); no exact stratified bound reported | run an exact stratified bound (e.g. a stratified betting bound) on the same cells and report its cost |
+| B3 | the case the design is for is untested: no policy moved far (O6 failed its push), costly label gains 1.2, no human-label certificate | a stronger push (larger coefficient or reward model off) on a second family; P9's labels |
+| B4 | "calibration does not carry" rests on one weak judge, guard as gold | a second judge family; human gold on the trained policy |
+| B5 | gains measured against a baseline itself over its level; probability of certifying never reported | report gain against Clopper-Pearson and the pass probability at a threshold |
+| B6 | AgentDojo check resamples the observed table (partly circular); the one certificate rests on 7 successes in 6 user tasks | say so in 10.2; nothing cheaper resolves it |
+| B7 | dependence on the unpublished companion paper whose data were lost; single author-annotator | anonymise and state; second annotator was declined (2026-10-04) |
+| B8 | missing literature: Safe RLHF, high-confidence policy improvement, StrongREJECT-type judge validity, rare-behaviour estimation (Wu and Hilton; Jones et al.), cross-prediction-powered inference, Agresti-Coull/Newcombe, exact stratified bounds from election audits | a verified literature pass |

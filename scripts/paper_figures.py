@@ -272,13 +272,17 @@ def fig5():
     """A judge's calibration carried to another population: the carried bound's miss rate, and recall."""
     T = json.load(open(os.path.join(SP, "017-calibration-carrying-certificate", "transfer.json")))
     order = [("training: step 0 -> step 200", "200 training steps, label moved as a side effect"),
-             ("training, constrained (014): step 0 -> step 100", "100 training steps that target the label"),
-             ("training, constrained (014): step 0 -> step 200", "200 training steps that target the label"),
+             ("training, constrained (014): step 0 -> step 100", "100 steps that target the label, seed 0"),
+             ("training, constrained (014): step 0 -> step 200", "200 steps that target the label, seed 0"),
+             ("training, constrained (014 s1): step 0 -> step 100", "100 steps that target the label, seed 1"),
+             ("training, constrained (014 s1): step 0 -> step 200", "200 steps that target the label, seed 1"),
+             ("training, constrained (014 s2): step 0 -> step 100", "100 steps that target the label, seed 2"),
+             ("training, constrained (014 s2): step 0 -> step 200", "200 steps that target the label, seed 2"),
              ("source: orbench -> xstest", "prompt source: OR-Bench to XSTest"),
              ("source: xstest -> orbench", "prompt source: XSTest to OR-Bench"),
              ("pool: over-refusal -> harmful", "prompt pool: benign to harmful"),
              ("pool: harmful -> over-refusal", "prompt pool: harmful to benign")]
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(8.8, 4.4), sharey=True, gridspec_kw=dict(width_ratios=[1.3, 1]))
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(8.8, 5.6), sharey=True, gridspec_kw=dict(width_ratios=[1.3, 1]))
     table = []
     small = dict(DOT, markersize=6.5, markeredgewidth=1.1)
     for y, (key, lab) in enumerate(order):
@@ -301,7 +305,7 @@ def fig5():
         style(a, "x")
     h = [plt.Line2D([], [], marker="o", color=CONTEXT, label="recall where the calibration was measured", **DOT),
          plt.Line2D([], [], marker="o", color=BLUE, label="where it was applied (both panels)", **DOT)]
-    top = heading(fig, "A judge's calibration does not carry across prompt populations, nor, in one run, across training that targets the label",
+    top = heading(fig, "A judge's calibration does not carry across prompt populations, nor, in three seeds of one run, across training that targets the label",
                   "A rubric judge's recall and false-alarm rate are measured on one population and used to bound the refusal rate of another. "
                   "Left: how often that bound falls below the truth, one dot per wording of the judge's rubric. Right: what happened to the judge's recall.", h)
     fig.subplots_adjust(left=0.375, right=0.98, top=top, bottom=0.13, wspace=0.12)
@@ -316,7 +320,7 @@ def fig6():
     table = []
     # panel A: reference-rate strata, mid-rate labels, delta 0.05
     A = [r for r in S if r["part"] == "A" and r["delta"] == 0.05 and 0.05 <= r["truth"] <= 0.95]
-    armsA = (("S2 + b1w (this paper)", BLUE, "stratified Wilson-type bound"), ("S2 + StratPPI", ORANGE, "StratPPI as published"),
+    armsA = (("S2 + b1w (this paper)", BLUE, "stratified Wilson-type bound b1w"), ("S2 + StratPPI", ORANGE, "StratPPI as published"),
              ("S2 + StratPPI, bootstrap-t", AQUA, "StratPPI estimator, bootstrap-t limit"))
     for arm, col, lab in armsA:
         for src, env, n in sorted({(r["src"], r["env"], r["n"]) for r in A}):
@@ -351,7 +355,7 @@ def fig6():
     a1.set_ylabel("effective samples vs the baseline")
     a2.annotate("1.3% rate, 225 labels:\nthe bootstrap-t bounds\nreturn nothing usable", xy=(0.008, 0.06), xytext=(0.105, 0.75), fontsize=8, color=INK2, ha="left", va="center",
                 arrowprops=dict(arrowstyle="-", color=MUTED, linewidth=0.7, shrinkA=1, shrinkB=4))
-    h = [plt.Line2D([], [], marker="o", color=BLUE, label="this paper's bound for the setting: stratified Wilson-type (left), PPI++ with a bootstrap-t limit (right)", **DOT),
+    h = [plt.Line2D([], [], marker="o", color=BLUE, label="stratified Wilson-type bound b1w (left; section 8.1.5 recommends the Wald-t limit instead), PPI++ with a bootstrap-t limit (right)", **DOT),
          plt.Line2D([], [], marker="o", color=ORANGE, label="StratPPI as published, with its normal-quantile limit", **DOT),
          plt.Line2D([], [], marker="o", color=AQUA, label="StratPPI's estimator with a bootstrap-t limit", **DOT)]
     top = heading(fig, "StratPPI's interval is shorter partly because it runs over its level; with a bootstrap-t limit its estimator is not over on these pools",

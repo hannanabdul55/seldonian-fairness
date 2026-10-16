@@ -89,7 +89,9 @@ def main():
     s = s[s.index("## Abstract"):s.index("## Draft notes 1.")]
     # the validity table: its caption names sources, and its last column is the source tag
     cap = re.search(r"Draws per cell are 5,000 for .*?plasmodes\.", s, re.S)
-    s = s.replace(cap.group(0), "Draws per cell are 4,000 or 5,000, and 40,000 for the rows redrawn with replacement.")
+    s = s.replace(cap.group(0), "The first five rows are exact enumerations. Draws per cell are otherwise 4,000 or 5,000; 8,000 runs for the "
+                  "rows inside the training loop; 10,000 for the rows on the prompt source; and 40,000 for the rows redrawn with "
+                  "replacement.")
     for m in list(re.finditer(r"(?:^\|.*\n)+", s, re.M)):
         if m.group(0).split("\n")[0].rstrip().endswith("| source |"):
             s = s.replace(m.group(0), drop_last_column(m.group(0).rstrip("\n")) + "\n")
@@ -111,7 +113,8 @@ def main():
                 name, caption = FIGS[n]
                 out.append(f"![Figure {n - 1}](figs/{name}.png)\n\n*Figure {n - 1}. {caption}*")
     s = "\n\n".join(out)
-    head = (f"{title}\n\n*Draft of 2026-10-10, not formatted for any venue. Generated from the working draft by\n"
+    date = re.search(r"\*\*Draft v[\d.]+, (\d{4}-\d\d-\d\d)\.\*\*", open(SRC).read()).group(1)
+    head = (f"{title}\n\n*Draft of {date}, not formatted for any venue. Generated from the working draft by\n"
             "`scripts/paper_clean.py`; to change the text, edit the working draft and run the script again.*\n\n")
     s = head + s.rstrip() + "\n\n" + APPENDIX
     s = re.sub(r"\n{3,}", "\n\n", s)

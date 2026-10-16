@@ -1,14 +1,14 @@
 panel,method,cell,largest miss,ESS vs baseline
-reference-rate strata,stratified Wilson-type bound,C1:refusal  n=100,0.023,2.39
-reference-rate strata,stratified Wilson-type bound,C1:refusal  n=200,0.024,2.30
-reference-rate strata,stratified Wilson-type bound,C2:refusal  n=100,0.054,0.96
-reference-rate strata,stratified Wilson-type bound,C2:refusal  n=200,0.045,1.12
-reference-rate strata,stratified Wilson-type bound,C2:unsafe  n=100,0.034,1.38
-reference-rate strata,stratified Wilson-type bound,C2:unsafe  n=200,0.027,1.36
-reference-rate strata,stratified Wilson-type bound,C3:refusal  n=100,0.047,4.74
-reference-rate strata,stratified Wilson-type bound,C3:refusal  n=200,0.040,5.19
-reference-rate strata,stratified Wilson-type bound,C1:refusal pushed n=100,0.024,2.19
-reference-rate strata,stratified Wilson-type bound,C1:refusal pushed n=200,0.023,2.13
+reference-rate strata,stratified Wilson-type bound b1w,C1:refusal  n=100,0.023,2.39
+reference-rate strata,stratified Wilson-type bound b1w,C1:refusal  n=200,0.024,2.30
+reference-rate strata,stratified Wilson-type bound b1w,C2:refusal  n=100,0.054,0.96
+reference-rate strata,stratified Wilson-type bound b1w,C2:refusal  n=200,0.045,1.12
+reference-rate strata,stratified Wilson-type bound b1w,C2:unsafe  n=100,0.034,1.38
+reference-rate strata,stratified Wilson-type bound b1w,C2:unsafe  n=200,0.027,1.36
+reference-rate strata,stratified Wilson-type bound b1w,C3:refusal  n=100,0.047,4.74
+reference-rate strata,stratified Wilson-type bound b1w,C3:refusal  n=200,0.040,5.19
+reference-rate strata,stratified Wilson-type bound b1w,C1:refusal pushed n=100,0.024,2.19
+reference-rate strata,stratified Wilson-type bound b1w,C1:refusal pushed n=200,0.023,2.13
 reference-rate strata,StratPPI as published,C1:refusal  n=100,0.066,4.11
 reference-rate strata,StratPPI as published,C1:refusal  n=200,0.052,3.46
 reference-rate strata,StratPPI as published,C2:refusal  n=100,0.032,0.78

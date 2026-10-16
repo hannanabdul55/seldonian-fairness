@@ -79,8 +79,8 @@ in at most 5% of repeated trials, the standard one (Clopper-Pearson) was wrong i
 difference within the noise of the check. Two published shortcuts that let an automatic
 judge stand in for some labels (PPI++ and StratPPI) are guaranteed only for large samples; at
 the sizes of a safety test, in our implementation, they were wrong more often than promised
-in most of our tests with a judge's score: in up to 24% of trials, and in 90% under an
-allocation rule published with one of them.
+in most of our tests with a judge's score: in up to 24% of trials, and in 90% in one setting where an
+allocation rule published with one of them leaves some groups almost unlabelled.
 
 A simpler design makes each label go further. Before training, sample the starting model 8
 times on every prompt, sort the prompts into 8 equal groups by how often it breaches, and
@@ -98,15 +98,15 @@ sampled. For a costly human label grouped by a model's cheap judged responses it
 formula has no guarantee: on simulated data it was wrong too often. Of 49 predictions
 registered in advance, 39 held, 9 failed and one could not be tested (ten were written after a
 dry run of the analysis on earlier responses). The models are small, the new prompts come from
-one benchmark, every label but the costly human one comes from an automatic judge, and no
-training run moved a model far from its starting behaviour.
+one benchmark, the labels in these tests come from an automatic judge apart from published
+human ones, and no training run moved a model far from its starting behaviour.
 
 Three things do not carry over. A judge's measured error rates did not hold on different
 prompts, nor, in each of three training runs of one set-up, after training aimed at the
 judged behaviour. Methods that treat test cases as independent fail on benchmarks that pair
 tasks with attacks: on AgentDojo's published runs the usual certificate is wrong too often
 for 27 of 28 agent configurations, and with the methods that allow for the pairing (clustered
-bounds) and kept their promise in our checks, at most one of the 28 certifies an attack success rate under 5%.
+bounds) and kept their promise in our checks with the benchmark's attacks taken as fixed, at most one of the 28 certifies an attack success rate under 5%.
 An exact method (a betting bound) agrees only narrowly and only for the rate averaged over
 user tasks; its version for the rate over task pairs certifies none. And a labelling sheet that
 deliberately over-samples some responses, read as a random sample with a judge's scores, gave
@@ -114,8 +114,8 @@ certificates that were wrong in up to 99% of trials.
 
 Every certificate of a trained model here rests on an automatic judge's labels. One in human
 labels is designed and costed, not run: if training left the refusal rate unchanged, about
-420 labelled prompt pairs would give an even chance of certifying that it rose by no more
-than 2 points.
+420 labelled prompt pairs would give an even chance of certifying, with an approximate limit,
+that it rose by no more than 2 points; the exact limit is about twice as wide.
 
 ## 1. Introduction
 
@@ -747,7 +747,8 @@ Figure 1 draws the table below as miss rate over delta.
 *Table 4. Miss rate against delta for the bounds used, with one rule for every row. Cells are
 counted as over / unresolved / at or under delta (section 6.1's rule). The next column is the
 largest upper end of a 95% interval for a cell's miss rate, with the cells still over after a
-Bonferroni correction for the cells counted with it in brackets. "Exact" means valid at
+Bonferroni correction for the cells counted with it in brackets. Bold marks a bound we do not use in that setting; the
+registered rows 37 to 46 are not in bold, and their second column says where they are over. "Exact" means valid at
 every sample size by construction; "approximate" means valid asymptotically and checked by
 resampling. Draws per cell are 5,000 for [013], [014] and the reference-rate strata,
 40,000 for [replacement check], for [O3] and for [O6] with a large pool, 10,000 for [two-phase check] and for [O6] for the prompt
@@ -771,59 +772,59 @@ with an exact bound and with tasks redrawn within the benchmark's suites, scheme
 and (c_s) (section 10.2); rows 44 to 46 the strata on a second model family (section 8.1.3).
 Rows 37 to 46 were registered before they were run.*
 
-| bound | kind | setting | delta | miss, per cell | cells over / unresolved / at or under | largest 95% upper limit of a cell's miss (cells over after correction) | source |
-|---|---|---|---|---|---|---|---|
-| Clopper-Pearson | exact (binary labels) | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.10 | 0.066-0.096 | 0 / 0 / 20 | 0.096 (0) | [binomial rows] |
-| Clopper-Pearson | exact | spike 017 plasmodes, every cell | 0.05 | 0-0.052 | 0 / 2 / 40 | 0.059 (0) | [017 B6] |
-| betting mixture | exact (bounded) | same pool as row 1 | 0.10 | 0.007-0.018 | 0 / 0 / 20 | 0.018 (0) | [binomial rows] |
-| Bentkus | exact (bounded) | same pool | 0.10 | 0.017-0.037 | 0 / 0 / 20 | 0.037 (0) | [binomial rows] |
-| Hoeffding, Anderson | exact (bounded) | same pool | 0.10 | 0.000 | 0 / 0 / 40 | 0.000 (0) | [binomial rows] |
-| stratified Wilson-type `b1w` | approximate | 4 mid-rate labels (9-95%), real Granite-3.3-2B responses, n_s 100-200, 3 checkpoints | 0.05 / 0.10 | 0.017-0.054 / 0.058-0.097 | 0 / 3 / 21; 0 / 0 / 24 | 0.061 (0); 0.106 (0) | [013 H8] |
-| `b1w` | approximate | label pushed by the Lagrangian, n_s 200 | 0.05 / 0.10 | 0.011-0.023 / 0.040-0.064 | 0 / 0 / 2; 0 / 0 / 2 | 0.027 (0); 0.071 (0) | [014] |
-| `b1w` on a design-weighted sheet | approximate | sheets re-drawn by their real sampling rule | 0.05 | 0-0.060 | 1 / 1 / 16 | 0.067 (0) | [017 4] |
-| PPI++ with a bootstrap-t limit | approximate | spike 017 plasmodes, every cell and feature | 0.05 | 0-0.054 | 0 / 13 / 155 | 0.061 (0) | [017 B6] |
-| cluster bootstrap-t, by user task | approximate | AgentDojo, 28 pipelines, scheme (a) | 0.05 | 0.013-0.051 | 0 / 2 / 26 | 0.058 (0) | [AgentDojo recheck] |
-| StratPPI estimator with a bootstrap-t limit, proportional allocation | approximate | reference-rate strata, 5 mid-rate labels, n_s 100-200; judge-logit strata, n 100-1,000 | 0.05 | 0.024-0.045; 0.001-0.056 | 0 / 0 / 28; 0 / 5 / 23 | 0.051 (0); 0.064 (0) | [P14] |
-| the same estimator and limit, redrawn with replacement | approximate | reference-rate strata, 5 mid-rate labels, n_s 100-200 | 0.05 / 0.10 | 0.030-0.050 / 0.069-0.100 | 0 / 0 / 28; 0 / 1 / 27 | 0.052 (0); 0.103 (0) | [replacement check] |
-| Clopper-Pearson, random draws with replacement (the control) | exact | the same 5 labels and sizes | 0.05 / 0.10 | 0.029-0.050 / 0.050-0.097 | 0 / 0 / 28; 0 / 0 / 28 | 0.052 (0); 0.100 (0) | [replacement check] |
-| pigeonhole bootstrap-t | approximate | AgentDojo, 28 pipelines, schemes (a); (b); (c) | 0.05 | at most 0.004; 0.037; 0.042 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.007 (0); 0.043 (0); 0.048 (0) | [two-way bounds] |
-| **Student-t** | fails at low rates | same pool as row 1, n 200-2,400 | 0.10 | **0.104-0.195** | 20 / 0 / 0 | 0.195 (20) | [binomial rows] |
-| **`b1w` and the pooled Wilson bound at rare rates** | in the stored design, not over at delta 0.05; over in 2 cells at 0.10 | harm labels at 1-2%, n_s 100-200, 3 checkpoints | 0.05 / 0.10 | 0-0.048 / **0-0.126** | 0 / 0 / 24; 2 / 1 / 21 | 0.054 (0); 0.136 (2) | [013 H8] |
-| **`b1w`, redrawn with replacement** | over on the two labels at rates of 65% and above | reference-rate strata, 5 mid-rate labels, n_s 100-200 | 0.05 / 0.10 | **0.017-0.062 / 0.056-0.113** | 7 / 1 / 20; 6 / 2 / 20 | 0.065 (7); 0.116 (4) | [replacement check] |
-| **pooled Wilson bound, random draws with replacement** | over in 6 and 10 of the 28 cells | the same 5 labels and sizes | 0.05 / 0.10 | **0.031-0.069 / 0.069-0.128** | 6 / 0 / 22; 10 / 3 / 15 | 0.071 (6); 0.131 (10) | [replacement check] |
-| **PPI++ with a normal limit** | fails in most cells | spike 017 plasmodes | 0.05 | **0.041-0.241** | 126 / 29 / 13 | 0.255 (87) | [017 B6] |
-| **StratPPI's normal limit, proportional allocation** | fails at these sizes | reference-rate strata; judge-logit strata | 0.05 | **0.024-0.086; 0.054-0.239** | 9 / 5 / 14; 26 / 2 / 0 | 0.094 (7); 0.252 (25) | [P14] |
-| **StratPPI's normal limit, the paper's allocations (oracle; heuristic)** | fails | reference-rate strata; judge-logit strata | 0.05 | **up to 0.110; 0.217; up to 0.219; 0.90** | 9 / 3 / 14; 11 / 0 / 15; 28 / 0 / 0; 24 / 1 / 3 | 0.119 (8); 0.229 (11); 0.232 (25); 0.912 (24) | [StratPPI validation] |
-| **StratPPI estimator with a bootstrap-t limit, oracle or heuristic allocation** | fails | the same cells | 0.05 | **up to 0.078; 0.174; up to 0.083; 0.90** | 6 / 3 / 17; 11 / 1 / 14; 14 / 11 / 3; 14 / 0 / 14 | 0.086 (5); 0.185 (11); 0.092 (9); 0.910 (14) | [StratPPI validation] |
-| **PPBoot, percentile limit (basic; power-tuned)** | fails at these sizes | judge-logit cells, unstratified | 0.05 | **up to 0.133; 0.148** | 7 / 6 / 1; 12 / 2 / 0 | 0.144 (5); 0.160 (11) | [StratPPI validation] |
-| **Clopper-Pearson over pairs** | fails on a crossed design | AgentDojo, 28 pipelines, schemes (a); (b); (c) | 0.05 | **0.042-0.268; 0.060-0.340; 0.195-0.350** | 27 / 0 / 1; 28 / 0 / 0; 28 / 0 / 0 | 0.282 (26); 0.355 (27); 0.365 (28) | [AgentDojo recheck] |
-| **cluster bootstrap-t by user task, when injection tasks are sampled** | fails | AgentDojo, schemes (b); (c) | 0.05 | **up to 0.258; 0.275** | 21 / 0 / 7; 24 / 0 / 4 | 0.272 (20); 0.289 (24) | [AgentDojo recheck] |
-| **larger of the two clustered bounds** | holds under (a) only | AgentDojo, schemes (a); (b); (c) | 0.05 | at most 0.029; **up to 0.066; 0.089** | 0 / 0 / 28; 4 / 0 / 24; 16 / 3 / 9 | 0.034 (0); 0.074 (3); 0.098 (15) | [AgentDojo recheck] |
-| **pigeonhole bootstrap, basic limit** | fails | AgentDojo, schemes (a); (b); (c) | 0.05 | **up to 0.174; 0.178; 0.278** | 5 / 0 / 23; 14 / 1 / 13; 27 / 0 / 1 | 0.187 (5); 0.190 (10); 0.292 (26) | [AgentDojo recheck] |
-| **PPI on a stratified sheet read as an i.i.d. sample** | fails | three judge wordings, labels planted at three rates | 0.05 | **0-0.989** | 7 / 0 / 11 | 0.992 (7) | [017 4] |
-| **the judge's rate alone** | fails | spike 017 plasmodes | 0.05 | **0-1.000** | 30 / 0 / 12 | 1.000 (30) | [017 B6] |
-| **multiway cluster variance with a t quantile** | fails | AgentDojo, schemes (a); (b); (c) | 0.05 | **up to 0.136; 0.175; 0.179** | 5 / 0 / 23; 8 / 3 / 17; 26 / 1 / 1 | 0.147 (5); 0.187 (7); 0.191 (25) | [two-way bounds] |
-| **two clustered margins added in quadrature** | over in one cell under (c) | AgentDojo, schemes (a); (b); (c) | 0.05 | at most 0.015; 0.046; **0.058** | 0 / 0 / 28; 0 / 0 / 28; 1 / 1 / 26 | 0.020 (0); 0.053 (0); 0.066 (0) | [two-way bounds] |
-| stratified Wald-t limit, 8 reference-rate strata | approximate | 5 mid-rate labels, real Granite-3.3-2B responses, n_s 100-200, the draws of the StratPPI row | 0.05 / 0.10 | 0.007-0.036 / 0.027-0.080 | 0 / 0 / 28; 0 / 0 / 28 | 0.042 (0); 0.088 (0) | [P14] |
-| the same limit, redrawn with replacement | approximate | the same 5 labels and sizes | 0.05 / 0.10 | 0.007-0.038 / 0.026-0.086 | 0 / 0 / 28; 0 / 0 / 28 | 0.040 (0); 0.088 (0) | [replacement check] |
-| the same limit with the term for a sampled pool | approximate | a claim about the prompt source: the pool redrawn and the strata rebuilt, the same 5 labels and sizes | 0.05 / 0.10 | 0.007-0.050 / 0.031-0.095 | 0 / 1 / 27; 0 / 0 / 28 | 0.055 (0); 0.101 (0) | [two-phase check] |
-| **stratified Wald-t limit on a synthetic i.i.d. grid** | over in 5 of 18 cells at each delta | six strata profiles, n_s 100-400, binomial strata | 0.05 / 0.10 | **0-0.111 / 0.086-0.147** | 5 / 5 / 8; 5 / 5 / 8 | 0.121 (4); 0.158 (4) | [013] |
-| **`b1w` on the same grid** | over in 1 and 4 of 18 cells | the same profiles and sizes | 0.05 / 0.10 | **0-0.057 / 0.086-0.135** | 1 / 2 / 15; 4 / 5 / 9 | 0.065 (0); 0.146 (2) | [013] |
-| stratified Wald-t limit inside the training loop, 8 strata | approximate | synthetic bandit, Lagrangian GRPO, 4 environments, the pool's own rate, 8,000 runs a cell | 0.05 / 0.10 | 0.029-0.052 / 0.072-0.100 | 0 / 1 / 3; 0 / 1 / 3 | 0.057 (0); 0.107 (0) | [O2] |
-| the same limit with the sampled-pool term | over in 1 of 4 cells at each delta | the same runs, the population's rate | 0.05 / 0.10 | 0.047-0.057 / 0.093-0.107 | 1 / 1 / 2; 1 / 0 / 3 | 0.062 (1); 0.114 (0) | [O2] |
-| stratified Wald-t limit, a costly label stratified on a cheap reference rate | over in 1 and 2 of 32 cells | XSTest human labels of five released models, 8 mid-rate labels, two stratifiers, n_s 50-100, redrawn with replacement | 0.05 / 0.10 | 0-0.053 / 0.021-0.108 | 1 / 0 / 31; 2 / 0 / 30 | 0.055 (0); 0.111 (2) | [O3] |
-| betting mixture on user-task rates; on the pair rate | exact (bounded) | AgentDojo, 28 pipelines, user tasks redrawn across the table (a) and within suites (a_s); truth: the average over user tasks; the pair rate | 0.05 | at most 0.007; 0.005; 0.006; 0.003 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.010 (0); 0.008 (0); 0.010 (0); 0.005 (0) | [O4] |
-| cluster bootstrap-t, by user task, redrawn within suites | approximate | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | 0.003-0.042 | 0 / 0 / 28 | 0.049 (0) | [O4] |
-| **cluster bootstrap-t by user task, injection tasks redrawn within suites** | fails | AgentDojo, schemes (b_s); (c_s) | 0.05 | **up to 0.231; 0.249** | 11 / 1 / 16; 19 / 2 / 7 | 0.244 (11); 0.262 (18) | [O4] |
-| two clustered margins in quadrature, redrawn within suites | approximate | AgentDojo, schemes (a_s); (b_s); (c_s) | 0.05 | at most 0.016; 0.037; 0.040 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.020 (0); 0.044 (0); 0.046 (0) | [O4] |
-| stratified Wald-t limit, a second model family, redrawn with replacement | approximate | Qwen2.5-1.5B-Instruct, refusal label (18-19%), 8 reference-rate strata, steps 100 and 200, n_s 100-200 | 0.05 / 0.10 | 0.033-0.046 / 0.077-0.092 | 0 / 0 / 4; 0 / 0 / 4 | 0.048 (0); 0.095 (0) | [O6] |
-| `b1w`, the same | approximate | the same cells | 0.05 / 0.10 | 0.033-0.041 / 0.086-0.092 | 0 / 0 / 4; 0 / 0 / 4 | 0.043 (0); 0.095 (0) | [O6] |
-| the stratified Wald-t limit with the term for a sampled pool, a second model family | over in 1 of 4 cells at delta 0.10 | a claim about the prompt source, the same label, steps and sizes | 0.05 / 0.10 | 0.036-0.051 / 0.085-0.111 | 0 / 1 / 3; 1 / 0 / 3 | 0.056 (0); 0.118 (1) | [O6] |
+| # | bound | kind | setting | delta | miss, per cell | cells over / unresolved / at or under | largest 95% upper limit of a cell's miss (cells over after correction) | source |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Clopper-Pearson | exact (binary labels) | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.10 | 0.066-0.096 | 0 / 0 / 20 | 0.096 (0) | [binomial rows] |
+| 2 | Clopper-Pearson | exact | spike 017 plasmodes, every cell | 0.05 | 0-0.052 | 0 / 2 / 40 | 0.059 (0) | [017 B6] |
+| 3 | betting mixture | exact (bounded) | same pool as row 1 | 0.10 | 0.007-0.018 | 0 / 0 / 20 | 0.018 (0) | [binomial rows] |
+| 4 | Bentkus | exact (bounded) | same pool | 0.10 | 0.017-0.037 | 0 / 0 / 20 | 0.037 (0) | [binomial rows] |
+| 5 | Hoeffding, Anderson | exact (bounded) | same pool | 0.10 | 0.000 | 0 / 0 / 40 | 0.000 (0) | [binomial rows] |
+| 6 | stratified Wilson-type `b1w` | approximate | 4 mid-rate labels (9-95%), real Granite-3.3-2B responses, n_s 100-200, 3 checkpoints | 0.05 / 0.10 | 0.017-0.054 / 0.058-0.097 | 0 / 3 / 21; 0 / 0 / 24 | 0.061 (0); 0.106 (0) | [013 H8] |
+| 7 | `b1w` | approximate | label pushed by the Lagrangian, n_s 200 | 0.05 / 0.10 | 0.011-0.023 / 0.040-0.064 | 0 / 0 / 2; 0 / 0 / 2 | 0.027 (0); 0.071 (0) | [014] |
+| 8 | `b1w` on a design-weighted sheet | approximate | sheets re-drawn by their real sampling rule | 0.05 | 0-0.060 | 1 / 1 / 16 | 0.067 (0) | [017 4] |
+| 9 | PPI++ with a bootstrap-t limit | approximate | spike 017 plasmodes, every cell and feature | 0.05 | 0-0.054 | 0 / 13 / 155 | 0.061 (0) | [017 B6] |
+| 10 | cluster bootstrap-t, by user task | approximate | AgentDojo, 28 pipelines, scheme (a) | 0.05 | 0.013-0.051 | 0 / 2 / 26 | 0.058 (0) | [AgentDojo recheck] |
+| 11 | StratPPI estimator with a bootstrap-t limit, proportional allocation | approximate | reference-rate strata, 5 mid-rate labels, n_s 100-200; judge-logit strata, n 100-1,000 | 0.05 | 0.024-0.045; 0.001-0.056 | 0 / 0 / 28; 0 / 5 / 23 | 0.051 (0); 0.064 (0) | [P14] |
+| 12 | the same estimator and limit, redrawn with replacement | approximate | reference-rate strata, 5 mid-rate labels, n_s 100-200 | 0.05 / 0.10 | 0.030-0.050 / 0.069-0.100 | 0 / 0 / 28; 0 / 1 / 27 | 0.052 (0); 0.103 (0) | [replacement check] |
+| 13 | Clopper-Pearson, random draws with replacement (the control) | exact | the same 5 labels and sizes | 0.05 / 0.10 | 0.029-0.050 / 0.050-0.097 | 0 / 0 / 28; 0 / 0 / 28 | 0.052 (0); 0.100 (0) | [replacement check] |
+| 14 | pigeonhole bootstrap-t | approximate | AgentDojo, 28 pipelines, schemes (a); (b); (c) | 0.05 | at most 0.004; 0.037; 0.042 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.007 (0); 0.043 (0); 0.048 (0) | [two-way bounds] |
+| 15 | **Student-t** | fails at low rates | same pool as row 1, n 200-2,400 | 0.10 | **0.104-0.195** | 20 / 0 / 0 | 0.195 (20) | [binomial rows] |
+| 16 | **`b1w` and the pooled Wilson bound at rare rates** | in the stored design, not over at delta 0.05; over in 2 cells at 0.10 | harm labels at 1-2%, n_s 100-200, 3 checkpoints | 0.05 / 0.10 | 0-0.048 / **0-0.126** | 0 / 0 / 24; 2 / 1 / 21 | 0.054 (0); 0.136 (2) | [013 H8] |
+| 17 | **`b1w`, redrawn with replacement** | over on the two labels at rates of 65% and above | reference-rate strata, 5 mid-rate labels, n_s 100-200 | 0.05 / 0.10 | **0.017-0.062 / 0.056-0.113** | 7 / 1 / 20; 6 / 2 / 20 | 0.065 (7); 0.116 (4) | [replacement check] |
+| 18 | **pooled Wilson bound, random draws with replacement** | over in 6 and 10 of the 28 cells | the same 5 labels and sizes | 0.05 / 0.10 | **0.031-0.069 / 0.069-0.128** | 6 / 0 / 22; 10 / 3 / 15 | 0.071 (6); 0.131 (10) | [replacement check] |
+| 19 | **PPI++ with a normal limit** | fails in most cells | spike 017 plasmodes | 0.05 | **0.041-0.241** | 126 / 29 / 13 | 0.255 (87) | [017 B6] |
+| 20 | **StratPPI's normal limit, proportional allocation** | fails at these sizes | reference-rate strata; judge-logit strata | 0.05 | **0.024-0.086; 0.054-0.239** | 9 / 5 / 14; 26 / 2 / 0 | 0.094 (7); 0.252 (25) | [P14] |
+| 21 | **StratPPI's normal limit, the paper's allocations (oracle; heuristic)** | fails | reference-rate strata; judge-logit strata | 0.05 | **up to 0.110; 0.217; up to 0.219; 0.90** | 9 / 3 / 14; 11 / 0 / 15; 28 / 0 / 0; 24 / 1 / 3 | 0.119 (8); 0.229 (11); 0.232 (25); 0.912 (24) | [StratPPI validation] |
+| 22 | **StratPPI estimator with a bootstrap-t limit, oracle or heuristic allocation** | fails | the same cells | 0.05 | **up to 0.078; 0.174; up to 0.083; 0.90** | 6 / 3 / 17; 11 / 1 / 14; 14 / 11 / 3; 14 / 0 / 14 | 0.086 (5); 0.185 (11); 0.092 (9); 0.910 (14) | [StratPPI validation] |
+| 23 | **PPBoot, percentile limit (basic; power-tuned)** | fails at these sizes | judge-logit cells, unstratified | 0.05 | **up to 0.133; 0.148** | 7 / 6 / 1; 12 / 2 / 0 | 0.144 (5); 0.160 (11) | [StratPPI validation] |
+| 24 | **Clopper-Pearson over pairs** | fails on a crossed design | AgentDojo, 28 pipelines, schemes (a); (b); (c) | 0.05 | **0.042-0.268; 0.060-0.340; 0.195-0.350** | 27 / 0 / 1; 28 / 0 / 0; 28 / 0 / 0 | 0.282 (26); 0.355 (27); 0.365 (28) | [AgentDojo recheck] |
+| 25 | **cluster bootstrap-t by user task, when injection tasks are sampled** | fails | AgentDojo, schemes (b); (c) | 0.05 | **up to 0.258; 0.275** | 21 / 0 / 7; 24 / 0 / 4 | 0.272 (20); 0.289 (24) | [AgentDojo recheck] |
+| 26 | **larger of the two clustered bounds** | holds under (a) only | AgentDojo, schemes (a); (b); (c) | 0.05 | at most 0.029; **up to 0.066; 0.089** | 0 / 0 / 28; 4 / 0 / 24; 16 / 3 / 9 | 0.034 (0); 0.074 (3); 0.098 (15) | [AgentDojo recheck] |
+| 27 | **pigeonhole bootstrap, basic limit** | fails | AgentDojo, schemes (a); (b); (c) | 0.05 | **up to 0.174; 0.178; 0.278** | 5 / 0 / 23; 14 / 1 / 13; 27 / 0 / 1 | 0.187 (5); 0.190 (10); 0.292 (26) | [AgentDojo recheck] |
+| 28 | **PPI on a stratified sheet read as an i.i.d. sample** | fails | three judge wordings, labels planted at three rates | 0.05 | **0-0.989** | 7 / 0 / 11 | 0.992 (7) | [017 4] |
+| 29 | **the judge's rate alone** | fails | spike 017 plasmodes | 0.05 | **0-1.000** | 30 / 0 / 12 | 1.000 (30) | [017 B6] |
+| 30 | **multiway cluster variance with a t quantile** | fails | AgentDojo, schemes (a); (b); (c) | 0.05 | **up to 0.136; 0.175; 0.179** | 5 / 0 / 23; 8 / 3 / 17; 26 / 1 / 1 | 0.147 (5); 0.187 (7); 0.191 (25) | [two-way bounds] |
+| 31 | **two clustered margins added in quadrature** | over in one cell under (c) | AgentDojo, schemes (a); (b); (c) | 0.05 | at most 0.015; 0.046; **0.058** | 0 / 0 / 28; 0 / 0 / 28; 1 / 1 / 26 | 0.020 (0); 0.053 (0); 0.066 (0) | [two-way bounds] |
+| 32 | stratified Wald-t limit, 8 reference-rate strata | approximate | 5 mid-rate labels, real Granite-3.3-2B responses, n_s 100-200, the draws of the StratPPI row | 0.05 / 0.10 | 0.007-0.036 / 0.027-0.080 | 0 / 0 / 28; 0 / 0 / 28 | 0.042 (0); 0.088 (0) | [P14] |
+| 33 | the same limit, redrawn with replacement | approximate | the same 5 labels and sizes | 0.05 / 0.10 | 0.007-0.038 / 0.026-0.086 | 0 / 0 / 28; 0 / 0 / 28 | 0.040 (0); 0.088 (0) | [replacement check] |
+| 34 | the same limit with the term for a sampled pool | approximate | a claim about the prompt source: the pool redrawn and the strata rebuilt, the same 5 labels and sizes | 0.05 / 0.10 | 0.007-0.050 / 0.031-0.095 | 0 / 1 / 27; 0 / 0 / 28 | 0.055 (0); 0.101 (0) | [two-phase check] |
+| 35 | **stratified Wald-t limit on a synthetic i.i.d. grid** | over in 5 of 18 cells at each delta | six strata profiles, n_s 100-400, binomial strata | 0.05 / 0.10 | **0-0.111 / 0.086-0.147** | 5 / 5 / 8; 5 / 5 / 8 | 0.121 (4); 0.158 (4) | [013] |
+| 36 | **`b1w` on the same grid** | over in 1 and 4 of 18 cells | the same profiles and sizes | 0.05 / 0.10 | **0-0.057 / 0.086-0.135** | 1 / 2 / 15; 4 / 5 / 9 | 0.065 (0); 0.146 (2) | [013] |
+| 37 | stratified Wald-t limit inside the training loop, 8 strata | approximate | synthetic bandit, Lagrangian GRPO, 4 environments, the pool's own rate, 8,000 runs a cell | 0.05 / 0.10 | 0.029-0.052 / 0.072-0.100 | 0 / 1 / 3; 0 / 1 / 3 | 0.057 (0); 0.107 (0) | [O2] |
+| 38 | the same limit with the sampled-pool term | over in 1 of 4 cells at each delta | the same runs, the population's rate | 0.05 / 0.10 | 0.047-0.057 / 0.093-0.107 | 1 / 1 / 2; 1 / 0 / 3 | 0.062 (1); 0.114 (0) | [O2] |
+| 39 | stratified Wald-t limit, a costly label stratified on a cheap reference rate | over in 1 and 2 of 32 cells | XSTest human labels of five released models, 8 mid-rate labels, two stratifiers, n_s 50-100, redrawn with replacement | 0.05 / 0.10 | 0-0.053 / 0.021-0.108 | 1 / 0 / 31; 2 / 0 / 30 | 0.055 (0); 0.111 (2) | [O3] |
+| 40 | betting mixture on user-task rates; on the pair rate | exact (bounded) | AgentDojo, 28 pipelines, user tasks redrawn across the table (a) and within suites (a_s); truth: the average over user tasks; the pair rate | 0.05 | at most 0.007; 0.005; 0.006; 0.003 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.010 (0); 0.008 (0); 0.010 (0); 0.005 (0) | [O4] |
+| 41 | cluster bootstrap-t, by user task, redrawn within suites | approximate | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | 0.003-0.042 | 0 / 0 / 28 | 0.049 (0) | [O4] |
+| 42 | **cluster bootstrap-t by user task, injection tasks redrawn within suites** | fails | AgentDojo, schemes (b_s); (c_s) | 0.05 | **up to 0.231; 0.249** | 11 / 1 / 16; 19 / 2 / 7 | 0.244 (11); 0.262 (18) | [O4] |
+| 43 | two clustered margins in quadrature, redrawn within suites | approximate | AgentDojo, schemes (a_s); (b_s); (c_s) | 0.05 | at most 0.016; 0.037; 0.040 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.020 (0); 0.044 (0); 0.046 (0) | [O4] |
+| 44 | stratified Wald-t limit, a second model family, redrawn with replacement | approximate | Qwen2.5-1.5B-Instruct, refusal label (18-19%), 8 reference-rate strata, steps 100 and 200, n_s 100-200 | 0.05 / 0.10 | 0.033-0.046 / 0.077-0.092 | 0 / 0 / 4; 0 / 0 / 4 | 0.048 (0); 0.095 (0) | [O6] |
+| 45 | `b1w`, the same | approximate | the same cells | 0.05 / 0.10 | 0.033-0.041 / 0.086-0.092 | 0 / 0 / 4; 0 / 0 / 4 | 0.043 (0); 0.095 (0) | [O6] |
+| 46 | the stratified Wald-t limit with the term for a sampled pool, a second model family | over in 1 of 4 cells at delta 0.10 | a claim about the prompt source, the same label, steps and sizes | 0.05 / 0.10 | 0.036-0.051 / 0.085-0.111 | 0 / 1 / 3; 1 / 0 / 3 | 0.056 (0); 0.118 (1) | [O6] |
 
 Rows 37 to 46, the registered runs, are counted separately: three of them have cells over
 (rows 38, 39 and 46, with 2, 3 and 1 cells over, of which 1, 2 and 1 stay over after the
 correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10), as their second column
-says. In the other rows we call valid no cell stays over its level after the correction, and the largest
+says. In the remaining rows, which we treat as valid, no cell stays over its level after the correction, and the largest
 miss rate a cell's interval leaves open is 0.067 at delta 0.05 and 0.106 at 0.10. One cell
 there is over under the uncorrected rule: `b1w` on a design-weighted sheet, 0.0595 at 4,000
 draws. Those 18 cells are 9
@@ -1116,7 +1117,7 @@ and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which 
 there, 1.55 and 1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there
 come from a limit over its level in all four cells). The same measure gives 1.5 to 5.0 for
 `b1w` at rates of 9% to 66% on the pools that chose the rule, the upper end at 66%, where `b1w` is also over its level with a large pool. Second, the pre-flight sizes the gain only in the mid range and only with the trained policy's
-two quantities measured (on 8 of its responses a prompt that the draws do not use). At all three mid rates, 12%, 46% and 82%, the pre-flight was within 20% (at 12% and 82%
+two quantities measured, on 8 further responses per prompt that the draws do not use. At all three mid rates, 12%, 46% and 82%, the pre-flight was within 20% (at 12% and 82%
 `b1w`'s gain was 2% to 16% under it). From the reference samples alone, with
 `omega = 1`, it predicts 2.58, 4.12 and 2.22, and the realised gains are 27% to 41% lower. Even
 with the measured quantities it gives 2.67 at the 98% rate, where with a large pool the strata
@@ -1148,7 +1149,7 @@ each checkpoint, at steps 100 and 200:
   StratPPI's normal limit is over in all 8 and the pooled Wilson baseline in 4;
 - at step 200 the Wald-t limit's gain is 1.52 and 1.77 at safety sets of 100 and 200, the
   second above the 0.9 to 1.6 we predicted for a safety set of 200, and `b1w`'s 1.60 and 1.70
-  against a pre-flight of 1.73 at the measured moderators; from the reference samples alone the pre-flight predicted 1.55, or 1.30
+  against a pre-flight of 1.73 with `ICC_cand` and `omega` measured; from the reference samples alone the pre-flight predicted 1.55, or 1.30
   with the pushed-label rho;
 - from step 100 to step 200 rho fell from 0.88 to 0.84 and the Wald-t limit's gain at a safety
   set of 200 from 1.84 to 1.77;
@@ -1198,7 +1199,7 @@ For a safety set stratified by 8 equal rank strata of an 8-sample reference rate
 - *a mid-rate label, for the prompt source:* the stratified Wald-t limit with the term for a
   sampled pool;
 - *above about 80%:* the strata gained nothing or lost under this limit (`ESS_truth` 0.75 to
-  1.13 at 82%, 0.4 to 0.65 at 93%), so a random draw serves as well.
+  1.13 at 82%, 0.43 and 0.65 at 93% [replacement check]), so a random draw serves as well.
 
 `b1w` is not the default because, once the pool is much larger than the safety set, it was
 over its level at rates of 65% and above on Granite's pools (sections 8.1.2 and 8.1.3) and at
@@ -1245,8 +1246,8 @@ probability, 1.61 for the logit and 1.86 for a cross-fitted Platt score (Platt, 
 mapped to a probability by a logistic fit on the gold labels, each label scored by a fit on the
 other folds) [017 3]. For this judge the logit
 carried more than the verdict. For a harm rubric `rho^2` against the 225 human harm labels of section 9.5's
-sheet was 0.02, an `ESS_pred` of 1.02: the labels
-carry the certificate and the judge contributes nothing.
+sheet was 0.02, an `ESS_pred` of 1.02, but with 3 harmful responses on the sheet that estimate
+says little either way.
 
 **Label budgets for a rare label.** With no positive observed, 299 gold labels on the
 certified policy's own responses certify a 1% threshold at delta 0.05, 149 certify 2%, and 59
@@ -1307,7 +1308,7 @@ tests are unadjusted for six wordings.
 ### 9.2 The same calibration across training that targets the label
 
 The result comes from one training run that moved the label only as a side effect and three
-seeds of one run whose Lagrangian targeted it. A calibration carried across the 200 steps of
+seeds of one run whose Lagrangian targeted it. A calibration did carry across the 200 steps of
 the first (recall differed in 0 of 6 wordings, though under two of them the carried bound
 returned 1, no certificate, in 90% and 77% of draws). Across the second it did not carry, in
 any seed. At step 200 the compiled judge's recall on the guard's refusals fell from 0.21 to
@@ -1317,8 +1318,8 @@ any seed. At step 200 the compiled judge's recall on the guard's refusals fell f
 and 0.625), although the pool's rate was within 1.4 points of the reference's in each seed
 [017 E8]. At step 100 the bound was over for 1, 1 and 4 of 6. The predictions for seeds 1 and
 2 were registered before they were trained, and all four held (Appendix D). Seeds 1 and 2
-returned NSF (their candidates, steps 200 and 175, had upper bounds 0.232 and 0.2064 against a
-threshold of 0.20575; seed 0's step 175 had 0.198 and was returned), so in no seed is the step-200
+returned NSF (their candidates, steps 200 and 175, had upper bounds 0.2317 and 0.2064 against a
+threshold of 0.2058; seed 0's step 175 had 0.1979 and was returned), so in no seed is the step-200
 checkpoint analysed here a policy the algorithm returned; the question here is what a carried calibration says about a trained policy, and it
 does not depend on that.
 
@@ -1364,7 +1365,7 @@ at a 20% rate and n of 100-500 it missed in 6-11% [017 B6]. Finite-sample judge-
 ### 9.5 A stratified sheet read as a random sample
 
 A labelling sheet that over-samples a guard's flags is a stratified sample. Read as i.i.d.
-inside a prediction-powered estimate, the sheet of 225 human harm labels certified a negative
+inside a prediction-powered estimate, the sheet of 225 human harm labels gave an upper limit below zero on the
 harm rate under one judge wording with every feature of the judge. With labels planted at a 1.3% rate that estimate missed
 in 98% of re-drawn sheets under that wording, and in 0-99% across three wordings and three
 rates: over its level in 7 of 18 cells (Table 4). On those planted sheets the labels alone,
@@ -1457,7 +1458,8 @@ resamples both kinds of task (27), the bound clustered in the direction of the l
 intraclass correlation (22), and the larger of the two clustered bounds (16)
 [AgentDojo recheck].
 
-Sampling in two directions has standard methods, and we registered a test of two before
+Sampling in two directions has standard methods, and we registered (by a local commit;
+Appendix D) a test of two before
 running either (Appendix D). The first is the multiway cluster-robust variance of Cameron,
 Gelbach and Miller (2011), the variance clustered by user task plus the one clustered by
 injection task minus the one that takes each pair alone, with a Student-t quantile. The
@@ -1815,8 +1817,8 @@ small n; Cai (2005) treats one-sided intervals. For stratified rates, Miettinen 
 instead of deriving it. Drawing a pool and then labelling within strata built on it is
 two-phase sampling (Neyman, 1938; Cochran, 1977; Särndal, Swensson and Wretman, 1992). Hall
 (1988) compares bootstrap limits and finds the percentile-t (bootstrap-t) limit among the most
-promising, which agrees with our finding that it holds where PPBoot's percentile limit does
-not.
+promising, which agrees with our finding that, with proportional allocation and fixed strata,
+it holds where PPBoot's percentile limit does not.
 
 **Correcting a judge's rate.** The carried bound of section 6.5 inverts the Rogan-Gladen
 estimator (Rogan and Gladen, 1978). Label-shift methods keep a classifier's class-conditional
@@ -1833,8 +1835,8 @@ the sample sizes and rates of a safety test (the normal-quantile intervals of PP
 StratPPI and PPBoot's percentile limit are over their level, a finite-sample finding that does
 not contradict their asymptotic guarantees; with a bootstrap-t limit, proportional allocation
 and fixed strata their estimators were not over on the pools we began with, and StratPPI's
-was over in 2 of the 24 refusal-label cells on new prompts, on two model families, one of them
-at a 98% rate; it is
+was over in 2 of 24 refusal-label cells on new prompts (both on Granite, one at a 98% rate;
+none of 8 on the second model family); it is
 over when the strata are rebuilt on a sampled pool), a stratifier built from the reference responses that a relative
 constraint already calls for, a count rule for when to drop the judge, the measured gap between
 a judge's verdict and its logit, and the negative of section 9.2: in each of three seeds of the one set-up we
@@ -1865,7 +1867,8 @@ has a practical consequence. Gold labels belong on the responses of the policy b
 certified, each time the policy changes. On the constructive side, a safety set stratified by
 the reference model's own per-prompt rate made a label worth 1.3 to 1.5 labels for a claim
 about the prompt source, at rates of 12% and 46% on new prompts, under an approximate limit
-that held there and carries no guarantee. It lost at 82% and 98% and gained nothing at rare
+that held there and carries no guarantee. For that claim it lost at 82% (0.75 and 0.89); for
+the pool's own rate it gained little or lost at 82% and lost at 98%; it gained nothing at rare
 rates, and it
 pays only where the certified label costs far more than a judged reference response. What
 this paper does not contain is a certificate of a
@@ -1885,8 +1888,8 @@ page (Giguere et al., Metevier et al., Platt) or the model card (Granite).
 - Angelopoulos, Duchi, Zrnic (2023b). PPI++: Efficient prediction-powered inference. arXiv:2311.01453.
 - Angelopoulos, Bates, Fisch, Lei, Schuster (2024). Conformal risk control. ICLR 2024.
 - Angelopoulos, Bates, Candès, Jordan, Lei (2025). Learn then test: calibrating predictive algorithms to achieve risk control. *Annals of Applied Statistics* 19(2).
-- Bentkus (2004). On Hoeffding's inequalities. *Annals of Probability* 32(2).
 - Bates, Angelopoulos, Lei, Malik, Jordan (2021). Distribution-free, risk-controlling prediction sets. *Journal of the ACM* 68(6).
+- Bentkus (2004). On Hoeffding's inequalities. *Annals of Probability* 32(2).
 - Bowyer, Aitchison, Ivanova (2025). Position: Don't use the CLT in LLM evals with fewer than a few hundred datapoints. ICML 2025. arXiv:2503.01747.
 - Boyeau, Angelopoulos, Li, Yosef, Malik, Jordan (2025). AutoEval done right: using synthetic data for model evaluation. ICML 2025, PMLR 267:5276-5290. arXiv:2403.07008.
 - Brown, Cai, DasGupta (2001). Interval estimation for a binomial proportion. *Statistical Science* 16(2).
@@ -1936,7 +1939,6 @@ page (Giguere et al., Metevier et al., Platt) or the model card (Granite).
 - Yan, Su (2010). Stratified Wilson and Newcombe confidence intervals for multiple binomial proportions. *Statistics in Biopharmaceutical Research* 2(3).
 - Yang, Yang, Zhang and 39 others (Qwen team) (2024). Qwen2.5 technical report. arXiv:2412.15115.
 - Zhao, Yuan, Huang and 40 others (2025). Qwen3Guard technical report. arXiv:2510.14276.
-- Zrnic (2024). A note on the prediction-powered bootstrap. arXiv:2405.18379.
 - Zollo, Morrill, Deng, Snell, Pitassi, Zemel (2024). Prompt risk control: a rigorous framework for responsible deployment of large language models. ICLR 2024. arXiv:2311.13628.
 - Zrnic (2024). A note on the prediction-powered bootstrap. arXiv:2405.18379.
 - Zrnic, Candès (2024). Active statistical inference. ICML 2024 (PMLR 235).
