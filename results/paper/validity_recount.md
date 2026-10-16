@@ -1,6 +1,6 @@
 # Validity recount under one rule
 
-`scripts/validity_recount.py`; source: `reports/paper_certification.md` (draft v0.9.9) and the result files it cites. Nothing was simulated: 4,726 cells and 39,328,000 draws are counted from existing files, or read from the training paper's printed tables where the data are lost (marked `~`). The script stops if a printed number of Table 4, or one of the sentences of section (c), does not agree with the files.
+`scripts/validity_recount.py`; source: `reports/paper_certification.md` (draft v0.9.9) and the result files it cites. Nothing was simulated: 5,937 cells and 48,003,000 draws are counted from existing files, or read from the training paper's printed tables where the data are lost (marked `~`). The script stops if a printed number of Table 4, or one of the sentences of section (c), does not agree with the files.
 
 **The rule.** A cell is one resampling study: R draws at level delta, miss m. With se = sqrt(delta (1 - delta) / R): *over* if m > delta + 2 se; *unresolved, above delta* if delta < m <= delta + 2 se; *at or under delta* if m <= delta. The exact one-sided binomial p-value of H0 'true miss <= delta' and a 95% Clopper-Pearson interval are in the JSON for every cell, and below for the cells that matter. *Over after Bonferroni*: the 2 se replaced by z(1 - a / C) se for the C cells of the row, a = 1 - Phi(2) = 0.0228, so one cell gives the rule itself.
 
@@ -16,11 +16,11 @@ Rows the paper quotes, in the order of Table 4 and then by section.
 
 | bound | setting | delta | source | where in the paper | the paper says | cells | draws per cell | total draws | pooled miss (its class) | largest miss [95% CP] | over | unresolved, above delta | at or under delta | over after Bonferroni |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Clopper-Pearson | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.1 | [R 6.2] | Table 4 row 1 | holds | 5 | 5,000 | 25,000 | ~0.0784 (at or under delta) | 0.0840 [0.0765, 0.0920] | 0 | 0 | 5 | 0 |
+| Clopper-Pearson | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.1 | [binomial rows] | Table 4 row 1 | holds | 20 | exact enumeration | - | - | 0.0959 (exact) | 0 | 0 | 20 | 0 |
 | Clopper-Pearson, labels alone | spike 017 plasmodes, every cell and feature (the cells of its table B6) | 0.05 | [017 B6] | Table 4 row 2 | holds | 42 | 4,000 | 168,000 | 0.0383 (at or under delta) | 0.0515 [0.0449, 0.0588] | 0 | 2 | 40 | 0 |
-| betting mixture | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.1 | [R 6.2] | Table 4 row 3 | holds | 5 | 5,000 | 25,000 | ~0.0106 (at or under delta) | 0.0160 [0.0127, 0.0199] | 0 | 0 | 5 | 0 |
-| Bentkus | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.1 | [R 6.2] | Table 4 row 4 | holds | 5 | 5,000 | 25,000 | ~0.0306 (at or under delta) | 0.0350 [0.0301, 0.0405] | 0 | 0 | 5 | 0 |
-| Hoeffding, Anderson | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.1 | [R 6.2] | Table 4 row 5 | holds | 5 | 5,000 | 25,000 | ~0 (at or under delta) | 0 [0, 0.0007] | 0 | 0 | 5 | 0 |
+| betting mixture | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.1 | [binomial rows] | Table 4 row 3 | holds | 20 | exact enumeration | - | - | 0.0184 (exact) | 0 | 0 | 20 | 0 |
+| Bentkus | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.1 | [binomial rows] | Table 4 row 4 | holds | 20 | exact enumeration | - | - | 0.0367 (exact) | 0 | 0 | 20 | 0 |
+| Hoeffding, Anderson | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.1 | [binomial rows] | Table 4 row 5 | holds | 40 | exact enumeration | - | - | 0.0000 (exact) | 0 | 0 | 40 | 0 |
 | stratified Wilson-type `b1w` | 4 mid-rate labels (9-94%), Granite-3.3-2B, n_s 100-200, 3 checkpoints | 0.05 | [013 H8] | Table 4 row 6 | holds | 24 | 5,000 | 120,000 | 0.0336 (at or under delta) | 0.0542 [0.0481, 0.0608] | 0 | 3 | 21 | 0 |
 | stratified Wilson-type `b1w` | 4 mid-rate labels (9-94%), Granite-3.3-2B, n_s 100-200, 3 checkpoints | 0.1 | [013 H8] | Table 4 row 6 | holds | 24 | 5,000 | 120,000 | 0.0776 (at or under delta) | 0.0970 [0.0889, 0.1055] | 0 | 0 | 24 | 0 |
 | `b1w` | label pushed by the Lagrangian, n_s 200, steps 100 and 200 | 0.05 | [014] | Table 4 row 7 | holds | 2 | 5,000 | 10,000 | 0.0169 (at or under delta) | 0.0228 [0.0188, 0.0273] | 0 | 0 | 2 | 0 |
@@ -37,7 +37,7 @@ Rows the paper quotes, in the order of Table 4 and then by section.
 | pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (a): user tasks resampled, injection tasks fixed | 0.05 | [two-way bounds] | Table 4 row 14; section 10.2 | holds | 28 | 4,000 | 112,000 | 0.0009 (at or under delta) | 0.0043 [0.0025, 0.0068] | 0 | 0 | 28 | 0 |
 | pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (b): injection tasks resampled, user tasks fixed | 0.05 | [two-way bounds] | Table 4 row 14; section 10.2 | holds | 28 | 4,000 | 112,000 | 0.0123 (at or under delta) | 0.0370 [0.0314, 0.0433] | 0 | 0 | 28 | 0 |
 | pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (c): both resampled | 0.05 | [two-way bounds] | Table 4 row 14; section 10.2 | holds | 28 | 4,000 | 112,000 | 0.0245 (at or under delta) | 0.0418 [0.0358, 0.0484] | 0 | 0 | 28 | 0 |
-| Student-t | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.1 | [R 6.2] | Table 4 row 15 | fails | 5 | 5,000 | 25,000 | ~0.1244 (over) | 0.1840 [0.1733, 0.1950] | 3 | 2 | 0 | 3 |
+| Student-t | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.1 | [binomial rows] | Table 4 row 15 | fails | 20 | exact enumeration | - | - | 0.1951 (exact) | 20 | 0 | 0 | 20 |
 | `b1w` at rare rates | labels at 1-2%, n_s 100-200, 3 checkpoints | 0.05 | [013 H8] | Table 4 row 16 | not over at delta 0.05 | 12 | 5,000 | 60,000 | 0.0065 (at or under delta) | 0.0380 [0.0329, 0.0437] | 0 | 0 | 12 | 0 |
 | pooled Wilson bound at rare rates | labels at 1-2%, n_s 100-200, 3 checkpoints | 0.05 | [013 H8] | Table 4 row 16 | not over at delta 0.05 | 12 | 5,000 | 60,000 | 0.0076 (at or under delta) | 0.0478 [0.0421, 0.0541] | 0 | 0 | 12 | 0 |
 | `b1w` at rare rates | labels at 1-2%, n_s 100-200, 3 checkpoints | 0.1 | [013 H8] | Table 4 row 16 | over in 2 cells at delta 0.10 (both bounds together) | 12 | 5,000 | 60,000 | 0.0440 (at or under delta) | 0.1260 [0.1169, 0.1355] | 1 | 0 | 11 | 1 |
@@ -88,6 +88,28 @@ Rows the paper quotes, in the order of Table 4 and then by section.
 | stratified Wald-t `b1` on a synthetic i.i.d. grid | six strata profiles, n_s 100-400, binomial strata | 0.1 | [013] | Table 4 row 35; section 7.1 (reading 3) | fails | 18 | 4,000 | 72,000 | 0.1050 (over) | 0.1470 [0.1362, 0.1584] | 5 | 5 | 8 | 4 |
 | `b1w` on a synthetic i.i.d. grid | six strata profiles, n_s 100-400, binomial strata | 0.05 | [013] | Table 4 row 36; section 7.1 (reading 3) | fails | 18 | 4,000 | 72,000 | 0.0405 (at or under delta) | 0.0573 [0.0503, 0.0649] | 1 | 2 | 15 | 0 |
 | `b1w` on a synthetic i.i.d. grid | six strata profiles, n_s 100-400, binomial strata | 0.1 | [013] | Table 4 row 36; section 7.1 (reading 3) | fails | 18 | 4,000 | 72,000 | 0.1024 (over) | 0.1350 [0.1246, 0.1460] | 4 | 5 | 9 | 2 |
+| stratified Wald-t limit inside the training loop, 8 strata | synthetic bandit, Lagrangian GRPO, 4 environments, the pool's own rate | 0.05 | [O2] | Table 4 row 37; section 7.2 | - | 4 | 8,000 | 32,000 | 0.0397 (at or under delta) | 0.0521 [0.0474, 0.0572] | 0 | 1 | 3 | 0 |
+| stratified Wald-t limit inside the training loop, 8 strata | synthetic bandit, Lagrangian GRPO, 4 environments, the pool's own rate | 0.1 | [O2] | Table 4 row 37; section 7.2 | - | 4 | 8,000 | 32,000 | 0.0842 (at or under delta) | 0.1003 [0.0938, 0.1070] | 0 | 1 | 3 | 0 |
+| stratified Wald-t limit inside the training loop, 8 strata | synthetic bandit, Lagrangian GRPO, 4 environments, the population's rate, with the sampled-pool term | 0.05 | [O2] | Table 4 row 38; section 7.2 | - | 4 | 8,000 | 32,000 | 0.0512 (unresolved) | 0.0566 [0.0517, 0.0619] | 1 | 1 | 2 | 1 |
+| stratified Wald-t limit inside the training loop, 8 strata | synthetic bandit, Lagrangian GRPO, 4 environments, the population's rate, with the sampled-pool term | 0.1 | [O2] | Table 4 row 38; section 7.2 | - | 4 | 8,000 | 32,000 | 0.0988 (at or under delta) | 0.1071 [0.1004, 0.1141] | 1 | 0 | 3 | 0 |
+| stratified Wald-t limit, a costly label stratified on a cheap reference rate | XSTest human labels of five released models, 8 mid-rate labels, two stratifiers, n_s 50-100, redrawn with replacement | 0.05 | [O3] | Table 4 row 39; section 8.1.4 | - | 32 | 40,000 | 1,280,000 | 0.0323 (at or under delta) | 0.0525 [0.0503, 0.0547] | 1 | 0 | 31 | 0 |
+| stratified Wald-t limit, a costly label stratified on a cheap reference rate | XSTest human labels of five released models, 8 mid-rate labels, two stratifiers, n_s 50-100, redrawn with replacement | 0.1 | [O3] | Table 4 row 39; section 8.1.4 | - | 32 | 40,000 | 1,280,000 | 0.0732 (at or under delta) | 0.1079 [0.1049, 0.1110] | 2 | 0 | 30 | 2 |
+| betting bound on user-task rates, against their average | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | Table 4 row 40 | holds | 28 | 4,000 | 112,000 | 0.0031 (at or under delta) | 0.0070 [0.0047, 0.0101] | 0 | 0 | 28 | 0 |
+| betting bound on user-task rates, against their average | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | Table 4 row 40 | holds | 28 | 4,000 | 112,000 | 0.0007 (at or under delta) | 0.0050 [0.0031, 0.0077] | 0 | 0 | 28 | 0 |
+| betting bound on the pair rate | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | Table 4 row 40 | holds | 28 | 4,000 | 112,000 | 0.0019 (at or under delta) | 0.0065 [0.0043, 0.0095] | 0 | 0 | 28 | 0 |
+| betting bound on the pair rate | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | Table 4 row 40 | holds | 28 | 4,000 | 112,000 | 0.0004 (at or under delta) | 0.0030 [0.0016, 0.0052] | 0 | 0 | 28 | 0 |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | Table 4 row 41 | holds | 28 | 4,000 | 112,000 | 0.0213 (at or under delta) | 0.0423 [0.0362, 0.0490] | 0 | 0 | 28 | 0 |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | Table 4 row 42 | fails | 28 | 4,000 | 112,000 | 0.0597 (over) | 0.2310 [0.2180, 0.2444] | 11 | 1 | 16 | 11 |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | Table 4 row 42 | fails | 28 | 4,000 | 112,000 | 0.0977 (over) | 0.2487 [0.2354, 0.2625] | 19 | 2 | 7 | 18 |
+| two clustered margins in quadrature | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | Table 4 row 43 | - | 28 | 4,000 | 112,000 | 0.0012 (at or under delta) | 0.0160 [0.0123, 0.0204] | 0 | 0 | 28 | 0 |
+| two clustered margins in quadrature | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | Table 4 row 43 | - | 28 | 4,000 | 112,000 | 0.0050 (at or under delta) | 0.0375 [0.0318, 0.0439] | 0 | 0 | 28 | 0 |
+| two clustered margins in quadrature | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | Table 4 row 43 | - | 28 | 4,000 | 112,000 | 0.0120 (at or under delta) | 0.0395 [0.0337, 0.0460] | 0 | 0 | 28 | 0 |
+| stratified Wald-t limit, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.05 | [O6] | Table 4 row 44 | holds | 4 | 40,000 | 160,000 | 0.0393 (at or under delta) | 0.0459 [0.0439, 0.0480] | 0 | 0 | 4 | 0 |
+| stratified Wald-t limit, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.1 | [O6] | Table 4 row 44 | holds | 4 | 40,000 | 160,000 | 0.0847 (at or under delta) | 0.0919 [0.0891, 0.0948] | 0 | 0 | 4 | 0 |
+| `b1w`, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.05 | [O6] | Table 4 row 45 | holds | 4 | 40,000 | 160,000 | 0.0369 (at or under delta) | 0.0408 [0.0389, 0.0428] | 0 | 0 | 4 | 0 |
+| `b1w`, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.1 | [O6] | Table 4 row 45 | holds | 4 | 40,000 | 160,000 | 0.0888 (at or under delta) | 0.0919 [0.0891, 0.0948] | 0 | 0 | 4 | 0 |
+| Wald-t b1, sampled-pool term | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.05 | [O6] | Table 4 row 46 | - | 4 | 10,000 | 40,000 | 0.0436 (at or under delta) | 0.0513 [0.0471, 0.0558] | 0 | 1 | 3 | 0 |
+| Wald-t b1, sampled-pool term | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.1 | [O6] | Table 4 row 46 | - | 4 | 10,000 | 40,000 | 0.0938 (at or under delta) | 0.1114 [0.1053, 0.1177] | 1 | 0 | 3 | 1 |
 | `b1w` at the other settings of the strata | 4 mid-rate labels, 1-8 reference samples, 2-8 strata (11 settings), n_s 100-200, 3 checkpoints | 0.05 | [013] | section 7.1 (reading 3) | - | 264 | 5,000 | 1,320,000 | 0.0309 (at or under delta) | 0.0598 [0.0534, 0.0667] | 2 | 14 | 248 | 0 |
 | `b1w` at the other settings of the strata | 4 mid-rate labels, 1-8 reference samples, 2-8 strata (11 settings), n_s 100-200, 3 checkpoints | 0.1 | [013] | section 7.1 (reading 3) | - | 264 | 5,000 | 1,320,000 | 0.0748 (at or under delta) | 0.1166 [0.1078, 0.1258] | 6 | 13 | 245 | 1 |
 | pooled Wilson bound on a synthetic i.i.d. grid | six strata profiles, n_s 100-400, binomial strata | 0.05 | [013] | section 7.1 (reading 3) | - | 18 | 4,000 | 72,000 | 0.0301 (at or under delta) | 0.0573 [0.0503, 0.0649] | 1 | 0 | 17 | 0 |
@@ -140,6 +162,22 @@ Rows the paper quotes, in the order of Table 4 and then by section.
 | StratPPI estimator with a bootstrap-t limit | a pool redrawn from its source, strata rebuilt, 5 rare-rate labels, n_s 100-200 | 0.1 | [two-phase check] | section 8.1 (the prompt source) | - | 12 | 10,000 | 120,000 | 0.0086 (at or under delta) | 0.0193 [0.0167, 0.0222] | 0 | 0 | 12 | 0 |
 | pooled Wilson bound, random sample of the pool | a pool redrawn from its source, strata rebuilt, 5 rare-rate labels, n_s 100-200 | 0.1 | [two-phase check] | section 8.1 (the prompt source) | - | 12 | 10,000 | 120,000 | 0.0583 (at or under delta) | 0.1462 [0.1393, 0.1533] | 3 | 1 | 8 | 3 |
 | Clopper-Pearson, random sample of the pool | a pool redrawn from its source, strata rebuilt, 5 rare-rate labels, n_s 100-200 | 0.1 | [two-phase check] | section 8.1 (the prompt source) | - | 12 | 10,000 | 120,000 | 0.0183 (at or under delta) | 0.0863 [0.0809, 0.0920] | 0 | 0 | 12 | 0 |
+| StratPPI's normal limit, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | fails | 4 | 40,000 | 160,000 | 0.0743 (over) | 0.0819 [0.0793, 0.0847] | 4 | 0 | 0 | 4 |
+| StratPPI's normal limit, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | fails | 4 | 40,000 | 160,000 | 0.1277 (over) | 0.1374 [0.1341, 0.1408] | 4 | 0 | 0 | 4 |
+| pooled Wilson bound, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | - | 4 | 40,000 | 160,000 | 0.0450 (at or under delta) | 0.0539 [0.0517, 0.0562] | 1 | 0 | 3 | 1 |
+| pooled Wilson bound, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | - | 4 | 40,000 | 160,000 | 0.1101 (over) | 0.1164 [0.1133, 0.1196] | 3 | 0 | 1 | 3 |
+| Clopper-Pearson, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | - | 4 | 40,000 | 160,000 | 0.0404 (at or under delta) | 0.0481 [0.0460, 0.0502] | 0 | 0 | 4 | 0 |
+| Clopper-Pearson, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | - | 4 | 40,000 | 160,000 | 0.0719 (at or under delta) | 0.0783 [0.0756, 0.0809] | 0 | 0 | 4 | 0 |
+| bootstrap-t StratPPI limit, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | - | 4 | 40,000 | 160,000 | 0.0466 (at or under delta) | 0.0490 [0.0469, 0.0511] | 0 | 0 | 4 | 0 |
+| bootstrap-t StratPPI limit, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | - | 4 | 40,000 | 160,000 | 0.0970 (at or under delta) | 0.0984 [0.0955, 0.1014] | 0 | 0 | 4 | 0 |
+| b1w, sampled-pool term | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.0414 (at or under delta) | 0.0479 [0.0438, 0.0523] | 0 | 0 | 4 | 0 |
+| b1w, sampled-pool term | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.0957 (at or under delta) | 0.1041 [0.0982, 0.1103] | 0 | 1 | 3 | 0 |
+| b1w, no term | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.0596 (over) | 0.0710 [0.0660, 0.0762] | 2 | 1 | 1 | 2 |
+| b1w, no term | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.1197 (over) | 0.1338 [0.1272, 0.1406] | 4 | 0 | 0 | 4 |
+| StratPPI estimator, bootstrap-t | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.0705 (over) | 0.0798 [0.0746, 0.0853] | 4 | 0 | 0 | 4 |
+| StratPPI estimator, bootstrap-t | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.1288 (over) | 0.1400 [0.1333, 0.1470] | 4 | 0 | 0 | 4 |
+| pooled Wilson | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.05 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.0431 (at or under delta) | 0.0542 [0.0498, 0.0588] | 0 | 1 | 3 | 0 |
+| pooled Wilson | Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.1 | [O6] | section 8.1.3 | - | 4 | 10,000 | 40,000 | 0.1071 (over) | 0.1152 [0.1090, 0.1216] | 2 | 1 | 1 | 2 |
 | Clopper-Pearson, labels alone | refusal pools, random labelled subset, n 100-1,000 | 0.05 | [P14] | section 8.2 (the baseline) | holds | 14 | 4,000 | 56,000 | 0.0318 (at or under delta) | 0.0508 [0.0442, 0.0580] | 0 | 1 | 13 | 0 |
 | PPI++ with a normal limit | refusal pools, random labelled subset, n 100-1,000 | 0.05 | [P14] | section 8.2 | fails | 14 | 4,000 | 56,000 | 0.1023 (over) | 0.2320 [0.2190, 0.2454] | 14 | 0 | 0 | 14 |
 | PPI++ with a bootstrap-t limit | refusal pools, random labelled subset, n 100-1,000 | 0.05 | [P14] | section 8.2 | holds | 14 | 4,000 | 56,000 | 0.0354 (at or under delta) | 0.0517 [0.0451, 0.0591] | 0 | 1 | 13 | 0 |
@@ -149,8 +187,12 @@ Rows the paper quotes, in the order of Table 4 and then by section.
 | carried Youden-corrected bound | pool: over-refusal -> harmful, six judge wordings | 0.05 | [017 5] | section 9.1 | over for none | 6 | 4,000 | 24,000 | 0.0000 (at or under delta) | 0.0003 [0.0000, 0.0014] | 0 | 0 | 6 | 0 |
 | carried Youden-corrected bound | pool: harmful -> over-refusal, six judge wordings | 0.05 | [017 5] | section 9.1 | over for 5 of 6 | 6 | 4,000 | 24,000 | 0.4275 (over) | 0.9960 [0.9935, 0.9977] | 5 | 0 | 1 | 5 |
 | carried Youden-corrected bound | training: step 0 -> step 200, six judge wordings | 0.05 | [017 E8] | section 9.2 | carried (holds) | 6 | 4,000 | 24,000 | 0.0103 (at or under delta) | 0.0415 [0.0355, 0.0481] | 0 | 0 | 6 | 0 |
-| carried Youden-corrected bound | training, constrained (014): step 0 -> step 100, six judge wordings | 0.05 | [017 E8] | section 9.2 | 1 of 6 failed | 6 | 4,000 | 24,000 | 0.1047 (over) | 0.5135 [0.4979, 0.5291] | 1 | 0 | 5 | 1 |
-| carried Youden-corrected bound | training, constrained (014): step 0 -> step 200, six judge wordings | 0.05 | [017 E8] | section 9.2 | over for 3 of 6, marginal for a fourth | 6 | 4,000 | 24,000 | 0.1968 (over) | 0.8027 [0.7901, 0.8150] | 3 | 1 | 2 | 3 |
+| carried Youden-corrected bound | training, constrained (014): step 0 -> step 100, six judge wordings | 0.05 | [017 E8] | section 9.2 | 1, 1 and 4 of 6 | 6 | 4,000 | 24,000 | 0.1047 (over) | 0.5135 [0.4979, 0.5291] | 1 | 0 | 5 | 1 |
+| carried Youden-corrected bound | training, constrained (014): step 0 -> step 200, six judge wordings | 0.05 | [017 E8] | section 9.2 | over for 3, 3 and 2 of 6 | 6 | 4,000 | 24,000 | 0.1968 (over) | 0.8027 [0.7901, 0.8150] | 3 | 1 | 2 | 3 |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 100, six judge wordings | 0.05 | [017 E8] | section 9.2 | 1, 1 and 4 of 6 | 6 | 4,000 | 24,000 | 0.0551 (over) | 0.2707 [0.2570, 0.2848] | 1 | 0 | 5 | 1 |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 200, six judge wordings | 0.05 | [017 E8] | section 9.2 | over for 3, 3 and 2 of 6 | 6 | 4,000 | 24,000 | 0.1261 (over) | 0.3990 [0.3838, 0.4144] | 3 | 0 | 3 | 2 |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 100, six judge wordings | 0.05 | [017 E8] | section 9.2 | 1, 1 and 4 of 6 | 6 | 4,000 | 24,000 | 0.2134 (over) | 0.8285 [0.8165, 0.8401] | 4 | 0 | 2 | 4 |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 200, six judge wordings | 0.05 | [017 E8] | section 9.2 | over for 3, 3 and 2 of 6 | 6 | 4,000 | 24,000 | 0.1514 (over) | 0.6248 [0.6095, 0.6398] | 2 | 0 | 4 | 2 |
 | block PPI, betting (finite-sample) | spike 017 plasmodes, every cell and feature (the cells of its table B6) | 0.05 | [017 B6] | section 9.4 | holds | 84 | 500, 1,000 | 80,000 | 0.0174 (at or under delta) | 0.0440 [0.0321, 0.0586] | 0 | 0 | 84 | 0 |
 | cluster bootstrap-t, by injection task | AgentDojo, 28 pipelines, scheme (a): user tasks resampled, injection tasks fixed | 0.05 | [AgentDojo recheck] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0224 (at or under delta) | 0.1650 [0.1536, 0.1769] | 3 | 0 | 25 | 3 |
 | cluster bootstrap-t, by injection task | AgentDojo, 28 pipelines, scheme (b): injection tasks resampled, user tasks fixed | 0.05 | [AgentDojo recheck] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0419 (at or under delta) | 0.0912 [0.0825, 0.1006] | 4 | 2 | 22 | 4 |
@@ -161,6 +203,44 @@ Rows the paper quotes, in the order of Table 4 and then by section.
 | two clustered margins added in quadrature | AgentDojo, 28 pipelines, scheme (a): user tasks resampled, injection tasks fixed | 0.05 | [AgentDojo recheck] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0022 (at or under delta) | 0.0180 [0.0141, 0.0226] | 0 | 0 | 28 | 0 |
 | two clustered margins added in quadrature | AgentDojo, 28 pipelines, scheme (b): injection tasks resampled, user tasks fixed | 0.05 | [AgentDojo recheck] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0169 (at or under delta) | 0.0403 [0.0344, 0.0468] | 0 | 0 | 28 | 0 |
 | two clustered margins added in quadrature | AgentDojo, 28 pipelines, scheme (c): both resampled | 0.05 | [AgentDojo recheck] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0327 (at or under delta) | 0.0522 [0.0456, 0.0596] | 0 | 1 | 27 | 0 |
+| betting bound on user-task rates, against their average | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0190 (at or under delta) | 0.1013 [0.0921, 0.1110] | 4 | 0 | 24 | 4 |
+| betting bound on user-task rates, against their average | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0393 (at or under delta) | 0.1310 [0.1207, 0.1419] | 7 | 1 | 20 | 6 |
+| betting bound on user-task rates, against their average | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0132 (at or under delta) | 0.0818 [0.0734, 0.0907] | 3 | 0 | 25 | 3 |
+| betting bound on user-task rates, against their average | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0253 (at or under delta) | 0.1025 [0.0933, 0.1123] | 4 | 1 | 23 | 3 |
+| betting bound on user-task rates, against the pair rate | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0015 (at or under delta) | 0.0177 [0.0139, 0.0223] | 0 | 0 | 28 | 0 |
+| betting bound on user-task rates, against the pair rate | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0104 (at or under delta) | 0.0770 [0.0689, 0.0857] | 2 | 0 | 26 | 1 |
+| betting bound on user-task rates, against the pair rate | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0253 (at or under delta) | 0.1037 [0.0945, 0.1136] | 3 | 3 | 22 | 2 |
+| betting bound on user-task rates, against the pair rate | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0006 (at or under delta) | 0.0092 [0.0065, 0.0127] | 0 | 0 | 28 | 0 |
+| betting bound on user-task rates, against the pair rate | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0069 (at or under delta) | 0.0638 [0.0564, 0.0718] | 1 | 0 | 27 | 1 |
+| betting bound on user-task rates, against the pair rate | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0152 (at or under delta) | 0.0690 [0.0613, 0.0773] | 2 | 0 | 26 | 2 |
+| betting bound on the pair rate | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0253 (at or under delta) | 0.1247 [0.1147, 0.1354] | 4 | 2 | 22 | 4 |
+| betting bound on the pair rate | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0423 (at or under delta) | 0.1300 [0.1197, 0.1408] | 8 | 3 | 17 | 8 |
+| betting bound on the pair rate | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0109 (at or under delta) | 0.0983 [0.0892, 0.1079] | 2 | 0 | 26 | 2 |
+| betting bound on the pair rate | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0184 (at or under delta) | 0.1050 [0.0957, 0.1149] | 2 | 0 | 26 | 2 |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0417 (at or under delta) | 0.0520 [0.0453, 0.0593] | 0 | 2 | 26 | 0 |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.1079 (over) | 0.2567 [0.2433, 0.2706] | 21 | 0 | 7 | 21 |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.1521 (over) | 0.2730 [0.2592, 0.2871] | 24 | 0 | 4 | 23 |
+| two clustered margins in quadrature | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0026 (at or under delta) | 0.0170 [0.0132, 0.0215] | 0 | 0 | 28 | 0 |
+| two clustered margins in quadrature | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0174 (at or under delta) | 0.0460 [0.0397, 0.0530] | 0 | 0 | 28 | 0 |
+| two clustered margins in quadrature | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0338 (at or under delta) | 0.0505 [0.0439, 0.0577] | 0 | 1 | 27 | 0 |
+| larger of the two clustered bounds | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0067 (at or under delta) | 0.0288 [0.0238, 0.0344] | 0 | 0 | 28 | 0 |
+| larger of the two clustered bounds | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0341 (at or under delta) | 0.0665 [0.0590, 0.0747] | 4 | 1 | 23 | 4 |
+| larger of the two clustered bounds | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0562 (over) | 0.0875 [0.0789, 0.0967] | 17 | 1 | 10 | 14 |
+| larger of the two clustered bounds | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0038 (at or under delta) | 0.0288 [0.0238, 0.0344] | 0 | 0 | 28 | 0 |
+| larger of the two clustered bounds | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0106 (at or under delta) | 0.0665 [0.0590, 0.0747] | 1 | 0 | 27 | 1 |
+| larger of the two clustered bounds | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0243 (at or under delta) | 0.0620 [0.0547, 0.0699] | 1 | 1 | 26 | 1 |
+| pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0010 (at or under delta) | 0.0065 [0.0043, 0.0095] | 0 | 0 | 28 | 0 |
+| pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0120 (at or under delta) | 0.0300 [0.0249, 0.0358] | 0 | 0 | 28 | 0 |
+| pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0245 (at or under delta) | 0.0408 [0.0348, 0.0473] | 0 | 0 | 28 | 0 |
+| pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0003 (at or under delta) | 0.0025 [0.0012, 0.0046] | 0 | 0 | 28 | 0 |
+| pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0020 (at or under delta) | 0.0123 [0.0091, 0.0162] | 0 | 0 | 28 | 0 |
+| pigeonhole bootstrap-t | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0061 (at or under delta) | 0.0200 [0.0159, 0.0248] | 0 | 0 | 28 | 0 |
+| multiway cluster variance with a t quantile | AgentDojo, 28 pipelines, scheme (a) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0247 (at or under delta) | 0.1232 [0.1132, 0.1338] | 5 | 0 | 23 | 5 |
+| multiway cluster variance with a t quantile | AgentDojo, 28 pipelines, scheme (b) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0564 (over) | 0.1750 [0.1633, 0.1871] | 8 | 2 | 18 | 6 |
+| multiway cluster variance with a t quantile | AgentDojo, 28 pipelines, scheme (c) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.1035 (over) | 0.2023 [0.1899, 0.2150] | 25 | 2 | 1 | 24 |
+| multiway cluster variance with a t quantile | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0200 (at or under delta) | 0.1217 [0.1118, 0.1323] | 5 | 0 | 23 | 4 |
+| multiway cluster variance with a t quantile | AgentDojo, 28 pipelines, scheme (b_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0253 (at or under delta) | 0.1545 [0.1434, 0.1661] | 4 | 0 | 24 | 4 |
+| multiway cluster variance with a t quantile | AgentDojo, 28 pipelines, scheme (c_s) | 0.05 | [O4] | section 10.2 | - | 28 | 4,000 | 112,000 | 0.0593 (over) | 0.1730 [0.1614, 0.1851] | 12 | 2 | 14 | 12 |
 | the four limits of the human-terms certificate | design check on synthetic labels, prompts as 'pool' | 0.05 | [P9 design check] | section 10.4 | holds | 4 | 2,000 | 8,000 | 0.0319 (at or under delta) | 0.0455 [0.0368, 0.0556] | 0 | 0 | 4 | 0 |
 | pooled Wilson bound, random split | same labels and sizes | 0.05 | [013 H8] | Table A1 (the baseline) | - | 24 | 5,000 | 120,000 | 0.0307 (at or under delta) | 0.0566 [0.0504, 0.0634] | 1 | 0 | 23 | 0 |
 | pooled Wilson bound, random split | same labels and sizes | 0.1 | [013 H8] | Table A1 (the baseline) | - | 24 | 5,000 | 120,000 | 0.0721 (at or under delta) | 0.1140 [0.1053, 0.1231] | 1 | 0 | 23 | 1 |
@@ -217,7 +297,7 @@ The same bound over all its settings at one delta (cells that repeat another row
 
 | bound | delta | rows pooled | cells | draws per cell | total draws | pooled miss (its class) | largest miss [95% CP] | over | unresolved, above delta | at or under delta | over after Bonferroni |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Clopper-Pearson | 0.1 | 1 | 5 | 5,000 | 25,000 | ~0.0784 (at or under delta) | 0.0840 [0.0765, 0.0920] | 0 | 0 | 5 | 0 |
+| Clopper-Pearson | 0.1 | 1 | 20 | exact enumeration | - | - | 0.0959 (exact) | 0 | 0 | 20 | 0 |
 | Clopper-Pearson | 0.05 | 2 | 56 | 4,000 | 224,000 | 0.0367 (at or under delta) | 0.0515 [0.0449, 0.0588] | 0 | 3 | 53 | 0 |
 | b1w (Table 4 rows 6-8) | 0.05 | 3 | 44 | 4,000, 5,000 | 202,000 | 0.0291 (at or under delta) | 0.0595 [0.0524, 0.0673] | 1 | 4 | 39 | 0 |
 | b1w (Table 4 rows 6-8) | 0.1 | 2 | 26 | 5,000 | 130,000 | 0.0756 (at or under delta) | 0.0970 [0.0889, 0.1055] | 0 | 0 | 26 | 0 |
@@ -230,7 +310,7 @@ The same bound over all its settings at one delta (cells that repeat another row
 | PPI++, normal limit | 0.1 | 1 | 28 | 5,000 | 140,000 | 0.0633 (at or under delta) | 0.1524 [0.1425, 0.1627] | 3 | 3 | 22 | 3 |
 | PPI++, bootstrap-t limit | 0.1 | 1 | 28 | 5,000 | 140,000 | 0.0470 (at or under delta) | 0.0842 [0.0766, 0.0922] | 0 | 0 | 28 | 0 |
 
-Bonferroni by exact p-values (p < a / C) in place of the widened band gives the same count in every row except: PPI++ with a normal limit, spike 017 plasmodes (86 against 87); plain PPI, normal limit, spike 017 plasmodes (38 against 41); Clopper-Pearson over pairs, AgentDojo (4 against 5); Wilson bound over pairs, AgentDojo (4 against 5); StratPPI as published (normal limit), 5 mid-rate labels (6 against 7); StratPPI as published (normal limit), judge-logit strata (5 and 10) on the refusal pools (24 against 25); two-way bootstrap, AgentDojo (9 against 10); multiway cluster variance with a t quantile, AgentDojo (6 against 7).
+Bonferroni by exact p-values (p < a / C) in place of the widened band gives the same count in every row except: PPI++ with a normal limit, spike 017 plasmodes (86 against 87); plain PPI, normal limit, spike 017 plasmodes (38 against 41); Clopper-Pearson over pairs, AgentDojo (4 against 5); Wilson bound over pairs, AgentDojo (4 against 5); StratPPI as published (normal limit), 5 mid-rate labels (6 against 7); StratPPI as published (normal limit), judge-logit strata (5 and 10) on the refusal pools (24 against 25); two-way bootstrap, AgentDojo (9 against 10); multiway cluster variance with a t quantile, AgentDojo (6 against 7); betting bound on user-task rates, against their average, AgentDojo (3 against 4); betting bound on the pair rate, AgentDojo (7 against 8); larger of the two clustered bounds, AgentDojo (3 against 4).
 
 ## (b) Table 4 of the draft against the files
 
@@ -238,11 +318,11 @@ Every printed miss rate agrees with the recount to its printed digits and every 
 
 | row | bound | setting | delta | miss, as printed | miss, recounted | cells | draws per cell | over / unresolved / at or under | largest 95% upper limit of a cell's miss (over after Bonferroni) | source |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Clopper-Pearson | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | 0.10 | 0.067-0.084 | 0.0670-0.0840 | 5 | 5,000 | 0 / 0 / 5 | 0.092 (0) | [R 6.2] |
+| 1 | Clopper-Pearson | real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400 | 0.10 | 0.066-0.096 | 0.0658-0.0959 | 20 | exact enumeration | 0 / 0 / 20 | 0.096 (0) | [binomial rows] |
 | 2 | Clopper-Pearson | spike 017 plasmodes, every cell | 0.05 | 0-0.052 | 0-0.0515 | 42 | 4,000 | 0 / 2 / 40 | 0.059 (0) | [017 B6] |
-| 3 | betting mixture | same pool as row 1 | 0.10 | 0.007-0.016 | 0.0070-0.0160 | 5 | 5,000 | 0 / 0 / 5 | 0.020 (0) | [R 6.2] |
-| 4 | Bentkus | same pool | 0.10 | 0.023-0.035 | 0.0230-0.0350 | 5 | 5,000 | 0 / 0 / 5 | 0.040 (0) | [R 6.2] |
-| 5 | Hoeffding, Anderson | same pool | 0.10 | 0.000 | 0 | 5 | 5,000 | 0 / 0 / 5 | 0.001 (0) | [R 6.2] |
+| 3 | betting mixture | same pool as row 1 | 0.10 | 0.007-0.018 | 0.0073-0.0184 | 20 | exact enumeration | 0 / 0 / 20 | 0.018 (0) | [binomial rows] |
+| 4 | Bentkus | same pool | 0.10 | 0.017-0.037 | 0.0172-0.0367 | 20 | exact enumeration | 0 / 0 / 20 | 0.037 (0) | [binomial rows] |
+| 5 | Hoeffding, Anderson | same pool | 0.10 | 0.000 | 0-0.0000 | 40 | exact enumeration | 0 / 0 / 40 | 0.000 (0) | [binomial rows] |
 | 6 | stratified Wilson-type `b1w` | 4 mid-rate labels (9-95%), real Granite-3.3-2B responses, n_s 100-200, 3 checkpoints | 0.05 / 0.10 | 0.017-0.054 / 0.058-0.097 | 0.0166-0.0542; 0.0576-0.0970 | 24; 24 | 5,000 | 0 / 3 / 21; 0 / 0 / 24 | 0.061 (0); 0.106 (0) | [013 H8] |
 | 7 | `b1w` | label pushed by the Lagrangian, n_s 200 | 0.05 / 0.10 | 0.011-0.023 / 0.040-0.064 | 0.0110-0.0228; 0.0398-0.0642 | 2; 2 | 5,000 | 0 / 0 / 2; 0 / 0 / 2 | 0.027 (0); 0.071 (0) | [014] |
 | 8 | `b1w` on a design-weighted sheet | sheets re-drawn by their real sampling rule | 0.05 | 0-0.060 | 0-0.0595 | 18 | 4,000 | 1 / 1 / 16 | 0.067 (0) | [017 4] |
@@ -252,7 +332,7 @@ Every printed miss rate agrees with the recount to its printed digits and every 
 | 12 | the same estimator and limit, redrawn with replacement | reference-rate strata, 5 mid-rate labels, n_s 100-200 | 0.05 / 0.10 | 0.030-0.050 / 0.069-0.100 | 0.0295-0.0496; 0.0694-0.1003 | 28; 28 | 40,000 | 0 / 0 / 28; 0 / 1 / 27 | 0.052 (0); 0.103 (0) | [replacement check] |
 | 13 | Clopper-Pearson, random draws with replacement (the control) | the same 5 labels and sizes | 0.05 / 0.10 | 0.029-0.050 / 0.050-0.097 | 0.0293-0.0497; 0.0497-0.0970 | 28; 28 | 40,000 | 0 / 0 / 28; 0 / 0 / 28 | 0.052 (0); 0.100 (0) | [replacement check] |
 | 14 | pigeonhole bootstrap-t | AgentDojo, 28 pipelines, schemes (a); (b); (c) | 0.05 | at most 0.004; 0.037; 0.042 | 0-0.0043; 0-0.0370; 0-0.0418 | 28; 28; 28 | 4,000 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.007 (0); 0.043 (0); 0.048 (0) | [two-way bounds] |
-| 15 | **Student-t** | same pool as row 1, n 200-2,400 | 0.10 | **0.101-0.184** | 0.1010-0.1840 | 5 | 5,000 | 3 / 2 / 0 | 0.195 (3) | [R 6.2] |
+| 15 | **Student-t** | same pool as row 1, n 200-2,400 | 0.10 | **0.104-0.195** | 0.1037-0.1951 | 20 | exact enumeration | 20 / 0 / 0 | 0.195 (20) | [binomial rows] |
 | 16 | **`b1w` and the pooled Wilson bound at rare rates** | harm labels at 1-2%, n_s 100-200, 3 checkpoints | 0.05 / 0.10 | 0-0.048 / **0-0.126** | 0-0.0478; 0-0.1260 | 24; 24 | 5,000 | 0 / 0 / 24; 2 / 1 / 21 | 0.054 (0); 0.136 (2) | [013 H8] |
 | 17 | **`b1w`, redrawn with replacement** | reference-rate strata, 5 mid-rate labels, n_s 100-200 | 0.05 / 0.10 | **0.017-0.062 / 0.056-0.113** | 0.0171-0.0624; 0.0563-0.1128 | 28; 28 | 40,000 | 7 / 1 / 20; 6 / 2 / 20 | 0.065 (7); 0.116 (4) | [replacement check] |
 | 18 | **pooled Wilson bound, random draws with replacement** | the same 5 labels and sizes | 0.05 / 0.10 | **0.031-0.069 / 0.069-0.128** | 0.0312-0.0689; 0.0686-0.1275 | 28; 28 | 40,000 | 6 / 0 / 22; 10 / 3 / 15 | 0.071 (6); 0.131 (10) | [replacement check] |
@@ -274,8 +354,18 @@ Every printed miss rate agrees with the recount to its printed digits and every 
 | 34 | the same limit with the term for a sampled pool | a claim about the prompt source: the pool redrawn and the strata rebuilt, the same 5 labels and sizes | 0.05 / 0.10 | 0.007-0.050 / 0.031-0.095 | 0.0071-0.0504; 0.0310-0.0948 | 28; 28 | 10,000 | 0 / 1 / 27; 0 / 0 / 28 | 0.055 (0); 0.101 (0) | [two-phase check] |
 | 35 | **stratified Wald-t limit on a synthetic i.i.d. grid** | six strata profiles, n_s 100-400, binomial strata | 0.05 / 0.10 | **0-0.111 / 0.086-0.147** | 0-0.1110; 0.0855-0.1470 | 18; 18 | 4,000 | 5 / 5 / 8; 5 / 5 / 8 | 0.121 (4); 0.158 (4) | [013] |
 | 36 | **`b1w` on the same grid** | the same profiles and sizes | 0.05 / 0.10 | **0-0.057 / 0.086-0.135** | 0-0.0573; 0.0855-0.1350 | 18; 18 | 4,000 | 1 / 2 / 15; 4 / 5 / 9 | 0.065 (0); 0.146 (2) | [013] |
+| 37 | stratified Wald-t limit inside the training loop, 8 strata | synthetic bandit, Lagrangian GRPO, 4 environments, the pool's own rate, 8,000 runs a cell | 0.05 / 0.10 | 0.029-0.052 / 0.072-0.100 | 0.0289-0.0521; 0.0715-0.1003 | 4; 4 | 8,000 | 0 / 1 / 3; 0 / 1 / 3 | 0.057 (0); 0.107 (0) | [O2] |
+| 38 | the same limit with the sampled-pool term | the same runs, the population's rate | 0.05 / 0.10 | 0.047-0.057 / 0.093-0.107 | 0.0465-0.0566; 0.0930-0.1071 | 4; 4 | 8,000 | 1 / 1 / 2; 1 / 0 / 3 | 0.062 (1); 0.114 (0) | [O2] |
+| 39 | stratified Wald-t limit, a costly label stratified on a cheap reference rate | XSTest human labels of five released models, 8 mid-rate labels, two stratifiers, n_s 50-100, redrawn with replacement | 0.05 / 0.10 | 0-0.053 / 0.021-0.108 | 0-0.0525; 0.0210-0.1079 | 32; 32 | 40,000 | 1 / 0 / 31; 2 / 0 / 30 | 0.055 (0); 0.111 (2) | [O3] |
+| 40 | betting mixture on user-task rates; on the pair rate | AgentDojo, 28 pipelines, user tasks redrawn across the table (a) and within suites (a_s); truth: the average over user tasks; the pair rate | 0.05 | at most 0.007; 0.005; 0.006; 0.003 | 0-0.0070; 0-0.0050; 0-0.0065; 0-0.0030 | 28; 28; 28; 28 | 4,000 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.010 (0); 0.008 (0); 0.010 (0); 0.005 (0) | [O4] |
+| 41 | cluster bootstrap-t, by user task, redrawn within suites | AgentDojo, 28 pipelines, scheme (a_s) | 0.05 | 0.003-0.042 | 0.0027-0.0423 | 28 | 4,000 | 0 / 0 / 28 | 0.049 (0) | [O4] |
+| 42 | **cluster bootstrap-t by user task, injection tasks redrawn within suites** | AgentDojo, schemes (b_s); (c_s) | 0.05 | **up to 0.231; 0.249** | 0-0.2310; 0.0077-0.2487 | 28; 28 | 4,000 | 11 / 1 / 16; 19 / 2 / 7 | 0.244 (11); 0.262 (18) | [O4] |
+| 43 | two clustered margins in quadrature, redrawn within suites | AgentDojo, schemes (a_s); (b_s); (c_s) | 0.05 | at most 0.016; 0.037; 0.040 | 0-0.0160; 0-0.0375; 0-0.0395 | 28; 28; 28 | 4,000 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.020 (0); 0.044 (0); 0.046 (0) | [O4] |
+| 44 | stratified Wald-t limit, a second model family, redrawn with replacement | Qwen2.5-1.5B-Instruct, refusal label (18-19%), 8 reference-rate strata, steps 100 and 200, n_s 100-200 | 0.05 / 0.10 | 0.033-0.046 / 0.077-0.092 | 0.0329-0.0459; 0.0772-0.0919 | 4; 4 | 40,000 | 0 / 0 / 4; 0 / 0 / 4 | 0.048 (0); 0.095 (0) | [O6] |
+| 45 | `b1w`, the same | the same cells | 0.05 / 0.10 | 0.033-0.041 / 0.086-0.092 | 0.0329-0.0408; 0.0861-0.0919 | 4; 4 | 40,000 | 0 / 0 / 4; 0 / 0 / 4 | 0.043 (0); 0.095 (0) | [O6] |
+| 46 | the stratified Wald-t limit with the term for a sampled pool, a second model family | a claim about the prompt source, the same label, steps and sizes | 0.05 / 0.10 | 0.036-0.051 / 0.085-0.111 | 0.0357-0.0513; 0.0850-0.1114 | 4; 4 | 10,000 | 0 / 1 / 3; 1 / 0 / 3 | 0.056 (0); 0.118 (1) | [O6] |
 
-- Rows 1, 3, 4, 5 and 15: counts rebuilt as round(m x 5,000) from rates printed to three decimals (`~` in (a)); no class changes within the rounding. Row 5 is one printed row for two bounds. Row 15, Student-t: over at n 200, 400 and 800 (0.1840, 0.1150, 0.1210), unresolved at 1,200 and 2,400 (0.1010 each).
+- Rows 1, 3, 4, 5 and 15: exact enumeration at every pool count the training paper's printed rate allows (121-124 of 3,600) and the five sizes, 20 cells a bound; row 5 holds two bounds. Row 15, Student-t: over in every cell, 0.1037 to 0.1951.
 - Row 6 by the largest miss over three checkpoints, the cell of earlier drafts: 8 such cells, 0 over, 0.0234-0.0542 at delta 0.05 and 0.0694-0.0970 at 0.10.
 - Rows 12, 13, 17 and 18 are the cells of rows 6, 7 and 11 redrawn with replacement (caution 4). Row 13 is the control: Clopper-Pearson is exact on those draws, so its unresolved cells are Monte Carlo noise.
 
@@ -289,13 +379,13 @@ Each quotation is in the draft word for word and each count is asserted in the s
    > the other run of the same setting gave 0.0485, and the two together give 0.054, which is unresolved
    > for the bounds we use its largest value is 0.067 at a nominal 0.05
 
-   0.0595 (238 of 4,000; p = 0.0039; 95% interval 0.0524-0.0673), against a band that ends at 0.0569; after Bonferroni for 18 cells the band ends at 0.0604. The second run gave 0.0485; the two together 0.0540 (432 of 8,000; p = 0.054; 95% interval 0.0491-0.0592). No other cell of a Table 4 row the draft calls valid is over (856 cells in 32 groups).
+   0.0595 (238 of 4,000; p = 0.0039; 95% interval 0.0524-0.0673), against a band that ends at 0.0569; after Bonferroni for 18 cells the band ends at 0.0604. The second run gave 0.0485; the two together 0.0540 (432 of 8,000; p = 0.054; 95% interval 0.0491-0.0592). No other cell of a Table 4 row the draft calls valid is over (1092 cells in 41 groups).
 
 2. **section 7.1, below Table 4.**
    > Every row in bold has at least one cell over, and every one but the quadrature bound keeps one after the correction.
    > Most also have cells that are not over
 
-   40 groups in the failing rows; each has a cell over (the rare-label row's two bounds taken together). 37 of them also have cells that are not over.
+   42 groups in the failing rows; each has a cell over (the rare-label row's two bounds taken together). 38 of them also have cells that are not over.
 
 3. **section 7.1, reading 1.**
    > neither `b1w` nor the pooled Wilson bound is over in any of the 24 rare-label cells at delta 0.05; at delta 0.10 two are, both at 0.126, for one harm label at the checkpoint where its rate is 1.9%, at n_s 100
@@ -320,7 +410,7 @@ Each quotation is in the draft word for word and each count is asserted in the s
    1 over, 24 unresolved, 353 at or under of 378; the largest at delta 0.05 is 0.0595. The 378 are not 378 separate studies: the 168 PPI++ cells are 42 sets of draws read through four judge features, the delta 0.10 cells of the `b1w` rows reuse their delta 0.05 draws, and the reference-rate cells of the StratPPI row share seeds with the `b1w` rows. Other settings of the strata: 8 / 27 / 493 of 528. With replacement the bootstrap-t StratPPI limit is 0 / 0 / 28; the Wald-t limit is over in 0 of 160 cells, both designs and both deltas, rare labels included. Synthetic i.i.d. grid: `b1w` 5 / 7 / 24, Wald-t 10 / 10 / 16 of 36.
 
 6. **abstract.**
-   > promised to be wrong in at most 5% of repeated trials, the standard one was wrong in at most 5.3% of ours, a difference within the noise of the check
+   > promised to be wrong in at most 5% of repeated trials, the standard one (Clopper-Pearson) was wrong in at most 5.3% of ours, a difference within the noise of the check
 
    Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's plasmodes and on the random draws with replacement): largest upper limit 0.0588. Bootstrap-t limits at delta 0.05: PPI++ with a bootstrap-t limit (017_boot) 0.0609, StratPPI estimator with a bootstrap-t limit (p14_a_sboot_mid_0.05) 0.0513, StratPPI estimator with a bootstrap-t limit (p14_b_sboot) 0.0636, StratPPI estimator with a bootstrap-t limit, redrawn with replacement (rep_sboot_mid_0.05) 0.0518, cluster bootstrap-t, by user task (ad_t_user_a) 0.0577. None of these groups has a cell over.
 
@@ -363,11 +453,27 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
 13. **Appendix A; Table 4's caption.**
    > with 10 labels a stratum the same cell still misses in 59% of draws, and four other cells on this judge miss in 68% to 85%
-   > Computed that way at 124, the count that fits best, all 25 printed values are within 1.3 Monte Carlo standard errors of the exact ones; at 121 only 14 are within 2
 
    StratPPI's normal limit under the heuristic allocation, rubric judge: 0.9025, 0.8535, 0.7967, 0.7935, 0.6820 in its five worst cells; the worst cell with a floor of 10 labels: 0.5895. Enumeration against the training paper's printed table: 25 of 25 within 2 se at a pool count of 124 (largest 1.27), 14 at 121.
 
-14. **section 8.2.**
+14. **section 7.2; section 7, item 3; section 11.**
+   > For the pool's own rate it was over its level in none of the 8 cells (2 unresolved; largest miss 0.052 at delta 0.05 and 0.100 at 0.10).
+   > it was over in the least heterogeneous environment at both deltas (0.057 and 0.107), as registered, and in no other cell; `b1w` with the term and the pooled bound on a random split were over in none.
+   > from 1.1 at 0.43 to 1.7 for the population's rate and 3.1 for the pool's own at 0.98
+   > with 8 strata and 8,000 runs a cell the Wald-t limit was over in 2 of 16 cells
+   > in one cell of four in the 4-strata in-loop check and in 2 of 16 in the 8-strata one
+
+   O2: o2_b1_pool_0.05: 0 over, largest 0.0521; o2_b1_pool_0.1: 0 over, largest 0.1003; o2_b1N_pop_0.05: 1 over, largest 0.0566; o2_b1N_pop_0.1: 1 over, largest 0.1071
+
+15. **section 8.1.4; section 7, item 3.**
+   > the Wald-t limit's `ESS_truth` at delta 0.05 against the pooled Wilson bound was 0.97 to 1.34 (median 1.18), and `b1w`'s 1.10 to 1.36 (median 1.24)
+   > did no better (medians 1.19 and 1.25)
+   > The Wald-t limit was over its level in 3 of 64 such cells, by at most 0.008, and in none of the 64 drawn without replacement
+   > it was over in 3 of 64 cells, by at most 0.008
+
+   O3: 8 mid-rate labels, rates 0.0640-0.5960; Wald-t gain 0.9669-1.3446 (median 1.1817); b1w 1.1013-1.3645; over in 3 of 64 large cells.
+
+16. **section 8.2.**
    > StratPPI as published, with 5 or 10 strata, is over its level in 26 of 28 cells (misses 0.059-0.239 in those 26), as PPI++ with a normal limit is in all 14 (0.061-0.232).
    > level in none of the 28 (5 unresolved, largest miss 0.056)
    > Stratifying on the judge and ignoring it within strata (`b1w`) is also over in none (1 unresolved, largest miss 0.053)
@@ -375,7 +481,7 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
    StratPPI's normal limit: 26 of 28 over (0.0590-0.2387); PPI++ normal: 14 of 14 (0.0610-0.2320). Bootstrap-t StratPPI: 0 / 5 / 23. `b1w` on judge strata: 0 / 1 / 27. PPBoot: 7 and 12 of 14 over.
 
-15. **section 8.1, a claim about the prompt source; abstract.**
+17. **section 8.1, a claim about the prompt source; abstract.**
    > `b1w` is over its level in none of the 28 mid-rate cells at delta 0.05 (4 unresolved, largest miss 0.052) and in one at 0.10 (0.112, on the 93% label); the Wald-t limit is over in none at either.
    > is 1.83 and 1.54 for over-refusal (1.68 and 1.44 when the Lagrangian pushes the label), 2.36 and 1.75 for refusal of harmful requests, and 1.35 and 1.25 for non-refusal of encoded requests.
    > gives 1.84 and 1.54, 1.71 and 1.46, 2.68 and 1.92, and 1.35 and 1.24
@@ -387,11 +493,11 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
    10,000 two-phase replications a cell. `b1w` with the term: 0 / 4 / 24 at delta 0.05, 1 / 0 / 27 at 0.10 (the cell over: C2:refusal, n_s 100, step 100, 0.1116 (1,116 of 10,000; p < 0.0001; 95% interval 0.1055-0.1179)). Wald-t with the term: 0 / 1 / 27 and 0 / 0 / 28. Without the term: 17 / 1 / 10; bootstrap-t StratPPI: 21 / 2 / 5. Clopper-Pearson on a random sample of the pool, the control: over in none at either delta. ESS and caps are medians over a label's checkpoints, from the file's `ess` table.
 
-16. **section 8.1, confirmation on new prompts; abstract; section 11.**
+18. **section 8.1, confirmation on new prompts; abstract; section 11.**
    > Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%
    > Six predictions were kept and two refuted
    > in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10)
-   > 1.53 and 1.62 at 12%, 1.49 and 1.62 at 82%
+   > `b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there, 1.55 and 1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there
    > is over in 1 of 8 mid-rate cells (0.105 at delta 0.10 on the 82% label)
    > its gain at 82% is 0.86 and 1.13 with a large pool and 0.75 and 0.89 for the source, against 1.47 and 1.73 at 12%
    > kept six of eight predictions; it covers refusal rates of 12%, 82% and 98% and two rare labels on one model
@@ -408,9 +514,9 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
    The registered run (`results/paper/confirm/confirm.md`): P1 refuted (Wald-t b1: 0 of 8 over; StratPPI estimator, bootstrap-t: 1 of 8 over); P2a kept (0 of 4 cells over on 1 such labels); P2b kept (K2:refusal: 4 of 4); P3 kept (K1:refusal n_s 100: 1.53 against 1.82; K1:refusal n_s 200: 1.62 against 1.82; K2:refusal n_s 100: 1.49 against 1.65; K2:refusal n_s 200: 1.62 against 1.65); P4a refuted (`b1w`: 1 of 4; Wald-t: 0 of 8); P4b kept (no term: 3 of 4; bootstrap-t StratPPI: 4 of 4); P4c kept (K1:refusal n_s 100: 1.32 against 1.35; K1:refusal n_s 200: 1.22 against 1.24; K2:refusal n_s 100: 1.22 against 1.33; K2:refusal n_s 200: 1.20 against 1.24); P5 kept (K2:unsafe n_s 100: 1.06; K2:unsafe n_s 200: 1.11; K3:unsafe n_s 100: 1.01; K3:unsafe n_s 200: 1.07; Clopper-Pearson 0 of 8 over).
 
-17. **section 8.1, a pool aimed at the gap; abstract; section 11.**
+19. **section 8.1, a pool aimed at the gap; abstract; section 11.**
    > By prompt category the three pools' refusal rates run from 0% to 22%, from 46% to 89% and from 87% to 100%; three categories fall inside the range, with 47, 20 and 17 prompts
-   > From the reference samples alone, with `rho = 1`, it predicts 2.58, 4.12 and 2.22, and the realised gains are 27% to 41% lower
+   > From the reference samples alone, with `omega = 1`, it predicts 2.58, 4.12 and 2.22, and the realised gains are 27% to 41% lower
    > (one cell unresolved, 0.102 at delta 0.10)
    > is itself over its level at a safety set of 200 and delta 0.05 (0.053, and 0.057 for the source)
    > are both over at a safety set of 100 and delta 0.10 (0.140 and 0.142), and Clopper-Pearson is not
@@ -429,33 +535,48 @@ Each quotation is in the draft word for word and each count is asserted in the s
    > The safety-field label was rare (1.9%) and the strata gained nothing on it (1.00 and 1.08)
    > At all three mid rates, 12%, 46% and 82%, the pre-flight was within 20%
    > against 1.47 and 1.73 at 12% and 2.09 and 2.56 on the mixed pool at 46%
-   > At 46% it kept 75% to 86% of `b1w`'s gain
+   > At 46% the Wald-t limit kept 75% to 86% of `b1w`'s gain
    > was wrong no more often than promised at breach rates of 12%, 46% and 82%
    > 1.5 to 1.7 times its size at 12% and 2.1 to 2.6 times at 46%
-   > A sharper formula gave up to 3.0 but ran over its promise at 82%
    > The gain is smaller, 1.3 to 1.5 at the first two rates, when the certificate must cover all prompts of that kind
    > At 82% it gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained nothing
-   > Fifteen of eighteen registered predictions held, two failed and one could not be tested
-   > ran slightly over on new prompts
+   > Of 46 registered
+predictions, 37 held, 8 failed and one could not be tested
    > Between 18% and 65% there is one rate, 46%, from a fourth pool mixed from two sources
 
    The registered run (`results/paper/confirm/mid/confirm.md`): M1 kept (0 of 4 over); M2 kept (0 of 4 over; largest miss minus level +0.001); M3a no label (rate 0.459; 0 of 4 over); M3b kept (rate 0.459; miss minus level from -0.006 to -0.004); M4 kept (n_s 100: 2.78 against 2.79; n_s 200: 2.97 against 2.79); M5 kept (n_s 100: 2.09; n_s 200: 2.56); M6 kept (0 of 4 over); M7 kept (no term: 2 of 2; bootstrap-t StratPPI: 2 of 2); M8 kept (n_s 100: 1.49 against 1.64; n_s 200: 1.34 against 1.44); M9 kept (unsafe n_s 100: 1.00; unsafe n_s 200: 1.08; Clopper-Pearson 0 of 4 over).
 
-18. **sections 9.1 and 9.2.**
+20. **abstract; Appendix D.**
+   > Of 46 registered
+predictions, 37 held, 8 failed and one could not be tested
+   > *Table D2. The 28 predictions registered on 2026-10-14
+
+   46 predictions scored from the result files: 37 kept, 8 refuted, 1 without a label.
+
+21. **sections 9.1 and 9.2; sections 5, 11 and 13; Appendix B.**
    > Between the two benign sources the bound was over its level for 4 of 6 wordings one way and 1 of 6 the other; between the pools, for 5 of 6 one way and none the other.
-   > the carried bound was over its level for 3 of 6 (misses 0.08, 0.23 and 0.80) and marginal for a fourth (0.054)
-   > of 6 failed.
+   > 0.03, 0.07 and 0.05 for the canonical wording in seeds 0, 1 and 2, recall differed in 2, 2 and
+1 of 6 wordings
+   > the carried bound was over its level for 3, 3 and 2 of 6 (seed 0: misses
+0.08, 0.23 and 0.80, and marginal for a fourth at 0.054; the largest in seeds 1 and 2 are 0.399
+and 0.625), although the pool's rate was within 1.4 points of the reference's in each seed
+   > At step 100 the bound was over for 1, 1 and 4 of 6.
+   > not pass their own safety test (upper bounds 0.232 and 0.206 against a threshold of 0.2058;
+seed 0's was 0.198)
+   > for 2 of the 3 seeds of the constrained run of section 9.2
+   > rose from 37% in the reference to 82% in the trained policy, and to 76% and 82% in the two
+further seeds
 
-   4, 1, 5 and 0 of 6 over between populations. Constrained run: 3 over at step 200, 1 unresolved (0.0537 (215 of 4,000; p = 0.15; 95% interval 0.0470-0.0612)); 1 of 6 over at step 100. The side-effect run: 6 of 6 at or under delta.
+   4, 1, 5 and 0 of 6 over between populations. Constrained run, seeds 0-2: 3, 3, 2 over at step 200 (seed 0: 1 unresolved, 0.0537 (215 of 4,000; p = 0.15; 95% interval 0.0470-0.0612); largest in seeds 1, 2: 0.399, 0.625); 1, 1, 4 of 6 over at step 100. Recall (wording 0) at step 200: 0.032, 0.074, 0.052; safety-test upper bounds 0.1979, 0.2317, 0.2064 against 0.20575. The side-effect run: 6 of 6 at or under delta.
 
-19. **section 10.2; abstract.**
+22. **section 10.2; abstract.**
    > that bound is over its level for none (2 unresolved, neither of them the pipeline that certifies below)
    > same bound is over its level for 24 of 28 pipelines. So are the others we had: the bootstrap by injection task (23), the pigeonhole bootstrap of Owen (2007) with a basic limit, which resamples both kinds of task (27), the bound clustered in the direction of the larger intraclass correlation (22), and the larger of the two clustered bounds
    > the usual certificate is wrong too often for 27 of 28 agent configurations
 
    Scheme (a): cluster bootstrap-t by user task 0 / 2 / 26; per-pair Clopper-Pearson over for 27 of 28. Scheme (c): 24, 23, 27 and 16 of 28 over; the quadrature bound 0. The two-way bootstrap returns 0 when a redrawn table has no success; such tables are at most 0.7%, 1.2% and 5.8% of a cell's draws under the three schemes, and taking them out of the misses leaves its counts of cells over unchanged (5, 14, 27).
 
-20. **section 10.2; section 12; abstract.**
+23. **section 10.2; section 12; abstract.**
    > multiway limit is over its level for 26 of 28 pipelines when both kinds of task are resampled (misses up to 0.18)
    > The pigeonhole bootstrap-t is over for none under any of the three schemes (largest miss 0.042)
    > (median ratio 2.05), and no pipeline certifies 5% under it
@@ -467,7 +588,42 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
    Scheme (c), 4,000 resampled tables a pipeline: multiway-t 26 / 1 / 1 (largest 0.1787); pigeonhole bootstrap-t 0 / 0 / 28, and (a) 0 / 0 / 28; (b) 0 / 0 / 28; quadrature 1 / 1 / 26 (claude-3-haiku-20240307, 0.0580 (232 of 4,000; p = 0.012; 95% interval 0.0510-0.0657)), against 0 over on the earlier draws. On the published tables the pigeonhole bootstrap-t's margin is 2.05 times the user-task bound's at the median (1.17 to 87.49), 0 pipelines certify 5% and 1 gets no limit. Table 7's last column is asserted against the same file.
 
-21. **section 10.4; Appendix C.**
+24. **section 10.2; section 11.**
+   > both
+are over their level for no pipeline (misses at most 0.007), and so is the bound clustered by
+user task within suites (largest miss 0.042)
+   > bound is over for 11 of 28 pipelines, against 21 when they are redrawn across the table
+   > unblocked redraws lost a whole suite in under 1% of tables
+   > are then over for 3 (against the
+average over user tasks) and 2 (the pair-rate version), and the quadrature bound for none
+   > certifies 5% for the same pipeline (0.048, against 0.022 clustered) and for no other; the
+pair-rate version certifies none (0.060 for that pipeline)
+   > user task is still over for 11 of 28 pipelines when injection tasks are sampled
+
+   O4: betting bounds under (a), (a_s) over in none (largest 0.0070); cluster bootstrap-t (a_s) 0/0/28, (b_s) 11/1/16, (b) 21/0/7; betting (b_s) 3 and 2. Real tables: (a1) certifies ['claude-3-5-sonnet-20241022']; (a2) none. Table 7's exact column is asserted against the same file.
+
+25. **section 8.1.3; sections 7.1, 8.1.5 and 11.**
+   > The pool's refusal rate went from 19.7% to 19.1%; it
+fell on the categories the reward pushed up (16.9% to 14.8%) and rose on those it pushed down
+(22.5% to 23.5%)
+   > was 0.84 at step 200, where we predicted under 0.8
+   > with a large pool the Wald-t limit is over its level in none of its 8 cells (misses at most
+  0.046 at delta 0.05 and 0.092 at 0.10), and `b1w` in none (at most 0.041 and 0.092), where
+  StratPPI's normal limit is over in all 8 and the pooled Wilson baseline in 4
+   > the Wald-t limit's gain is 1.52 and 1.77 at safety sets of 100 and 200
+   > `b1w`'s 1.60 and 1.70 against a pre-flight of 1.73 at the
+  measured moderators; from the reference samples alone the pre-flight predicted 1.55, or 1.30
+  with the pushed-label rho
+   > rho fell from 0.88 to 0.84 and the Wald-t limit's gain at a safety
+  set of 200 from 1.84 to 1.77
+   > the Wald-t limit with the sampled-pool term is over in 1 of 8 cells
+  (0.111 at delta 0.10, a safety set of 200, step 200) and `b1w` with it in none, while `b1w`
+  without the term is over in 6 of 8
+   > Three of the six predictions were kept
+
+   O6 at step 200: rate 0.197 -> 0.191; UP 0.169 -> 0.148; DOWN 0.225 -> 0.235; rho 0.843 (step 100 0.878); reward-model term +4.97 from the first 25 calls to the last 50.
+
+26. **section 10.4; Appendix C.**
    > puts the miss rates of the four limits at or under 0.045 against a level of 0.05 when the 490 prompts are fixed
    > the labels-alone bootstrap-t and (b2) are at 0.051 and 0.052
    > puts the miss rates of the four limits at 0.001, 0.040, 0.045 and 0.042 for the pool rate against a level of 0.05
@@ -483,7 +639,6 @@ Each quotation is in the draft word for word and each count is asserted in the s
 
 **Bounds the paper says fail, with their cells that are not over.**
 
-- Student-t, real harm labels, trained-policy pool, rate 0.034, n 200-2,400, delta 0.1 (Table 4 row 15): 3 of 5 over, 2 unresolved, 0 at or under; pooled miss 0.1244.
 - `b1w` at rare rates, labels at 1-2%, n_s 100-200, 3 checkpoints, delta 0.1 (Table 4 row 16): 1 of 12 over, 0 unresolved, 11 at or under; pooled miss 0.0440.
 - pooled Wilson bound at rare rates, labels at 1-2%, n_s 100-200, 3 checkpoints, delta 0.1 (Table 4 row 16): 1 of 12 over, 1 unresolved, 10 at or under; pooled miss 0.0467.
 - `b1w`, redrawn with replacement, 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint, delta 0.05 (Table 4 row 17; section 7.1): 7 of 28 over, 1 unresolved, 20 at or under; pooled miss 0.0389.
@@ -520,6 +675,8 @@ Each quotation is in the draft word for word and each count is asserted in the s
 - stratified Wald-t `b1` on a synthetic i.i.d. grid, six strata profiles, n_s 100-400, binomial strata, delta 0.1 (Table 4 row 35; section 7.1 (reading 3)): 5 of 18 over, 5 unresolved, 8 at or under; pooled miss 0.1050.
 - `b1w` on a synthetic i.i.d. grid, six strata profiles, n_s 100-400, binomial strata, delta 0.05 (Table 4 row 36; section 7.1 (reading 3)): 1 of 18 over, 2 unresolved, 15 at or under; pooled miss 0.0405.
 - `b1w` on a synthetic i.i.d. grid, six strata profiles, n_s 100-400, binomial strata, delta 0.1 (Table 4 row 36; section 7.1 (reading 3)): 4 of 18 over, 5 unresolved, 9 at or under; pooled miss 0.1024.
+- cluster bootstrap-t, by user task, AgentDojo, 28 pipelines, scheme (b_s), delta 0.05 (Table 4 row 42): 11 of 28 over, 1 unresolved, 16 at or under; pooled miss 0.0597.
+- cluster bootstrap-t, by user task, AgentDojo, 28 pipelines, scheme (c_s), delta 0.05 (Table 4 row 42): 19 of 28 over, 2 unresolved, 7 at or under; pooled miss 0.0977.
 - StratPPI's normal limit, redrawn with replacement, 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint, delta 0.05 (section 7.1): 20 of 28 over, 1 unresolved, 7 at or under; pooled miss 0.0599.
 - StratPPI's normal limit, redrawn with replacement, 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint, delta 0.1 (section 7.1): 18 of 28 over, 1 unresolved, 9 at or under; pooled miss 0.1084.
 - StratPPI as published (normal limit), 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint, delta 0.1 (section 8.1): 7 of 28 over, 3 unresolved, 18 at or under; pooled miss 0.0947.
@@ -532,6 +689,10 @@ Each quotation is in the draft word for word and each count is asserted in the s
 - carried Youden-corrected bound, pool: harmful -> over-refusal, six judge wordings, delta 0.05 (section 9.1): 5 of 6 over, 0 unresolved, 1 at or under; pooled miss 0.4275.
 - carried Youden-corrected bound, training, constrained (014): step 0 -> step 100, six judge wordings, delta 0.05 (section 9.2): 1 of 6 over, 0 unresolved, 5 at or under; pooled miss 0.1047.
 - carried Youden-corrected bound, training, constrained (014): step 0 -> step 200, six judge wordings, delta 0.05 (section 9.2): 3 of 6 over, 1 unresolved, 2 at or under; pooled miss 0.1968.
+- carried Youden-corrected bound, training, constrained (014 s1): step 0 -> step 100, six judge wordings, delta 0.05 (section 9.2): 1 of 6 over, 0 unresolved, 5 at or under; pooled miss 0.0551.
+- carried Youden-corrected bound, training, constrained (014 s1): step 0 -> step 200, six judge wordings, delta 0.05 (section 9.2): 3 of 6 over, 0 unresolved, 3 at or under; pooled miss 0.1261.
+- carried Youden-corrected bound, training, constrained (014 s2): step 0 -> step 100, six judge wordings, delta 0.05 (section 9.2): 4 of 6 over, 0 unresolved, 2 at or under; pooled miss 0.2134.
+- carried Youden-corrected bound, training, constrained (014 s2): step 0 -> step 200, six judge wordings, delta 0.05 (section 9.2): 2 of 6 over, 0 unresolved, 4 at or under; pooled miss 0.1514.
 
 Of these, with no cell over (only unresolved or under): none.
 
@@ -567,8 +728,6 @@ Every cell that is not at or under delta in a row the paper says holds, and ever
 | StratPPI estimator with a bootstrap-t limit | judge-logit strata (5 and 10) on the refusal pools, n 100-1,000 | holds | refusal raw 0, rate pool, n 500 of 2000, K=10 | 0.05 | 4,000 | 212 | 0.0530 | unresolved, above delta | 0.2 | [0.0463, 0.0604] |
 | StratPPI estimator with a bootstrap-t limit | judge-logit strata (5 and 10) on the refusal pools, n 100-1,000 | holds | refusal raw 0, rate 0.05, n 1000 of 4000, K=5 | 0.05 | 4,000 | 211 | 0.0527 | unresolved, above delta | 0.22 | [0.0460, 0.0601] |
 | StratPPI estimator with a bootstrap-t limit, redrawn with replacement | 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint | holds | C2:unsafe, n_s 200, step 100 | 0.1 | 40,000 | 4,011 | 0.1003 | unresolved, above delta | 0.43 | [0.0973, 0.1033] |
-| Student-t | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | fails | n 1200 | 0.1 | 5,000 | ~505 | 0.1010 | unresolved, above delta | 0.41 | [0.0928, 0.1097] |
-| Student-t | real harm labels, trained-policy pool, rate 0.034, n 200-2,400 | fails | n 2400 | 0.1 | 5,000 | ~505 | 0.1010 | unresolved, above delta | 0.41 | [0.0928, 0.1097] |
 | `b1w` at rare rates | labels at 1-2%, n_s 100-200, 3 checkpoints | fails | C2:gated, n_s 100, step0 | 0.1 | 5,000 | 0 | 0 | at or under delta | 1 | [0, 0.0007] |
 | `b1w` at rare rates | labels at 1-2%, n_s 100-200, 3 checkpoints | fails | C2:gated, n_s 200, step0 | 0.1 | 5,000 | 190 | 0.0380 | at or under delta | 1 | [0.0329, 0.0437] |
 | `b1w` at rare rates | labels at 1-2%, n_s 100-200, 3 checkpoints | fails | C2:gated, n_s 100, step100 | 0.1 | 5,000 | 425 | 0.0850 | at or under delta | 1 | [0.0774, 0.0931] |
@@ -679,6 +838,16 @@ Every cell that is not at or under delta in a row the paper says holds, and ever
 | stratified Wald-t `b1` on a synthetic i.i.d. grid | six strata profiles, n_s 100-400, binomial strata | fails | 13 cells, 0.0855-0.1045 | 0.1 | 4,000 | | | 5 unresolved, 8 at or under | | |
 | `b1w` on a synthetic i.i.d. grid | six strata profiles, n_s 100-400, binomial strata | fails | 17 cells, 0-0.0515 | 0.05 | 4,000 | | | 2 unresolved, 15 at or under | | |
 | `b1w` on a synthetic i.i.d. grid | six strata profiles, n_s 100-400, binomial strata | fails | 14 cells, 0.0855-0.1062 | 0.1 | 4,000 | | | 5 unresolved, 9 at or under | | |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (b_s) | fails | 17 cells, 0-0.0522 | 0.05 | 4,000 | | | 1 unresolved, 16 at or under | | |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | Meta-SecAlign-70B | 0.05 | 4,000 | 31 | 0.0077 | at or under delta | 1 | [0.0053, 0.0110] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | Meta-SecAlign-70B-repeat_user_prompt | 0.05 | 4,000 | 42 | 0.0105 | at or under delta | 1 | [0.0076, 0.0142] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | claude-3-5-sonnet-20241022 | 0.05 | 4,000 | 144 | 0.0360 | at or under delta | 1 | [0.0304, 0.0422] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | command-r | 0.05 | 4,000 | 175 | 0.0437 | at or under delta | 0.97 | [0.0376, 0.0506] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | command-r-plus | 0.05 | 4,000 | 90 | 0.0225 | at or under delta | 1 | [0.0181, 0.0276] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | gemini-1.5-pro-002 | 0.05 | 4,000 | 209 | 0.0522 | unresolved, above delta | 0.27 | [0.0456, 0.0596] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | gemini-2.0-flash-001 | 0.05 | 4,000 | 91 | 0.0227 | at or under delta | 1 | [0.0184, 0.0279] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | gemini-2.0-flash-exp | 0.05 | 4,000 | 215 | 0.0537 | unresolved, above delta | 0.15 | [0.0470, 0.0612] |
+| cluster bootstrap-t, by user task | AgentDojo, 28 pipelines, scheme (c_s) | fails | meta-llama_Llama-3.3-70B-Instruct | 0.05 | 4,000 | 148 | 0.0370 | at or under delta | 1 | [0.0314, 0.0433] |
 | StratPPI's normal limit, redrawn with replacement | 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint | fails | C2:refusal, n_s 100, step 0 | 0.05 | 40,000 | 1,172 | 0.0293 | at or under delta | 1 | [0.0277, 0.0310] |
 | StratPPI's normal limit, redrawn with replacement | 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint | fails | C2:refusal, n_s 200, step 0 | 0.05 | 40,000 | 1,219 | 0.0305 | at or under delta | 1 | [0.0288, 0.0322] |
 | StratPPI's normal limit, redrawn with replacement | 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint | fails | C2:refusal, n_s 100, step 100 | 0.05 | 40,000 | 1,409 | 0.0352 | at or under delta | 1 | [0.0334, 0.0371] |
@@ -755,3 +924,17 @@ Every cell that is not at or under delta in a row the paper says holds, and ever
 | carried Youden-corrected bound | training, constrained (014): step 0 -> step 200, six judge wordings | fails | wording 3 | 0.05 | 4,000 | 30 | 0.0075 | at or under delta | 1 | [0.0051, 0.0107] |
 | carried Youden-corrected bound | training, constrained (014): step 0 -> step 200, six judge wordings | fails | wording 4 | 0.05 | 4,000 | 32 | 0.0080 | at or under delta | 1 | [0.0055, 0.0113] |
 | carried Youden-corrected bound | training, constrained (014): step 0 -> step 200, six judge wordings | fails | wording 5 | 0.05 | 4,000 | 215 | 0.0537 | unresolved, above delta | 0.15 | [0.0470, 0.0612] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 100, six judge wordings | fails | wording 1 | 0.05 | 4,000 | 48 | 0.0120 | at or under delta | 1 | [0.0089, 0.0159] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 100, six judge wordings | fails | wording 2 | 0.05 | 4,000 | 151 | 0.0377 | at or under delta | 1 | [0.0321, 0.0441] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 100, six judge wordings | fails | wording 3 | 0.05 | 4,000 | 6 | 0.0015 | at or under delta | 1 | [0.0006, 0.0033] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 100, six judge wordings | fails | wording 4 | 0.05 | 4,000 | 32 | 0.0080 | at or under delta | 1 | [0.0055, 0.0113] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 100, six judge wordings | fails | wording 5 | 0.05 | 4,000 | 3 | 0.0008 | at or under delta | 1 | [0.0002, 0.0022] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 200, six judge wordings | fails | wording 3 | 0.05 | 4,000 | 67 | 0.0168 | at or under delta | 1 | [0.0130, 0.0212] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 200, six judge wordings | fails | wording 4 | 0.05 | 4,000 | 70 | 0.0175 | at or under delta | 1 | [0.0137, 0.0221] |
+| carried Youden-corrected bound | training, constrained (014 s1): step 0 -> step 200, six judge wordings | fails | wording 5 | 0.05 | 4,000 | 88 | 0.0220 | at or under delta | 1 | [0.0177, 0.0270] |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 100, six judge wordings | fails | wording 1 | 0.05 | 4,000 | 187 | 0.0467 | at or under delta | 0.84 | [0.0404, 0.0538] |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 100, six judge wordings | fails | wording 5 | 0.05 | 4,000 | 126 | 0.0315 | at or under delta | 1 | [0.0263, 0.0374] |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 200, six judge wordings | fails | wording 1 | 0.05 | 4,000 | 164 | 0.0410 | at or under delta | 1 | [0.0351, 0.0476] |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 200, six judge wordings | fails | wording 3 | 0.05 | 4,000 | 57 | 0.0143 | at or under delta | 1 | [0.0108, 0.0184] |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 200, six judge wordings | fails | wording 4 | 0.05 | 4,000 | 111 | 0.0278 | at or under delta | 1 | [0.0229, 0.0333] |
+| carried Youden-corrected bound | training, constrained (014 s2): step 0 -> step 200, six judge wordings | fails | wording 5 | 0.05 | 4,000 | 193 | 0.0483 | at or under delta | 0.7 | [0.0418, 0.0554] |

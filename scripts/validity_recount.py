@@ -71,9 +71,13 @@ def classify(m, delta, R):
     return UNRES if m > delta + 1e-12 else UNDER
 
 
-def cell(label, delta, R, k=None, m=None, **extra):
+def cell(label, delta, R, k=None, m=None, exact=None, **extra):
     """One cell. ``k`` is a count from a result file; ``m`` alone is a printed rate, whose count is
-    rebuilt as round(m R) and marked as such. ``R`` None: the source states no draw count."""
+    rebuilt as round(m R) and marked as such. ``R`` None: the source states no draw count.
+    ``exact``: a miss probability computed exactly (an enumeration), over if it exceeds delta."""
+    if exact is not None:
+        return dict(label=label, delta=delta, draws=None, printed=False, exact=True, miss=float(exact), k=None,
+                    cls=OVER if exact > delta + 1e-12 else UNDER, p=None, lo=float(exact), hi=float(exact), se=0.0, **extra)
     printed = k is None
     c = dict(label=label, delta=delta, draws=R, printed=printed, **extra)
     if R is None:
@@ -105,6 +109,14 @@ def add(gid, bound, setting, delta, cells, tag, files, where="", verdict="", fam
 
 
 def summarise(cells):
+    if all(c.get("exact") for c in cells):            # an exact enumeration: no draws, no Monte Carlo band
+        worst = max(cells, key=lambda c: c["miss"])
+        over = sum(c["cls"] == OVER for c in cells)
+        return dict(cells=len(cells), classified=len(cells), draws=[], exact=True, lowest=min(c["miss"] for c in cells),
+                    largest=worst["miss"], printed=False, total=None, pooled=None, pooled_cls=None,
+                    counts={x: sum(c["cls"] == x for c in cells) for x in CLASSES}, bonf=over, bonf_exact=over, z_bonf=None,
+                    hi_max=worst["miss"], worst=dict(label=worst["label"], miss=worst["miss"], lo=worst["miss"], hi=worst["miss"],
+                                                     p=None, draws=None, cls=worst["cls"]))
     known = [c for c in cells if c["draws"] is not None]
     s = dict(cells=len(cells), classified=len(known), draws=sorted({c["draws"] for c in known}),
              lowest=min(c["miss"] for c in cells), largest=max(c["miss"] for c in cells),
@@ -144,16 +156,22 @@ def load_training_paper():
     R = int(re.search(r"resampled ([\d,]+) times", t).group(1).replace(",", ""))
     tab = md_table(t, "GRPO pool, rate 0.034, `delta = 0.1`:")
     ns = [h.replace("n=", "") for h in tab[0][1:]]
-    rows = {"Student-t": (12, "fails"), "Clopper-Pearson": (1, "holds"), "Bentkus": (4, "holds"), "betting mixture": (3, "holds"),
-            "Hoeffding, Anderson": (5, "holds")}
+    rows = {"Student-t": (12, "fails", ("ttest",)), "Clopper-Pearson": (1, "holds", ("clopper_pearson",)),
+            "Bentkus": (4, "holds", ("bentkus",)), "betting mixture": (3, "holds", ("betting_mixture",)),
+            "Hoeffding, Anderson": (5, "holds", ("hoeffding", "anderson"))}
+    # The printed rates' draws are lost; Table 4 prints the exact enumeration of the same cells
+    # (`scripts/binomial_rows.py`) at every pool count the printed rate allows, 121-124 of 3,600.
+    br = jload("results/paper/binomial_rows.json")
+    assert [str(n) for n in br["ns"]] == [n.replace(",", "") for n in ns] and br["pool_counts"] == [121, 122, 123, 124]
     for r in tab[1:]:
-        row, verdict = rows[r[0]]
-        cells = [cell(f"n {n}", 0.1, R, m=float(x.split("/")[0].replace("*", ""))) for n, x in zip(ns, r[1:])]
-        add(f"r62_{row}", r[0], "real harm labels, trained-policy pool, rate 0.034, n 200-2,400", 0.1, cells, "[R 6.2]",
-            [TRAINING + " section 6.2"], where=f"Table 4 row {ROW[row]}", verdict=verdict, regen="not regenerable",
-            family="Clopper-Pearson" if row == 1 else "",
-            note="printed rates to 3 decimals; counts rebuilt as round(m x 5,000); 'resampled 5,000 times' in the source"
-                 + ("; one printed row stands for two bounds" if row == 5 else ""))
+        row, verdict, keys = rows[r[0]]
+        cells = [cell(f"{b}, n {n}, count {cnt}", 0.1, None, exact=br["reproduce"][str(cnt)]["rows"][b]["exact"][j], count=cnt)
+                 for b in keys for cnt in br["pool_counts"] for j, n in enumerate(br["ns"])]
+        add(f"r62_{row}", r[0], "real harm labels, trained-policy pool, 121-124 positives of 3,600, n 200-2,400", 0.1, cells,
+            "[binomial rows]", [TRAINING + " section 6.2", "results/paper/binomial_rows.json"], where=f"Table 4 row {ROW[row]}",
+            verdict=verdict, regen="yes (exact)", family="Clopper-Pearson" if row == 1 else "",
+            note="exact enumeration at pool counts 121-124 of 3,600 (the training paper's printed rates, whose draws are lost, "
+                 "agree with it at 124)" + ("; one row for two bounds" if row == 5 else ""))
     # section 6.3: the synthetic environment. Draw count: "every row is 500-1,000 independent trials";
     # only the pressure sweep has a stated count (its reproduction command, --trials 500).
     trials_c = int(re.search(r"--tag c_pressure .*--trials (\d+)", t).group(1))
@@ -360,8 +378,12 @@ def load_017():
             "training: step 0 -> step 200": ("side", "9.2", "holds", "carried (holds)"),
             "pool: over-refusal -> harmful": ("r2h", "9.1", "holds", "over for none"),
             "pool: harmful -> over-refusal": ("h2r", "9.1", "fails", "over for 5 of 6"),
-            "training, constrained (014): step 0 -> step 100": ("c100", "9.2", "fails", "1 of 6 failed"),
-            "training, constrained (014): step 0 -> step 200": ("c200", "9.2", "fails", "over for 3 of 6, marginal for a fourth")}
+            "training, constrained (014): step 0 -> step 100": ("c100", "9.2", "fails", "1, 1 and 4 of 6"),
+            "training, constrained (014): step 0 -> step 200": ("c200", "9.2", "fails", "over for 3, 3 and 2 of 6"),
+            "training, constrained (014 s1): step 0 -> step 100": ("c100s1", "9.2", "fails", "1, 1 and 4 of 6"),
+            "training, constrained (014 s1): step 0 -> step 200": ("c200s1", "9.2", "fails", "over for 3, 3 and 2 of 6"),
+            "training, constrained (014 s2): step 0 -> step 100": ("c100s2", "9.2", "fails", "1, 1 and 4 of 6"),
+            "training, constrained (014 s2): step 0 -> step 200": ("c200s2", "9.2", "fails", "over for 3, 3 and 2 of 6")}
     for shift_name, cs in by.items():
         i, sec, verdict, words = said[shift_name]
         add(f"017_carry_{i}", "carried Youden-corrected bound", shift_name + ", six judge wordings", 0.05, cs,
@@ -547,6 +569,86 @@ def load_twophase():
             where=("Table 4 row 34; " if (tag, kind) == ("b1N", "mid") else "") + "section 8.1 (the prompt source)")
 
 
+def load_o2_o3():
+    """Registered after the blind review of v0.9.8: the recommended limit in the training loop
+    (`scripts/inloop_wald.py`, O2) and a costly human label stratified on a cheap reference rate
+    (`scripts/costly_label.py`, O3)."""
+    rel = "results/paper/inloop_wald/report.json"
+    d = jload(rel)
+    for name, gid, setting in (("Wald-t, 8 strata, pool rate", "o2_b1_pool", "the pool's own rate"),
+                               ("Wald-t, 8 strata, sampled-pool term, source rate", "o2_b1N_pop",
+                                "the population's rate, with the sampled-pool term")):
+        for delta in (0.05, 0.1):
+            cells = [cell(f"{c['env']}", delta, c["R"], k=c["k"]) for c in d["cells"] if c["bound"] == name and c["delta"] == delta]
+            add(f"{gid}_{delta}", "stratified Wald-t limit inside the training loop, 8 strata",
+                f"synthetic bandit, Lagrangian GRPO, 4 environments, {setting}", delta, cells, "[O2]", [rel],
+                where="Table 4 row " + ("37" if gid == "o2_b1_pool" else "38") + "; section 7.2")
+    rel = "results/paper/costly_label.json"
+    rows = jload(rel)["rows"]
+    for delta in (0.05, 0.1):
+        cells = [cell(f"{r['target']} {r['event']}, {r['stratifier']}, n_s {r['n_s']}", delta, r["R"], k=r["k"])
+                 for r in rows if r["arm"] == "Wald-t b1" and r["draw"] == "large" and r["delta"] == delta
+                 and 0.05 <= r["truth"] <= 0.95]
+        add(f"o3_b1_large_{delta}", "stratified Wald-t limit, a costly label stratified on a cheap reference rate",
+            "XSTest human labels of five released models, 8 mid-rate labels, two stratifiers, n_s 50-100, redrawn with "
+            "replacement", delta, cells, "[O3]", [rel], where="Table 4 row 39; section 8.1.4")
+
+
+def load_o4_o6():
+    """Registered after the blind review of v0.9.8: an exact bound on AgentDojo and suite-blocked
+    resampling (`scripts/agentdojo_betting.py`, O4), and the strata on a second model family
+    (`scripts/o6_moved.py`, O6)."""
+    rel = "results/paper/agentdojo_betting.json"
+    d = jload(rel)
+    assert d["args"]["reps"] == 4000 and d["delta"] == 0.05
+    reps = d["args"]["reps"]
+
+    def ad(arm, sch):
+        return [cell(p, 0.05, reps, k=round(v[sch][arm]["miss"] * reps)) for p, v in d["resampling"].items()]
+    for arm, gid, name, verdict in (("bet_a1@uavg", "o4_bet_a1u", "betting bound on user-task rates, against their average", "holds"),
+                                    ("bet_a1", "o4_bet_a1", "betting bound on user-task rates, against the pair rate", ""),
+                                    ("bet_a2", "o4_bet_a2", "betting bound on the pair rate", "holds"),
+                                    ("t_user", "o4_t_user", "cluster bootstrap-t, by user task", ""),
+                                    ("quad", "o4_quad", "two clustered margins in quadrature", ""),
+                                    ("max", "o4_max", "larger of the two clustered bounds", ""),
+                                    ("pig_t", "o4_pig_t", "pigeonhole bootstrap-t", ""),
+                                    ("cgm_t", "o4_cgm_t", "multiway cluster variance with a t quantile", "")):
+        for sch in ("a", "b", "c", "a_s", "b_s", "c_s"):
+            v = verdict if sch in ("a", "a_s") else ""
+            if arm == "t_user":
+                v = "holds" if sch == "a_s" else "fails" if sch in ("b_s", "c_s") else ""
+            where = {("o4_bet_a1u", "a"): "Table 4 row 40", ("o4_bet_a1u", "a_s"): "Table 4 row 40",
+                     ("o4_bet_a2", "a"): "Table 4 row 40", ("o4_bet_a2", "a_s"): "Table 4 row 40",
+                     ("o4_t_user", "a_s"): "Table 4 row 41", ("o4_t_user", "b_s"): "Table 4 row 42",
+                     ("o4_t_user", "c_s"): "Table 4 row 42", ("o4_quad", "a_s"): "Table 4 row 43",
+                     ("o4_quad", "b_s"): "Table 4 row 43", ("o4_quad", "c_s"): "Table 4 row 43"}.get((gid, sch), "section 10.2")
+            add(f"{gid}_{sch}", name, f"AgentDojo, 28 pipelines, scheme ({sch})", 0.05, ad(arm, sch), "[O4]", [rel],
+                where=where, verdict=v, dup=sch in ("a", "b", "c") and arm in ("t_user", "quad", "max", "pig_t", "cgm_t"))
+    rel = "results/paper/o6/o6.json"
+    d = jload(rel)
+    lab = lambda r: f"step {r['step']}, n_s {r['n']}"          # noqa: E731
+    for arm, gid, name, verdict, row in (("Wald-t b1", "o6_b1", "stratified Wald-t limit, a second model family", "holds", 44),
+                                         ("b1w", "o6_b1w", "`b1w`, a second model family", "holds", 45),
+                                         ("StratPPI, normal limit", "o6_sppi", "StratPPI's normal limit, a second model family", "fails", 0),
+                                         ("pooled Wilson", "o6_wilson", "pooled Wilson bound, a second model family", "", 0),
+                                         ("Clopper-Pearson", "o6_cp", "Clopper-Pearson, a second model family", "", 0),
+                                         ("StratPPI estimator, bootstrap-t", "o6_sboot", "bootstrap-t StratPPI limit, a second model family", "", 0)):
+        for delta in (0.05, 0.1):
+            rows = [r for r in d["replacement"] if (r["env"], r["draw"], r["arm"], r["delta"]) == ("K5:refusal", "large", arm, delta)]
+            assert len(rows) == 4 and all(r["reps"] == 40000 for r in rows)
+            add(f"{gid}_large_{delta}", name + ", redrawn with replacement", "Qwen2.5-1.5B-Instruct, refusal label (18-19%), "
+                "steps 100 and 200, n_s 100-200", delta, [cell(lab(r), delta, r["reps"], k=round(r["miss"] * r["reps"])) for r in rows],
+                "[O6]", [rel], where=f"Table 4 row {row}" if row else "section 8.1.3", verdict=verdict)
+    for arm, gid in (("Wald-t b1, sampled-pool term", "o6_b1N"), ("b1w, sampled-pool term", "o6_b1wN"), ("b1w, no term", "o6_b1w0"),
+                     ("StratPPI estimator, bootstrap-t", "o6_sboot_two"), ("pooled Wilson", "o6_wilson_two")):
+        for delta in (0.05, 0.1):
+            rows = [r for r in d["twophase"] if (r["env"], r["arm"], r["delta"]) == ("K5:refusal", arm, delta)]
+            assert len(rows) == 4 and all(r["reps"] == 10000 for r in rows)
+            add(f"{gid}_two_{delta}", arm, "Qwen2.5-1.5B-Instruct, refusal label, a claim about the prompt source, steps 100 "
+                "and 200, n_s 100-200", delta, [cell(lab(r), delta, r["reps"], k=round(r["miss"] * r["reps"])) for r in rows],
+                "[O6]", [rel], where="Table 4 row 46" if gid == "o6_b1N" else "section 8.1.3")
+
+
 REPL = collections.OrderedDict([("b1w", ("b1w", "`b1w`")), ("pooled Wilson", ("wilson", "pooled Wilson bound")),
                                 ("Clopper-Pearson", ("cp", "Clopper-Pearson")), ("Wald-t b1", ("b1", "stratified Wald-t `b1`")),
                                 ("StratPPI, normal limit", ("sppi", "StratPPI's normal limit")),
@@ -590,6 +692,8 @@ def rng(s):
 
 
 def draws_txt(s):
+    if s.get("exact"):
+        return "exact enumeration"
     return "not stated" if not s["draws"] else ", ".join(f"{d:,}" for d in s["draws"])
 
 
@@ -639,6 +743,9 @@ def summary_row(g, s=None, lead=None):
     if s["counts"] is None:
         return lead + f"| {s['cells']} | not stated | | | {f4(s['largest'])} | | | | |"
     w, c = s["worst"], s["counts"]
+    if s.get("exact"):
+        return (lead + f"| {s['cells']} | exact enumeration | - | - | {f4(w['miss'])} (exact) | {c[OVER]} | {c[UNRES]} | "
+                f"{c[UNDER]} | {s['bonf']} |")
     part = f"{s['classified']} of " if s["classified"] < s["cells"] else ""
     return (lead + f"| {part}{s['cells']} | {draws_txt(s)} | {s['total']:,} | {'~' if s['printed'] else ''}{f4(s['pooled'])} "
             f"({s['pooled_cls'].split(',')[0]}) | {f4(w['miss'])} [{f4(w['lo'])}, {f4(w['hi'])}] | {c[OVER]} | {c[UNRES]} | "
@@ -688,6 +795,16 @@ TABLE4 = [
     [(["tp_b1N_mid_0.05"], "lohi"), (["tp_b1N_mid_0.1"], "lohi")],
     [(["013_iid_b1_0.05"], "lohi"), (["013_iid_b1_0.1"], "lohi")],
     [(["013_iid_b1w_0.05"], "lohi"), (["013_iid_b1w_0.1"], "lohi")],
+    [(["o2_b1_pool_0.05"], "lohi"), (["o2_b1_pool_0.1"], "lohi")],
+    [(["o2_b1N_pop_0.05"], "lohi"), (["o2_b1N_pop_0.1"], "lohi")],
+    [(["o3_b1_large_0.05"], "lohi"), (["o3_b1_large_0.1"], "lohi")],
+    [(["o4_bet_a1u_a"], "hi"), (["o4_bet_a1u_a_s"], "hi"), (["o4_bet_a2_a"], "hi"), (["o4_bet_a2_a_s"], "hi")],
+    [(["o4_t_user_a_s"], "lohi")],
+    [(["o4_t_user_b_s"], "hi"), (["o4_t_user_c_s"], "hi")],
+    [(["o4_quad_a_s"], "hi"), (["o4_quad_b_s"], "hi"), (["o4_quad_c_s"], "hi")],
+    [(["o6_b1_large_0.05"], "lohi"), (["o6_b1_large_0.1"], "lohi")],
+    [(["o6_b1w_large_0.05"], "lohi"), (["o6_b1w_large_0.1"], "lohi")],
+    [(["o6_b1N_two_0.05"], "lohi"), (["o6_b1N_two_0.1"], "lohi")],
 ]
 NUM = re.compile(r"(?<![\d.,])\d(?:\.\d+)?(?![\d.])")
 
@@ -711,7 +828,7 @@ def table4():
         assert counts == mine, (i, counts, mine)
         lim = "; ".join(f"{x['hi_max']:.3f} ({x['bonf']})" for x in P)      # largest 95% upper limit (over after Bonferroni)
         assert limit.replace("*", "") == lim, (i, limit, lim)
-        assert {GROUPS[g]["tag"] for ids, _ in parts for g in ids} == {tag} or tag in ("[R 6.2]",), (i, tag)
+        assert {GROUPS[g]["tag"] for ids, _ in parts for g in ids} == {tag}, (i, tag)
         L.append(f"| {i} | {bound} | {setting} | {delta} | {printed} | {'; '.join(rng(s) for s in P)} | "
                  f"{'; '.join(str(s['cells']) for s in P)} | {'; '.join(dict.fromkeys(draws_txt(s) for s in P))} | {mine} | {lim} | {tag} |")
     return L
@@ -860,7 +977,7 @@ def claims():
         assert n3(gid_)[:2] == (12, 3) and round(G[gid_]["sum"]["largest"], 3) == top_
     assert all(x["key"][1] == "C2:gated" for g_ in ("rep_b1w_rare_0.05", "rep_wilson_rare_0.05") for x in G[g_]["cells"] if x["cls"] == OVER)
     say("abstract",
-        ["promised to be wrong in at most 5% of repeated trials, the standard one was wrong in at most 5.3% of ours, a difference "
+        ["promised to be wrong in at most 5% of repeated trials, the standard one (Clopper-Pearson) was wrong in at most 5.3% of ours, a difference "
          "within the noise of the check"],
         f"Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's plasmodes and on the random draws with replacement): largest "
         f"upper limit {f4(ex)}. Bootstrap-t limits at delta 0.05: " + ", ".join(f"{G[i]['bound']} ({i}) {f4(v)}" for i, v in bt.items())
@@ -941,13 +1058,61 @@ def claims():
     br = jload("results/paper/binomial_rows.json")["reproduce"]
     assert (br["124"]["within_2"], br["124"]["cells"], round(br["124"]["max_abs_z"], 1), br["121"]["within_2"]) == (25, 25, 1.3, 14)
     say("Appendix A; Table 4's caption",
-        ["with 10 labels a stratum the same cell still misses in 59% of draws, and four other cells on this judge miss in 68% to 85%",
-         "Computed that way at 124, the count that fits best, all 25 printed values are within 1.3 Monte Carlo standard errors of "
-         "the exact ones; at 121 only 14 are within 2"],
+        ["with 10 labels a stratum the same cell still misses in 59% of draws, and four other cells on this judge miss in 68% to 85%"],
         f"StratPPI's normal limit under the heuristic allocation, rubric judge: {', '.join(f4(r['miss']) for r in worst[:5])} in its "
         f"five worst cells; the worst cell with a floor of 10 labels: {f4(same10[0]['miss'])}. Enumeration against the training "
         f"paper's printed table: {br['124']['within_2']} of {br['124']['cells']} within 2 se at a pool count of 124 (largest "
         f"{br['124']['max_abs_z']:.2f}), {br['121']['within_2']} at 121.")
+
+    # --- O2 and O3 (registered after the blind review of v0.9.8): sections 7, 7.2, 8.1.4, 11
+    o2 = jload("results/paper/inloop_wald/report.json")
+    oc = {(c["env"], c["delta"], c["bound"]): c for c in o2["cells"]}
+    pool = [G[f"o2_b1_pool_{d}"]["sum"] for d in (0.05, 0.1)]
+    pop = [G[f"o2_b1N_pop_{d}"]["sum"] for d in (0.05, 0.1)]
+    assert [x["counts"][OVER] for x in pool] == [0, 0] and sum(x["counts"][UNRES] for x in pool) == 2
+    assert [round(x["largest"], 3) for x in pool] == [0.052, 0.100] and [round(x["largest"], 3) for x in pop] == [0.057, 0.107]
+    assert [c["label"] for g in ("o2_b1N_pop_0.05", "o2_b1N_pop_0.1") for c in G[g]["cells"] if c["cls"] == OVER] == ["icc05", "icc05"]
+    assert all(oc[(e, d, b)]["cls"] != "over" for e in ("icc05", "icc26", "icc55", "icc75") for d in (0.05, 0.1)
+               for b in ("b1w, 8 strata, sampled-pool term, source rate", "pooled Wilson, random split, source rate"))
+    es = {(e["env"], e["delta"]): e for e in o2["ess"]}
+    assert (round(es[("icc05", 0.1)]["pop"], 1), round(es[("icc05", 0.1)]["rho"], 2), round(es[("icc75", 0.1)]["pop"], 1),
+            round(es[("icc75", 0.1)]["pool"], 1), round(es[("icc75", 0.1)]["rho"], 2)) == (1.1, 0.43, 1.7, 3.1, 0.98)
+    assert all(p_["kept"] for p_ in o2["predictions"])
+    say("section 7.2; section 7, item 3; section 11", [
+        "For the pool's own rate it was over its level in none of the 8 cells (2 unresolved; largest miss 0.052 at delta 0.05 and 0.100 at 0.10).",
+        "it was over in the least heterogeneous environment at both deltas (0.057 and 0.107), as registered, and in no other cell; `b1w` with the term and the pooled bound on a random split were over in none.",
+        "from 1.1 at 0.43 to 1.7 for the population's rate and 3.1 for the pool's own at 0.98",
+        "with 8 strata and 8,000 runs a cell the Wald-t limit was over in 2 of 16 cells",
+        "in one cell of four in the 4-strata in-loop check and in 2 of 16 in the 8-strata one"],
+        "O2: " + "; ".join(f"{g}: {G[g]['sum']['counts'][OVER]} over, largest {f4(G[g]['sum']['largest'])}"
+                           for g in ("o2_b1_pool_0.05", "o2_b1_pool_0.1", "o2_b1N_pop_0.05", "o2_b1N_pop_0.1")))
+    o3 = jload("results/paper/costly_label.json")["rows"]
+    mid = sorted({(r["target"], r["event"]) for r in o3 if 0.05 <= r["truth"] <= 0.95})
+    rates = [r["truth"] for r in o3 if (r["target"], r["event"]) in mid]
+    ex = {(r["target"], r["event"], r["stratifier"], r["n_s"], r["draw"], r["delta"], r["arm"]): r for r in o3}
+
+    def gain(t, e, s_, arm):
+        return (ex[(t, e, s_, 100, "large", 0.05, "pooled Wilson")]["excess"] / ex[(t, e, s_, 100, "large", 0.05, arm)]["excess"]) ** 2
+    gw = [gain(t, e, "B", "Wald-t b1") for t, e in mid]
+    gb = [gain(t, e, "B", "b1w") for t, e in mid]
+    ga = [gain(t, e, "A", a_) for t, e in mid for a_ in ("Wald-t b1",)]
+    gab = [gain(t, e, "A", "b1w") for t, e in mid]
+    assert len(mid) == 8 and (round(min(rates), 2), round(max(rates), 1)) == (0.06, 0.6)
+    assert (round(min(gw), 2), round(max(gw), 2), round(float(np.median(gw)), 2)) == (0.97, 1.34, 1.18)
+    assert (round(min(gb), 2), round(max(gb), 2), round(float(np.median(gb)), 2)) == (1.10, 1.36, 1.24)
+    assert (round(float(np.median(ga)), 2), round(float(np.median(gab)), 2)) == (1.19, 1.25)
+    big = [c for d in (0.05, 0.1) for c in G[f"o3_b1_large_{d}"]["cells"]]
+    fixed = [r for r in o3 if r["arm"] == "Wald-t b1" and r["draw"] == "fixed" and (r["target"], r["event"]) in mid]
+    assert (len(big), sum(c["cls"] == OVER for c in big), len(fixed)) == (64, 3, 64)
+    assert round(max(c["miss"] - c["delta"] for c in big if c["cls"] == OVER), 3) == 0.008
+    assert not any(classify(r["miss"], r["delta"], r["R"]) == OVER for r in fixed)
+    say("section 8.1.4; section 7, item 3", [
+        "the Wald-t limit's `ESS_truth` at delta 0.05 against the pooled Wilson bound was 0.97 to 1.34 (median 1.18), and `b1w`'s 1.10 to 1.36 (median 1.24)",
+        "did no better (medians 1.19 and 1.25)",
+        "The Wald-t limit was over its level in 3 of 64 such cells, by at most 0.008, and in none of the 64 drawn without replacement",
+        "it was over in 3 of 64 cells, by at most 0.008"],
+        f"O3: 8 mid-rate labels, rates {f4(min(rates))}-{f4(max(rates))}; Wald-t gain {f4(min(gw))}-{f4(max(gw))} (median "
+        f"{f4(float(np.median(gw)))}); b1w {f4(min(gb))}-{f4(max(gb))}; over in {sum(c['cls'] == OVER for c in big)} of {len(big)} large cells.")
 
     # --- section 8.2
     ov = [x["miss"] for x in G["p14_b_sppi"]["cells"] if x["cls"] == OVER]
@@ -1065,7 +1230,8 @@ def claims():
         ["Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%",
          "Six predictions were kept and two refuted",
          "in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10)",
-         "1.53 and 1.62 at 12%, 1.49 and 1.62 at 82%",
+         "`b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there, 1.55 and "
+         "1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there",
          "is over in 1 of 8 mid-rate cells (0.105 at delta 0.10 on the 82% label)",
          "its gain at 82% is 0.86 and 1.13 with a large pool and 0.75 and 0.89 for the source, against 1.47 and 1.73 at 12%",
 
@@ -1193,7 +1359,7 @@ def claims():
     say("section 8.1, a pool aimed at the gap; abstract; section 11",
         ["By prompt category the three pools' refusal rates run from 0% to 22%, from 46% to 89% and from 87% to 100%; three categories "
          "fall inside the range, with 47, 20 and 17 prompts",
-         "From the reference samples alone, with `rho = 1`, it predicts 2.58, 4.12 and 2.22, and the realised gains are 27% to 41% lower",
+         "From the reference samples alone, with `omega = 1`, it predicts 2.58, 4.12 and 2.22, and the realised gains are 27% to 41% lower",
          "(one cell unresolved, 0.102 at delta 0.10)",
          "is itself over its level at a safety set of 200 and delta 0.05 (0.053, and 0.057 for the source)",
          "are both over at a safety set of 100 and delta 0.10 (0.140 and 0.142), and Clopper-Pearson is not",
@@ -1212,32 +1378,70 @@ def claims():
          "The safety-field label was rare (1.9%) and the strata gained nothing on it (1.00 and 1.08)",
          "At all three mid rates, 12%, 46% and 82%, the pre-flight was within 20%",
          "against 1.47 and 1.73 at 12% and 2.09 and 2.56 on the mixed pool at 46%",
-         "At 46% it kept 75% to 86% of `b1w`'s gain",
+         "At 46% the Wald-t limit kept 75% to 86% of `b1w`'s gain",
          "was wrong no more often than promised at breach rates of 12%, 46% and 82%",
          "1.5 to 1.7 times its size at 12% and 2.1 to 2.6 times at 46%",
-         "A sharper formula gave up to 3.0 but ran over its promise at 82%",
          "The gain is smaller, 1.3 to 1.5 at the first two rates, when the certificate must cover all prompts of that kind",
          "At 82% it gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained nothing",
-         "Fifteen of eighteen registered predictions held, two failed and one could not be tested",
-         "ran slightly over on new prompts",
+         "Of 46 registered\npredictions, 37 held, 8 failed and one could not be tested",
          "Between 18% and 65% there is one rate, 46%, from a fourth pool mixed from two sources"],
         "The registered run (`results/paper/confirm/mid/confirm.md`): " + "; ".join(
             f"{x['tag']} {'no label' if x['kept'] is None else 'kept' if x['kept'] else 'refuted'} ({x['found']})" for x in cm["scored"]) + ".")
 
+    # every registered prediction: the two confirmation registrations and the five of 2026-10-14
+    outs = [x["kept"] for x in cf["scored"]] + [x["kept"] for x in cm["scored"]]
+    outs += [x["kept"] for x in jload("results/paper/inloop_wald/report.json")["predictions"]]
+    outs += [x["kept"] for x in jload("results/paper/costly_label.json")["predictions"]]
+    outs += [x["kept"] for x in jload("results/paper/agentdojo_betting.json")["predictions"]]
+    outs += [x["kept"] for x in jload("results/paper/o6/o6.json")["scored"]]
+    r6 = jload(".planning/spikes/017-calibration-carrying-certificate/transfer_seeds.json")
+    s200 = {r["seed"]: r for r in r6 if r["step"] == 200}
+    outs += [s200["s1"]["youden_over"] > 0 or s200["s2"]["youden_over"] > 0, s200["s1"]["youden_over"] > 0 and s200["s2"]["youden_over"] > 0,
+             all(s200[j]["recall_w0_tgt"] < s200[j]["recall_w0_src"] for j in ("s1", "s2")),
+             sum(s200[j]["youden_over"] for j in ("s0", "s1", "s2")) >= 6]
+    assert (len(outs), outs.count(True), outs.count(False), outs.count(None)) == (46, 37, 8, 1), (len(outs), outs.count(True))
+    say("abstract; Appendix D", ["Of 46 registered\npredictions, 37 held, 8 failed and one could not be tested",
+                                 "*Table D2. The 28 predictions registered on 2026-10-14"],
+        f"{len(outs)} predictions scored from the result files: {outs.count(True)} kept, {outs.count(False)} refuted, "
+        f"{outs.count(None)} without a label.")
+
     # --- section 9
-    k = {i: n3(f"017_carry_{i}") for i in ("x2o", "o2x", "h2r", "r2h", "side", "c100", "c200")}
+    k = {i: n3(f"017_carry_{i}") for i in ("x2o", "o2x", "h2r", "r2h", "side", "c100", "c200", "c100s1", "c200s1", "c100s2", "c200s2")}
     c5 = find("017_carry_c200", "wording 5")
     big = sorted(round(x["miss"], 2) for x in G["017_carry_c200"]["cells"] if x["cls"] == OVER)
     assert [k[i][1] for i in ("x2o", "o2x", "h2r", "r2h", "c200", "c100")] == [4, 1, 5, 0, 3, 1] and k["side"][3] == 6
     assert big == [0.08, 0.23, 0.80] and round(c5["miss"], 3) == 0.054 and c5["cls"] == UNRES
-    say("sections 9.1 and 9.2",
+    assert [k[i][1] for i in ("c200", "c200s1", "c200s2")] == [3, 3, 2] and [k[i][1] for i in ("c100", "c100s1", "c100s2")] == [1, 1, 4]
+    top = [round(G[f"017_carry_c200s{j}"]["sum"]["largest"], 3) for j in (1, 2)]
+    assert top == [0.399, 0.625]
+    d17 = ".planning/spikes/017-calibration-carrying-certificate/"
+    seeds = {(r["seed"], r["step"]): r for r in jload(d17 + "transfer_seeds.json")}
+    s200 = [seeds[(f"s{j}", 200)] for j in range(3)]
+    assert [round(r["recall_w0_src"], 2) for r in s200] == [0.21] * 3
+    assert [round(r["recall_w0_tgt"], 2) for r in s200] == [0.03, 0.07, 0.05] and [r["recall_differs"] for r in s200] == [2, 2, 1]
+    assert max(abs(r["moved"]) for r in s200) < 0.0145 and round(max(abs(r["moved"]) for r in s200), 3) == 0.014
+    assert [round(100 * r["hybrid_share_of_flags"]) for r in s200] == [82, 76, 82] and round(100 * s200[0]["hybrid_share_ref"]) == 37
+    assert all(r["youden_over"] == k[i][1] for r, i in zip(s200, ("c200", "c200s1", "c200s2")))
+    st = [jload(f"results/spikes/014/run_s{j}.json") for j in range(3)]
+    assert [x["safety_test"]["passed"] for x in st] == [True, False, False] and {x["threshold"] for x in st} == {0.20575}
+    assert [round(x["safety_test"]["upper"]["refusal"], 3) for x in st] == [0.198, 0.232, 0.206]
+    say("sections 9.1 and 9.2; sections 5, 11 and 13; Appendix B",
         ["Between the two benign sources the bound was over its level for 4 of 6 wordings one way and 1 of 6 the other; between the "
          "pools, for 5 of 6 one way and none the other.",
-         "the carried bound was over its level for 3 of 6 (misses 0.08, 0.23 and 0.80) and marginal for a fourth (0.054)",
-         "of 6 failed."],
-        f"{k['x2o'][1]}, {k['o2x'][1]}, {k['h2r'][1]} and {k['r2h'][1]} of 6 over between populations. Constrained run: {k['c200'][1]} over "
-        f"at step 200, {k['c200'][2]} unresolved ({desc(c5)}); {k['c100'][1]} of 6 over at step 100. The side-effect run: "
-        f"{k['side'][3]} of 6 at or under delta.")
+         "0.03, 0.07 and 0.05 for the canonical wording in seeds 0, 1 and 2, recall differed in 2, 2 and\n1 of 6 wordings",
+         "the carried bound was over its level for 3, 3 and 2 of 6 (seed 0: misses\n0.08, 0.23 and 0.80, and marginal for a fourth "
+         "at 0.054; the largest in seeds 1 and 2 are 0.399\nand 0.625), although the pool's rate was within 1.4 points of the "
+         "reference's in each seed",
+         "At step 100 the bound was over for 1, 1 and 4 of 6.",
+         "not pass their own safety test (upper bounds 0.232 and 0.206 against a threshold of 0.2058;\nseed 0's was 0.198)",
+         "for 2 of the 3 seeds of the constrained run of section 9.2",
+         "rose from 37% in the reference to 82% in the trained policy, and to 76% and 82% in the two\nfurther seeds"],
+        f"{k['x2o'][1]}, {k['o2x'][1]}, {k['h2r'][1]} and {k['r2h'][1]} of 6 over between populations. Constrained run, seeds 0-2: "
+        f"{k['c200'][1]}, {k['c200s1'][1]}, {k['c200s2'][1]} over at step 200 (seed 0: {k['c200'][2]} unresolved, {desc(c5)}; largest "
+        f"in seeds 1, 2: {top[0]}, {top[1]}); {k['c100'][1]}, {k['c100s1'][1]}, {k['c100s2'][1]} of 6 over at step 100. Recall "
+        f"(wording 0) at step 200: " + ", ".join(f"{r['recall_w0_tgt']:.3f}" for r in s200) + "; safety-test upper bounds " +
+        ", ".join(f"{x['safety_test']['upper']['refusal']:.4f}" for x in st) + f" against {st[0]['threshold']}. The side-effect "
+        f"run: {k['side'][3]} of 6 at or under delta.")
 
     # --- section 10
     tu, na = n3("ad_t_user_a"), n3("ad_naive_a")
@@ -1297,6 +1501,84 @@ def claims():
         f"earlier draws. On the published tables the pigeonhole bootstrap-t's margin is {wd['median']:.2f} times the user-task "
         f"bound's at the median ({wd['min']:.2f} to {wd['max']:.2f}), {len(wd['passes'])} pipelines certify 5% and "
         f"{wd['no_limit']} gets no limit. Table 7's last column is asserted against the same file.")
+    # the registered O4 run
+    ob = jload("results/paper/agentdojo_betting.json")
+    assert all(n3(f"o4_{a}_{x}")[1:3] == (0, 0) for a in ("bet_a1u", "bet_a2") for x in ("a", "a_s"))
+    assert round(max(G[f"o4_{a}_{x}"]["sum"]["largest"] for a in ("bet_a1u", "bet_a2") for x in ("a", "a_s")), 3) == 0.007
+    assert n3("o4_t_user_a_s")[1:3] == (0, 0) and round(G["o4_t_user_a_s"]["sum"]["largest"], 3) == 0.042
+    assert n3("o4_t_user_b_s")[1] == 11 and n3("o4_t_user_b")[1] == 21 == n3("ad_t_user_b")[1]
+    assert n3("o4_bet_a1u_b_s")[1] == 3 and n3("o4_bet_a2_b_s")[1] == 2 and all(n3(f"o4_quad_{x}")[1] == 0 for x in ("a_s", "b_s", "c_s"))
+    lost = max(v[x]["suite_vanished"] for v in ob["resampling"].values() for x in ("a", "b", "c"))
+    assert 0 < lost < 0.01, lost
+    real = ob["real"]
+    a1 = sorted(p for p, v in real.items() if v["bet_a1"] <= 0.05)
+    assert a1 == ["claude-3-5-sonnet-20241022"] and not [p for p, v in real.items() if v["bet_a2"] <= 0.05]
+    cl = real["claude-3-5-sonnet-20241022"]
+    assert (round(cl["bet_a1"], 3), round(cl["bet_a2"], 3), round(cl["issued_t_user_200k"], 3)) == (0.048, 0.060, 0.022)
+    t7b = {"claude-3-5-sonnet-20241022": 0.048, "Meta-SecAlign-70B": 0.092, "command-r": 0.071, "claude-3-7-sonnet-20250219": 0.119,
+           "gpt-4o-2024-05-13-tool_filter": 0.107, "gpt-4o-2024-05-13": 0.593}
+    assert all(round(real[p]["bet_a1"], 3) == v for p, v in t7b.items())
+    assert [x["kept"] for x in ob["predictions"]] == [True, True, True, False, True, True]
+    say("section 10.2; section 11",
+        ["both\nare over their level for no pipeline (misses at most 0.007), and so is the bound clustered by\nuser task within suites "
+         "(largest miss 0.042)",
+         "bound is over for 11 of 28 pipelines, against 21 when they are redrawn across the table",
+         "unblocked redraws lost a whole suite in under 1% of tables",
+         "are then over for 3 (against the\naverage over user tasks) and 2 (the pair-rate version), and the quadrature bound for none",
+         "certifies 5% for the same pipeline (0.048, against 0.022 clustered) and for no other; the\npair-rate version certifies none "
+         "(0.060 for that pipeline)",
+         "user task is still over for 11 of 28 pipelines when injection tasks are sampled"],
+        f"O4: betting bounds under (a), (a_s) over in none (largest {f4(max(G[f'o4_{a}_{x}']['sum']['largest'] for a in ('bet_a1u', 'bet_a2') for x in ('a', 'a_s')))}); "
+        f"cluster bootstrap-t (a_s) {'/'.join(map(str, n3('o4_t_user_a_s')[1:]))}, (b_s) {'/'.join(map(str, n3('o4_t_user_b_s')[1:]))}, "
+        f"(b) {'/'.join(map(str, n3('o4_t_user_b')[1:]))}; betting (b_s) {n3('o4_bet_a1u_b_s')[1]} and {n3('o4_bet_a2_b_s')[1]}. "
+        f"Real tables: (a1) certifies {a1}; (a2) none. Table 7's exact column is asserted against the same file.")
+    # the registered O6 run
+    o6 = jload("results/paper/o6/o6.json")
+    m2, m1 = o6["moderators"]["200|refusal"], o6["moderators"]["100|refusal"]
+    assert [f"{100 * m2[x]:.1f}" for x in ("rate_ref", "rate", "ref_up", "rate_up", "ref_down", "rate_down")] == \
+        ["19.7", "19.1", "16.9", "14.8", "22.5", "23.5"]
+    assert (round(m2["rho"], 2), round(m1["rho"], 2)) == (0.84, 0.88)
+    assert all(n3(f"o6_{a}_large_{d}")[1:3] == (0, 0) for a in ("b1", "b1w") for d in (0.05, 0.1))
+    assert [round(G[f"o6_b1_large_{d}"]["sum"]["largest"], 3) for d in (0.05, 0.1)] == [0.046, 0.092]
+    assert [round(G[f"o6_b1w_large_{d}"]["sum"]["largest"], 3) for d in (0.05, 0.1)] == [0.041, 0.092]
+    assert sum(n3(f"o6_sppi_large_{d}")[1] for d in (0.05, 0.1)) == 8 and sum(n3(f"o6_wilson_large_{d}")[1] for d in (0.05, 0.1)) == 4
+    assert sum(n3(f"o6_b1N_two_{d}")[1] for d in (0.05, 0.1)) == 1 and sum(n3(f"o6_b1wN_two_{d}")[1] for d in (0.05, 0.1)) == 0
+    assert sum(n3(f"o6_b1w0_two_{d}")[1] for d in (0.05, 0.1)) == 6
+    ov = [x for x in G["o6_b1N_two_0.1"]["cells"] if x["cls"] == OVER]
+    assert len(ov) == 1 and ov[0]["label"] == "step 200, n_s 200" and round(ov[0]["miss"], 3) == 0.111
+
+    def gain(step, n, arm):
+        r = [r for r in o6["replacement"] if (r["step"], r["n"], r["arm"], r["draw"], r["delta"]) == (step, n, arm, "large", 0.05)][0]
+        w = [x for x in o6["replacement"] if (x["step"], x["n"], x["arm"], x["draw"], x["delta"]) == (step, n, "pooled Wilson", "large", 0.05)][0]
+        return round((w["excess"] / r["excess"]) ** 2, 2)
+    assert [gain(200, n, "Wald-t b1") for n in (100, 200)] == [1.52, 1.77] and [gain(200, n, "b1w") for n in (100, 200)] == [1.60, 1.70]
+    assert gain(100, 200, "Wald-t b1") == 1.84 and round(m2["pred_meas"], 2) == 1.73
+    pr = o6["preflight_ref"]["refusal"]
+    assert (round(pr["plain"]["ess_pool"], 2), round(pr["pushed"]["ess_pool"], 2)) == (1.55, 1.30)
+    tr = [json.loads(x) for x in open("results/paper/o6/train_reward.jsonl")]
+    early, late = tr[:25], tr[150:]
+    rm = sum(x["rm"] for x in late) / len(late) - sum(x["rm"] for x in early) / len(early)
+    assert 4.5 < rm < 5.5, rm
+    assert all(0.15 < sum(x[f"refusal_{s}"] for x in part) / len(part) < 0.25 for s in ("up", "down") for part in (early, late))
+    assert [x["kept"] for x in o6["scored"]] == [False, False, True, True, True, False]
+    say("section 8.1.3; sections 7.1, 8.1.5 and 11",
+        ["The pool's refusal rate went from 19.7% to 19.1%; it\nfell on the categories the reward pushed up (16.9% to 14.8%) and rose "
+         "on those it pushed down\n(22.5% to 23.5%)",
+         "was 0.84 at step 200, where we predicted under 0.8",
+         "with a large pool the Wald-t limit is over its level in none of its 8 cells (misses at most\n  0.046 at delta 0.05 and 0.092 at "
+         "0.10), and `b1w` in none (at most 0.041 and 0.092), where\n  StratPPI's normal limit is over in all 8 and the pooled Wilson "
+         "baseline in 4",
+         "the Wald-t limit's gain is 1.52 and 1.77 at safety sets of 100 and 200",
+         "`b1w`'s 1.60 and 1.70 against a pre-flight of 1.73 at the\n  measured moderators; from the reference samples alone the "
+         "pre-flight predicted 1.55, or 1.30\n  with the pushed-label rho",
+         "rho fell from 0.88 to 0.84 and the Wald-t limit's gain at a safety\n  set of 200 from 1.84 to 1.77",
+         "the Wald-t limit with the sampled-pool term is over in 1 of 8 cells\n  (0.111 at delta 0.10, a safety set of 200, step 200) "
+         "and `b1w` with it in none, while `b1w`\n  without the term is over in 6 of 8",
+         "Three of the six predictions were kept"],
+        f"O6 at step 200: rate {m2['rate_ref']:.3f} -> {m2['rate']:.3f}; UP {m2['ref_up']:.3f} -> {m2['rate_up']:.3f}; DOWN "
+        f"{m2['ref_down']:.3f} -> {m2['rate_down']:.3f}; rho {m2['rho']:.3f} (step 100 {m1['rho']:.3f}); reward-model term "
+        f"+{rm:.2f} from the first 25 calls to the last 50.")
+
     P, Q = G["p9_pool"]["cells"], G["p9_new"]["cells"]
     assert [round(x["miss"], 3) for x in P] == [0.001, 0.040, 0.045, 0.042] and [round(x["miss"], 3) for x in Q] == [0.001, 0.051, 0.063, 0.052]
     assert n3("p9_pool")[3] == 4 and [x["cls"] for x in Q] == [UNDER, UNRES, OVER, UNRES]
@@ -1371,9 +1653,9 @@ def report(fams):
           "Bold and the `kind` column are the paper's and are not derived from the counts.", ""] + table4()
     t = G["r62_12"]["cells"]
     lo6, lo61 = largest_of_checkpoints("013_b1w_mid_0.05"), largest_of_checkpoints("013_b1w_mid_0.1")
-    L += ["", "- Rows 1, 3, 4, 5 and 15: counts rebuilt as round(m x 5,000) from rates printed to three decimals (`~` in (a)); no "
-          "class changes within the rounding. Row 5 is one printed row for two bounds. Row 15, Student-t: over at n 200, 400 and "
-          f"800 ({', '.join(f4(x['miss']) for x in t[:3])}), unresolved at 1,200 and 2,400 ({f4(t[3]['miss'])} each).",
+    L += ["", "- Rows 1, 3, 4, 5 and 15: exact enumeration at every pool count the training paper's printed rate allows (121-124 "
+          "of 3,600) and the five sizes, 20 cells a bound; row 5 holds two bounds. Row 15, Student-t: over in every cell, "
+          f"{f4(min(x['miss'] for x in t))} to {f4(max(x['miss'] for x in t))}.",
           f"- Row 6 by the largest miss over three checkpoints, the cell of earlier drafts: {lo6['cells']} such cells, {lo6['over']} "
           f"over, {f4(lo6['lowest'])}-{f4(lo6['largest'])} at delta 0.05 and {f4(lo61['lowest'])}-{f4(lo61['largest'])} at 0.10.",
           "- Rows 12, 13, 17 and 18 are the cells of rows 6, 7 and 11 redrawn with replacement (caution 4). Row 13 is the control: "
@@ -1453,7 +1735,7 @@ def report(fams):
 
 def main():
     for load in (load_training_paper, load_012, load_013_014, load_004, load_017, load_020, load_p14, load_p9, load_validate,
-                 load_agentdojo, load_replacement, load_twoway, load_twophase):
+                 load_agentdojo, load_replacement, load_twoway, load_twophase, load_o2_o3, load_o4_o6):
         load()
     for g in GROUPS.values():
         g["sum"] = summarise(g["cells"])
