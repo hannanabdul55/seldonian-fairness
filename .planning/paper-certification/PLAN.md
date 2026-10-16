@@ -343,7 +343,12 @@ O4 (`1b1185f`), R6 (`3703288`), O6 (`56fbeda`).
 | O5 | done: 29 verified references, citations at 13 places, three related-work paragraphs; Anderson (1969) unverified, cited through Learned-Miller and Thomas (2019) |
 | O6 | run 2026-10-14 18:24-21:03 (pilot 9.25 GiB, 1.52 h projected): V3, V4, V5 kept; V1 refuted (rho 0.84), V2 refuted (UP refusal fell 0.169 -> 0.148, DOWN rose 0.225 -> 0.235; the reward-model term rose about 5 points and swamped the +/-3 flag), V6 refuted (gain 1.77 > 1.6). The manipulation check failed, so the run is a second model family, not a policy moved far. Deviations: training cap set to 6 h (TRAIN_CAP 21600) as registered, in `run_o6.sh`; the queue's parser called system python3 without numpy, fixed to `.venv/bin/python` before the full run |
 | O7 | done: Table 4's training-paper rows are exact enumerations at pool counts 121-124; Student-t over in all 20 cells (0.104-0.195), where the printed rates had 3 over and 2 unresolved |
-| O8 | in progress (8.1 into 8.1.1-8.1.5, one ESS definition, notation, undefined terms) |
+| O8 | done: 8.1 into 8.1.1-8.1.5, one ESS definition (6.4), notation table, undefined terms defined |
 | O9 / R6 | run: seeds 1, 2 trained (13.0 h, 10.8 h), judged, scored 2026-10-15 21:48; S1-S4 kept (carried bound over in 3, 3, 2 of 6 wordings at step 200 for seeds 0, 1, 2; recall 0.21 -> 0.03, 0.07, 0.05). Not predicted: Seldonian safety test passed for seed 0 only (seed 1 upper 0.232, seed 2 0.2064, threshold 0.20575). Forced deviation: seed 1's first attempt crashed at step 12 (CUDA "device not ready" at 11.8 GB); `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`, registered as set, was unset for both seeds; the partial run was moved aside, nothing from it is used |
 | O10 | done (`dbba1e1`): `preflight.py` prints the paper's rule, `--source` |
-| O11 | with O8 for section 8.1; abstract after the results |
+| O11 | abstract rewritten with O2-O6/R6 (about 670 words, from 740); the body was not cut (clean copy 30,000 words) |
+
+Draft v0.9.10 (2026-10-16, `1f7a636`): O2, O3, O4, O6 and R6 written into sections 7.2, 8.1.3, 8.1.4, 9.2, 10.2, 11, 13,
+Table 4 rows 37-46, Table 7's exact column, Appendix D (records and Table D2: 46 registered predictions, 37 held, 8
+failed, 1 untested). Results committed in `3460a59`. Next: fresh-agent source check of the whole draft, fixes, blind
+review, reading page.
