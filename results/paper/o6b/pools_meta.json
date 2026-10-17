@@ -1,0 +1,81 @@
+{
+ "pool_seed": 20261015,
+ "train_seed": 20261014,
+ "n_pool": 400,
+ "n_train": 1600,
+ "up": [
+  "deception",
+  "harmful",
+  "illegal",
+  "self-harm",
+  "unethical"
+ ],
+ "down": [
+  "harassment",
+  "hate",
+  "privacy",
+  "sexual",
+  "violence"
+ ],
+ "pool_by_category": {
+  "deception": 40,
+  "harassment": 40,
+  "harmful": 40,
+  "hate": 40,
+  "illegal": 40,
+  "privacy": 40,
+  "self-harm": 40,
+  "sexual": 40,
+  "unethical": 40,
+  "violence": 40
+ },
+ "train_by_category": {
+  "deception": 160,
+  "harassment": 160,
+  "harmful": 160,
+  "hate": 160,
+  "illegal": 160,
+  "privacy": 160,
+  "self-harm": 160,
+  "sexual": 160,
+  "unethical": 160,
+  "violence": 160
+ },
+ "train_by_sign": {
+  "up": 800,
+  "down": 800
+ },
+ "disjoint": {
+  "pool_in_earlier": 0,
+  "train_in_earlier": 0,
+  "pool_in_train": 0,
+  "pool_in_confirm_pools": 0,
+  "train_in_confirm_pools": 0,
+  "pool_in_hard1k": 0,
+  "train_in_hard1k": 0,
+  "pool_unique": 400,
+  "train_unique": 1600
+ },
+ "exclusion": {
+  "files": 166,
+  "strings_from_files": 197084,
+  "with_loader_draws": 240423,
+  "confirm_pool_prompts": 1600,
+  "80k": {
+   "rows": 80359,
+   "unused": 35571,
+   "unused_by_category": {
+    "deception": 3728,
+    "harassment": 1481,
+    "harmful": 7257,
+    "hate": 2749,
+    "illegal": 3947,
+    "privacy": 3955,
+    "self-harm": 2339,
+    "sexual": 1657,
+    "unethical": 5491,
+    "violence": 2967
+   }
+  }
+ }
+}
