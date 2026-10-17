@@ -88,10 +88,9 @@ def main():
     title = s[:s.index("\n")]
     s = s[s.index("## Abstract"):s.index("## Draft notes 1.")]
     # the validity table: its caption names sources, and its last column is the source tag
-    cap = re.search(r"Draws per cell are 5,000 for .*?plasmodes\.", s, re.S)
-    s = s.replace(cap.group(0), "The first five rows are exact enumerations. Draws per cell are otherwise 4,000 or 5,000; 8,000 runs for the "
-                  "rows inside the training loop; 10,000 for the rows on the prompt source; and 40,000 for the rows redrawn with "
-                  "replacement.")
+    cap = re.search(r"Draws per cell are 5,000 for .*?and \[B6\]\.", s, re.S)
+    s = s.replace(cap.group(0), "Draws per cell are 4,000 or 5,000 except where stated: 8,000 runs for the rows inside the training "
+                  "loop, 10,000 for the rows on the prompt source and 40,000 for the rows redrawn with replacement.")
     for m in list(re.finditer(r"(?:^\|.*\n)+", s, re.M)):
         if m.group(0).split("\n")[0].rstrip().endswith("| source |"):
             s = s.replace(m.group(0), drop_last_column(m.group(0).rstrip("\n")) + "\n")
