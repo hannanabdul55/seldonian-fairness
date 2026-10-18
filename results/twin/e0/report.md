@@ -1,0 +1,13 @@
+# E0: identities on the exact toy
+
+seed 0; 31 sequences; P(H | x) = [0.0253, 0.0045, 0.0111]
+
+- PASS C1 value = log P(H) and q* = p_H: max |value - log P(H)| = 6.69e-04, max KL(q || p_H) = 3.17e-07, q mass off H 5.1e-05 (smoothing eps / P(H) = 2.2e-10)
+- PASS C2 unweighted step = grad log P(H) - grad KL(q || p_H): max abs error 2.22e-16 against gradient scale 9.65e-01; lag term size 6.47e-01
+- PASS C3 SNIS-weighted step = grad log P(H): max abs error 2.22e-16
+- PASS C4 regulariser variants move the optimum as predicted (KL form with an indicator: coefficient only rescales the value): KL form beta=0.5: KL to predicted optimum 1.6e-03, KL to p_H 1.41e-06, |value - beta log P(H)| 7.9e-04; entropy form beta_e=0.5: KL to predicted optimum 1.5e-03, KL to p_H 1.74e-01; KL form beta=2.0: KL to predicted optimum 1.3e-04, KL to p_H 2.47e-06, |value - beta log P(H)| 3.6e-04; entropy form beta_e=2.0: KL to predicted optimum 2.0e-04, KL to p_H 3.23e-01; extra KL to a moved base: KL to predicted optimum 1.2e-04, KL to p_H 2.71e-01; additive bonus lambda=2.0: KL to predicted optimum 9.8e-06, KL to p_H 3.63e-06; length-normalised log p: KL to predicted optimum nan, KL to p_H 1.02e+00; per-token-averaged KL: KL to predicted optimum nan, KL to p_H 1.75e-01; additive-bonus harmful fraction [0.161, 0.032, 0.077]; mean length under length-normalised optimum [3.98, 3.92, 3.95] vs under p_H [4.0, 3.66, 3.88]
+- PASS C5 Jensen gap: log mean P(H) - mean log P(H) = 0.2304
+- PASS C6 unweighted main steps widen the twin's gap more than weighted ones: mean KL(q || p_H) after main steps: unweighted 0.6894, weighted 0.2624; mean P(H) 0.0136 -> unweighted 0.0001, weighted 0.0001
+- PASS C7 GRPO-style estimator (reward log J + log p - log q_old, group baseline, no reward scaling, token-summed loss) converges to p_H: max KL(q || p_H): token-summed 0.0400; token-mean aggregation 0.0388 (lengths here are 1 to 4 and p_H sits near the cap, so the toy cannot show the length bias)
+
+7 of 7 checks pass.
