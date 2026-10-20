@@ -426,9 +426,9 @@ class TwinModel:
             loss.backward()
             torch.nn.utils.clip_grad_norm_(params, 1.0)
             opt.step()
-            losses.append((step, float(loss)))
+            losses.append((step, float(loss.detach())))
             if log is not None and (step % log_every == 0 or step == 1):
-                log(f"warmstart step {step}/{steps} loss {float(loss):.4f}")
+                log(f"warmstart step {step}/{steps} loss {losses[-1][1]:.4f}")
         self.model.eval()
         return losses
 

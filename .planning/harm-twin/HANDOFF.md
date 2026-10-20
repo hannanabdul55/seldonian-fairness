@@ -18,6 +18,49 @@ Written 2026-10-18 for a fresh session. Read this, the proposal (`reports/propos
 - Next: verify or rewrite `twin.py`, run its smoke test (timings and key names only, no
   outcomes), then E1 under the GPU lock. Decide the E5b question below before E5, not during it.
 
+## E1 driver and smoke result (2026-10-19)
+
+- `seldonian/llm/twin.py` is no longer untested where it matters most: `seq_logprob`'s
+  left-padding index arithmetic is pinned by `tests/test_twin_seqlogprob.py` (4 tests, pass)
+  against an unpadded reference, and the end-to-end wiring is now exercised by the smoke test.
+- Built the E1 driver `scripts/twin_e1.py` (stages bruteforce, warmstart, train, analyse, smoke)
+  and the run wrapper `scripts/run_twin_e1.sh` (lock, 8 h timeout, free-space preflight, outputs
+  on D:, analyse is CPU-only and skips the lock). The driver defines no objective; it sequences
+  the trainer in `twin.py` and scores E1a-E1d from on-disk artifacts.
+- E1d (forward KL, the prediction section 6 depends on) is now computable: the bruteforce stage
+  keeps up to `HARM_SAMPLE_CAP = 512` judged-harmful completions per prompt (draws from p_H), and
+  the train read-out scores them under the main and twin adapters to estimate
+  KL(p_H || q) = mean(log p(y) - log P(H) - log q(y)) on the resolvable prompts.
+- Smoke test (4 prompts, 5 steps, under the lock, ran twice): PASSES after one fix. The wiring is
+  verified correct: 5 real GRPO steps, the reward fires, and the registered TRL settings hold in
+  the TRL log (no KL term at beta 0; `twin/objective` equals the reward mean; reward clusters at
+  log(1e-6) = -13.8 for judged-safe completions and near the log-prob ratio for harmful ones, so
+  reward = log(J+eps) + log p - log q is behaving as designed). The trivial-output penalty and
+  harm fraction both move. The smoke prints timings and key names only; the reward numbers in the
+  TRL log are TRL's own logging at 5-step scale, not a result, and the smoke logs are not
+  committed.
+- The fix: the first smoke run trained 0 steps ("not a single sample in your epoch_iterator")
+  because the smoke config gave GRPO 4 prompts with prompts_per_step 8, fewer than one generation
+  batch. Smoke now uses 8 prompts and prompts_per_step 2. This was a smoke-config bug only; the
+  registered E1 uses 3,000 prompts and prompts_per_step 8 and is unaffected.
+
+## E1 feasibility concern for the author (not a change; a flag)
+
+The registered brute-force reference is 20,000 responses per prompt for 200 prompts, which is
+4,000,000 generations from the 0.5B model, each judged by the 4B guard in 4-bit. The smoke
+timings make clear this does not fit the registered 8 h E1 budget; a generous 50 (generate plus
+judge) per second is still about 22 h, and the real rate on a 12 GB card with a 4B 4-bit judge is
+lower. The `timeout` will cut the run during brute-force and it will be reported as lost, which is
+the registered behaviour but a poor use of the budget. This is a registered number, so it is NOT
+changed here. Options for the author, before launching E1, as a dated amendment:
+  (a) lower the brute-force sample count (e.g. 2,000 per prompt still resolves P(H) down to ~1%
+      with Clopper-Pearson, which is the stated resolution target), and/or fewer prompts;
+  (b) give brute-force its own budget line separate from training;
+  (c) leave it and accept the run is cut, scoring only the prompts that reached enough samples.
+The drafter's recommendation is (a): 2,000 per prompt matches the registration's own stated ~1%
+resolution and brings brute-force to about 400k judged generations. The resolution claim and the
+RESOLVABLE_PH = 0.01 threshold in the driver are consistent with that.
+
 ## Pre-E5 result (2026-10-18, CPU, 178 s)
 
 An exact toy in the spirit of E0: 20 prompts over 400 enumerable responses, 40 of them harmful,
