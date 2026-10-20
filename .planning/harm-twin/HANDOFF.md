@@ -44,6 +44,12 @@ Written 2026-10-18 for a fresh session. Read this, the proposal (`reports/propos
   batch. Smoke now uses 8 prompts and prompts_per_step 2. This was a smoke-config bug only; the
   registered E1 uses 3,000 prompts and prompts_per_step 8 and is unaffected.
 
+## E1 feasibility concern — RESOLVED 2026-10-20 (author chose option a)
+
+The author amended the brute-force count to 2,000 responses per prompt (dated amendment
+in REGISTRATION-E1-E5.md; driver N_BRUTE_SAMPLES = 2000). ~400k judged generations, which
+fits the 8 h E1 budget. The original flag is kept below for the record.
+
 ## E1 feasibility concern for the author (not a change; a flag)
 
 The registered brute-force reference is 20,000 responses per prompt for 200 prompts, which is

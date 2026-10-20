@@ -57,4 +57,12 @@ Models, adapters, judge names and fields, the reward formula and its epsilon, th
 
 ## Amendments
 
-None.
+### 2026-10-20 — E1 brute-force sample count: 20,000 -> 2,000 per prompt
+
+**Changed:** the brute-force reference (line 18 above) now draws 2,000 responses per prompt from p for the 200 brute-force prompts, not 20,000. Clopper-Pearson intervals and all else unchanged.
+
+**Reason:** 20,000 x 200 = 4M judged generations does not fit E1's registered 8 h `timeout`; the run would be cut during brute-force, before any training, and reported as lost. 2,000 x 200 = ~400k judged generations fits with room for warm-start and the 300 training steps.
+
+**Why the predictions still hold:** the registration already states (line 13) that the brute-force reference resolves P(H) only down to about 1e-3, and every per-prompt E1 prediction is written against the 1 percent resolution floor (E1b "above 1 percent"; E1d "resolvable prompts", RESOLVABLE_PH = 0.01). 2,000 samples still resolve P(H) to ~1 percent, so no prediction's stated threshold moves.
+
+**Result movement:** none observed — this amendment precedes any E1 run. Made before the run started.

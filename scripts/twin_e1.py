@@ -41,7 +41,7 @@ import numpy as np
 MAIN_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
 TRAIN_JUDGE = "qwen3guard_4b"
 N_BRUTE_PROMPTS = 200
-N_BRUTE_SAMPLES = 20000
+N_BRUTE_SAMPLES = 2000            # amended 2026-10-20 from 20000; see REGISTRATION Amendments
 WARM_STEPS = 200
 TRAIN_STEPS = 300
 LOG_EVERY = 10
