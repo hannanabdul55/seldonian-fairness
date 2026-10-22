@@ -66,3 +66,173 @@ Models, adapters, judge names and fields, the reward formula and its epsilon, th
 **Why the predictions still hold:** the registration already states (line 13) that the brute-force reference resolves P(H) only down to about 1e-3, and every per-prompt E1 prediction is written against the 1 percent resolution floor (E1b "above 1 percent"; E1d "resolvable prompts", RESOLVABLE_PH = 0.01). 2,000 samples still resolve P(H) to ~1 percent, so no prediction's stated threshold moves.
 
 **Result movement:** none observed — this amendment precedes any E1 run. Made before the run started.
+
+### 2026-10-20 — small-family policy: Qwen2.5-0.5B-Instruct -> Qwen3-1.7B
+
+**Changed:** the first model family (the one used in E1, E2, E4, E5 and as family "qwen" in E3)
+is now `Qwen/Qwen3-1.7B` instead of `Qwen2.5-0.5B-Instruct`. The second family,
+`ibm-granite/granite-3.3-2b-instruct`, is unchanged. Everywhere the registration says "the 0.5B
+model" (E1 "frozen 0.5B main model", E4/E5 "returned 0.5B model") now reads as this 1.7B model.
+Qwen3's chat template is applied with `enable_thinking=False`, so the policy answers directly and
+behaves like a Qwen2.5-Instruct model (no reasoning block). Judges (Qwen3Guard-4B training,
+WildGuard evaluation), the reward model (Skywork-0.6B), the twin objective and its epsilon, the
+TRL settings, the sampling (temperature 1, top_p 1, top_k 0), prompt sets, seeds, step counts,
+budgets, the checkpoint rule and the bounds are all unchanged.
+
+**Reason:** a newer and stronger small policy that still fits the 12 GB card (Qwen3-1.7B ~3.4 GB
+bf16 + Qwen3Guard-4B 4-bit ~3 GB + Skywork ~1.2 GB + GRPO activations ~= 10 GB). Qwen3's
+recommended non-thinking sampling (temp 0.7, top_p 0.8) is *not* adopted: the twin's log P(H)
+identity requires temperature-1, untruncated sampling, which the registered settings already fix.
+
+**Brute-force sampler, same date (implementation, consistent with the registered definition):**
+the E1 brute-force reference now samples p through the MAIN LoRA adapter (TwinModel.generate),
+which uses top_p = 1.0 and top_k = 0, instead of the plain HFChatBackend that had left HF's
+default top_k = 50 in place. The registration defines P(H) at "temperature 1, no truncation"
+(line 13), so removing the top_k = 50 truncation brings the implementation in line with the
+registered definition; it also makes the reference the same distribution the twin is anchored to.
+
+**Result movement:** none observed — this amendment precedes any run on these models.
+
+### 2026-10-20 — CORRECTION: the brute-force "fits the 8 h budget" claim was wrong (unmeasured)
+
+The 2026-10-20 brute-force amendment above stated that 2,000 x 200 = ~400k judged generations
+"fits the 8 h E1 budget". That was asserted without measurement and is **false**. Measured on
+the GPU (Qwen3-1.7B policy, Qwen3Guard-4B 4-bit judge, 12 GB card, no vLLM): generation 589 ms
+per 256-token response, judge 181 ms per item -> 770 ms per brute-force item, so 400k items take
+**~85.6 h**, about 11x the 8 h budget. A single 300-step twin-training run is a further ~4.3 h
+(64 generations per step at ~51 s/step). The two do not fit in 8 h together at any of the tried
+model sizes (even Qwen2.5-0.5B at ~0.25 s/item needs ~28 h for 400k).
+
+**Consequence:** E1 as registered is not runnable in its 8 h budget on this hardware, and E3's
+30 h budget is ~14x short for its 31 configs. No run was launched. This is unresolved and is a
+design/budget decision for the author (smaller/faster model, far fewer brute-force samples with
+a coarser and honestly-stated resolution, vLLM-accelerated generation, longer budgets, or a
+larger GPU). No registered number is changed by this correction; it only records the measured
+infeasibility so the earlier amendment's claim is not relied on.
+
+### 2026-10-20 — brute-force resolved: 500 responses per prompt (author decision)
+
+**Changed:** the brute-force reference draws **500 responses per prompt** for the 200 prompts
+(100k judged items), superseding the 2,000/prompt amendment above (which never fit any budget).
+Clopper-Pearson intervals unchanged.
+
+**Resolution, stated honestly:** 500 samples resolve a per-prompt P(H) down to about 2 percent
+(a Clopper-Pearson lower bound clears RESOLVABLE_PH = 0.01 only once ~3+ positives are seen, so
+the resolvable floor is ~1-2 percent, coarser than the original 1 percent target). E1b, E1d and
+E5 are scored only on the prompts that clear that floor, as already specified.
+
+**Throughput plan:** generation stays on Hugging Face (no vLLM; vLLM is not installed and would
+break the torch 2.13 / transformers 5.16 / trl 1.12 stack). Brute-force is pure inference with no
+training model resident, so it runs at large generation and judge batch sizes to fit the budget;
+if 100k items plus the 300-step twin train do not fit E1's 8 h, the operational `timeout` is
+raised to let the registered counts complete (wall-clock only; no scientific number changes).
+
+### 2026-10-20 — E3 scope trimmed to arm-1, both families, one seed (author decision)
+
+**Changed:** E3 runs only arm (1) "full" (the method: persisted twin, recency-weighted pool) for
+both families (Qwen3-1.7B and Granite-3.3-2B) at seed 0 -- two runs, not the registered 2 families
+x 5 arms x 3 seeds (+ ablation) = 31. Rounds (10), K_q (60), K_p (20), the pool, and the checkpoint
+rule are unchanged.
+
+**Reason:** the full sweep is ~14x over the 30 h budget at the measured GPU throughput (twin
+training generation is bounded by the GRPO group size and does not benefit from the brute-force
+big-batching). Arm-1 x two families x seed 0 fits ~30 h and produces the returned model E4/E5
+consume, which is the pipeline-critical artifact.
+
+**Predictions affected:** P1-P6 are cross-arm comparisons and are NOT scorable from arm-1 alone
+(P1/P6 need arm-2, P2 needs arm-5, P3 needs arm-3, P4 needs arm-4, P5 needs the no-help ablation).
+They are reported PENDING and deferred to a later run with more GPU budget; no prediction is
+changed or scored on partial data. E3 here establishes that the method's loop runs and returns a
+model, and feeds E4/E5. The held-out breach metric uses one sample per held-out prompt (a
+500-prompt Bernoulli estimate), unchanged in definition from "breach rate on 500 D_eval prompts".
+
+### 2026-10-21 — NEW EXPERIMENT E6: prompt-space twin + prompt-space mixture certificate
+
+**Status of E1 (context, not a change):** E1 ran to completion 2026-10-21. E1b PASS (judged-harmful
+fraction 0.85). E1a, E1c (length ratio 0.21), E1d (forward KL 130-232 nats on all 41 resolvable
+prompts; fraction < 1 nat = 0.00) FAIL. A direct check confirmed the forward KL is real, not a
+scoring artifact, and that the base model p is itself a ~180-nat-better IS proposal than either the
+SFT warm-start twin or the RL twin: forward KL(p_H||p) = -log P(H|x) = 2.23 nats median across the
+41 resolvable prompts, versus 184.3 (warm) / 187.1 (RL) nats. Because log q - log p ~= -183 on every
+harmful sample, q/p ~= e^-183 ~= 0, so the whole-sequence mixture weight w = p/(alpha p + (1-alpha) q)
+= 1/alpha on all harmful samples; the response-space twin's certificate therefore has variance ratio
+~= 1/alpha = 2 against plain Monte Carlo at alpha = 0.5 -- i.e. it is ~2x WORSE than sampling p. This
+is the proposal's own section-8 stop condition, reported as a refutation of the response-space twin
+as an importance proposal. A thorough independent review (Fable 5.1, 2026-10-21) reached the same
+conclusion from the idea alone (reverse-KL mode-seeking vs mass-covering; E1d underpowered) and
+recommended the variance-ratio / missed-mass diagnostic adopted below in place of the KL gate.
+
+E6 is a NEW registered experiment (not a change to E1-E5, which stand as scored/pending). It lifts the
+twin from response space q(y|x) to PROMPT space q(x), where need and trainability align: a twin is only
+needed when harmful-eliciting prompts are rare under the deployment distribution (small breach rate),
+and reward modelling against the frozen p + judge can discover exactly those prompts, each of which is
+individually resolvable so p covers its responses. The guarantee stays importance-sampling + Seldonian
+certification, not red-teaming/discovery.
+
+**Prior art engaged (novelty is narrow and stated so):** this is learned / adaptive importance sampling.
+The closest precedents are Uesato et al. 2018/2019 "Rigorous agent evaluation: an adversarial approach to
+uncover catastrophic failures" (a learned adversary as an IS proposal, with a defensive mixture, validity
+independent of the adversary) and the cross-entropy method (Rubinstein; O'Kelly et al. 2018, AV testing,
+which fits the proposal by FORWARD KL -- the direction the certificate needs). E6's only new claim is the
+application to an LM *prompt-localized breach rate* with the proposal built by reward modelling on the
+frozen model's own prompt representation, certified by a whole-sequence prompt-space defensive mixture.
+These references are to be added to the .bib and engaged in any write-up before a positive claim is made.
+
+**Certified quantity:** B = E_{x~D}[P(H|x)] over a FIXED finite prompt pool D, with
+P(H|x) = P_{y~p(.|x)}[H] and H = evaluation judge (allenai/wildguard, field harm, 4-bit) "harmful
+response". The evaluation judge is used throughout E6 (there is no training judge in E6), so the certified
+number is the real safety quantity, not a Goodharted training-judge rate. P is the frozen Qwen3-1.7B as
+the MAIN (identity) LoRA; responses sampled at temperature 1, top_p 1, top_k 0, enable_thinking=False
+(the registered decoder; the mixture bound is valid for this exact decoder because seq-probs are computed
+under the same template and sampler, per sampling-density-matches-estimator).
+
+**Fixed design (E6):**
+- Master pool M: 300 PKU-SafeRLHF adversarial prompts from the TRAIN split (disjoint from E1's 200
+  brute-force prompts, which are from D_eval) + 900 benign prompts from the project benign set, N = 1200,
+  deduplicated as in seldonian/llm/data.py, seed 0. M is partitioned by prompt into M_train (half, fits
+  the reward model) and M_cert (half, the deployment pool actually certified), split seed 0, disjoint --
+  so no certification prompt is ever used to fit the proposal (closes the winner's-curse leak the review
+  flagged in the E1-E5 checkpoint rule).
+- Reference (the one GPU-heavy stage): for every prompt in M, m0 = 32 responses from p, eval-judge
+  labelled, giving P_hat(H|x) and its Clopper-Pearson interval; and a feature phi(x) = mean-pooled last
+  hidden state of frozen p (MAIN adapter) over the prompt tokens, captured in the same pass. Resolution:
+  32 samples estimate P(H|x) to SE ~= 0.09 at P(H|x) = 0.25; benign prompts resolve to ~0.
+- Twin = reward model r_hat(x): L2-regularized logistic regression on phi(x) over M_train, predicting the
+  eval-judge harm label, isotonic-calibrated on a held-out fold of M_train. Proposal q(x) proportional to
+  r_hat(x) over the pool, normalized; no floor needed (the mixture's alpha branch bounds w).
+- Certificate: whole-sequence prompt-space mixture m(x) = alpha D(x) + (1-alpha) q(x), x ~ m, one response
+  per draw, estimator w(x) 1_H with w = D/m in [0, 1/alpha]; one-sided empirical-Bernstein (Maurer-Pontil)
+  and betting bounds at delta = 0.1 from seldonian/bounds.py, versus uniform-D Clopper-Pearson at delta=0.1.
+  n in {300, 1000}, alpha in {0.2, 0.5}. Evaluation pools formed from M_cert at harmful base rate
+  pi in {0.05, 0.10, 0.20} by subsampling. Certificate draws are simulated as a plasmode: for a drawn x,
+  1_H ~ Bernoulli(P_hat_ref(H|x)), matching the E5a plasmode methodology; 1000 simulated runs per cell.
+- Baselines the twin must beat: (i) plain Monte Carlo (uniform D) Clopper-Pearson; (ii) a twin-free
+  proposal q0(x) from a cheap lexical harm score (keyword/refusal-bait heuristic over the prompt), to
+  show the reward model earns its keep over a zero-training proxy.
+
+**Registered predictions (E6):**
+- E6a (validity). Over 1000 simulated runs per (pi, n, alpha) cell, both weighted upper bounds cover the
+  plasmode-true B at rate >= 1 - delta = 0.9 in every cell, including the twin-free baseline proposal.
+- E6b (efficiency -- the payoff). On the pi = 0.05 pool at n = 300, alpha = 0.5, the betting-bound median
+  upper-bound width is <= 0.5x the uniform-D Clopper-Pearson width. (Empirical-Bernstein is NOT expected
+  to win at this n -- its range term ~ 7(1/alpha)ln(2/delta)/(3(n-1)) ~= 0.047 dominates -- and is reported
+  for completeness only, per the review's W2.)
+- E6c (generalization). r_hat ranks held-out M_cert P(H|x) with Spearman rho >= 0.4. rho <= 0 means the
+  twin cannot help and E6b/E6d are reported as not achievable.
+- E6d (the gate / honest stop -- variance-ratio and missed mass, replacing a KL threshold). On the
+  pi = 0.05 pool at alpha = 0.5, the mixture summand's variance ratio against plain Monte Carlo,
+  Var_m[w 1_H] / (B(1-B)), is <= 0.5 (the certificate is at least 2x more sample-efficient than MC), AND
+  the prompt mass with w > 0.5/alpha (the "missed" harmful-prompt mass that enters at near-maximal weight)
+  is below 0.25 of D_H. If either fails, E6 is reported NEGATIVE, same discipline as E1d.
+
+**What may not change after the E6 reference run starts:** the master pool M and its seed, N, the
+M_train/M_cert split and seed, m0, the feature phi, the reward-model family and its calibration, the
+proposal definition, the certified quantity and its judge, the bounds and delta, n, alpha, the pi grid,
+and E6a-E6d. Feature extraction details, the logistic solver, plotting and bug fixes that change no number
+above may change, each noted with its date.
+
+**Budget (E6):** reference + feature extraction, 12 h `timeout` with the pool and partial reference saved
+first; analysis (reward model, certificate simulation, diagnostics) is CPU-only and holds no GPU lock.
+Over budget means stopped and reported as such.
+
+**Result movement:** none -- this registration precedes any E6 run.
