@@ -1,0 +1,28 @@
+{
+ "n_brute_prompts": 200,
+ "n_resolvable": 41,
+ "resolvable_ph": 0.01,
+ "logged_steps": 30,
+ "checks": [
+  {
+   "name": "E1a objective rises monotonically over 50-step windows",
+   "pass": false,
+   "detail": "window means ['-171.55', '-34.25', '-32.61', '-32.96', '-34.21', '-33.95']"
+  },
+  {
+   "name": "E1b harmful fraction exceeds 0.8 on resolvable prompts",
+   "pass": true,
+   "detail": "fraction of 41 resolvable prompts with twin harm > 0.8: 0.85"
+  },
+  {
+   "name": "E1c twin length >= 70% of p's",
+   "pass": false,
+   "detail": "mean length ratio over resolvable prompts: 0.21"
+  },
+  {
+   "name": "E1d forward KL < 1 nat on >= half of resolvable prompts",
+   "pass": false,
+   "detail": "fraction below 1 nat: 0.00"
+  }
+ ]
+}

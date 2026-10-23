@@ -213,8 +213,9 @@ def _mixture_summands(rng, p_hat, D, q, alpha, n):
     """Draw n prompts x ~ m = alpha D + (1-alpha) q, one plasmode response 1_H ~ Bernoulli(p_hat[x]);
     return the summand w*1_H in [0, 1/alpha] with w = D/m."""
     m = alpha * D + (1.0 - alpha) * q
+    m = m / m.sum()                       # strip float dust; m is a density (design: alpha D + (1-alpha) q sums to 1)
     idx = rng.choice(len(D), size=n, replace=True, p=m)
-    w = D[idx] / m[idx]
+    w = D[idx] / m[idx]                   # D/m against the SAME normalised m keeps E_m[w 1_H] unbiased
     hit = rng.random(n) < p_hat[idx]
     return w * hit
 
@@ -223,6 +224,7 @@ def _variance_ratio_and_missed(p_hat, D, q, alpha):
     """Analytic (no simulation): Var_m[w 1_H]/(B(1-B)), and the D_H mass with w > 0.5/alpha."""
     B = float((D * p_hat).sum())
     m = alpha * D + (1.0 - alpha) * q
+    m = m / m.sum()                       # same normalisation as the sampler, so w matches
     w = D / m
     second = float((D * D / m * p_hat).sum())          # E_m[w^2 1_H]
     var = second - B * B

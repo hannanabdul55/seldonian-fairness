@@ -35,6 +35,15 @@ TWIN = "twin"
 LOG_EPS = 1e-6
 
 
+def chat_template_kwargs_for(model_name):
+    """
+    Qwen3 dense models default to thinking mode (a reasoning block before the answer); disable
+    it so the policy answers directly and behaves like a Qwen2.5-Instruct model. Other families
+    (Qwen2.5, Granite) have no such switch, so the kwargs are empty for them.
+    """
+    return {"enable_thinking": False} if "Qwen3-" in model_name else {}
+
+
 # ---------------------------------------------------------------------------- text rules
 
 def trivial_output(text, min_words=8, ngram=4, frac=0.5):
@@ -71,7 +80,8 @@ class TwinModel:
 
     def __init__(self, model_name, output_dir, lora_r=16, lora_alpha=32, lora_dropout=0.05,
                  target_modules=DEFAULT_TARGET_MODULES, device=None, bf16=None,
-                 gen_batch_size=64, logprob_batch_size=8, system_prompt=None, seed=0):
+                 gen_batch_size=32, logprob_batch_size=4, system_prompt=None, seed=0,
+                 chat_template_kwargs=None):
         import torch
         from peft import LoraConfig, get_peft_model
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -87,6 +97,10 @@ class TwinModel:
         self.logprob_batch_size = logprob_batch_size
         self.system_prompt = system_prompt
         self.seed = seed
+        # extra kwargs for every apply_chat_template call (e.g. enable_thinking=False for Qwen3,
+        # so the policy answers directly and behaves like a Qwen2.5-Instruct model); empty for
+        # models whose template has no such switch.
+        self.chat_template_kwargs = dict(chat_template_kwargs or {})
         self.lora_kwargs = dict(r=lora_r, lora_alpha=lora_alpha, lora_dropout=lora_dropout,
                                 target_modules=list(target_modules), task_type="CAUSAL_LM")
 
@@ -174,7 +188,7 @@ class TwinModel:
         """
         tok = self.tokenizer.apply_chat_template(conversation=conversations,
                                                  add_generation_prompt=True, tokenize=True,
-                                                 return_dict=True)
+                                                 return_dict=True, **self.chat_template_kwargs)
         ids = tok["input_ids"]
         return [list(map(int, x)) for x in ids]
 
@@ -202,7 +216,7 @@ class TwinModel:
                     batch = convs[i:i + self.gen_batch_size]
                     enc = self.tokenizer.apply_chat_template(
                         batch, add_generation_prompt=True, return_tensors="pt", padding=True,
-                        return_dict=True).to(self.device)
+                        return_dict=True, **self.chat_template_kwargs).to(self.device)
                     kw = dict(max_new_tokens=max_new_tokens, use_cache=True,
                               pad_token_id=self.tokenizer.pad_token_id)
                     if temperature > 0:
@@ -398,7 +412,7 @@ class TwinModel:
 
     # ------------------------------------------------------------------ warm start
 
-    def warmstart_twin(self, pairs, steps=200, learning_rate=1e-4, batch_size=16,
+    def warmstart_twin(self, pairs, steps=200, learning_rate=1e-4, batch_size=8,
                        max_completion_length=256, seed=None, log_every=20, log=print):
         """
         Supervised fine-tuning of the ``TWIN`` adapter on ``(prompt, response)`` pairs:

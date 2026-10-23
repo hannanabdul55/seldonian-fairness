@@ -137,3 +137,55 @@ E5a and E5c need no change; both held in the toy.
 - A smoke test prints timings and key names only, never outcomes.
 - Any change to a registered number after a run starts is a dated amendment in the registration file.
 - Agent-written files get the residue scan before commit.
+
+## 2026-10-20 (overnight) — E2-E5 built, Qwen3 upgrade, and a throughput wall that blocks the runs
+
+**Built and verified (code):** `seldonian/llm/defender.py` (importance-weighted NPO + helpfulness
+GRPO defender), a WildGuard eval judge in `judges.py` (`build_judge("wildguard")`, local mirror
+`/mnt/d/modelscope/wildguard`), and drivers `scripts/twin_e2.py` .. `twin_e5.py` plus the
+overnight orchestrator `scripts/run_twin_pipeline.sh`. All lint clean, residue-clean, import
+clean. E5's bound math is CPU-verified. E1's smoke passes end-to-end on the new model (brute-force
+generates, warm-start runs, 5 GRPO steps, reward formula behaves as designed, no OOM).
+
+**Model upgrade (author chose "upgrade policy to Qwen3"):** small family is now `Qwen/Qwen3-1.7B`
+(was Qwen2.5-0.5B), Granite-3.3-2B unchanged; `enable_thinking=False`; registered sampling kept.
+Dated amendments in REGISTRATION-E1-E5.md. Also fixed a latent E1 bug (brute-force sampled through
+HFChatBackend with HF's default top_k=50; now samples through the MAIN adapter at top_k=0, the
+untruncated distribution the twin targets). TwinModel memory knobs lowered for the 12 GB card
+(logprob batch 4, gen batch 32, warm-start batch 8); `expandable_segments` is NOT used (it caused
+"device not ready" on WSL, per the cuda-oom-triage skill).
+
+**THE BLOCKER — measured GPU throughput makes the registered budgets infeasible (no run launched):**
+Qwen3-1.7B policy + Qwen3Guard-4B 4-bit judge, 12 GB card, HF generation (no vLLM):
+  - generation 589 ms / 256-token response; judge 181 ms / item -> 770 ms per brute-force item.
+  - one 300-step twin train run (64 generations/step, ~51 s/step) ~= 4.3 h.
+E1 as registered (2,000/prompt x 200 = 400k judged items) = **85.6 h** vs its 8 h budget. The judge
+alone is a wall: 400k x 181 ms ~= 20 h, so even infinitely fast generation (vLLM) cannot bring 400k
+items under 8 h. E3 is ~14x over its 30 h budget (per config ~14 h x 31 configs).
+
+**What this means:** the brute-force design (1% resolution = ~2,000/prompt) is not compatible with
+the 8 h budget on this hardware. This was true even at Qwen2.5-0.5B; the Qwen3 upgrade made it worse
+but did not cause it. My earlier "400k fits the budget" amendment was wrong (unmeasured) and is
+corrected in the registration.
+
+**Author decision needed (nothing changed unilaterally beyond the model the author picked):**
+  1. vLLM generation. The project has vLLM infra on D: (spike-021). It would cut generation ~10x,
+     but colocating vLLM + a trainable 1.7B policy + a 4B judge on 12 GB needs memory-fraction
+     tuning and is real work (+ its own smoke). Even then the judge caps brute-force at ~500/prompt
+     (~2% resolution) for a ~6 h E1.
+  2. Fewer brute-force samples, resolution stated honestly (e.g. 300-500/prompt ~= 2% with vLLM, or
+     ~80/prompt ~= 5% without). A dated amendment; degrades E1b/E1d/E5 resolution.
+  3. Longer budgets (E1 ~24 h+, E3 impractical at full 31-config scope).
+  4. Smaller/faster judge and/or policy, or a larger GPU (rent-my-GPU route, memory I1-I4).
+  5. Reduced scope (fewer prompts; E3 arm-1 both families + 1 seed instead of 31 configs).
+
+GPU is free, lock released, nothing committed. The drivers are ready to run whatever is chosen.
+
+## 2026-10-23 — CONCLUDED
+
+The harmful-twin line is closed. Three registered tests, all negative:
+E1 (response-space twin, forward KL ~187 nats vs the base model's ~2), E6 (prompt-space twin,
+valid but 2.4-5.8x wider than plain Clopper-Pearson, no better than uniform), Stage A
+(attack-family strata on spike-013, family-stratified CP 6.5-28.6x wider than plain CP).
+Write-up: `reports/harm_twin_negative_results.md`. Do not restart without a new angle and a
+new registration; the open angles are listed at the end of that note.

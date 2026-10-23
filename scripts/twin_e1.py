@@ -38,10 +38,10 @@ import time
 
 import numpy as np
 
-MAIN_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
+MAIN_MODEL = "Qwen/Qwen3-1.7B"   # amended 2026-10-20 from Qwen2.5-0.5B; see REGISTRATION Amendments
 TRAIN_JUDGE = "qwen3guard_4b"
 N_BRUTE_PROMPTS = 200
-N_BRUTE_SAMPLES = 2000            # amended 2026-10-20 from 20000; see REGISTRATION Amendments
+N_BRUTE_SAMPLES = 500             # amended 2026-10-20 (author: vLLM-path choice, 500/prompt)
 WARM_STEPS = 200
 TRAIN_STEPS = 300
 LOG_EVERY = 10
@@ -50,6 +50,7 @@ PROMPTS_PER_STEP = 8
 MAX_COMPLETION = 256
 RESOLVABLE_PH = 0.01          # "above about 1 percent"; prompts below this are excluded per-prompt
 BRUTE_BATCH = 256
+BRUTE_GEN_BATCH = 96          # big generation batch for brute-force inference (judge stays at 16; 64 OOMs)
 HARM_SAMPLE_CAP = 512         # harmful p-samples kept per prompt for the forward-KL estimate
 
 
@@ -111,7 +112,7 @@ def distinct_ngram_frac(texts, n=3):
 # ------------------------------------------------------------------ stages
 
 def stage_bruteforce(runroot, out, smoke=False):
-    from seldonian.llm.backend import HFChatBackend
+    from seldonian.llm.twin import TwinModel, MAIN, chat_template_kwargs_for
     from seldonian.llm.judges import build_judge
     bdir = os.path.join(runroot, "bruteforce")
     os.makedirs(bdir, exist_ok=True)
@@ -132,7 +133,12 @@ def stage_bruteforce(runroot, out, smoke=False):
         for r in _read(harm_path):
             harm_kept[r["prompt_id"]] += 1
 
-    p = HFChatBackend(MAIN_MODEL)
+    # sample through the MAIN adapter (LoRA identity = the base model) so the brute-force
+    # reference is the *same untruncated* temperature-1 distribution the twin is anchored to:
+    # TwinModel.generate sets top_p = 1.0 and top_k = 0 and the thinking switch, whereas the
+    # plain HFChatBackend left HF's default top_k = 50 in place (a different distribution).
+    tw = TwinModel(MAIN_MODEL, os.path.join(runroot, "work"), gen_batch_size=BRUTE_GEN_BATCH,
+                   chat_template_kwargs=chat_template_kwargs_for(MAIN_MODEL))
     judge = build_judge(TRAIN_JUDGE, cache_dir=os.path.join(runroot, "judge_cache"))
     t0 = time.time()
     with open(gen_path, "a") as f, open(harm_path, "a") as hf:
@@ -142,7 +148,8 @@ def stage_bruteforce(runroot, out, smoke=False):
                 continue
             for i in range(0, need, BRUTE_BATCH):
                 k = min(BRUTE_BATCH, need - i)
-                resp = p.generate([rec["prompt"]] * k, max_new_tokens=MAX_COMPLETION, temperature=1.0)
+                resp, _ = tw.generate(MAIN, [rec["prompt"]], n_per_prompt=k,
+                                      max_new_tokens=MAX_COMPLETION, temperature=1.0)
                 lab = judge([rec["prompt"]] * k, resp)
                 for r, lb in zip(resp, lab):
                     f.write(json.dumps({"prompt_id": rec["prompt_id"], "harm": int(lb),
@@ -182,9 +189,10 @@ def _summarise_bruteforce(gen_path, prompts, bdir):
 
 
 def stage_warmstart(runroot, out, smoke=False):
-    from seldonian.llm.twin import TwinModel
+    from seldonian.llm.twin import TwinModel, chat_template_kwargs_for
     adir = os.path.join(runroot, "adapters", "twin_warm")
-    tw = TwinModel(MAIN_MODEL, os.path.join(runroot, "work"))
+    tw = TwinModel(MAIN_MODEL, os.path.join(runroot, "work"),
+                   chat_template_kwargs=chat_template_kwargs_for(MAIN_MODEL))
     pairs = warmstart_pairs(n=16 if smoke else 2000)
     steps = 5 if smoke else WARM_STEPS
     t0 = time.time()
@@ -200,9 +208,10 @@ def stage_warmstart(runroot, out, smoke=False):
 
 
 def stage_train(runroot, out, smoke=False):
-    from seldonian.llm.twin import TwinModel, TWIN
+    from seldonian.llm.twin import TwinModel, TWIN, chat_template_kwargs_for
     from seldonian.llm.judges import build_judge
-    tw = TwinModel(MAIN_MODEL, os.path.join(runroot, "work"))
+    tw = TwinModel(MAIN_MODEL, os.path.join(runroot, "work"),
+                   chat_template_kwargs=chat_template_kwargs_for(MAIN_MODEL))
     warm = os.path.join(runroot, "adapters", "twin_warm")
     if os.path.exists(warm):
         tw.load_adapter(TWIN, warm)
