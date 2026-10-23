@@ -151,7 +151,9 @@ delta across strata makes each of those bounds looser.
 3. **A per-family (worst-subgroup) certificate.** Stage A found real family structure
    (leetspeak 8.2% vs plain 0.9% gated; 44% vs 0.9% non-refusal). An average-rate
    certificate hides it; a certificate on the worst family, or on each family, is where that
-   structure is the point rather than a nuisance. Not tested.
+   structure is the point rather than a nuisance. **Tested 2026-10-23: GO** (registration
+   `.planning/harm-twin/REGISTRATION-PER-FAMILY.md`, results `results/per_family/`): choosing
+   where to spend labels certifies every family with 0.35x the labels of uniform sampling.
 4. **A joint stratified bound.** Every stratified certificate here was per-stratum
    Clopper-Pearson at delta/K. A single exact bound on the weighted sum would avoid the
    delta split. Spike 013 found no distribution-free stratified bound that beat pooling at
