@@ -65,7 +65,8 @@ statistically indistinguishable from both the zero-training lexical baseline and
     twin bet_w 0.0308   lexical 0.0312   uniform 0.0314   | plain-MC Clopper-Pearson 0.0126
 
 So the reward model buys nothing over drawing prompts uniformly, and all three mixtures are
-2.4x–5.8x *wider* than plain Monte Carlo.
+1.35x–6.0x *wider* than plain Monte Carlo (corrected 2026-10-25; an earlier
+version said 2.4x–5.8x).
 
 Mechanism: `B` is a rare event (~0.018–0.028), so a plain binary Clopper-Pearson at n=300 is
 already tight. The mixture summand lives in `[0, 1/alpha]`, and the empirical-Bernstein /
@@ -78,7 +79,7 @@ draw would miss.
 
 A KL-regularized twin gives a **valid** certificate but is not a competitive IS proposal for
 a rare breach rate — refuted in response space (E1: forward KL ~185 vs `p`'s ~2) and shown
-valid-but-no-better-than-uniform in prompt space (E6: twin ≈ uniform, 2.4–5.8x wider than
+valid-but-no-better-than-uniform in prompt space (E6: twin ≈ uniform, 1.35–6.0x wider than
 plain MC). For rare, low-variance breach quantities, plain Monte Carlo with a tight binary
 bound is hard to beat with a bounded-weight mixture, because the `1/alpha` range penalty
 costs more than the variance it saves. The right diagnostic is missed harmful mass and the

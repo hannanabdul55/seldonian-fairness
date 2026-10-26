@@ -185,7 +185,7 @@ GPU is free, lock released, nothing committed. The drivers are ready to run what
 
 The harmful-twin line is closed. Three registered tests, all negative:
 E1 (response-space twin, forward KL ~187 nats vs the base model's ~2), E6 (prompt-space twin,
-valid but 2.4-5.8x wider than plain Clopper-Pearson, no better than uniform), Stage A
+valid but 1.35-6.0x wider than plain Clopper-Pearson, no better than uniform), Stage A
 (attack-family strata on spike-013, family-stratified CP 6.5-28.6x wider than plain CP).
 Write-up: `reports/harm_twin_negative_results.md`. Do not restart without a new angle and a
 new registration; the open angles are listed at the end of that note.
