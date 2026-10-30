@@ -706,7 +706,7 @@ def load_o6b():
             add(f"{gid}_large_{delta}", name + ", redrawn with replacement", "Qwen2.5-1.5B-Instruct trained on the guard's flag "
                 "alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200", delta,
                 [cell(lab(r), delta, r["reps"], k=round(r["miss"] * r["reps"])) for r in rows],
-                "[B3]", [rel], where=f"Table 4 row {row}" if row else "section 8.1.3", verdict="holds" if row == 53 else "")
+                "[B3]", [rel], where=f"Table 4 row {row}" if row else "section 8.1.3", verdict={53: "holds", 54: "fails"}.get(row, ""))
     for arm, gid in (("Wald-t b1, sampled-pool term", "o6b_b1N"), ("b1w, sampled-pool term", "o6b_b1wN"), ("b1w, no term", "o6b_b1w0"),
                      ("StratPPI estimator, bootstrap-t", "o6b_sboot_two"), ("pooled Wilson", "o6b_wilson_two")):
         for delta in (0.05, 0.1):
@@ -956,14 +956,14 @@ def claims():
     reg = {r: [S(*ids) for ids, _ in TABLE4[r - 1]] for r in range(37, len(TABLE4) + 1)}
     over_rows = {r: (sum(p["counts"][OVER] for p in v), sum(p["bonf"] for p in v)) for r, v in reg.items()
                  if sum(p["counts"][OVER] for p in v) and G[TABLE4[r - 1][0][0][0]]["verdict"] != "fails"}
-    assert over_rows == {38: (2, 1), 39: (3, 2), 46: (1, 1), 54: (4, 4)}, over_rows
+    assert over_rows == {38: (2, 1), 39: (3, 2), 46: (1, 1)}, over_rows
     ends = {d: max(p["hi_max"] for r in over_rows for p, (ids, _) in zip(reg[r], TABLE4[r - 1]) if G[ids[0]]["delta"] == d) for d in (0.05, 0.1)}
     assert (round(ends[0.05], 3), round(ends[0.1], 3)) == (0.062, 0.118), ends
-    say("section 7.1, below Table 4", ["(rows 38, 39, 46 and 54, with 2, 3, 1 and 4 cells over, of which 1, 2, 1 and 4 stay over after the\n"
+    say("section 7.1, below Table 4", ["(rows 38, 39 and 46, with 2, 3 and 1 cells over, of which 1, 2 and 1 stay over after the\n"
                                        "correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10)"],
         f"Registered rows with cells over (cells over, after Bonferroni): {over_rows}; interval ends {ends}.")
     say("section 7.1, below Table 4; section 11",
-        ["In the remaining rows, which we treat as valid, no cell stays over its level after the correction, and the largest miss rate a cell's "
+        ["In rows 1 to 36 that are not in bold, which we treat as valid, no cell stays over its level after the correction, and the largest miss rate a cell's "
          "interval leaves open is 0.067 at delta 0.05 and 0.106 at 0.10.",
          "One cell there is over under the uncorrected rule: `b1w` on a design-weighted sheet, 0.0595 at 4,000 draws.",
          "the other run of the same setting gave 0.0485, and the two together give 0.054, which is unresolved",
@@ -1082,7 +1082,7 @@ def claims():
                            for x in g["cells"] if x["miss"] is not None])
     assert round(cpmax, 3) == 0.053 == round(cpall, 3) and classify(cpmax, 0.05, 5000) != OVER
     say("abstract",
-        ["promised to be wrong in at most 5% of repeated trials, the standard one (Clopper-Pearson) was wrong in at most 5.3% of ours, a difference "
+        ["promised to be wrong in at most 5% of repeated trials, the standard one for yes-or-no labels was wrong in at most 5.3% of ours, a difference "
          "within the noise of the check"],
         f"Largest Clopper-Pearson miss at delta 0.05 outside the AgentDojo per-pair rows: {f4(cpall)} (the replacement check's "
         f"paired random draws, 5,000 a cell; not over by the cell rule). Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's "
@@ -1137,7 +1137,7 @@ def claims():
     b10 = [x for x in G["rep_b1w_mid_0.1"]["cells"] if x["cls"] == OVER]
     assert len(b10) == 6 and all(x["truth"] >= 0.65 for x in b10)
     assert n3("p14_a_sboot_mid_0.05")[:2] == (28, 0)                         # Appendix A, "none of 28 under proportional allocation"
-    say("section 8.1", ["`b1w` is over its level in none of the 28 mid-rate cells at either delta (3 unresolved at delta 0.05, on the "
+    say("section 8.1", ["`b1w` is over its level in none of the 28 mid-rate cells of Table A1's draws (five labels, two sizes, by checkpoint) at either delta (3 unresolved at delta 0.05, on the "
                         "93% label) and in 1 of its 12 rare-label cells at delta 0.10 (0.126)",
                         "it is over in 7 of 28 at delta 0.05 and 6 at 0.10, all at rates of 65% and above, and the bootstrap-t StratPPI "
                         "limit and the stratified Wald-t limit are over in none"],
@@ -1279,7 +1279,7 @@ def claims():
          "is 1.83 and 1.54 for over-refusal (1.68 and 1.44 when the Lagrangian pushes the label), 2.36 and 1.75 for refusal of "
          "harmful requests, and 1.35 and 1.25 for non-refusal of encoded requests.",
          "gives 1.84 and 1.54, 1.71 and 1.46, 2.68 and 1.92, and 1.35 and 1.24",
-         "`b1w` without the term is over in 17 of the 28 cells (misses up to 0.170). So is the bootstrap-t StratPPI limit, in 21 "
+         "`b1w` without the term is over in 17 of the 28 cells (misses up to 0.170), and the bootstrap-t StratPPI limit in 21 "
          "(up to 0.166)",
 
          "On the two rare labels `b1w` is over in 1 of 12 cells at delta 0.05 and 3 at 0.10, with or without the term",
@@ -1335,7 +1335,7 @@ def claims():
     se4 = lambda d_: float(np.sqrt(d_ * (1 - d_) / 40000))                         # noqa: E731
     c98 = [(n_, d_) for n_ in (100, 200) for d_ in (0.05, 0.1)]
     sb98 = [(n_, d_) for n_, d_ in c98 if L_[("K3:refusal", n_, d_, "StratPPI estimator, bootstrap-t")]["miss"] > d_ + 2 * se4(d_)]
-    assert sb98 == [(100, 0.05)] and round(L_[("K3:refusal", 100, 0.05, "StratPPI estimator, bootstrap-t")]["miss"], 3) == 0.052
+    assert sb98 == [(100, 0.05)] and round(L_[("K3:refusal", 100, 0.05, "StratPPI estimator, bootstrap-t")]["miss"], 4) == 0.0524
     assert not [1 for n_, d_ in c98 if L_[("K3:refusal", n_, d_, "b1w")]["miss"] > d_ + 2 * se4(d_)]
     t82 = [round(T_[("K2:refusal", n_, d_, "b1w, sampled-pool term")]["miss"], 3) for n_, d_ in ((100, 0.05), (100, 0.1), (200, 0.05))]
     assert t82 == [0.058, 0.117, 0.052]
@@ -1348,27 +1348,34 @@ def claims():
         ["Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%",
          "Six predictions were kept and two refuted",
          "in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10)",
-         "`b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there, 1.55 and "
+         "`b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there (its returns of no limit there were not counted), 1.55 and "
          "1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there",
          "is over in 1 of 8 mid-rate cells (0.105 at delta 0.10 on the 82% label)",
          "its gain at 82% is 0.86 and 1.13 with a large pool and 0.75 and 0.89 for the source, against 1.47 and 1.73 at 12%",
 
          "kept six of eight predictions; it covers refusal rates of 12%, 82% and 98% and two rare labels on one model",
-         "and in one more at the 98% rate (0.052 at delta 0.05)",
+         "and in one more at the 98% rate (0.0524 at delta 0.05, above the 0.0522 at which 40,000 draws count a cell as over)",
          "(0.058 at delta 0.05 and 0.117 at 0.10; unresolved at 200 and delta 0.05, 0.052)",
          "it gives 2.67 at the 98% rate, where with a large pool the strata lose under every limit (0.55 and 0.63 for `b1w`, against a "
          "baseline itself over its level at a safety set of 100), and 2.47 on a rare label",
          "gained 1.5 to 1.9 at 12% (`b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also "
-         "held there, 1.55 and 1.88) and 0.86 and 1.13 at 82%",
+         "held there (its returns of no limit there were not counted), 1.55 and 1.88) and 0.86 and 1.13 at 82%",
          "the stratified Wald-t limit is over in none of the 8 (misses at most 0.039 at delta 0.05 and 0.082 at 0.10)",
          "term is over in none of 8 (at most 0.047 and 0.088), with a gain of 1.31 and 1.32 at 12% and 0.75 and 0.89 at 82%",
          "the Wald-t limit with the term is over in one rare-label cell for the source (0.110 at delta 0.10, with a safety set of 200)",
          "baseline that is itself over its level there at a safety set of 100 (against Clopper-Pearson, which held, the large-pool "
          "figures are 1.06 and 1.32)",
          "at 98% it is over in none of its 4 cells",
-         "measure gives 1.5 to 5.0 for `b1w` at rates of 9% to 66% on the pools that chose the rule"],
+         "gives 1.4 to 5.1 for `b1w` at rates of 9% to 66% on the pools that chose the rule"],
         "The registered run (`results/paper/confirm/confirm.md`): " + "; ".join(
             f"{x['tag']} {'kept' if x['kept'] else 'refuted'} ({x['found']})" for x in cf["scored"]) + ".")
+
+    # the range quoted for `b1w` with replacement on the pools that chose the rule: replacement_check's ESS table, large
+    # pass, every label at 9% to 66% (the 93% label left out)
+    rc_ess = [l.split("|") for l in open(os.path.join(ROOT, "results/paper/replacement_check.md")).read().split("\n")
+              if re.match(r"\| C\d:\w+( \(014\))? \| [12]00 \| 0\.\d+ \|", l)]
+    rc_b1w = [float(r[5]) for r in rc_ess if float(r[3]) < 0.9]
+    assert len(rc_b1w) == 8 and (round(min(rc_b1w), 1), round(max(rc_b1w), 1)) == (1.4, 5.1), rc_b1w
 
     # --- section 8.1, the registered mid-rate pool (a mixture of two sources)
     cm = jload("results/paper/confirm/mid/confirm.json")
@@ -1467,7 +1474,11 @@ def claims():
     assert max(rate[("K2", "unsafe")], rate[("K3", "unsafe")], mr["unsafe"]["rate"]) < 0.04
     rare_g = [gain(L_, e_, n_, a_) for e_ in ("K2:unsafe", "K3:unsafe", "K3:refusal") for n_ in (100, 200) for a_ in ("b1w", "Wald-t b1")]
     rare_g += [gain(ML, "K4:unsafe", n_, a_) for n_ in (100, 200) for a_ in ("b1w", "Wald-t b1")]
-    assert max(rare_g) <= 1.2                                                                     # "gained nothing"
+    assert round(max(rare_g), 2) == 1.2                                                           # "at most 1.2 times"
+    wr, br = [rare_g[i] for i in (1, 3, 5, 7)], [rare_g[i] for i in (0, 2, 4, 6)]       # the confirmation pool's two rare labels
+    assert (min(wr), max(wr), min(br), max(br)) == (0.86, 1.2, 1.01, 1.11)
+    say("section 8.1.3", ["the rare labels the strata gain little (1.01 to 1.11 for `b1w`, 0.86 to 1.20 for the Wald-t limit)"],
+        f"Rare-label gains on the confirmation pool: b1w {br}, Wald-t {wr}.")
     two_ = ws["K1:refusal"] + ws["K4:refusal"]
     assert (round(min(two_), 1), round(max(two_), 1)) == (1.3, 1.5) and max(ws["K2:refusal"]) < 1
     assert round(max(gain(GL, env_, n_, "b1w") for env_, GL, _ in newp for n_ in (100, 200)), 1) == 3.0
@@ -1499,8 +1510,8 @@ def claims():
          "At 46% the Wald-t limit kept 75% to 86% of `b1w`'s gain",
          "was wrong no more often than promised at breach rates of 12%, 46% and 82%",
          "1.5 to 1.7 times its size at 12% and 2.1 to 2.6 times at 46%",
-         "The gain is smaller, 1.3 to 1.5 at the first two rates, when the certificate must cover all prompts of that kind",
-         "At 82% it gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained nothing",
+         "The gain is smaller, 1.3 to 1.5 at 12% and 46%, when the certificate must cover all prompts of that kind",
+         "At 82% it gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained at most 1.2 times",
          "Of 72 predictions\nregistered in advance, 53 held, 18 failed and one could not be tested",
          "Between 18% and 65% Granite has one rate, 46%, from a fourth pool mixed from two sources"],
         "The registered run (`results/paper/confirm/mid/confirm.md`): " + "; ".join(
@@ -1534,6 +1545,65 @@ def claims():
                                  "*Table D2. The 28 predictions registered on 2026-10-14"],
         f"{len(outs)} predictions scored from the result files: {outs.count(True)} kept, {outs.count(False)} refuted, "
         f"{outs.count(None)} without a label.")
+    # the tally split by what a prediction says and how its order is recorded (scripts/prediction_split.py)
+    ps = jload("results/paper/prediction_split.json")
+    assert [r["kept"] for r in ps["rows"]] == [None if o is None else bool(o) for o in outs]
+    assert ps["by_content"] == {"construction": dict(held=5, failed=0, untested=0), "substantive": dict(held=48, failed=18, untested=1)}
+    assert ps["by_timestamp"] == {"independent": dict(held=42, failed=17, untested=0), "dry_run": dict(held=9, failed=0, untested=1),
+                                  "local_only": dict(held=2, failed=1, untested=0)}
+    sub = [r for r in ps["rows"] if r["content"] == "substantive" and r["timestamp"] != "dry_run"]
+    assert (len(sub), sum(r["kept"] is True for r in sub), sum(r["kept"] is False for r in sub)) == (57, 39, 18)
+    assert sorted(r["id"] for r in ps["rows"] if r["content"] == "construction") == ["W1", "X1", "Y6", "Z1", "Z2"]
+    say("abstract; Appendix D", ["39 of 57 held", "| exact bounds at their level (†), registration pushed before the run | 5 | 0 | 0 |",
+                                 "| any other claim, registration pushed before the run | 37 | 17 | 0 |",
+                                 "| any other claim, written after a dry run | 9 | 0 | 1 |",
+                                 "| any other claim, local commit time only | 2 | 1 | 0 |"],
+        f"Prediction split: {ps['by_content']}; {ps['by_timestamp']}.")
+    # M1: abstention and the sheets' clustered Monte Carlo error (scripts/m1_abstention_mc.py)
+    m1 = jload("results/paper/m1_abstention_mc.json")["summary"]
+    C = lambda g, k="counts_cons": tuple(m1[g][k])
+    assert all(tuple(m1[g]["counts"]) == x for g, x in (("017_boot", (0, 13, 155)), ("rep_sboot_0.05", (0, 0, 28)), ("ad_t_user_a", (0, 2, 26))))
+    assert C("017_boot") == (10, 13, 145) and round(m1["017_boot"]["max_no_limit"], 2) == 0.55
+    assert C("p14_a_sboot_mid_0.05") == (4, 0, 24) and round(m1["p14_a_sboot_mid_0.05"]["max_no_limit"], 2) == 0.06
+    assert round(m1["p14_b_sboot"]["max_no_limit"], 2) == 0.52
+    assert C("rep_sboot_0.05") == (7, 2, 19) and round(m1["rep_sboot_0.05"]["max_no_limit"], 3) == 0.086
+    assert C("tw_pig_t_a")[0] == 3 and C("tw_pig_t_c")[0] == 7 and round(m1["tw_pig_t_a"]["max_no_limit"], 2) == 0.82
+    assert all(m1[g]["max_no_limit"] == 0 for g in ("o4_bet_a1@uavg_a", "o4_bet_a2_a", "b6_bet_a1@uavg_P_a", "b6_bet_a2_P_a"))
+    ad_hold = ("ad_t_user_a", "ad_max_a", "tw_pig_t_a", "tw_pig_t_b", "tw_pig_t_c", "tw_quad_a", "tw_quad_b", "o4_t_user_a_s",
+               "o4_quad_a_s", "o4_quad_b_s", "o4_quad_c_s", "b6_t_user_P_a", "b6_pig_t_P_a", "b6_pig_t_P_c", "b6_quad_P_a", "b6_quad_P_c")
+    assert (min(C(g)[0] for g in ad_hold), max(C(g)[0] for g in ad_hold)) == (2, 7)
+    assert tuple(m1["017_sheet_b1w"]["counts"]) == tuple(m1["017_sheet_b1w"]["counts_cluster"]) == (1, 1, 16)
+    assert round(m1["017_sheet_b1w"]["deff_max"], 1) == 1.9 and tuple(m1["017_sheet_ppi_iid"]["counts_cluster"]) == (7, 0, 11)
+    cons_over = lambda k: [c for c in jload("results/paper/m1_abstention_mc.json")["groups"][k]["cells"] if c["cls_cons"] == "over"]
+    ref_cells = cons_over("rep_sboot_0.05") + cons_over("p14_a_sboot_mid_0.05")
+    assert (len(cons_over("p14_a_sboot_mid_0.05")), len(cons_over("rep_sboot_0.05"))) == (4, 7)
+    assert all("n_s 100," in c["label"] for c in ref_cells) and (min(c["truth"] for c in ref_cells), max(c["truth"] for c in ref_cells)) == (0.1565, 0.9535)
+    from scipy.stats import beta as _beta, binom as _binom
+    _k = np.arange(101); _u = np.where(_k < 100, _beta.ppf(0.95, _k + 1, 100 - _k), 1.0); _pm = _binom.pmf(_k, 100, 0.9535)
+    assert (round(_pm[-1], 3), round(_pm[_u < 0.9535].sum() + _pm[-1], 3)) == (0.009, 0.052)     # CP at the 95% label, n 100
+    say("section 7.1", ["which at the 95% label with a safety set of 100 happens in 0.9% of draws and\ntakes it to 0.052 at delta 0.05"],
+        f"Clopper-Pearson at p 0.9535, n 100: all positives {_pm[-1]:.4f}; miss with those counted {_pm[_u < 0.9535].sum() + _pm[-1]:.4f}.")
+    say("section 7.1", ["12 on the reference-rate strata (4 and 7 of 28) are all at a safety set of 100, on labels at\n16% to 95%"],
+        "M1: the reference-rate-strata cells that turn over when no limit counts as a miss are all at n_s 100.")
+    say("section 7.1; section 11", ["up to 6% of draws on the reference-rate strata (up to 8.6% when\nredrawn with replacement)",
+                                    "in up to 52% on the judge-logit strata at a 1.3% rate", "with a bootstrap-t limit in up to 55% of draws",
+                                    "in up to 82% of tables", "would be over in up to 7 of 28 cells\n(row 12 at delta 0.05), in 10 of 168 for row 9",
+                                    "for 2 to 7 of\n28 pipelines", "design effect on the miss rate is at most 1.9"],
+        f"M1: 017_boot {C('017_boot')}, rep_sboot {C('rep_sboot_0.05')}, AgentDojo rows that hold {min(C(g)[0] for g in ad_hold)}-"
+        f"{max(C(g)[0] for g in ad_hold)} pipelines over if no limit were a miss; sheet design effect max {m1['017_sheet_b1w']['deff_max']:.2f}.")
+    # C1: the human-label certificate from the existing sheet (scripts/c1_human_certificate.py)
+    c1 = jload("results/paper/c1_human_certificate.json")
+    pol, ref, dif = c1["200"], c1["0"], c1["difference"]
+    assert [round(100 * pol[k], 1) for k in ("E1", "A1", "A2")] == [20.1, 13.9, 15.7]
+    assert [round(100 * ref[k], 1) for k in ("E1", "A1", "A2")] == [20.4, 13.8, 15.5]
+    assert [round(100 * dif[k], 1) for k in ("E2", "A2")] == [16.5, 6.4] and not any(dif["margin_certified"].values())
+    assert c1["labels"] == {"0": 109, "200": 111} and c1["annotators"] == ["ah"] and sum(pol["population"]) == 5880
+    say("abstract; section 10.3; section 11; section 13",
+        ["at most 20.1% of the 5,880 responses the sheet was\ndrawn from", "puts the bound at\n13.9%",
+         "source at 15.7%. The reference gives 20.4%, 13.8% and 15.5%.", "is +16.5 points and the\nclustered normal one +6.4",
+         "refuses outright at most 20.1% of its responses to a pool of 490 benign prompts"],
+        f"C1: policy E1 {pol['E1']:.4f}, A1 {pol['A1']:.4f}, A2 {pol['A2']:.4f}; reference {ref['E1']:.4f}, {ref['A1']:.4f}, "
+        f"{ref['A2']:.4f}; difference E2 {dif['E2']:+.4f}, A2 {dif['A2']:+.4f}; margin 0.02 certified by none.")
 
     # --- section 9
     k = {i: n3(f"017_carry_{i}") for i in ("x2o", "o2x", "h2r", "r2h", "side", "c100", "c200", "c100s1", "c200s1", "c100s2", "c200s2")}
@@ -1651,7 +1721,7 @@ def claims():
     assert all(round(real[p]["bet_a1"], 3) == v for p, v in t7b.items())
     assert [x["kept"] for x in ob["predictions"]] == [True, True, True, False, True, True]
     say("section 10.2; section 11",
-        ["both\nare over their level for no pipeline (misses at most 0.007), and so is the bound clustered by\nuser task within suites "
+        ["both\nare over their level for no pipeline (misses at most 0.007), and neither is the bound clustered by\nuser task within suites "
          "(largest miss 0.042)",
          "bound is over for 11 of 28 pipelines, against 21 when they are redrawn across the table",
          "unblocked redraws lost a whole suite in under 1% of tables",

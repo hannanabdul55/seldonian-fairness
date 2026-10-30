@@ -154,7 +154,7 @@ def fig2():
     p14 = json.load(open(os.path.join(SP, "014-pushed-label-stratification", "plasmode.json")))
     pushed = ess_rows(p14 if isinstance(p14, list) else p14["rows"])
     names = {"C1:refusal": "over-refusal (17%)", "C3:refusal": "refusal of harmful requests (66%)", "C2:unsafe": "non-refusal, encoded (9%)",
-             "C2:refusal": "refusal, encoded (94%)"}
+             "C2:refusal": "refusal, encoded (93%)"}
     fig, ax = plt.subplots(figsize=(7.2, 4.9))
     x = np.linspace(0.0, 0.93, 200)
     rel = 8 * x / (1 + 7 * x)
@@ -186,7 +186,7 @@ def fig2():
     h = [plt.Line2D([], [], marker="o", color=CONTEXT, label="synthetic bandit cells", markersize=4.5, markeredgecolor=SURFACE, markeredgewidth=0.6, linestyle="none"),
          plt.Line2D([], [], marker="o", color=BLUE, label="real label, side effect of training", **DOT),
          plt.Line2D([], [], marker="o", color=ORANGE, label="real label, targeted by training", **DOT)]
-    top = heading(fig, "The gain from reference-rate strata can be ranked in advance; its size is over-predicted",
+    top = heading(fig, "The gain from reference-rate strata grows with the reference model's intraclass correlation; the pre-flight formula over-predicts it",
                   "8 strata of an 8-sample reference rate, 200 safety prompts, δ 0.1, 200 training steps. Labels with rates of 1-2% are left out: the strata give no gain there.", h)
     fig.subplots_adjust(left=0.085, right=0.975, top=top, bottom=0.11)
     save(fig, "fig2_strata_ess", ["series", "label or environment", "checkpoint", "ICC_ref", "ESS"], table)
@@ -305,7 +305,7 @@ def fig5():
         style(a, "x")
     h = [plt.Line2D([], [], marker="o", color=CONTEXT, label="recall where the calibration was measured", **DOT),
          plt.Line2D([], [], marker="o", color=BLUE, label="where it was applied (both panels)", **DOT)]
-    top = heading(fig, "A judge's calibration does not carry across prompt populations, nor, in three seeds of one run, across training that targets the label",
+    top = heading(fig, "A rubric judge's calibration, carried to another prompt population, fails in at least one direction of each pair, and fails across training that targets the label in three seeds of one run",
                   "A rubric judge's recall and false-alarm rate are measured on one population and used to bound the refusal rate of another. "
                   "Left: how often that bound falls below the truth, one dot per wording of the judge's rubric. Right: what happened to the judge's recall.", h)
     fig.subplots_adjust(left=0.375, right=0.98, top=top, bottom=0.13, wspace=0.12)

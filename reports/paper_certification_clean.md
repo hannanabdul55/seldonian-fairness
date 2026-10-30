@@ -1,6 +1,6 @@
 # Certifying behaviour rates of language-model policies: what holds, what a label buys, and what does not carry
 
-*Draft of 2026-10-16, not formatted for any venue. Generated from the working draft by
+*Draft of 2026-10-19, not formatted for any venue. Generated from the working draft by
 `scripts/paper_clean.py`; to change the text, edit the working draft and run the script again.*
 
 ## Abstract
@@ -15,33 +15,34 @@ fewer labels, where the true breach rate is known: simulated models, resampled r
 and published benchmark runs.
 
 Standard exact methods can be trusted on data sampled as they assume: promised to be wrong
-in at most 5% of repeated trials, the standard one (Clopper-Pearson) was wrong in at most 5.3% of ours, a
+in at most 5% of repeated trials, the standard one for yes-or-no labels was wrong in at most 5.3% of ours, a
 difference within the noise of the check. Two published shortcuts that let an automatic
-judge stand in for some labels (PPI++ and StratPPI) are guaranteed only for large samples; at
+judge stand in for some labels are guaranteed only for large samples; at
 the sizes of a safety test, in our implementation, they were wrong more often than promised
 in most of our tests with a judge's score: in up to 24% of trials, and in 90% in one setting where an
-allocation rule published with one of them leaves some groups almost unlabelled.
+allocation rule published with one of them leaves some groups with only the 2 labels we set as a minimum (and in 59% with a minimum of 10).
 
 A simpler design makes each label go further. Before training, sample the starting model 8
 times on every prompt, sort the prompts into 8 equal groups by how often it breaches, and
 label the same number from each group. On new prompts, with predictions registered in
-advance, a certificate from this grouped sample with an approximate formula (a stratified
-Wald-t limit) was wrong no more often than promised at breach rates of 12%, 46% and 82%, and,
+advance, a certificate from this grouped sample with an approximate formula was wrong no more often than promised at breach rates of 12%, 46% and 82%, and,
 for the prompts sampled, at 19% on a second model family (for all prompts of that kind it ran
 over in one of eight checks there) and at 26% and 58% on that family after further training
 moved it. The grouped sample did the work of a random sample 1.5 to 1.7 times its size at 12% and 2.1 to
 2.6 times at 46%, where much of the gain comes from mixing two prompt sources, and 1.5 to 1.8
-times on the second family; once training had reshuffled which prompts it refused (at 58%), the grouping saved almost nothing. At 82% it gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained nothing;
-there exact methods remain the ones to use. Grouping helped the exact methods little: of the
-two exact grouped certificates we tried, one never passed more often than an exact certificate
-from a random sample of the same size, and the other did so in about half of the real-response
-tests at rates from 5% to 95% and in at most a quarter of those on the costly human label. The gain is smaller, 1.3 to 1.5 at the first
-two rates, when the certificate must cover all prompts of that kind and not only those
-sampled. For a costly human label grouped by a model's cheap judged responses it was about
-1.2, which pays only where a human label costs more than about 120 judged responses. The
-formula has no guarantee: on simulated data it was wrong too often. Of 72 predictions
-registered in advance, 53 held, 18 failed and one could not be tested (ten were written after a
-dry run of the analysis on earlier responses). The models we trained are small, the new prompts come from
+times on the second family; once training had reshuffled which prompts it refused (at 58%), the grouping saved almost nothing. The gain is smaller, 1.3 to 1.5 at 12% and 46%,
+when the certificate must cover all prompts of that kind and not only those sampled. At 82% it
+gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained at most 1.2
+times; there exact methods remain the ones to use. For a costly human label grouped by a
+model's cheap judged responses the gain was about 1.2, which, for 100 human labels on 250
+prompts, pays only where a human label costs more than about 120 judged responses. Grouping
+helped the exact methods little: of the two exact grouped certificates we tried, one never
+passed more often than an exact certificate from a random sample of the same size, and the
+other did so in about half of the real-response tests at rates from 5% to 95% and in none of
+those on the costly human label. The approximate formula has no guarantee: on simulated data it was wrong too often. Of 72 predictions
+registered in advance, 53 held, 18 failed and one could not be tested; leaving out the five that
+say only that an exact method is exact and the ten written after a dry run on earlier responses,
+39 of 57 held. The models we trained are small, the new prompts come from
 one benchmark, the labels in these tests come from an automatic judge apart from published
 human ones, and only one training run, on one small model, moved a model far from its starting
 behaviour.
@@ -51,18 +52,21 @@ prompts. After training aimed at the judged behaviour, the error rates of a judg
 written rubric did not hold in any of three training runs of one set-up; those of a second,
 purpose-trained judge did. Methods that treat test cases as independent fail on benchmarks that pair
 tasks with attacks: on AgentDojo's published runs the usual certificate is wrong too often
-for 27 of 28 agent configurations, and with the methods that allow for the pairing (clustered
-bounds) and kept their promise in our checks, on simulated copies of the benchmark, with
+for 27 of 28 agent configurations, and with the methods that allow for the pairing and kept their promise in our checks, on simulated copies of the benchmark, with
 the benchmark's attacks taken as fixed, at most one of the 28 certifies an attack success rate under 5%.
-An exact method (a betting bound) agrees only narrowly and only for the rate averaged over
+An exact method agrees only narrowly and only for the rate averaged over
 user tasks; its version for the rate over task pairs certifies none. And a labelling sheet that
 deliberately over-samples some responses, read as a random sample with a judge's scores, gave
 certificates that were wrong in up to 99% of trials.
 
-Every certificate of a trained model here rests on an automatic judge's labels. One in human
-labels is designed and costed, not run: if training left the refusal rate unchanged, about
-420 labelled prompt pairs would give an even chance of certifying, with an approximate limit,
-that it rose by no more than 2 points; the exact limit is about twice as wide.
+Our certificates of trained models rest on an automatic judge's labels, with one exception:
+from one person's labels of 220 responses, an exact method certifies that a trained model
+refuses outright at most 20.1% of its responses to a pool of 490 benign prompts, but nothing
+certifies, in these labels, the claim it was trained to meet,
+that its refusal rate rose by no more than 2 points. A certificate of that claim in human labels
+is designed and costed, not run: if training left the refusal rate unchanged, about
+420 labelled prompt pairs would give an even chance of certifying it with an approximate limit;
+the exact limit is about twice as wide.
 
 ## 1. Introduction
 
@@ -372,7 +376,8 @@ rest of the paper audits the four assumptions of section 4.5. Our contributions:
 - **Certificates on published traces** of a robot benchmark and an agent-security benchmark
   (sections 10.1 and 10.2).
 - **The price of human terms:** a guard model measured against human refusal labels, and the
-  cost of a certificate of a trained policy in those labels (sections 10.3 and 10.4).
+  one certificate of a trained policy's own rate in those labels, and the cost of one of its
+  constraint (sections 10.3 and 10.4).
 
 **What the paper is not.** It is not a new training method, and it does not claim that any
 model is safe. Nor is it a study of NSF for its own sake. NSF is one of the test's two
@@ -390,8 +395,9 @@ has one sample and one answer.
 - The label is a guard model's or the benchmark harness's unless marked human. The human-label
   results are in section 10.3, with one more in sections 8.2 and 9.5 (a harm sheet of 225
   responses labelled by one annotator, an author, 3 of them harmful) and published human labels
-  in section 8.1.4. Section 10.4 costs a
-  certificate in human labels and does not compute one.
+  in section 8.1.4. Section 10.3 computes a
+  certificate in human labels of a trained policy's own rate; section 10.4 costs one of its
+  relative constraint and does not compute it.
 - Policies trained here are 0.5B to 2B parameters on one 12 GB card. The frontier-model results
   are certificates on other people's published traces, not training.
 - A certificate is about the label as defined and the population the safety sample was drawn
@@ -671,7 +677,7 @@ shift: between prompt populations, and between a reference model and a policy tr
 | carried calibration (9.1, 9.2) | a reference model, one trained policy and three seeds of another | gold: guard's refusal field; judge: the rubric, six wordings | benign and harmful prompt pools | pool mean | 0.05 |
 | robot benchmark (10.1) | three published frontier models | harness safety-stop flag | 120 trials each, 20 on each of 6 tasks | unknown | 0.05, 0.10 |
 | agent benchmark (10.2) | 28 published pipelines | harness `security` flag | 629 to 949 task pairs each | table rate; for one bound the table's average over user tasks; or a fitted crossed model's rate (10.2) | 0.05 |
-| guard against humans (10.3) | five published model variants; our two policies | human refusal labels | 1,250 and 220 responses | none | 95% intervals |
+| guard against humans (10.3) | five published model variants; our two policies | human refusal labels | 1,250 and 220 responses | none | 95% intervals; 0.05 for the certificate |
 | human-terms design (10.4) | reference and trained Granite-3.3-2B | human strict refusal (not collected) | 300 of 490 prompt pairs | synthetic labels | 0.05 |
 
 The benign prompts are XSTest's safe prompts and OR-Bench's (Röttger et al., 2024; Cui et al.,
@@ -691,14 +697,40 @@ Table 4 applies that rule to the bounds we use. Three procedures built from them
 where they appear: `b1w` with the term for a sampled pool (section 8.1.1), the routing rule
 taken as one procedure (section 8.2) and the paired limits of section 10.4 (Appendix C).
 
+**Abstention.** A bound that returns no limit, or a limit of 1, gives no certificate and cannot
+miss, so part of a row's record in Table 4 can be abstention. We counted it for the bootstrap
+limits and for AgentDojo's exact rows, on the published draws, which the count reproduces
+exactly [abstention]. The betting bounds on AgentDojo never return no limit. The bootstrap-t
+StratPPI limit returns none in up to 6% of draws on the reference-rate strata (up to 8.6% when
+redrawn with replacement) and in up to 52% on the judge-logit strata at a 1.3% rate; PPI++ with a
+bootstrap-t limit in up to 55% of draws where a sample of 225 holds about three positives; and the
+clustered AgentDojo limits in up to 82% of tables, for the pipelines with the fewest successes.
+Counted as misses instead, the rows that hold would be over in up to 7 of 28 cells (row 12 at
+delta 0.05), in 10 of 168 for row 9 and for 2 to 7 of 28 pipelines in the AgentDojo rows. Those
+of row 9 are eight cells at a 1.3% rate with 225 labels, where Table 5's rule sends the labels to
+Clopper-Pearson, and two at n 50 on a 40% label, where it does not; those of row 11's judge-logit
+strata are four at the 1.3% rate and one at a 20% rate with 100 labels. Those of rows 11 and 12 on
+the reference-rate strata (4 and 7 of 28) are all at a safety set of 100, on labels at 16% to
+95%: at that size the bootstrap-t StratPPI limit holds there partly by declining to certify.
+Counted this way even an exact bound can exceed its level: Clopper-Pearson returns 1 when every
+label is a positive, which at the 95% label with a safety set of 100 happens in 0.9% of draws and
+takes it to 0.052 at delta 0.05. So this count measures how much of a record is abstention, not
+validity. We did not count the stratified Wald-t limit, `b1w` or Clopper-Pearson elsewhere; they
+return a limit of 1 or more only near the top of the rate range.
+
+**The sheets' draws.** The sheet rows draw 200 sheets from each of 20 plantings of the labels.
+With the plantings as clusters the design effect on the miss rate is at most 1.9 (median 0.9) in
+row 8, and no cell of rows 8 or 28 changes class; the pooled cell of the two runs stays
+unresolved (0.054) [abstention].
+
 *Table 4. Miss rate against delta for the bounds used, with one rule for every row. Cells are
 counted as over / unresolved / at or under delta (section 6.1's rule). The next column is the
 largest upper end of a 95% interval for a cell's miss rate, with the cells still over after a
-Bonferroni correction for the cells counted with it in brackets. Bold marks a bound we do not use in that setting; the
-registered rows 37 to 55 are not in bold, except rows 42 and 50, and their second column says where they are over. "Exact" means valid at
+Bonferroni correction for the cells counted with it in brackets. Bold marks a bound we do not use in that setting and that is over its level there; the
+registered rows 37 to 55 are not in bold, except rows 42, 50 and 54, and their second column says where they are over. "Exact" means valid at
 every sample size by construction; "approximate" means valid asymptotically and checked by
 resampling. Draws per cell are 4,000 or 5,000 except where stated: 8,000 runs for the rows inside the training loop, 10,000 for the rows on the prompt source and 40,000 for the rows redrawn with replacement. The sheets' 4,000
-are 20 plantings of the labels by 200 sheets each, counted as independent draws. The rows on the trained-policy harm pool are exact, with no
+are 20 plantings of the labels by 200 sheets each, counted as independent draws (with the plantings as clusters no cell changes class). A bound that returns no limit is not a miss; the share of draws where it returns none, and the counts if each were a miss, are given for the bootstrap rows and AgentDojo's exact rows in the paragraph before the table [abstention]. The rows on the trained-policy harm pool are exact, with no
 draws: labels drawn with replacement from a 0/1 pool are a binomial count, so each miss is a
 finite sum. The pool's count is not recorded; the rate the companion paper
 prints allows 121 to 124 positives of 3,600, and each row holds every one of those counts at
@@ -718,7 +750,7 @@ and (c_s) (section 10.2); rows 44 to 46 the strata on a second model family (sec
 rows 47 and 48 exact stratified bounds (section 8.1.4); rows 49 to 52 AgentDojo against a fitted crossed model,
 with injection tasks fixed (P_a) or drawn too (P_c), where only a bound that fails to compute counts as a miss (section 10.2); rows 53 to 55
 the strata on a policy that training moved far from its reference (section 8.1.3).
-Rows 37 to 55 were registered before they were run.*
+Rows 37 to 55 were registered before they were run, and so were rows 14, 30 and 31, by a commit whose order rests on its local time (Appendix D).*
 
 | # | bound | kind | setting | delta | miss, per cell | cells over / unresolved / at or under | largest 95% upper limit of a cell's miss (cells over after correction) |
 |---|---|---|---|---|---|---|---|
@@ -775,13 +807,13 @@ Rows 37 to 55 were registered before they were run.*
 | 51 | betting mixture on user-task rates; on the pair rate, against a fitted crossed model | exact (bounded) | the same, scheme (P_a); truth: the model's user-task average; its pair rate | 0.05 | at most 0.005; 0.003 | 0 / 0 / 28; 0 / 0 / 28 | 0.007 (0); 0.006 (0) |
 | 52 | pigeonhole bootstrap-t; two clustered margins in quadrature, against a fitted crossed model | approximate | the same, schemes (P_a); (P_c) for each | 0.05 | at most 0.011; 0.037; 0.016; 0.047 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.014 (0); 0.043 (0); 0.021 (0); 0.054 (0) |
 | 53 | stratified Wald-t limit, a policy that training moved far, redrawn with replacement | approximate | Qwen2.5-1.5B-Instruct trained on the guard's refusal flag alone, refusal label (26% at step 100, 58% at step 200), the second family's pool and strata, n_s 100-200 | 0.05 / 0.10 | 0.043-0.049 / 0.095-0.100 | 0 / 0 / 4; 0 / 0 / 4 | 0.051 (0); 0.103 (0) |
-| 54 | `b1w`, the same | over in all 4 cells at the 58% rate | the same cells | 0.05 / 0.10 | 0.045-0.059 / 0.098-0.112 | 2 / 0 / 2; 2 / 1 / 1 | 0.062 (2); 0.115 (2) |
+| 54 | **`b1w`, the same** | over in all 4 cells at the 58% rate | the same cells | 0.05 / 0.10 | **0.045-0.059 / 0.098-0.112** | 2 / 0 / 2; 2 / 1 / 1 | 0.062 (2); 0.115 (2) |
 | 55 | the stratified Wald-t limit with the term for a sampled pool, a policy that training moved far | approximate | a claim about the prompt source, the same label, steps and sizes | 0.05 / 0.10 | 0.040-0.048 / 0.085-0.094 | 0 / 0 / 4; 0 / 0 / 4 | 0.052 (0); 0.100 (0) |
 
-Rows 37 to 55, the registered runs, are counted separately: apart from rows 42 and 50, bounds that fail there, four of them have cells over
-(rows 38, 39, 46 and 54, with 2, 3, 1 and 4 cells over, of which 1, 2, 1 and 4 stay over after the
+Rows 37 to 55, the registered runs, are counted separately: apart from rows 42, 50 and 54, bounds that fail there, three of them have cells over
+(rows 38, 39 and 46, with 2, 3 and 1 cells over, of which 1, 2 and 1 stay over after the
 correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10), as their second column
-says. In the remaining rows, which we treat as valid, no cell stays over its level after the correction, and the largest
+says. In rows 1 to 36 that are not in bold, which we treat as valid, no cell stays over its level after the correction, and the largest
 miss rate a cell's interval leaves open is 0.067 at delta 0.05 and 0.106 at 0.10. One cell
 there is over under the uncorrected rule: `b1w` on a design-weighted sheet, 0.0595 at 4,000
 draws. Those 18 cells are 9
@@ -825,7 +857,7 @@ Three readings of Table 4.
    65% and above. And it is for a safety set that is 20-40% of its pool; redrawn with
    replacement `b1w` is over in 7 of 28 cells, by at most 1.2 points at delta 0.05, where the
    StratPPI estimator with a bootstrap-t limit and a stratified Wald-t limit are over in
-   none. On a synthetic i.i.d. grid (36 cells, 4,000 draws) `b1w` is over in 5 cells and the
+   none (the bootstrap-t limit partly by returning no limit; section 7.1). On a synthetic i.i.d. grid (36 cells, 4,000 draws) `b1w` is over in 5 cells and the
    Wald-t limit in 10. Inside the training loop on a synthetic
    environment with 4 strata the stratified `b1w` test reached 0.116 at delta 0.1 on 500 runs,
    which is unresolved, and the Wald-t limit 0.132, which is over; with 8 strata and 8,000 runs
@@ -854,7 +886,7 @@ in none of the 16 cells at rates of 9-18% (largest 0.034). The pooled Wilson bou
 12 rare-label cells at delta 0.05, the same harm label at a checkpoint where its rate is
 1.4%, at n_s 200 (0.055 and 0.064), and in 3 of 12 at delta 0.10 (up to 0.138 and 0.142).
 Clopper-Pearson, exact on
-those draws, is over or unresolved in none, and on the random draw the simulated misses of
+those draws, is over or unresolved in none (in a first pass at 5,000 draws it was unresolved in three cells, largest 0.053 at delta 0.05 and 0.102 at 0.10), and on the random draw the simulated misses of
 both bounds agree with the binomial calculation.
 
 The StratPPI rows (Fisch et al., 2024) are our implementation of its estimator and interval on
@@ -875,7 +907,8 @@ sizes 200 to 5,000 at pressure 1 (the second with the Student-t bound; the sizes
 prompts, 40% of them in the safety set). The filter-only variant was higher and still under delta:
 0.028 at 200 prompts and 0.004 at 1,000 and 5,000. With a noisy judge the guarantee held at the judge's level in
 every row, while a judge that misses 40% of violations let the true violation rate among
-returned policies reach 0.059: the certificate is about the label.
+returned policies reach 0.059, against 0.002 with an exact judge (0.038 of all runs, still
+under delta here): the certificate is about the label.
 
 **Adversarial splits.** Rerandomised and stratified candidate/safety splits did not break the
 exact test, across 2,000 seeds per arm, eleven split rules and candidates built to overfit the
@@ -964,7 +997,7 @@ encoded requests. For the pool's own rate the same measure gives 2.39 and 2.47, 
 understates the gains there. The cap, with `G` from `b1w`'s `ESS_truth` with replacement, gives
 1.84 and 1.54, 1.71 and 1.46, 2.68 and 1.92, and 1.35 and 1.24: met at the lower rates, missed
 by about a tenth at 66%. At delta 0.05 `b1w` without the term is over in 17 of the 28 cells
-(misses up to 0.170). So is the bootstrap-t StratPPI limit, in 21 (up to 0.166): its variance
+(misses up to 0.170), and the bootstrap-t StratPPI limit in 21 (up to 0.166): its variance
 has a term for the unlabelled sample inside fixed strata and none for strata rebuilt on each
 pool.
 
@@ -976,7 +1009,7 @@ a task, where the positives set the bound.
 **The pre-flight** (section 6.4) ranks the gain from the k reference samples and the trained
 policy's two quantities, measured on responses the draws do not use: Spearman 0.84 between
 `ESS_pred` and the realised `ESS_est` over 432 cells on real data at delta 0.10, and 0.83 at
-0.05 (Figure 1). It over-predicts the size: at H = 8 by 2% to 20% on the three labels at
+0.05. It over-predicts the size (Figure 1): at H = 8 by 2% to 20% on the three labels at
 9% to 66% at the last checkpoint and delta 0.10, by up to 30% over all checkpoints and both
 deltas, and by 18% to 98% on the 93% label and the rare ones. Of the two criteria we
 registered, the error criterion failed on real data and the Spearman criterion holds only under
@@ -1008,11 +1041,12 @@ rate as the predictor (Figure 2, left; Table A1); gains are `ESS_truth` at delta
    within-stratum regression on the reference rate adds nothing once the limit is valid; at a
    safety set of 200 or with 4 strata it adds 0.4 to 0.8 of ESS (Appendix A).
 4. **Which bound to use depends on the pool and the rate.** For the pool's own rate, with a
-   safety set of 20-40% of the pool, `b1w` is over its level in none of the 28 mid-rate cells
+   safety set of 20-40% of the pool, `b1w` is over its level in none of the 28 mid-rate cells of Table A1's draws (five labels, two sizes, by checkpoint)
    at either delta (3 unresolved at delta 0.05, on the 93% label) and in 1 of its 12
    rare-label cells at delta 0.10 (0.126). Redrawn with replacement it is over in 7 of 28 at
    delta 0.05 and 6 at 0.10, all at rates of 65% and above, and the bootstrap-t StratPPI limit
-   and the stratified Wald-t limit are over in none (section 7.1); the gains carry over to that
+   and the stratified Wald-t limit are over in none (section 7.1; the bootstrap-t limit partly
+   by returning no limit); the gains carry over to that
    redraw (Appendix A). For a pool much larger than the safety set, then, `b1w` kept its level
    at 9-18% and not at 65% and above on these pools. No label between those rates
    was tested on these pools, and the reading was made on the cells it describes.
@@ -1035,12 +1069,12 @@ source (10,000 replications), and a gain is `ESS_truth` at delta 0.05.
   within 20% of the pre-flight's prediction (below). For the source the limits without the
   sampled-pool term fail again (`b1w` in 3 of 4 cells at delta 0.05, the bootstrap-t StratPPI
   limit in 4 of 4), and `b1w`'s gain with the term is 1.20 to 1.32, within 15% of the cap. On
-  the rare labels the strata gain nothing (1.01 to 1.11) and Clopper-Pearson is over in no
+  the rare labels the strata gain little (1.01 to 1.11 for `b1w`, 0.86 to 1.20 for the Wald-t limit) and Clopper-Pearson is over in no
   cell; the Wald-t limit with the term is over in one rare-label cell for the source (0.110 at
   delta 0.10, with a safety set of 200).
 - *Refuted.* With a large pool the bootstrap-t StratPPI limit is over in 1 of 8 mid-rate
-  cells (0.105 at delta 0.10 on the 82% label), and in one more at the 98% rate (0.052 at
-  delta 0.05); the stratified Wald-t limit is over in none of the 8 (misses at most 0.039 at
+  cells (0.105 at delta 0.10 on the 82% label), and in one more at the 98% rate (0.0524 at
+  delta 0.05, above the 0.0522 at which 40,000 draws count a cell as over); the stratified Wald-t limit is over in none of the 8 (misses at most 0.039 at
   delta 0.05 and 0.082 at 0.10). And for the source `b1w` with the term is over at the 82%
   rate with a safety set of 100 (0.058 at delta 0.05 and 0.117 at 0.10; unresolved at 200 and
   delta 0.05, 0.052), where the Wald-t limit with the term is over in none of 8 (at most 0.047
@@ -1079,8 +1113,8 @@ a safety set of 100 and delta 0.10 (0.140 and 0.142), and Clopper-Pearson is not
 Three things follow. First, the gains are smaller than on the pools that chose the rule. On
 new prompts from one source a limit that kept its level gained 1.5 to 1.9 at 12% (`b1w` 1.53
 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held
-there, 1.55 and 1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there
-come from a limit over its level in all four cells). The same measure gives 1.5 to 5.0 for
+there (its returns of no limit there were not counted), 1.55 and 1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there
+come from a limit over its level in all four cells). The same measure, also redrawn with replacement, gives 1.4 to 5.1 for
 `b1w` at rates of 9% to 66% on the pools that chose the rule, the upper end at 66%, where `b1w` is also over its level with a large pool. Second, the pre-flight sizes the gain only in the mid range and only with the trained policy's
 two quantities measured, on 8 further responses per prompt that the draws do not use. At all three mid rates, 12%, 46% and 82%, the pre-flight was within 20% (at 12% and 82%
 `b1w`'s gain was 2% to 16% under it). From the reference samples alone, with
@@ -1088,10 +1122,10 @@ two quantities measured, on 8 further responses per prompt that the draws do not
 with the measured quantities it gives 2.67 at the 98% rate, where with a large pool the strata
 lose under every limit (0.55 and 0.63 for `b1w`, against a baseline itself over its level at a
 safety set of 100), and 2.47 on a rare label where nothing is gained. Third, with 8 strata the
-stratified Wald-t limit is the only stratified limit that was over its level in no mid-rate
+stratified Wald-t limit is the only approximate stratified limit that was over its level in no mid-rate
 cell on Granite's pools, here and on the earlier ones, and at a high rate it pays for holding:
 its gain at 82% is 0.86 and 1.13 with a large pool and 0.75 and 0.89 for the source, against
-1.47 and 1.73 at 12% and 2.09 and 2.56 on the mixed pool at 46%. With 4 strata it was over in 1 cell of 26 (0.062 at n_s 100 and delta 0.05, on the 9% label);
+1.47 and 1.73 at 12% and 2.09 and 2.56 on the mixed pool at 46%. With 4 strata it was over in 1 cell of 26 (0.062 at n_s 100 and delta 0.05, on the 9% label), the 13 label-checkpoint cells of Appendix A's sweep at safety sets of 100 and 200;
 on synthetic data it did not hold (section 7).
 
 **A second model family.** Every pool above comes from Granite-3.3-2B, whose trained policy
@@ -1242,11 +1276,11 @@ For a safety set stratified by 8 equal rank strata of an 8-sample reference rate
 - *a label that may be rare (under about 5%) or near one (above about 95%):* no strata;
   Clopper-Pearson or a betting bound on a random draw (section 7.1). The pre-flight refuses a
   reference rate outside 5% to 95%;
-- *a mid-rate label, for the pool's own rate:* the stratified Wald-t limit; `b1w` is narrower
+- *a mid-rate label (about 5% to 80%), for the pool's own rate:* the stratified Wald-t limit; `b1w` is narrower
   at a safety set of 100 and at 46%;
 - *a mid-rate label, for the prompt source:* the stratified Wald-t limit with the term for a
   sampled pool;
-- *above about 80%:* the strata gained little or lost under this limit (`ESS_truth` 0.75 to
+- *from about 80% to 95%:* the strata gained little or lost under this limit (`ESS_truth` 0.75 to
   1.13 at 82%, 0.43 and 0.65 at 93%), so a random draw serves as well;
 - *where a finite-sample guarantee is required:* Clopper-Pearson on a random draw. The exact
   stratified bounds we tried gave no reliable gain over it (section 8.1.4);
@@ -1276,7 +1310,7 @@ not before them.
 *Table 5. Routing rule. Row 3 was resampled at delta 0.05 only, at rates of 1.3% to 20% for a
 refusal label and at 40% for a word count the judge does not predict; row 4 at delta 0.05 and
 planted rates of 1.3% to 20%, on one sheet design (1 of 18 cells over, 0.0595). Section 8.1.5's finding that `b1w`
-can be over its level once the pool is large (at 58% and above on trained policies, and at 10% to 60% on a costly label) applies to row 4.*
+can be over its level once the pool is large (at rates from 58% to 95% on Granite's pools and trained policies, though not at 98%, and at 10% to 60% on a costly label) applies to row 4.*
 
 | data | route | guarantee |
 |---|---|---|
@@ -1309,14 +1343,15 @@ certified policy's own responses certify a 1% threshold at delta 0.05, 149 certi
 certify 5%.
 
 **Choosing which responses to label.** Table 5 labels a random subset. If the judge has scored
-every response first, the labels can be drawn within strata of its logit. On the refusal pools of those plasmodes (two judge wordings, 14 cells, 4,000 draws each, delta 0.05) (Figure 2,
-right):
+every response first, the labels can be drawn within strata of its logit. On the refusal pools of those plasmodes (two judge wordings, 14 cells, 4,000 draws each, delta 0.05; Figure 2, right):
 
 - StratPPI as published, with 5 or 10 strata, is over its level in 26 of 28 cells (misses
   0.059-0.239 in those 26), as PPI++ with a normal limit is in all 14 (0.061-0.232). Appendix A gives
   the counts under other conventions and allocations.
 - With proportional allocation the StratPPI estimator with a bootstrap-t limit is over its
-  level in none of the 28 (5 unresolved, largest miss 0.056). By median it is the narrowest such
+  level in none of the 28 (5 unresolved, largest miss 0.056); 5 would be over if its returns of no
+  limit counted as misses, 4 of them at the 1.3% rate, where it returns none in about half the
+  draws (section 7.1). By median it is the narrowest such
   route with 5 or 10 strata at the 20% and 5% rates (cell by cell `b1w` is ahead at the 20%
   rate with 100 labels): with 10 strata its median `ESS_truth` against the labels alone is
   2.54 at a 20% rate and 1.87 at 5% (2.47 and 1.76 with 5 strata), where unstratified PPI++
@@ -1519,7 +1554,7 @@ names an intended release, the pattern matches under 0.2 notes a trial and the A
 the rig reports during a trial does predict one (AUC 0.75-0.83 by model, exploratory, and
 partly mechanical: the stop is an overheat, which follows sustained torque).
 
-### 10.2 An agent-security benchmark: one of 28
+### 10.2 An agent-security benchmark: one of 28 under an approximate bound
 
 On AgentDojo's published runs (19,380 episodes: 22 pipelines with 629 task pairs from 97 user
 tasks and 27 injection tasks, five with 949 from 97 and 35, and one with 797 from 71 and 30;
@@ -1584,7 +1619,7 @@ bound of section 4.4 applies to their per-task success rates; it bounds the aver
 tasks, which differs from the pair rate because the suites have different numbers of
 injection tasks. Scaled by the largest and the mean number of pairs a user task has, the same
 bound covers the pair rate. With user tasks redrawn, across the table or within suites, both
-are over their level for no pipeline (misses at most 0.007), and so is the bound clustered by
+are over their level for no pipeline (misses at most 0.007), and neither is the bound clustered by
 user task within suites (largest miss 0.042). With injection tasks redrawn within suites, that
 bound is over for 11 of 28 pipelines, against 21 when they are redrawn across the table and
 the at least 15 we predicted; unblocked redraws lost a whole suite in under 1% of tables. The
@@ -1728,6 +1763,21 @@ found among 72 and 70 responses in the large guard-negative strata, which bounds
 only at 0.44. As a predictor the guard is worth more than a halving of the labels
 (`ESS_pred` from `rho^2` 0.6; the published-label figure for the same strict event is 0.46).
 
+**A certificate from these labels.** The same labels certify the trained policy's rate in human
+terms, though not the constraint it was trained under [C1]. At delta 0.05 the stratum-wise
+Clopper-Pearson construction behind Table 9's intervals, taken one-sided, certifies that the
+step-200 policy refuses, in the strict sense, at most 20.1% of the 5,880 responses the sheet was
+drawn from (490 prompts, 12 each); the stratified Wald-t limit of section 8.1 puts the bound at
+13.9%, with no guarantee, and a prompt-clustered normal limit for new prompts from the same
+source at 15.7%. The reference gives 20.4%, 13.8% and 15.5%. For the constraint, a refusal rate
+no more than 2 points above the reference's, nothing certifies: the exact limit on the
+difference (each policy's Clopper-Pearson construction at delta 0.025) is +16.5 points and the
+clustered normal one +6.4. We fixed these limits after Table 9's rates were known and before
+computing them (Table 9's two-sided intervals already implied the exact ones), so they are a
+computation on a sample already read, not a registered test, and
+they carry the sheet's limits: one annotator, responses cut at 128 tokens, and the last
+checkpoint rather than the returned one.
+
 One annotator means no agreement statistic. What stands in for it is thin and we say so: the
 guideline's classes are XSTest's, on whose released completions for safe prompts the two
 annotations agree with a kappa of 0.88; three responses that appeared twice on the annotator's sheets
@@ -1767,7 +1817,7 @@ here.
 Pairing the two policies on the same prompts cuts the budget threefold. What the guard adds
 depends on the claim. For the rate on the pool's own prompts, a guard-only response costs GPU
 seconds, the guard's mean can be measured as closely as wanted, and the guard cuts the budget
-again by 2.5 (`ESS_pred` at `rho^2` 0.6): a certificate that would take 2,800 unpaired pairs takes 380. For new prompts from
+again by 2.5 by the formula (`ESS_pred` at `rho^2` 0.6; the design check below measures about 1.4, so the guard columns of Table 10 are optimistic: at 1.4 they would need about 1.8 times as many pairs): a certificate that would take 2,800 unpaired pairs takes 380 by the formula. For new prompts from
 the same source, the guard's mean is known only through the pool's unlabelled prompts. With 300
 of 490 labelled it removes 23% of the variance (0.6 x 190/490), not 60%, and the 2-point margin
 at an 80% chance
@@ -1793,8 +1843,10 @@ mean certified margins are 0.065, 0.037, 0.032 and
 0.035. The exact bound is about twice as wide as the approximate ones.
 Appendix C gives the check in full.
 
-On either set of figures a sample of 300 pairs is expected to certify a margin of 2.4 to 6.5
-points with labels alone, not the 2-point target. The 600 labels were not collected. The
+A sample of 300 pairs labelled alone is expected to certify a margin of 2.4 points by the
+normal-type formula behind Table 10 (true difference -0.0005), and in the design check (true
+difference +0.006) 3.7 points with the bootstrap-t limit and 6.5 with the exact betting bound;
+none reaches the 2-point target. The 600 labels were not collected. The
 samples, the guard's scores, the blind sheet and the analysis script are in the repository, so
 the certificate can be computed from 600 labels with no design choice left open. One property
 of the sheet would limit that measurement: the reference writes longer responses than the
@@ -1811,9 +1863,12 @@ weak cue to the policy.
   human comparison here, or, as section 9.2's second gold label, WildGuard. The human refusal labels are
   one annotator's, an author's, with no measured agreement; the published XSTest labels are
   the independent check.
-- **No certificate of a trained policy in human labels.** Section 10.4 costs one and prepares
-  it; the labels were not collected. Every certificate of a trained policy in this paper is in
-  a guard model's terms.
+- **One certificate of a trained policy in human labels, and not of its constraint.** Section
+  10.3 certifies the last checkpoint's strict refusal rate from one annotator's 220 labels (at
+  most 20.1%, exact), on labels whose rates were known before the limits were chosen; the
+  relative constraint is certified by no limit there. Section 10.4 costs a certificate of the
+  constraint and prepares it; its labels were not collected. Every other certificate of a
+  trained policy in this paper is in an automatic judge's terms.
 - **A rule chosen on the data.** The strata rule of section 8.1.1 replaced the registered one
   after the first results on the same pools, and the cells that count as approximate bounds
   "we use" (section 7.1) were grouped after the results. Appendix D lists what was fixed in
@@ -1864,6 +1919,12 @@ weak cue to the policy.
   the one AgentDojo certificate of section 10.2 also passes under an exact bound on the
   rate averaged over user tasks, with less room (0.048 against 0.05), and does not pass under
   the exact bound on the pair rate, the quantity the certificate is about (0.060). Table 4 is the evidence, with its Monte Carlo error.
+  Several limits hold partly by abstaining (section 7.1): counted as misses, the bootstrap
+  limits' returns of no limit would put up to 7 of 28 cells of a row over, at a 1.3% rate, at n
+  50 or 100, on the AgentDojo pipelines with the fewest successes and, for the bootstrap-t
+  StratPPI limit, at a safety set of 100 on labels at 16% to 95%; the stratified Wald-t limit,
+  `b1w` and Clopper-Pearson also return a limit of 1 or more near the top of the rate range,
+  which we did not count.
   The reference-rate-strata cells draw 20-40% of a pool of 500 prompts and take the pool's
   rate as the truth; redrawn with replacement, `b1w` is over its level in 7 of 28 cells. The
   stratified Wald-t limit that section 8.1.5 recommends became the recommendation
@@ -2024,13 +2085,15 @@ certified, each time the policy changes. On the constructive side, a safety set 
 the reference model's own per-prompt rate made a label worth 1.3 to 1.5 labels for a claim
 about the prompt source, at rates of 12% and 46% on new prompts, under an approximate limit
 that held there and carries no guarantee. For that claim it lost at 82% (0.75 and 0.89); for
-the pool's own rate it gained little or lost at 82% and lost at 98%; it gained nothing at rare
-rates, and in the one run whose training reordered the prompts it held but saved almost nothing. It
+the pool's own rate it gained little or lost at 82% and lost at 98%; it gained little at rare
+rates (at most 1.2), and in the one run whose training reordered the prompts it held but saved almost nothing. It
 pays only where the certified label costs far more than a judged reference response. The gain
 belongs to the approximate limit: the exact stratified bounds we tried gave no reliable gain
 over Clopper-Pearson on a random draw. What
-this paper does not contain is a certificate of a
-trained policy in human labels. We have costed one and fixed its analysis in advance; running
+this paper does not contain is a certificate, in human labels, of the relative constraint a
+policy was trained under: 111 of one annotator's 220 labels certify the trained policy's own
+rate (at most 20.1%), but the difference from the reference is bounded only at +6.4 points
+(approximate) or +16.5 (exact), against a 2-point margin. We have costed that certificate and fixed its analysis in advance; running
 it, with more than one annotator, is the next step.
 
 ## References
@@ -2160,13 +2223,14 @@ delta 0.1 StratPPI as published is over its level in 3 of 10 cells. At delta 0.0
 is over in none. The paper's own allocation rules do not repair the normal limit: 9 of 26
 cells are over with the oracle rule and 11 with the heuristic. With a bootstrap-t limit the
 estimator is over its level in 6 of 26 cells under the oracle allocation and in 11 under the
-heuristic, against none of 26 under proportional allocation. Under proportional allocation it
+heuristic, against none of 26 under proportional allocation (where it returns no limit in up to 6% of draws; section 7.1). Under proportional allocation it
 is ahead of `b1w` in seven cells, by 3-35%, behind by 8% and 14% in the two at a 93% rate, and far
 behind in one (1.77 against 4.74). A sweep
 places that drop at a safety set of 100 with 8 or 16
 strata; with 4 strata, or with a safety set of 200 at any stratum count, it is absent. Over the sweep's 13 label-checkpoint cells the median `ESS_truth` is 1.77 against
-2.19 for `b1w` at a safety set of 100 with 8 strata, and 2.6-2.7 against 1.8-2.2 at a safety set
-of 200 or with 4 strata, where the bootstrap-t StratPPI is the narrower. Redrawn with replacement
+2.19 for `b1w` at a safety set of 100 with 8 strata, and 2.65 against 1.88 and 2.63 against 1.83
+with 4 strata (safety sets of 100 and 200) and 2.70 against 2.13 and 2.63 against 2.23 at a
+safety set of 200 with 8 or 16 strata, where the bootstrap-t StratPPI is the narrower. Redrawn with replacement
 (section 8.1.2, item 4), the median `ESS_truth` over the ten cells of Table A1 is 2.16 for `b1w`,
 1.92 for the bootstrap-t StratPPI limit and 1.99 for the stratified Wald-t limit; `b1w`'s at n_s
 100 with replacement and without is 2.29 and 2.39 for over-refusal and 4.73 and 4.74 for refusal
@@ -2215,7 +2279,10 @@ of a second family, sides with the guard too: it flags 95% of the guard-flagged 
 the pattern and 92% of those without (section 9.2) [B4]. WildGuard reads the pattern as the
 guard does; the compiled judge reads it as an answer, and did so before training as well (it
 flagged 10% of the reference's guard-flagged responses with the pattern and 25% of those
-without), so what changed with training is how many responses have it. We had first read
+without, canonical wording); after training it flagged 4%, 8% and 5% of those with the pattern
+in seeds 0, 1 and 2 (about 14 of 251 against 3 of 29, no detectable change) and 0%, 4% and 8% of
+the few without (10, 25 and 12; about 2 of 47 against 18 of 71), so training changed how many
+responses have the pattern and also how the judge reads the plain ones [B4]. We had first read
 these responses as a refusal sentence followed by the answer; the labels do not support that
 reading, and the surface pattern is not a label (on XSTest's completions for its safe prompts 56% of responses
 with it are human full refusals and 34% partial ones).
@@ -2263,6 +2330,7 @@ table says so.
 | exact stratified bounds and the chance of certifying: cells, arms, measures, eight predictions and their scoring code | 8.1.4 | committed and pushed with the script on 2026-10-16 (`e3326b1`), before any outcome on a registered cell was computed; the script had printed allocation sizes, two timings on made-up counts with their bound values, one unregistered toy cell, and Clopper-Pearson's exact miss on 3,000 made-up configurations of binomial sums. The step-spread sensitivity was written after the results and is not registered |
 | AgentDojo against a fitted crossed model: the model, the fit, two schemes, the arms, five predictions and their scoring code | 10.2 | committed and pushed with the script and the fitted parameters on 2026-10-16 (`e3326b1`), before any bound was computed on a simulated table; the fit and a timing run had been seen |
 | a second judge family and a second gold label: the model, items, four analyses, five predictions and their scoring code | 9.2 | committed and pushed with the scripts on 2026-10-16 (`e3326b1`), before any registered item was scored; a smoke test on four made-up items had been seen |
+| the four limits of the human-label certificate from the existing sheet | 10.3 | a plan note written on 2026-10-19 before the limits were computed and after the sheet's rates were known; not committed before the computation: no independent timestamp, and not a test |
 | the second model family trained on the guard's flag alone: the reward, the reused pool and strata, GPU caps, five predictions and their scoring code | 8.1.3 | committed and pushed with the scripts on 2026-10-16 (`e3326b1`), before any training step of the run; a 3-step pilot of the reward on training prompts had been seen (timing, memory, four training responses and the reward's spread). The registered reading took a failed check of the push's direction to mean the policy had not moved; the run moved it, and section 8.1.3 says so against that reading |
 
 **The first strata rule and the pre-flight's criteria, in figures** (section 8.1.1). The
@@ -2277,6 +2345,25 @@ level on over-refusal with 4 strata (largest miss over checkpoints 0.20 for the 
 criteria, a median absolute error of at most 0.1 failed on real data (0.29) and passed on the
 bandit (0.02), and a Spearman of at least 0.8 holds under the strata rule adopted afterwards and
 fails under the registered one (0.71).
+
+**The tally by content and by record.** Five of the 72 predictions say only that a bound with
+a finite-sample guarantee is at or under its level (Y6, Z1, Z2, X1 and W1, marked † below); they
+test the code, not a claim, and all five held. P5 and M9 pair such a half with a gain and are
+counted with the rest. Ten (M1 to M9, with M3 in two parts) were written after a dry run of the
+analysis, and three (T1 to T3) rest on a local commit time. All 18 failures are claims of
+substance: 17 registered by a push before the run and one (T3) on a local commit time; none of
+the ten written after the dry run failed
+[prediction split].
+
+*Table D0. The registered predictions by what they say and how their order is recorded.*
+
+| | held | failed | untested |
+|---|---|---|---|
+| exact bounds at their level (†), registration pushed before the run | 5 | 0 | 0 |
+| any other claim, registration pushed before the run | 37 | 17 | 0 |
+| any other claim, written after a dry run | 9 | 0 | 1 |
+| any other claim, local commit time only | 2 | 1 | 0 |
+| all | 53 | 18 | 1 |
 
 *Table D1. The eighteen registered predictions of section 8.1 and their outcomes. "Large pool" is the redraw with
 replacement at 40,000 draws; "source" is the claim about the prompt source at 10,000 replications; a cell is one
@@ -2325,10 +2412,10 @@ is over by section 6.1's rule; gains are against the pooled Wilson bound on a ra
 | Y3 | the Granite reference-rate stratifier, safety set 100, with replacement: the median gain of the Wald-t limit over the mid-rate labels is at least 1.1 | kept: 1.18 |
 | Y4 | the same: no mid-rate label gains more than 2.0 | kept: at most 1.34 |
 | Y5 | the stratifier from the other model families' completions gains more than the Granite one for at least 6 of the 8 mid-rate labels | refuted: 4 of 8 |
-| Y6 | Clopper-Pearson on a random draw, rare labels, with replacement: over in no cell | kept: no cell over |
+| Y6† | Clopper-Pearson on a random draw, rare labels, with replacement: over in no cell | kept: no cell over |
 | | *AgentDojo (section 10.2): 28 pipelines, 4,000 resampled tables a pipeline and scheme* | |
-| Z1 | the betting bound on user-task rates, against their average, is over for no pipeline with user tasks redrawn, across the table or within suites | kept: none under either |
-| Z2 | the pair-rate betting bound is over for no pipeline with user tasks redrawn within suites | kept: none |
+| Z1† | the betting bound on user-task rates, against their average, is over for no pipeline with user tasks redrawn, across the table or within suites | kept: none under either |
+| Z2† | the pair-rate betting bound is over for no pipeline with user tasks redrawn within suites | kept: none |
 | Z3 | the bound clustered by user task is over for no pipeline with user tasks redrawn within suites | kept: none |
 | Z4 | the same bound is over for at least 15 of 28 pipelines with injection tasks redrawn within suites | refuted: 11 |
 | Z5 | the quadrature bound is over for at most 2 of 28 pipelines under each scheme within suites | kept: none under any |
@@ -2362,7 +2449,7 @@ ESS is the number of random labels Clopper-Pearson needs to certify as often, ov
 | | prediction, as registered | outcome |
 |---|---|---|
 | | *Exact stratified bounds and the chance of certifying (section 8.1.4): 116 cells, delta 0.05 and 0.10 for X1 and X2, delta 0.05 for X3 to X8* | |
-| X1 | neither exact stratified bound is over in any cell | kept: 0 of 464 |
+| X1† | neither exact stratified bound is over in any cell | kept: 0 of 464 |
 | X2 | the betting bound's width gain against Clopper-Pearson is below 1 in every cell | kept: at most 0.53 |
 | X3 | the betting bound's power ESS at a pass probability of 0.8 is below 1 in every real and costly cell at a rate of 5% or more | kept: at most 0.28 |
 | X4 | the stratified Clopper-Pearson bound's power ESS at 0.8, real and costly cells in range: lowest at least 0.95, median at least 1.10 | refuted: 0.27 and 0.92 |
@@ -2371,7 +2458,7 @@ ESS is the number of random labels Clopper-Pearson needs to certify as often, ov
 | X7 | real cells in range: the Wald-t limit's width gain against Clopper-Pearson is at least its gain against the pooled Wilson bound in every one | kept: 36 of 36 |
 | X8 | the same cells: the Wald-t limit's power ESS at 0.8 is above the stratified Clopper-Pearson bound's in every one | refuted: 35 of 36 |
 | | *AgentDojo against a fitted crossed model (section 10.2): 28 pipelines, 4,000 tables a pipeline and scheme* | |
-| W1 | injection tasks fixed: the betting bound on user-task rates (against their average) and the pair-rate betting bound are over for no pipeline | kept: none and none |
+| W1† | injection tasks fixed: the betting bound on user-task rates (against their average) and the pair-rate betting bound are over for no pipeline | kept: none and none |
 | W2 | the same scheme: the bound clustered by user task is over for at most 2 | kept: none |
 | W3 | both kinds of task drawn: the bound clustered by user task is over for at least 8 | kept: 18 |
 | W4 | the same scheme: the quadrature bound is over for at most 2 | kept: none |

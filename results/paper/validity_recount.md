@@ -1,6 +1,6 @@
 # Validity recount under one rule
 
-`scripts/validity_recount.py`; source: `reports/paper_certification.md` (draft v0.9.11) and the result files it cites. Nothing was simulated: 7,427 cells and 53,173,000 draws are counted from existing files, or read from the training paper's printed tables where the data are lost (marked `~`). The script stops if a printed number of Table 4, or one of the sentences of section (c), does not agree with the files.
+`scripts/validity_recount.py`; source: `reports/paper_certification.md` (draft v0.9.13) and the result files it cites. Nothing was simulated: 7,427 cells and 53,173,000 draws are counted from existing files, or read from the training paper's printed tables where the data are lost (marked `~`). The script stops if a printed number of Table 4, or one of the sentences of section (c), does not agree with the files.
 
 **The rule.** A cell is one resampling study: R draws at level delta, miss m. With se = sqrt(delta (1 - delta) / R): *over* if m > delta + 2 se; *unresolved, above delta* if delta < m <= delta + 2 se; *at or under delta* if m <= delta. The exact one-sided binomial p-value of H0 'true miss <= delta' and a 95% Clopper-Pearson interval are in the JSON for every cell, and below for the cells that matter. *Over after Bonferroni*: the 2 se replaced by z(1 - a / C) se for the C cells of the row, a = 1 - Phi(2) = 0.0228, so one cell gives the rule itself.
 
@@ -124,8 +124,8 @@ Rows the paper quotes, in the order of Table 4 and then by section.
 | pig_t, a fitted crossed model | AgentDojo, 28 pipelines, tables drawn from a fitted crossed model (P_c) | 0.05 | [B6] | Table 4 row 52 | holds | 28 | 4,000 | 112,000 | 0.0111 (at or under delta) | 0.0367 [0.0311, 0.0431] | 0 | 0 | 28 | 0 |
 | stratified Wald-t limit, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | 0.05 | [B3] | Table 4 row 53 | holds | 4 | 40,000 | 160,000 | 0.0457 (at or under delta) | 0.0487 [0.0466, 0.0509] | 0 | 0 | 4 | 0 |
 | stratified Wald-t limit, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | 0.1 | [B3] | Table 4 row 53 | holds | 4 | 40,000 | 160,000 | 0.0979 (at or under delta) | 0.0999 [0.0970, 0.1029] | 0 | 0 | 4 | 0 |
-| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | 0.05 | [B3] | Table 4 row 54 | - | 4 | 40,000 | 160,000 | 0.0518 (over) | 0.0592 [0.0569, 0.0616] | 2 | 0 | 2 | 2 |
-| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | 0.1 | [B3] | Table 4 row 54 | - | 4 | 40,000 | 160,000 | 0.1041 (over) | 0.1121 [0.1090, 0.1152] | 2 | 1 | 1 | 2 |
+| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | 0.05 | [B3] | Table 4 row 54 | fails | 4 | 40,000 | 160,000 | 0.0518 (over) | 0.0592 [0.0569, 0.0616] | 2 | 0 | 2 | 2 |
+| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | 0.1 | [B3] | Table 4 row 54 | fails | 4 | 40,000 | 160,000 | 0.1041 (over) | 0.1121 [0.1090, 0.1152] | 2 | 1 | 1 | 2 |
 | Wald-t b1, sampled-pool term | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.05 | [B3] | Table 4 row 55 | holds | 4 | 10,000 | 40,000 | 0.0444 (at or under delta) | 0.0480 [0.0439, 0.0524] | 0 | 0 | 4 | 0 |
 | Wald-t b1, sampled-pool term | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label, a claim about the prompt source, steps 100 and 200, n_s 100-200 | 0.1 | [B3] | Table 4 row 55 | holds | 4 | 10,000 | 40,000 | 0.0891 (at or under delta) | 0.0943 [0.0886, 0.1002] | 0 | 0 | 4 | 0 |
 | `b1w` at the other settings of the strata | 4 mid-rate labels, 1-8 reference samples, 2-8 strata (11 settings), n_s 100-200, 3 checkpoints | 0.05 | [013] | section 7.1 (reading 3) | - | 264 | 5,000 | 1,320,000 | 0.0309 (at or under delta) | 0.0598 [0.0534, 0.0667] | 2 | 14 | 248 | 0 |
@@ -418,7 +418,7 @@ Every printed miss rate agrees with the recount to its printed digits and every 
 | 51 | betting mixture on user-task rates; on the pair rate, against a fitted crossed model | the same, scheme (P_a); truth: the model's user-task average; its pair rate | 0.05 | at most 0.005; 0.003 | 0-0.0045; 0-0.0032 | 28; 28 | 4,000 | 0 / 0 / 28; 0 / 0 / 28 | 0.007 (0); 0.006 (0) | [B6] |
 | 52 | pigeonhole bootstrap-t; two clustered margins in quadrature, against a fitted crossed model | the same, schemes (P_a); (P_c) for each | 0.05 | at most 0.011; 0.037; 0.016; 0.047 | 0-0.0107; 0-0.0367; 0-0.0163; 0.0008-0.0473 | 28; 28; 28; 28 | 4,000 | 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 | 0.014 (0); 0.043 (0); 0.021 (0); 0.054 (0) | [B6] |
 | 53 | stratified Wald-t limit, a policy that training moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's refusal flag alone, refusal label (26% at step 100, 58% at step 200), the second family's pool and strata, n_s 100-200 | 0.05 / 0.10 | 0.043-0.049 / 0.095-0.100 | 0.0430-0.0487; 0.0952-0.0999 | 4; 4 | 40,000 | 0 / 0 / 4; 0 / 0 / 4 | 0.051 (0); 0.103 (0) | [B3] |
-| 54 | `b1w`, the same | the same cells | 0.05 / 0.10 | 0.045-0.059 / 0.098-0.112 | 0.0453-0.0592; 0.0982-0.1121 | 4; 4 | 40,000 | 2 / 0 / 2; 2 / 1 / 1 | 0.062 (2); 0.115 (2) | [B3] |
+| 54 | **`b1w`, the same** | the same cells | 0.05 / 0.10 | **0.045-0.059 / 0.098-0.112** | 0.0453-0.0592; 0.0982-0.1121 | 4; 4 | 40,000 | 2 / 0 / 2; 2 / 1 / 1 | 0.062 (2); 0.115 (2) | [B3] |
 | 55 | the stratified Wald-t limit with the term for a sampled pool, a policy that training moved far | a claim about the prompt source, the same label, steps and sizes | 0.05 / 0.10 | 0.040-0.048 / 0.085-0.094 | 0.0398-0.0480; 0.0851-0.0943 | 4; 4 | 10,000 | 0 / 0 / 4; 0 / 0 / 4 | 0.052 (0); 0.100 (0) | [B3] |
 
 - Rows 1, 3, 4, 5 and 15: exact enumeration at every pool count the training paper's printed rate allows (121-124 of 3,600) and the five sizes, 20 cells a bound; row 5 holds two bounds. Row 15, Student-t: over in every cell, 0.1037 to 0.1951.
@@ -430,13 +430,13 @@ Every printed miss rate agrees with the recount to its printed digits and every 
 Each quotation is in the draft word for word and each count is asserted in the script.
 
 1. **section 7.1, below Table 4.**
-   > (rows 38, 39, 46 and 54, with 2, 3, 1 and 4 cells over, of which 1, 2, 1 and 4 stay over after the
+   > (rows 38, 39 and 46, with 2, 3 and 1 cells over, of which 1, 2 and 1 stay over after the
 correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10)
 
-   Registered rows with cells over (cells over, after Bonferroni): {38: (2, 1), 39: (3, 2), 46: (1, 1), 54: (4, 4)}; interval ends {0.05: 0.061915859142313484, 0.1: 0.11773008335265213}.
+   Registered rows with cells over (cells over, after Bonferroni): {38: (2, 1), 39: (3, 2), 46: (1, 1)}; interval ends {0.05: 0.061915859142313484, 0.1: 0.11773008335265213}.
 
 2. **section 7.1, below Table 4; section 11.**
-   > In the remaining rows, which we treat as valid, no cell stays over its level after the correction, and the largest miss rate a cell's interval leaves open is 0.067 at delta 0.05 and 0.106 at 0.10.
+   > In rows 1 to 36 that are not in bold, which we treat as valid, no cell stays over its level after the correction, and the largest miss rate a cell's interval leaves open is 0.067 at delta 0.05 and 0.106 at 0.10.
    > One cell there is over under the uncorrected rule: `b1w` on a design-weighted sheet, 0.0595 at 4,000 draws.
    > the other run of the same setting gave 0.0485, and the two together give 0.054, which is unresolved
    > for the bounds we use its largest value is 0.067 at a nominal 0.05
@@ -447,7 +447,7 @@ correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10)
    > Every row in bold has at least one cell over, and every one but the quadrature bound keeps one after the correction.
    > Most also have cells that are not over
 
-   43 groups in the failing rows; each has a cell over (the rare-label row's two bounds taken together). 39 of them also have cells that are not over.
+   45 groups in the failing rows; each has a cell over (the rare-label row's two bounds taken together). 41 of them also have cells that are not over.
 
 4. **section 7.1, reading 1.**
    > neither `b1w` nor the pooled Wilson bound is over in any of the 24 rare-label cells at delta 0.05; at delta 0.10 two are, both at 0.126, for one harm label at the checkpoint where its rate is 1.9%, at n_s 100
@@ -474,7 +474,7 @@ correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10)
    1 over, 24 unresolved, 353 at or under of 378; the largest at delta 0.05 is 0.0595. The 378 are not 378 separate studies: the 168 PPI++ cells are 42 sets of draws read through four judge features, the delta 0.10 cells of the `b1w` rows reuse their delta 0.05 draws, and the reference-rate cells of the StratPPI row share seeds with the `b1w` rows. Other settings of the strata: 8 / 27 / 493 of 528. With replacement the bootstrap-t StratPPI limit is 0 / 0 / 28; the Wald-t limit is over in 0 of 160 cells, both designs and both deltas, rare labels included. Synthetic i.i.d. grid: `b1w` 5 / 7 / 24, Wald-t 10 / 10 / 16 of 36.
 
 7. **abstract.**
-   > promised to be wrong in at most 5% of repeated trials, the standard one (Clopper-Pearson) was wrong in at most 5.3% of ours, a difference within the noise of the check
+   > promised to be wrong in at most 5% of repeated trials, the standard one for yes-or-no labels was wrong in at most 5.3% of ours, a difference within the noise of the check
 
    Largest Clopper-Pearson miss at delta 0.05 outside the AgentDojo per-pair rows: 0.0528 (the replacement check's paired random draws, 5,000 a cell; not over by the cell rule). Exact bounds at delta 0.05 (Clopper-Pearson on spike 017's plasmodes and on the random draws with replacement): largest upper limit of a cell's interval 0.0588. Bootstrap-t limits at delta 0.05: PPI++ with a bootstrap-t limit (017_boot) 0.0609, StratPPI estimator with a bootstrap-t limit (p14_a_sboot_mid_0.05) 0.0513, StratPPI estimator with a bootstrap-t limit (p14_b_sboot) 0.0636, StratPPI estimator with a bootstrap-t limit, redrawn with replacement (rep_sboot_mid_0.05) 0.0518, cluster bootstrap-t, by user task (ad_t_user_a) 0.0577. None of these groups has a cell over.
 
@@ -503,7 +503,7 @@ correction; interval ends up to 0.062 at delta 0.05 and 0.118 at 0.10)
    StratPPI's normal limit: 4 of 10 over at delta 0.05 (3 at 0.1); by checkpoint 9 of 26. The marginal cell is 0.0564 (282 of 5,000; p = 0.022; 95% interval 0.0502-0.0632). Bootstrap-t: 0 of 10, largest 0.0452.
 
 12. **section 8.1.**
-   > `b1w` is over its level in none of the 28 mid-rate cells at either delta (3 unresolved at delta 0.05, on the 93% label) and in 1 of its 12 rare-label cells at delta 0.10 (0.126)
+   > `b1w` is over its level in none of the 28 mid-rate cells of Table A1's draws (five labels, two sizes, by checkpoint) at either delta (3 unresolved at delta 0.05, on the 93% label) and in 1 of its 12 rare-label cells at delta 0.10 (0.126)
    > it is over in 7 of 28 at delta 0.05 and 6 at 0.10, all at rates of 65% and above, and the bootstrap-t StratPPI limit and the stratified Wald-t limit are over in none
 
    Without replacement `b1w` is 0 / 3 / 25 of 28 at delta 0.05 and over in none at 0.1; with replacement 7 / 1 / 20, the bootstrap-t StratPPI limit 0 / 0 / 28.
@@ -557,7 +557,7 @@ level in 8 of the 32 mid-rate cells drawn with replacement at delta 0.05 and 11 
    > `b1w` is over its level in none of the 28 mid-rate cells at delta 0.05 (4 unresolved, largest miss 0.052) and in one at 0.10 (0.112, on the 93% label); the Wald-t limit is over in none at either.
    > is 1.83 and 1.54 for over-refusal (1.68 and 1.44 when the Lagrangian pushes the label), 2.36 and 1.75 for refusal of harmful requests, and 1.35 and 1.25 for non-refusal of encoded requests.
    > gives 1.84 and 1.54, 1.71 and 1.46, 2.68 and 1.92, and 1.35 and 1.24
-   > `b1w` without the term is over in 17 of the 28 cells (misses up to 0.170). So is the bootstrap-t StratPPI limit, in 21 (up to 0.166)
+   > `b1w` without the term is over in 17 of the 28 cells (misses up to 0.170), and the bootstrap-t StratPPI limit in 21 (up to 0.166)
    > On the two rare labels `b1w` is over in 1 of 12 cells at delta 0.05 and 3 at 0.10, with or without the term
    > gives 2.39 and 2.47, 2.11 and 2.12, 4.66 and 5.14, and 1.50 and 1.52.
    > the strata lose (0.88 and 0.93), and at rare rates they gain nothing (1.01 to 1.05).
@@ -569,24 +569,29 @@ level in 8 of the 32 mid-rate cells drawn with replacement at delta 0.05 and 11 
    > Its refusal rates came out at 12%, 82% and 98%, so no label fell between 18% and 65%
    > Six predictions were kept and two refuted
    > in all 4 at 82% (misses 0.062 at delta 0.05 and 0.111-0.113 at 0.10)
-   > `b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there, 1.55 and 1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there
+   > `b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there (its returns of no limit there were not counted), 1.55 and 1.88) and 0.86 and 1.13 at 82% (the Wald-t limit; `b1w`'s 1.49 and 1.62 there
    > is over in 1 of 8 mid-rate cells (0.105 at delta 0.10 on the 82% label)
    > its gain at 82% is 0.86 and 1.13 with a large pool and 0.75 and 0.89 for the source, against 1.47 and 1.73 at 12%
    > kept six of eight predictions; it covers refusal rates of 12%, 82% and 98% and two rare labels on one model
-   > and in one more at the 98% rate (0.052 at delta 0.05)
+   > and in one more at the 98% rate (0.0524 at delta 0.05, above the 0.0522 at which 40,000 draws count a cell as over)
    > (0.058 at delta 0.05 and 0.117 at 0.10; unresolved at 200 and delta 0.05, 0.052)
    > it gives 2.67 at the 98% rate, where with a large pool the strata lose under every limit (0.55 and 0.63 for `b1w`, against a baseline itself over its level at a safety set of 100), and 2.47 on a rare label
-   > gained 1.5 to 1.9 at 12% (`b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there, 1.55 and 1.88) and 0.86 and 1.13 at 82%
+   > gained 1.5 to 1.9 at 12% (`b1w` 1.53 and 1.62, the Wald-t limit 1.47 and 1.73; the bootstrap-t StratPPI limit, which also held there (its returns of no limit there were not counted), 1.55 and 1.88) and 0.86 and 1.13 at 82%
    > the stratified Wald-t limit is over in none of the 8 (misses at most 0.039 at delta 0.05 and 0.082 at 0.10)
    > term is over in none of 8 (at most 0.047 and 0.088), with a gain of 1.31 and 1.32 at 12% and 0.75 and 0.89 at 82%
    > the Wald-t limit with the term is over in one rare-label cell for the source (0.110 at delta 0.10, with a safety set of 200)
    > baseline that is itself over its level there at a safety set of 100 (against Clopper-Pearson, which held, the large-pool figures are 1.06 and 1.32)
    > at 98% it is over in none of its 4 cells
-   > measure gives 1.5 to 5.0 for `b1w` at rates of 9% to 66% on the pools that chose the rule
+   > gives 1.4 to 5.1 for `b1w` at rates of 9% to 66% on the pools that chose the rule
 
    The registered run (`results/paper/confirm/confirm.md`): P1 refuted (Wald-t b1: 0 of 8 over; StratPPI estimator, bootstrap-t: 1 of 8 over); P2a kept (0 of 4 cells over on 1 such labels); P2b kept (K2:refusal: 4 of 4); P3 kept (K1:refusal n_s 100: 1.53 against 1.82; K1:refusal n_s 200: 1.62 against 1.82; K2:refusal n_s 100: 1.49 against 1.65; K2:refusal n_s 200: 1.62 against 1.65); P4a refuted (`b1w`: 1 of 4; Wald-t: 0 of 8); P4b kept (no term: 3 of 4; bootstrap-t StratPPI: 4 of 4); P4c kept (K1:refusal n_s 100: 1.32 against 1.35; K1:refusal n_s 200: 1.22 against 1.24; K2:refusal n_s 100: 1.22 against 1.33; K2:refusal n_s 200: 1.20 against 1.24); P5 kept (K2:unsafe n_s 100: 1.06; K2:unsafe n_s 200: 1.11; K3:unsafe n_s 100: 1.01; K3:unsafe n_s 200: 1.07; Clopper-Pearson 0 of 8 over).
 
-20. **section 8.1, a pool aimed at the gap; abstract; section 11.**
+20. **section 8.1.3.**
+   > the rare labels the strata gain little (1.01 to 1.11 for `b1w`, 0.86 to 1.20 for the Wald-t limit)
+
+   Rare-label gains on the confirmation pool: b1w [1.06, 1.11, 1.01, 1.07], Wald-t [0.99, 1.2, 0.86, 1.08].
+
+21. **section 8.1, a pool aimed at the gap; abstract; section 11.**
    > By prompt category the three pools' refusal rates run from 0% to 22%, from 46% to 89% and from 87% to 100%; three categories fall inside the range, with 47, 20 and 17 prompts
    > From the reference samples alone, with `omega = 1`, it predicts 2.58, 4.12 and 2.22, and the realised gains are 27% to 41% lower
    > (one cell unresolved, 0.102 at delta 0.10)
@@ -610,15 +615,15 @@ level in 8 of the 32 mid-rate cells drawn with replacement at delta 0.05 and 11 
    > At 46% the Wald-t limit kept 75% to 86% of `b1w`'s gain
    > was wrong no more often than promised at breach rates of 12%, 46% and 82%
    > 1.5 to 1.7 times its size at 12% and 2.1 to 2.6 times at 46%
-   > The gain is smaller, 1.3 to 1.5 at the first two rates, when the certificate must cover all prompts of that kind
-   > At 82% it gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained nothing
+   > The gain is smaller, 1.3 to 1.5 at 12% and 46%, when the certificate must cover all prompts of that kind
+   > At 82% it gained little or lost, at 98% it lost, and for rare behaviours (under 4%) it gained at most 1.2 times
    > Of 72 predictions
 registered in advance, 53 held, 18 failed and one could not be tested
    > Between 18% and 65% Granite has one rate, 46%, from a fourth pool mixed from two sources
 
    The registered run (`results/paper/confirm/mid/confirm.md`): M1 kept (0 of 4 over); M2 kept (0 of 4 over; largest miss minus level +0.001); M3a no label (rate 0.459; 0 of 4 over); M3b kept (rate 0.459; miss minus level from -0.006 to -0.004); M4 kept (n_s 100: 2.78 against 2.79; n_s 200: 2.97 against 2.79); M5 kept (n_s 100: 2.09; n_s 200: 2.56); M6 kept (0 of 4 over); M7 kept (no term: 2 of 2; bootstrap-t StratPPI: 2 of 2); M8 kept (n_s 100: 1.49 against 1.64; n_s 200: 1.34 against 1.44); M9 kept (unsafe n_s 100: 1.00; unsafe n_s 200: 1.08; Clopper-Pearson 0 of 4 over).
 
-21. **abstract; Appendix D.**
+22. **abstract; Appendix D.**
    > Of 72 predictions
 registered in advance, 53 held, 18 failed and one could not be tested
    > | T1 | the multiway variance with a t quantile is over for some pipelines | kept: 26 of 28 |
@@ -627,7 +632,54 @@ registered in advance, 53 held, 18 failed and one could not be tested
 
    72 predictions scored from the result files: 53 kept, 18 refuted, 1 without a label.
 
-22. **sections 9.1 and 9.2; sections 5, 11 and 13; Appendix B.**
+23. **abstract; Appendix D.**
+   > 39 of 57 held
+   > | exact bounds at their level (†), registration pushed before the run | 5 | 0 | 0 |
+   > | any other claim, registration pushed before the run | 37 | 17 | 0 |
+   > | any other claim, written after a dry run | 9 | 0 | 1 |
+   > | any other claim, local commit time only | 2 | 1 | 0 |
+
+   Prediction split: {'substantive': {'held': 48, 'failed': 18, 'untested': 1}, 'construction': {'held': 5, 'failed': 0, 'untested': 0}}; {'independent': {'held': 42, 'failed': 17, 'untested': 0}, 'dry_run': {'held': 9, 'failed': 0, 'untested': 1}, 'local_only': {'held': 2, 'failed': 1, 'untested': 0}}.
+
+24. **section 7.1.**
+   > which at the 95% label with a safety set of 100 happens in 0.9% of draws and
+takes it to 0.052 at delta 0.05
+
+   Clopper-Pearson at p 0.9535, n 100: all positives 0.0086; miss with those counted 0.0521.
+
+25. **section 7.1.**
+   > 12 on the reference-rate strata (4 and 7 of 28) are all at a safety set of 100, on labels at
+16% to 95%
+
+   M1: the reference-rate-strata cells that turn over when no limit counts as a miss are all at n_s 100.
+
+26. **section 7.1; section 11.**
+   > up to 6% of draws on the reference-rate strata (up to 8.6% when
+redrawn with replacement)
+   > in up to 52% on the judge-logit strata at a 1.3% rate
+   > with a bootstrap-t limit in up to 55% of draws
+   > in up to 82% of tables
+   > would be over in up to 7 of 28 cells
+(row 12 at delta 0.05), in 10 of 168 for row 9
+   > for 2 to 7 of
+28 pipelines
+   > design effect on the miss rate is at most 1.9
+
+   M1: 017_boot (10, 13, 145), rep_sboot (7, 2, 19), AgentDojo rows that hold 2-7 pipelines over if no limit were a miss; sheet design effect max 1.91.
+
+27. **abstract; section 10.3; section 11; section 13.**
+   > at most 20.1% of the 5,880 responses the sheet was
+drawn from
+   > puts the bound at
+13.9%
+   > source at 15.7%. The reference gives 20.4%, 13.8% and 15.5%.
+   > is +16.5 points and the
+clustered normal one +6.4
+   > refuses outright at most 20.1% of its responses to a pool of 490 benign prompts
+
+   C1: policy E1 0.2012, A1 0.1385, A2 0.1575; reference 0.2045, 0.1384, 0.1552; difference E2 +0.1652, A2 +0.0638; margin 0.02 certified by none.
+
+28. **sections 9.1 and 9.2; sections 5, 11 and 13; Appendix B.**
    > Between the two benign sources the bound was over its level for 4 of 6 wordings one way and 1 of 6 the other; between the pools, for 5 of 6 one way and none the other.
    > 0.03, 0.07 and 0.05 for the canonical wording in seeds 0, 1 and 2, recall differed in 2, 2 and
 1 of 6 wordings
@@ -643,14 +695,14 @@ further seeds
 
    4, 1, 5 and 0 of 6 over between populations. Constrained run, seeds 0-2: 3, 3, 2 over at step 200 (seed 0: 1 unresolved, 0.0537 (215 of 4,000; p = 0.15; 95% interval 0.0470-0.0612); largest in seeds 1, 2: 0.399, 0.625); 1, 1, 4 of 6 over at step 100. Recall (wording 0) at step 200: 0.032, 0.074, 0.052; safety-test upper bounds 0.1979, 0.2317, 0.2064 against 0.20575. The side-effect run: 6 of 6 at or under delta.
 
-23. **section 10.2; abstract.**
+29. **section 10.2; abstract.**
    > that bound is over its level for none (2 unresolved, neither of them the pipeline that certifies below)
    > same bound is over its level for 24 of 28 pipelines. So are the others we had: the bootstrap by injection task (23), the pigeonhole bootstrap of Owen (2007) with a basic limit, which resamples both kinds of task (27), the bound clustered in the direction of the larger intraclass correlation (22), and the larger of the two clustered bounds
    > the usual certificate is wrong too often for 27 of 28 agent configurations
 
    Scheme (a): cluster bootstrap-t by user task 0 / 2 / 26; per-pair Clopper-Pearson over for 27 of 28. Scheme (c): 24, 23, 27 and 16 of 28 over; the quadrature bound 0. The two-way bootstrap returns 0 when a redrawn table has no success; such tables are at most 0.7%, 1.2% and 5.8% of a cell's draws under the three schemes, and taking them out of the misses leaves its counts of cells over unchanged (5, 14, 27).
 
-24. **section 10.2; section 12; abstract.**
+30. **section 10.2; section 12; abstract.**
    > multiway limit is over its level for 26 of 28 pipelines when both kinds of task are resampled (misses up to 0.18)
    > The pigeonhole bootstrap-t is over for none under any of the three schemes (largest miss 0.042)
    > (median ratio 2.05), and no pipeline certifies 5% under it
@@ -664,9 +716,9 @@ pipeline with the lowest rate)
 
    Scheme (c), 4,000 resampled tables a pipeline: multiway-t 26 / 1 / 1 (largest 0.1787); pigeonhole bootstrap-t 0 / 0 / 28, and (a) 0 / 0 / 28; (b) 0 / 0 / 28; quadrature 1 / 1 / 26 (claude-3-haiku-20240307, 0.0580 (232 of 4,000; p = 0.012; 95% interval 0.0510-0.0657)), against 0 over on the earlier draws. On the published tables the pigeonhole bootstrap-t's margin is 2.05 times the user-task bound's at the median (1.17 to 87.49), 0 pipelines certify 5% and 1 gets no limit. Table 7's last column is asserted against the same file.
 
-25. **section 10.2; section 11.**
+31. **section 10.2; section 11.**
    > both
-are over their level for no pipeline (misses at most 0.007), and so is the bound clustered by
+are over their level for no pipeline (misses at most 0.007), and neither is the bound clustered by
 user task within suites (largest miss 0.042)
    > bound is over for 11 of 28 pipelines, against 21 when they are redrawn across the table
    > unblocked redraws lost a whole suite in under 1% of tables
@@ -678,7 +730,7 @@ pair-rate version certifies none (0.060 for that pipeline)
 
    O4: betting bounds under (a), (a_s) over in none (largest 0.0070); cluster bootstrap-t (a_s) 0/0/28, (b_s) 11/1/16, (b) 21/0/7; betting (b_s) 3 and 2. Real tables: (a1) certifies ['claude-3-5-sonnet-20241022']; (a2) none. Table 7's exact column is asserted against the same file.
 
-26. **section 8.1.3; sections 7.1, 8.1.5 and 11.**
+32. **section 8.1.3; sections 7.1, 8.1.5 and 11.**
    > The pool's refusal rate went from 19.7% to 19.1%; it
 fell on the categories the reward pushed up (16.9% to 14.8%) and rose on those it pushed down
 (22.5% to 23.5%)
@@ -699,7 +751,7 @@ fell on the categories the reward pushed up (16.9% to 14.8%) and rose on those i
 
    O6 at step 200: rate 0.197 -> 0.191; UP 0.169 -> 0.148; DOWN 0.225 -> 0.235; rho 0.843 (step 100 0.878); reward-model term +4.97 from the first 25 calls to the last 50.
 
-27. **section 8.1.3 (B3); sections 5, 8.1.5, 11 and 13; abstract.**
+33. **section 8.1.3 (B3); sections 5, 8.1.5, 11 and 13; abstract.**
    > At step 200 the pool's refusal rate was 58.0%, against the
 reference's 19.7%, and rho fell to 0.46 (0.87 at step 100), where we predicted under 0.7
    > from 16.9% to 67.4%
@@ -719,7 +771,7 @@ on those pushed up and from 22.5% to 48.7% on those pushed down
 
    B3 at step 200: rate 0.197 -> 0.580; UP 0.169 -> 0.674; DOWN 0.225 -> 0.487; rho 0.462 (step 100 0.870).
 
-28. **section 10.4; Appendix C.**
+34. **section 10.4; Appendix C.**
    > puts the miss rates of the four limits at or under 0.045 against a level of 0.05 when the 490 prompts are fixed
    > the labels-alone bootstrap-t and (b2) are at 0.051 and 0.052
    > puts the miss rates of the four limits at 0.001, 0.040, 0.045 and 0.042 for the pool rate against a level of 0.05
@@ -727,7 +779,7 @@ on those pushed up and from 22.5% to 48.7% on those pushed down
 
    Pool scheme: all four at or under delta at 2,000 repetitions. New-prompts scheme: (a) at or under, (a') and (b2) unresolved above delta, (b1), not built for that scheme, over.
 
-29. **section 8.1.4 (exact stratified bounds; B25).**
+35. **section 8.1.4 (exact stratified bounds; B25).**
    > computed exactly, its miss is at most 0.048 at delta 0.05 over all 116 cells
    > the stratified Clopper-Pearson bound has a width gain of 0.82 against Clopper-Pearson (median; 0.50 to 1.00) and a power ESS of 1.11 (median; 0.27 to 1.83); it certifies more often than Clopper-Pearson in 19 of the 36 cells. At the lower threshold, the one Clopper-Pearson passes with probability 0.5, its power ESS is 0.67
    > on the costly label it certifies more often in none of the 32 cells
@@ -744,7 +796,7 @@ the 32 costly ones
 
    results/paper/exact_strat.json (registered) and exact_strat_tau.json (the step-spread sensitivity), delta 0.05.
 
-30. **section 10.2 (a fitted crossed model; B6); section 11.**
+36. **section 10.2 (a fitted crossed model; B6); section 11.**
    > the bound clustered by user task is over its level for no pipeline (largest miss 0.044), and neither are the betting bounds (0.005), the quadrature bound (0.016), the pigeonhole bootstrap-t (0.011) or the larger of the two clustered bounds (0.036); the multiway limit is over for 4
    > user task is over for 18 of 28 pipelines (misses up to 0.25), the multiway limit for 13, the betting bounds for 5 (against the user-task average) and 3 (the pair rate), and the larger of the clustered bounds for 3
    > The quadrature bound and the pigeonhole bootstrap-t are over for none (largest misses 0.047 and 0.037). All five predictions held
@@ -753,7 +805,7 @@ the 32 costly ones
 
    P_a over: {'t_user': 0, 'bet_a1@uavg': 0, 'bet_a2': 0, 'quad': 0, 'pig_t': 0, 'max': 0, 'cgm_t': 4}; P_c over: {'t_user': 18, 'bet_a1@uavg': 5, 'bet_a2': 3, 'quad': 0, 'pig_t': 0, 'max': 3, 'cgm_t': 13}; grid edge: ['Meta-SecAlign-70B', 'gpt-3.5-turbo-0125'].
 
-31. **section 9.2 (a second judge family; B4); Appendix B; section 11.**
+37. **section 9.2 (a second judge family; B4); Appendix B; section 11.**
    > its recall on the guard's refusals rose with training, from 0.88 at step 0 to 0.94, 0.94 and 0.91 at step 200 (no rise significant; Fisher p 0.22 to 0.65); its false alarms were 1.0% at step 0 and 1.0% to 1.7% at step 200, and the carried bound was over its level in no seed (misses 0.000)
    > canonical wording's recall on WildGuard's refusals fell from 0.23 to 0.03, 0.08 and 0.05, and its carried bound was over its level in all three seeds (misses 0.84, 0.46 and 0.66)
    > WildGuard flagged 95% of the 607 responses with the surface pattern of Appendix B and 92% of the 479 without it (Fisher p 0.064
@@ -810,6 +862,8 @@ the 32 costly ones
 - cluster bootstrap-t, by user task, AgentDojo, 28 pipelines, scheme (b_s), delta 0.05 (Table 4 row 42): 11 of 28 over, 1 unresolved, 16 at or under; pooled miss 0.0597.
 - cluster bootstrap-t, by user task, AgentDojo, 28 pipelines, scheme (c_s), delta 0.05 (Table 4 row 42): 19 of 28 over, 2 unresolved, 7 at or under; pooled miss 0.0977.
 - t_user, a fitted crossed model, AgentDojo, 28 pipelines, tables drawn from a fitted crossed model (P_c), delta 0.05 (Table 4 row 50): 18 of 28 over, 3 unresolved, 7 at or under; pooled miss 0.1027.
+- `b1w`, a policy moved far, redrawn with replacement, Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200, delta 0.05 (Table 4 row 54): 2 of 4 over, 0 unresolved, 2 at or under; pooled miss 0.0518.
+- `b1w`, a policy moved far, redrawn with replacement, Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200, delta 0.1 (Table 4 row 54): 2 of 4 over, 1 unresolved, 1 at or under; pooled miss 0.1041.
 - StratPPI's normal limit, redrawn with replacement, 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint, delta 0.05 (section 7.1): 20 of 28 over, 1 unresolved, 7 at or under; pooled miss 0.0599.
 - StratPPI's normal limit, redrawn with replacement, 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint, delta 0.1 (section 7.1): 18 of 28 over, 1 unresolved, 9 at or under; pooled miss 0.1084.
 - StratPPI as published (normal limit), 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint, delta 0.1 (section 8.1): 7 of 28 over, 3 unresolved, 18 at or under; pooled miss 0.0947.
@@ -991,6 +1045,10 @@ Every cell that is not at or under delta in a row the paper says holds, and ever
 | t_user, a fitted crossed model | AgentDojo, 28 pipelines, tables drawn from a fitted crossed model (P_c) | fails | gemini-2.0-flash-exp | 0.05 | 4,000 | 202 | 0.0505 | unresolved, above delta | 0.45 | [0.0439, 0.0577] |
 | t_user, a fitted crossed model | AgentDojo, 28 pipelines, tables drawn from a fitted crossed model (P_c) | fails | meta-llama_Llama-3.3-70B-Instruct | 0.05 | 4,000 | 132 | 0.0330 | at or under delta | 1 | [0.0277, 0.0390] |
 | t_user, a fitted crossed model | AgentDojo, 28 pipelines, tables drawn from a fitted crossed model (P_c) | fails | meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt | 0.05 | 4,000 | 214 | 0.0535 | unresolved, above delta | 0.16 | [0.0467, 0.0609] |
+| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | fails | step 100, n_s 100 | 0.05 | 40,000 | 1,815 | 0.0454 | at or under delta | 1 | [0.0434, 0.0475] |
+| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | fails | step 100, n_s 200 | 0.05 | 40,000 | 1,813 | 0.0453 | at or under delta | 1 | [0.0433, 0.0474] |
+| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | fails | step 100, n_s 100 | 0.1 | 40,000 | 4,069 | 0.1017 | unresolved, above delta | 0.13 | [0.0988, 0.1047] |
+| `b1w`, a policy moved far, redrawn with replacement | Qwen2.5-1.5B-Instruct trained on the guard's flag alone, refusal label (26% and 58%), steps 100 and 200, n_s 100-200 | fails | step 100, n_s 200 | 0.1 | 40,000 | 3,929 | 0.0982 | at or under delta | 0.88 | [0.0953, 0.1012] |
 | StratPPI's normal limit, redrawn with replacement | 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint | fails | C2:refusal, n_s 100, step 0 | 0.05 | 40,000 | 1,172 | 0.0293 | at or under delta | 1 | [0.0277, 0.0310] |
 | StratPPI's normal limit, redrawn with replacement | 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint | fails | C2:refusal, n_s 200, step 0 | 0.05 | 40,000 | 1,219 | 0.0305 | at or under delta | 1 | [0.0288, 0.0322] |
 | StratPPI's normal limit, redrawn with replacement | 5 mid-rate labels, reference-rate strata, n_s 100-200, by checkpoint | fails | C2:refusal, n_s 100, step 100 | 0.05 | 40,000 | 1,409 | 0.0352 | at or under delta | 1 | [0.0334, 0.0371] |

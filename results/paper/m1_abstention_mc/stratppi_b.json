@@ -1,0 +1,316 @@
+{
+ "p14_b_sboot": {
+  "row": 11,
+  "source": "stratppi_baseline.py part B replayed",
+  "cells": [
+   {
+    "label": "refusal rubric 0, rate pool, n 100 of 2000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.056,
+    "no_limit": 0.0045,
+    "miss_cons": 0.0605,
+    "cls": "unresolved",
+    "cls_cons": "over",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal rubric 0, rate pool, n 100 of 2000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.05175,
+    "no_limit": 0.00325,
+    "miss_cons": 0.055,
+    "cls": "unresolved",
+    "cls_cons": "unresolved",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal rubric 0, rate pool, n 225 of 2000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0465,
+    "no_limit": 0.0,
+    "miss_cons": 0.0465,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal rubric 0, rate pool, n 225 of 2000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.05,
+    "no_limit": 0.0,
+    "miss_cons": 0.05,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal rubric 0, rate pool, n 500 of 2000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04825,
+    "no_limit": 0.0,
+    "miss_cons": 0.04825,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal rubric 0, rate pool, n 500 of 2000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0445,
+    "no_limit": 0.0,
+    "miss_cons": 0.0445,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal rubric 0, rate 0.05, n 225 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04225,
+    "no_limit": 0.00075,
+    "miss_cons": 0.043000000000000003,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal rubric 0, rate 0.05, n 225 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0325,
+    "no_limit": 0.00025,
+    "miss_cons": 0.03275,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal rubric 0, rate 0.05, n 1000 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.049,
+    "no_limit": 0.0,
+    "miss_cons": 0.049,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal rubric 0, rate 0.05, n 1000 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0495,
+    "no_limit": 0.0,
+    "miss_cons": 0.0495,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal rubric 0, rate 0.013, n 225 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00975,
+    "no_limit": 0.519,
+    "miss_cons": 0.52875,
+    "cls": "at or under",
+    "cls_cons": "over",
+    "truth": 0.013
+   },
+   {
+    "label": "refusal rubric 0, rate 0.013, n 225 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.012,
+    "no_limit": 0.50275,
+    "miss_cons": 0.51475,
+    "cls": "at or under",
+    "cls_cons": "over",
+    "truth": 0.013
+   },
+   {
+    "label": "refusal rubric 0, rate 0.013, n 1000 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04025,
+    "no_limit": 0.0,
+    "miss_cons": 0.04025,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.013
+   },
+   {
+    "label": "refusal rubric 0, rate 0.013, n 1000 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03925,
+    "no_limit": 0.001,
+    "miss_cons": 0.04025,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.013
+   },
+   {
+    "label": "refusal raw 0, rate pool, n 100 of 2000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0505,
+    "no_limit": 0.0055,
+    "miss_cons": 0.056,
+    "cls": "unresolved",
+    "cls_cons": "unresolved",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal raw 0, rate pool, n 100 of 2000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0485,
+    "no_limit": 0.0025,
+    "miss_cons": 0.051000000000000004,
+    "cls": "at or under",
+    "cls_cons": "unresolved",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal raw 0, rate pool, n 225 of 2000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.048,
+    "no_limit": 0.0,
+    "miss_cons": 0.048,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal raw 0, rate pool, n 225 of 2000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04925,
+    "no_limit": 0.0,
+    "miss_cons": 0.04925,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal raw 0, rate pool, n 500 of 2000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04875,
+    "no_limit": 0.0,
+    "miss_cons": 0.04875,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal raw 0, rate pool, n 500 of 2000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.053,
+    "no_limit": 0.0,
+    "miss_cons": 0.053,
+    "cls": "unresolved",
+    "cls_cons": "unresolved",
+    "truth": 0.2
+   },
+   {
+    "label": "refusal raw 0, rate 0.05, n 225 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.037,
+    "no_limit": 0.001,
+    "miss_cons": 0.038,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal raw 0, rate 0.05, n 225 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03675,
+    "no_limit": 0.0005,
+    "miss_cons": 0.03725,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal raw 0, rate 0.05, n 1000 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.05275,
+    "no_limit": 0.0,
+    "miss_cons": 0.05275,
+    "cls": "unresolved",
+    "cls_cons": "unresolved",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal raw 0, rate 0.05, n 1000 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0475,
+    "no_limit": 0.0,
+    "miss_cons": 0.0475,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.05
+   },
+   {
+    "label": "refusal raw 0, rate 0.013, n 225 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.51725,
+    "miss_cons": 0.518,
+    "cls": "at or under",
+    "cls_cons": "over",
+    "truth": 0.013
+   },
+   {
+    "label": "refusal raw 0, rate 0.013, n 225 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.003,
+    "no_limit": 0.477,
+    "miss_cons": 0.48,
+    "cls": "at or under",
+    "cls_cons": "over",
+    "truth": 0.013
+   },
+   {
+    "label": "refusal raw 0, rate 0.013, n 1000 of 4000, K=5",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03,
+    "no_limit": 0.0005,
+    "miss_cons": 0.0305,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.013
+   },
+   {
+    "label": "refusal raw 0, rate 0.013, n 1000 of 4000, K=10",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03325,
+    "no_limit": 0.0005,
+    "miss_cons": 0.03375,
+    "cls": "at or under",
+    "cls_cons": "at or under",
+    "truth": 0.013
+   }
+  ]
+ }
+}

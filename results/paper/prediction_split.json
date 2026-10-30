@@ -1,0 +1,710 @@
+{
+ "rows": [
+  {
+   "table": "D1",
+   "id": "P1",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "P2a",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "P2b",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "P3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "P4a",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "P4b",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "P4c",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "P5",
+   "kept": true,
+   "content": "substantive",
+   "note": "Clopper-Pearson over in no cell (exact) and the strata gain nothing (substantive)",
+   "commit": "9fb817d",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D1",
+   "id": "M1",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M3a",
+   "kept": null,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M3b",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M5",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M6",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M7",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M8",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D1",
+   "id": "M9",
+   "kept": true,
+   "content": "substantive",
+   "note": "Clopper-Pearson over in no cell (exact) and the strata gain nothing (substantive)",
+   "commit": "d56feb6",
+   "timestamp": "dry_run"
+  },
+  {
+   "table": "D2",
+   "id": "Q1",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Q2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Q3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Q4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Q5",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Q6",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Y1",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Y2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Y3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Y4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Y5",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Y6",
+   "kept": true,
+   "content": "construction",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Z1",
+   "kept": true,
+   "content": "construction",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Z2",
+   "kept": true,
+   "content": "construction",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Z3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Z4",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Z5",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "Z6",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "V1",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "V2",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "V3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "V4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "V5",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "V6",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "S1",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "S2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "S3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D2",
+   "id": "S4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "bf7f5dc 1b1185f 3703288 56fbeda",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D3",
+   "id": "T1",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "cb50927",
+   "timestamp": "local_only"
+  },
+  {
+   "table": "D3",
+   "id": "T2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "cb50927",
+   "timestamp": "local_only"
+  },
+  {
+   "table": "D3",
+   "id": "T3",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "cb50927",
+   "timestamp": "local_only"
+  },
+  {
+   "table": "D4",
+   "id": "X1",
+   "kept": true,
+   "content": "construction",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "X2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "X3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "X4",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "X5",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "X6",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "X7",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "X8",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "W1",
+   "kept": true,
+   "content": "construction",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "W2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "W3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "W4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "W5",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "B4 Q1",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "B4 Q2",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "B4 Q3",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "B4 Q4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "B4 Q5",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "U1",
+   "kept": false,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "U2",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "U3",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "U4",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  },
+  {
+   "table": "D4",
+   "id": "U5",
+   "kept": true,
+   "content": "substantive",
+   "note": "",
+   "commit": "e3326b1",
+   "timestamp": "independent"
+  }
+ ],
+ "by_content": {
+  "substantive": {
+   "held": 48,
+   "failed": 18,
+   "untested": 1
+  },
+  "construction": {
+   "held": 5,
+   "failed": 0,
+   "untested": 0
+  }
+ },
+ "by_timestamp": {
+  "independent": {
+   "held": 42,
+   "failed": 17,
+   "untested": 0
+  },
+  "dry_run": {
+   "held": 9,
+   "failed": 0,
+   "untested": 1
+  },
+  "local_only": {
+   "held": 2,
+   "failed": 1,
+   "untested": 0
+  }
+ },
+ "by_both": {
+  "substantive, independent": {
+   "held": 37,
+   "failed": 17,
+   "untested": 0
+  },
+  "substantive, dry_run": {
+   "held": 9,
+   "failed": 0,
+   "untested": 1
+  },
+  "construction, independent": {
+   "held": 5,
+   "failed": 0,
+   "untested": 0
+  },
+  "substantive, local_only": {
+   "held": 2,
+   "failed": 1,
+   "untested": 0
+  }
+ },
+ "mixed_split_note": {
+  "construction": {
+   "held": 7,
+   "failed": 0,
+   "untested": 0
+  }
+ }
+}

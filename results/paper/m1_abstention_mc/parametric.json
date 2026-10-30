@@ -1,0 +1,2290 @@
+{
+ "b6_t_user_P_a": {
+  "row": 49,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0185,
+    "no_limit": 0.0635,
+    "miss_cons": 0.082,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02325,
+    "no_limit": 0.0635,
+    "miss_cons": 0.08675,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01175,
+    "no_limit": 0.0,
+    "miss_cons": 0.01175,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.036,
+    "no_limit": 0.00625,
+    "miss_cons": 0.042249999999999996,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0345,
+    "no_limit": 0.0,
+    "miss_cons": 0.0345,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.029,
+    "no_limit": 0.0,
+    "miss_cons": 0.029,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01175,
+    "no_limit": 0.0,
+    "miss_cons": 0.01175,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04325,
+    "no_limit": 0.0,
+    "miss_cons": 0.04325,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04425,
+    "no_limit": 0.0,
+    "miss_cons": 0.04425,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0275,
+    "no_limit": 0.0005,
+    "miss_cons": 0.028,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03,
+    "no_limit": 0.0,
+    "miss_cons": 0.03,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.035,
+    "no_limit": 0.0,
+    "miss_cons": 0.035,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02375,
+    "no_limit": 0.0,
+    "miss_cons": 0.02375,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02375,
+    "no_limit": 0.0,
+    "miss_cons": 0.02375,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01425,
+    "no_limit": 0.0,
+    "miss_cons": 0.01425,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.024,
+    "no_limit": 0.0,
+    "miss_cons": 0.024,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03725,
+    "no_limit": 0.0,
+    "miss_cons": 0.03725,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00525,
+    "no_limit": 0.0,
+    "miss_cons": 0.00525,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0065,
+    "no_limit": 0.0,
+    "miss_cons": 0.0065,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0125,
+    "no_limit": 0.0,
+    "miss_cons": 0.0125,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00225,
+    "no_limit": 0.0,
+    "miss_cons": 0.00225,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03,
+    "no_limit": 0.0,
+    "miss_cons": 0.03,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.019,
+    "no_limit": 0.0,
+    "miss_cons": 0.019,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02225,
+    "no_limit": 0.0,
+    "miss_cons": 0.02225,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03475,
+    "no_limit": 0.0,
+    "miss_cons": 0.03475,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0115,
+    "no_limit": 0.0,
+    "miss_cons": 0.0115,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.041,
+    "no_limit": 0.0,
+    "miss_cons": 0.041,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   }
+  ]
+ },
+ "b6_t_user_P_c": {
+  "row": 50,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0195,
+    "no_limit": 0.06375,
+    "miss_cons": 0.08325,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02525,
+    "no_limit": 0.058,
+    "miss_cons": 0.08325,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.22525,
+    "no_limit": 0.0,
+    "miss_cons": 0.22525,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0175,
+    "no_limit": 0.022,
+    "miss_cons": 0.0395,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.1665,
+    "no_limit": 0.0,
+    "miss_cons": 0.1665,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.1175,
+    "no_limit": 0.0,
+    "miss_cons": 0.1175,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.15375,
+    "no_limit": 0.0,
+    "miss_cons": 0.15375,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.101,
+    "no_limit": 0.0,
+    "miss_cons": 0.101,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0535,
+    "no_limit": 0.0,
+    "miss_cons": 0.0535,
+    "cls": "unresolved",
+    "cls_cons": "unresolved"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03425,
+    "no_limit": 0.0015,
+    "miss_cons": 0.035750000000000004,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.11025,
+    "no_limit": 0.0,
+    "miss_cons": 0.11025,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.187,
+    "no_limit": 0.002,
+    "miss_cons": 0.189,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.05725,
+    "no_limit": 0.0,
+    "miss_cons": 0.05725,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.042,
+    "no_limit": 0.0,
+    "miss_cons": 0.042,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02125,
+    "no_limit": 0.0,
+    "miss_cons": 0.02125,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0505,
+    "no_limit": 0.0,
+    "miss_cons": 0.0505,
+    "cls": "unresolved",
+    "cls_cons": "unresolved"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.09725,
+    "no_limit": 0.0,
+    "miss_cons": 0.09725,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.24675,
+    "no_limit": 0.0,
+    "miss_cons": 0.24675,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.06225,
+    "no_limit": 0.0,
+    "miss_cons": 0.06225,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.13125,
+    "no_limit": 0.0,
+    "miss_cons": 0.13125,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.11875,
+    "no_limit": 0.0,
+    "miss_cons": 0.11875,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.17025,
+    "no_limit": 0.0,
+    "miss_cons": 0.17025,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.15875,
+    "no_limit": 0.0,
+    "miss_cons": 0.15875,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.1855,
+    "no_limit": 0.0,
+    "miss_cons": 0.1855,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.06425,
+    "no_limit": 0.0,
+    "miss_cons": 0.06425,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.1715,
+    "no_limit": 0.0,
+    "miss_cons": 0.1715,
+    "cls": "over",
+    "cls_cons": "over"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.033,
+    "no_limit": 0.0,
+    "miss_cons": 0.033,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0535,
+    "no_limit": 0.0,
+    "miss_cons": 0.0535,
+    "cls": "unresolved",
+    "cls_cons": "unresolved"
+   }
+  ]
+ },
+ "b6_bet_a1@uavg_P_a": {
+  "row": 51,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00325,
+    "no_limit": 0.0,
+    "miss_cons": 0.00325,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0045,
+    "no_limit": 0.0,
+    "miss_cons": 0.0045,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.001,
+    "no_limit": 0.0,
+    "miss_cons": 0.001,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0015,
+    "no_limit": 0.0,
+    "miss_cons": 0.0015,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.001,
+    "no_limit": 0.0,
+    "miss_cons": 0.001,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.001,
+    "no_limit": 0.0,
+    "miss_cons": 0.001,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00425,
+    "no_limit": 0.0,
+    "miss_cons": 0.00425,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   }
+  ]
+ },
+ "b6_bet_a2_P_a": {
+  "row": 51,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00325,
+    "no_limit": 0.0,
+    "miss_cons": 0.00325,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.001,
+    "no_limit": 0.0,
+    "miss_cons": 0.001,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.001,
+    "no_limit": 0.0,
+    "miss_cons": 0.001,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   }
+  ]
+ },
+ "b6_pig_t_P_a": {
+  "row": 52,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.15425,
+    "miss_cons": 0.15425,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.16525,
+    "miss_cons": 0.16525,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.156,
+    "miss_cons": 0.156,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00375,
+    "no_limit": 0.0,
+    "miss_cons": 0.00375,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00275,
+    "no_limit": 0.00075,
+    "miss_cons": 0.0034999999999999996,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00475,
+    "no_limit": 0.004,
+    "miss_cons": 0.00875,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.014,
+    "miss_cons": 0.014,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01075,
+    "no_limit": 0.0,
+    "miss_cons": 0.01075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   }
+  ]
+ },
+ "b6_pig_t_P_c": {
+  "row": 52,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.15475,
+    "miss_cons": 0.15475,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.1475,
+    "miss_cons": 0.14775,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0195,
+    "no_limit": 0.0,
+    "miss_cons": 0.0195,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.26,
+    "miss_cons": 0.26,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02575,
+    "no_limit": 0.0,
+    "miss_cons": 0.02575,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01675,
+    "no_limit": 0.0,
+    "miss_cons": 0.01675,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.017,
+    "no_limit": 0.0,
+    "miss_cons": 0.017,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.013,
+    "no_limit": 0.0,
+    "miss_cons": 0.013,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00475,
+    "no_limit": 0.00125,
+    "miss_cons": 0.006,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0075,
+    "no_limit": 0.00675,
+    "miss_cons": 0.014249999999999999,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0125,
+    "no_limit": 0.0,
+    "miss_cons": 0.0125,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0105,
+    "no_limit": 0.02575,
+    "miss_cons": 0.03625,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.005,
+    "no_limit": 0.0,
+    "miss_cons": 0.005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00175,
+    "no_limit": 0.0,
+    "miss_cons": 0.00175,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0095,
+    "no_limit": 0.0,
+    "miss_cons": 0.0095,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01125,
+    "no_limit": 0.00025,
+    "miss_cons": 0.0115,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01,
+    "no_limit": 0.0,
+    "miss_cons": 0.01,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00125,
+    "no_limit": 0.0,
+    "miss_cons": 0.00125,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0045,
+    "no_limit": 0.0,
+    "miss_cons": 0.0045,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0085,
+    "no_limit": 0.0,
+    "miss_cons": 0.0085,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00825,
+    "no_limit": 0.0,
+    "miss_cons": 0.00825,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03675,
+    "no_limit": 0.0,
+    "miss_cons": 0.03675,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0315,
+    "no_limit": 0.0005,
+    "miss_cons": 0.032,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.009,
+    "no_limit": 0.0,
+    "miss_cons": 0.009,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0315,
+    "no_limit": 0.0,
+    "miss_cons": 0.0315,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00125,
+    "no_limit": 0.0,
+    "miss_cons": 0.00125,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.012,
+    "no_limit": 0.0,
+    "miss_cons": 0.012,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   }
+  ]
+ },
+ "b6_quad_P_a": {
+  "row": 52,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01475,
+    "no_limit": 0.06375,
+    "miss_cons": 0.0785,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01625,
+    "no_limit": 0.06425,
+    "miss_cons": 0.0805,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0045,
+    "no_limit": 0.0105,
+    "miss_cons": 0.015,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0025,
+    "no_limit": 0.0,
+    "miss_cons": 0.0025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01275,
+    "no_limit": 0.0,
+    "miss_cons": 0.01275,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0155,
+    "no_limit": 0.0005,
+    "miss_cons": 0.016,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0005,
+    "miss_cons": 0.001,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00025,
+    "no_limit": 0.0,
+    "miss_cons": 0.00025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.001,
+    "no_limit": 0.0,
+    "miss_cons": 0.001,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0,
+    "no_limit": 0.0,
+    "miss_cons": 0.0,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0005,
+    "no_limit": 0.0,
+    "miss_cons": 0.0005,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01325,
+    "no_limit": 0.0,
+    "miss_cons": 0.01325,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   }
+  ]
+ },
+ "b6_quad_P_c": {
+  "row": 52,
+  "source": "agentdojo_parametric.py replayed",
+  "cells": [
+   {
+    "label": "Meta-SecAlign-70B",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01375,
+    "no_limit": 0.064,
+    "miss_cons": 0.07775,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "Meta-SecAlign-70B-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.015,
+    "no_limit": 0.059,
+    "miss_cons": 0.074,
+    "cls": "at or under",
+    "cls_cons": "over"
+   },
+   {
+    "label": "claude-3-5-sonnet-20240620",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01925,
+    "no_limit": 0.0,
+    "miss_cons": 0.01925,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-5-sonnet-20241022",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.013,
+    "no_limit": 0.03275,
+    "miss_cons": 0.04575,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-7-sonnet-20250219",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03575,
+    "no_limit": 0.0,
+    "miss_cons": 0.03575,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-haiku-20240307",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.022,
+    "no_limit": 0.0,
+    "miss_cons": 0.022,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-opus-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01825,
+    "no_limit": 0.0,
+    "miss_cons": 0.01825,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "claude-3-sonnet-20240229",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01275,
+    "no_limit": 0.0,
+    "miss_cons": 0.01275,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01775,
+    "no_limit": 0.0,
+    "miss_cons": 0.01775,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "command-r-plus",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.02375,
+    "no_limit": 0.00175,
+    "miss_cons": 0.025500000000000002,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01425,
+    "no_limit": 0.0,
+    "miss_cons": 0.01425,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-flash-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.04725,
+    "no_limit": 0.004,
+    "miss_cons": 0.051250000000000004,
+    "cls": "at or under",
+    "cls_cons": "unresolved"
+   },
+   {
+    "label": "gemini-1.5-pro-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00475,
+    "no_limit": 0.0,
+    "miss_cons": 0.00475,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-1.5-pro-002",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00175,
+    "no_limit": 0.0,
+    "miss_cons": 0.00175,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-001",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00075,
+    "no_limit": 0.0,
+    "miss_cons": 0.00075,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gemini-2.0-flash-exp",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01025,
+    "no_limit": 0.0,
+    "miss_cons": 0.01025,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-3.5-turbo-0125",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.01875,
+    "no_limit": 0.0,
+    "miss_cons": 0.01875,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-0125-preview",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0105,
+    "no_limit": 0.0,
+    "miss_cons": 0.0105,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4-turbo-2024-04-09",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0015,
+    "no_limit": 0.0,
+    "miss_cons": 0.0015,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0045,
+    "no_limit": 0.0,
+    "miss_cons": 0.0045,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.009,
+    "no_limit": 0.0,
+    "miss_cons": 0.009,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00925,
+    "no_limit": 0.0,
+    "miss_cons": 0.00925,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-tool_filter",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.03725,
+    "no_limit": 0.0,
+    "miss_cons": 0.03725,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-2024-05-13-transformers_pi_detector",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.043,
+    "no_limit": 0.0,
+    "miss_cons": 0.043,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "gpt-4o-mini-2024-07-18",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.008,
+    "no_limit": 0.0,
+    "miss_cons": 0.008,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3-70b-chat-hf",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.032,
+    "no_limit": 0.0,
+    "miss_cons": 0.032,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.00225,
+    "no_limit": 0.0,
+    "miss_cons": 0.00225,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   },
+   {
+    "label": "meta-llama_Llama-3.3-70B-Instruct-repeat_user_prompt",
+    "delta": 0.05,
+    "reps": 4000,
+    "miss": 0.0175,
+    "no_limit": 0.0,
+    "miss_cons": 0.0175,
+    "cls": "at or under",
+    "cls_cons": "at or under"
+   }
+  ]
+ }
+}
