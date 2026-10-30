@@ -1,0 +1,18 @@
+\begin{tabular}{@{}r p{2.8cm} p{2.0cm} p{3.9cm} l p{2.1cm} p{2.0cm} p{1.9cm}@{}}
+\toprule
+\textbf{\#} & \textbf{bound} & \textbf{kind} & \textbf{setting} & \textbf{$\delta$} & \textbf{miss, per cell} & \textbf{cells over / unresolved / at or under} & \textbf{largest 95\% upper limit of a cell's miss (cells over after correction)} \\
+\midrule
+32 & stratified Wald-t limit, 8 reference-rate strata & approximate & 5 mid-rate labels, real Granite-3.3-2B responses, $n_s$ 100--200, the draws of the StratPPI row & 0.05 / 0.10 & 0.007--0.036 / 0.027--0.080 & 0 / 0 / 28; 0 / 0 / 28 & 0.042 (0); 0.088 (0) \\
+33 & the same limit, redrawn with replacement & approximate & the same 5 labels and sizes & 0.05 / 0.10 & 0.007--0.038 / 0.026--0.086 & 0 / 0 / 28; 0 / 0 / 28 & 0.040 (0); 0.088 (0) \\
+34 & the same limit with the term for a sampled pool & approximate & a claim about the prompt source: the pool redrawn and the strata rebuilt, the same 5 labels and sizes & 0.05 / 0.10 & 0.007--0.050 / 0.031--0.095 & 0 / 1 / 27; 0 / 0 / 28 & 0.055 (0); 0.101 (0) \\
+35 & \textbf{stratified Wald-t limit on a synthetic i.i.d. grid} & over in 5 of 18 cells at each $\delta$ & six strata profiles, $n_s$ 100--400, binomial strata & 0.05 / 0.10 & \textbf{0--0.111 / 0.086--0.147} & 5 / 5 / 8; 5 / 5 / 8 & 0.121 (4); 0.158 (4) \\
+36 & \textbf{the Wilson-type limit on the same grid} & over in 1 and 4 of 18 cells & the same profiles and sizes & 0.05 / 0.10 & \textbf{0--0.057 / 0.086--0.135} & 1 / 2 / 15; 4 / 5 / 9 & 0.065 (0); 0.146 (2) \\
+37 & stratified Wald-t limit inside the training loop, 8 strata & approximate & synthetic bandit, Lagrangian GRPO, 4 environments, the pool's own rate, 8,000 runs a cell & 0.05 / 0.10 & 0.029--0.052 / 0.072--0.100 & 0 / 1 / 3; 0 / 1 / 3 & 0.057 (0); 0.107 (0) \\
+38 & the same limit with the sampled-pool term & over in 1 of 4 cells at each $\delta$ & the same runs, the population's rate & 0.05 / 0.10 & 0.047--0.057 / 0.093--0.107 & 1 / 1 / 2; 1 / 0 / 3 & 0.062 (1); 0.114 (0) \\
+39 & stratified Wald-t limit, a costly label stratified on a cheap reference rate & over in 1 and 2 of 32 cells & XSTest human labels of five released models, 8 mid-rate labels, two stratifiers, $n_s$ 50--100, redrawn with replacement & 0.05 / 0.10 & 0--0.053 / 0.021--0.108 & 1 / 0 / 31; 2 / 0 / 30 & 0.055 (0); 0.111 (2) \\
+40 & betting mixture on user-task rates; on the pair rate & exact (bounded) & AgentDojo, 28 pipelines, user tasks redrawn across the table (a) and within suites (a\_s); truth: the average over user tasks; the pair rate & 0.05 & at most 0.007; 0.005; 0.006; 0.003 & 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 & 0.010 (0); 0.008 (0); 0.010 (0); 0.005 (0) \\
+41 & cluster bootstrap-t, by user task, redrawn within suites & approximate & AgentDojo, 28 pipelines, scheme (a\_s) & 0.05 & 0.003--0.042 & 0 / 0 / 28 & 0.049 (0) \\
+42 & \textbf{cluster bootstrap-t by user task, injection tasks redrawn within suites} & fails & AgentDojo, schemes (b\_s); (c\_s) & 0.05 & \textbf{up to 0.231; 0.249} & 11 / 1 / 16; 19 / 2 / 7 & 0.244 (11); 0.262 (18) \\
+43 & two clustered margins in quadrature, redrawn within suites & approximate & AgentDojo, schemes (a\_s); (b\_s); (c\_s) & 0.05 & at most 0.016; 0.037; 0.040 & 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 & 0.020 (0); 0.044 (0); 0.046 (0) \\
+\bottomrule
+\end{tabular}

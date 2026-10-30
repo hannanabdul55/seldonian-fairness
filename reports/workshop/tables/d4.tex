@@ -1,0 +1,33 @@
+\begin{tabular}{@{}l p{7.4cm} p{7.4cm}@{}}
+\toprule
+ & \textbf{prediction, as registered} & \textbf{outcome} \\
+\midrule
+ & \emph{Exact stratified bounds and the chance of certifying (App.~\ref{app:strata}): 116 cells, $\delta$ 0.05 and 0.10 for X1 and X2, $\delta$ 0.05 for X3 to X8} &  \\
+X1$^\dagger$ & neither exact stratified bound is over in any cell & kept: 0 of 464 \\
+X2 & the betting bound's width gain against Clopper-Pearson is below 1 in every cell & kept: at most 0.53 \\
+X3 & the betting bound's power ESS at a pass probability of 0.8 is below 1 in every real and costly cell at a rate of 5\% or more & kept: at most 0.28 \\
+X4 & the stratified Clopper-Pearson bound's power ESS at 0.8, real and costly cells in range: lowest at least 0.95, median at least 1.10 & refuted: 0.27 and 0.92 \\
+X5 & the same at a pass probability of 0.5 lies between 0.85 and 1.15 in every one & refuted: 0.07 to 1.09 \\
+X6 & the same at 0.8 on rare real and costly cells lies between 0.8 and 1.2 & refuted: 0.33 to 1.01 \\
+X7 & real cells in range: the Wald-t limit's width gain against Clopper-Pearson is at least its gain against the pooled Wilson bound in every one & kept: 36 of 36 \\
+X8 & the same cells: the Wald-t limit's power ESS at 0.8 is above the stratified Clopper-Pearson bound's in every one & refuted: 35 of 36 \\
+ & \emph{AgentDojo against a fitted crossed model (App.~\ref{app:bench}): 28 pipelines, 4,000 tables a pipeline and scheme} &  \\
+W1$^\dagger$ & injection tasks fixed: the betting bound on user-task rates (against their average) and the pair-rate betting bound are over for no pipeline & kept: none and none \\
+W2 & the same scheme: the bound clustered by user task is over for at most 2 & kept: none \\
+W3 & both kinds of task drawn: the bound clustered by user task is over for at least 8 & kept: 18 \\
+W4 & the same scheme: the quadrature bound is over for at most 2 & kept: none \\
+W5 & the same scheme: the betting bound on user-task rates is over for at least 2 & kept: 5 \\
+ & \emph{A second judge family and a second gold label (App.~\ref{app:judge}): WildGuard} &  \\
+J1 & WildGuard as the judge, the guard as gold: the carried bound at step 200 is over for at least 1 of the 3 seeds & refuted: none (misses 0.000) \\
+J2 & the same: WildGuard's recall on the guard's refusals is lower at step 200 than at step 0 in all 3 seeds & refuted: higher in all 3 (0.88 to 0.94, 0.94 and 0.91) \\
+J3 & WildGuard as gold, the compiled judge's canonical wording as the judge: the carried bound at step 200 is over for at most 1 of the 3 seeds & refuted: all 3 (0.84, 0.46, 0.66) \\
+J4 & on the refusal sheet at step 200, WildGuard's design-weighted accuracy against the human strict label is higher than the guard's & kept: 0.930 against 0.929 \\
+J5 & among the guard's flags, WildGuard flags a smaller share of responses with the surface pattern than without (Fisher p < 0.05) & refuted: 95\% against 92\% (p 0.064) \\
+ & \emph{The second model family trained on the guard's flag alone (App.~\ref{app:strata}): the same pool and strata} &  \\
+U1 & at step 200 refusal on the categories pushed up is at least 15 points above the reference, and on those pushed down at least 10 points below it & refuted: 16.9\% to 67.4\%, and 22.5\% to 48.7\% \\
+U2 & at step 200 $\rho$ on the refusal label is under 0.7 & kept: 0.46 \\
+U3 & at step 200, at a refusal rate between 5\% and 95\%, the Wald-t limit with a large pool is over in no cell & kept: 0 of 4 at 58\% \\
+U4 & at step 200 the Wald-t limit's gain with a large pool (safety set 200, $\delta$ 0.05) is below 1.3 & kept: 1.08 \\
+U5 & at step 200 the gain of the Wilson-type limit with a large pool (safety set 200) is within 25\% of the pre-flight at the measured moderators & kept: 1.22 against 1.14 \\
+\bottomrule
+\end{tabular}

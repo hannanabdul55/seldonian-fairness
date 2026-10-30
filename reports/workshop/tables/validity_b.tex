@@ -1,0 +1,19 @@
+\begin{tabular}{@{}r p{2.8cm} p{2.0cm} p{3.9cm} l p{2.1cm} p{2.0cm} p{1.9cm}@{}}
+\toprule
+\textbf{\#} & \textbf{bound} & \textbf{kind} & \textbf{setting} & \textbf{$\delta$} & \textbf{miss, per cell} & \textbf{cells over / unresolved / at or under} & \textbf{largest 95\% upper limit of a cell's miss (cells over after correction)} \\
+\midrule
+19 & \textbf{PPI++ with a normal limit} & fails in most cells & the judge plasmodes (App.~\ref{app:judge}) & 0.05 & \textbf{0.041--0.241} & 126 / 29 / 13 & 0.255 (87) \\
+20 & \textbf{StratPPI's normal limit, proportional allocation} & fails at these sizes & reference-rate strata; judge-logit strata & 0.05 & \textbf{0.024--0.086; 0.054--0.239} & 9 / 5 / 14; 26 / 2 / 0 & 0.094 (7); 0.252 (25) \\
+21 & \textbf{StratPPI's normal limit, the paper's allocations (oracle; heuristic)} & fails & reference-rate strata; judge-logit strata & 0.05 & \textbf{up to 0.110; 0.217; up to 0.219; 0.90} & 9 / 3 / 14; 11 / 0 / 15; 28 / 0 / 0; 24 / 1 / 3 & 0.119 (8); 0.229 (11); 0.232 (25); 0.912 (24) \\
+22 & \textbf{StratPPI estimator with a bootstrap-t limit, oracle or heuristic allocation} & fails & the same cells & 0.05 & \textbf{up to 0.078; 0.174; up to 0.083; 0.90} & 6 / 3 / 17; 11 / 1 / 14; 14 / 11 / 3; 14 / 0 / 14 & 0.086 (5); 0.185 (11); 0.092 (9); 0.910 (14) \\
+23 & \textbf{PPBoot, percentile limit (basic; power-tuned)} & fails at these sizes & judge-logit cells, unstratified & 0.05 & \textbf{up to 0.133; 0.148} & 7 / 6 / 1; 12 / 2 / 0 & 0.144 (5); 0.160 (11) \\
+24 & \textbf{Clopper-Pearson over pairs} & fails on a crossed design & AgentDojo, 28 pipelines, schemes (a); (b); (c) & 0.05 & \textbf{0.042--0.268; 0.060--0.340; 0.195--0.350} & 27 / 0 / 1; 28 / 0 / 0; 28 / 0 / 0 & 0.282 (26); 0.355 (27); 0.365 (28) \\
+25 & \textbf{cluster bootstrap-t by user task, when injection tasks are sampled} & fails & AgentDojo, schemes (b); (c) & 0.05 & \textbf{up to 0.258; 0.275} & 21 / 0 / 7; 24 / 0 / 4 & 0.272 (20); 0.289 (24) \\
+26 & \textbf{larger of the two clustered bounds} & holds under (a) only & AgentDojo, schemes (a); (b); (c) & 0.05 & at most 0.029; \textbf{up to 0.066; 0.089} & 0 / 0 / 28; 4 / 0 / 24; 16 / 3 / 9 & 0.034 (0); 0.074 (3); 0.098 (15) \\
+27 & \textbf{pigeonhole bootstrap, basic limit} & fails & AgentDojo, schemes (a); (b); (c) & 0.05 & \textbf{up to 0.174; 0.178; 0.278} & 5 / 0 / 23; 14 / 1 / 13; 27 / 0 / 1 & 0.187 (5); 0.190 (10); 0.292 (26) \\
+28 & \textbf{PPI on a stratified sheet read as an i.i.d. sample} & fails & three judge wordings, labels planted at three rates & 0.05 & \textbf{0--0.989} & 7 / 0 / 11 & 0.992 (7) \\
+29 & \textbf{the judge's rate alone} & fails & the judge plasmodes (App.~\ref{app:judge}) & 0.05 & \textbf{0--1.000} & 30 / 0 / 12 & 1.000 (30) \\
+30 & \textbf{multiway cluster variance with a t quantile} & fails & AgentDojo, schemes (a); (b); (c) & 0.05 & \textbf{up to 0.136; 0.175; 0.179} & 5 / 0 / 23; 8 / 3 / 17; 26 / 1 / 1 & 0.147 (5); 0.187 (7); 0.191 (25) \\
+31 & \textbf{two clustered margins added in quadrature} & over in one cell under (c) & AgentDojo, schemes (a); (b); (c) & 0.05 & at most 0.015; 0.046; \textbf{0.058} & 0 / 0 / 28; 0 / 0 / 28; 1 / 1 / 26 & 0.020 (0); 0.053 (0); 0.066 (0) \\
+\bottomrule
+\end{tabular}

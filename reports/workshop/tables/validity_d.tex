@@ -1,0 +1,18 @@
+\begin{tabular}{@{}r p{2.8cm} p{2.0cm} p{3.9cm} l p{2.1cm} p{2.0cm} p{1.9cm}@{}}
+\toprule
+\textbf{\#} & \textbf{bound} & \textbf{kind} & \textbf{setting} & \textbf{$\delta$} & \textbf{miss, per cell} & \textbf{cells over / unresolved / at or under} & \textbf{largest 95\% upper limit of a cell's miss (cells over after correction)} \\
+\midrule
+44 & stratified Wald-t limit, a second model family, redrawn with replacement & approximate & Qwen2.5-1.5B-Instruct, refusal label (18--19\%), 8 reference-rate strata, steps 100 and 200, $n_s$ 100--200 & 0.05 / 0.10 & 0.033--0.046 / 0.077--0.092 & 0 / 0 / 4; 0 / 0 / 4 & 0.048 (0); 0.095 (0) \\
+45 & the Wilson-type limit, the same & approximate & the same cells & 0.05 / 0.10 & 0.033--0.041 / 0.086--0.092 & 0 / 0 / 4; 0 / 0 / 4 & 0.043 (0); 0.095 (0) \\
+46 & the stratified Wald-t limit with the term for a sampled pool, a second model family & over in 1 of 4 cells at $\delta$ 0.10 & a claim about the prompt source, the same label, steps and sizes & 0.05 / 0.10 & 0.036--0.051 / 0.085--0.111 & 0 / 1 / 3; 1 / 0 / 3 & 0.056 (0); 0.118 (1) \\
+47 & stratified Clopper-Pearson: a stratified draw's pooled count plus the allocation's slack & exact (binary labels) & 116 cells: real responses (58), a costly label (40), a synthetic grid (18), drawn with replacement within strata, $n_s$ 50--400 & 0.05 / 0.10 & 0--0.048 / 0--0.093 & 0 / 0 / 116; 0 / 0 / 116 & 0.048 (0); 0.093 (0) \\
+48 & stratified betting bound (union-intersection) & exact (bounded) & the same cells & 0.05 / 0.10 & 0--0.001 / 0--0.007 & 0 / 0 / 116; 0 / 0 / 116 & 0.002 (0); 0.010 (0) \\
+49 & cluster bootstrap-t, by user task, against a fitted crossed model & approximate & AgentDojo, 28 pipelines, tables drawn from a fitted crossed model with injection tasks fixed (P\_a); truth: the model's rate & 0.05 & 0.001--0.044 & 0 / 0 / 28 & 0.051 (0) \\
+50 & \textbf{the same, both kinds of task drawn from the model} & fails & the same, scheme (P\_c) & 0.05 & \textbf{up to 0.247} & 18 / 3 / 7 & 0.260 (17) \\
+51 & betting mixture on user-task rates; on the pair rate, against a fitted crossed model & exact (bounded) & the same, scheme (P\_a); truth: the model's user-task average; its pair rate & 0.05 & at most 0.005; 0.003 & 0 / 0 / 28; 0 / 0 / 28 & 0.007 (0); 0.006 (0) \\
+52 & pigeonhole bootstrap-t; two clustered margins in quadrature, against a fitted crossed model & approximate & the same, schemes (P\_a); (P\_c) for each & 0.05 & at most 0.011; 0.037; 0.016; 0.047 & 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 & 0.014 (0); 0.043 (0); 0.021 (0); 0.054 (0) \\
+53 & stratified Wald-t limit, a policy that training moved far, redrawn with replacement & approximate & Qwen2.5-1.5B-Instruct trained on the guard's refusal flag alone, refusal label (26\% at step 100, 58\% at step 200), the second family's pool and strata, $n_s$ 100--200 & 0.05 / 0.10 & 0.043--0.049 / 0.095--0.100 & 0 / 0 / 4; 0 / 0 / 4 & 0.051 (0); 0.103 (0) \\
+54 & \textbf{the Wilson-type limit, the same} & over in all 4 cells at the 58\% rate & the same cells & 0.05 / 0.10 & \textbf{0.045--0.059 / 0.098--0.112} & 2 / 0 / 2; 2 / 1 / 1 & 0.062 (2); 0.115 (2) \\
+55 & the stratified Wald-t limit with the term for a sampled pool, a policy that training moved far & approximate & a claim about the prompt source, the same label, steps and sizes & 0.05 / 0.10 & 0.040--0.048 / 0.085--0.094 & 0 / 0 / 4; 0 / 0 / 4 & 0.052 (0); 0.100 (0) \\
+\bottomrule
+\end{tabular}

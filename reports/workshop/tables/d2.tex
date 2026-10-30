@@ -1,0 +1,39 @@
+\begin{tabular}{@{}l p{7.4cm} p{7.4cm}@{}}
+\toprule
+ & \textbf{prediction, as registered} & \textbf{outcome} \\
+\midrule
+ & \emph{The training loop (App.~\ref{app:pipeline}): synthetic bandit, 8 strata, four environments, 8,000 runs a cell} &  \\
+Q1 & the Wald-t limit, for the pool's rate: over in at most 1 of its 8 cells & kept: 0 of 8 (2 unresolved) \\
+Q2 & the Wald-t limit with the sampled-pool term, for the population's rate: over in at most 2 of its 8 cells & kept: 2 of 8 \\
+Q3 & the same in the least heterogeneous environment at $\delta$ 0.10: over & kept: 0.107 \\
+Q4 & the pooled Wilson bound on a random split, for the population's rate: over in at most 2 of its 8 cells & kept: 0 of 8 (2 unresolved) \\
+Q5 & the $\mathrm{ESS}_{\mathrm{est}}$ of the Wald-t limit for the population's rate at $\delta$ 0.10 is at least 1.6 in the most heterogeneous environment & kept: 1.68 \\
+Q6 & the same in the least heterogeneous environment is between 0.9 and 1.15 & kept: 1.10 \\
+ & \emph{A costly label (App.~\ref{app:strata}): XSTest's human labels of five released models on 250 safe prompts} &  \\
+Y1 & the Wald-t limit, labels at a rate of 10\% or more, safety set 100, with replacement: over in no cell & refuted: 3 of 20 cells, by at most 0.008 \\
+Y2 & the Wald-t limit, mid-rate labels, without replacement: over in no cell & kept: 0 of 64 \\
+Y3 & the Granite reference-rate stratifier, safety set 100, with replacement: the median gain of the Wald-t limit over the mid-rate labels is at least 1.1 & kept: 1.18 \\
+Y4 & the same: no mid-rate label gains more than 2.0 & kept: at most 1.34 \\
+Y5 & the stratifier from the other model families' completions gains more than the Granite one for at least 6 of the 8 mid-rate labels & refuted: 4 of 8 \\
+Y6$^\dagger$ & Clopper-Pearson on a random draw, rare labels, with replacement: over in no cell & kept: no cell over \\
+ & \emph{AgentDojo (App.~\ref{app:bench}): 28 pipelines, 4,000 resampled tables a pipeline and scheme} &  \\
+Z1$^\dagger$ & the betting bound on user-task rates, against their average, is over for no pipeline with user tasks redrawn, across the table or within suites & kept: none under either \\
+Z2$^\dagger$ & the pair-rate betting bound is over for no pipeline with user tasks redrawn within suites & kept: none \\
+Z3 & the bound clustered by user task is over for no pipeline with user tasks redrawn within suites & kept: none \\
+Z4 & the same bound is over for at least 15 of 28 pipelines with injection tasks redrawn within suites & refuted: 11 \\
+Z5 & the quadrature bound is over for at most 2 of 28 pipelines under each scheme within suites & kept: none under any \\
+Z6 & on the published tables the betting bound on user-task rates certifies 5\% for at most one pipeline, and the pair-rate one for none & kept: one (0.048) and none \\
+ & \emph{A second model family (App.~\ref{app:strata}): Qwen2.5-1.5B-Instruct, a new pool of 400 prompts} &  \\
+V1 & at step 200 $\rho$ on the refusal label is under 0.8 & refuted: 0.84 \\
+V2 & at step 200 the refusal rate rose on the categories the reward pushed up and fell on those it pushed down & refuted: 16.9\% to 14.8\%, and 22.5\% to 23.5\% \\
+V3 & at step 200, at a refusal rate between 5\% and 95\%, the Wald-t limit with a large pool is over in no cell & kept: 0 of 4 at 19\% \\
+V4 & the Wald-t limit's gain with a large pool (safety set 200) is lower at step 200 than at step 100 & kept: 1.77 against 1.84 \\
+V5 & at step 200 the gain of the Wilson-type limit with a large pool (safety set 200) is within 20\% of the pre-flight at the measured moderators & kept: 1.70 against 1.73 \\
+V6 & at step 200 the Wald-t limit's gain with a large pool (safety set 200) is between 0.9 and 1.6 & refuted: 1.77 \\
+ & \emph{Two more seeds of the constrained run (App.~\ref{app:judge}), step 200 against step 0} &  \\
+S1 & in at least one of the two new seeds the carried bound is over its level for at least one of the six wordings & kept \\
+S2 & the same in both new seeds & kept: 3 and 2 of 6 \\
+S3 & in both new seeds the canonical wording's recall on the guard's refusals is lower at step 200 than at step 0 & kept: 0.21 to 0.07 and to 0.05 \\
+S4 & over the three seeds together, at least 6 of the 18 carried bounds are over & kept: 8 of 18 \\
+\bottomrule
+\end{tabular}

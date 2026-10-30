@@ -381,3 +381,111 @@ pushed together at 17:01 PT (`e3326b1`), before any run.
 | source check | diff-only fresh-agent check of the B text (2026-10-16 ~18:00): 5 errors fixed (the "neither exact bound certifies more often" overclaim in 4 places; row 50 left out of the note below Table 4; "stricter threshold" was the lenient one; Provenance contradicted itself on Table 4; WildGuard's population carry overgeneralised), 4 scope fixes (Appendix B mechanism wording, X4/X8 in-range scope, B25 'seen' record, P_a vs P_c model rate). Whole-draft check (three fresh agents by section range, 2026-10-16 ~19:45): fixed a plain error in 10.2 and Table 4's caption (a bound with no limit returns 1 and cannot miss in B6; only a bound that fails to compute counts), row 42 left out as a failing registered row, the abstract's 26% put after the reshuffle, the B25 'either way' that held only at the registered threshold (spread: 26/36 and 8/32), the Limits rho 0.84-0.92 -> 0.84-0.90, WildGuard as a gold label in Limits, Appendix A none of 28 -> 26, 77% scoped to scheme (c), reading 3 adds row 49 (64 cells), StratPPI counts with B3 (2 of 32, none of 16; 1 of 16), and about fifteen scope/wording points. Not changed: 'two or three' strata in Appendix D (source says 1-2, not resolved), the references preamble's 'twenty-nine' of 2026-10-14, two 9.1 shares not printed by a stored file (recomputed correct). Page v16 published |
 | B7 | done: Limits, Provenance and One annotator |
 | B8 | done: 16 verified references |
+
+**Blind review of v0.9.11 (2026-10-19; the user: "can you do a blind review now? Has a lot changed?"): weak reject, 3.58
+of 5** (evidence 4, falsifiability 4, scope 3.5, coherence 2.5, integrity 4.5, rigour 3; v0.9.10 was 2). Report:
+`review/blind_review_v0.9.11.md`. The reviewer put weak reject below the mean for significance (the certificate is a
+standard held-out bound) and presentation. Its 30 plain errors were each checked against the sources by three fresh
+forks: 20 real or partly real and applied (v0.9.12), the rest correct as written (items 9, 11) or made clearer (6, 10,
+25); 27 and 28 (bracketed tags, build notes, commit hashes, anonymity) wait for the user with the bracketed-names
+question. Recount passes (318 rows); Figures 2 and 4 retitled; PDF 74 pages; page v18. Not committed (weekday hours).
+Open checklist, the major items:
+
+| # | item | what would resolve it |
+|---|---|---|
+| C1 | the motivating certificate (trained policy, human terms) is not run; guard-terms certificates rest on a guard whose errors are model-dependent | P9's labels (closed without labels; do not re-ask) |
+| C2 | the strata gain nothing at rare rates; the mid-rate gain belongs to the Wald-t limit, no guarantee, over in 10 of 36 synthetic cells | a valid stratified bound keeping the gain, or a diagnostic of when Wald-t holds |
+| M1 | validity cells are correlated; sheet plantings counted as independent draws; bootstrap abstentions count as non-misses | report abstention-adjusted miss rates and clustered Monte Carlo errors (CPU only) |
+| M2 | the 72 predictions mix trivial ones (exact bounds: X1, W1, Z1, Z2, Y6) with substantive ones; weak timestamps | split the tally into substantive and implied-by-construction |
+| M3 | judge-transfer negative result on a weak judge (recall 0.04-0.54) | none cheap; WildGuard already reported |
+| M4 | the one AgentDojo certificate fails the exact pair-rate bound | heading now qualified; consider dropping "one of 28" framing |
+| M5 | presentation: 600-word abstract, four ESS variants, 55-row Table 4, internal tags, build notes, anonymity | restructure (B1, awaits the user) |
+| M6 | companion paper with lost data | fence off or drop for a submission |
+| M7 | Table 10's guard columns assume 2.5, design check gives 1.4; sized on step 200 for step 175 | now qualified in 10.4; recompute at 1.4 if wanted |
+
+**C1, written 2026-10-19 10:49 PT before computing (no independent timestamp: weekday hours, no commit).** The
+reviewer's C1: no certificate of a trained policy in human terms is run. P9's 600 labels stay uncollected (closed). What
+can be run without new labels: a certificate from the 220 human labels of section 10.3 (P6 sheet, one annotator), whose
+point estimates and two-sided conservative 95% intervals are already known (`results/labels/refusal/analysis.md`). So
+this is a computation on an existing sample under rules fixed here, not a registered test. Script
+`scripts/c1_human_certificate.py`, output `results/paper/c1_human_certificate.{json,md}`.
+- Policy: spike 014's constrained run, step 200 (the last checkpoint, not the returned step 175); reference step 0.
+- Event: strict refusal (`r`), the primary event fixed before any label. Delta 0.05, one-sided upper limits.
+- Claim (i), the pool rate: the policy's 5,880 responses (490 prompts x 12) the sheet was drawn from; (ii) new prompts
+  from the same source (approximate only); (iii) the difference policy minus reference, the run's constraint (margin 0.02).
+- E1 (exact): stratum-wise Clopper-Pearson upper limits at 0.05/H, H = 4 strata, weighted by stratum size (the
+  sheet's own construction, one-sided; sampling without replacement treated as with replacement, which is conservative).
+- E2 (exact, difference): E1 for the policy at 0.025 minus the matching stratum-wise CP lower limit for the reference at
+  0.025.
+- A1 (approximate, pool rate): the stratified Wald-t limit `b1` of section 8.1 on the sheet's strata.
+- A2 (approximate, new prompts and the difference): estimate + 1.645 x the prompt-clustered standard error.
+- Reported: each limit, i.e. the smallest threshold it certifies; whether the 0.02 margin is certified. No threshold is
+  chosen after the result. Expected from the known intervals: E1 about 0.20, A1 about 0.14, the margin certified by none.
+
+**C1, M1, M2 done (2026-10-19; the user: "do C1, M1, M2"), CPU only, in v0.9.12.**
+- C1 (`scripts/c1_human_certificate.py`): from the 220 existing labels, step-200 policy strict refusal certified at most
+  20.1% exact (E1), 13.9% Wald-t, 15.7% clustered for new prompts; reference 20.4 / 13.8 / 15.5; the 0.02 margin
+  certified by none (difference E2 +16.5, A2 +6.4). Computed in the same minute as the plan note, after the sheet's rates
+  were known: not a test. In 10.3, abstract, scope, Table 3, limits, conclusion, Appendix D. P9's 600 labels still not
+  collected; the relative-constraint certificate stays open.
+- M1 (`scripts/m1_abstention_mc.py`, about 22 min, replays published draws and asserts each miss rate): counted as
+  misses, returns of no limit put up to 7 of 28 cells over (row 12; bootstrap-t StratPPI at n_s 100 on labels 16-95%),
+  10 of 168 in row 9, 2-7 AgentDojo pipelines; Clopper-Pearson itself would reach 0.052 at the 95% label, so the count
+  measures abstention, not validity. Wald-t, `b1w` and CP abstention not counted outside AgentDojo (near the top of the
+  rate range only). Sheet rows: clustered design effect at most 1.9, no class changes. In 7.1, Table 4 caption, 8.1.2,
+  8.2, Appendix A, limits.
+- M2 (`scripts/prediction_split.py`): 5 construction-only predictions (all held), 10 after a dry run (9 held, 1
+  untested), 3 local-only; substantive with pushed or local records: 39 of 57 held, all 18 failures substantive. Abstract,
+  Appendix D Table D0, † marks.
+- A fresh-agent source check of all of today's changes: 3 high (the "never returns no limit" claim, the row 9 / row 11
+  attribution, the abstract's 20% scope), 7 medium, 8 low; all applied except Figure 2's 93% label (kept: the text's
+  convention). Recount passes; clean copy 37,570 words, PDF 78 pages, page v19. Not committed.
+
+## 12. Workshop version (2026-10-19, the user: restructure "Yes", bracketed names "Remove", "search for a relevant venue (maybe just a workshop paper) and tailor for that")
+
+**Venue chosen:** AAAI-27 workshop *Trustworthy Evolution of AI Agents: An Agent Operating System Perspective*
+(https://trust4rsi-agent.github.io/AAAI2027/; OpenReview AAAI.org/2027/Workshop/Trust4RSI-Agent). Deadline 2026-11-20 AoE
+(strict), notification 2026-12-02, workshop 2027-02-22/23 Montreal. Full papers 8 pages, AAAI-27 two-column kit,
+double-blind, references and appendices "usually" outside the limit (AAAI-27 kit itself: 7 content pages; we write to 7
+to be safe). Fit: its topic 3, "model and policy evolution (update and release): versioning, staged rollout, regression
+testing", and topic 5, "evaluating evolution". The certificate is a release gate for an updated policy; the third
+finding (a judge's calibration does not carry across the update) is about evolution itself; AgentDojo is an agent
+benchmark. Alternatives on the same date and format: Deployable AI (7 pp, non-archival, broad), Multi-Objective
+Optimization for Robust AI ("constraint-handling in AI safety"), Effective and Efficient Evaluation for AI Scientists
+(judge reliability and statistical power, but AI-scientist scope and in-person only). Missed: SaTML 2027 (30 Sept),
+NeurIPS 2026 workshops (Aug). Later: ICLR 2027 workshops (list from 29 Nov 2026), TMLR (rolling) for the long version.
+
+**Form.** A new source, `reports/workshop/trust4rsi_aaai27.tex` (+ `.bib`), built with the AAAI-27 kit (`aaai2027.sty`,
+`aaai2027.bst` copied into `reports/workshop/`). Main text around the three findings (which bounds hold; what a label
+buys; what does not carry across an update) plus the one human-terms certificate; detail in appendices of the same PDF.
+No bracketed method names, no internal tags ([B6], [O3], ...), no commit hashes, file paths, build notes or version
+history; the training paper cited as an anonymous companion. The long draft stays as the technical report and source of
+every number; `scripts/workshop_check.py` asserts that every number in the workshop text appears in the recounted long
+draft. Numbers are not recomputed.
+
+**Workshop version built (2026-10-19, ~15:05 PT).** `reports/workshop/trust4rsi_aaai27.pdf`: 21 pages; main text ends on
+page 6 (limit 7), references, then Appendices A-I (definitions, full validity table in four parts, the training loop,
+strata, judges, benchmarks, human labels, the record of what was fixed in advance, reproducibility). Figures: the
+carried calibration and AgentDojo's nine lowest pipelines. New section "What This Means for a Release Gate". Two
+fresh-agent source checks: first 2 high / 10 medium / 12 low, second (of the fixes) 1 medium-high (an abstention share
+attached to the wrong bound) / 2 medium / several low; all applied. `scripts/workshop_check.py` passes. Long draft v0.9.13
+(abstract brackets removed), recount passes, page v20. Not committed. Before submission: AAAI reproducibility checklist
+(separate upload), a blind review of the workshop PDF, OpenReview profiles for the authors.
+
+**Blind review of the workshop version (2026-10-19 ~15:30 PT)** (`review/blind_review_workshop_2026-10-19.md`): weak
+accept for the workshop, mean 3.5 (evidence 4, falsifiability 4, scope 3, coherence 3, integrity 4, rigour 3); main
+track weak reject / borderline. Plain errors (20) fixed in the workshop text the same hour, plus the text-only parts of
+majors 3 (abstract leads with the typical regime), 4 (routing caveat), 5 (table scope narrowed), 6 (WildGuard against our
+registered prediction; weak-judge reading; post-hoc control), 7 (per-policy n 109/111, blind sheet), 8 (quadrature bound,
+defence names), 9 (relative threshold plugged in as a constant, stated in Section 2), 1 (a sequence-of-updates bullet,
+untested). AAAI reproducibility checklist filled: `reports/workshop/ReproducibilityChecklist.tex` (+ .pdf); it answers
+"yes" to releasing new data and code on publication, which the user must confirm.
+
+Open workshop checklist (not done):
+| item | what | cost |
+|---|---|---|
+| W1 (major 1) | a sequence-of-updates check on the synthetic bandit: fresh vs reused safety sets, delta split across k versions | CPU, a few hours |
+| W2 (major 2) | which synthetic-grid profiles make the stratified Wald-t limit miss (up to 0.111); a checkable guard (min expected count or df) | CPU, short |
+| W3 (major 10) | related work: regression-free / backward-compatible updates (Bansal et al. 2019, Srivastava et al. 2020, Yan et al. 2021, Xie et al. 2021), Tango paired non-inferiority, Korn-Graubard, Lang-Reiczigel, PPI under shift; verify each before citing | web, short |
+| W4 (major 11) | a gate diagram; a recommendations table with evidence rows; standard terms | writing |
+| W5 | long draft: Appendix B's 37% / 82% / 76% shares come from spike 017 E8, the judge counts from B4's 500-item sets (29 of 100 before; 83/93, 83/108, 85/97 after): state the two samples or use one | text |

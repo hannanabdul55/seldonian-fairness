@@ -1,0 +1,470 @@
+\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+\usepackage[submission]{aaai2027}  % DO NOT CHANGE THIS
+\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+\usepackage{graphicx} % DO NOT CHANGE THIS
+\urlstyle{rm} % DO NOT CHANGE THIS
+\def\UrlFont{\rm}  % DO NOT CHANGE THIS
+\usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\frenchspacing  % DO NOT CHANGE THIS
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\pdfinfo{
+/TemplateVersion (2027.1)
+}
+\setcounter{secnumdepth}{2}
+
+\newcommand{\SWT}{stratified Wald-t limit}
+\newcommand{\SWL}{stratified Wilson-type limit}
+\newcommand{\NSF}{\textsc{nsf}}
+
+\title{Certifying a Language-Model Update Before Release:\\What Holds, What a Label Buys, and What Does Not Carry}
+\author{Anonymous Submission}
+\affiliations{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Before an updated language-model policy is released, a developer wants a statement such as ``this model refuses at
+most 5\% of benign requests'' that is wrong with a small stated probability. The safety test of a Seldonian algorithm
+gives such a certificate from labelled responses that played no part in choosing the update. We test, where the true
+rate is known, when it can be trusted. Exact binomial bounds kept their promise on data sampled as they assume. The
+normal limits shipped with two published ways of letting an automatic judge stand in for labels did not at safety-test
+sizes: in our implementation the first was wrong in 6\% to 11\% of trials at a promised 5\% at a 20\% rate, both in up
+to 24\% at a 1.3\% rate. Grouping
+prompts by how often the model before the update showed the behaviour made a label worth 1.3 to 1.5 labels on new prompts
+at rates of 12\% and 46\% (the second from a pool mixed from two sources), under an approximate limit; it gained little or
+lost at 82\% and above and at rare rates, and almost nothing once the update reordered the prompts. Across the update, a
+rubric judge's error rates did not carry in any of three seeds of one set-up, while a second judge's did. On a crossed
+agent benchmark, bounds that treat task pairs as independent failed for 27 of 28 agents; with the attacks taken as
+fixed, one certifies a 5\% attack success rate under an approximate bound. One annotator's labels give an exact bound
+of 20.1\% on a trained policy's outright refusals, but do not certify the 2-point limit on their change that it was
+trained under.
+\end{abstract}
+
+\section{Introduction}
+
+A policy update is a release decision. After further training, a developer who ships the new model is implicitly
+claiming that some unwanted behaviour (a needless refusal, a harmful answer, a successful prompt injection) has not
+become more frequent than a stated limit. Reported rates do not make that claim; a regression gate does. We call a
+statement ``the rate is at most $\tau$'', made by a procedure that is wrong with probability at most $\delta$, a
+\emph{certificate}, and the procedure that produces it a release gate for the update.
+
+The Seldonian framework \citep{thomas2019preventing} builds this gate into learning. Data are split into a candidate
+set and a safety set; any search on the candidate set proposes one updated policy; a one-sided upper confidence bound
+on each constrained rate, computed once on the sealed safety set, decides whether the policy is returned or the answer
+is ``no solution found'' (\NSF{}). Because the candidate is fixed before the safety set is read, the gate is valid for
+any training procedure, including reinforcement learning on a reward the constraint does not measure.
+
+Three features of language-model evaluation can void that guarantee without any visible sign. The label is not
+observed: a guard model, a rubric judge or a benchmark harness produces it, and its errors can differ between the
+model before and after the update. The sample is often not independent: agent benchmarks cross tasks with attacks.
+And the rates of interest are small, where normal approximations fail \citep{bowyer2025clt}. This paper does not propose
+a training method. It takes the safety test as a release gate for an updated policy and asks, where the truth is known,
+which bounds keep their promise, what a label budget buys, and what does not carry from the model before the update to
+the model after it. Our findings:
+\begin{enumerate}
+\item \textbf{Which bounds hold} (Section~\ref{sec:valid}). Exact bounds held on data sampled as they assume. The
+  normal limits of judge-assisted estimators, PPI++ and StratPPI, ran over their level at safety-test sizes. With a
+  bootstrap-t limit and labels allocated in proportion to stratum size, the same estimators held in the cells we first
+  ran, partly by declining to certify; on new prompts StratPPI's was over in 2 of 32 refusal-label cells (one at 82\%, one
+  at 98\%; for a claim about the prompt source it was over in most cells), and under its paper's own
+  allocations it failed.
+\item \textbf{What a label buys} (Section~\ref{sec:strata}). Strata built from the pre-update model's own per-prompt
+  rate are fixed before the update, so the update can cost them width but not the sampling design's validity; with the
+  \SWT{} (a Student-t limit on the stratified estimate) they stayed valid in the one run that reordered the prompts. Their gain is modest, confined to mid
+  rates (we saw gains from 9\% to 66\%, little or none at 82\% and above or under 4\%) and to an approximate limit, and disappears when the update reorders the prompts.
+\item \textbf{What does not carry across an update} (Section~\ref{sec:carry}). A judge's measured error rates across
+  prompt populations, and a rubric judge's across training that targets the judged label (a second judge's carried);
+  and independent-sample bounds on a crossed agent benchmark.
+\end{enumerate}
+Section~\ref{sec:human} gives the one certificate in human labels we can compute, and its cost. Many of the results
+were checked against predictions committed before their runs: of 72, 53 held, 18 failed and one could not be tested;
+leaving out five that say only that an exact bound is exact and ten written after a dry run, 39 of 57 held
+(Appendix~\ref{app:record}).
+
+\section{The Gate and How We Check It}
+\label{sec:setup}
+
+\paragraph{The safety test.} Let $\pi_\theta$ be a policy, $x$ a prompt, $y\sim\pi_\theta(\cdot\mid x)$ a response and
+$c(x,y)\in\{0,1\}$ a label from a judge (a guard model, a rubric judge, code, or a human), with $1$ meaning the unwanted
+event. The \emph{behaviour rate} is $p(\theta)=\mathbb{E}_x\mathbb{E}_y[c(x,y)]$ over a prompt population. A
+constraint is absolute, $p(\theta)\le\tau$, or relative to the policy before the update, $p(\theta)-p(\theta_0)\le m$.
+After training, one candidate $\theta_c$ is selected; on $n_s$ safety prompts it never saw, one response each is drawn
+and labelled, and an upper limit $U$ at level $\delta$ is computed. The gate returns $\theta_c$ if $U\le\tau$ and
+\NSF{} otherwise. A bound is \emph{valid} if $P(U<p)\le\delta$ for a fixed policy and an independent sample; given the
+candidate set, $\theta_c$ is fixed, so $P(\text{returned and }p(\theta_c)>\tau)\le\delta$ for any selection rule
+\citep{thomas2019preventing}. Declining is always allowed, so the rate at which the gate passes is part of the result.
+In the training runs we use, a relative threshold was set once from the pre-update model's rate on
+candidate prompts plus the margin, and then treated as a constant; their gate certifies the rate against that number, not
+the difference itself, which Section~\ref{sec:human} bounds. A gate that only approximates the guarantee, through an
+approximate bound, is \emph{quasi-Seldonian} \citep{thomas2019preventing}.
+
+\paragraph{Measuring validity.} Validity is one number per setting, the \emph{miss rate} $P_S(U(S)<p)$ over draws of
+the sample $S$. It cannot be read off one real sample, so we compute it where $p$ is known, in three ways: (i)
+\emph{resampling real responses} \citep{franklin2014plasmode}, where a pool of labelled responses is the population and
+its mean the truth (pools of 400 to 500 prompts, benign ones from XSTest
+\citep{rottger2024xstest} and OR-Bench \citep{cui2025orbench} and harmful ones from PKU-SafeRLHF \citep{ji2025pkusaferlhf},
+plain or encoded, and OR-Bench's toxic set, with 8 or more responses per prompt from the model before and after an update; Granite-3.3-2B \citep{granite2025} and Qwen2.5-1.5B-Instruct \citep{qwen25}, labelled by
+Qwen3Guard-4B \citep{qwen3guard2025}); (ii) a synthetic contextual bandit on which our training code runs unchanged and
+every policy's rate is exact; and (iii) resampling the published tables of a crossed benchmark. Every bound is scored
+by one rule: with $R\ge4{,}000$ draws and $se=\sqrt{\delta(1-\delta)/R}$, a cell is \emph{over} its level if the miss
+rate exceeds $\delta+2se$, \emph{unresolved} if it lies between $\delta$ and $\delta+2se$, and at or under otherwise.
+Each row of the full table (Appendix~\ref{app:validity}) also reports the largest upper end of a 95\% interval for a
+cell's miss rate and the cells still over after a Bonferroni correction. As in our registrations, a \emph{mid-rate}
+label is one between 5\% and 95\%.
+
+\paragraph{The bounds.} Clopper-Pearson \citep{clopper1934} and the betting bound of \citet{waudbysmith2024betting} are
+exact. Student's t and Wilson's score bound are approximate. For a sample stratified into strata $h$ with shares
+$W_h$, $n_h$ labels and rates $\hat p_h$, the \SWT{} is
+$\hat\mu+t\sqrt{\sum_h W_h^2\tilde p_h(1-\tilde p_h)/(n_h-1)}$ with $\hat\mu=\sum_hW_h\hat p_h$, smoothed rates
+$\tilde p_h$ and Satterthwaite's degrees of freedom; the \SWL{} puts the variance at the hypothesised rate instead. A
+judge enters through PPI++ \citep{angelopoulos2023ppipp}, which corrects the labels' mean by the judge's score on many
+unlabelled responses, or StratPPI \citep{fisch2024stratppi}, which does so within strata; both ship with a normal limit,
+and we also pair them with a studentised bootstrap (bootstrap-t) limit \citep{hall1988}; PPBoot \citep{zrnic2024ppboot}
+uses a percentile bootstrap instead. Clustered data use a cluster
+bootstrap-t. Appendix~\ref{app:defs} gives every formula. We compare widths by an effective sample size,
+$\mathrm{ESS}=(w_{\text{base}}/w_A)^2$, where $w$ is the mean distance from the truth to the limit and the baseline is a
+random sample of the same size with a pooled bound: an ESS of 2 means $n$ labels do the work of $2n$.
+
+\section{Which Bounds Hold}
+\label{sec:valid}
+
+Table~\ref{tab:valid} condenses the validity table of Appendix~\ref{app:validity} (55 rows); the confirmation pools,
+the routing rule and the judge-assisted exact bounds are reported in Appendices~\ref{app:strata} and~\ref{app:judge}.
+Four readings follow.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{3.9cm}rr@{}}
+\toprule
+bound (setting, $\delta$) & over / cells & worst miss \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{exact}} \\
+Clopper-Pearson (judge pools, 0.05) & 0 / 42 & 0.052 \\
+Clopper-Pearson, random draws (0.05) & 0 / 28 & 0.050 \\
+\multicolumn{3}{@{}l}{\emph{approximate, not over in these cells}} \\
+PPI++, bootstrap-t limit (0.05) & 0 / 168 & 0.054 \\
+StratPPI estimator, bootstrap-t, proportional (0.05) & 0 / 56 & 0.056 \\
+\SWT{}, 8 strata of the pre-update rate (0.05) & 0 / 28 & 0.036 \\
+the same, redrawn with replacement (0.05) & 0 / 28 & 0.038 \\
+cluster bootstrap-t by user task, AgentDojo (0.05) & 0 / 28 & 0.051 \\
+\multicolumn{3}{@{}l}{\emph{over its level}} \\
+PPI++, normal limit (0.05) & 126 / 168 & 0.241 \\
+StratPPI, normal limit, proportional (0.05) & 35 / 56 & 0.239 \\
+StratPPI, normal limit, heuristic allocation (0.05) & 24 / 28 & 0.90 \\
+PPBoot, percentile limit (0.05) & 19 / 28 & 0.148 \\
+\SWL{}, redrawn with replacement (0.05) & 7 / 28 & 0.062 \\
+\SWT{}, synthetic i.i.d.\ grid (0.05) & 5 / 18 & 0.111 \\
+Clopper-Pearson over pairs, AgentDojo (0.05) & 27 / 28 & 0.268 \\
+\bottomrule
+\end{tabular}
+\caption{Miss rates against $\delta$, condensed from Appendix~\ref{app:validity}. A cell is one bound, design,
+population, sample size and $\delta$, with 4{,}000 to 40{,}000 draws; ``over'' is Section~\ref{sec:setup}'s rule. The
+bootstrap-t rows hold partly by returning no limit (see text).}
+\label{tab:valid}
+\end{table}
+
+\paragraph{Exact bounds held where their assumptions hold.} No exact bound was over its level on data sampled as it
+assumes. The t-test is the wrong default for a rate: by enumeration over binomial counts, the Student-t limit's miss
+probability is above $\delta$ at 96\% or more of 79 rates from 0.5\% to 20\%, at each of five sample sizes from 200 to
+2,400 and at $\delta$ of 0.05 and 0.10, and Clopper-Pearson's is above it at none. The t limit's width is zero when no positive
+is seen: a policy with a true rate of 1\% passes a 0.5\% threshold whenever 100 samples hold no positive, which is 37\%
+of the time. Wilson's bound is not safe at the edges either: just above the limit it returns with no positive its miss
+is 0.069 at $n=100$ and $\delta=0.05$, and just under a rate of 1 it reaches 0.20.
+
+\paragraph{Judge-assisted normal limits did not hold at safety-test sizes.} With 225 labels at a 1.3\% rate, PPI++
+with its normal limit missed in up to 24\% of draws at $\delta=0.05$; at a 20\% rate and 100 to 500 labels it missed in
+6\% to 11\%. StratPPI as published, with labels stratified on a rubric judge's logit, was over its level in 26 of 28
+cells under proportional allocation. Under the heuristic allocation of its paper one cell missed in 90\% of draws:
+four strata where the judge's probability is under 0.001 keep 2 labels each, the minimum we set, see no positive in
+91\% of draws, and drop a fifth of the rate (with a minimum of 10 labels a stratum the cell still misses in 59\%). These
+are finite-sample findings in our implementation and do not contradict the methods' asymptotic guarantees. PPI++ with
+a bootstrap-t limit, and StratPPI's estimator with one under proportional allocation, were over their level in none of
+168 and 56 cells.
+Part of that record is abstention: a bound that returns no limit cannot miss, and counted as misses instead, those
+returns would put up to 7 of 28 cells of one row over.
+
+\paragraph{Judge-assisted exact bounds bought nothing.} Finite-sample judge-assisted bounds (betting bounds on blocks
+of judged responses) were
+valid and narrower than the labels alone in 10 of 84 cells, by at most 0.003. Reporting the smaller of Clopper-Pearson
+on the labels and the PPI++ bootstrap-t limit is not a bound: it missed in up to 0.078 of draws at $\delta=0.05$. A fixed routing rule avoids that choice. Code
+computes any property code can verify; with fewer than 10 gold labels in the rarer class, Clopper-Pearson on the labels;
+with 10 or more, PPI++ on the judge's logit with a bootstrap-t limit; a calibration measured on another population is
+refused (Table~\ref{tab:routing}; for a stratified
+sheet, the caution about the Wilson-type limit below applies). Resampled as one procedure, the rule missed in at most 0.052 of draws over 20 cells,
+none over its level. The rule and its threshold were settled on these results, not before them.
+
+\paragraph{``Approximate'' carries a number.} Over the first 36 rows of the full table, leaving out the bounds marked as
+failing, no cell stays over its level after the correction, and the largest miss a cell's interval leaves open is 0.067
+at $\delta=0.05$; of the registered rows that follow, three non-failing bounds have 1 to 3 cells over (interval ends up
+to 0.062 at $\delta=0.05$). In
+the designs they were run in, the approximate bounds we use were over their level in 1 of 378 cells (a grouping made
+after the results), but that depends on the design: the \SWL{} kept its level when the safety set was 20--40\% of a
+finite pool and was over in 7 of 28 cells once the pool was large, all at rates of 65\% and above, and the \SWT{} is
+over in 5 of 18 cells on a synthetic i.i.d.\ grid. An approximate limit with a good record here is still a
+quasi-Seldonian gate.
+
+Selection does not break a valid gate. Inside our training loop on the synthetic bandit (Lagrangian GRPO
+\citep{shao2024grpo}, 8 strata, 8,000 runs a cell), the \SWT{} for the pool's own rate was over its level in none of 8
+cells; with the term for a sampled pool, for the population's rate, it was over in 2 of 8, both in the least
+heterogeneous environment (Appendix~\ref{app:pipeline}). In a classifier setting, rerandomised and stratified
+candidate/safety splits, including candidates built to overfit the balancing statistics, did not break an exact test in
+2,000 seeds per arm, nor a tight Wald test sensitive enough to show a leak (misses at most 0.055 at $\delta=0.05$).
+
+\section{What a Label Buys: Strata from the Model Before the Update}
+\label{sec:strata}
+
+A relative constraint already calls for the pre-update model's responses, so they can also shape the safety sample. Draw
+$k=8$ responses of the pre-update model to every prompt in the pool, rank the prompts by the share the judge flags, cut
+the ranking into 8 equal strata with ties broken at random, and draw the safety set within strata in proportion to their
+size. The strata use no response of the updated policy and are fixed before the safety set is drawn, so the update can
+cost them width but not validity. They remove the between-stratum share $G$ of the variance, an ESS of about $1/(1-G)$,
+which a pre-flight formula predicts from the pre-update samples (Appendix~\ref{app:defs}).
+
+\paragraph{Confirmation on new prompts.} The strata rule and the limits were chosen on the pools that measured them,
+where the \SWL{} gained 1.4 to 5.1 at rates of 9\% to 66\% (ESS from the truth, redrawn with replacement; the upper end
+on a label where it is over its level). We therefore registered predictions and tested them on new prompts: three pools of
+400 OR-Bench prompts \citep{cui2025orbench} answered by a Granite-3.3-2B policy trained under a relative over-refusal
+constraint (refusal rates 12\%, 82\% and 98\%), a fourth pool mixed to land at a mid rate (46\%; weaker evidence: a rate we aimed at, predictions written after a dry
+run, and two prompt sources that the strata largely separate, which alone remove about three quarters of the variance
+the strata remove), a second model family
+(Qwen2.5-1.5B-Instruct at 19\%), and the same family after an update that moved it far from its reference (58\%; the
+correlation of reference and trained per-prompt rates was 0.46, against 0.84 after the update that kept the order).
+Table~\ref{tab:strata} gives the gains of the \SWT{}, which for the pool's own rate was over its level in no mid-rate
+cell of these pools; a claim about the prompt source the pool was drawn from adds a term for the pool's own sampling
+error, and with it the limit was over in 1 of 8 cells on the second family. On the human labels of the last row it
+was over in 3 of 64 cells, by at most 0.008.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}p{3.65cm}cc@{}}
+\toprule
+pool (refusal rate) & pool's own rate & prompt source \\
+\midrule
+Granite, new prompts (12\%) & 1.47, 1.73 & 1.31, 1.32 \\
+Granite, mixed pool (46\%) & 2.09, 2.56 & 1.49, 1.34 \\
+Granite, new prompts (82\%) & 0.86, 1.13 & 0.75, 0.89 \\
+Granite, new prompts (98\%) & lost (all limits) & 0.11, 0.25 \\
+Granite, rare (1.6--3.2\%) & 0.86--1.20 & 0.85--1.13 \\
+Qwen, order kept (19\%) & 1.52, 1.77 & 1.35, 1.35 \\
+Qwen, reordered (58\%) & 0.97, 1.08 & 0.94, 0.97 \\
+human labels (6--60\%) & 1.18 (median) & not run \\
+\bottomrule
+\end{tabular}
+\caption{ESS of the \SWT{} with 8 reference-rate strata, at safety sets of 100 and 200, against a random draw with a
+pooled Wilson bound; $\delta=0.05$. Pool's own rate: drawn with replacement within strata; prompt source: the pool
+redrawn and the strata rebuilt, 10,000 replications. Last row: XSTest's human labels of five released
+models, strata from another model's guard rate, eight mid-rate labels (two definitions on five models)
+at 6\% to 60\%, safety set 100. Rare: two labels
+from the guard's safety field. Full results in Appendix~\ref{app:strata}.}
+\label{tab:strata}
+\end{table}
+
+Four things follow. \emph{The gain is modest and confined to moderate rates.} For a certificate about the prompt source it
+was 1.3 to 1.5 at 12\% and 46\%; at 82\% and above, and on rare labels, the strata gained little or lost, and on rare
+labels an exact bound on a random draw is the one to use. \emph{It depends on the update keeping the order of
+prompts.} Where training kept the pre-update order, the gain survived; where it reordered the prompts, the limit stayed
+valid and the gain went to 0.97 and 1.08, which the pre-flight from pre-update samples alone did not foresee (it
+predicted 1.55). \emph{It belongs to the approximate limit.} Two exact stratified bounds kept their level in all 116
+cells we drew, but neither gave a gain to rely on: a stratified Clopper-Pearson bound certified more often than
+Clopper-Pearson on a random draw of the same size in 19 of 36 real-response cells and in none of 32 cells on human
+labels, at the threshold we registered, and a stratified betting bound never did. \emph{It pays only where the certified label is costly.} The strata
+cost 8 judged pre-update responses per prompt. When the certified label is itself a human one, a gain of about 1.2
+saves about 17 of 100 labels for 2,000 judged responses (8 for each of 250 prompts), which pays where a human label
+costs more than about 120 judged responses; the break-even grows with the pool. Where strata and label come from the same cheap judge, a larger safety set is the better use of the budget.
+
+\paragraph{Predicting the gain before labelling.} The pre-flight ranks the gain well (Spearman 0.84 between predicted and
+realised ESS over 432 cells, ESS from the estimate at $\delta=0.10$, with the updated policy's quantities measured) and
+over-predicts its size. On the new prompts, with the updated policy's two quantities
+measured on responses the draws do not use, it was within 20\% of the \SWL{}'s gain at 12\%, 46\% and 82\%; from the pre-update samples alone
+it predicted 2.58, 4.12 and 2.22, and the realised gains of the \SWL{} were 27\% to 41\% lower. A gate planned before the update should
+therefore budget for the gain of a random sample.
+
+\paragraph{Against StratPPI.} On the same strata and draws, StratPPI's published limit is shorter partly because its
+normal limit runs over its level (in 9 of 28 cells counted by checkpoint). With a bootstrap-t limit and proportional
+allocation its estimator holds and gains about as much (median ESS 2.10 against 2.16 for the \SWL{}); at a safety set of
+100 with 8 strata the regression on the reference rate within strata adds nothing once the limit is valid
+(Appendix~\ref{app:strata}).
+
+\section{What Does Not Carry Across an Update}
+\label{sec:carry}
+
+\subsection{A judge's measured error rates}
+
+The cheapest gate uses no gold label on the updated policy: measure the judge's recall $r$ and false-alarm rate $f$ on
+labelled responses of the pre-update model, measure its flag rate $q$ on the updated policy, and bound
+$p=(q-f)/(r-f)$ \citep{rogan1978} from one-sided limits on the three. It is valid only if $r$ and $f$ are the same on
+both sides of the update. We tested this \emph{carried} bound for a judge compiled from a one-sentence rubric (Qwen3-8B
+scoring each response by its probability of answering Yes, six wordings of the rubric), with the guard's refusal flag as
+gold (Figure~\ref{fig:carry}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_carry.pdf}
+\caption{Miss rate of a carried calibration at $\delta=0.05$, one dot per rubric wording. Top seven rows: the judge
+calibrated on the model before an update and applied after it; the run that targets the label has three seeds. Bottom
+four: calibrated on one prompt population and applied to another.}
+\label{fig:carry}
+\end{figure}
+
+\paragraph{Across prompt populations} the carried bound missed in up to 94\% of draws between two sources of benign
+prompts and in up to 99.6\% between benign and harmful pools. The failure depends on direction; between the pools, in
+the direction where it was over for no wording, it returned no certificate in at least 98\% of draws.
+
+\paragraph{Across an update.} A calibration did carry across 200 steps of a run (one seed) that moved the label
+only as a side effect: recall differed in none of six wordings (under two of them the carried bound returned no certificate in 90\%
+and 77\% of draws). It did not carry across a run whose Lagrangian penalised the judged
+label (GRPO with LoRA on Granite-3.3-2B, a relative over-refusal constraint), in any of three seeds: the canonical
+wording's recall on the guard's refusals fell from 0.21 to 0.03, 0.07 and 0.05, and the carried bound was over its level
+for 3, 3 and 2 of six wordings (misses up to 0.80), although the pool's refusal rate stayed within 1.4 points of the
+pre-update model's. The predictions for seeds 1 and 2 were registered before they were trained, and all held; one seed was retried after a
+crash without the explicit decision the registration reserved (Appendix~\ref{app:record}).
+
+A second judge behaved differently, against our registered prediction that it too would fail. WildGuard
+\citep{han2024wildguard}, scored on the same
+4,500 responses, kept its recall on the guard's refusals across the update (0.88 before; 0.94, 0.94 and 0.91 after), and
+its carried bound was over its level in no seed; with WildGuard as gold, the compiled judge's carried bound failed in all
+three. Against one annotator's labels the direction is the same, without significance: the compiled judge flags 3 of 18
+strict refusals before the update and 0 of 18 after, while the guard's recall does not move (17 and 16 of 18). Our
+account, which no experiment isolates, is a change in form: after training, the guard's flags are mostly long refusals
+with a helpful-sounding body (29 of 100 guard flags before; 83 of 93, 83 of 108 and 85 of 97 after, by seed), which the
+rubric judge reads as answers,
+and the judge also read plain refusals differently after training (Appendix~\ref{app:judge}). WildGuard also began with far higher recall (0.88 against 0.21), so the failure may
+belong to weak judges rather than rubric judges; with one judge of each kind we cannot say which. Reading the
+side-effect run as a control came after the result. For a release gate the rule is plain: gold labels belong on
+the responses of the updated policy, each time it is updated.
+
+\subsection{Independent-sample bounds on a crossed agent benchmark}
+
+AgentDojo \citep{debenedetti2024agentdojo} crosses user tasks with injection tasks; its published runs give 28 agent
+pipelines with 629 to 949 task pairs each. Successes cluster in both directions (design effects of 1.4 to 8.7 by user
+task and 2.6 to 15.5 by injection task). Treating pairs as independent, the Clopper-Pearson bound was over its level for
+27 of 28 pipelines when user tasks are resampled (misses up to 27\%), and for all 28 once injection tasks are resampled
+too. Taking the benchmark's injection tasks as fixed and its user tasks as a sample, a cluster bootstrap-t by user task
+was over for none, though on the fresh draws of a registered run it returned no limit in up to 16\% of tables (9\% for
+the pipeline that certifies; the 82\% of Appendix~\ref{app:validity} is the pigeonhole bootstrap's); it then certifies a 5\% attack success rate for one pipeline of 28 (0.022 on a raw 1.1\%, resting on 7
+successes in 6 user tasks), which an exact betting bound on the user tasks' rates also certifies, narrowly (0.048), but only for the rate averaged over user tasks; its pair-rate
+version does not (0.060, Appendix~\ref{app:bench}; Figure~\ref{fig:agentdojo}). Five
+pipelines pass the per-pair bound and four of those passes do not survive clustering; a defended model at 2.2\% fails
+because its 21 successes sit in 5 of 97 user tasks (0.062 clustered against 0.032 per pair). The certificate does not
+extend to new injection tasks: resampling them too, the user-task bound is over for 24 of 28 pipelines and a multiway
+cluster variance \citep{cameron2011multiway} for 26. A pigeonhole bootstrap \citep{owen2007pigeonhole} studentised by
+that variance held, partly by abstaining, and certifies none. A bound adding the two clustered margins in quadrature,
+first computed after seeing results, was over for 1 of 28 pipelines on fresh draws with both kinds of task resampled,
+against our registered expectation of none, and for none when tasks were redrawn within suites or drawn from a fitted
+crossed model (both registered); it is a candidate for new attacks, not a tested one (Appendix~\ref{app:bench}). A labelling sheet that
+over-samples a guard's flags is another non-random sample: read as random inside a judge-assisted estimate, it missed in
+up to 99\% of draws.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_agentdojo.pdf}
+\caption{The nine AgentDojo pipelines with the lowest attack success rates: observed rate, the Clopper-Pearson bound
+that treats task pairs as independent, and the cluster bootstrap-t bound by user task (injection tasks fixed). Only the
+top pipeline certifies 5\% once clustered; gemini-1.5-flash-002's per-pair bound is 0.050, a pass. ``Repeat'' and
+the suffixes are AgentDojo's prompt-injection defences. From 200,000 bootstrap draws.}
+\label{fig:agentdojo}
+\end{figure}
+
+\section{A Certificate in Human Terms}
+\label{sec:human}
+
+Every certificate above is in a judge's terms. Against XSTest's published human labels \citep{rottger2024xstest}, the
+guard behind our refusal numbers recalls 0.92 of full refusals on safe prompts, but its false-alarm rate against full
+refusal runs from 0.03 to 0.44 across the five released models, following each model's share of partial refusals;
+against full or partial refusal it is 0.01 to 0.19, which is Section~\ref{sec:carry} on other people's models: its error rates
+belong to a model. One annotator, an author, labelled 220 responses, 109 of the pre-update model and 111 of the updated policy, on a
+stratified sheet read with its design weights; the sheet hid which policy wrote each response and shuffled the order. In strict refusals the two policies are level (10.7\% and 10.6\%).
+From these labels, at $\delta=0.05$, a stratum-wise Clopper-Pearson construction certifies that the updated policy
+refuses outright at most 20.1\% of its responses to the pool of 490 benign prompts; the \SWT{} gives 13.9\%, without a
+guarantee. The policy is the update's last checkpoint (step 200), not the one its gate returned (step 175). The constraint the update was trained under, a refusal rate at most 2 points above the pre-update model's,
+is certified by nothing in these labels: the limit on the difference is $+16.5$ points exact and $+6.4$ approximate. We
+fixed these limits after the sheet's rates were known, so this is a computation, not a registered test.
+
+The relative certificate is a question of budget (Appendix~\ref{app:human}). Pairing the two policies on the same prompts
+cuts the labels needed about threefold; at a true difference near zero, about 420 labelled prompt pairs give an even
+chance of certifying the 2-point margin with an approximate limit, and the exact limit is about twice as wide. The
+samples (from the returned checkpoint, step 175, while the budget uses step 200's rates), guard scores and analysis for 300
+pairs are prepared; the labels have not been collected.
+
+\section{What This Means for a Release Gate}
+\label{sec:gate}
+
+For a regression gate on an updated policy, the measurements above suggest the following practice.
+\begin{itemize}
+\item \textbf{Label the updated policy's own responses at every update.} A rubric judge's error rates, measured on
+  the previous version, did not carry across an update that targeted the judged label, in any of three seeds; a second
+  judge's did, so a carry cannot be assumed (Section~\ref{sec:carry}). A judge can still reduce variance when its gold
+  labels come from the updated policy.
+\item \textbf{Use an exact bound at rare rates.} With no positive observed at $\delta=0.05$, 299 labels certify 1\%, 149
+  certify 2\% and 59 certify 5\%. The designs we tried gained at most 1.2 there, and only under approximate limits.
+\item \textbf{Do not use a plain Student-t or normal limit on a small rate,} nor a judge-assisted estimator's normal
+  limit. Where a judge assists, use its logit with a bootstrap-t limit, only with 10 or more gold labels in each class (a
+  threshold settled on these results and not confirmed), and report how often the limit declines.
+\item \textbf{State what is sampled.} On a benchmark that crosses tasks with attacks, cluster by what the certificate
+  treats as sampled, and say which factor is held fixed.
+\item \textbf{Pair the two versions for a relative constraint.} Labelling both on the same prompts cuts the budget about
+  threefold, by our design calculation.
+\item \textbf{Treat a sequence of updates as a sequence of tests.} We studied one update at a time. A safety set whose
+  result informed the next candidate is no longer independent of it, and $k$ gates at level
+  $\delta$ each bound the chance of any wrong release only by $k\delta$; fresh safety sets and a split of $\delta$ across
+  versions keep the guarantee, at a cost in labels that we did not measure.
+\item \textbf{Stratify on the previous version only at rates from about 5\% to 80\% and for a costly label}, with the \SWT{}, and expect
+  little if the update reorders prompts.
+\item \textbf{Report how often the gate declines.} A gate that never passes is valid; how often it declines is its
+  cost.
+\end{itemize}
+
+\section{Related Work}
+
+\textbf{Seldonian algorithms and high-confidence improvement} \citep{thomas2015hcope,thomas2015hcpi,thomas2019preventing,metevier2019,giguere2022}
+supply the gate we study; Safe RLHF \citep{dai2024saferlhf} trains against a learned cost with a Lagrange multiplier and
+has no held-out test of what it returns. \textbf{Certificates of LLM behaviour} \citep{chaudhary2024knowledge,chaudhary2025bias}
+use Clopper-Pearson bounds over a prompt distribution, the bias certificate in a detector's terms; we measure when such
+bounds hold under stratified, judge-assisted and clustered sampling. \textbf{Error bars for evaluations}:
+\citet{miller2024errorbars} sets out standard errors for evaluations, including clustered ones, and
+\citet{bowyer2025clt} show the failure of normal intervals at small $n$; we add the one-sided, selection-robust setting and crossed designs,
+for which multiway variances \citep{cameron2011multiway} and two-way bootstraps \citep{owen2007pigeonhole,menzel2021bootstrap}
+exist. \textbf{Risk control} \citep{bates2021rcps,angelopoulos2024crc,angelopoulos2025ltt,zollo2024prc} calibrates a
+wrapper around a fixed model; we certify a policy that training changed, on a label a judge defines.
+\textbf{Prediction-powered inference} \citep{angelopoulos2023ppi,angelopoulos2023ppipp,fisch2024stratppi,zrnic2024ppboot,boyeau2025autoeval,zrnic2024active,gligoric2025cdi}
+is the family whose finite-sample behaviour Section~\ref{sec:valid} measures. \textbf{Judge bias and label shift}
+\citep{zheng2023judge,souly2024strongreject,saerens2002,lipton2018} motivate the carried bound, whose assumption of fixed
+error rates Section~\ref{sec:carry} tests across an update. \textbf{Rare behaviours} below the rates we certify are
+estimated, not certified, by \citet{wu2025rare} and \citet{jones2025forecasting}.
+
+\section{Limitations}
+
+Outside Section~\ref{sec:human} and XSTest's published labels, every refusal label is a guard model's, and our own human
+labels are one annotator's, with no agreement statistic. Our trained policies are 1.5B and 2B parameters on one consumer GPU;
+the frontier evidence is certificates on published traces. The new prompts come from one benchmark, and the policy that
+reordered the prompts is one run of one model on one label; the three seeds of the targeted run share prompts, threshold
+and gold label. The strata rule was chosen on the pools that first measured it and confirmed afterwards, and the
+confirmation kept six of its eight predictions; the \SWT{} became our recommended limit after the first confirmation pool,
+where the Wilson-type limit failed at 82\%. The approximate limits we recommend have no finite-sample guarantee, and
+several hold partly by abstaining. The crossed-benchmark certificate takes the benchmark's injection tasks as given.
+
+\section{Conclusion}
+
+A rate with an error bar is not a release gate. The guarantee belongs to the whole procedure: how the update was chosen,
+how the sample was drawn and what produced the label. Where we could check against a known truth, exact bounds held on
+data sampled as they assume, and three shortcuts failed: a normal limit at small rates, a per-pair bound on a crossed
+benchmark, and a judge's calibration carried to another population or, for a rubric judge in the one targeted set-up we ran
+(three seeds), across an update that targeted the label.
+Strata from the pre-update model help a little, at mid rates, under an approximate limit. For a regression gate on an
+updated policy, the practical rule is to label the updated policy's own responses each time, bound them exactly where
+the rate is small, and report how often the gate declines.
+
+\bibliography{references}
+
+\appendix
+\input{appendix}
+
+\end{document}

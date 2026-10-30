@@ -1,0 +1,24 @@
+\begin{tabular}{@{}r p{2.8cm} p{2.0cm} p{3.9cm} l p{2.1cm} p{2.0cm} p{1.9cm}@{}}
+\toprule
+\textbf{\#} & \textbf{bound} & \textbf{kind} & \textbf{setting} & \textbf{$\delta$} & \textbf{miss, per cell} & \textbf{cells over / unresolved / at or under} & \textbf{largest 95\% upper limit of a cell's miss (cells over after correction)} \\
+\midrule
+1 & Clopper-Pearson & exact (binary labels) & real harm labels, trained-policy pool, 121--124 positives of 3,600, n 200--2,400 & 0.10 & 0.066--0.096 & 0 / 0 / 20 & 0.096 (0) \\
+2 & Clopper-Pearson & exact & the judge plasmodes (App.~\ref{app:judge}), every cell & 0.05 & 0--0.052 & 0 / 2 / 40 & 0.059 (0) \\
+3 & betting mixture & exact (bounded) & same pool as row 1 & 0.10 & 0.007--0.018 & 0 / 0 / 20 & 0.018 (0) \\
+4 & Bentkus & exact (bounded) & same pool & 0.10 & 0.017--0.037 & 0 / 0 / 20 & 0.037 (0) \\
+5 & Hoeffding, Anderson & exact (bounded) & same pool & 0.10 & 0.000 & 0 / 0 / 40 & 0.000 (0) \\
+6 & stratified Wilson-type limit & approximate & 4 mid-rate labels (9--95\%), real Granite-3.3-2B responses, $n_s$ 100--200, 3 checkpoints & 0.05 / 0.10 & 0.017--0.054 / 0.058--0.097 & 0 / 3 / 21; 0 / 0 / 24 & 0.061 (0); 0.106 (0) \\
+7 & the Wilson-type limit & approximate & label pushed by the Lagrangian, $n_s$ 200 & 0.05 / 0.10 & 0.011--0.023 / 0.040--0.064 & 0 / 0 / 2; 0 / 0 / 2 & 0.027 (0); 0.071 (0) \\
+8 & the Wilson-type limit on a design-weighted sheet & approximate & sheets re-drawn by their real sampling rule & 0.05 & 0--0.060 & 1 / 1 / 16 & 0.067 (0) \\
+9 & PPI++ with a bootstrap-t limit & approximate & the judge plasmodes (App.~\ref{app:judge}), every cell and feature & 0.05 & 0--0.054 & 0 / 13 / 155 & 0.061 (0) \\
+10 & cluster bootstrap-t, by user task & approximate & AgentDojo, 28 pipelines, scheme (a) & 0.05 & 0.013--0.051 & 0 / 2 / 26 & 0.058 (0) \\
+11 & StratPPI estimator with a bootstrap-t limit, proportional allocation & approximate & reference-rate strata, 5 mid-rate labels, $n_s$ 100--200; judge-logit strata, n 100--1,000 & 0.05 & 0.024--0.045; 0.001--0.056 & 0 / 0 / 28; 0 / 5 / 23 & 0.051 (0); 0.064 (0) \\
+12 & the same estimator and limit, redrawn with replacement & approximate & reference-rate strata, 5 mid-rate labels, $n_s$ 100--200 & 0.05 / 0.10 & 0.030--0.050 / 0.069--0.100 & 0 / 0 / 28; 0 / 1 / 27 & 0.052 (0); 0.103 (0) \\
+13 & Clopper-Pearson, random draws with replacement (the control) & exact & the same 5 labels and sizes & 0.05 / 0.10 & 0.029--0.050 / 0.050--0.097 & 0 / 0 / 28; 0 / 0 / 28 & 0.052 (0); 0.100 (0) \\
+14 & pigeonhole bootstrap-t & approximate & AgentDojo, 28 pipelines, schemes (a); (b); (c) & 0.05 & at most 0.004; 0.037; 0.042 & 0 / 0 / 28; 0 / 0 / 28; 0 / 0 / 28 & 0.007 (0); 0.043 (0); 0.048 (0) \\
+15 & \textbf{Student-t} & fails at low rates & same pool as row 1, n 200--2,400 & 0.10 & \textbf{0.104--0.195} & 20 / 0 / 0 & 0.195 (20) \\
+16 & \textbf{the Wilson-type limit and the pooled Wilson bound at rare rates} & in the stored design, not over at $\delta$ 0.05; over in 2 cells at 0.10 & harm labels at 1--2\%, $n_s$ 100--200, 3 checkpoints & 0.05 / 0.10 & 0--0.048 / \textbf{0--0.126} & 0 / 0 / 24; 2 / 1 / 21 & 0.054 (0); 0.136 (2) \\
+17 & \textbf{the Wilson-type limit, redrawn with replacement} & over on the two labels at rates of 65\% and above & reference-rate strata, 5 mid-rate labels, $n_s$ 100--200 & 0.05 / 0.10 & \textbf{0.017--0.062 / 0.056--0.113} & 7 / 1 / 20; 6 / 2 / 20 & 0.065 (7); 0.116 (4) \\
+18 & \textbf{pooled Wilson bound, random draws with replacement} & over in 6 and 10 of the 28 cells & the same 5 labels and sizes & 0.05 / 0.10 & \textbf{0.031--0.069 / 0.069--0.128} & 6 / 0 / 22; 10 / 3 / 15 & 0.071 (6); 0.131 (10) \\
+\bottomrule
+\end{tabular}

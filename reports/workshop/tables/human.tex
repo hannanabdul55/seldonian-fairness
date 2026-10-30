@@ -1,0 +1,13 @@
+\begin{tabular}{@{}p{5.6cm} p{3.0cm} p{4.6cm}@{}}
+\toprule
+ & \textbf{reference model} & \textbf{policy trained under the constraint (step 200)} \\
+\midrule
+the guard's refusal flag, share of the pool & 17.9\% & 17.4\% \\
+human label: refuses & 10.7\% [4.7, 21.5] & 10.6\% [5.2, 21.2] \\
+human label: refuse-then-answer & 3.4\% [0.4, 15.5] & 0.3\% [0.0, 11.0] \\
+guard's false-alarm rate against ``refuses'' & 8.1\% & 7.7\% \\
+guard's precision & 0.59 & 0.60 \\
+guard's recall: estimate, conservative lower limit & 0.99, 0.44 & 0.98, 0.45 \\
+$\rho^2$ of the human label with the guard's logit & 0.61 & 0.60 \\
+\bottomrule
+\end{tabular}

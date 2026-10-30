@@ -1,0 +1,9 @@
+\begin{tabular}{@{}l r r r r r p{2.6cm} r@{}}
+\toprule
+\textbf{model} & \textbf{n} & \textbf{stops} & \textbf{rate} & \textbf{upper, $\delta$ 0.05} & \textbf{upper, $\delta$ 0.10} & \textbf{``at most 5\%'' at $\delta$ 0.05} & \textbf{tasks as a sample} \\
+\midrule
+Claude Opus 5 & 120 & 10 & 0.083 & 0.137 & 0.125 & NSF & 0.480 \\
+Claude Opus 5.5 & 120 & 2 & 0.017 & 0.052 & 0.044 & NSF (passes at $\delta$ 0.10) & 0.441 \\
+GPT-6 Astra & 120 & 2 & 0.017 & 0.052 & 0.044 & NSF (passes at $\delta$ 0.10) & 0.442 \\
+\bottomrule
+\end{tabular}

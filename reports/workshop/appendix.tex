@@ -1,0 +1,435 @@
+
+\section{Definitions}
+\label{app:defs}
+
+\paragraph{Labels alone.} For $s$ positives among $n$ 0/1 labels, Clopper-Pearson's upper limit is
+$\mathrm{Beta}^{-1}(1-\delta;\,s+1,\,n-s)$, and $1-\delta^{1/n}$ at $s=0$. With no positive, the smallest sample that
+certifies a threshold $\tau$ is $n\ge\ln\delta/\ln(1-\tau)$: 299 labels for 1\% at $\delta=0.05$, 149 for 2\%, 59 for
+5\%. For labels in $[0,1]$ the exact choices are Hoeffding's \citep{hoeffding1963}, Bentkus's \citep{bentkus2004},
+Anderson's \citep{learnedmiller2019} and the betting bound \citep{waudbysmith2024betting}. Wilson's bound
+\citep{wilson1927} is the smallest $m>\hat p$ with $m-\hat p\ge z_{1-\delta}\sqrt{m(1-m)/n}$.
+
+\paragraph{Stratified limits.} With strata $h$ of population share $W_h$, $n_h$ labels, $s_h$ positives and rates
+$\hat p_h$, $\hat\mu=\sum_hW_h\hat p_h$. The \SWL{} is the smallest $m>\hat\mu$ with
+$m-\hat\mu\ge z_{1-\delta}\sqrt{\sum_hW_h^2p_h(m)(1-p_h(m))/n_h}$, where $p_h(m)$ shifts every stratum's rate by
+$m-\hat\mu$, clipped to $[0,1]$; it is a heuristic, not the inversion of a stratified score test. The \SWT{} is
+$\hat\mu+t\sqrt{\sum_hW_h^2\tilde p_h(1-\tilde p_h)/(n_h-1)}$ with $\tilde p_h=(s_h+1/2)/(n_h+1)$ and a Student-t
+quantile at Satterthwaite's degrees of freedom \citep{satterthwaite1946}. For a claim about the population a pool of $N$
+prompts was drawn from, both add $\sum_hW_h(\hat p_h-\hat\mu)^2/N$ to the variance, the first-phase term of two-phase
+sampling \citep{neyman1938,cochran1977}.
+
+\paragraph{A judge.} With $n$ gold labels $e$, the judge's feature $f$ on them and on $N_u$ unlabelled responses, PPI++
+\citep{angelopoulos2023ppipp} estimates $\hat p=\overline{e}+\gamma(\overline{f}_{\text{unl}}-\overline{f}_{\text{lab}})$ with
+$\gamma=\mathrm{cov}(e,f)/((1+n/N_u)\mathrm{var}(f))$ and variance $V=\mathrm{var}(e-\gamma f)/n+\gamma^2\mathrm{var}_{\text{unl}}(f)/N_u$;
+the published limit is $\hat p+z_{1-\delta}\sqrt V$. StratPPI \citep{fisch2024stratppi} applies the correction within
+strata. PPBoot \citep{zrnic2024ppboot} uses a percentile of bootstrap estimates. The bootstrap-t limit
+\citep{hall1988} resamples the labelled responses $B$ times (within strata where stratified), redraws each unlabelled
+mean, and sets $U=\hat p-t^*_\delta\sqrt V$ with $t^*_\delta$ the $\delta$-quantile of $(\hat p^*_b-\hat p)/\sqrt{V^*_b}$.
+
+\paragraph{Clustered data.} With clusters $c$ (user tasks) of sizes $n_c$ and successes $s_c$, $\hat p=\sum s_c/\sum
+n_c$ and $se=\sqrt{C/(C-1)\sum_c(s_c-\hat pn_c)^2}/\sum_cn_c$; the limit is a bootstrap-t with whole clusters resampled.
+For crossed clusters, the multiway variance is $V_u+V_{\text{inj}}-V_p$ \citep{cameron2011multiway}, and the pigeonhole
+bootstrap \citep{owen2007pigeonhole} resamples both kinds of task independently.
+
+\paragraph{Effective sample size.} $\mathrm{ESS}=(w_{\text{base}}/w_A)^2$ at equal labels and $\delta$. Unless stated,
+$w$ is measured from the truth ($\mathrm{ESS}_{\text{truth}}$); the first strata study measures it from the estimate
+($\mathrm{ESS}_{\text{est}}$). A design that removes a share $G$ of the variance has a predicted ESS of $1/(1-G)$; for
+reference-rate strata $G\approx\mathrm{ICC}_{\text{cand}}\,\omega^2\,\mathrm{rel}(k)\,c_H$, with the updated policy's
+intraclass correlation, the correlation $\omega$ of a prompt's pre- and post-update rates, the reliability
+$\mathrm{rel}(k)=k\,\mathrm{ICC}_{\text{ref}}/(1+(k-1)\mathrm{ICC}_{\text{ref}})$ of a $k$-sample reference rate, and
+$c_H=0.96$ at $H=8$. A judge with squared correlation $\rho^2$ to the gold label gives about $1/(1-\rho^2)$ when
+unlabelled responses are plentiful.
+
+\paragraph{The carried bound.} With recall $r$, false-alarm rate $f$ and flag rate $q=rp+f(1-p)$, $p=(q-f)/(r-f)$
+\citep{rogan1978}; the carried bound combines one-sided limits on the three at $\delta/3$ each.
+
+\section{The Full Validity Table}
+\label{app:validity}
+
+Tables~\ref{tab:fullA} to~\ref{tab:fullD} give every row. Rows in bold are bounds we do not use in that setting and
+that are over their level there. Rows 1, 3 to 5 and 15 are exact computations over binomial counts on a harm pool from a
+companion training run (Qwen2.5-0.5B policies; an unpublished paper) whose per-response labels were lost; its printed rate pins the count to
+121 to 124 positives of 3,600, and every count in that range is computed exactly. Rows 37 to 55 were registered before they were run, and so were rows 14, 30 and 31, by a commit whose order
+rests on its local time (Appendix~\ref{app:record}).
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{tables/validity_a}
+\caption{Miss rate against $\delta$, rows 1 to 18. Cells are counted as over / unresolved / at or under $\delta$; the next
+column is the largest upper end of a 95\% interval for a cell's miss rate, with the cells still over after a
+Bonferroni correction in brackets (for the exact binomial rows, the largest exact miss and the cells above $\delta$). Draws per cell: 4,000 to 40,000. AgentDojo schemes: (a) user tasks resampled, injection tasks fixed; (b) the reverse;
+(c) both. ``Redrawn with replacement'' draws each stratum's prompts with replacement, the limit of a pool far larger
+than the safety set.}
+\label{tab:fullA}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{tables/validity_b}
+\caption{Miss rate against $\delta$, rows 19 to 31. Cells are counted as over / unresolved / at or under $\delta$; the next
+column is the largest upper end of a 95\% interval for a cell's miss rate, with the cells still over after a
+Bonferroni correction in brackets (for the exact binomial rows, the largest exact miss and the cells above $\delta$).}
+\label{tab:fullB}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{tables/validity_c}
+\caption{Miss rate against $\delta$, rows 32 to 43. Cells are counted as over / unresolved / at or under $\delta$; the next
+column is the largest upper end of a 95\% interval for a cell's miss rate, with the cells still over after a
+Bonferroni correction in brackets (for the exact binomial rows, the largest exact miss and the cells above $\delta$). Rows 32 to 36 are the \SWT{} and, on a
+synthetic grid, it and the Wilson-type limit; 37 to 39 the same limit inside the training loop and on a costly human
+label; 40 to 43 AgentDojo with an exact bound and with tasks redrawn within the benchmark's suites.}
+\label{tab:fullC}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{tables/validity_d}
+\caption{Miss rate against $\delta$, rows 44 to 55. Cells are counted as over / unresolved / at or under $\delta$; the next
+column is the largest upper end of a 95\% interval for a cell's miss rate, with the cells still over after a
+Bonferroni correction in brackets (for the exact binomial rows, the largest exact miss and the cells above $\delta$). Rows 44 to 46 are the second model family after an update that kept its order of prompts, and 53 to 55 the same
+family after a separate update, trained on the guard's flag alone, that reordered them; 47 and 48 exact stratified bounds; 49 to 52 AgentDojo against a fitted crossed model (schemes $P_a$, injection
+tasks fixed, and $P_c$, both drawn), where only a bound that fails to compute counts as a miss.}
+\label{tab:fullD}
+\end{table*}
+
+\paragraph{Abstention.} A bound that returns no limit, or a limit of 1, gives no certificate and cannot miss. The
+bootstrap-t StratPPI limit returns none in up to 6\% of draws on the reference-rate strata (up to 8.6\% redrawn with
+replacement) and in up to 52\% on the judge-logit strata at a 1.3\% rate; PPI++ with a bootstrap-t limit in up to 55\% of
+draws where a sample of 225 holds about three positives; the clustered AgentDojo limits in up to 82\% of tables (the pigeonhole
+bootstrap-t; the cluster bootstrap-t by user task in up to 15\% on these draws), for the pipelines with the fewest
+successes. Counted as misses, the rows that hold would be over in up to 7 of 28 cells (row 12
+at $\delta=0.05$), in 10 of 168 for row 9 and for 2 to 7 of 28 pipelines in the AgentDojo rows. Counted this way even an
+exact bound can exceed its level: Clopper-Pearson returns 1 when every label is a positive, which at a 95\% label with a
+safety set of 100 happens in 0.9\% of draws and takes it to 0.052 at $\delta=0.05$. The count measures how much of a
+record is abstention, not validity.
+
+\paragraph{The Wilson limit, exactly.} For an i.i.d.\ sample the Wilson limit's miss probability, computed by
+enumeration, jumps just above each value the limit can take and falls until the next; averaged over rates it is under
+$\delta$ below one half and over it above. At $n=100$ and $\delta=0.05$ it averages 0.042 over rates of 5--20\% and 0.056
+over 80--95\%. Redrawn with replacement, the \SWL{} is over its level in 7 of 28 mid-rate cells at $\delta=0.05$, all on
+the two labels at rates of 65\% and above, and in none of the 16 at rates of 9--18\%; the pooled Wilson bound is over in
+6 of 28. Rare labels take Clopper-Pearson or a betting bound.
+
+\section{Selection and the Training Loop}
+\label{app:pipeline}
+
+The resampling studies hold the candidate fixed. Two checks test the gate with selection in it. With the training code of
+our language-model runs (GRPO with a Lagrangian on the judged rate, a predicted safety test choosing the checkpoint)
+applied to a synthetic bandit at four levels of between-prompt heterogeneity, 8 strata and 8,000 runs a cell, the \SWT{}
+for the pool's own rate was over its level in none of its 8 cells (2 unresolved; largest miss 0.052 at $\delta=0.05$
+and 0.100 at 0.10). With the sampled-pool term, for the population's rate, it was over in the least heterogeneous
+environment at both deltas (0.057 and 0.107) and in no other cell; the Wilson-type limit with the term and the pooled
+bound on a random split were over in none. With 4 strata and 500 runs a cell, the \SWT{} was over in one of four cells
+(0.132 at $\delta=0.1$). In a classifier setting with a constraint on a difference of true-positive rates,
+rerandomised and stratified candidate/safety splits, across eleven split rules, 2,000 seeds per arm and candidates built
+to overfit the balancing statistics, returned a passing, truly violating candidate in at most 1 of 2,000 runs under
+Clopper-Pearson; a tight Wald test on the same runs, sensitive enough to show a leak, fell below the truth in at most
+0.055 of runs at $\delta=0.05$.
+
+\section{Strata from the Pre-Update Model in Detail}
+\label{app:strata}
+
+\paragraph{First pools.} With $k=8$ and $H=8$ on Granite-3.3-2B's responses, $\mathrm{ESS}_{\text{est}}$ at $\delta=0.10$
+was 2.4 for over-refusal (rate 17\%, $\mathrm{ICC}_{\text{ref}}$ 0.72), 5.1--5.3 for refusal of plainly harmful requests
+(66\%, 0.86) and 1.4 for non-refusal of encoded requests (9\%, 0.50); placebo strata cut on a permuted reference rate gave
+1.00 to 1.04 with 4 strata on every label but the one at 93\%. When the Lagrangian pushed the stratified label itself,
+the gain was 2.1--2.2, with no compression of the between-prompt spread and the order of prompts kept ($\omega$ 0.92),
+in a run whose rate ended within 0.4 to 3.4 points of the reference's. The rule registered in advance collapsed to one to
+three strata, because most prompts have an 8-sample reference rate of exactly 0 or 1; equal rank strata with random ties
+were adopted on the same pools, and the truth used for coverage, which carried a fixed offset shared by every draw,
+became the mean of the half of the responses the draws come from; these gains were thus measured on the data that chose
+the rule (Appendix~\ref{app:record}).
+
+\paragraph{The pre-flight} ranks the gain (Spearman 0.84 between predicted and realised $\mathrm{ESS}_{\text{est}}$ over
+432 cells at $\delta=0.10$) and over-predicts its size. On new prompts it was within 20\% at all three mid rates with the
+updated policy's two quantities measured on responses the draws do not use; from the reference samples alone it
+predicted 2.58, 4.12 and 2.22, and the realised gains were 27\% to 41\% lower.
+
+\paragraph{Against StratPPI.} On the same strata and draws, StratPPI as published is shorter partly because its normal
+limit runs over its level (Table~\ref{tab:stratppi}); with a bootstrap-t limit and proportional allocation its estimator
+holds, with a median ESS of 2.10 against 2.16 for the Wilson-type limit. At a safety set of 100 with 8 strata the
+within-stratum regression on the reference rate adds nothing once the limit is valid; at 200, or with 4 strata, it adds
+0.4 to 0.8. For a claim about the prompt source, with the pool redrawn and the strata rebuilt, limits without the
+sampled-pool term fail: the Wilson-type limit is over in 17 of 28 cells and the bootstrap-t StratPPI limit in 21.
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{tables/stratppi}
+\caption{Reference-rate strata at $\delta=0.05$: largest miss over checkpoints; ESS against a random split with a
+pooled Wilson bound. Bold: more than two Monte Carlo standard errors over $\delta$ (above 0.0562 at 5,000 draws a cell;
+the two cells nearest it carry a fourth digit).}
+\label{tab:stratppi}
+\end{table*}
+
+\paragraph{The registered confirmation.} On three new pools (refusal rates 12\%, 82\%, 98\%), six of eight predictions
+were kept. With a large pool the Wilson-type limit was over its level in none of 4 cells at 12\% and in all 4 at 82\%;
+the bootstrap-t StratPPI limit was over in 1 of 8 mid-rate cells (0.105 at $\delta=0.10$, at 82\%) and in one at 98\%
+(0.0524 at $\delta=0.05$); the \SWT{} in none of 8. For the source, the Wilson-type limit with the term was over at 82\%
+with a safety set of 100 (0.058), where the \SWT{} with the term was over in none of 8. On the mixed pool at 46\%, nine of
+ten predictions were kept and one could not be tested; it is weaker evidence, because its rate was aimed at and its
+predictions were written after a dry run on a re-mix of the first pools' responses, and the reference rate largely
+sorts its two sources into different strata. The second family's update, meant to reorder prompts, did not
+(correlation 0.84; three of six predictions kept). A separate update of the same model, trained on the guard's flag
+alone, did reorder them
+(0.46): the \SWT{} stayed valid and gained 0.97 and 1.08, the Wilson-type limit was over in all 4 cells at 58\%, and four of
+five predictions were kept; the one refuted is the check of the push's direction (refusal rose on the categories it was
+meant to lower). By its registration, a failed direction check meant the policy had not moved; the rate nearly tripled
+and the order of prompts moved further than in any other run, so we report it as moved, against that reading.
+
+\paragraph{A costly label.} With XSTest's human labels on five released models' completions for its 250 safe prompts,
+strata from the guard's rate over 8 Granite-3.3-2B reference responses, safety set 100 drawn with replacement, the
+\SWT{}'s gain over eight mid-rate labels was 0.97 to 1.34 (median 1.18); it was over its level in 3 of 64 cells by at most
+0.008. The Wilson-type limit gained 1.10 to 1.36 but was over in 8 of 32 cells at $\delta=0.05$.
+
+\paragraph{Exact stratified bounds and the chance of certifying.} Over 116 cells drawn with replacement within strata,
+Clopper-Pearson on the stratified draw's pooled count plus the allocation's slack, and a stratified betting bound
+\citep{spertus2022sweeter}, kept their level everywhere. At a threshold where Clopper-Pearson on a random draw passes with
+probability 0.8, the stratified Clopper-Pearson bound's power ESS on the 36 real-response cells at rates of 5\% to 95\%
+was 1.11 (median; 0.27 to 1.83) and on the 32 costly-label cells 0.88; the betting bound's was 0.05; the \SWT{}'s 1.88.
+
+\paragraph{The rule in one place.} For 8 equal rank strata of an 8-sample reference rate: a label that may be rare (under
+about 5\%) or near one (above about 95\%) takes no strata and Clopper-Pearson or a betting bound; a mid-rate label (about 5\%
+to 80\%) takes the \SWT{}, with the sampled-pool term for a claim about the prompt source; from about 80\% to 95\% a random
+draw serves as well; where a finite-sample guarantee is required, Clopper-Pearson on a random draw; where the update may
+reorder the prompts, the same limits, expecting little gain.
+
+\section{Judges in Detail}
+\label{app:judge}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}p{3.4cm}p{3.6cm}@{}}
+\toprule
+data & route \\
+\midrule
+a property code can verify & compute it on every response; Clopper-Pearson (exact) \\
+gold labels, fewer than 10 in the rarer class & Clopper-Pearson on the labels; judge unused (exact) \\
+gold labels, 10 or more in each class & PPI++ on the judge's logit, bootstrap-t limit (approximate) \\
+gold labels from a stratified sheet & design-weighted labels, \SWL{} (approximate) \\
+a calibration measured on another population & refused \\
+\bottomrule
+\end{tabular}
+\caption{The routing rule, fixed before a constraint's labels are read. It was settled on the resampling results (20
+cells) and has had no confirmation run. On the one stratified sheet design tested the
+Wilson-type limit was over its level in 1 of 18 cells (0.060), and it can be over once the pool is large
+(Section~\ref{sec:valid}); the \SWT{} is the safer choice
+there, and an exact stratum-wise Clopper-Pearson construction (Section~\ref{sec:human}) where a guarantee is required.}
+\label{tab:routing}
+\end{table}
+
+\paragraph{What a judge is worth.} For the compiled refusal judge against the guard's label (225 labels, 2,000 judged
+draws), ESS against Clopper-Pearson on the labels is 1.11 for the 0/1 verdict, 1.15 for the probability, 1.61 for the
+logit and 1.86 for a cross-fitted Platt score \citep{platt1999}. The logit carries more than the verdict.
+
+\paragraph{Labels drawn within strata of the judge.} With labels allocated in proportion to stratum size, StratPPI's
+estimator with a bootstrap-t limit was over its level in none of 28 cells (5 unresolved, largest miss 0.056; 5 would be
+over if its returns of no limit counted as misses, 4 of them at the 1.3\% rate), with a median ESS of 2.54 at a 20\% rate
+and 1.87 at 5\% with 10 strata, against 1.67 and 1.39 for unstratified PPI++ with the same limit. The 0.90 cell of
+Table~\ref{tab:valid} is the rubric judge at a 5\% rate, 1,000 labels, 5 strata and the heuristic allocation: four
+strata with judge probability under 0.001 hold 19\% of the positives at rates of 1.0--1.5\%, and their eight labels show
+no positive in 91\% of draws.
+
+\paragraph{The carried calibration, by seed.} Across the targeted update, recall differed in 2, 2 and 1 of six
+wordings and the carried bound was over its level for 3, 3 and 2 (seed 0: misses 0.08, 0.23 and 0.80; the largest in
+seeds 1 and 2 are 0.399 and 0.625); at step 100 it was over for 1, 1 and 4. Seeds 1 and 2 returned \NSF{} at their gate
+(upper bounds 0.2317 and 0.2064 against a threshold of 0.2058; seed 0's step 175 had 0.1979 and was returned), so the
+step-200 checkpoints analysed are not policies the gate returned; the question is what a carried calibration says about
+an updated policy, which does not depend on that. We wrote down beforehand, in a note with no independent timestamp, that
+a failure at step 200 would mean the earlier success was luck and no calibration carries across training; reading the
+side-effect run as a control came after the result. WildGuard, as judge with the guard as gold, had false alarms of 1.0\%
+before and 1.0\% to 1.7\% after; against the annotator's strict refusals after the update, WildGuard and the guard agree
+equally well (design-weighted accuracy 0.930 and 0.929), and the compiled judge flags none of 18. WildGuard's own
+calibration did not carry from the harmful pool to the benign one (85\% misses).
+
+\paragraph{The mechanism we suspect.} By the guard and a surface pattern (a refusal opener and more than 40 words), on
+the 500-response sets that both judges scored, 29 of the pre-update model's 100 guard flags are long refusals, against
+83 of 93, 83 of 108 and 85 of 97 after the update in seeds 0, 1 and 2. Of the 93 guard-flagged refusals of seed 0 after
+the update, the rubric judge called 90 answers. Of 18
+such responses, the annotator labelled 12 refusals and 6 answers. WildGuard flagged 95\% of the guard-flagged responses
+with the pattern and 92\% of those without. The rubric judge flagged 10\% of the pre-update model's guard-flagged
+responses with the pattern and 25\% of those without (canonical wording); after the update, about 14 of 251 with it, against 3
+of 29 before (no detectable change), and about 2 of 47 without it, against 18 of 71 before, so training changed both how many responses
+have the pattern and how the judge reads the plain ones. The pattern is not a label, and no experiment here isolates the cause; the
+two runs also differ in reward and set-up.
+
+\section{Benchmarks in Detail}
+\label{app:bench}
+
+\paragraph{AgentDojo.} The published runs hold 19,380 episodes. Table~\ref{tab:agentdojo} gives six pipelines. The
+bound clustered by user task returns no limit when the $\delta$-quantile of its bootstrap is not finite: on the fresh
+draws of a registered run, in 9\% of the tables of the pipeline that certifies and in 16\% for the two Meta-SecAlign-70B
+pipelines. Redrawing injection tasks within the benchmark's suites, the bound is over for 11 of 28 pipelines. Against
+a fitted crossed logit-normal model with independent task effects, the same bound is over for none with injection
+tasks fixed and for 18 of 28 with both kinds of task drawn; the multiway limit for 13 and the pigeonhole bootstrap-t for
+none. Under the model, the pipeline that certifies on its published table certifies in 99\% of tables with the injection
+tasks fixed under the bound clustered by user task, and in 35\% under the betting bound on user-task rates. The
+certificate's bound is sensitive to the bootstrap's size when a handful of clusters hold every success: for the
+defended model, at 4,000 draws it ranged from 0.058 to 0.107 over 30 seeds.
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{tables/agentdojo}
+\caption{Targeted attack success on AgentDojo's published runs, upper bounds at $\delta=0.05$. The certificate is the
+bound clustered by user task with injection tasks taken as fixed; the verdict column is for it. The exact column is the
+betting bound on the user tasks' success rates, which bounds their average; the last column is the pigeonhole
+bootstrap-t, which also takes injection tasks as sampled. Bootstrap bounds from 200,000 draws.}
+\label{tab:agentdojo}
+\end{table*}
+
+\paragraph{A robot benchmark.} RoboDojo-RC Tier 1 \citep{machcha2026robodojo} publishes 120 trials per model, 20 on each
+of six tasks the report selected; the harness's overheat termination is the label. With the six tasks taken as fixed,
+the pooled Clopper-Pearson limit is valid for their mean \citep{hoeffding1956successes}. Table~\ref{tab:robot} shows what
+120 trials resolve: a 2.5\% rate when nothing is observed, and not 5\% after two events; a 1\% claim with nothing
+observed needs 299 trials. Taken as a sample of tasks, six tasks certify nothing useful. In an exploratory analysis, the
+peak joint effort the rig reports predicts a stop (AUC 0.75 to 0.83 by model), partly mechanically, since the stop is an
+overheat.
+
+\begin{table}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\resizebox{\columnwidth}{!}{\input{tables/robot}}
+\caption{Safety stops on a robot benchmark, upper bounds; the last column takes the tasks as a sample (betting bound
+on six task rates).}
+\label{tab:robot}
+\end{table}
+
+\section{Human Labels and the Cost of the Relative Certificate}
+\label{app:human}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{tables/xstest}
+\caption{The guard's refusal flag against XSTest's human labels on safe prompts: recall and false-alarm rate against full
+refusal (strict) and against full or partial refusal (broad). Pooled row: 95\% bootstrap intervals over prompts.}
+\label{tab:xstest}
+\end{table*}
+
+The guard marks 92\% of human full refusals (159 of 172), 80\% of partial refusals and 5\% of full compliance; its
+agreement with the strict human label (Cohen's kappa 0.59) is below two humans' (0.90). The squared correlation of the
+strict label with the guard's logit is 0.46, roughly a twofold gain in labels as a predictor.
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\input{tables/human}
+\caption{One annotator's labels of 220 responses (conservative 95\% intervals).}
+\label{tab:human}
+\end{table*}
+
+\paragraph{Our policies.} The annotator labelled a stratified sample of 220 responses to benign prompts of the pre-update
+model and the updated policy (Table~\ref{tab:human}), under a guideline that follows XSTest's classes; the responses were
+cut at 128 tokens. No difference in strict refusal was detected ($-0.05$ points, prompt-clustered standard error 3.9).
+The certificate of Section~\ref{sec:human} uses the stratum-wise Clopper-Pearson construction behind the table's
+intervals, taken one-sided; the difference uses each policy's construction at $\delta/2$. A prompt-clustered normal limit
+for new prompts gives 15.7\% for the updated policy and 15.5\% for the pre-update model; the pre-update model's exact and
+Wald-t limits are 20.4\% and 13.8\%.
+
+\begin{table}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\resizebox{\columnwidth}{!}{\input{tables/cost}}
+\caption{Prompt pairs needed to certify a margin on the difference of the two strict refusal rates at $\delta=0.05$, by
+normal-type formula at the sheet's rates (difference $-0.0005$, pairing correlation 0.66, guard $\rho^2$ 0.6). The guard
+columns assume a gain of 2.5; a design check measured about 1.4, so they are optimistic.}
+\label{tab:cost}
+\end{table}
+
+\paragraph{The prepared measurement.} One fresh response per policy on each of 490 prompts, 300 of the pairs forming the
+labelling sheet, and 8 further responses per policy that only the guard reads, were drawn and scored; the analysis (an
+exact betting bound, a bootstrap-t limit, and PPI++ with the guard for the pool rate and for new prompts) was fixed
+before any label of this sample. On synthetic labels drawn from the guard's logit, the four limits' miss rates are at or
+under 0.045 with the prompts fixed, and their mean certified margins 0.065, 0.037, 0.032 and 0.035: 300 pairs labelled
+alone are expected to certify 3.7 points with the bootstrap-t limit and 6.5 with the exact bound, not the 2-point target.
+
+\section{What Was Fixed in Advance}
+\label{app:record}
+
+A commit pushed to a remote before a result existed is a record of order we could not have written afterwards; where a
+note and its results entered the repository together, the order rests on the note's own statement
+(Table~\ref{tab:record}). Five of the 72 predictions say only that an exact bound is at or under its level; ten were
+written after a dry run on earlier responses (Table~\ref{tab:d0}). Tables~\ref{tab:d1} to~\ref{tab:d4} list every
+prediction and its outcome.
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\input{tables/record}
+\caption{What was fixed before its result, and the record of the order.}
+\label{tab:record}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\input{tables/d0}
+\caption{The registered predictions by content and record. $\dagger$: an exact bound at its level.}
+\label{tab:d0}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\input{tables/d1}
+\caption{Predictions on the strata's new pools. ``Large pool'': redrawn with replacement, 40,000 draws; ``source'': the
+claim about the prompt source, 10,000 replications; a cell is one safety-set size at one $\delta$; gains are
+$\mathrm{ESS}_{\text{truth}}$ at $\delta=0.05$. P1 to P5 were pushed before any response was generated; M1 to M9 were
+pushed before generation on their prompts but written after a dry run on a re-mix of earlier responses.}
+\label{tab:d1}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\input{tables/d2}
+\caption{Predictions registered on one day, each pushed before any of its runs: the training loop (Q), a costly human label (Y),
+AgentDojo blocked by suite (Z), a second model family (V), two further seeds of the targeted update (S).}
+\label{tab:d2}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\input{tables/d3}
+\caption{Expectations for the two-way bounds on AgentDojo, scheme (c); the order rests on a local commit time.}
+\label{tab:d3}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\scriptsize
+\input{tables/d4}
+\caption{Predictions registered together, before any of their runs: exact stratified bounds (X), AgentDojo against a
+fitted crossed model (W), a second judge family (J), and the update that reordered the
+prompts (U). A power ESS is the number of random labels Clopper-Pearson needs to certify as often, over the labels the
+bound uses.}
+\label{tab:d4}
+\end{table*}
+
+\section{Reproducibility}
+
+Every number comes from scripts and result files that will be released with the paper. The resampling studies ran on
+the CPU of one workstation (AMD Ryzen 7 7800X3D, 8 cores, 24\,GB of memory available to Ubuntu under WSL2); the
+policies were trained and sampled, and the guard and judges run (4-bit where stated), on one NVIDIA GeForce RTX 4070
+SUPER with 12\,GB, with Python 3.12, PyTorch 2.13, Transformers 5.16, TRL 1.12, PEFT 0.20 and bitsandbytes 0.50. Each
+resampling study fixes its random seeds in its script. Human
+labels were collected under a written guideline that follows XSTest's classes. Draw counts per cell are given with each
+table.
