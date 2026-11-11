@@ -259,6 +259,22 @@ needs on its own traffic.
   tool calls (hermes parser) for Qwen, and prompts for training rendered by the server's
   `/tokenize` so the policy trains on what it is served with (021 `serve.sh`, `prefixes021.py`).
 
+### es-post-training
+Evolution strategies (random copies of the policy, scored and averaged, no gradient) in
+place of GRPO as the optimiser inside the Seldonian loop. Opened 2026-11-06 from the 2025
+papers claiming ES matches GRPO for LLM fine-tuning and games the reward less; the question
+that matters here is 017 E8 (the policy learning hybrid refusals the judge misses), which
+only a GPU run can answer. Plan: 022a bandit on CPU, 022b GPU smoke on Granite-2B + LoRA,
+022c the long run against 014's GRPO baseline. Literature and cost table:
+`.planning/notes/es-vs-grpo-lora.md`.
+- **022a (PARTIAL, 2026-11-10):** ES is as safe as GRPO on the bandit (no returned policy
+  over the threshold) but earns 69-78% of its reward at equal generations and 81-87% at 8x.
+  ES ranking members by the predicted bound, with no multiplier, returned a solution in 119
+  of 120 runs. The percentages depend on tuning: the first grids gave 46-72%, and some
+  settings are still on a grid edge. Kill rule not fired; 022b may run.
+- A fixed random linear map from a large space onto a small policy is the small policy:
+  it cannot test dimension. Use a policy that really has the weights.
+
 ## Spikes
 
 | # | Idea | Name | Type | Validates | Verdict | Tags |
@@ -286,3 +302,4 @@ needs on its own traffic.
 | 019 | external-trace-certificate | external-trace-certificate | standard | Given a fixed policy evaluated by someone else and only its public per-trial traces (RoboDojo-RC Tier 1: 3 models x 6 tasks x 20 trials), when the harness's own safety events are extracted by code and bounded per model, then we know what such a benchmark can certify about safety stops, whether the policy's self-narration carries any signal about them, and whether task strata buy anything | VALIDATED (the resolution is the result: 2.5% with nothing observed, 5.2% at two stops, so the pre-registered 5% certificate returns NSF for all three models; Opus 5 stops 10/120 against 4/240, p 0.003; self-narration AUC 0.38; peak joint effort AUC 0.75-0.83; task strata within 0.004 of pooled) | certificate, external-traces, robotics, clopper-pearson, stratified, cpu |
 | 020 | external-trace-certificate | agentdojo-injection-certificate | standard | Given AgentDojo's published per-episode runs (29 model/defence pipelines, 629-949 (user task, injection task) pairs each, the harness's code-computed `security` label), when a per-pipeline certificate on the targeted attack success rate is computed with the crossed design respected, then we know how much the naive i.i.d. bound understates the uncertainty, which pipelines certify at 5%, and whether suite strata buy anything | VALIDATED (naive Clopper-Pearson misses 5-28% under user-task resampling, cluster-t 2-6%; 1 of 28 pipelines certifies at 5% (claude-3-5-sonnet-20241022, 0.022); Meta-SecAlign's 2.2% is 0.104 clustered, 21 successes in 5 user tasks; website numbers reproduce exactly on the v1 subset; suite strata ESS 1.0-1.5) | certificate, external-traces, prompt-injection, agents, clustered, cpu |
 | 021 | external-trace-certificate | agentdojo-seldonian-training | standard | Given AgentDojo's code-computed `security` label and a small local policy served through vLLM, when the policy is trained under a Seldonian constraint on a step-level code proxy of that label and certified on held-out user tasks with the clustered bound, then the real injection success rate falls to a certifiable level without losing task utility | INVALIDATED (both pre-registered gates closed at stage A: Qwen2.5-3B is attacked successfully in 7% of pairs, 14% of those it reads, utility 0.195; the step-level proxy's recall of real successes is 0.26 because compliance happens over later turns; stages B-C not run; 1.9 GPU-h; serving and harness infrastructure stands) | certificate, prompt-injection, agents, training, lagrangian, vllm, gpu |
+| 022a | es-post-training | es-vs-grpo-bandit | comparison | Given the synthetic bandit under the Lagrangian Seldonian loop, when antithetic ES, CMA-ES and GRPO spend the same number of generations (and ES also 8x as many), then ES returns policies as often, as safely and with as much reward as GRPO, on a 36-parameter policy and on a 94k-weight net | PARTIAL (as safe: 0 of 454 returned policies over the threshold; less reward: 78% and 69% of GRPO at equal generations, 81% and 87% at 8x; ES on the predicted bound with no multiplier returns a solution in 119/120 runs; grids were widened once after round 1, some settings still on an edge) | evolution-strategies, cma-es, grpo, lagrangian, bandit, cpu |
