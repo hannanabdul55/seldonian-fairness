@@ -1,0 +1,96 @@
+{
+ "C3 generation scores = forward pass (fresh adapter)": {
+  "ok": true,
+  "max_gap": 1.239776611328125e-05,
+  "max_gap_unpadded": 1.239776611328125e-05,
+  "kl_term": 9.691816793555574e-12,
+  "tokens": 48,
+  "sample": "scenariosappaensordateTimesvg\u611f paptcs be"
+ },
+ "C3b KL term is 0 while B = 0": {
+  "ok": true,
+  "kl_term": 9.691816793555574e-12
+ },
+ "C1 noise replays from its seed": {
+  "ok": true,
+  "tensors": 28,
+  "n_params": 4096,
+  "adapter_dtype": "torch.float32",
+  "base_dtype": "torch.bfloat16"
+ },
+ "C2 perturb and put back, 200 times": {
+  "ok": true
+ },
+ "C3 generation scores = forward pass (B randomised)": {
+  "ok": true,
+  "max_gap": 7.62939453125e-06,
+  "max_gap_unpadded": 7.62939453125e-06,
+  "kl_term": 5.2465108534451486e-05,
+  "tokens": 48,
+  "sample": "scenariosappaensordateTimesvg\u611f paptcs be"
+ },
+ "C3c KL term is positive once the adapter acts": {
+  "ok": true,
+  "kl_term": 5.2465108534451486e-05
+ },
+ "C4 ES estimate against backprop": {
+  "ok": true,
+  "cosine": 0.5093366514269838,
+  "expected": 0.5176878544727241,
+  "pairs": 1500,
+  "n_params": 4096,
+  "norm_ratio": 1.758270548104112,
+  "expected_norm_ratio": 1.9316659476558915
+ },
+ "C1b dtypes under the GPU loading path (bf16 base)": {
+  "ok": true,
+  "adapter_dtype": "torch.float32",
+  "base_dtype": "torch.bfloat16"
+ },
+ "C5 Seldonian loop, on_step, checkpoint, replay from the log": {
+  "ok": true,
+  "on_steps": 20,
+  "generations": 10,
+  "completions": 320,
+  "predicted_tests": 4,
+  "selected": "10",
+  "replay_bit_identical": true,
+  "lambdas_first_last": [
+   1.0,
+   0.171070466844628
+  ],
+  "shaped_reward_first3_last3": [
+   -2.1216666666666666,
+   -1.5930452516995388
+  ],
+  "moved": 2.373811721801758
+ },
+ "C6 in-place perturbation on 014's adapter": {
+  "ok": true,
+  "tensors": 560,
+  "n_params": 28180480,
+  "saved_dtype": "torch.float32",
+  "mb_fp32": 107.5,
+  "abs_median": 0.0004524234973359853,
+  "fp32_sigma0.001": {
+   "not_restored": 0.372181236743927,
+   "perturbation_lost": 2.1291333496264997e-07,
+   "corr_with_intended": 1.0
+  },
+  "bf16_sigma0.001": {
+   "not_restored": 0.3741271495819092,
+   "perturbation_lost": 0.009842309169471264,
+   "corr_with_intended": 0.99920254945755
+  },
+  "fp32_sigma0.01": {
+   "not_restored": 0.6403152942657471,
+   "perturbation_lost": 3.548555582710833e-08,
+   "corr_with_intended": 1.0
+  },
+  "bf16_sigma0.01": {
+   "not_restored": 0.6411111354827881,
+   "perturbation_lost": 0.0009910406079143286,
+   "corr_with_intended": 0.9999839663505554
+  }
+ }
+}
