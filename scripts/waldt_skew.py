@@ -149,6 +149,7 @@ def run():
 
 
 def band(t):
+    t = round(t, 9)        # amendment after the run: a 5% or 50% cell whose float truth is off by 1e-16 belongs to its nominal band
     return "rare (<5%)" if t < RARE else "5% to 50%" if t <= 0.5 else "above 50%"
 
 
@@ -185,8 +186,46 @@ def summarise(rows, path, title, groups):
         s = by[(c, d, "b1s")]
         if "over" in (classify(r["miss"], d, r["R"]), classify(s["miss"], d, s["R"])):
             L.append(f"| {c} | {r['truth']:.3f} | {r['n']} | {d} | {r['miss']:.4f} | {s['miss']:.4f} |")
+    if groups == ("confirm",):
+        L = L[:3] + score(rows) + L[3:]
     open(path, "w").write("\n".join(L) + "\n")
     print("\n".join(L[:60]))
+
+
+def score(rows):
+    """The six registered predictions, then a breakdown by strata count written after the run."""
+    ov = lambda r: classify(r["miss"], r["delta"], r["R"]) == "over"
+    by = {(r["cell"], r["delta"], r["arm"]): r for r in rows}
+    sel = lambda b, a: [r for r in rows if band(r["truth"]) == b and r["arm"] == a]
+    lm1, lms, hi, rare = sel("5% to 50%", "b1"), sel("5% to 50%", "b1s"), sel("above 50%", "b1s"), sel("rare (<5%)", "b1s")
+    n1, ns = sum(map(ov, lm1)), sum(map(ov, lms))
+    mx = {d: max(r["miss"] for r in lms if r["delta"] == d) for d in DELTAS}
+    ratio = lambda b, d: [r["gain_cp"] / by[(r["cell"], d, "b1")]["gain_cp"] for r in sel(b, "b1s") if r["delta"] == d]
+    nh, hr = sum(map(ov, hi)), min(min(ratio("above 50%", d)) for d in DELTAS)
+    med = {d: float(np.median(ratio("5% to 50%", d))) for d in DELTAS}
+    nr = sum(map(ov, rare))
+    P = [("S1", n1 >= 0.25 * len(lm1), f"`b1` over in {n1} of {len(lm1)} low-mid pairs ({100 * n1 / len(lm1):.1f}%)"),
+         ("S2", ns <= n1 / 3, f"`b1s` over in {ns} of {len(lms)} ({100 * ns / len(lms):.1f}%), against a third of {n1}"),
+         ("S3", mx[0.05] <= 0.07 and mx[0.1] <= 0.12, f"largest `b1s` miss {mx[0.05]:.4f} at delta 0.05, {mx[0.1]:.4f} at 0.10"),
+         ("S4", nh <= 0.02 * len(hi) and hr >= 0.99, f"high band: `b1s` over in {nh} of {len(hi)} ({100 * nh / len(hi):.1f}%); smallest gain ratio {hr:.3f}"),
+         ("S5", min(med.values()) >= 0.85, f"median gain ratio {med[0.05]:.3f} at delta 0.05, {med[0.1]:.3f} at 0.10"),
+         ("S6", nr <= 0.1 * len(rare), f"rare band: `b1s` over in {nr} of {len(rare)} ({100 * nr / len(rare):.1f}%)")]
+    L = ["## Registered predictions (`.planning/paper-certification/W2_registration.md`, commit 3a7429b)", "",
+         "| # | held | detail |", "|---|---|---|"] + [f"| {k} | {'kept' if ok else '**refuted**'} | {det} |" for k, ok, det in P]
+    L += ["", "## By number of strata (a breakdown written after the run, not registered)", "",
+          "| strata | rates | arm | pairs | over | largest excess over delta |", "|---|---|---|---|---|---|"]
+    for H in HS:
+        for b in ("rare (<5%)", "5% to 50%", "above 50%"):
+            for a in ("b1", "b1s"):
+                v = [r for r in sel(b, a) if r["H"] == H]
+                L.append(f"| {H} | {b} | {a} | {len(v)} | {sum(map(ov, v))} | {max(r['miss'] - r['delta'] for r in v):.4f} |")
+    L += ["", "## By safety-set size, rates of 5% and above (not registered)", "", "| n_s | strata | arm | pairs | over | largest excess |", "|---|---|---|---|---|---|"]
+    for n in NS:
+        for H in HS:
+            for a in ("b1", "b1s"):
+                v = [r for r in rows if r["arm"] == a and r["H"] == H and r["n_s"] == n and round(r["truth"], 9) >= RARE]
+                L.append(f"| {n} | {H} | {a} | {len(v)} | {sum(map(ov, v))} | {max(r['miss'] - r['delta'] for r in v):.4f} |")
+    return L + [""]
 
 
 if __name__ == "__main__":
