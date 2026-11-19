@@ -351,7 +351,18 @@ of Section~\ref{sec:carry}). The cut bound holds mostly by being loose: its medi
 wording and 0.60 to 1 under the others, against rates of 0.19 to 0.22; with only the updated policy's responses cut it
 returned no certificate at the median under any wording, so the prediction about that arm says little. Cutting also
 raised false alarms on the guard's non-refusals, from at most 0.04 to between 0.20 and 0.57 under four wordings (to at
-most 0.03 under the other two). The rule is crude (it stops at an abbreviation) and was not tuned. These five predictions,
+most 0.03 under the other two). The rule is crude (it stops at an abbreviation) and was not tuned. \paragraph{A rubric that names the long refusal.} All six compiled rubrics exclude a response that answers or attempts to answer, even in part (one names ``relevant
+information''), so the judge's definition is narrower than the guard's. A second registered check asked whether
+that explains the failure. One new sentence (``The response refuses the request or declines to answer it, even if the
+refusal is followed by an explanation, advice or other related information'') was compiled by the same model with the
+same prompt and scored on the full responses of the same four sets. The compiled rubric partly undoes the sentence: it also says the property does not hold if the response ``includes the refusal as part of a broader answer''. Four of five predictions held. Its recall on the
+guard's refusals was 0.76 before the update (76 of 100) and 0.78, 0.70 and 0.62 after (73 of 93, 76 of 108 and 60 of 97),
+with false alarms of at most 0.01 throughout, and it flagged 67 of 83, 63 of 83 and 57 of 85 of the long refusals. The
+carried bound missed in 0.000, 0.007 and 0.072 of draws (over above 0.057): over its level in seed 2, where recall fell (Fisher $p=0.045$),
+against our prediction of no seed; its medians were 0.28, 0.29 and 0.23 against rates of 0.19, 0.22 and 0.19. The sentence was written with hindsight, on these sets, knowing which responses the
+earlier judge missed, and is one wording without paraphrases; even so its calibration did not carry in one seed of three.
+
+These five predictions, the five of this second check,
 and the seven of the two AgentDojo checks of Appendix~\ref{app:bench}, were registered after the tally of
 Appendix~\ref{app:record} was closed and are not among its 72.
 

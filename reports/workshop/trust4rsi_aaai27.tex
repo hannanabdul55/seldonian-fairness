@@ -387,13 +387,13 @@ A second judge did not fail, against our registered prediction. WildGuard
 4,500 responses (nine sets of 500), kept its recall on the guard's refusals across the update (0.88 before; 0.94, 0.94 and 0.91 after), and
 its carried bound was over its level in no seed; with WildGuard as gold, the compiled judge's carried bound failed in all
 three. Against one annotator's labels the direction is the same, without significance: the compiled judge flags 3 of 18
-strict refusals before the update and 0 of 18 after, while the guard's recall does not move (17 and 16 of 18). Our
+strict refusals before the update and 0 of 18 after; the guard, 17 and 16. Our
 account is a change in form: after training, the guard's flags are mostly long refusals
-with a helpful-sounding body (29 of 100 guard flags before; 83 of 93, 83 of 108 and 85 of 97 after), which the
+with a helpful-sounding body (29 of 100 guard flags before; 77\% to 89\% after), which the
 rubric judge reads as answers. A registered check supports it: with every response cut to its first sentence, the
-canonical wording's recall was 0.54 before the update and 0.56 to 0.57 after. Cutting is no remedy: false
-alarms rose to 0.20--0.57 under four wordings (Appendix~\ref{app:judge}). WildGuard also began with far higher recall (0.88 against 0.21), so the failure may
-belong to weak judges; with one judge of each kind we cannot say.  For a release gate, gold labels belong on the updated policy's responses, at every update.
+canonical wording's recall was 0.54 before the update and 0.56 to 0.57 after (Appendix~\ref{app:judge}). A rubric sentence rewritten afterwards to count such
+refusals, compiled the same way, had recall 0.76 before and 0.62 to 0.78 after; its carried bound was
+over in one seed of three (registered; Appendix~\ref{app:judge}): the blind spot is not the whole failure. For a release gate, gold labels belong on the updated policy's responses, at every update.
 
 \subsection{Independent-sample bounds on a crossed agent benchmark}
 
@@ -514,8 +514,7 @@ The per-family allocation is a simulation with families known in advance.
 A rate with an error bar is not a release gate. The guarantee belongs to the whole procedure: how the update was chosen,
 how the sample was drawn and what produced the label. Where we could check against a known truth, exact bounds held on
 data sampled as they assume, and three shortcuts failed: a normal limit at small rates, a per-pair bound on a crossed
-benchmark, and a judge's calibration carried to another population or, for a rubric judge in the one targeted set-up we ran
-(three seeds), across an update that targeted the label.
+benchmark, and a judge's calibration carried to another population or, for a rubric judge in the one targeted set-up we ran, across an update that targeted the label.
 In human terms, 220 labels certified an absolute rate, not a 2-point change.
 Strata from the pre-update model help a little, at mid rates, under an approximate limit; where the claim is per attack
 family, choosing where the next label goes cuts the labels needed to settle every family. For a regression gate, label the updated policy's own responses each time, bound them exactly where
