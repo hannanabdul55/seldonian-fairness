@@ -489,3 +489,97 @@ Open workshop checklist (not done):
 | W3 (major 10) | related work: regression-free / backward-compatible updates (Bansal et al. 2019, Srivastava et al. 2020, Yan et al. 2021, Xie et al. 2021), Tango paired non-inferiority, Korn-Graubard, Lang-Reiczigel, PPI under shift; verify each before citing | web, short |
 | W4 (major 11) | a gate diagram; a recommendations table with evidence rows; standard terms | writing |
 | W5 | long draft: Appendix B's 37% / 82% / 76% shares come from spike 017 E8, the judge counts from B4's 500-item sets (29 of 100 before; 83/93, 83/108, 85/97 after): state the two samples or use one | text |
+
+**Per-family section added to the workshop version (2026-11-16; the user: learnings since 10-29 into a paper submission,
+"Both").** New subsection "Where to spend labels: one guarantee per attack family" (Table 3) plus one sentence each in the
+abstract, release-gate list, limitations and conclusion; Appendix E "One Guarantee per Attack Family in Detail" (all
+cells, the learned twin sampler tried first). Sources: `results/per_family/`, `results/per_family_f/`,
+`results/twin/stage_a/`, `results/twin/e6/`; `scripts/workshop_check.py` now also reads those reports and passes. Fresh-agent
+source check: no wrong numbers; 4 medium (abstract 0.35 scoped to 0.35-0.49 at 5%, conclusion "can help", bullet
+"resolves", twin cause) and 4 low fixed. Main text still ends on page 7. ES (022a/b) left out of the workshop text (it is
+about the optimiser, not the gate). The long draft was not changed. Standalone paper with all three lines:
+`reports/learnings/budget_lessons.tex` (number check `scripts/learnings_check.py`), venue not chosen. Not committed.
+
+**Outside LLM review of the workshop PDF (2026-11-16, pasted by the user): weak accept.** Done the same day:
+- Major 3 (equal-per-family blank in Table 3): the reviewer was right. `scripts/per_family_equal_budget.py` (NOT
+  registered; `results/per_family_equal/`): equal split + Clopper-Pearson resolves 0.1 / 5.6 / 5.9 / 6.3 / 6.6 families
+  at 300 / 600 / 1,000 / 1,500 / 2,500 labels (finish-first 1.0 / 2.8 / 4.6 / 6.0 / 6.8); fine-grid n80 uniform 6,500,
+  equal 4,000 (coarse grid said 7,000 / 5,000). Claims changed in both papers: sequential allocation cuts the total to
+  settle every family (about 0.4 of uniform, 0.6 of equal); at a small budget fixed in advance the equal split wins.
+- Major 5: one sentence in Section 2 (the plugged-in relative threshold is not a level-delta guarantee on the difference).
+Open, awaiting the user: Major 1 (abstract and section openings rewritten around takeaways), Major 2 (abstention rate and
+conditional miss columns in Table 1; say how no-limit draws enter ESS), Major 4 (128-token cut vs long refusals; cut the
+uncollected 300-pair plan from Section 6), minors (Tables 11 and 14 too small, one ESS in the main text, carried-bound
+formula written out, git-timestamp claims toned down, drop the lost-data rows and the robot benchmark).
+- Later the same day (the user: "yes"): Major 1 (abstract rewritten as four findings), Major 2 (Table 1 "no limit" column;
+  `scripts/m1_conditional.py`, not registered: conditional miss given a limit over in no bootstrap-t cell, largest 0.054 /
+  0.056 / 0.051; no-limit draws enter ESS as 1), Major 4 (uncollected 300-pair plan cut to one sentence; 128-token caveat),
+  minors (robot and cost tables full width, carried-bound formula written out, "committed before" softened). Fresh-agent
+  check: no high, 3 medium fixed (abstract baseline and setting; "0.014 in any cell" scoped to registered designs). Not
+  done: one ESS in the main text, dropping the lost-data rows and the robot benchmark, a mid-strength rubric judge (GPU).
+  PDF 22 pages, main text ends page 7, workshop_check passes. Not committed.
+
+**Blind review of the workshop version (2026-11-16, after the outside-review fixes)**
+(`review/blind_review_workshop_2026-11-16.md`, unedited): **weak accept for the workshop, mean 3.5** (evidence 4,
+falsifiability 4, scope 2, coherence 3, integrity 5, rigour 3); main track reject; novelty partially anticipated (the
+across-update calibration test and AgentDojo crossed-design validity appear new). Same mean as 2026-10-19. Fixed the
+same hour (edits NOT re-checked by an agent): plain errors 1 (abstract "four findings"), 2 (conclusion now names the
+human-terms certificate), 5 (85 labels explained), 13 (28.63 explained), 16 ("nearly twice", 6.5 vs 3.7), 19 (abstract:
+two or three of six wordings); major 3 (Table 9 routes to the Wald-t limit; abstract states the 2% and small-budget
+reversals), major 10 (family registrations not among the 72). Open:
+| # | item |
+|---|---|
+| R1 | gold-label confound in 5.1: recall is against the guard; of 18 long refusals the annotator called 6 answers |
+| R2 | recommended Wald-t limit over in 5 of 18 synthetic i.i.d. cells; "1 of 378" excludes the Wald-t rows (= W2) |
+| R4 | bootstrap-t rows hold partly by abstaining; report the gate's end-to-end pass rate |
+| R5 | no certificate for a checkpoint the gate itself returned (step 175; seeds 1, 2 returned NSF) |
+| R6 | AgentDojo: bootstrap size inside the validity simulations not stated; certificate's stability over seeds |
+| R7 | "unresolved" cells counted with passes; cells share pools |
+| R8 | reconcile "about 420 pairs" with "300 pairs certify 3.7 points" |
+| R11 | cite Lee et al. 2026 (arXiv 2511.21140), Dorner et al. (2410.13341), Kluger et al. (verify each first) |
+| plain | 3, 4 (66% vs 0.65; 17% vs 0.16), 6 (0.9% vs 0.6%), 7, 8 (4,500 undefined), 9, 10, 12, 14, 15, 17, 18, 20, 21: need a source check before editing |
+- 2026-11-16, later (the user: "yes, go ahead"): fresh-agent source check of the blind review's plain errors, then
+  applied: 3, 4 (65%, delta stated, Table 8 caption), 6 (rate 0.9535), 7 (Fisher test clause), 8 (nine sets of 500), 9
+  (plasmode defined), 10 (row 1 setting), 15 (0.5B to 2B; the two appendix models named in Section 2), 17 (tool filter,
+  NSF macro), 21 (_s schemes); R1 (new appendix paragraph "The gold label is the guard's" + Limitations), R5
+  (Limitations), R6 (bootstrap sizes), R8 (420 vs 930 vs 3.7 points reconciled), R11 (Lee et al. 2025 and Dorner et al.
+  2025 cited after verification; Kluger et al. not verified, not cited). Main text trimmed back to end on page 7 (PDF 23
+  pages). `tables/validity_a.tex`, `agentdojo.tex` and `robot.tex` were edited BY HAND: `scripts/workshop_tables.py`
+  will overwrite them (change `scripts/validity_recount.py:170`, the long draft's row and a WORDS rule to make it
+  durable). These edits are NOT re-checked by an agent. Still open: R2 (= W2, Wald-t guard, CPU), R4 (end-to-end pass
+  rate), R7, plain 12 and 14 (clauses dropped for space), 18, 20.
+
+**W2 / R2 run (2026-11-16 evening; the user: "Fix wal-t limit").** Registration `W2_registration.md` + `scripts/waldt_skew.py`
+committed and pushed as `3a7429b` before the confirmation run. Diagnosis: the stratified Wald-t limit `b1` is a one-sided
+limit on a right-skewed estimate at rates under one half (one-term Edgeworth expansion). Fix written from the expansion,
+no tuned constant: `b1s = b1 + max(0, k3/V)(2t^2+1)/6`. Development on the 116 seen cells at 40,000 draws
+(`results/paper/waldt_fix/dev.md`): `b1` over in 19 of 232 pairs, `b1s` in 5 (all synthetic); real and costly 0 of 196.
+Registered confirmation on a new 648-cell synthetic grid (`confirm.md`): S1, S2, S5, S6 kept; **S3 refuted** (largest
+`b1s` miss 0.1229 at delta 0.10 against 0.12) and **S4 refuted** (above 50%: over in 13 of 444, 2.9% against 2%; gain
+ratio as low as 0.883). Low-mid band: `b1` over in 333 of 696 pairs (48%), `b1s` in 75 (11%), median gain ratio 0.90 /
+0.91. With 8 strata (breakdown after the run): `b1` 73 of 222, `b1s` 6 of 222. **New and against the paper's
+recommendation:** `b1` is over in about half of the low-mid synthetic pairs, far more than "5 of 18". By the registered
+rule (S3 refuted) the correction (counts above are before banding by nominal rate; by nominal rate 339 of 720, 76, 12 of 432, 79 and 7 of 240, no verdict changed; a fresh-agent check of the passages found 0 high, 3 medium, 5 low, all applied; the last trim for page 7 is unchecked) is reported as partial and the paper keeps `b1` in its tables; one sentence in
+Section 3 and a new appendix paragraph (`app:skew`) state both. Changing the recommendation to `b1s` is the user's
+decision. Results and paper edits not committed. Not done: `b1s` on finite pools, the sampled-pool term, the training
+loop; the long draft; `preflight.py` and the spike-findings skill still say `b1`.
+
+**Recommendation switched to the skew-corrected limit (2026-11-16 night; the user, asked whether to override the
+registered rule: "Yes").** `scripts/waldt_skew_gains.py` (not registered) -> `results/paper/waldt_fix/gains.md`: the cells
+of the gains table recomputed for `b1s` on the registered runs' draws (pool's own rate; `b1`'s figures reproduce) and
+new draws of the same design (prompt source). `b1s` over in 0 of 168 cell-and-level pairs, `b1` in 5. Table 2 now
+gives `b1s`: 12% 1.26/1.57 and 1.11/1.23; 46% 2.07/2.56 and 1.50/1.33; 19% Qwen 1.35/1.62 and 1.21/1.24; rare
+0.57-0.89; **human labels median 1.02 (was 1.18)**, so "pays for a costly label" is withdrawn and replaced by "it did
+not pay on human labels". Abstract "1.3 to 1.5" -> "1.1 to 1.5". The override of the registered rule is stated in
+Section 3 and the appendix. Fresh-agent check of the changed sentences: 0 high, 7 medium, 6 low; applied except the
+validity table's row labels (items 12, 13) and the abstract's mixed-pool caveat; the edits made in applying them and the
+last page-7 trim are unchecked. The human certificate (13.9%) is still the uncorrected limit's, now labelled so. Open:
+the long draft, `preflight.py` and the spike-findings skill still recommend `b1`; nothing but the registration is committed.
+
+### 2026-11-17: Q1 checks (registered 246ca19, pushed 17:01 PT before the runs)
+
+Results in `results/paper/agentdojo_closed.{json,md}` and `results/paper/trunc/`. Added to the workshop paper 2026-11-19 (Sections 5.1, 5.2, appendix); a fresh agent checked the new sentences and its eight findings were applied; the edits made in applying them are unchecked.
+
+- Closed-form grouped limit on AgentDojo: plain cluster-t over in 24 of 28 pipelines, skew-corrected in 11 (largest miss 0.0832). C1, C5 kept; C2, C3, C4 refuted. On the real tables the skew-corrected form would pass three pipelines at 5% (the certified one and both Meta-SecAlign-70B, 0.0489 and 0.0469), and it is over its level on all three (0.080, 0.071, 0.083); the bootstrap-t refuses them (0.061, 0.057). Registered rule: the closed form does not replace the bootstrap-t.
+- Leave one injection task out: left-out rate above the limit in 163 of 638 pairs with a limit (25.5%), in 25 of 28 pipelines; 161 of 799 had no limit. L1, L2 kept.
+- First-sentence cuts: M1 to M5 kept. Wording 0 recall at step 200 rises from 0.032, 0.074, 0.052 to 0.570, 0.565, 0.557; at step 0 from 0.210 to 0.540. Carried bound with both sides cut over for 1, 1, 1 of six wordings (wording 2 each time), against 3, 2, 2 with full responses in this run's draws (the paper's earlier draws gave 3, 3, 2; seed 1 wording 1 sits at 0.057 against the 0.0569 line). Cutting raises false alarms to 0.20 to 0.57 for wordings 1, 2, 4 and 5. The target-cut-only arm misses in 0 draws because its bound is loose, so M5 says little.

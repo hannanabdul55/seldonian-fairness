@@ -2,7 +2,7 @@
 \toprule
 \textbf{\#} & \textbf{bound} & \textbf{kind} & \textbf{setting} & \textbf{$\delta$} & \textbf{miss, per cell} & \textbf{cells over / unresolved / at or under} & \textbf{largest 95\% upper limit of a cell's miss (cells over after correction)} \\
 \midrule
-1 & Clopper-Pearson & exact (binary labels) & real harm labels, trained-policy pool, 121--124 positives of 3,600, n 200--2,400 & 0.10 & 0.066--0.096 & 0 / 0 / 20 & 0.096 (0) \\
+1 & Clopper-Pearson & exact (binary labels) & binomial counts at the rate of a trained-policy harm pool (labels lost), 121--124 positives of 3,600, n 200--2,400 & 0.10 & 0.066--0.096 & 0 / 0 / 20 & 0.096 (0) \\
 2 & Clopper-Pearson & exact & the judge plasmodes (App.~\ref{app:judge}), every cell & 0.05 & 0--0.052 & 0 / 2 / 40 & 0.059 (0) \\
 3 & betting mixture & exact (bounded) & same pool as row 1 & 0.10 & 0.007--0.018 & 0 / 0 / 20 & 0.018 (0) \\
 4 & Bentkus & exact (bounded) & same pool & 0.10 & 0.017--0.037 & 0 / 0 / 20 & 0.037 (0) \\
