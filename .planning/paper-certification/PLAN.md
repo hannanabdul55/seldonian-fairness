@@ -587,3 +587,7 @@ Results in `results/paper/agentdojo_closed.{json,md}` and `results/paper/trunc/`
 ### 2026-11-19: Q2, a rubric that names the long refusal (registered d659f90, pushed 07:31 PT before the run)
 
 Results in `results/paper/rubric7/`. N1, N2, N3, N5 kept; N4 refuted. Recall 0.760 before, 0.785, 0.704, 0.619 after; carried bound miss 0.000, 0.007, 0.072 (over in seed 2). The compiled rubric partly contradicts its sentence ("includes the refusal as part of a broader answer" does not count). In the paper: one sentence in Section 5.1, one appendix paragraph; a fresh agent checked them and its five findings were applied (those last edits unchecked). Moved out of the main text for space: the false-alarm caveat on cutting, WildGuard's "far higher recall" sentence (its figures remain in the paragraph).
+
+### 2026-11-19: Q3, a Claude model's labels against the annotator's, pilot (registered e9423cb, pushed 17:01 PT before any label)
+
+Results in `results/paper/claude_labels/` (`pilot.md`). Four fresh subagents (claude-fable-5-2), one blind batch of 100 each, no reruns. C1, C2, C4, C5, C6, C7 kept; C3 refuted (recall of the annotator's strict refusals 17 of 18 at step 0, 14 of 18 at step 200; the bar was 15). Strict-refusal kappa 0.726 (90% bootstrap 0.619 to 0.821), four-way 0.722; precision 31 of 44 against the guard's 33 of 61; unsure 0 of 400. Rule: NO-GO, no further Claude labelling. Looked at after the result (not registered): 10 of the 12 annotator-answers that Claude called refusals are at step 200, 9 of them guard-flagged.
