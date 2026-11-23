@@ -601,7 +601,7 @@ stands unscored; running it with another model would be an amendment and is the 
 
 ### 2026-11-22: Q5, Claude labels against XSTest's human labels (safe prompts, 1,250 completions)
 
-Registered `d2f91af` (registered_at 2026-11-23T04:42:57Z window, pushed before any label). All twelve agents finished;
+Registered `d2f91af` (registered_at 2026-11-23T04:42:54Z, pushed before any label). All twelve agents finished;
 none blocked, none rerun. Source: `results/paper/claude_labels_xstest/xstest.md`. Nine of ten predictions kept, E5
 refuted; the rule (E1, E2, E4) is KEPT.
 - Three-class kappa 0.764 (0.731 to 0.798); the two annotators with each other 0.882. Full refusal against the rest:
