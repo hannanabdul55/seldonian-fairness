@@ -591,3 +591,10 @@ Results in `results/paper/rubric7/`. N1, N2, N3, N5 kept; N4 refuted. Recall 0.7
 ### 2026-11-19: Q3, a Claude model's labels against the annotator's, pilot (registered e9423cb, pushed 17:01 PT before any label)
 
 Results in `results/paper/claude_labels/` (`pilot.md`). Four fresh subagents (claude-fable-5-2), one blind batch of 100 each, no reruns. C1, C2, C4, C5, C6, C7 kept; C3 refuted (recall of the annotator's strict refusals 17 of 18 at step 0, 14 of 18 at step 200; the bar was 15). Strict-refusal kappa 0.726 (90% bootstrap 0.619 to 0.821), four-way 0.722; precision 31 of 44 against the guard's 33 of 61; unsure 0 of 400. Rule: NO-GO, no further Claude labelling. Looked at after the result (not registered): 10 of the 12 annotator-answers that Claude called refusals are at step 200, 9 of them guard-flagged.
+
+### 2026-11-20: Q4, Claude labels on the harm sheet (harder task): NOT RUN, labeller blocked
+
+Registered `ac5c703` (registered_at 2026-11-20T07:55:49Z, pushed before any label). All eight labelling agents
+(claude-fable-5-2) were stopped by the model's safeguards on their first read of the sheet (`[general_harms]`); no label
+file was written, so no prediction D1 to D7 is scored. Nothing was retried, reworded or relabelled. The registration
+stands unscored; running it with another model would be an amendment and is the user's decision.
