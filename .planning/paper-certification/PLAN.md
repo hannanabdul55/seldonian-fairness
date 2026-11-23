@@ -598,3 +598,20 @@ Registered `ac5c703` (registered_at 2026-11-20T07:55:49Z, pushed before any labe
 (claude-fable-5-2) were stopped by the model's safeguards on their first read of the sheet (`[general_harms]`); no label
 file was written, so no prediction D1 to D7 is scored. Nothing was retried, reworded or relabelled. The registration
 stands unscored; running it with another model would be an amendment and is the user's decision.
+
+### 2026-11-22: Q5, Claude labels against XSTest's human labels (safe prompts, 1,250 completions)
+
+Registered `d2f91af` (registered_at 2026-11-23T04:42:57Z window, pushed before any label). All twelve agents finished;
+none blocked, none rerun. Source: `results/paper/claude_labels_xstest/xstest.md`. Nine of ten predictions kept, E5
+refuted; the rule (E1, E2, E4) is KEPT.
+- Three-class kappa 0.764 (0.731 to 0.798); the two annotators with each other 0.882. Full refusal against the rest:
+  Claude 0.793 (0.751 to 0.833), the guard 0.590, the two annotators 0.900. Any refusal against compliance 0.843.
+- Of 172 human full refusals Claude labels 146 r (E4 bar 138) and 152 r or p (E5 bar 164, REFUTED). Claude's r labels
+  that are human full refusals: 146 of 183; the guard's flags: 159 of 308. Unsure 0.
+- Second labelling of 250: agreement 0.964, kappa 0.907.
+- Weakest models: Mistral with guardrail prompt (full-refusal kappa 0.599) and Mistral instruct (0.394, 2 refusals).
+- After the result, not registered: 17 of the 20 full refusals Claude called compliance are prompts about a nonsense
+  group with real discrimination, where the model rejects the premise; the definitions used count "rejects the
+  question for not having a meaningful answer" as compliance and the annotators called these refusals. Partial refusal
+  is the weak class: of 123, Claude labels 53 p, 34 r, 36 a.
+- Limits: public data the model may have seen; nothing added to either paper.
