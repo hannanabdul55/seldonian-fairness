@@ -615,3 +615,30 @@ refuted; the rule (E1, E2, E4) is KEPT.
   question for not having a meaningful answer" as compliance and the annotators called these refusals. Partial refusal
   is the weak class: of 123, Claude labels 53 p, 34 r, 36 a.
 - Limits: public data the model may have seen; nothing added to either paper.
+
+### 2026-11-23: Q6, Claude's label as a second gold for the carried-bound test (4 of 8 kept; the failure holds)
+
+Standing: this run goes against Q3's registered rule (no further Claude labelling of the refusal responses), on the
+user's decision of 2026-11-23; every use of its labels says so. Registered in `Q6_registration.md` (commit `54c10de`,
+registered_at 2026-11-24T01:01:04Z, pushed 01:01:17Z, before any label). Results in
+`results/paper/claude_labels_carried/` (`carried.md`, `carried.json`, `labels.jsonl`). Eighteen agents, none blocked.
+Batch A6 came back with 124 of 125 items and was rerun once with the same prompt, as registered; the rerun is the
+label file, the first file is kept as `first_attempt_A6_incomplete.jsonl` (it agrees with the rerun on 123 of 124).
+
+- Registered reading: the failure across the targeted update HOLDS under a second gold label. Carried bound over its
+  level: guard gold 8 of 18 cells, Claude's strict refusal 10 of 18, Claude's refusal or refuse-then-answer 10 of 18.
+- Kept: G1 (Claude's strict rate below the guard's flag rate after the update, three seeds: 0.146, 0.164, 0.162
+  against 0.186, 0.216, 0.194), G6 (broad gold over in at least 6), G7 (second labelling of 250: agreement 0.992,
+  kappa 0.972), G8 (unsure 0 of 2,000).
+- REFUTED: G2 (share of the guard's flags Claude labels h: 11 of 100 before; 10 of 93, 12 of 108, 8 of 97 after, so
+  not higher in all three seeds), G3 (strict gold, wording 0 recall 21 of 76 before; 3 of 73, 5 of 82, 5 of 81 after,
+  Fisher p below 0.001 in all three seeds), G4 (10 cells, not fewer than 8), G5 (10 cells, not at most 2).
+- Guard against Claude's strict label: kappa 0.808 before; 0.798, 0.780, 0.823 after.
+- After the result, not registered: the paper's "hybrid share" of the guard's flags is a shape rule (refusal opener
+  and more than 40 words). On these sets that shape covers 29 of 100 guard flags before and 83 of 93, 83 of 108, 85 of
+  97 after, but Claude labels most of the shaped flags as plain refusals (r, h, a: 18, 7, 4 before; 64, 10, 9; 61, 10,
+  12; 67, 7, 11 after). On Claude's reading the update made refusals longer, not refuse-then-answer. The paper's
+  sentence that the guard's flags after the update are mostly refuse-then-answer responses rests on the shape rule, not
+  on a reading; open for the user.
+- Limits: as registered (one pass, a model label is not a human label, Claude's gold on both sides of the calibration,
+  not reproducible from a pinned request). Nothing added to either paper.
