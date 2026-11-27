@@ -4,7 +4,7 @@ idea: multiplier-free-candidate-selection
 name: multiplier-free-candidate-selection
 type: comparison
 validates: "Given the synthetic bandit under the Seldonian loop (predicted tests, best-feasible-checkpoint selection, one safety test), when LagrangianReward's dual-ascent multiplier is replaced by candidate-selection rules that use the predicted bound directly (feasibility-first switching, a projected gradient step, a fixed smooth penalty scaled by the bound's own derivative, or selection alone), then at least one returns solutions as often, as safely and with at least 90% of the Lagrangian's utility, and is less sensitive to its knobs"
-verdict: REGISTERED
+verdict: VALIDATED
 related: [002, 010, 012, 022a]
 tags: [candidate-selection, lagrangian, projection, feasibility-first, differentiable-bound, bandit, cpu]
 ---
@@ -113,8 +113,64 @@ passes, `LagrangianReward` stays and the question closes as negative on the band
 
 ## Investigation Trail
 
-(empty until the first run)
+1. **Registration** pushed in commit `ff15b31` before any code ran; the harness and its checks
+   in commit `5dca51f` before tuning.
+2. **Checks** (`--stage check`): the smooth bound equals `clopper_pearson_bounds` exactly (max
+   difference 0 over 300 cases, real-valued k included); its derivative matches a coarser finite
+   difference to 2e-6 and lies in [0.97, 1.37] for rates 0.01-0.6 at the predicted test's size;
+   the projection identity holds to 2e-15; one run per arm end to end.
+3. **Tuning** on seeds 1000-1019 (3,060 runs), then **evaluation** on seeds 0-59 (720 runs), no
+   deviation from the design. About 30 minutes on 4 CPU cores.
+4. **Chosen settings on a grid edge** (either side could still move): `lagrangian` lam0 5 (linear,
+   upper) and eta 30 / lam0 1 (net, lower); `select` lr 0.8 (linear, upper); `feas_first` and
+   `projected` lr 0.05 (linear, lower); `projected` eta_p 100 (net, upper); `smooth_pen` T 0.02
+   (both, upper).
 
 ## Results
 
-(empty until the first run)
+Verdict: **VALIDATED, for `smooth_pen` only.** Under the registered decision rule it replaces the
+multiplier on both policies; every other arm fails at least one condition. Full table:
+`results.md` (60 paired seeds; utility = true reward of the returned policy minus the
+reference's, No Solution Found = 0).
+
+| Arm | linear: solutions | utility (se) | paired diff (se) | ckpts over | grid median | net: solutions | utility (se) | paired diff (se) | ckpts over | grid median |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `lagrangian` | 52/60 | 0.523 (0.030) | | 8.1% | 0.535 | 49/60 | 0.518 (0.034) | | 10.6% | 0.523 |
+| `select` | 6/60 | 0.064 (0.025) | -0.458 (0.035) | 82.5% | 0.140 | 6/60 | 0.066 (0.026) | -0.451 (0.039) | 78.5% | 0.207 |
+| `feas_first` | 48/60 | 0.490 (0.033) | -0.033 (0.042) | 1.5% | 0.478 | 45/60 | 0.461 (0.036) | -0.056 (0.046) | 1.9% | 0.461 |
+| `projected` | 57/60 | 0.536 (0.019) | +0.014 (0.031) | 0.0% | 0.495 | 55/60 | 0.527 (0.024) | +0.009 (0.036) | 0.0% | 0.430 |
+| `smooth_pen` | 59/60 | 0.591 (0.016) | +0.068 (0.030) | 0.0% | 0.561 | 60/60 | 0.609 (0.012) | +0.091 (0.031) | 0.0% | 0.559 |
+| `es_direct` (ref.) | 60/60 | 0.445 (0.013) | -0.078 (0.027) | 0.2% | | 59/60 | 0.364 (0.013) | -0.153 (0.032) | 0.0% | |
+
+- No arm returned a policy over the threshold in any of the 720 runs.
+- Runs where the selected checkpoint passed the predicted test and then failed the safety test
+  (P11): `lagrangian` 8 and 11, `smooth_pen` 1 and 0, `projected` 3 and 5, `feas_first` 12 and 15.
+- Share of steps the surrogate called infeasible: `smooth_pen` 0.08 / 0.07, `projected` 0.13 /
+  0.19, `feas_first` 0.40 / 0.40. `smooth_pen`'s mean penalty weight was 3.7 / 3.8 against the
+  Lagrangian's final multiplier of 2.4 / 1.7.
+
+Against the expectations:
+
+1. `select` at least as many solutions as `lagrangian`, under 80% of its utility: **refuted** on
+   solutions (6/60 against 52/60 and 49/60), held on utility (12-13%). Without a penalty the
+   policy leaves the feasible region within the first predicted test and rarely returns.
+2. `projected` at least 90% of utility, solutions within 5 points, no more checkpoints over:
+   **held** on both policies.
+3. `smooth_pen`, the same: **held**, and above the Lagrangian on utility (paired +0.068 and
+   +0.091, about 2.3 and 2.9 se).
+4. `feas_first` fewer checkpoints over and at least 80% of utility: **held**.
+5. Grid median of `projected` and `smooth_pen` at least `lagrangian`'s: **half held**.
+   `smooth_pen` yes (0.561 against 0.535, 0.559 against 0.523); `projected` no (0.495, 0.430).
+6. No arm over the threshold more often than delta: **held** (0 of 720).
+
+Decision rule: `smooth_pen` passes all four conditions on both policies; `projected` fails the
+grid-median condition on both; `feas_first` falls under 90% of utility on the net (89%).
+
+**Confound, not covered by the registration.** `smooth_pen` sees the bound at every step through
+the running rate of the training batch's labels; `lagrangian` updates only at the predicted
+tests, every 25 steps. Part or all of the gain could be the per-step information rather than the
+absence of dual state. Spike 023b (registered separately) runs a Lagrangian whose dual ascent
+uses the same per-step surrogate `c_t`, which separates the two.
+
+What this does not show: judge drift (017 E8), gradients beyond a step size (one 0/1 constraint),
+and anything about a real LLM.
