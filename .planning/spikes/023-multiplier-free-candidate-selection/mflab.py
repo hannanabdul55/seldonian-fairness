@@ -114,6 +114,7 @@ class MFBackend(GRPOBackend):
         self.infeasible_steps = 0
         self.kappas = []
         self.lam = hp.get("lam0", 0.0)
+        self.lam_dual = 0.0
 
     def ascent_grad(self, theta, idx, actions, adv):
         """Gradient of ``mean(adv * log pi_a)`` (no KL)."""
@@ -163,6 +164,13 @@ class MFBackend(GRPOBackend):
                                              CFG["lam_max"]))
                     self.kappas.append(self.lam)
                     shaped = r - self.lam * vb
+                elif self.mode == "pi":
+                    # spike 023c: smooth penalty plus a slow per-step dual (integral) term
+                    self.lam_dual = float(np.clip(self.lam_dual + self.hp["eta_i"] * c, 0.0, 200.0))
+                    lam = self.lam_dual + self.hp["c0"] * self.sur.dU(self.sur.rate) / (
+                        1.0 + np.exp(-c / self.hp["T"]))
+                    self.kappas.append(lam)
+                    shaped = r - lam * vb
                 elif self.mode == "smooth_pen":
                     lam = self.hp["c0"] * self.sur.dU(self.sur.rate) / (
                         1.0 + np.exp(-c / self.hp["T"]))
@@ -181,6 +189,16 @@ class MFBackend(GRPOBackend):
 
 # ------------------------------------------------------------------ one run
 
+class ScaledReward:
+    """Base reward times a constant (spike 023c); ``base`` lets reporting unwrap it."""
+
+    def __init__(self, base, scale):
+        self.base, self.scale, self.name = base, float(scale), f"scaled{scale}:" + base.name
+
+    def __call__(self, *a, **kw):
+        return self.scale * np.asarray(self.base(*a, **kw), dtype=float)
+
+
 def run(seed, policy, arm, hp):
     if arm == "es_direct":
         row = eslab.run(seed, policy, "es_direct", hp)
@@ -195,6 +213,8 @@ def run(seed, policy, arm, hp):
     kw = dict(max_steps=CFG["steps"], beta=CFG["beta"], seed=seed + 2)
     judge = SyntheticJudge(1.0, 1.0, seed=seed)
     base = SyntheticReward(env, seed=seed + 1)
+    if hp.get("scale", 1.0) != 1.0:
+        base = ScaledReward(base, hp["scale"])
     if arm == "lagrangian":
         backend = GRPOBackend(env, pol, lr=hp["lr"], **kw)
     else:
@@ -381,6 +401,48 @@ def stage_report_b():
     print("\n".join(out))
 
 
+C_SCALES = (1.0, 3.0, 10.0)
+
+
+def stage_c(workers):
+    """Spike 023c: tune eta_i at s = 1, then every arm at s in C_SCALES on seeds 0-59."""
+    ch = json.load(open(os.path.join(HERE, "tune.json")))["chosen"]
+    sp = ch["linear/smooth_pen"]["hp"]
+    tune_jobs = [(s, "linear", "pi", dict(sp, eta_i=e)) for e in (0.3, 1.0, 3.0, 10.0)
+                 for s in TUNE_SEEDS]
+    trows = sweep(tune_jobs, workers)
+    by = {}
+    for r in trows:
+        by.setdefault(r["hp"]["eta_i"], []).append(r["utility"])
+    eta = max(by, key=lambda e: np.mean(by[e]))
+    hps = {"lagrangian": ch["linear/lagrangian"]["hp"], "smooth_pen": sp,
+           "pi": dict(sp, eta_i=eta)}
+    jobs = [(s, "linear", a, dict(hp, scale=sc)) for sc in C_SCALES for a, hp in hps.items()
+            for s in range(60)]
+    rows = sweep(jobs, workers)
+    json.dump(dict(tune={str(k): float(np.mean(v)) for k, v in by.items()}, eta_i=eta,
+                   rows=rows), open(os.path.join(HERE, "results_c.json"), "w"))
+    out = ["# Spike 023c results", "",
+           f"Linear policy, seeds 0-59. pi's eta_i = {eta} (tuning means "
+           f"{ {k: round(float(np.mean(v)), 3) for k, v in by.items()} }).", "",
+           "| reward scale | arm | solutions | over threshold | utility (se) | ckpts over | "
+           "mean penalty weight | final multiplier |", "|---|---|---|---|---|---|---|---|"]
+    for sc in C_SCALES:
+        for a in hps:
+            rs = [r for r in rows if r["arm"] == a and r["hp"]["scale"] == sc]
+            u = np.array([r["utility"] for r in rs])
+            mk = [r["mean_kappa"] for r in rs if r["mean_kappa"] is not None]
+            lf = [r["lam_final"] for r in rs if r["lam_final"] is not None]
+            out.append(f"| {sc:g} | `{a}` | {sum(r['solution'] for r in rs)}/60 | "
+                       f"{sum(r['violation'] for r in rs)} | {u.mean():.3f} "
+                       f"({u.std(ddof=1) / np.sqrt(60):.3f}) | "
+                       f"{100 * np.mean([r['train_over'] for r in rs]):.1f}% | "
+                       f"{np.mean(mk) if mk else float('nan'):.2f} | "
+                       f"{np.mean(lf) if lf else float('nan'):.2f} |")
+    open(os.path.join(HERE, "results_c.md"), "w").write("\n".join(out) + "\n")
+    print("\n".join(out))
+
+
 def stage_report():
     tune = json.load(open(os.path.join(HERE, "tune.json")))
     rows = json.load(open(os.path.join(HERE, "results.json")))
@@ -421,7 +483,7 @@ def stage_report():
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stage", required=True, choices=("check", "tune", "eval", "report", "tune_b", "eval_b", "report_b"))
+    ap.add_argument("--stage", required=True, choices=("check", "tune", "eval", "report", "tune_b", "eval_b", "report_b", "c"))
     ap.add_argument("--workers", type=int, default=max(1, os.cpu_count() or 1))
     args = ap.parse_args()
     if args.stage == "check":
@@ -434,6 +496,8 @@ if __name__ == "__main__":
         stage_tune_b(args.workers)
     elif args.stage == "eval_b":
         stage_eval_b(args.workers, range(60))
+    elif args.stage == "c":
+        stage_c(args.workers)
     elif args.stage == "report_b":
         stage_report_b()
     else:
