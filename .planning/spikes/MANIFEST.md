@@ -279,6 +279,19 @@ only a GPU run can answer. Plan: 022a bandit on CPU, 022b GPU smoke on Granite-2
 - A fixed random linear map from a large space onto a small policy is the small policy:
   it cannot test dimension. Use a policy that really has the weights.
 
+### multiplier-free-candidate-selection
+Is `LagrangianReward`'s dual-ascent multiplier needed in candidate selection, once the predicted
+bound is available at every step with a derivative (phase 1 property P12)? Raised by the user in
+review of the safe-RL bounds properties doc on 2026-11-27; first step of phase 2 (a
+quasi-differentiable g_hat). Arms, expectations and the decision rule are registered in
+`023-multiplier-free-candidate-selection/README.md` before any run.
+
+**Requirements:**
+
+- The safety test is unchanged in every arm; arms differ only in how training is steered.
+- Arms are judged against the Lagrangian on solution rate, utility, violations of returned
+  policies and training checkpoints, and median utility over each arm's knob grid.
+
 ## Spikes
 
 | # | Idea | Name | Type | Validates | Verdict | Tags |
@@ -308,3 +321,4 @@ only a GPU run can answer. Plan: 022a bandit on CPU, 022b GPU smoke on Granite-2
 | 021 | external-trace-certificate | agentdojo-seldonian-training | standard | Given AgentDojo's code-computed `security` label and a small local policy served through vLLM, when the policy is trained under a Seldonian constraint on a step-level code proxy of that label and certified on held-out user tasks with the clustered bound, then the real injection success rate falls to a certifiable level without losing task utility | INVALIDATED (both pre-registered gates closed at stage A: Qwen2.5-3B is attacked successfully in 7% of pairs, 14% of those it reads, utility 0.195; the step-level proxy's recall of real successes is 0.26 because compliance happens over later turns; stages B-C not run; 1.9 GPU-h; serving and harness infrastructure stands) | certificate, prompt-injection, agents, training, lagrangian, vllm, gpu |
 | 022a | es-post-training | es-vs-grpo-bandit | comparison | Given the synthetic bandit under the Lagrangian Seldonian loop, when antithetic ES, CMA-ES and GRPO spend the same number of generations (and ES also 8x as many), then ES returns policies as often, as safely and with as much reward as GRPO, on a 36-parameter policy and on a 94k-weight net | PARTIAL (as safe: 0 of 454 returned policies over the threshold; less reward: 78% and 69% of GRPO at equal generations, 81% and 87% at 8x; ES on the predicted bound with no multiplier returns a solution in 119/120 runs; grids were widened once after round 1, some settings still on an edge) | evolution-strategies, cma-es, grpo, lagrangian, bandit, cpu |
 | 022b | es-post-training | es-lora-gpu-smoke | standard | Given Granite-3.3-2B with 014's LoRA adapter and reward stack on the 12 GB GPU, when an ES backend perturbs the adapter from an fp32 master copy, then it fits in memory, a seed replays a perturbation exactly, and we know its completions per GPU-hour against GRPO (022a assumed 8x) | PARTIAL (2026-11-11: seed replay exact on CUDA; ES 0.50x GRPO's completions per GPU-hour at population 30 x 8 prompts, 1.52x at 8 x 32, not 8x; over 12 GB at 32+ prompts as built; kill rule for 022c fired) | evolution-strategies, lora, granite, gpu, throughput |
+| 023 | multiplier-free-candidate-selection | multiplier-free-candidate-selection | comparison | Given the synthetic bandit under the Seldonian loop, when the dual-ascent multiplier is replaced by feasibility-first switching, a projected gradient step, a fixed smooth penalty scaled by the bound's derivative, or selection alone, then at least one matches the Lagrangian's solution rate and 90% of its utility with less sensitivity to its knobs | REGISTERED | candidate-selection, lagrangian, projection, differentiable-bound, bandit, cpu |
