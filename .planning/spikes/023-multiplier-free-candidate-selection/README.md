@@ -170,7 +170,9 @@ grid-median condition on both; `feas_first` falls under 90% of utility on the ne
 the running rate of the training batch's labels; `lagrangian` updates only at the predicted
 tests, every 25 steps. Part or all of the gain could be the per-step information rather than the
 absence of dual state. Spike 023b (registered separately) runs a Lagrangian whose dual ascent
-uses the same per-step surrogate `c_t`, which separates the two.
+uses the same per-step surrogate `c_t`, which separates the two. **Result:** the per-step Lagrangian did no better than the original
+(0.515 and 0.520), and `smooth_pen` beat it by 2.3 and 2.9 paired se, so the gain is the
+state-free form (023b README).
 
 What this does not show: judge drift (017 E8), gradients beyond a step size (one 0/1 constraint),
 and anything about a real LLM.
