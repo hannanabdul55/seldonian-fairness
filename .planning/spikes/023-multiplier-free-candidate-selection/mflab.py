@@ -53,6 +53,9 @@ def grid(policy, arm):
     if arm == "smooth_pen":
         return [dict(lr=lr, c0=c0, T=T) for lr in lrs for c0 in (5.0, 20.0, 50.0)
                 for T in (0.005, 0.02)]
+    if arm == "lagrangian_step":       # spike 023b
+        return [dict(lr=lr, eta_s=e, lam0=l0) for lr in lrs for e in (1.0, 10.0, 100.0)
+                for l0 in (1.0, 5.0)]
     if arm == "es_direct":
         chosen = json.load(open(os.path.join(LAB022, "tune.json")))["chosen"]
         return [chosen[f"{policy}/es_direct"]["hp"]]
@@ -110,6 +113,7 @@ class MFBackend(GRPOBackend):
         self.mode, self.hp, self.sur = mode, hp, surrogate
         self.infeasible_steps = 0
         self.kappas = []
+        self.lam = hp.get("lam0", 0.0)
 
     def ascent_grad(self, theta, idx, actions, adv):
         """Gradient of ``mean(adv * log pi_a)`` (no KL)."""
@@ -153,6 +157,12 @@ class MFBackend(GRPOBackend):
                     shaped = r
                 elif self.mode == "feas_first":
                     shaped = r if c <= 0 else -vb
+                elif self.mode == "lagrangian_step":
+                    # spike 023b: dual ascent at every step on the same surrogate
+                    self.lam = float(np.clip(self.lam + self.hp["eta_s"] * c, 0.0,
+                                             CFG["lam_max"]))
+                    self.kappas.append(self.lam)
+                    shaped = r - self.lam * vb
                 elif self.mode == "smooth_pen":
                     lam = self.hp["c0"] * self.sur.dU(self.sur.rate) / (
                         1.0 + np.exp(-c / self.hp["T"]))
@@ -316,6 +326,61 @@ def stage_eval(workers, seeds):
     json.dump(rows, open(os.path.join(HERE, "results.json"), "w"))
 
 
+def stage_tune_b(workers):
+    jobs = [(s, p, "lagrangian_step", hp) for p in ("linear", "mlp")
+            for hp in grid(p, "lagrangian_step") for s in TUNE_SEEDS]
+    print(f"023b tuning: {len(jobs)} runs")
+    rows = sweep(jobs, workers)
+    chosen, sens = {}, {}
+    for p in ("linear", "mlp"):
+        by = {}
+        for r in rows:
+            if r["policy"] == p:
+                by.setdefault(json.dumps(r["hp"], sort_keys=True), []).append(r["utility"])
+        means = {k: float(np.mean(v)) for k, v in by.items()}
+        best = max(means, key=means.get)
+        chosen[p] = dict(hp=json.loads(best), utility=means[best])
+        vals = np.array(list(means.values()))
+        sens[p] = dict(n_configs=len(vals), median=float(np.median(vals)),
+                       worst=float(vals.min()), best=float(vals.max()))
+    json.dump(dict(chosen=chosen, sensitivity=sens, rows=rows),
+              open(os.path.join(HERE, "tune_b.json"), "w"))
+    print(json.dumps(dict(chosen=chosen, sensitivity=sens), indent=1))
+
+
+def stage_eval_b(workers, seeds):
+    chosen = json.load(open(os.path.join(HERE, "tune_b.json")))["chosen"]
+    jobs = [(s, p, "lagrangian_step", chosen[p]["hp"]) for p in ("linear", "mlp") for s in seeds]
+    rows = sweep(jobs, workers)
+    json.dump(rows, open(os.path.join(HERE, "results_b.json"), "w"))
+
+
+def stage_report_b():
+    tb = json.load(open(os.path.join(HERE, "tune_b.json")))
+    rows = json.load(open(os.path.join(HERE, "results.json"))) + \
+        json.load(open(os.path.join(HERE, "results_b.json")))
+    out = ["# Spike 023b results", "", "Paired on seeds 0-59 with spike 023's rows.", "",
+           "| policy | arm | solutions | over threshold | utility (se) | ckpts over | "
+           "smooth_pen minus this (se) | grid median / worst |", "|---|---|---|---|---|---|---|---|"]
+    for p in ("linear", "mlp"):
+        sp = {r["seed"]: r["utility"] for r in rows if r["policy"] == p and r["arm"] == "smooth_pen"}
+        for a in ("lagrangian", "lagrangian_step", "smooth_pen"):
+            rs = [r for r in rows if r["policy"] == p and r["arm"] == a]
+            u = np.array([r["utility"] for r in rs])
+            d = np.array([sp[r["seed"]] - r["utility"] for r in rs])
+            over = np.mean([r["train_over"] for r in rs])
+            sens = tb["sensitivity"][p] if a == "lagrangian_step" else None
+            out.append(f"| {p} | `{a}` | {sum(r['solution'] for r in rs)}/{len(rs)} | "
+                       f"{sum(r['violation'] for r in rs)} | {u.mean():.3f} "
+                       f"({u.std(ddof=1) / np.sqrt(len(u)):.3f}) | {100 * over:.1f}% | "
+                       f"{d.mean():+.3f} ({d.std(ddof=1) / np.sqrt(len(d)):.3f}) | "
+                       + (f"{sens['median']:.3f} / {sens['worst']:.3f}" if sens else "see 023")
+                       + " |")
+    out += ["", f"Chosen: `{json.dumps({p: tb['chosen'][p]['hp'] for p in tb['chosen']})}`"]
+    open(os.path.join(HERE, "results_b.md"), "w").write("\n".join(out) + "\n")
+    print("\n".join(out))
+
+
 def stage_report():
     tune = json.load(open(os.path.join(HERE, "tune.json")))
     rows = json.load(open(os.path.join(HERE, "results.json")))
@@ -356,7 +421,7 @@ def stage_report():
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stage", required=True, choices=("check", "tune", "eval", "report"))
+    ap.add_argument("--stage", required=True, choices=("check", "tune", "eval", "report", "tune_b", "eval_b", "report_b"))
     ap.add_argument("--workers", type=int, default=max(1, os.cpu_count() or 1))
     args = ap.parse_args()
     if args.stage == "check":
@@ -365,5 +430,11 @@ if __name__ == "__main__":
         stage_tune(args.workers)
     elif args.stage == "eval":
         stage_eval(args.workers, range(60))
+    elif args.stage == "tune_b":
+        stage_tune_b(args.workers)
+    elif args.stage == "eval_b":
+        stage_eval_b(args.workers, range(60))
+    elif args.stage == "report_b":
+        stage_report_b()
     else:
         stage_report()
