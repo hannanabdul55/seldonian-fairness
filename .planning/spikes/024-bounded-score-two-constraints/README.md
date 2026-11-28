@@ -4,7 +4,7 @@ idea: multiplier-free-candidate-selection
 name: bounded-score-two-constraints
 type: comparison
 validates: "Given the synthetic bandit with a bounded severity score and two constraints that pull toward different actions (mean severity on adversarial prompts, certified with the betting mixture; violation rate on all prompts, certified with Clopper-Pearson), when candidate selection is steered by the proportional-plus-integral rule with one term per constraint, then (a) it returns solutions as often and with at least 90% of the utility of LagrangianReward with one multiplier per constraint, (b) steering on the betting bound's influence function beats steering on a mean-only bound of the same score, and (c) keeping the penalty out of GRPO's per-prompt standard deviation is no worse than folding it in"
-verdict: PENDING
+verdict: PARTIAL
 related: [023, 023b, 023c, 013, 016]
 tags: [candidate-selection, bounded-score, betting-mixture, influence-function, two-constraints, grpo-normalisation, bandit, cpu]
 ---
@@ -162,8 +162,72 @@ T = 0.02 throughout (023's choice). Learning-rate grids as 023: linear
 
 1. **Registration** pushed in commit `adfb4fd` before any harness code ran.
 2. **Check failed** in the registered environment (4 of 5 seeds bind on severity); amendment 1
-   raised both pressures to 2.0, committed before the check was re-run.
+   raised both pressures to 2.0, committed before the check was re-run (`79fa5e3`). The re-run
+   passed: 5 of 5 seeds bind, influence at new points equals in-sample to 1e-17, all weights
+   have the expected signs.
+3. **Tuning** (5,400 runs on seeds 1000-1019) ran to completion. The first evaluation crashed
+   on a run whose first batch held no adversarial prompt (empty severity buffer, NaN mean). Fix
+   in commit `3632d3c`: the severity term stays idle until the first
+   adversarial batch. No tuning run had hit the case (it would have crashed), so tuning stands;
+   evaluation (600 runs, seeds 0-59) was re-run from scratch. About 1 h 10 min on 4 cores.
+4. **Chosen settings on a grid edge:** c0 = 10 (lower edge) in 7 of 8 PI choices; eta_i = 30
+   (upper) for three, 3 (lower) for two; Lagrangian eta 300 (upper) on the net.
 
 ## Results
 
-Pending.
+Verdict: **PARTIAL.** Full tables: `results.md` (60 paired seeds; utility = true reward of the
+returned policy minus the reference's, No Solution Found = 0).
+
+| Arm | linear: solutions | utility | vs lagrangian, paired (se) | grid median | net: solutions | utility | vs lagrangian, paired (se) | grid median |
+|---|---|---|---|---|---|---|---|---|
+| `lagrangian` | 35/60 | 0.235 | | 0.169 | 35/60 | 0.193 | | 0.181 |
+| `pi_mean` | 47/60 | 0.283 | +0.048 (0.025) | 0.266 | 42/60 | 0.291 | +0.099 (0.037) | 0.233 |
+| `pi_full` | 43/60 | 0.288 | +0.053 (0.039) | 0.258 | 43/60 | 0.254 | +0.061 (0.033) | 0.242 |
+| `pi_mean_sep` | 50/60 | 0.299 | +0.064 (0.031) | 0.192 | 52/60 | 0.295 | +0.103 (0.027) | 0.155 |
+| `pi_full_sep` | 44/60 | 0.284 | +0.049 (0.033) | 0.224 | 46/60 | 0.290 | +0.097 (0.030) | 0.181 |
+
+- No arm returned a policy over either threshold (0 of 600). Returned policies sit far inside:
+  true mean severity 0.08-0.095 and violation rate 0.06-0.07 below their thresholds in every
+  arm. At about 110 adversarial safety prompts the betting bound on a spread score is wide, so
+  the safety test, not the steering, sets how far in a policy must sit.
+- Training checkpoints over a threshold: Lagrangian 16.9% and 24.0%; every PI arm 0-2.1%.
+- Selected checkpoint passed the predicted test and failed the safety test: 8-17 of 60 in every
+  arm, Lagrangian included (13 and 16) — far more than 023's 0-11. The P11 gap here is the
+  betting bound's noise at small n, common to all arms.
+- Empirical Bernstein's C'(0) was never negative (0.0% of steps), as expected.
+
+Against the expectations:
+
+1. A PI arm at least 90% of the Lagrangian's utility, solutions within 5 points, both policies:
+   **held**, by a wide margin for every PI arm: more solutions (42-52 against 35) and +0.05 to
+   +0.10 utility.
+2. `full` beats `mean` by 2 paired se on at least one policy: **refuted** for both pairs
+   (+0.004 and -0.037; -0.015 and -0.005, all within about 1 se). The returned policies' use of
+   the spread severe action does not differ either (share of action 0 among the severe actions
+   0.52-0.65 in all arms). Steering on the betting bound's influence function bought nothing
+   over steering on the mean.
+3. Separate no worse than folded (above -1 se): **held** for both pairs (+0.015, +0.004;
+   -0.004, +0.036). But the separate arms are more sensitive to their knobs: lower grid medians
+   in 3 of 4 cases (worst grid cell -0.14 on the net against +0.01 folded).
+4. No arm over a threshold in more than delta of runs: **held** (0 of 600).
+5. C'(0) negative on under 5% of steps: **held** (0%).
+
+Decision rule:
+
+- **GPU rule:** the arms that meet all four conditions on both policies are `pi_mean`,
+  `pi_full` and `pi_full_sep` (the last ties the Lagrangian's grid median on the net to 2e-7);
+  `pi_mean_sep` has the best utility but fails the grid median on the net (0.155 against
+  0.181). The best qualifying arm by utility summed over the policies is **`pi_mean`**
+  (0.575, against 0.574 for `pi_full_sep` and 0.542 for `pi_full`): PI with one term per
+  constraint, a mean-only surrogate for the bounded score, the penalty folded into the reward.
+- **Influence-function steering:** not adopted (expectation 2 failed); the mean-only surrogate
+  is used for bounded scores.
+- **Separate penalty:** the registered test (expectation 3) passes, so rule 6 is not refuted on
+  utility, but it is not adopted for the GPU run because the arm that combines it with the
+  chosen surrogate fails the robustness condition. The two registered rules conflict here;
+  this resolution (keep the arm that passes every condition) is mine, stated for review.
+
+Why the influence function buys nothing is not established. One untested reading: the returned
+policies sit so far inside the threshold that the bound's width, not its slope near the
+threshold, decides pass or fail, and the width is set by the safety test's n. What this does not
+show: a real LLM, judge drift, and anything about the winner's curse.
