@@ -1,6 +1,6 @@
 # Spike 025 design: the PI steering rule on Granite over-refusal
 
-Status: **DRAFT for review, nothing run.** The user said yes to planning this on 2026-11-28
+Status: **APPROVED by the user 2026-11-28, option (a) (same guard steers and certifies).** Nothing run on the GPU yet. The user said yes to planning this on 2026-11-28
 (validation plan step 4 of the formulation doc,
 https://claude.ai/artifact/DsjKyutY1MXDViYFHcaSND). It needs the user's GPU, so nothing runs
 before the user approves this document, the budget and the run window.

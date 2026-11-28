@@ -240,3 +240,13 @@ def test_spec_delta_split_and_repeated_measure_lint():
                                                                      ["m", "a"]]]}
     assert repeated_measures(sp) == ["a"]
     assert spec_delta_side(sp, 0.1) == pytest.approx(0.025)
+
+
+def test_betting_influence_at_new_points_matches_in_sample():
+    rng = np.random.default_rng(11)
+    x = rng.beta(2, 8, size=150)
+    _, psi = betting_influence(x, 300, 0.05)
+    _, psi_at = betting_influence(x, 300, 0.05, at=x[:20])
+    assert np.allclose(psi_at, psi[:20], atol=1e-12)
+    _, grid = betting_influence(x, 300, 0.05, at=np.linspace(0, 1, 50))
+    assert np.all(np.diff(grid) > 0)

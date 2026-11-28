@@ -151,9 +151,10 @@ def _bet_lower_state(y, p, n, delta, size, ratio):
     """
     Root ``m`` of the library's mixture capital for a lower bound on the mean of ``y`` in
     [0, 1] under sample weights ``p`` (summing to 1), plus what its implicit derivative
-    needs. Returns ``(m, g, F_m)`` with ``g_i = n sum_k pi_k log f_k(m, y_i)`` (``pi`` the
+    needs. Returns ``(m, g, F_m, gfun)`` with ``g_i = n sum_k pi_k log f_k(m, y_i)`` (``pi`` the
     posterior bet weights at the root) and ``F_m = dF/dm`` at fixed ``p`` (grid included).
-    ``m = 0`` (nothing rejected) returns zero derivatives.
+    ``gfun(y_new)`` evaluates ``g`` at other points. ``m = 0`` (nothing rejected) returns
+    zero derivatives.
     """
     log_target = np.log(1.0 / delta)
     mean = float(np.dot(p, y))
@@ -172,22 +173,30 @@ def _bet_lower_state(y, p, n, delta, size, ratio):
         return float(logsumexp(log_w + n * e)) - log_target
 
     lo = 1e-9
+    zero = (lambda yy: np.zeros_like(np.asarray(yy, dtype=float)))
     if mean <= lo or F(lo) < 0:
-        return 0.0, np.zeros_like(y), 1.0
+        return 0.0, np.zeros_like(y), 1.0, zero
     if F(mean) >= 0:
-        return mean, np.zeros_like(y), 1.0
+        return mean, np.zeros_like(y), 1.0, zero
     m = float(brentq(F, lo, mean, xtol=1e-12, maxiter=200))
     logf, e, log_w = parts(m)
     a = log_w + n * e
     pi = np.exp(a - logsumexp(a))
-    g = n * (pi @ np.where(np.isfinite(logf), logf, -1e6))
+    u, _ = _mixture_grid(n, m, delta, size, ratio)
+
+    def gfun(yy):
+        yy = np.asarray(yy, dtype=float)
+        f = 1.0 + u[:, None] * (yy[None, :] - m) / m
+        lf = np.where(f > 0, np.log(np.maximum(f, 1e-300)), -1e6)
+        return n * (pi @ lf)
+    g = gfun(y)
     h = 1e-7 * max(m, 1e-6)
     F_m = (F(m + h) - F(m - h)) / (2 * h)
-    return m, g, F_m
+    return m, g, F_m, gfun
 
 
 def betting_influence(x, n, delta, weights=None, a=0.0, b=1.0, size=12, ratio=1.6,
-                      side="upper"):
+                      side="upper", at=None):
     """
     ``(bound, psi)`` for the betting-mixture bound on the mean of ``x`` in ``[a, b]``,
     evaluated at size ``n``. ``psi_i`` is the derivative of the bound with respect to a
@@ -198,7 +207,9 @@ def betting_influence(x, n, delta, weights=None, a=0.0, b=1.0, size=12, ratio=1.
     the smooth evaluator).
 
     Implicit differentiation of ``F(m, e) = log sum_k w_k exp(n e_k(m)) - log(1/delta) = 0``
-    in the expectations ``e_k = E_p[log f_k(m, X)]``.
+    in the expectations ``e_k = E_p[log f_k(m, X)]``. With ``at`` (values in ``[a, b]``) the
+    influence is returned at those points instead, still centred under the sample, so a
+    fresh batch can be weighted by the bound of a running buffer.
     """
     x = np.asarray(x, dtype=float)
     p = np.full(x.size, 1.0 / x.size) if weights is None else np.asarray(weights, float)
@@ -206,8 +217,12 @@ def betting_influence(x, n, delta, weights=None, a=0.0, b=1.0, size=12, ratio=1.
     z = (x - a) / (b - a)
     # upper bound on the mean of z = 1 - lower bound on the mean of 1 - z
     y = 1.0 - z if side == "upper" else z
-    m, g, F_m = _bet_lower_state(y, p, int(n), delta, size, ratio)
-    dF = g - float(np.dot(p, g))                 # dF / d(eps toward y_i)
+    m, g, F_m, gfun = _bet_lower_state(y, p, int(n), delta, size, ratio)
+    g_mean = float(np.dot(p, g))
+    if at is not None:
+        za = (np.asarray(at, dtype=float) - a) / (b - a)
+        g = gfun(1.0 - za if side == "upper" else za)
+    dF = g - g_mean                              # dF / d(eps toward y_i)
     dm = -dF / F_m                               # lower bound of y moves by dm
     if side == "upper":
         return a + (b - a) * (1.0 - m), (b - a) * (-dm)
