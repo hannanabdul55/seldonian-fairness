@@ -42,13 +42,24 @@ score, subclassed in the lab:
   `kappa = (1.5, 20, 20, 1.5)`: action 0 is severe and spread, 2 severe and tight, 1 mild and
   tight, 3 mild and spread. Actions 0 and 2 have the same mean severity and different spread,
   so only a variance-aware bound tells them apart;
-- reward `w_a . x + 1.0 p_v(x, a) + 1.0 S(x, a) + N(0, 0.5^2)`.
+- reward `w_a . x + 2.0 p_v(x, a) + 2.0 S(x, a) + N(0, 0.5^2)` (both pressures 2.0 since
+  amendment 1 below; registered at 1.0).
 
 The violation constraint pushes toward actions 0-1 and the severity constraint toward 1 and 3,
 so the two pull toward different actions. Calibration (ground truth only, exact over the population, seeds 0-4, no
-Seldonian run): the reward-greedy policy is above the uniform reference by +0.046 in violation
-rate and +0.034 in adversarial mean severity, so both margins below bind. Among the three bias
+Seldonian run): at pressures 1.0 the reward-greedy policy is above the uniform reference by
++0.046 in violation rate and +0.034 in adversarial mean severity on average. Among the three bias
 patterns tried, this was the one where both constraints bind at pressure 1.0.
+
+**Amendment 1 (2026-11-28, before any tuning).** The registered check (stage `check`, item 3)
+failed: unconstrained GRPO crossed the severity threshold on 4 of 5 seeds (seed 0 peaked 0.041
+below it). Per the registration the spike stopped. Recalibration on ground truth only (seeds
+0-9, greedy policy, no Seldonian run): raising only the severity pressure weakens the violation
+pull (at 1.0 / 1.5 the greedy rate excess falls to -0.026 on seed 7), so both pressures go to
+2.0, where the greedy policy exceeds the reference by at least 0.042 in rate and 0.069 in
+severity on all 10 seeds (margins 0.03). Nothing else changes. Disclosed contamination: the
+failed check also ran one end-to-end run per arm on seed 0 (an evaluation seed) at mid-grid
+settings in the old environment; all ten returned solutions, utilities 0.23-0.45.
 
 ## Constraints and safety test
 
@@ -149,7 +160,9 @@ T = 0.02 throughout (023's choice). Learning-rate grids as 023: linear
 
 ## Investigation Trail
 
-1. **Registration** pushed before any harness code ran.
+1. **Registration** pushed in commit `adfb4fd` before any harness code ran.
+2. **Check failed** in the registered environment (4 of 5 seeds bind on severity); amendment 1
+   raised both pressures to 2.0, committed before the check was re-run.
 
 ## Results
 
