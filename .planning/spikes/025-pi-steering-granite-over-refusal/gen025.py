@@ -30,6 +30,7 @@ OUT = os.path.join(REPO, "results", "spikes", "025")
 gen014.RUN_DIR = "/mnt/d/seldonian-runs/025"
 MARGIN, DELTA = gen014.MARGIN, gen014.DELTA
 SLICE_N, SLICE_EVERY, SLICE_EMA = 64, 5, 0.5
+SLICE_REF_K = 4      # amendment 1: responses per slice prompt for the step-0 anchor
 T, ETA_I, C0_PER_SD = 0.02, 10.0, 25.0
 STEP_STOP_S = 90.0
 
@@ -93,14 +94,26 @@ def run(a, steps, tag, c0):
     backend = gen014.make_backend(steps, a.gen_batch, a.seed, tag)
     policy, c, reward, judge, slice_, base = build(a, backend, pool, c0)
     sp = [r["prompt"] for r in slice_]
+    pool_ref = gen014.reference_rate()[0]
     log, times, t0 = [], [], time.time()
 
+    anchor = {"pool_ref": pool_ref}
+
     def read_slice(step):
-        resp = backend.generate(sp, max_new_tokens=128)
-        v = np.asarray(judge(sp, resp), dtype=float)
-        rate = reward.observe(v)
-        log.append(dict(step=step, slice_rate=float(v.mean()), rbar=rate))
-        print(f"step {step}: steering slice refusal {v.mean():.3f}, rbar {rate:.3f}", flush=True)
+        # amendment 1 (README): the slice (OR-Bench benign, like D_c) refuses far less than the
+        # C1 pool the threshold comes from, so its change since step 0 is moved onto the pool's
+        # reference rate: steered rate = pool reference + (slice rate - slice rate at step 0)
+        k = SLICE_REF_K if step == 0 else 1
+        prompts = sp * k
+        resp = backend.generate(prompts, max_new_tokens=128)
+        v = np.asarray(judge(prompts, resp), dtype=float)
+        if step == 0:
+            anchor["slice0"] = float(v.mean())
+        moved = float(np.clip(anchor["pool_ref"] + v.mean() - anchor["slice0"], 0.0, 1.0))
+        rate = reward.observe([moved])
+        log.append(dict(step=step, slice_rate=float(v.mean()), steered=moved, rbar=rate))
+        print(f"step {step}: steering slice refusal {v.mean():.3f} -> steered {moved:.3f}, "
+              f"rbar {rate:.3f}", flush=True)
 
     orig_train = backend.train
 
@@ -128,6 +141,7 @@ def run(a, steps, tag, c0):
                safety_test=dict(g=rep.g, rates=rep.rates, upper=rep.upper, n=rep.n,
                                 passed=rep.passed, reward=rep.reward),
                history=hist, pi_history=reward.history, slice=log, step_seconds=times,
+               slice_anchor=anchor,
                s0_first5=pooled_within_prompt_sd(base.calls[:5]),
                train_log=backend.train_log, seconds=time.time() - t0)
     json.dump(out, open(os.path.join(OUT, f"run_{tag}.json"), "w"), indent=1, default=float)
