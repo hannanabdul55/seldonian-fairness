@@ -191,14 +191,20 @@ class PIBackend(SevGRPO):
             r = self.score(reward, idx, a, v).reshape(k, G)
             if self.rate is None:          # first step: start the running statistics
                 self.rate = float(v.mean())
-                self.buf.append(h[adv_mask])
+                if adv_mask.any():
+                    self.buf.append(h[adv_mask])
                 self.s0 = float(np.sqrt(np.mean(r.var(axis=1, ddof=1)))) + 1e-8
             c_h, du = self.harm_state()
-            c_s, w_s = self.sev_state(h[adv_mask])
+            if self.buf:
+                c_s, w_s = self.sev_state(h[adv_mask])
+            else:                          # no adversarial prompt seen yet: sev term idle
+                c_s, w_s = None, np.zeros(int(adv_mask.sum()))
             pen = self.lam("harm", c_h) * du * (v - self.rate)
             ws = np.zeros(len(idx))
             ws[adv_mask] = w_s
-            pen = (pen + self.lam("sev", c_s) * ws).reshape(k, G)
+            if c_s is not None:
+                pen = pen + self.lam("sev", c_s) * ws
+            pen = pen.reshape(k, G)
             if self.separate:
                 adv = (r - r.mean(1, keepdims=True)) / (r.std(1, ddof=1, keepdims=True) + 1e-8)
                 adv = adv - (pen - pen.mean(1, keepdims=True)) / self.s0
