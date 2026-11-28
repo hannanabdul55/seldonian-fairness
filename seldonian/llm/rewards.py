@@ -224,3 +224,80 @@ class LagrangianReward(CompositeReward):
             new.append((judge, lam, group))
         self.penalties = new
         return self.lambdas
+
+
+class PIReward(Reward):
+    """
+    Proportional-plus-integral steering of candidate selection for one 0/1 constraint
+    (formulation doc's steering rule; spikes 023c and 024 on the bandit, 025 on an LLM).
+
+    Each response's reward becomes ``r_i - lam_t (v_i - rbar)`` on the constrained group,
+    with ``lam_t = c0 U'(rbar) sigmoid(c_t / T) + lam_dual_t``,
+    ``lam_dual_t = clip(lam_dual_{t-1} + eta_i c_t, 0, lam_cap)`` and
+    ``c_t = U(rbar) - threshold``, where ``U`` is the smooth Clopper-Pearson upper limit at
+    the predicted test's size ``n`` (:func:`seldonian.llm.smooth_bounds.cp_upper`). The
+    proportional term has no lag; the integral term adapts to the reward scale.
+
+    ``rbar`` is a running rate. With ``steer_on="batch"`` it is an exponential average of
+    the training batches' own labels, updated after each call (spike 023's bandit). With
+    ``steer_on="slice"`` it is set only through :meth:`observe`, which a training loop calls
+    with labels from a held-out steering slice (the formulation doc's P11 paragraph), and
+    batches are judged only for the penalty. ``c`` and ``lam`` always come from state before
+    the current batch. Exposes ``base`` so reporting unwraps it; keeps ``history``.
+    """
+
+    def __init__(self, base, judge, threshold, n, delta, group=None, c0=20.0, T=0.02,
+                 eta_i=10.0, lam_cap=200.0, ema=0.2, steer_on="batch"):
+        if steer_on not in ("batch", "slice"):
+            raise ValueError("steer_on must be 'batch' or 'slice'")
+        self.base, self.judge, self.group = base, judge, group
+        self.threshold, self.n, self.delta = float(threshold), int(n), float(delta)
+        self.c0, self.T, self.eta_i, self.lam_cap = float(c0), float(T), float(eta_i), lam_cap
+        self.ema, self.steer_on = float(ema), steer_on
+        self.rate = None
+        self.lam_dual = 0.0
+        self.history = []
+        self.name = f"pi:{base.name}:{judge.name}@c0={c0},T={T},eta_i={eta_i}"
+
+    def observe(self, labels):
+        """Fold labels (0/1) into the running rate; returns the new rate."""
+        m = float(np.mean(labels))
+        self.rate = m if self.rate is None else (1 - self.ema) * self.rate + self.ema * m
+        return self.rate
+
+    def state(self):
+        """``(c, U'(rate))`` at the current running rate."""
+        import torch
+        from seldonian.llm.smooth_bounds import cp_upper
+        r = torch.tensor(self.rate, dtype=torch.float64, requires_grad=True)
+        u = cp_upper(r, self.n, self.delta)
+        u.backward()
+        return float(u.detach()) - self.threshold, float(r.grad)
+
+    def __call__(self, prompts, responses, groups=None, references=None):
+        total = np.asarray(self.base(prompts, responses, groups, references), dtype=float)
+        mask = np.ones(len(prompts), dtype=bool)
+        if self.group is not None:
+            if groups is None:
+                raise ValueError(f"penalty on group {self.group!r} needs prompt groups")
+            mask = np.asarray([g == self.group for g in groups])
+        if not mask.any():
+            return total
+        idx = np.nonzero(mask)[0]
+        v = np.asarray(self.judge([prompts[i] for i in idx], [responses[i] for i in idx],
+                                  None if references is None else
+                                  [references[i] for i in idx]), dtype=float)
+        if self.rate is None:
+            if self.steer_on == "slice":
+                return total            # no steering-slice reading yet: no penalty
+            self.observe(v)
+        c, du = self.state()
+        self.lam_dual = float(np.clip(self.lam_dual + self.eta_i * c, 0.0, self.lam_cap))
+        lam = self.c0 * du / (1.0 + np.exp(-c / self.T)) + self.lam_dual
+        total = total.copy()
+        total[idx] -= lam * (v - self.rate)
+        self.history.append(dict(rate=self.rate, c=c, lam=lam, lam_dual=self.lam_dual,
+                                 batch_rate=float(v.mean())))
+        if self.steer_on == "batch":
+            self.observe(v)
+        return total
